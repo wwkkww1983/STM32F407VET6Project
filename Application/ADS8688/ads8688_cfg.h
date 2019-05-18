@@ -13,7 +13,7 @@ extern "C" {
 	
 	//===命令寄存器
 	//===继续在以前的操作模式
-	#define ADS8688_CMD_REG_MO_OP				0x0000
+	#define ADS8688_CMD_REG_NO_OP				0x0000
 	//===设备被置于待机模式
 	#define ADS8688_CMD_REG_STDBY				0x8200
 	//===设备已关闭供电
@@ -91,6 +91,8 @@ extern "C" {
 	#define ADS8688_RANGE_0MV_10240MV			0x05
 	//===输入范围以1.25 Vref的5.12V
 	#define ADS8688_RANGE_0MV_5120MV			0x06
+	//===ADC的采样通道数
+	#define	ADS8688_CHANNEL_MAX					8	
 	
 	//===定义结构体
 	typedef struct _ADS8688_HandlerType		ADS8688_HandlerType;
@@ -101,12 +103,17 @@ extern "C" {
 	//===定义结构体
 	struct _ADS8688_HandlerType
 	{
-		UINT8_T  msgDelayms;							//---等待时间,单位是ms
-		UINT16_T msgChannelRange[8];					//---AD通道的量程参考
-		UINT16_T msgChannelReseult[8];					//---AD通道的采样结果
-		void(*msgFuncDelayms)(UINT32_T delay);			//---延时参数
-		SPI_HandlerType		msgSPI;						//---使用的SPI模式
-		GPIO_HandlerType	msgHWRST;					//---硬件复位信号
+		UINT8_T  msgDelayms;												//---等待时间,单位是ms
+		UINT8_T  msgChipID;													//---设备的ID信息
+		UINT8_T  msgAutoSeqEn;												//---通过AUTO_SEQ_EN的设置探测设备的存在
+		UINT8_T	 msgChannelRange[ADS8688_CHANNEL_MAX];						//---AD通道的量程参考
+		UINT8_T  msgChannelMode[ADS8688_CHANNEL_MAX];						//---输入装换模式,0---未选中使能；1---选中使能
+		UINT8_T	 msgIsPositive[ADS8688_CHANNEL_MAX];						//---0---无数据，1---是负数，2---是正值
+		UINT16_T msgChannelADCResult[ADS8688_CHANNEL_MAX];					//---AD通道的采样结果
+		UINT16_T msgChannelPowerResult[ADS8688_CHANNEL_MAX];				//---AD通道的采样的电压结果
+		void(*msgFuncDelayms)(UINT32_T delay);								//---延时参数
+		SPI_HandlerType		msgSPI;											//---使用的SPI模式
+		GPIO_HandlerType	msgHWRST;										//---硬件复位信号
 	};
 
 	//===任务函数

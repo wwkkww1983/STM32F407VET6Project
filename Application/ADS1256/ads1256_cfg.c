@@ -117,19 +117,16 @@ void ADS1256_SPI_Device0_Init(ADS1256_HandlerType *ADS1256x)
 
 	//---增益配置
 	ADS1256x->msgGain = ADS1256_ADCON_GAIN_1;
-
+	//---设备的ID信息
+	ADS1256x->msgChipID = 0x00;
 	//---ADS1256工作正常
-	ADS1256x->msgDeviceReady = 0;
-
+	ADS1256x->msgReady = 0;
 	//---ADS1256数据转换的速率
 	ADS1256x->msgDRate = 0xF0;
-
 	//---定义脉冲宽度
-	ADS1256x->msgSPI.msgPluseWidth = 0;
-
+	ADS1256x->msgSPI.msgPluseWidth = 1;
 	//---时钟空闲为低电平
 	ADS1256x->msgSPI.msgCPOL = 0;
-
 	//---数据采样在第一个时钟边沿
 	ADS1256x->msgSPI.msgCPOH = 1;
 
@@ -309,6 +306,17 @@ UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT
 	ADS1256x->msgSPI.msgFuncTimeTick = pFuncTimerTick;
 	//---获取当前的系统时间
 	ADS1256x->msgNowTime = ADS1256x->msgSPI.msgFuncTimeTick();
+
+	//---ADS1256的SPI的最高时钟为输入时钟的四分之一，因此SPI的时钟不能过快，否则容易通讯失败
+	#if defined(USE_MCU_STM32F4)
+		if (ADS1256x->msgSPI.msgPluseWidth < 1)
+		{
+			ADS1256x->msgSPI.msgPluseWidth = 1;
+		}
+	#else
+		#error "SPI的时钟配置错误!官方推荐小于于1.92MHz!"
+	#endif
+
 	//---配置默认参数
 	return ADS1256_SPI_ConfigInit(ADS1256x);
 
@@ -601,11 +609,11 @@ UINT8_T ADS1256_SPI_SoftReset(ADS1256_HandlerType *ADS1256x)
 	UINT8_T _return = OK_0, dRate = 0;
 	//---发送软件复位命令
 	_return = ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_REST);
-	if (_return == OK_0)
-	{
-		//---读取准备信号
-		_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-	}
+	//if (_return == OK_0)
+	//{
+	//	//---读取准备信号
+	//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+	//}
 	//---校验复位是否成功
 	if (_return == OK_0)
 	{
@@ -655,13 +663,14 @@ UINT8_T ADS1256_SPI_Standby(ADS1256_HandlerType *ADS1256x)
 {
 	//---发送休眠模式命令
 	ADS1256x->msgSleepMode = 1;
-	UINT8_T _return = ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_STANDBY);
-	if (_return == OK_0)
-	{
-		//---读取准备信号
-		_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-	}
-	return _return;
+	//UINT8_T _return = ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_STANDBY);
+	//if (_return == OK_0)
+	//{
+	//	//---读取准备信号
+	//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+	//}
+	//return _return;
+	return ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_STANDBY);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -675,13 +684,14 @@ UINT8_T ADS1256_SPI_WAKEUP(ADS1256_HandlerType *ADS1256x)
 {
 	//---发送唤醒命令
 	ADS1256x->msgSleepMode = 0;
-	UINT8_T _return = ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_WAKEUP);;
-	if (_return == OK_0)
-	{
-		//---读取准备信号
-		_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-	}
-	return _return;
+	//UINT8_T _return = ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_WAKEUP);
+	//if (_return == OK_0)
+	//{
+	//	//---读取准备信号
+	//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+	//}
+	//return _return;
+	return ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_WAKEUP);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -693,13 +703,14 @@ UINT8_T ADS1256_SPI_WAKEUP(ADS1256_HandlerType *ADS1256x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS1256_SPI_SDATAC(ADS1256_HandlerType *ADS1256x)
 {
-	UINT8_T _return= ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_SDATAC);
-	if (_return == OK_0)
-	{
-		//---读取准备信号
-		_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-	}
-	return _return;
+	//UINT8_T _return= ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_SDATAC);
+	//if (_return == OK_0)
+	//{
+	//	//---读取准备信号
+	//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+	//}
+	//return _return;
+	return ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_SDATAC);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -738,11 +749,11 @@ UINT8_T ADS1256_SPI_DisableAutoCalibration(ADS1256_HandlerType *ADS1256x)
 	{
 		statusReg &= 0xFB;
 		_return = ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_STATUS_ADDR, statusReg);
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -762,11 +773,11 @@ UINT8_T ADS1256_SPI_EnableAutoCalibration(ADS1256_HandlerType *ADS1256x)
 	{
 		statusReg |= 0x04;
 		_return = ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_STATUS_ADDR, statusReg);
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -787,11 +798,11 @@ UINT8_T ADS1256_SPI_DisableBuffer(ADS1256_HandlerType *ADS1256x)
 		statusReg &= 0xFD;
 		_return=ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_STATUS_ADDR, statusReg);
 		ADS1256x->msgBufferON = 0;
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -812,11 +823,11 @@ UINT8_T ADS1256_SPI_EnableBuffer( ADS1256_HandlerType *ADS1256x )
 		statusReg |= 0x02;
 		_return=ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_STATUS_ADDR, statusReg);
 		ADS1256x->msgBufferON = 1;
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -931,8 +942,10 @@ UINT8_T ADS1256_SPI_SetDifferenceChannal(ADS1256_HandlerType *ADS1256x, UINT8_T 
 	}
 
 	//---差分模式下不进行误差校准
-	ADS1256x->msgCalcError[ch] = 0;
-	ADS1256x->msgCalcError[ch+1] = 0;
+	//ADS1256x->msgCalcError[ch] = 0;
+	//ADS1256x->msgCalcError[ch+1] = 0;
+	//---当前设置的通道
+	ADS1256x->msgNowChannel = (ch/2);
 	//---设置通道的工作模式
 	ADS1256x->msgChannelMode[ch] = 2;
 	ADS1256x->msgChannelMode[ch + 1] = 2;
@@ -974,11 +987,11 @@ UINT8_T ADS1256_SPI_SetClockOutRate(ADS1256_HandlerType *ADS1256x, UINT8_T clock
 		adconReg &= 0x1F;
 		adconReg |= clockRate;
 		_return = ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_ADCON_ADDR, adconReg);
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -999,11 +1012,11 @@ UINT8_T ADS1256_SPI_SensorDetect(ADS1256_HandlerType *ADS1256x, UINT8_T sensorDe
 		adconReg &= 0x67;
 		adconReg |= sensorDetect;
 		_return = ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_ADCON_ADDR, adconReg);
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -1042,11 +1055,11 @@ UINT8_T ADS1256_SPI_SetGain(ADS1256_HandlerType *ADS1256x, UINT8_T gain)
 		adconReg |= gain;
 		ADS1256x->msgGain = (gain & 0x07);
 		_return = ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_ADCON_ADDR, adconReg);
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -1076,11 +1089,11 @@ UINT8_T ADS1256_SPI_SetDRate(ADS1256_HandlerType *ADS1256x, UINT8_T rate)
 	UINT8_T _return = OK_0;
 	ADS1256x->msgDRate = rate;
 	_return= ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_DRATE_ADDR, rate);
-	if (_return == OK_0)
-	{
-		//---读取准备信号
-		_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-	}
+	//if (_return == OK_0)
+	//{
+	//	//---读取准备信号
+	//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+	//}
 	return _return;
 }
 
@@ -1128,11 +1141,11 @@ UINT8_T ADS1256_SPI_SetGPIOMode(ADS1256_HandlerType *ADS1256x, UINT8_T gpioMode)
 				break;
 		}
 		_return = ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_GPIO_ADDR, gpioReg);
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -1232,11 +1245,11 @@ UINT8_T ADS1256_SPI_SetGPIOOutState(ADS1256_HandlerType *ADS1256x, UINT8_T gpioI
 				break;
 		}
 		_return = ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_GPIO_ADDR, gpioReg);
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -1256,11 +1269,11 @@ UINT8_T ADS1256_SPI_DisabledAutoCalibration(ADS1256_HandlerType *ADS1256x)
 	{
 		statusReg &= 0xFB;
 		_return= ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_STATUS_ADDR, statusReg);
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -1280,11 +1293,11 @@ UINT8_T ADS1256_SPI_EnabledAutoCalibration(ADS1256_HandlerType *ADS1256x)
 	{
 		statusReg |= 0x04;
 		_return=ADS1256_SPI_WriteReg(ADS1256x, ADS1256_REG_STATUS_ADDR, statusReg);
-		if (_return == OK_0)
-		{
-			//---读取准备信号
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
-		}
+		//if (_return == OK_0)
+		//{
+		//	//---读取准备信号
+		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+		//}
 	}
 	return _return;
 }
@@ -1459,7 +1472,6 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 		}
 		//---更新下一次设置通道时候，读取的ADC结果
 		ADS1256x->msgOldChannel = ADS1256x->msgNowChannel;
-
 		//---延时等待转换完成,速率慢转换时间长，避免发生超时错误
 		if (ADS1256x->msgDRate< ADS1256_DRATE_15SPS)
 		{
@@ -1471,7 +1483,7 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 			GPIO_OUT_0(ADS1256x->msgSPI.msgCS.msgGPIOPort, ADS1256x->msgSPI.msgCS.msgGPIOBit);
 		}
 		//---检查读操作是否准备完成
-		_return=ADS1256_SPI_WaitDRDY(ADS1256x);
+		//_return=ADS1256_SPI_WaitDRDY(ADS1256x);
 		
 		//---数据可以读取
 		if (_return == OK_0)
@@ -1484,7 +1496,10 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 			//---发送读取
 			ADS1256_SPI_SEND_CMD(ADS1256x, ADS1256_CMD_RDATA, NULL);
 			//---等待准备完成
-			_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+			//_return = ADS1256_SPI_WaitDRDY(ADS1256x);
+			
+			ADS1256x->msgSPI.msgFuncDelayus(10);
+			
 			//---读取数据
 			ADS1256_SPI_SEND_CMD(ADS1256x, 0xFF, &temp[0]);
 			ADS1256_SPI_SEND_CMD(ADS1256x, 0xFF, &temp[1]);
@@ -1495,7 +1510,8 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 			ADS1256x->msgChannelADCResult[ADS1256x->msgOldChannel] = (ADS1256x->msgChannelADCResult[ADS1256x->msgOldChannel] << 8) + temp[2];
 
 			//---设置数据为无数据
-			ADS1256x->msgIsPositive[ch] = 0;
+			//ADS1256x->msgIsPositive[ch] = 0;
+			ADS1256x->msgIsPositive[ADS1256x->msgOldChannel] = 0;
 			//---判断最高位是否为1，如果为1则是负数，为0则是正数
 			if (ADS1256x->msgChannelADCResult[ADS1256x->msgOldChannel] > 0x7FFFFF)
 			{
@@ -1586,21 +1602,10 @@ UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandlerType* ADS1256x, UINT8_
 		calcPower *= ADS1256x->msgChannelADCResult[ch];
 		calcPower /= 0x7FFFFF;
 		//calcPower /= gainVal;
-		//---单端输入的时候进行增益偏差的校准
-		if (ADS1256x->msgChannelMode[ch]==0x01)
+		//if (calcPower < 1000000)
 		{
-			if (calcPower<1000000)
-			{
-				/*if(calcPower<ADS1256x->msgChannelPowerError[ch])
-				{
-					calcPower=0;
-				}
-				else
-				{
-					calcPower-=ADS1256x->msgChannelPowerError[ch];
-				}*/
-				calcPower =ABS_SUB(calcPower, ADS1256x->msgChannelPowerError[ch]);
-			}
+			//---误差补偿
+			calcPower = ABS_SUB(calcPower, ADS1256x->msgChannelPowerError[ch]);
 		}
 	}
 	else
@@ -1621,52 +1626,158 @@ UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandlerType* ADS1256x, UINT8_
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS1256_SPI_CalcBaseError(ADS1256_HandlerType* ADS1256x,UINT8_T ch)
 {
-	UINT8_T mode = 0;
+	//---偏差上线
+	UINT16_T limitPowerErr = 0;
+	//---默认偏差
+	UINT16_T defaultErr = 0;
+	//---最小差值
+	UINT8_T delataErr = 10;
 	//---计算通道
 	if ((ch & 0x70) > 0)
 	{
 		ch >>= 4;
 	}
 
+	if (ADS1256x->msgChannelMode[0]==0x01)
+	{
+		limitPowerErr = 2000;
+		defaultErr = 600;
+		delataErr = 10;
+	}
+	else if (ADS1256x->msgChannelMode[0] == 0x02)
+	{
+		limitPowerErr = 2000;
+		defaultErr = 300;
+		delataErr = 20;
+	}
 	//---判断是否校准偏差
 	if (ADS1256x->msgCalcError[ch] == 1)
 	{
-
-		mode = ADS1256x->msgChannelMode[ch];
-		ADS1256x->msgChannelMode[ch] = 0x01;
-
 		ADS1256_SPI_SetGain(ADS1256x, ADS1256_ADCON_GAIN_1);
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
+		if (ADS1256x->msgChannelPowerX1Error[ch]!=0)
+		{
+			ADS1256x->msgChannelPowerX1Error[ch] = 0;
+		}
 		ADS1256_SPI_ReadChannelResult(ADS1256x, ch);
-		ADS1256x->msgChannelPowerX1Error[ch] = ADS1256x->msgChannelNowPowerResult[ch];
-
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
+		if (ADS1256x->msgChannelNowPowerResult[ch] > limitPowerErr)
+		{
+			ADS1256x->msgChannelPowerX1Error[ch] = defaultErr;
+		}
+		else
+		{
+			ADS1256x->msgChannelPowerX1Error[ch] = ABS_SUB(ADS1256x->msgChannelNowPowerResult[ch], delataErr);
+		}
+		
 		ADS1256_SPI_SetGain(ADS1256x, ADS1256_ADCON_GAIN_2);
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
+		if (ADS1256x->msgChannelPowerX2Error[ch] != 0)
+		{
+			ADS1256x->msgChannelPowerX2Error[ch] = 0;
+		}
 		ADS1256_SPI_ReadChannelResult(ADS1256x, ch);
-		ADS1256x->msgChannelPowerX2Error[ch] = ADS1256x->msgChannelNowPowerResult[ch];
+		if (ADS1256x->msgChannelNowPowerResult[ch] > limitPowerErr)
+		{
+			ADS1256x->msgChannelPowerX2Error[ch] = defaultErr;
+		}
+		else
+		{
+			ADS1256x->msgChannelPowerX2Error[ch] = ABS_SUB(ADS1256x->msgChannelNowPowerResult[ch],delataErr);
+		}
 
 		ADS1256_SPI_SetGain(ADS1256x, ADS1256_ADCON_GAIN_4);
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
+		if (ADS1256x->msgChannelPowerX4Error[ch] != 0)
+		{
+			ADS1256x->msgChannelPowerX4Error[ch] = 0;
+		}
 		ADS1256_SPI_ReadChannelResult(ADS1256x, ch);
-		ADS1256x->msgChannelPowerX4Error[ch] = ADS1256x->msgChannelNowPowerResult[ch];
+		if (ADS1256x->msgChannelNowPowerResult[ch] > limitPowerErr)
+		{
+			ADS1256x->msgChannelPowerX4Error[ch] = defaultErr;
+		}
+		else
+		{
+			ADS1256x->msgChannelPowerX4Error[ch] = ABS_SUB(ADS1256x->msgChannelNowPowerResult[ch], delataErr);
+		}
 
 		ADS1256_SPI_SetGain(ADS1256x, ADS1256_ADCON_GAIN_8);
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
+		if (ADS1256x->msgChannelPowerX8Error[ch] != 0)
+		{
+			ADS1256x->msgChannelPowerX8Error[ch] = 0;
+		}
 		ADS1256_SPI_ReadChannelResult(ADS1256x, ch);
-		ADS1256x->msgChannelPowerX8Error[ch] = ADS1256x->msgChannelNowPowerResult[ch];
+		if (ADS1256x->msgChannelNowPowerResult[ch] > limitPowerErr)
+		{
+			ADS1256x->msgChannelPowerX8Error[ch] = defaultErr;
+		}
+		else
+		{
+			ADS1256x->msgChannelPowerX8Error[ch] = ABS_SUB(ADS1256x->msgChannelNowPowerResult[ch], delataErr);
+		}
 
 		ADS1256_SPI_SetGain(ADS1256x, ADS1256_ADCON_GAIN_16);
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
+		if (ADS1256x->msgChannelPowerX16Error[ch] != 0)
+		{
+			ADS1256x->msgChannelPowerX16Error[ch] = 0;
+		}
 		ADS1256_SPI_ReadChannelResult(ADS1256x, ch);
-		ADS1256x->msgChannelPowerX16Error[ch] = ADS1256x->msgChannelNowPowerResult[ch];
+		if (ADS1256x->msgChannelNowPowerResult[ch]> limitPowerErr)
+		{
+			ADS1256x->msgChannelPowerX16Error[ch] = defaultErr;
+		}
+		else
+		{
+			ADS1256x->msgChannelPowerX16Error[ch] = ABS_SUB(ADS1256x->msgChannelNowPowerResult[ch], delataErr);
+		}
 
 		ADS1256_SPI_SetGain(ADS1256x, ADS1256_ADCON_GAIN_32);
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
+		if (ADS1256x->msgChannelPowerX32Error[ch] != 0)
+		{
+			ADS1256x->msgChannelPowerX32Error[ch] = 0;
+		}
 		ADS1256_SPI_ReadChannelResult(ADS1256x, ch);
-		ADS1256x->msgChannelPowerX32Error[ch] = ADS1256x->msgChannelNowPowerResult[ch];
+		if (ADS1256x->msgChannelNowPowerResult[ch] > limitPowerErr)
+		{
+			ADS1256x->msgChannelPowerX32Error[ch] = defaultErr;
+		}
+		else
+		{
+			ADS1256x->msgChannelPowerX32Error[ch] = ABS_SUB(ADS1256x->msgChannelNowPowerResult[ch], delataErr);
+		}
 
 		ADS1256_SPI_SetGain(ADS1256x, ADS1256_ADCON_GAIN_64);
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
+		if (ADS1256x->msgChannelPowerX64Error[ch] != 0)
+		{
+			ADS1256x->msgChannelPowerX64Error[ch] = 0;
+		}
 		ADS1256_SPI_ReadChannelResult(ADS1256x, ch);
-		ADS1256x->msgChannelPowerX64Error[ch] = ADS1256x->msgChannelNowPowerResult[ch];
+		if (ADS1256x->msgChannelNowPowerResult[ch] > limitPowerErr)
+		{
+			ADS1256x->msgChannelPowerX64Error[ch] = defaultErr;
+		}
+		else
+		{
+			ADS1256x->msgChannelPowerX64Error[ch] = ABS_SUB(ADS1256x->msgChannelNowPowerResult[ch], delataErr);
+		}
 
 		//---恢复增益配置
 		ADS1256_SPI_SetGain(ADS1256x, ADS1256_ADCON_GAIN_1);
-		ADS1256x->msgChannelMode[ch] = mode;
-
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
 		ADS1256x->msgChannelNowPowerResult[ch] = 0;
 		ADS1256x->msgChannelADCResult[ch] = 0;
 	}
@@ -1684,20 +1795,30 @@ UINT8_T ADS1256_SPI_CheckDevice(ADS1256_HandlerType *ADS1256x)
 {
 	UINT8_T tempDRate = 0;
 	UINT8_T _return = OK_0;
-	ADS1256x->msgDeviceReady = 0;
+	ADS1256x->msgReady = 0;
 	//---读取数据转换速率
 	_return= ADS1256_SPI_ReadDRate(ADS1256x, &tempDRate);
 	if (_return!=OK_0)
 	{
 		_return = ERROR_1;
-		ADS1256x->msgDeviceReady=1;
+		ADS1256x->msgReady=1;
 	}
 	else
 	{
 		if (ADS1256x->msgDRate!=tempDRate)
 		{
 			_return = ERROR_2;
-			ADS1256x->msgDeviceReady = 1;
+			ADS1256x->msgReady = 1;
+		}
+		else
+		{
+			//---读取设备的ID信息
+			_return = ADS1256_SPI_ReadChipID(ADS1256x, &ADS1256x->msgChipID);
+			if (_return!=OK_0)
+			{
+				_return = ERROR_3;
+				ADS1256x->msgReady = 1;
+			}
 		}
 	}
 	return _return;
@@ -1738,47 +1859,6 @@ UINT8_T ADS1256_SPI_ConfigInit(ADS1256_HandlerType *ADS1256x)
 		goto GoToExit;
 	}
 
-	//---配置端口输入模式，必须配置，否则报错
-	
-	//---设置单端输入通道
-	ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN0);
-	//---计算接地的增益偏差
-	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN0);
-
-	ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN1);
-	//---计算接地的增益偏差
-	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN1);
-
-	ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN2);
-	//---计算接地的增益偏差
-	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN2);
-
-	ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN3); 
-	//---计算接地的增益偏差
-	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN3);
-
-	ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN4);
-	//---计算接地的增益偏差
-	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN4);
-
-	ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN5);
-	//---计算接地的增益偏差
-	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN5);
-
-	ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN6);
-	//---计算接地的增益偏差
-	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN6);
-
-	ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN7);
-	//---计算接地的增益偏差
-	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN7);
-
-	////---差分模式设置
-	//ADS1256_SPI_SetDifferenceChannal(ADS1256x, ADS1256_MUXP_AIN0);
-	//ADS1256_SPI_SetDifferenceChannal(ADS1256x, ADS1256_MUXP_AIN1);
-	//ADS1256_SPI_SetDifferenceChannal(ADS1256x, ADS1256_MUXP_AIN2);
-	//ADS1256_SPI_SetDifferenceChannal(ADS1256x, ADS1256_MUXP_AIN3);
-
 	////---自我校准
 	//_return = ADS1256_SPI_SelfCalibration(ADS1256x);
 	//if (_return != OK_0)
@@ -1801,14 +1881,62 @@ UINT8_T ADS1256_SPI_ConfigInit(ADS1256_HandlerType *ADS1256x)
 	//	_return = ERROR_6;
 	//	goto GoToExit;
 	//}
-	//---使能自动校准
-	_return = ADS1256_SPI_EnabledAutoCalibration(ADS1256x);
-	if (_return != OK_0)
-	{
-		_return = ERROR_7;
-		goto GoToExit;
-	}
-	GoToExit:
+
+	////---使能自动校准
+	//_return = ADS1256_SPI_EnabledAutoCalibration(ADS1256x);
+	//if (_return != OK_0)
+	//{
+	//	_return = ERROR_7;
+	//	goto GoToExit;
+	//}
+
+	//---配置端口输入模式，必须配置，否则报错
+
+	////---设置单端输入通道
+	//ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN0);
+	//ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN1);
+	//ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN2);
+	//ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN3); 
+	//ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN4);
+	//ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN5);
+	//ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN6);
+	//ADS1256_SPI_SetSingleChannal(ADS1256x, ADS1256_MUXP_AIN7);
+
+	////---计算接地的增益偏差
+	//ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN0);
+	////---计算接地的增益偏差
+	//ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN1);
+	////---计算接地的增益偏差
+	//ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN2);
+	////---计算接地的增益偏差
+	//ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN3);
+	////---计算接地的增益偏差
+	//ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN4);
+	////---计算接地的增益偏差
+	//ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN5);
+	////---计算接地的增益偏差
+	//ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN6);
+	////---计算接地的增益偏差
+	//ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN7);
+
+	//---差分模式设置
+	ADS1256_SPI_SetDifferenceChannal(ADS1256x, ADS1256_MUXP_AIN0);
+	ADS1256_SPI_SetDifferenceChannal(ADS1256x, ADS1256_MUXP_AIN1);
+	ADS1256_SPI_SetDifferenceChannal(ADS1256x, ADS1256_MUXP_AIN2);
+	ADS1256_SPI_SetDifferenceChannal(ADS1256x, ADS1256_MUXP_AIN3);
+
+	//---计算接地的增益偏差
+	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN0);
+	//---计算接地的增益偏差
+	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN1);
+	//---计算接地的增益偏差
+	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN2);
+	//---计算接地的增益偏差
+	ADS1256_SPI_CalcBaseError(ADS1256x, ADS1256_MUXP_AIN3);
+	
+	//---读取设备ID信息
+	_return = ADS1256_SPI_ReadChipID(ADS1256x, &ADS1256x->msgChipID);
+GoToExit:
 	return _return; 
 }
 
@@ -1977,6 +2105,7 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 	}
 	//---第一次粗读取数据
     _return=ADS1256_SPI_ReadChannelResult(ADS1256x,ch);
+	/*
 	if (_return==OK_0)
 	{
 		ADS1256x->msgChannelOldPowerResult[ch] = ADS1256x->msgChannelNowPowerResult[ch];
@@ -2022,17 +2151,16 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 		}
 		//---设置增益
 		_return = ADS1256_SPI_SetGain(ADS1256x, ADS1256x->msgGain);
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
 		if (_return==OK_0)
 		{
 			//---第一次细读取数据
 			_return = ADS1256_SPI_ReadChannelResult(ADS1256x, ch);
-			if (ADS1256x->msgChannelMode[ch]==0x01)
+			//---判断小量程的数据必须比大量程的数据小，否则保留大量程的数据
+			if (ADS1256x->msgChannelOldPowerResult[ch] < ADS1256x->msgChannelNowPowerResult[ch])
 			{
-				//---判断小量程的数据必须比大量程的数据小，否则保留大量程的数据
-				if (ADS1256x->msgChannelOldPowerResult[ch] < ADS1256x->msgChannelNowPowerResult[ch])
-				{
-					ADS1256x->msgChannelNowPowerResult[ch] = ADS1256x->msgChannelOldPowerResult[ch];
-				}
+				ADS1256x->msgChannelNowPowerResult[ch] = ADS1256x->msgChannelOldPowerResult[ch];
 			}
 		}
 	}
@@ -2040,7 +2168,10 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 	if (ADS1256x->msgGain != ADS1256_ADCON_GAIN_1)
 	{
 		_return = ADS1256_SPI_SetGain(ADS1256x, ADS1256_ADCON_GAIN_1);
+		////---等待校准完成
+		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
 	}
+	*/
 	//if (ADS1256x->msgBufferON==1)
 	//{
 	//	//---不使能缓存

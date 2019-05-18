@@ -76,12 +76,22 @@ void ADS8688_SPI_Device0_Init(ADS8688_HandlerType *ADS8688x)
 	ADS8688x->msgSPI.msgStandard = LL_SPI_PROTOCOL_MOTOROLA;
 #endif
 
+	UINT8_T i = 0;
+	for (i = 0; i < ADS8688_CHANNEL_MAX; i++)
+	{
+		ADS8688x->msgChannelRange[i] = 0;
+		ADS8688x->msgIsPositive[i] = 0;
+		ADS8688x->msgChannelADCResult[i] = 0;
+		ADS8688x->msgChannelPowerResult[i] = 0;
+	}
+
+	ADS8688x->msgChipID = 0x28;
+	//---默认是0xFF
+	ADS8688x->msgAutoSeqEn = 0xFF;
 	//---定义脉冲宽度
 	ADS8688x->msgSPI.msgPluseWidth = 2;
-
 	//---时钟空闲为低电平
 	ADS8688x->msgSPI.msgCPOL = 0;
-
 	//---数据采样在第二个时钟边沿
 	ADS8688x->msgSPI.msgCPOH = 1;
 }
@@ -396,6 +406,7 @@ UINT8_T ADS8688_SPI_AutoRSTMode(ADS8688_HandlerType* ADS8688x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS8688_SPI_SetAutoScanSequence(ADS8688_HandlerType *ADS8688x, UINT8_T seq)
 {
+	ADS8688x->msgAutoSeqEn = seq;
 	return ADS8688_SPI_WriteProgramReg(ADS8688x, ADS8688_PROG_REG_AUTO_SEQ_EN, seq);
 }
 
@@ -494,14 +505,50 @@ UINT8_T ADS8688_SPI_Reset(ADS8688_HandlerType* ADS8688x)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功	    能：设置设备ID
+//////功	    能：继续工作在选中的状态
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS8688_SPI_SetID(ADS8688_HandlerType* ADS8688x, UINT8_T devid)
+UINT8_T ADS8688_SPI_ContinuedOperationInTheSelectedMode(ADS8688_HandlerType* ADS8688x)
 {
-	return ADS8688_SPI_WriteProgramReg(ADS8688x, ADS8688_PROG_REG_FEATURE_SELECT, devid);
+	return ADS8688_SPI_WriteCommandReg(ADS8688x, ADS8688_CMD_REG_NO_OP);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功	    能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS8688_SPI_PowerDown(ADS8688_HandlerType* ADS8688x)
+{
+	return ADS8688_SPI_WriteCommandReg(ADS8688x, ADS8688_CMD_REG_PWR_DN);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功	    能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS8688_SPI_Standby(ADS8688_HandlerType* ADS8688x)
+{
+	return ADS8688_SPI_WriteCommandReg(ADS8688x, ADS8688_CMD_REG_STDBY);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功	    能：通道选择
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS8688_SPI_ManualChannelSelect(ADS8688_HandlerType* ADS8688x,UINT16_T manualCHCmd)
+{
+	return ADS8688_SPI_WriteCommandReg(ADS8688x, manualCHCmd);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -511,9 +558,68 @@ UINT8_T ADS8688_SPI_SetID(ADS8688_HandlerType* ADS8688x, UINT8_T devid)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS8688_SPI_GetID(ADS8688_HandlerType* ADS8688x, UINT8_T *pDevID)
+UINT8_T ADS8688_SPI_WriteChipID(ADS8688_HandlerType* ADS8688x, UINT8_T devid)
+{
+	devid <<= 6;
+	ADS8688x->msgChipID = (ADS8688x->msgChipID & 0x2F) | (devid & 0xC0);
+	return ADS8688_SPI_WriteProgramReg(ADS8688x, ADS8688_PROG_REG_FEATURE_SELECT, ADS8688x->msgChipID);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功	    能：读取设备ID
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS8688_SPI_ReadChipID(ADS8688_HandlerType* ADS8688x, UINT8_T *pDevID)
 {
 	return ADS8688_SPI_ReadProgramReg(ADS8688x, ADS8688_PROG_REG_FEATURE_SELECT, pDevID);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功	    能：校验设备ID
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS8688_SPI_CheckChipID(ADS8688_HandlerType* ADS8688x)
+{
+	UINT8_T tempChipID = 0x00;
+	UINT8_T _return = OK_0;
+	_return = ADS8688_SPI_ReadChipID(ADS8688x, &tempChipID);
+	//---校验读取的ID信息
+	if (tempChipID!=ADS8688x->msgChipID)
+	{
+		_return += ERROR_1;
+	}
+	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功	    能：探测设备是否存在
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS8688_SPI_DetectionDevice(ADS8688_HandlerType* ADS8688x)
+{
+	UINT8_T tempAutoSeqEn[2] = { 0 };
+	UINT8_T _return = OK_0;
+	_return=ADS8688_SPI_ReadProgramReg(pADS8688Device0, ADS8688_PROG_REG_AUTO_SEQ_EN, tempAutoSeqEn);
+	//---校验结果是否正确
+	if (tempAutoSeqEn[1]!=ADS8688x->msgAutoSeqEn)
+	{
+		_return += ERROR_1;
+	}
+	else
+	{
+		//---校验设备的ID信息
+		_return = ADS8688_SPI_CheckChipID(ADS8688x);
+	}
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -543,9 +649,9 @@ UINT8_T  ADS8688_SPI_GetAutoRSTModeChannelResult(ADS8688_HandlerType *ADS8688x, 
 
 		//---AD转换结果高位在前，低位在后
 		_return += ADS8688_SPI_SEND_CMD(ADS8688x, 0x00, &temp);
-		ADS8688x->msgChannelReseult[i] = temp;
+		ADS8688x->msgChannelADCResult[i] = temp;
 		_return += ADS8688_SPI_SEND_CMD(ADS8688x, 0x00, &temp);
-		ADS8688x->msgChannelReseult[i] = (ADS8688x->msgChannelReseult[i] << 8) + temp;
+		ADS8688x->msgChannelADCResult[i] = (ADS8688x->msgChannelADCResult[i] << 8) + temp;
 
 		if (ADS8688x->msgSPI.msgCS.msgGPIOPort != NULL)
 		{
