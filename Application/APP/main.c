@@ -192,14 +192,23 @@ int main(void)
 	while (1)
 	{
 		//USART_Printf(pUSART1, "\r\n开始时间:%d ms\r\n",SysTickTask_GetTick());
-		/*
 		//---填充数据
 		USARTTask_FillMode_Init(pUSART1);
 		USARTTask_FillMode_AddByte(pUSART1, 0xAA);
 		USARTTask_FillMode_AddByte(pUSART1, 0x00);
 		for (ch=0;ch<8;ch++)
 		{
-			ADS1256_SPI_AutoReadChannelResult(pADS1256Device0, ch);
+			if (ch>3)
+			{
+				if (pADS1256Device0->msgChannelMode[ch] != 0x02)
+				{
+					ADS1256_SPI_AutoReadChannelResult(pADS1256Device0, ch);
+				}
+			}
+			else
+			{
+				ADS1256_SPI_AutoReadChannelResult(pADS1256Device0, ch);
+			}
 			//---ADC通道
 			USARTTask_FillMode_AddByte(pUSART1, (ch + 1));
 			if (pADS1256Device0->msgReady == 0)
@@ -207,7 +216,7 @@ int main(void)
 				if (pADS1256Device0->msgIsPositive[ch] != 0)
 				{
 					//USART_Printf(pUSART1, "ADC1SampleResult:%d\r\n", pADS1256Device0->msgChannelADCResult[0]);
-					USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch+1), pADS1256Device0->msgChannelNowPowerResult[ch]);
+					//USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch+1), pADS1256Device0->msgChannelNowPowerResult[ch]);
 				}
 				//---数据是否有效
 				USARTTask_FillMode_AddByte(pUSART1, pADS1256Device0->msgIsPositive[ch]);
@@ -225,21 +234,21 @@ int main(void)
 		//USART_Printf(pUSART1, "结束时间:%d ms\r\n", SysTickTask_GetTick());
 		//---启动发送
 		USARTTask_FillMode_WriteSTART(pUSART1, 1);
-		*/
-		for (ch = 0; ch < 4; ch++)
-		{
+		
+		//for (ch = 0; ch < 4; ch++)
+		//{
 
-			ADS1256_SPI_AutoReadChannelResult(pADS1256Device0, ch);
-			if (pADS1256Device0->msgReady == 0)
-			{
-				if (pADS1256Device0->msgIsPositive[ch] != 0)
-				{
-					//USART_Printf(pUSART1, "ADC1SampleResult:%d\r\n", pADS1256Device0->msgChannelADCResult[0]);
-					USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", ch+1, pADS1256Device0->msgChannelNowPowerResult[ch]);
-				}
-			}
-		}
-		DelayTask_ms(300);
+		//	ADS1256_SPI_AutoReadChannelResult(pADS1256Device0, ch);
+		//	if (pADS1256Device0->msgReady == 0)
+		//	{
+		//		if (pADS1256Device0->msgIsPositive[ch] != 0)
+		//		{
+		//			//USART_Printf(pUSART1, "ADC1SampleResult:%d\r\n", pADS1256Device0->msgChannelADCResult[0]);
+		//			USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", ch+1, pADS1256Device0->msgChannelNowPowerResult[ch]);
+		//		}
+		//	}
+		//}
+		DelayTask_ms(200);
 		////---在线调试命令
 		//USARTTask_FuncTask(pUSART1,NULL);
 		//---模拟RTC处理

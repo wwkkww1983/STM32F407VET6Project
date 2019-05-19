@@ -803,6 +803,11 @@ UINT8_T ADS1256_SPI_DisableBuffer(ADS1256_HandlerType *ADS1256x)
 		//	//---读取准备信号
 		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
 		//}
+		if (_return == OK_0)
+		{
+			//--- 自我校准
+			_return = ADS1256_SPI_SelfCalibration(ADS1256x);
+		}
 	}
 	return _return;
 }
@@ -828,6 +833,11 @@ UINT8_T ADS1256_SPI_EnableBuffer( ADS1256_HandlerType *ADS1256x )
 		//	//---读取准备信号
 		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
 		//}
+		if (_return == OK_0)
+		{
+			//--- 自我校准
+			_return = ADS1256_SPI_SelfCalibration(ADS1256x);
+		}
 	}
 	return _return;
 }
@@ -1060,6 +1070,11 @@ UINT8_T ADS1256_SPI_SetGain(ADS1256_HandlerType *ADS1256x, UINT8_T gain)
 		//	//---读取准备信号
 		//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
 		//}
+		if (_return==OK_0)
+		{
+			//--- 自我校准
+			_return = ADS1256_SPI_SelfCalibration(ADS1256x);
+		}
 	}
 	return _return;
 }
@@ -1094,6 +1109,11 @@ UINT8_T ADS1256_SPI_SetDRate(ADS1256_HandlerType *ADS1256x, UINT8_T rate)
 	//	//---读取准备信号
 	//	_return = ADS1256_SPI_WaitDRDY(ADS1256x);
 	//}
+	if (_return == OK_0)
+	{
+		//--- 自我校准
+		_return = ADS1256_SPI_SelfCalibration(ADS1256x);
+	}
 	return _return;
 }
 
@@ -1599,7 +1619,7 @@ UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandlerType* ADS1256x, UINT8_
 	calcPower = refPoweruV;
 	if ((ADS1256x->msgIsPositive[ch]!=0)&&(ADS1256x->msgChannelMode[0]!=0))
 	{
-		calcPower *= ADS1256x->msgChannelADCResult[ch];
+		calcPower *= (ADS1256x->msgChannelADCResult[ch]|0x0F);
 		calcPower /= 0x7FFFFF;
 		//calcPower /= gainVal;
 		//if (calcPower < 1000000)
@@ -1842,7 +1862,7 @@ UINT8_T ADS1256_SPI_ConfigInit(ADS1256_HandlerType *ADS1256x)
 		goto GoToExit;
 	}
 	//---设置时钟
-	_return = ADS1256_SPI_SetDRate(ADS1256x, ADS1256_DRATE_2000SPS);
+	_return = ADS1256_SPI_SetDRate(ADS1256x, ADS1256_DRATE_1000SPS);
 	//---校验时钟的设置
 	_return = ADS1256_SPI_CheckDevice(ADS1256x);
 	//---判断时钟是否设置正确
@@ -2095,7 +2115,8 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 {
 	UINT8_T _return = OK_0;
 	UINT8_T change = 0;
-	UINT64_T calcPower = 0;
+	UINT32_T calcPower = 0;
+	UINT16_T gainErr = 0;
 	//---自恢复模式校验
 	_return=ADS1256_SPI_AutoSelfRecovery(pADS1256Device0);
 	if (_return!=OK_0)
@@ -2105,7 +2126,7 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 	}
 	//---第一次粗读取数据
     _return=ADS1256_SPI_ReadChannelResult(ADS1256x,ch);
-	/*
+	
 	if (_return==OK_0)
 	{
 		ADS1256x->msgChannelOldPowerResult[ch] = ADS1256x->msgChannelNowPowerResult[ch];
@@ -2118,37 +2139,43 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 			//	ADS1256_SPI_EnableBuffer(ADS1256x);
 			//}
 			ADS1256x->msgGain = ADS1256_ADCON_GAIN_1;
+			gainErr = 1000;
+			change = (2<<1);
 		}
 		//+/-2.5V
-		else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_4_FULL_RANGE_UV)
+		else //if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_4_FULL_RANGE_UV)
 		{
 			ADS1256x->msgGain = ADS1256_ADCON_GAIN_2;
+			gainErr = 2000;
+			change = (2<<1);
 		}
 		//+/-1.25V
-		else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_8_FULL_RANGE_UV)
+		//else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_8_FULL_RANGE_UV)
 		{
 			ADS1256x->msgGain = ADS1256_ADCON_GAIN_4;
+			gainErr = 3000;
+			change = (3<<1);
 		}
-		//+/-0.625V
-		else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_16_FULL_RANGE_UV)
-		{
-			ADS1256x->msgGain = ADS1256_ADCON_GAIN_8;
-		}
-		//+/-312.5MV
-		else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_32_FULL_RANGE_UV)
-		{
-			ADS1256x->msgGain = ADS1256_ADCON_GAIN_16;
-		}
-		//+/-156.25MV
-		else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_64_FULL_RANGE_UV)
-		{
-			ADS1256x->msgGain = ADS1256_ADCON_GAIN_32;
-		}
-		//+/-78.126MV
-		else
-		{
-			ADS1256x->msgGain = ADS1256_ADCON_GAIN_64;
-		}
+		////+/-0.625V
+		//else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_16_FULL_RANGE_UV)
+		//{
+		//	ADS1256x->msgGain = ADS1256_ADCON_GAIN_8;
+		//}
+		////+/-312.5MV
+		//else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_32_FULL_RANGE_UV)
+		//{
+		//	ADS1256x->msgGain = ADS1256_ADCON_GAIN_16;
+		//}
+		////+/-156.25MV
+		//else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_64_FULL_RANGE_UV)
+		//{
+		//	ADS1256x->msgGain = ADS1256_ADCON_GAIN_32;
+		//}
+		////+/-78.126MV
+		//else
+		//{
+		//	ADS1256x->msgGain = ADS1256_ADCON_GAIN_64;
+		//}
 		//---设置增益
 		_return = ADS1256_SPI_SetGain(ADS1256x, ADS1256x->msgGain);
 		////---等待校准完成
@@ -2157,10 +2184,64 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 		{
 			//---第一次细读取数据
 			_return = ADS1256_SPI_ReadChannelResult(ADS1256x, ch);
-			//---判断小量程的数据必须比大量程的数据小，否则保留大量程的数据
-			if (ADS1256x->msgChannelOldPowerResult[ch] < ADS1256x->msgChannelNowPowerResult[ch])
+			//---差分模式时候后一位保存值
+			if (ADS1256x->msgChannelMode[ch]==0x02)
 			{
-				ADS1256x->msgChannelNowPowerResult[ch] = ADS1256x->msgChannelOldPowerResult[ch];
+				ADS1256x->msgChannelNowPowerResult[ch + 4] = ADS1256x->msgChannelNowPowerResult[ch];
+			}
+			////---判断小量程的数据必须比大量程的数据小，否则保留大量程的数据
+			//if (ADS1256x->msgChannelOldPowerResult[ch] < ADS1256x->msgChannelNowPowerResult[ch])
+			//{
+			//	ADS1256x->msgChannelNowPowerResult[ch] = ADS1256x->msgChannelOldPowerResult[ch];
+			//}
+			calcPower = ABS_SUB(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch]);
+			if (calcPower<gainErr)
+			{
+				if (MIN(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch])<gainErr)
+				{
+					ADS1256x->msgChannelNowPowerResult[ch] = (UINT32_T)(MAX(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch]) - calcPower / change);
+				}
+				else
+				{
+					ADS1256x->msgChannelNowPowerResult[ch] = (UINT32_T)(MIN(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch]) - calcPower / change);
+				}
+			}
+			else if(calcPower< (gainErr*10))
+			{
+				ADS1256x->msgChannelNowPowerResult[ch] = (UINT32_T)( MIN(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch]) - ((calcPower*2) / 5));
+			}
+			else
+			{
+				if (change==1)
+				{
+					ADS1256x->msgChannelNowPowerResult[ch] =(UINT32_T)( (ADS1256x->msgChannelNowPowerResult[ch] + ADS1256x->msgChannelOldPowerResult[ch]) / 2);
+				}
+				else
+				{
+					ADS1256x->msgChannelNowPowerResult[ch] = (UINT32_T)(MIN(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch])-calcPower / 2);
+				}
+			}
+			if (ADS1256x->msgChannelNowPowerResult[ch]<1000)
+			{
+				if (ADS1256x->msgIsPositive[ch]==0x01)
+				{
+					ADS1256x->msgChannelNowPowerResult[ch] = ABS_SUB(1000, ADS1256x->msgChannelNowPowerResult[ch]);
+				}
+				//else
+				//{
+				//	ADS1256x->msgChannelNowPowerResult[ch] +=450;
+				//}
+			}
+			if (ADS1256x->msgChannelNowPowerResult[ch]<2000)
+			{
+				if (ADS1256x->msgIsPositive[ch] == 0x01)
+				{
+					ADS1256x->msgIsPositive[ch] = 0x02;
+				}
+				else
+				{
+					ADS1256x->msgChannelNowPowerResult[ch] += 450;
+				}
 			}
 		}
 	}
@@ -2171,7 +2252,7 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 		////---等待校准完成
 		//ADS1256_SPI_WaitResultOK(ADS1256x, ADS1256x->msgDRate);
 	}
-	*/
+	
 	//if (ADS1256x->msgBufferON==1)
 	//{
 	//	//---不使能缓存
