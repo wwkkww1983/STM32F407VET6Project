@@ -455,7 +455,7 @@ UINT8_T ADS1256_SPI_SW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8
 UINT8_T ADS1256_SPI_HW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal)
 {
 	//---数据发送
-	return SPITask_MHW_PollMode_WriteReadByte(&(ADS1256x->msgSPI), cmd, pRVal);
+	return SPITask_MHW_PollMode_WriteAndReadByte(&(ADS1256x->msgSPI), cmd, pRVal);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1552,7 +1552,6 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 		{
 			_return = ERROR_2;
 		}
-		GoToExit:
 		if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
 		{
 			//---不使能通讯，放在最外层，避免发生通讯一直使能
@@ -2140,7 +2139,7 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 			//}
 			ADS1256x->msgGain = ADS1256_ADCON_GAIN_1;
 			gainErr = 1000;
-			change = (2<<1);
+			change = (1<<1);
 		}
 		//+/-2.5V
 		else //if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_4_FULL_RANGE_UV)
@@ -2151,11 +2150,11 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 		}
 		//+/-1.25V
 		//else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_8_FULL_RANGE_UV)
-		{
-			ADS1256x->msgGain = ADS1256_ADCON_GAIN_4;
-			gainErr = 3000;
-			change = (3<<1);
-		}
+		//{
+		//	ADS1256x->msgGain = ADS1256_ADCON_GAIN_4;
+		//	gainErr = 3000;
+		//	change = (3<<1);
+		//}
 		////+/-0.625V
 		//else if (ADS1256x->msgChannelNowPowerResult[ch] > ADS1256_GAIN_16_FULL_RANGE_UV)
 		//{
@@ -2208,7 +2207,7 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 			}
 			else if(calcPower< (gainErr*10))
 			{
-				ADS1256x->msgChannelNowPowerResult[ch] = (UINT32_T)( MIN(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch]) - ((calcPower*2) / 5));
+				ADS1256x->msgChannelNowPowerResult[ch] = (UINT32_T)( MIN(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch]) -((calcPower*2) / 10));
 			}
 			else
 			{
@@ -2218,7 +2217,7 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 				}
 				else
 				{
-					ADS1256x->msgChannelNowPowerResult[ch] = (UINT32_T)(MIN(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch])-calcPower / 2);
+					ADS1256x->msgChannelNowPowerResult[ch] = (UINT32_T)(MIN(ADS1256x->msgChannelNowPowerResult[ch], ADS1256x->msgChannelOldPowerResult[ch])+((calcPower*2) / 10));
 				}
 			}
 			if (ADS1256x->msgChannelNowPowerResult[ch]<1000)
@@ -2245,6 +2244,7 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 			}
 		}
 	}
+	
 	//---恢复量程为+/-5V
 	if (ADS1256x->msgGain != ADS1256_ADCON_GAIN_1)
 	{

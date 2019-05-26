@@ -106,11 +106,16 @@ extern "C" {
 		UINT8_T  msgDelayms;												//---等待时间,单位是ms
 		UINT8_T  msgChipID;													//---设备的ID信息
 		UINT8_T  msgAutoSeqEn;												//---通过AUTO_SEQ_EN的设置探测设备的存在
-		UINT8_T	 msgChannelRange[ADS8688_CHANNEL_MAX];						//---AD通道的量程参考
+		UINT8_T  msgChannelPWRDN;											//---通道掉电模式
+		UINT8_T  msgFeature;												//---特性设置参数
 		UINT8_T  msgChannelMode[ADS8688_CHANNEL_MAX];						//---输入装换模式,0---未选中使能；1---选中使能
 		UINT8_T	 msgIsPositive[ADS8688_CHANNEL_MAX];						//---0---无数据，1---是负数，2---是正值
-		UINT16_T msgChannelADCResult[ADS8688_CHANNEL_MAX];					//---AD通道的采样结果
-		UINT16_T msgChannelPowerResult[ADS8688_CHANNEL_MAX];				//---AD通道的采样的电压结果
+		UINT8_T  msgChannelRangeIsPositive[ADS8688_CHANNEL_MAX];			//---0---是正负量程，1---是正量程
+		UINT8_T  msgChannelRange[ADS8688_CHANNEL_MAX];						//---AD通道的量程参考
+		UINT32_T msgChannelRangeBaseUVX1000[ADS8688_CHANNEL_MAX];			//---AD通道的每个BIT代表的电压值，单位是uv的十倍
+		UINT64_T msgChannelRangeFullUVX1000[ADS8688_CHANNEL_MAX];			//---AD通道的满量程的电压值，单位是uv的十倍
+		UINT32_T msgChannelADCResult[ADS8688_CHANNEL_MAX];					//---AD通道的采样结果
+		UINT32_T msgChannelPowerResult[ADS8688_CHANNEL_MAX];				//---AD通道的采样的电压结果
 		void(*msgFuncDelayms)(UINT32_T delay);								//---延时参数
 		SPI_HandlerType		msgSPI;											//---使用的SPI模式
 		GPIO_HandlerType	msgHWRST;										//---硬件复位信号
@@ -130,11 +135,14 @@ extern "C" {
 	UINT8_T ADS8688_SPI_WriteCommandReg(ADS8688_HandlerType* ADS8688x, UINT32_T cmd);
 	UINT8_T ADS8688_SPI_WriteProgramReg(ADS8688_HandlerType* ADS8688x, UINT8_T addr, UINT8_T val);
 	UINT8_T ADS8688_SPI_ReadProgramReg(ADS8688_HandlerType* ADS8688x, UINT8_T addr, UINT8_T* pVal);
-	UINT8_T ADS8688_SPI_AutoRSTMode(ADS8688_HandlerType* ADS8688x);
-	UINT8_T ADS8688_SPI_SetAutoScanSequence(ADS8688_HandlerType* ADS8688x, UINT8_T seq);
-	UINT8_T ADS8688_SPI_SetCHannelRangeSelect(ADS8688_HandlerType* ADS8688x, UINT8_T chReg, UINT8_T range);
+	UINT8_T ADS8688_SPI_AUTORST(ADS8688_HandlerType* ADS8688x);
+	UINT8_T ADS8688_SPI_AUTOSEQEN(ADS8688_HandlerType* ADS8688x, UINT8_T seq);
+	UINT8_T ADS8688_SPI_ChannelRangeSelect(ADS8688_HandlerType* ADS8688x, UINT8_T chReg, UINT8_T range);
+	UINT8_T ADS8688_SPI_ChannelRange(ADS8688_HandlerType* ADS8688x, UINT8_T chIndex);
 	UINT8_T ADS8688_SPI_Reset(ADS8688_HandlerType* ADS8688x);
-	UINT8_T ADS8688_SPI_GetAutoRSTModeChannelResult(ADS8688_HandlerType* ADS8688x, UINT8_T chNum);
+	UINT8_T ADS8688_SPI_GetAutoRSTResult(ADS8688_HandlerType* ADS8688x, UINT8_T chNum);
+	UINT8_T ADS8688_SPI_CalcChannelPower(ADS8688_HandlerType* ADS8688x, UINT8_T chIndex);
+	UINT8_T ADS8688_SPI_ConfigInit(ADS8688_HandlerType* ADS8688x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

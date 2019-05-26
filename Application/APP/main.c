@@ -9,6 +9,10 @@
 //////////////////////////////////////////////////////////////////////////////
 void SystemClock_Config(void)
 {
+	//---PWR时钟
+	LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+	//---设置内部调节器的输出电压
+	LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
 	//---设置FLASH的延时读取周期数
 	LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
 	//---等待FLASH延时设置完成---判断设置是否成功
@@ -16,8 +20,6 @@ void SystemClock_Config(void)
 	{
 		Error_Handler();
 	}
-	//---设置内部调节器的输出电压
-	LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
 	//---使能外部晶振
 	LL_RCC_HSE_Enable();
 	//---等待外部晶振稳定
@@ -94,9 +96,9 @@ void NVIC_Init(void)
 	NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 	/* System interrupt init*/
 	/* HardFault_IRQn interrupt configuration */
-#ifdef USE_MCU_STM32F1
-	NVIC_SetPriority(HardFault_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0, 0));
-#endif
+	#ifdef USE_MCU_STM32F1
+		NVIC_SetPriority(HardFault_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0, 0));
+	#endif
 	/* MemoryManagement_IRQn interrupt configuration */
 	NVIC_SetPriority(MemoryManagement_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0, 0));
 	/* BusFault_IRQn interrupt configuration */
@@ -248,7 +250,7 @@ int main(void)
 		//		}
 		//	}
 		//}
-		DelayTask_ms(200);
+		//DelayTask_ms(100);
 		////---在线调试命令
 		//USARTTask_FuncTask(pUSART1,NULL);
 		//---模拟RTC处理

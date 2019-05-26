@@ -173,7 +173,7 @@ UINT8_T W25QXX_SPI_SW_Init(W25QXX_HandlerType *W25QXXx)
 UINT8_T W25QXX_SPI_HW_SendCmd(W25QXX_HandlerType *W25QXXx, UINT8_T cmd, UINT8_T *pRVal)
 {
 	//---Êý¾Ý·¢ËÍ
-	return SPITask_MHW_PollMode_WriteReadByte(&(W25QXXx->msgSPI), cmd, pRVal);
+	return SPITask_MHW_PollMode_WriteAndReadByte(&(W25QXXx->msgSPI), cmd, pRVal);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -17,12 +17,10 @@ UINT8_T SPI_MHW_PollMode_Init(SPI_HandlerType *SPIx, LL_SPI_InitTypeDef SPI_Init
 
 	//---SPI初始化
 	LL_SPI_Init(SPIx->msgSPIx, &(SPI_InitStruct));
-#ifndef USE_MCU_STM32F1
-
-	//---SPI1的标准协议的支持
-	LL_SPI_SetStandard(SPIx->msgSPIx, SPIx->msgStandard);
-#endif
-
+	#ifndef USE_MCU_STM32F1
+		//---SPI1的标准协议的支持
+		LL_SPI_SetStandard(SPIx->msgSPIx, SPIx->msgStandard);
+	#endif
 	//---使能SPI
 	LL_SPI_Enable(SPIx->msgSPIx);
 	return OK_0;
@@ -63,7 +61,7 @@ UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;//LL_GPIO_PULL_UP;
 	#ifndef USE_MCU_STM32F1
 		GPIO_InitStruct.Alternate = LL_GPIO_AF_0;
 	#endif
@@ -76,6 +74,7 @@ UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 	#ifndef USE_MCU_STM32F1
 		GPIO_InitStruct.Alternate = SPIx->msgGPIOAlternate;
 	#endif
+
 	//---SCK---设置为输出
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
 	GPIO_InitStruct.Pin = SPIx->msgSCK.msgGPIOBit;
@@ -83,6 +82,7 @@ UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 	GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
 
 	//---MOSI---设置为输出
+	//GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
 	GPIO_InitStruct.Pin = SPIx->msgMOSI.msgGPIOBit;
 	LL_GPIO_Init(SPIx->msgMOSI.msgGPIOPort, &GPIO_InitStruct);
 	GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
@@ -117,10 +117,10 @@ UINT8_T SPI_MSW_GPIO_Init(SPI_HandlerType *SPIx)
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-#ifndef USE_MCU_STM32F1
-	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;
-#endif
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+	#ifndef USE_MCU_STM32F1
+		GPIO_InitStruct.Alternate = LL_GPIO_AF_0;
+	#endif
 	LL_GPIO_Init(SPIx->msgCS.msgGPIOPort, &GPIO_InitStruct);
 
 	//---SCK---设置为输出
@@ -158,9 +158,9 @@ UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *SPIx)
 	//---SS---设置为输出
 	GPIO_InitStruct.Pin = SPIx->msgCS.msgGPIOBit;
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
-	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
 #ifndef USE_MCU_STM32F1
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;
 #endif
@@ -314,13 +314,38 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, U
 	UINT32_T nowTime = 0;
 	UINT32_T oldTime = 0;
 	UINT32_T cnt = 0;
+	//---收发完成标志位
+	UINT8_T _return = 2;
+	//---获取当前时间节拍
 	if (SPIx->msgFuncTimeTick != NULL)
 	{
 		oldTime = SPIx->msgFuncTimeTick();
 	}
-	//---等待发送缓冲区为空，TXE 事件---TXE=1，开始发送下一个数据
-	while (!LL_SPI_IsActiveFlag_TXE(SPIx->msgSPIx))
+	//---数据收发
+	while (1)
 	{
+		//---等待发送缓冲区为空，TXE 事件---TXE=1，开始发送下一个数据
+		if ((_return==2)&&(LL_SPI_IsActiveFlag_TXE(SPIx->msgSPIx)))
+		{
+			//---写入数据寄存器，把要写入的数据写入发送缓冲区
+			LL_SPI_TransmitData8(SPIx->msgSPIx, wVal);
+			//---1
+			_return = 1;
+		}
+		//---等待接收缓冲区非空，RXNE 事件---等待RXNE=1，读取收到的数据
+		if (LL_SPI_IsActiveFlag_RXNE(SPIx->msgSPIx))
+		{
+			//---读取数据寄存器，获取接收缓冲区数据
+			_return = LL_SPI_ReceiveData8(SPIx->msgSPIx);
+			//---判断数据缓存区是否为空
+			if (pRVal!=NULL)
+			{
+				*pRVal = _return;
+			}
+			//---0
+			_return =0;
+		}
+		//---超时判断
 		if (SPIx->msgFuncTimeTick != NULL)
 		{
 			//---当前时间
@@ -338,7 +363,7 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, U
 			if (cnt > 100)
 			{
 				//---发送发生超时错误
-				return ERROR_2;
+				_return = 3;
 			}
 		}
 		else
@@ -347,60 +372,16 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, U
 			if (nowTime > 100000)
 			{
 				//---发送发生超时错误
-				return ERROR_3;
+				_return = 4;
 			}
 		}
-	}
-	//---写入数据寄存器，把要写入的数据写入发送缓冲区
-	LL_SPI_TransmitData8(SPIx->msgSPIx, wVal);
-	//---获取当前时间节拍
-	if (SPIx->msgFuncTimeTick != NULL)
-	{
-		oldTime = SPIx->msgFuncTimeTick();
-	}
-	else
-	{
-		nowTime = 0;
-	}
-	//---等待接收缓冲区非空，RXNE 事件---等待RXNE=1，读取收到的数据
-	while (!LL_SPI_IsActiveFlag_RXNE(SPIx->msgSPIx))
-	{
-		if (SPIx->msgFuncTimeTick != NULL)
+		//---退出循环
+		if ((_return==0)||(_return>2))
 		{
-			//---当前时间
-			nowTime = SPIx->msgFuncTimeTick();
-			if (nowTime < oldTime)
-			{
-				cnt = (0xFFFFFFFF - oldTime + nowTime);
-			}
-			else
-			{
-				cnt = nowTime - oldTime;
-			}
-			//---判断是否超时
-			if (cnt > 100)
-			{
-				//---发送发生超时错误
-				return ERROR_4;
-			}
-		}
-		else
-		{
-			nowTime++;
-			if (nowTime > 100000)
-			{
-				//---发送发生超时错误
-				return ERROR_5;
-			}
+			break;
 		}
 	}
-	//---校验读取缓存区是否为空
-	if (pRVal != NULL)
-	{
-		//---读取数据寄存器，获取接收缓冲区数据
-		*pRVal = LL_SPI_ReceiveData8(SPIx->msgSPIx);
-	}
-	return OK_0;
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -414,18 +395,77 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandlerType *SPIx, UINT8_T *pWVal,
 {
 	UINT8_T _return = OK_0;
 	UINT16_T i = 0;
-	for (i = 0; i < length; i++)
+	//---获取当前时间节拍
+	UINT32_T nowTime = 0;
+	UINT32_T oldTime = 0;
+	UINT32_T cnt = 0;
+	//---收发完成标志位
+	UINT8_T txAllowed = 1;
+	//---获取当前时间节拍
+	if (SPIx->msgFuncTimeTick != NULL)
 	{
-		if (pRVal == NULL)
+		oldTime = SPIx->msgFuncTimeTick();
+	}
+	nowTime = 0;
+	//---数据收发
+	while (1)
+	{
+		//---等待发送缓冲区为空，TXE 事件---TXE=1，开始发送下一个数据
+		if ((txAllowed == 1) && (LL_SPI_IsActiveFlag_TXE(SPIx->msgSPIx)))
 		{
-			_return = SPI_MHW_PollMode_WriteAndReadByte(SPIx, pWVal[i], NULL);
+			//---写入数据寄存器，把要写入的数据写入发送缓冲区
+			LL_SPI_TransmitData8(SPIx->msgSPIx, pWVal[i]);
+			//---接收
+			txAllowed = 0;
+		}
+		//---等待接收缓冲区非空，RXNE 事件---等待RXNE=1，读取收到的数据
+		if ((txAllowed==0)&&(LL_SPI_IsActiveFlag_RXNE(SPIx->msgSPIx)))
+		{
+			//---读取数据寄存器，获取接收缓冲区数据
+			_return = LL_SPI_ReceiveData8(SPIx->msgSPIx);
+			//---判断数据缓存区是否为空
+			if (pRVal != NULL)
+			{
+				pRVal[i] = _return;
+			}
+			_return=0;
+			//---发送
+			txAllowed = 1;
+			//---下一个数据
+			i++;
+		}
+		//---超时判断
+		if (SPIx->msgFuncTimeTick != NULL)
+		{
+			//---当前时间
+			nowTime = SPIx->msgFuncTimeTick();
+			//---判断滴答定时是否发生溢出操作
+			if (nowTime < oldTime)
+			{
+				cnt = (0xFFFFFFFF - oldTime + nowTime);
+			}
+			else
+			{
+				cnt = nowTime - oldTime;
+			}
+			//---判断是否超时
+			if (cnt > 100)
+			{
+				//---发送发生超时错误
+				_return = 0x80+i;
+			}
 		}
 		else
 		{
-			_return = SPI_MHW_PollMode_WriteAndReadByte(SPIx, pWVal[i], &pRVal[i]);
+			nowTime++;
+			if (nowTime > 100000)
+			{
+				//---发送发生超时错误
+				_return = 0x40+i;
+			}
 		}
-
-		if (_return != OK_0)
+		//---退出循环
+		if ((_return != 0)||(i==length))
 		{
 			break;
 		}

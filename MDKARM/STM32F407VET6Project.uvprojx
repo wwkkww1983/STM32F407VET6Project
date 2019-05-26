@@ -1021,6 +1021,41 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Application/DAC</GroupName>
+          <Files>
+            <File>
+              <FileName>dac_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DAC\dac_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>dac_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\DAC\dac_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>dac_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DAC\dac_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>dac_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\DAC\dac_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>dac_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DAC\dac_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>dac_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\DAC\dac_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Application/Decode</GroupName>
           <Files>
             <File>

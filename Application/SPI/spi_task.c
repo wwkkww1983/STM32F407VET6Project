@@ -78,7 +78,7 @@ UINT8_T SPITask_DeInit(SPI_HandlerType *SPIx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPITask_MHW_PollMode_WriteReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
+UINT8_T SPITask_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	return  SPILib_MHW_PollMode_WriteAndReadByte(SPIx, wVal, pRVal);
 }

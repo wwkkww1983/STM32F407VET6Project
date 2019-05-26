@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F407VET6Project\STM32F407VET6Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F407VET6Project\STM32F407VET6Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6120001: Last Updated: Sun May 19 14:35:31 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6120001: Last Updated: Sun May 26 23:25:51 2019
 <BR><P>
 <H3>Maximum Stack Usage =        264 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -526,8 +526,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[7c]"></a>ADS1256_SPI_AutoReadChannelResult</STRONG> (Thumb, 318 bytes, Stack size 24 bytes, ads1256_cfg.o(.text.ADS1256_SPI_AutoReadChannelResult))
-<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = ADS1256_SPI_AutoReadChannelResult &rArr; ADS1256_SPI_ConfigInit &rArr; ADS1256_SPI_CalcBaseError &rArr; ADS1256_SPI_ReadChannelResult &rArr; ADS1256_SPI_CalcChannelPowerResult &rArr; __aeabi_uldivmod
+<P><STRONG><a name="[7c]"></a>ADS1256_SPI_AutoReadChannelResult</STRONG> (Thumb, 344 bytes, Stack size 32 bytes, ads1256_cfg.o(.text.ADS1256_SPI_AutoReadChannelResult))
+<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = ADS1256_SPI_AutoReadChannelResult &rArr; ADS1256_SPI_ConfigInit &rArr; ADS1256_SPI_CalcBaseError &rArr; ADS1256_SPI_ReadChannelResult &rArr; ADS1256_SPI_CalcChannelPowerResult &rArr; __aeabi_uldivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADS1256_SPI_SetGain
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADS1256_SPI_ReadChannelResult
@@ -589,9 +589,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[5f]"></a>ADS1256_SPI_HW_SendCmd</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, ads1256_cfg.o(.text.ADS1256_SPI_HW_SendCmd))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = ADS1256_SPI_HW_SendCmd &rArr; SPITask_MHW_PollMode_WriteReadByte &rArr; SPILib_MHW_PollMode_WriteAndReadByte &rArr; SPI_MHW_PollMode_WriteAndReadByte
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = ADS1256_SPI_HW_SendCmd &rArr; SPITask_MHW_PollMode_WriteAndReadByte &rArr; SPILib_MHW_PollMode_WriteAndReadByte &rArr; SPI_MHW_PollMode_WriteAndReadByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPITask_MHW_PollMode_WriteReadByte
+<BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPITask_MHW_PollMode_WriteAndReadByte
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> ads1256_cfg.o(.text.ADS1256_SPI_Init)
 </UL>
@@ -913,8 +913,6 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DelayLib_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
 <BR>[Address Reference Count : 2]<UL><LI> ads1256_cfg.o(.text.ADS1256_SPI_Init)
 <LI> main.o(.text.main)
 </UL>
@@ -1157,7 +1155,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_MHW_PollMode_WriteAndReadByte
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPITask_MHW_PollMode_WriteReadByte
+<BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPITask_MHW_PollMode_WriteAndReadByte
 </UL>
 
 <P><STRONG><a name="[ce]"></a>SPILib_MSW_GPIO_Init</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, spi_lib.o(.text.SPILib_MSW_GPIO_Init))
@@ -1200,8 +1198,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADS1256_SPI_Init
 </UL>
 
-<P><STRONG><a name="[8b]"></a>SPITask_MHW_PollMode_WriteReadByte</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, spi_task.o(.text.SPITask_MHW_PollMode_WriteReadByte))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = SPITask_MHW_PollMode_WriteReadByte &rArr; SPILib_MHW_PollMode_WriteAndReadByte &rArr; SPI_MHW_PollMode_WriteAndReadByte
+<P><STRONG><a name="[8b]"></a>SPITask_MHW_PollMode_WriteAndReadByte</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, spi_task.o(.text.SPITask_MHW_PollMode_WriteAndReadByte))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = SPITask_MHW_PollMode_WriteAndReadByte &rArr; SPILib_MHW_PollMode_WriteAndReadByte &rArr; SPI_MHW_PollMode_WriteAndReadByte
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPILib_MHW_PollMode_WriteAndReadByte
 </UL>
@@ -1224,7 +1222,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADS1256_SPI_SW_SendCmd
 </UL>
 
-<P><STRONG><a name="[c7]"></a>SPI_DeInit</STRONG> (Thumb, 198 bytes, Stack size 40 bytes, spi_cfg.o(.text.SPI_DeInit))
+<P><STRONG><a name="[c7]"></a>SPI_DeInit</STRONG> (Thumb, 196 bytes, Stack size 40 bytes, spi_cfg.o(.text.SPI_DeInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = SPI_DeInit &rArr; LL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_Init
@@ -1251,7 +1249,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPILib_MHW_PollMode_Init
 </UL>
 
-<P><STRONG><a name="[cd]"></a>SPI_MHW_PollMode_WriteAndReadByte</STRONG> (Thumb, 206 bytes, Stack size 32 bytes, spi_cfg.o(.text.SPI_MHW_PollMode_WriteAndReadByte))
+<P><STRONG><a name="[cd]"></a>SPI_MHW_PollMode_WriteAndReadByte</STRONG> (Thumb, 134 bytes, Stack size 32 bytes, spi_cfg.o(.text.SPI_MHW_PollMode_WriteAndReadByte))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = SPI_MHW_PollMode_WriteAndReadByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPILib_MHW_PollMode_WriteAndReadByte
@@ -1454,8 +1452,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickLib_WaitusTick
 </UL>
 
-<P><STRONG><a name="[e9]"></a>SystemClock_Config</STRONG> (Thumb, 472 bytes, Stack size 8 bytes, main.o(.text.SystemClock_Config))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SystemClock_Config
+<P><STRONG><a name="[e9]"></a>SystemClock_Config</STRONG> (Thumb, 492 bytes, Stack size 24 bytes, main.o(.text.SystemClock_Config))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = SystemClock_Config
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_Error_Handler
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_SetSystemCoreClock
@@ -1713,11 +1711,10 @@ Global Symbols
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftWatch
 </UL>
 
-<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 352 bytes, Stack size 16 bytes, main.o(.text.main))
+<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 344 bytes, Stack size 16 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = main &rArr; ADS1256Task_SPI_Init &rArr; ADS1256Lib_SPI_Init &rArr; ADS1256_SPI_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DelayTask_ms
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADS1256_SPI_AutoReadChannelResult
+<BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADS1256_SPI_AutoReadChannelResult
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_Init
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_FillMode_WriteSTART
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_FillMode_Init
