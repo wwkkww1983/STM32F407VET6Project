@@ -1,5 +1,7 @@
 #include "main.h"
 
+UINT8_T ads8688Tem[2] = {0};
+
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：系统时钟的配置
@@ -122,7 +124,7 @@ void NVIC_Init(void)
 //////////////////////////////////////////////////////////////////////////////
 void Sys_Init(void)
 {
-    UINT8_T id=0;
+    //UINT8_T id=0;
     
 	//---系统时钟的初始化
 	SystemClock_Config();
@@ -144,29 +146,20 @@ void Sys_Init(void)
 
 	//---CRC校验初始化
 	CRCTask_Init();
-
-    ADS1256Task_SPI_Init(pADS1256Device0,DelayTask_us,DelayTask_ms,SysTickTask_GetTick,0);
 	
-   // ADS1256_SPI_SoftReset(pADS1256Device0);
-   // 
-   // ADS1256_SPI_ReadDRate(pADS1256Device0,&id);
-   // 
-   // ADS1256_SPI_SetDRate(pADS1256Device0,ADS1256_DRATE_500SPS);
-   // 
-   //// ADS1256_SPI_SetDRate(pADS1256Device0,ADS1256_DRATE_5SPS);
-   // 
-   // ADS1256_SPI_ReadChipID(pADS1256Device0,&id);
-   // 
-   // ADS1256_SPI_ReadDRate(pADS1256Device0,&id);
-   // 
-   // DelayTask_ms(10);
-   // 
-   // ADS1256_SPI_SetDRate(pADS1256Device0,ADS1256_DRATE_1000SPS);
-   // 
-   // ADS1256_SPI_ReadDRate(pADS1256Device0,&id);
-    
-    
-    //---初始化定时器
+	//---指示灯的初始化
+	LEDTask_Init();
+	
+	//---DAC的初始化
+	DACTask_Init();
+	DACTask_DAC_WriteVoltageMV(0);
+	
+	//---ADS8688的初始化
+	//ADS868X_SPI_Init(pADS868XDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick, 1);
+	//---ADS8698的初始化
+	ADS869X_SPI_Init(pADS869XDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick, 1);
+	
+	//---初始化定时器
 	//TimerTask_Init();
 	//---ADC初始化
 	//ADCTask_ADC_Init();
@@ -188,73 +181,67 @@ void Sys_Init(void)
 int main(void)
 {
 	UINT8_T ch = 0;
+	UINT16_T cnt = 0;
 	//---系统初始化函数
 	Sys_Init();
 	//---主循环
 	while (1)
 	{
-		//USART_Printf(pUSART1, "\r\n开始时间:%d ms\r\n",SysTickTask_GetTick());
-		//---填充数据
-		USARTTask_FillMode_Init(pUSART1);
-		USARTTask_FillMode_AddByte(pUSART1, 0xAA);
-		USARTTask_FillMode_AddByte(pUSART1, 0x00);
-		for (ch=0;ch<8;ch++)
-		{
-			if (ch>3)
-			{
-				if (pADS1256Device0->msgChannelMode[ch] != 0x02)
-				{
-					ADS1256_SPI_AutoReadChannelResult(pADS1256Device0, ch);
-				}
-			}
-			else
-			{
-				ADS1256_SPI_AutoReadChannelResult(pADS1256Device0, ch);
-			}
-			//---ADC通道
-			USARTTask_FillMode_AddByte(pUSART1, (ch + 1));
-			if (pADS1256Device0->msgReady == 0)
-			{
-				if (pADS1256Device0->msgIsPositive[ch] != 0)
-				{
-					//USART_Printf(pUSART1, "ADC1SampleResult:%d\r\n", pADS1256Device0->msgChannelADCResult[0]);
-					//USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch+1), pADS1256Device0->msgChannelNowPowerResult[ch]);
-				}
-				//---数据是否有效
-				USARTTask_FillMode_AddByte(pUSART1, pADS1256Device0->msgIsPositive[ch]);
-			}
-			else
-			{
-				USARTTask_FillMode_AddByte(pUSART1, 0);
-			}
-			//---填充采样结果
-			USARTTask_FillMode_AddByte(pUSART1, (UINT8_T)(pADS1256Device0->msgChannelNowPowerResult[ch] >> 16));
-			USARTTask_FillMode_AddByte(pUSART1, (UINT8_T)(pADS1256Device0->msgChannelNowPowerResult[ch] >> 8));
-			USARTTask_FillMode_AddByte(pUSART1, (UINT8_T)(pADS1256Device0->msgChannelNowPowerResult[ch]));
-			pADS1256Device0->msgSPI.msgFuncDelayus(100);
-		}
-		//USART_Printf(pUSART1, "结束时间:%d ms\r\n", SysTickTask_GetTick());
-		//---启动发送
-		USARTTask_FillMode_WriteSTART(pUSART1, 1);
-		
-		//for (ch = 0; ch < 4; ch++)
-		//{
-
-		//	ADS1256_SPI_AutoReadChannelResult(pADS1256Device0, ch);
-		//	if (pADS1256Device0->msgReady == 0)
-		//	{
-		//		if (pADS1256Device0->msgIsPositive[ch] != 0)
-		//		{
-		//			//USART_Printf(pUSART1, "ADC1SampleResult:%d\r\n", pADS1256Device0->msgChannelADCResult[0]);
-		//			USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", ch+1, pADS1256Device0->msgChannelNowPowerResult[ch]);
-		//		}
-		//	}
-		//}
+		//ADS8688_SPI_WriteProgramReg(pADS8688Device0, ADS8688_PROG_REG_AUTO_SEQ_EN, 0xFF);
+		//ADS8688_SPI_ReadProgramReg(pADS8688Device0, ADS8688_PROG_REG_AUTO_SEQ_EN, &ads8688Tem[0]);
 		//DelayTask_ms(100);
+		//USART_Printf(pUSART1, "写入到SEQ_EN数据：%X \r\n", ads8688Tem[1]);
+		//ADS8688_SPI_WriteProgramReg(pADS8688Device0, ADS8688_PROG_REG_FEATURE_SELECT, 0x28);
+		//ADS8688_SPI_ReadProgramReg(pADS8688Device0, ADS8688_PROG_REG_FEATURE_SELECT, ads8688Tem);
+		//USART_Printf(pUSART1, "写入到FEATURE_SELECT数据：%X \r\n", ads8688Tem[1]);
+		//ADS868X_SPI_GetAutoRSTResult(pADS8688Device0, 8);
+		/*
+		ADS868X_SPI_GetAutoRSTNSampleResult(pADS868XDevice0, 8);
+		for (ch  = 0; ch < 8; ch++)
+		{
+			USART_Printf(pUSART1, "ADCSampleResult:%d\r\n", pADS868XDevice0->msgChannelNowADCResult[ch]);
+			USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch + 1), pADS868XDevice0->msgChannelPowerResult[ch]);
+		}
+		*/
+		//ADS8688_SPI_GetManualChannelResult(pADS8688Device0, ADS8688_CMD_REG_MAN_CH_0);
+		//USART_Printf(pUSART1, "采样次数:%d\r\n", cnt+1);
+		//ADS868X_SPI_GetManualChannelNSampleResult(pADS868XDevice0, ADS868X_CMD_REG_MAN_CH_0);
+		//ch = 0;
+		//USART_Printf(pUSART1, "数据格式:%d\r\n", pADS868XDevice0->msgIsPositive[ch]);
+		//USART_Printf(pUSART1, "ADCNowSampleResult:%d\r\n", pADS868XDevice0->msgChannelNowADCResult[ch]);
+		//USART_Printf(pUSART1, "ADCOldSampleResult:%d\r\n", pADS868XDevice0->msgChannelOldADCResult[ch]);
+		//USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch + 1), pADS868XDevice0->msgChannelPowerResult[ch]);
+
+		ADS869X_SPI_GetManualChannelNSampleResult(pADS869XDevice0, ADS869X_CMD_REG_MAN_CH_0);
+		ch = 0;
+		USART_Printf(pUSART1, "数据格式:%d\r\n", pADS869XDevice0->msgIsPositive[ch]);
+		USART_Printf(pUSART1, "ADCNowSampleResult:%d\r\n", pADS869XDevice0->msgChannelNowADCResult[ch]);
+		USART_Printf(pUSART1, "ADCOldSampleResult:%d\r\n", pADS869XDevice0->msgChannelOldADCResult[ch]);
+		USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch + 1), pADS869XDevice0->msgChannelPowerResult[ch]);
+		/*
+		ADS868X_SPI_GetManualChannelNSampleResult(pADS868XDevice0, ADS868X_CMD_REG_MAN_CH_1);
+		ch = 1;
+		USART_Printf(pUSART1, "数据格式:%d\r\n", pADS868XDevice0->msgIsPositive[ch]);
+		USART_Printf(pUSART1, "ADCNowSampleResult:%d\r\n", pADS868XDevice0->msgChannelNowADCResult[ch]);
+		USART_Printf(pUSART1, "ADCOldSampleResult:%d\r\n", pADS868XDevice0->msgChannelOldADCResult[ch]);
+		USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch + 1), pADS868XDevice0->msgChannelPowerResult[ch]);
+		
+		ADS868X_SPI_GetManualChannelNSampleResult(pADS868XDevice0, ADS868X_CMD_REG_MAN_CH_2);
+		ch = 2;
+		USART_Printf(pUSART1, "数据格式:%d\r\n", pADS868XDevice0->msgIsPositive[ch]);
+		USART_Printf(pUSART1, "ADCNowSampleResult:%d\r\n", pADS868XDevice0->msgChannelNowADCResult[ch]);
+		USART_Printf(pUSART1, "ADCOldSampleResult:%d\r\n", pADS868XDevice0->msgChannelOldADCResult[ch]);
+		USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch + 1), pADS868XDevice0->msgChannelPowerResult[ch]);*/
+		DelayTask_ms(300);
 		////---在线调试命令
 		//USARTTask_FuncTask(pUSART1,NULL);
 		//---模拟RTC处理
 		SysRTCTask_SoftBuildTask(pSysSoftRTC, SysTickTask_GetTick());
+		cnt++;
+		if (cnt>10000)
+		{
+			cnt = 0;
+		}
 		WDT_RESET();
 	}
 }

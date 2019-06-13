@@ -14,11 +14,11 @@ extern "C" {
 	//===ºê¶¨Òå
 	#define AD5593_A0								1
 	#if (AD5593_A0>0)
-	#define	AD5593_WADDR						0x22
-	#define AD5593_RADDR						0x23
+		#define	AD5593_WADDR						0x22
+		#define AD5593_RADDR						0x23
 	#else
-	#define	AD5593_WADDR						0x20
-	#define AD5593_RADDR						0z21
+		#define	AD5593_WADDR						0x20
+		#define AD5593_RADDR						0z21
 	#endif
 	
 	//===Pointer Byte Configuration

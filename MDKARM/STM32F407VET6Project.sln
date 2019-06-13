@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 16
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STM32F407VET6Project", "STM32F407VET6Project.vcxproj", "{5BDC3446-476B-BE0F-F089-D20ADCF7CEB5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		STM32F407VET6Project|Win32 = STM32F407VET6Project|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BDC3446-476B-BE0F-F089-D20ADCF7CEB5}.STM32F407VET6Project|Win32.ActiveCfg = STM32F407VET6Project|Win32
+		{5BDC3446-476B-BE0F-F089-D20ADCF7CEB5}.STM32F407VET6Project|Win32.Build.0 = STM32F407VET6Project|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -505,7 +505,7 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 				goto GoToExit;
 			}
 		#endif
-		//---先把一页写满，写入的字节数不小于3个字节
+		//---先第一页写满，写入的字节数不小于3个字节
 		if (pageByteNum != AT24CXXx->msgAT24CXXPageByte)
 		{
 			//---读取一页的数据
@@ -523,12 +523,13 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 			//---填充数据
 			for (i = 0; i < pageByteNum; i++)
 			{
+				//---填充数据到缓存区
 				#ifndef USE_GOBAL_RAM
 					pAT24CxxPageByteBuffer[i + byteIndexAddr] = *pVal;
 				#else
 					AT24CXXx->msgPageByteBuffer[i + byteIndexAddr] = *pVal;
 				#endif
-				//---地址偏移
+				//---地址偏移，使地址偏移到页的首地址
 				addr++;
 				//---数据偏移
 				pVal++;
@@ -541,6 +542,8 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 					break;
 				}
 			}
+			//---清零当前页中的字节偏移地址
+			byteIndexAddr = 0;
 			//---按页写入数据
 			#ifndef USE_GOBAL_RAM
 				_return = AT24CXX_SWI2C_WritePageByte(AT24CXXx, (pageIndexAddr * (AT24CXXx->msgAT24CXXPageByte)), pAT24CxxPageByteBuffer, AT24CXXx->msgAT24CXXPageByte);
@@ -558,7 +561,7 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 		//---写整页操作
 		//---计算要写入的页数
 		pageNum = length / AT24CXXx->msgAT24CXXPageByte;
-		//---计算不满页要写入的字节数
+		//---计算最后一页要写入的字节数
 		byteNum = length % AT24CXXx->msgAT24CXXPageByte;
 		//---判断是否需要页写入
 		if (pageNum != 0)
@@ -566,7 +569,7 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 			for (i = 0; i < pageNum; i++)
 			{
 				_return = AT24CXX_SWI2C_WritePageByte(AT24CXXx, addr, pVal, AT24CXXx->msgAT24CXXPageByte);
-				//---地址偏移
+				//---地址偏移，偏移到下次要写入的数据的页的首地址
 				addr += AT24CXXx->msgAT24CXXPageByte;
 				//---数据偏移
 				pVal += AT24CXXx->msgAT24CXXPageByte;
@@ -598,12 +601,13 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 			//---填充数据
 			for (i = 0; i < pageByteNum; i++)
 			{
+				//---填充数据到缓存区
 				#ifndef USE_GOBAL_RAM
-					pAT24CxxPageByteBuffer[i + byteIndexAddr] = *pVal;
+					pAT24CxxPageByteBuffer[i+byteIndexAddr] = *pVal;
 				#else
 					AT24CXXx->msgPageByteBuffer[i + byteIndexAddr] = *pVal;
 				#endif
-				//---地址偏移
+				//---地址偏移，此时已经是页的首地址了，不能值继续偏移了
 				//addr++;
 				//---数据偏移
 				pVal++;
@@ -617,11 +621,11 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 				}
 			}
 			//---按页写入数据
-		#ifndef USE_GOBAL_RAM
-			_return = AT24CXX_SWI2C_WritePageByte(AT24CXXx, addr, pAT24CxxPageByteBuffer, AT24CXXx->msgAT24CXXPageByte);
-		#else
-			_return = AT24CXX_SWI2C_WritePageByte(AT24CXXx, addr, AT24CXXx->msgPageByteBuffer, AT24CXXx->msgAT24CXXPageByte);
-		#endif
+			#ifndef USE_GOBAL_RAM
+				_return = AT24CXX_SWI2C_WritePageByte(AT24CXXx, addr, pAT24CxxPageByteBuffer, AT24CXXx->msgAT24CXXPageByte);
+			#else
+				_return = AT24CXX_SWI2C_WritePageByte(AT24CXXx, addr, AT24CXXx->msgPageByteBuffer, AT24CXXx->msgAT24CXXPageByte);
+			#endif
 			//---写入判断
 			if (_return != OK_0)
 			{
@@ -629,11 +633,11 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 				goto GoToExit;
 			}
 		}
-	#ifndef USE_GOBAL_RAM
-		GoToExit :
-		//---释放内存
-		MyFree(pAT24CxxPageByteBuffer);
-	#endif
+		#ifndef USE_GOBAL_RAM
+			GoToExit :
+			//---释放内存
+			MyFree(pAT24CxxPageByteBuffer);
+		#endif
 	}
 	#ifdef USE_GOBAL_RAM
 		GoToExit :

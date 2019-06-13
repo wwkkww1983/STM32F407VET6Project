@@ -21,20 +21,20 @@ extern "C" {
 	
 	//===配置设备ID的索引
 	#if (USART1_DEVICE_ID!=0)
-	#define	USART1_DEVICE_ID_INDEX				1
+		#define	USART1_DEVICE_ID_INDEX				1
 	#else
-	#define	USART1_DEVICE_ID_INDEX				0
+		#define	USART1_DEVICE_ID_INDEX				0
 	#endif
 	
 	//===定义了CRC使用的最大缓存区,这样便于更换CRC校验的格式
 	#if defined(USE_CRC32)
-	#define USART1_RX_MAX_SIZE						( USART1_RX_BASE_SIZE+4 )
+		#define USART1_RX_MAX_SIZE						( USART1_RX_BASE_SIZE+4 )
 	#elif defined(USE_CRC16)
-	#define USART1_RX_MAX_SIZE						( USART1_RX_BASE_SIZE+2 )
+		#define USART1_RX_MAX_SIZE						( USART1_RX_BASE_SIZE+2 )
 	#elif defined(USE_CRC8)||defined(USE_CHECKSUM)
-	#define USART1_RX_MAX_SIZE						( USART1_RX_BASE_SIZE+1 )
+		#define USART1_RX_MAX_SIZE						( USART1_RX_BASE_SIZE+1 )
 	#else
-	#define USART1_RX_MAX_SIZE						( USART1_RX_BASE_SIZE )
+		#define USART1_RX_MAX_SIZE						( USART1_RX_BASE_SIZE )
 	#endif
 	
 	//===定义了CRC使用的最大缓存区,这样便于更换CRC校验的格式

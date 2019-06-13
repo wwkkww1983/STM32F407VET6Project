@@ -395,7 +395,7 @@ extern "C" {
 		UINT8_T month;								//---月
 		UINT8_T year;								//---年
 		UINT8_T century;							//---世纪
-		UINT8_T time24H;							//---24H格式。0---12小时；1---24小时
+		UINT8_T time24H;                            //---24H格式。0---12小时；1---24小时
 		UINT32_T secondTick;						//---秒变化的记录
 	};
 
@@ -417,7 +417,7 @@ extern "C" {
 			}bool;
 	#endif
 	
-	//===两个数据比较大小
+    //===两个数据比较大小
 	#define MAX(a,b)								( (a) > (b) ? (a) : (b) )
 	#define MIN(a,b)								( (a) < (b) ? (a) : (b) )
 	//===判断一个数据是不是奇数

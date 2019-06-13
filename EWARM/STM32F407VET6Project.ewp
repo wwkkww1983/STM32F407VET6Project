@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.32.1.18618</state>
+                    <state>8.32.4.20866</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -116,7 +116,7 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-                    <version>26</version>
+                    <version>27</version>
                     <state>39</state>
                 </option>
                 <option>
@@ -133,7 +133,7 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-                    <version>26</version>
+                    <version>27</version>
                     <state>39</state>
                 </option>
                 <option>
@@ -156,7 +156,7 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-                    <version>26</version>
+                    <version>27</version>
                     <state>39</state>
                 </option>
                 <option>
@@ -267,7 +267,7 @@
                 </option>
                 <option>
                     <name>CCDiagSuppress</name>
-                    <state>Pa182</state>
+                    <state>Pa182,Pa082,Pe177</state>
                 </option>
                 <option>
                     <name>CCDiagRemark</name>
@@ -407,6 +407,9 @@
                     <state>$PROJ_DIR$\..\Application\RTC</state>
                     <state>$PROJ_DIR$\..\Application\MyMalloc</state>
                     <state>$PROJ_DIR$\..\Application\HMC472</state>
+                    <state>$PROJ_DIR$\..\Application\ADS868x</state>
+                    <state>$PROJ_DIR$\..\Application\ADS869x</state>
+                    <state>$PROJ_DIR$\..\Application\DAC</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1159,24 +1162,45 @@
             </file>
         </group>
         <group>
-            <name>ADS8688</name>
+            <name>ADS868x</name>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS8688\ads8688_cfg.c</name>
+                <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_cfg.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS8688\ads8688_cfg.h</name>
+                <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_cfg.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS8688\ads8688_lib.c</name>
+                <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_lib.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS8688\ads8688_lib.h</name>
+                <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_lib.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS8688\ads8688_task.c</name>
+                <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_task.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS8688\ads8688_task.h</name>
+                <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>ADS869x</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_task.h</name>
             </file>
         </group>
         <group>
@@ -1273,6 +1297,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\CSS\css_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>DAC</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DAC\dac_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DAC\dac_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DAC\dac_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DAC\dac_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DAC\dac_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DAC\dac_task.h</name>
             </file>
         </group>
         <group>
@@ -2157,7 +2202,7 @@
         <group>
             <name>EWARM</name>
             <file>
-                <name>$PROJ_DIR$\..\STARTUP\EWARM\startup_stm32f407xx.s</name>
+                <name>$PROJ_DIR$\..\STARTUP\EWARM\STM32F4\startup_stm32f407xx.s</name>
             </file>
         </group>
     </group>

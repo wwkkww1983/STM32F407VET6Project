@@ -5,13 +5,10 @@
 extern "C" {
 #endif
 	//////////////////////////////////////////////////////////////////////////////////////
-	//===头文件定义
-#include "complier_lib.h"
-#ifdef USE_MCU_STM32
-#include "gpio_task.h"
-#endif
-#include "crc_task.h"
-
+	#include "complier_lib.h"
+	#include "gpio_task.h"
+	#include "crc_task.h"
+	//////////////////////////////////////////////////////////////////////////////////////
 	typedef struct _USART_HandlerType						USART_HandlerType;
 	typedef struct _USART_HandlerType						* pUSART_HandlerType;
 
@@ -47,9 +44,9 @@ extern "C" {
 	};
 
 	//===传输过程中判断判断是否需要初始化GPIO
-#define  USART_INIT_GPIO
+	#define  USART_INIT_GPIO
 
-//===串口数据定义
+	//===串口数据定义
 	struct _USART_HandlerType
 	{
 		UINT8_T								msgIndex;			//---USART端口的索引号
@@ -168,7 +165,7 @@ extern "C" {
 	UINT8_T  USART_ClearWriteState(USART_HandlerType* USARTx);
 	UINT8_T  USART_ReadInit(USART_HandlerType*  USARTx);
 	UINT8_T  USART_WriteInit(USART_HandlerType*  USARTx);
-	UINT8_T USART_DeviceID(USART_HandlerType*USARTx);
+	UINT8_T  USART_DeviceID(USART_HandlerType*USARTx);
 	void     USART_Printf(USART_HandlerType*USARTx, char*fmt, ...);
 	void	 USART_PrintfClockFreq(USART_HandlerType*USARTx);
 	UINT8_T  USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable);

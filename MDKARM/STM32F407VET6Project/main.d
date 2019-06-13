@@ -72,9 +72,14 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\ADS1256\ads1256_cfg.h ..\Application\SPI\spi_task.h \
   ..\Application\SPI\spi_lib.h ..\Application\SPI\spi_cfg.h \
   ..\Application\ADS1256\ads1256_cfg.h \
-  ..\Application\ADS8688\ads8688_task.h \
-  ..\Application\ADS8688\ads8688_lib.h \
-  ..\Application\ADS8688\ads8688_cfg.h \
+  ..\Application\ADS868x\ads868x_task.h \
+  ..\Application\ADS868x\ADS868X_lib.h \
+  ..\Application\ADS868x\ADS868X_cfg.h \
+  ..\Application\ADS868x\ads868x_cfg.h \
+  ..\Application\ADS869x\ads869x_task.h \
+  ..\Application\ADS869x\ADS869X_lib.h \
+  ..\Application\ADS869x\ADS869X_cfg.h \
+  ..\Application\ADS869x\ads869x_cfg.h \
   ..\Application\AT24Cxx\at24cxx_task.h \
   ..\Application\AT24Cxx\at24cxx_lib.h \
   ..\Application\AT24Cxx\at24cxx_cfg.h \
@@ -83,21 +88,23 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\CRC\crc_task.h ..\Application\CRC\crc_lib.h \
   ..\Application\CRC\crc_cfg.h ..\Application\CSS\css_task.h \
   ..\Application\CSS\css_lib.h ..\Application\CSS\css_cfg.h \
-  ..\Application\Decode\decode_task.h ..\Application\Decode\decode_lib.h \
-  ..\Application\Decode\decode_cfg.h ..\Application\Timer\timer_task.h \
-  ..\Application\Timer\timer_lib.h ..\Application\Timer\timer_cfg.h \
-  ..\Application\RFASKHW\rfaskhw_cfg.h ..\Application\RFASK\rfask_task.h \
-  ..\Application\RFASK\rfask_lib.h ..\Application\RFASK\rfask_cfg.h \
-  ..\Application\WM8510\wm8510_task.h ..\Application\WM8510\wm8510_lib.h \
-  ..\Application\WM8510\wm8510_cfg.h ..\Application\USART\usart_task.h \
-  ..\Application\USART\usart_lib.h ..\Application\USART\usart_cfg.h \
-  ..\Application\Power\power_task.h ..\Application\Power\power_lib.h \
-  ..\Application\Power\power_cfg.h ..\Application\LED\led_task.h \
-  ..\Application\LED\led_lib.h ..\Application\LED\led_cfg.h \
-  ..\Application\Key\key_task.h ..\Application\Key\key_lib.h \
-  ..\Application\Key\key_cfg.h ..\Application\RFASK\rfask_eeprom.h \
-  ..\Application\DHT11\dht11_task.h ..\Application\DHT11\dht11_lib.h \
-  ..\Application\DHT11\dht11_cfg.h ..\Application\DS18B20\ds18b20_task.h \
+  ..\Application\DAC\dac_task.h ..\Application\DAC\dac_lib.h \
+  ..\Application\DAC\dac_cfg.h ..\Application\Decode\decode_task.h \
+  ..\Application\Decode\decode_lib.h ..\Application\Decode\decode_cfg.h \
+  ..\Application\Timer\timer_task.h ..\Application\Timer\timer_lib.h \
+  ..\Application\Timer\timer_cfg.h ..\Application\RFASKHW\rfaskhw_cfg.h \
+  ..\Application\RFASK\rfask_task.h ..\Application\RFASK\rfask_lib.h \
+  ..\Application\RFASK\rfask_cfg.h ..\Application\WM8510\wm8510_task.h \
+  ..\Application\WM8510\wm8510_lib.h ..\Application\WM8510\wm8510_cfg.h \
+  ..\Application\USART\usart_task.h ..\Application\USART\usart_lib.h \
+  ..\Application\USART\usart_cfg.h ..\Application\Power\power_task.h \
+  ..\Application\Power\power_lib.h ..\Application\Power\power_cfg.h \
+  ..\Application\LED\led_task.h ..\Application\LED\led_lib.h \
+  ..\Application\LED\led_cfg.h ..\Application\Key\key_task.h \
+  ..\Application\Key\key_lib.h ..\Application\Key\key_cfg.h \
+  ..\Application\RFASK\rfask_eeprom.h ..\Application\DHT11\dht11_task.h \
+  ..\Application\DHT11\dht11_lib.h ..\Application\DHT11\dht11_cfg.h \
+  ..\Application\DS18B20\ds18b20_task.h \
   ..\Application\DS18B20\ds18b20_lib.h \
   ..\Application\DS18B20\ds18b20_cfg.h \
   ..\Application\OneWire\one_wire_task.h \

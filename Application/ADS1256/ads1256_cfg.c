@@ -208,6 +208,11 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 	SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;	//---硬件CRC不使能
 	SPI_InitStruct.CRCPoly = 7;
 
+	//---ADS1256的SPI的最高时钟为输入时钟的四分之一，因此SPI的时钟不能过快，否则容易通讯失败
+	if (SPI_InitStruct.BaudRate< LL_SPI_BAUDRATEPRESCALER_DIV256)
+	{
+		SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV256;
+	}
 	//---初始化查询方式的SPI
 	SPITask_MHW_PollMode_Init(&(ADS1256x->msgSPI), SPI_InitStruct);
 
@@ -236,6 +241,12 @@ UINT8_T ADS1256_SPI_SW_Init(ADS1256_HandlerType *ADS1256x)
 	else
 	{
 		GPIO_OUT_1(ADS1256x->msgSPI.msgSCK.msgGPIOPort, ADS1256x->msgSPI.msgSCK.msgGPIOBit);
+	}
+
+	//---ADS1256的SPI的最高时钟为输入时钟的四分之一，因此SPI的时钟不能过快，否则容易通讯失败
+	if (ADS1256x->msgSPI.msgPluseWidth < 1)
+	{
+		ADS1256x->msgSPI.msgPluseWidth = 1;
 	}
 
 	return OK_0;
@@ -306,17 +317,7 @@ UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT
 	ADS1256x->msgSPI.msgFuncTimeTick = pFuncTimerTick;
 	//---获取当前的系统时间
 	ADS1256x->msgNowTime = ADS1256x->msgSPI.msgFuncTimeTick();
-
-	//---ADS1256的SPI的最高时钟为输入时钟的四分之一，因此SPI的时钟不能过快，否则容易通讯失败
-	#if defined(USE_MCU_STM32F4)
-		if (ADS1256x->msgSPI.msgPluseWidth < 1)
-		{
-			ADS1256x->msgSPI.msgPluseWidth = 1;
-		}
-	#else
-		#error "SPI的时钟配置错误!官方推荐小于于1.92MHz!"
-	#endif
-
+	
 	//---配置默认参数
 	return ADS1256_SPI_ConfigInit(ADS1256x);
 

@@ -146,7 +146,7 @@ extern "C" {
 	//===Buffer开启最大采集电压
 	#define ADS1256_BUFFER_ON_SAMPLE_RANGE_MV			( ADS1256_BUFFER_OFF_SAMPLE_RANGE_MV-2000)
 	//===最大采集电压
-	#define	ADS1256_GAIN_1_FULL_RANGE_UV				4760000
+	#define	ADS1256_GAIN_1_FULL_RANGE_UV				5000000
 	//===最大采集电压
 	#define	ADS1256_GAIN_2_FULL_RANGE_UV				(2500000)
 	//===最大采集电压

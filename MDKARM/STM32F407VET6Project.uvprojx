@@ -313,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>3</Optim>
+            <Optim>0</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -339,7 +339,7 @@
               <MiscControls>-fgnu</MiscControls>
               <Define>USE_FULL_LL_DRIVER,USE_HAL_DRIVER,STM32F407xx,HSE_VALUE=8000000UL</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Complier;..\Doc;..\STM32F4xx;..\STARTUP\MDKARM;../Drivers/CMSIS/Include;../Drivers/STM32F4xx_HAL_Driver/Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\USART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS8688;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc</IncludePath>
+              <IncludePath>..\Complier;..\Doc;..\STM32F4xx;..\STARTUP\MDKARM;../Drivers/CMSIS/Include;../Drivers/STM32F4xx_HAL_Driver/Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\USART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS868x;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc;..\Application\ADS869x;..\Application\DAC</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -716,7 +716,7 @@
             <File>
               <FileName>startup_stm32f407xx.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\STARTUP\MDKARM\startup_stm32f407xx.s</FilePath>
+              <FilePath>..\STARTUP\MDKARM\STM32F4\startup_stm32f407xx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -826,37 +826,72 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Application/ADS8688</GroupName>
+          <GroupName>Application/ADS868x</GroupName>
           <Files>
             <File>
-              <FileName>ads8688_cfg.c</FileName>
+              <FileName>ads868x_cfg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Application\ADS8688\ads8688_cfg.c</FilePath>
+              <FilePath>..\Application\ADS868x\ads868x_cfg.c</FilePath>
             </File>
             <File>
-              <FileName>ads8688_cfg.h</FileName>
+              <FileName>ads868x_cfg.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Application\ADS8688\ads8688_cfg.h</FilePath>
+              <FilePath>..\Application\ADS868x\ads868x_cfg.h</FilePath>
             </File>
             <File>
-              <FileName>ads8688_lib.c</FileName>
+              <FileName>ads868x_lib.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Application\ADS8688\ads8688_lib.c</FilePath>
+              <FilePath>..\Application\ADS868x\ads868x_lib.c</FilePath>
             </File>
             <File>
-              <FileName>ads8688_lib.h</FileName>
+              <FileName>ads868x_lib.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Application\ADS8688\ads8688_lib.h</FilePath>
+              <FilePath>..\Application\ADS868x\ads868x_lib.h</FilePath>
             </File>
             <File>
-              <FileName>ads8688_task.c</FileName>
+              <FileName>ads868x_task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Application\ADS8688\ads8688_task.c</FilePath>
+              <FilePath>..\Application\ADS868x\ads868x_task.c</FilePath>
             </File>
             <File>
-              <FileName>ads8688_task.h</FileName>
+              <FileName>ads868x_task.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Application\ADS8688\ads8688_task.h</FilePath>
+              <FilePath>..\Application\ADS868x\ads868x_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/ADS869x</GroupName>
+          <Files>
+            <File>
+              <FileName>ads869x_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ADS869x\ads869x_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>ads869x_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ADS869x\ads869x_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>ads869x_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ADS869x\ads869x_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>ads869x_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ADS869x\ads869x_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>ads869x_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ADS869x\ads869x_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>ads869x_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ADS869x\ads869x_task.h</FilePath>
             </File>
           </Files>
         </Group>

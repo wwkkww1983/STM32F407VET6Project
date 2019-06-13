@@ -13,8 +13,11 @@
     <Filter Include="Application\ADS1256">
       <UniqueIdentifier>{0EA12ADF-7A02-08ED-0370-4E9F6FD03EAC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\ADS8688">
-      <UniqueIdentifier>{1E892EDF-8AEA-0BED-1358-529F7FB842AC}</UniqueIdentifier>
+    <Filter Include="Application\ADS868x">
+      <UniqueIdentifier>{5E892EDF-CAEA-0BED-5358-529FBFB842AC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\ADS869x">
+      <UniqueIdentifier>{7F892EDF-EBEA-0BED-7458-529FE0B842AC}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\APP">
       <UniqueIdentifier>{4988296C-B513-9730-BE24-1A252A2FF330}</UniqueIdentifier>
@@ -30,6 +33,9 @@
     </Filter>
     <Filter Include="Application\CSS">
       <UniqueIdentifier>{3191296C-9D1C-9730-A62D-1A251238F330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\DAC">
+      <UniqueIdentifier>{1093296C-7C1E-9730-852F-1A25F139F330}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\DHT11">
       <UniqueIdentifier>{8ABCDE1C-F6D2-DCB2-3F4A-68D4AB9FAD3A}</UniqueIdentifier>
@@ -195,14 +201,23 @@
     <ClInclude Include="..\Application\ADS1256\ads1256_task.h">
       <Filter>Application\ADS1256</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\ADS8688\ads8688_cfg.h">
-      <Filter>Application\ADS8688</Filter>
+    <ClInclude Include="..\Application\ADS868x\ads868x_cfg.h">
+      <Filter>Application\ADS868x</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\ADS8688\ads8688_lib.h">
-      <Filter>Application\ADS8688</Filter>
+    <ClInclude Include="..\Application\ADS868x\ads868x_lib.h">
+      <Filter>Application\ADS868x</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\ADS8688\ads8688_task.h">
-      <Filter>Application\ADS8688</Filter>
+    <ClInclude Include="..\Application\ADS868x\ads868x_task.h">
+      <Filter>Application\ADS868x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ADS869x\ads869x_cfg.h">
+      <Filter>Application\ADS869x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ADS869x\ads869x_lib.h">
+      <Filter>Application\ADS869x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ADS869x\ads869x_task.h">
+      <Filter>Application\ADS869x</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\APP\config.h">
       <Filter>Application\APP</Filter>
@@ -245,6 +260,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\CSS\css_task.h">
       <Filter>Application\CSS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\DAC\dac_cfg.h">
+      <Filter>Application\DAC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\DAC\dac_lib.h">
+      <Filter>Application\DAC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\DAC\dac_task.h">
+      <Filter>Application\DAC</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\DHT11\dht11_cfg.h">
       <Filter>Application\DHT11</Filter>
@@ -466,6 +490,9 @@
       <Filter>Application\Power</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\RFASK\rfask_cfg.h">
+      <Filter>Application\RFASK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\RFASK\rfask_eeprom.h">
       <Filter>Application\RFASK</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\RFASK\rfask_lib.h">
@@ -707,14 +734,23 @@
     <ClCompile Include="..\Application\ADS1256\ads1256_task.c">
       <Filter>Application\ADS1256</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\ADS8688\ads8688_cfg.c">
-      <Filter>Application\ADS8688</Filter>
+    <ClCompile Include="..\Application\ADS868x\ads868x_cfg.c">
+      <Filter>Application\ADS868x</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\ADS8688\ads8688_lib.c">
-      <Filter>Application\ADS8688</Filter>
+    <ClCompile Include="..\Application\ADS868x\ads868x_lib.c">
+      <Filter>Application\ADS868x</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\ADS8688\ads8688_task.c">
-      <Filter>Application\ADS8688</Filter>
+    <ClCompile Include="..\Application\ADS868x\ads868x_task.c">
+      <Filter>Application\ADS868x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ADS869x\ads869x_cfg.c">
+      <Filter>Application\ADS869x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ADS869x\ads869x_lib.c">
+      <Filter>Application\ADS869x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ADS869x\ads869x_task.c">
+      <Filter>Application\ADS869x</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\APP\main.c">
       <Filter>Application\APP</Filter>
@@ -754,6 +790,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\CSS\css_task.c">
       <Filter>Application\CSS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\DAC\dac_cfg.c">
+      <Filter>Application\DAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\DAC\dac_lib.c">
+      <Filter>Application\DAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\DAC\dac_task.c">
+      <Filter>Application\DAC</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\DHT11\dht11_cfg.c">
       <Filter>Application\DHT11</Filter>
@@ -977,6 +1022,9 @@
     <ClCompile Include="..\Application\RFASK\rfask_cfg.c">
       <Filter>Application\RFASK</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\RFASK\rfask_eeprom.c">
+      <Filter>Application\RFASK</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\RFASK\rfask_lib.c">
       <Filter>Application\RFASK</Filter>
     </ClCompile>
@@ -1154,7 +1202,7 @@
     <ClCompile Include="..\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_utils.c">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClCompile>
-    <ClCompile Include="..\STARTUP\MDKARM\startup_stm32f407xx.s">
+    <ClCompile Include="..\STARTUP\MDKARM\STM32F4\startup_stm32f407xx.s">
       <Filter>STARTUP\MDKARM</Filter>
     </ClCompile>
     <ClCompile Include="..\STM32F4xx\stm32_cfg.c">
