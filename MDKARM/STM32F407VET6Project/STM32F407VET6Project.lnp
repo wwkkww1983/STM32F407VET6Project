@@ -99,6 +99,7 @@
 "stm32f407vet6project\iwdg_cfg.o"
 "stm32f407vet6project\iwdg_lib.o"
 "stm32f407vet6project\iwdg_task.o"
+"stm32f407vet6project\kalman_filter.o"
 "stm32f407vet6project\key_cfg.o"
 "stm32f407vet6project\key_lib.o"
 "stm32f407vet6project\key_task.o"

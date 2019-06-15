@@ -1139,6 +1139,62 @@ UINT8_T ADS869X_SPI_GetAutoRSTNSampleResult(ADS869X_HandlerType* ADS869xx, UINT8
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功	    能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS869X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS869X_HandlerType* ADS869xx, UINT8_T chNum)
+{
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	UINT8_T j = 0;
+	UINT8_T rstMode = ADS869xx->msgAutoSeqEn;
+	//---保存采样结果
+	UINT32_T adcSampleTemp[ADS869X_CHANNEL_MAX][ADS869X_N_SAMPLE_COUNT] = { 0 };
+	//---卡尔曼结构
+	KalmanOneFilter_HandlerType kalmanFilterX;
+	//---获取采样结果
+	for (i = 0; i < ADS869X_N_SAMPLE_COUNT; i++)
+	{
+		//---获取采样结果
+		_return = ADS869X_SPI_GetAutoRSTResult(ADS869xx, chNum);
+		//---采样数据搬移
+		for (j = 0; j < ADS869X_CHANNEL_MAX; j++)
+		{
+			adcSampleTemp[j][i] = ADS869xx->msgChannelNowADCResult[j];
+		}
+		//---校验数据
+		if (_return != OK_0)
+		{
+			break;
+		}
+	}
+	if (_return == OK_0)
+	{
+		//---采样数据搬移
+		for (j = 0; j < ADS869X_CHANNEL_MAX; j++)
+		{
+			//---判断是否使能自动RST扫描功能
+			if (rstMode & 0x01)
+			{
+				KalmanOneFilter_Init(&kalmanFilterX, adcSampleTemp[j][0], 5e2);
+				for (i = 1; i < ADS869X_N_SAMPLE_COUNT; i++)
+				{
+					//---卡尔曼滤波之后的结果
+					ADS869xx->msgChannelNowADCResult[j] = KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[j][i]);
+				}
+				//---计算采样的电压值
+				ADS869X_SPI_CalcChannelPower(ADS869xx, j, 0);
+			}
+			rstMode >>= 1;
+		}
+	}
+	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功	    能：获取收到扫描通道的值
 //////输入参数:
 //////输出参数:
@@ -1222,6 +1278,47 @@ UINT8_T ADS869X_SPI_GetManualChannelNSampleResult(ADS869X_HandlerType* ADS869xx,
 		ADS869xx->msgChannelNowADCResult[adcChannelIndex] = CalcAvgFun5(adcSampleTemp, (ADS869X_N_SAMPLE_COUNT - 4), 4);
 		//---计算采样的电压值
 		ADS869X_SPI_CalcChannelPower(ADS869xx, adcChannelIndex,1);
+	}
+	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功	    能：卡尔曼滤波方式计算数据
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS869X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS869X_HandlerType* ADS869xx, UINT16_T manualChannel)
+{
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	//---保存采样结果
+	UINT32_T adcSampleTemp[ADS869X_N_SAMPLE_COUNT] = { 0 };
+	//---获取ADC采样通道的序号
+	UINT8_T adcChannelIndex = (UINT8_T)(manualChannel >> 10) & 0x0F;
+	//---卡尔曼结构
+	KalmanOneFilter_HandlerType kalmanFilterX;
+	//---获取采样结果
+	for (i = 0; i < ADS869X_N_SAMPLE_COUNT; i++)
+	{
+		_return = ADS869X_SPI_GetManualChannelResult(ADS869xx, manualChannel);
+		adcSampleTemp[i] = ADS869xx->msgChannelNowADCResult[adcChannelIndex];
+		if (_return != OK_0)
+		{
+			break;
+		}
+	}
+	if (_return == OK_0)
+	{
+		KalmanOneFilter_Init(&kalmanFilterX, adcSampleTemp[0], 5e2);
+		for (i=1;i< ADS869X_N_SAMPLE_COUNT; i++)
+		{
+			//---卡尔曼滤波之后的结果
+			ADS869xx->msgChannelNowADCResult[adcChannelIndex] = KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[i]);
+		}
+		//---计算采样的电压值
+		ADS869X_SPI_CalcChannelPower(ADS869xx, adcChannelIndex, 1);
 	}
 	return _return;
 }

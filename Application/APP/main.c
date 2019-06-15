@@ -152,7 +152,7 @@ void Sys_Init(void)
 	
 	//---DAC的初始化
 	DACTask_Init();
-	DACTask_DAC_WriteVoltageMV(0);
+	DACTask_DAC_WriteVoltageMV(100);
 	
 	//---ADS8688的初始化
 	//ADS868X_SPI_Init(pADS868XDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick, 1);
@@ -211,8 +211,18 @@ int main(void)
 		//USART_Printf(pUSART1, "ADCNowSampleResult:%d\r\n", pADS868XDevice0->msgChannelNowADCResult[ch]);
 		//USART_Printf(pUSART1, "ADCOldSampleResult:%d\r\n", pADS868XDevice0->msgChannelOldADCResult[ch]);
 		//USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch + 1), pADS868XDevice0->msgChannelPowerResult[ch]);
-
+		USART_Printf(pUSART1, "平均求和的采样结果\r\n");
 		ADS869X_SPI_GetManualChannelNSampleResult(pADS869XDevice0, ADS869X_CMD_REG_MAN_CH_0);
+		//ADS869X_SPI_KalmanFilterGetManualChannelNSampleResult(pADS869XDevice0, ADS869X_CMD_REG_MAN_CH_0);
+		ch = 0;
+		USART_Printf(pUSART1, "数据格式:%d\r\n", pADS869XDevice0->msgIsPositive[ch]);
+		USART_Printf(pUSART1, "ADCNowSampleResult:%d\r\n", pADS869XDevice0->msgChannelNowADCResult[ch]);
+		USART_Printf(pUSART1, "ADCOldSampleResult:%d\r\n", pADS869XDevice0->msgChannelOldADCResult[ch]);
+		USART_Printf(pUSART1, "通道%d电压:%7duV\r\n", (ch + 1), pADS869XDevice0->msgChannelPowerResult[ch]);
+
+		USART_Printf(pUSART1, "卡尔曼滤波的采样结果\r\n");
+		//ADS869X_SPI_GetManualChannelNSampleResult(pADS869XDevice0, ADS869X_CMD_REG_MAN_CH_0);
+		ADS869X_SPI_KalmanFilterGetManualChannelNSampleResult(pADS869XDevice0, ADS869X_CMD_REG_MAN_CH_0);
 		ch = 0;
 		USART_Printf(pUSART1, "数据格式:%d\r\n", pADS869XDevice0->msgIsPositive[ch]);
 		USART_Printf(pUSART1, "ADCNowSampleResult:%d\r\n", pADS869XDevice0->msgChannelNowADCResult[ch]);

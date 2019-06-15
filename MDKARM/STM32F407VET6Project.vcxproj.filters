@@ -79,6 +79,9 @@
     <Filter Include="Application\IWDG">
       <UniqueIdentifier>{F3105FF1-DF09-7E43-083C-63C8F4935D4F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\KalmanFilter">
+      <UniqueIdentifier>{82B79D00-6EDC-EC80-9727-D21083ABEB9E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\Key">
       <UniqueIdentifier>{B1B5296C-1D41-9730-2652-1A25925CF330}</UniqueIdentifier>
     </Filter>
@@ -395,6 +398,9 @@
     </ClInclude>
     <ClInclude Include="..\Application\IWDG\iwdg_task.h">
       <Filter>Application\IWDG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\KalmanFilter\kalman_filter.h">
+      <Filter>Application\KalmanFilter</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\Key\key_cfg.h">
       <Filter>Application\Key</Filter>
@@ -925,6 +931,9 @@
     </ClCompile>
     <ClCompile Include="..\Application\IWDG\iwdg_task.c">
       <Filter>Application\IWDG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\KalmanFilter\kalman_filter.c">
+      <Filter>Application\KalmanFilter</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\Key\key_cfg.c">
       <Filter>Application\Key</Filter>

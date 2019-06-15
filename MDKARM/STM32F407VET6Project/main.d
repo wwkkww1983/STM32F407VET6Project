@@ -75,6 +75,7 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\ADS868x\ads868x_task.h \
   ..\Application\ADS868x\ADS868X_lib.h \
   ..\Application\ADS868x\ADS868X_cfg.h \
+  ..\Application\KalmanFilter\kalman_filter.h \
   ..\Application\ADS868x\ads868x_cfg.h \
   ..\Application\ADS869x\ads869x_task.h \
   ..\Application\ADS869x\ADS869X_lib.h \

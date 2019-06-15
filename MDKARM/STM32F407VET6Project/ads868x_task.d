@@ -67,4 +67,5 @@ stm32f407vet6project/ads868x_task.o: \
   ..\Application\SysTick\systick_cfg.h ..\Application\GPIO\gpio_task.h \
   ..\Application\GPIO\gpio_lib.h ..\Application\GPIO\gpio_cfg.h \
   ..\Application\SPI\spi_task.h ..\Application\SPI\spi_lib.h \
-  ..\Application\SPI\spi_cfg.h
+  ..\Application\SPI\spi_cfg.h \
+  ..\Application\KalmanFilter\kalman_filter.h

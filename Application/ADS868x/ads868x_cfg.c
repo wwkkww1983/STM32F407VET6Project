@@ -29,6 +29,18 @@ void ADS868X_SPI_Device0_Init(ADS868X_HandlerType *ADS868xx)
 		GPIOTask_Clock(ADS868xx->msgHWRST.msgGPIOPort, 1);
 	}
 
+	//---SPI1接口
+	//---PA4------ > SPI1_NSS
+	//---PA5------ > SPI1_SCK
+	//---PA6------ > SPI1_MISO
+	//---PA7------ > SPI1_MOSI
+	
+	//---SPI2接口
+	//---PB12------ > SPI2_NSS
+	//---PB13------ > SPI2_SCK
+	//---PB14------ > SPI2_MISO
+	//---PB15------ > SPI2_MOSI
+
 	//---CS
 	ADS868xx->msgSPI.msgCS.msgGPIOPort = GPIOA;
 	ADS868xx->msgSPI.msgCS.msgGPIOBit = LL_GPIO_PIN_4;
@@ -886,32 +898,32 @@ UINT8_T ADS868X_SPI_ChannelRange(ADS868X_HandlerType* ADS868xx, UINT8_T chIndex)
 			case ADS868X_RANGE_5120MV_5120MV:
 				ADS868xx->msgChannelRangeIsPositive[chIndex] = 0;
 				ADS868xx->msgChannelRangeFullUVX1000[chIndex] = ((UINT64_T)ADS868xx->msgREFPowerUV * 1250);//5120000000;
-				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = (ADS868xx->msgChannelRangeFullUVX1000[chIndex] * 2) / 65536; //156250;
+				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = (ADS868xx->msgChannelRangeFullUVX1000[chIndex] * 2) / (1<< ADS868X_ADC_SAMPLE_BITS); //156250;
 				break;
 			//---正负0.625倍的VREF
 			case ADS868X_RANGE_2560MV_2560MV:
 				ADS868xx->msgChannelRangeIsPositive[chIndex] = 0;
 				ADS868xx->msgChannelRangeFullUVX1000[chIndex] = ((UINT64_T)ADS868xx->msgREFPowerUV * 625); //2560000000;
-				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = (ADS868xx->msgChannelRangeFullUVX1000[chIndex] * 2) / 65536; //78125;
+				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = (ADS868xx->msgChannelRangeFullUVX1000[chIndex] * 2) / (1<< ADS868X_ADC_SAMPLE_BITS); //78125;
 				break;
 			//---正2.5倍的VREF
 			case ADS868X_RANGE_0MV_10240MV:
 				ADS868xx->msgChannelRangeIsPositive[chIndex] = 1;
 				ADS868xx->msgChannelRangeFullUVX1000[chIndex] = ((UINT64_T)ADS868xx->msgREFPowerUV * 2500);//10240000000;
-				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = ADS868xx->msgChannelRangeFullUVX1000[chIndex] / 65536; //156250;
+				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = ADS868xx->msgChannelRangeFullUVX1000[chIndex] / (1<< ADS868X_ADC_SAMPLE_BITS); //156250;
 				break;
 			//---正1.25倍的VREF
 			case ADS868X_RANGE_0MV_5120MV:
 				ADS868xx->msgChannelRangeIsPositive[chIndex] = 1;
 				ADS868xx->msgChannelRangeFullUVX1000[chIndex] = ((UINT64_T)ADS868xx->msgREFPowerUV* 1250);//5120000000;
-				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = ADS868xx->msgChannelRangeFullUVX1000[chIndex] / 65536; //78125;
+				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = ADS868xx->msgChannelRangeFullUVX1000[chIndex] / (1<< ADS868X_ADC_SAMPLE_BITS); //78125;
 				break;
 			//---正负2.5倍的VREF
 			case ADS868X_RANGE_10240MV_10240MV:
 			default:
 				ADS868xx->msgChannelRangeIsPositive[chIndex] = 0;
 				ADS868xx->msgChannelRangeFullUVX1000[chIndex] = ((UINT64_T)ADS868xx->msgREFPowerUV * 2500);//10240000000;
-				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = (ADS868xx->msgChannelRangeFullUVX1000[chIndex] * 2) / 65536; //312500;
+				ADS868xx->msgChannelRangeBaseUVX1000[chIndex] = (ADS868xx->msgChannelRangeFullUVX1000[chIndex] * 2) / (1<< ADS868X_ADC_SAMPLE_BITS); //312500;
 				break;
 		}
 	}
@@ -952,6 +964,10 @@ UINT8_T ADS868X_SPI_CalcChannelPower(ADS868X_HandlerType* ADS868xx, UINT8_T chIn
 					ADS868xx->msgChannelOldADCResult[chIndex] -=2;
 				}
 			}
+			else if (ADS868xx->msgChannelNowADCResult[chIndex] < ADS868xx->msgChannelOldADCResult[chIndex])
+			{
+				ADS868xx->msgChannelOldADCResult[chIndex] -= 1;
+			}
 			else
 			{
 				ADS868xx->msgChannelOldADCResult[chIndex] = MAX(ADS868xx->msgChannelNowADCResult[chIndex], ADS868xx->msgChannelOldADCResult[chIndex]);
@@ -968,7 +984,7 @@ UINT8_T ADS868X_SPI_CalcChannelPower(ADS868X_HandlerType* ADS868xx, UINT8_T chIn
 	{
 		calcPower = ADS868xx->msgChannelNowADCResult[chIndex];
 	}
-	calcPower &= 0xFFFC;
+	calcPower &= ((1<< ADS868X_ADC_SAMPLE_BITS)-1);
 	//---软件数据补偿拟合结束
 	//---将数字量转换为模拟量
 	calcPower *= ADS868xx->msgChannelRangeBaseUVX1000[chIndex];
@@ -976,7 +992,7 @@ UINT8_T ADS868X_SPI_CalcChannelPower(ADS868X_HandlerType* ADS868xx, UINT8_T chIn
 	//---判断ADC采样的量程是双极性还是单极性
 	if (ADS868xx->msgChannelRangeIsPositive[chIndex] == 0)
 	{
-		if ((ADS868xx->msgChannelNowADCResult[chIndex] & 0x8000) != 0)
+		if (((ADS868xx->msgChannelNowADCResult[chIndex] & (1<< (ADS868X_ADC_SAMPLE_BITS-1)))) != 0)
 		{
 			ADS868xx->msgIsPositive[chIndex] = 2;
 			ADS868xx->msgChannelPowerResult[chIndex] = (UINT32_T)((calcPower - ADS868xx->msgChannelRangeFullUVX1000[chIndex]) / 1000);
@@ -1059,6 +1075,7 @@ UINT8_T ADS868X_SPI_GetAutoRSTResult(ADS868X_HandlerType *ADS868xx, UINT8_T chNu
 			//---保存读取的数据
 			ADS868xx->msgChannelNowADCResult[i] = adcRTemp[2];
 			ADS868xx->msgChannelNowADCResult[i] = (ADS868xx->msgChannelNowADCResult[i] << 8) + adcRTemp[3];
+			ADS868xx->msgChannelNowADCResult[i] >>= ADS868X_DATA_SAMPLE_BITS;
 			//---计算采样结果
 			ADS868X_SPI_CalcChannelPower(ADS868xx, i,0);
 		}
@@ -1122,6 +1139,62 @@ UINT8_T ADS868X_SPI_GetAutoRSTNSampleResult(ADS868X_HandlerType* ADS868xx, UINT8
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功	    能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS868X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS868X_HandlerType* ADS868xx, UINT8_T chNum)
+{
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	UINT8_T j = 0;
+	UINT8_T rstMode = ADS868xx->msgAutoSeqEn;
+	//---保存采样结果
+	UINT32_T adcSampleTemp[ADS868X_CHANNEL_MAX][ADS868X_N_SAMPLE_COUNT] = { 0 };
+	//---卡尔曼结构
+	KalmanOneFilter_HandlerType kalmanFilterX;
+	//---获取采样结果
+	for (i = 0; i < ADS868X_N_SAMPLE_COUNT; i++)
+	{
+		//---获取采样结果
+		_return = ADS868X_SPI_GetAutoRSTResult(ADS868xx, chNum);
+		//---采样数据搬移
+		for (j = 0; j < ADS868X_CHANNEL_MAX; j++)
+		{
+			adcSampleTemp[j][i] = ADS868xx->msgChannelNowADCResult[j];
+		}
+		//---校验数据
+		if (_return != OK_0)
+		{
+			break;
+		}
+	}
+	if (_return == OK_0)
+	{
+		//---采样数据搬移
+		for (j = 0; j < ADS868X_CHANNEL_MAX; j++)
+		{
+			//---判断是否使能自动RST扫描功能
+			if (rstMode & 0x01)
+			{
+				KalmanOneFilter_Init(&kalmanFilterX, adcSampleTemp[j][0], 5e2);
+				for (i = 1; i < ADS868X_N_SAMPLE_COUNT; i++)
+				{
+					//---卡尔曼滤波之后的结果
+					ADS868xx->msgChannelNowADCResult[j] = KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[j][i]);
+				}
+				//---计算采样的电压值
+				ADS868X_SPI_CalcChannelPower(ADS868xx, j, 0);
+			}
+			rstMode >>= 1;
+		}
+	}
+	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功	    能：获取收到扫描通道的值
 //////输入参数:
 //////输出参数:
@@ -1163,6 +1236,7 @@ UINT8_T  ADS868X_SPI_GetManualChannelResult(ADS868X_HandlerType* ADS868xx, UINT1
 	{
 		ADS868xx->msgChannelNowADCResult[adcChannel] = adcRTemp[2];
 		ADS868xx->msgChannelNowADCResult[adcChannel] = (ADS868xx->msgChannelNowADCResult[adcChannel] << 8) + adcRTemp[3];
+		ADS868xx->msgChannelNowADCResult[adcChannel] >>= ADS868X_DATA_SAMPLE_BITS;
 		//---计算采样结果
 		ADS868X_SPI_CalcChannelPower(ADS868xx, adcChannel,0);
 	}
@@ -1203,6 +1277,46 @@ UINT8_T ADS868X_SPI_GetManualChannelNSampleResult(ADS868X_HandlerType* ADS868xx,
 		ADS868xx->msgChannelNowADCResult[adcChannelIndex] = CalcAvgFun1(adcSampleTemp, (ADS868X_N_SAMPLE_COUNT - 2), 2);
 		//---计算采样的电压值
 		ADS868X_SPI_CalcChannelPower(ADS868xx, adcChannelIndex,1);
+	}
+	return _return;
+}
+///////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功	    能：卡尔曼滤波方式计算数据
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS868X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS868X_HandlerType* ADS868xx, UINT16_T manualChannel)
+{
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	//---保存采样结果
+	UINT32_T adcSampleTemp[ADS868X_N_SAMPLE_COUNT] = { 0 };
+	//---获取ADC采样通道的序号
+	UINT8_T adcChannelIndex = (UINT8_T)(manualChannel >> 10) & 0x0F;
+	//---卡尔曼结构
+	KalmanOneFilter_HandlerType kalmanFilterX;
+	//---获取采样结果
+	for (i = 0; i < ADS868X_N_SAMPLE_COUNT; i++)
+	{
+		_return = ADS868X_SPI_GetManualChannelResult(ADS868xx, manualChannel);
+		adcSampleTemp[i] = ADS868xx->msgChannelNowADCResult[adcChannelIndex];
+		if (_return != OK_0)
+		{
+			break;
+		}
+	}
+	if (_return == OK_0)
+	{
+		KalmanOneFilter_Init(&kalmanFilterX, adcSampleTemp[0], 5e2);
+		for (i=1;i< ADS868X_N_SAMPLE_COUNT; i++)
+		{
+			//---卡尔曼滤波之后的结果
+			ADS868xx->msgChannelNowADCResult[adcChannelIndex] = KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[i]);
+		}
+		//---计算采样的电压值
+		ADS868X_SPI_CalcChannelPower(ADS868xx, adcChannelIndex, 1);
 	}
 	return _return;
 }

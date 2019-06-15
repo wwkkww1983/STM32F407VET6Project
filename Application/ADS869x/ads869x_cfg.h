@@ -9,6 +9,7 @@ extern "C" {
 	#include "delay_task.h"
 	#include "gpio_task.h"
 	#include "spi_task.h"
+	#include "kalman_filter.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===命令寄存器
@@ -146,7 +147,7 @@ extern "C" {
 	//===ADC的采样通道数
 	#define	ADS869X_CHANNEL_MAX					8	
 	//===多次采样获取均值
-	#define ADS869X_N_SAMPLE_COUNT				12
+	#define ADS869X_N_SAMPLE_COUNT				24
 	//===校验采样数据的个数
 	#if (ADS869X_N_SAMPLE_COUNT<9)
 		#define ADS869X_N_SAMPLE_COUNT			9
@@ -227,8 +228,10 @@ extern "C" {
 	UINT8_T ADS869X_SPI_CalcChannelPower(ADS869X_HandlerType* ADS869xx, UINT8_T chIndex, UINT8_T isCalcDelta);
 	UINT8_T ADS869X_SPI_GetAutoRSTResult(ADS869X_HandlerType* ADS869xx, UINT8_T chNum);
 	UINT8_T ADS869X_SPI_GetAutoRSTNSampleResult(ADS869X_HandlerType* ADS869xx, UINT8_T chNum);
+	UINT8_T ADS869X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS869X_HandlerType* ADS869xx, UINT8_T chNum);
 	UINT8_T ADS869X_SPI_GetManualChannelResult(ADS869X_HandlerType* ADS869xx, UINT16_T manualChannel);
 	UINT8_T ADS869X_SPI_GetManualChannelNSampleResult(ADS869X_HandlerType* ADS869xx, UINT16_T manualChannel);
+	UINT8_T ADS869X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS869X_HandlerType* ADS869xx, UINT16_T manualChannel);
 	UINT8_T ADS869X_SPI_CalibrationChannelErr(ADS869X_HandlerType* ADS869xx);
 	UINT8_T ADS869X_SPI_ConfigInit(ADS869X_HandlerType* ADS869xx);
 	//////////////////////////////////////////////////////////////////////////////////////

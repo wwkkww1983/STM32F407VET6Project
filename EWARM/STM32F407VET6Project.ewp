@@ -410,6 +410,7 @@
                     <state>$PROJ_DIR$\..\Application\ADS868x</state>
                     <state>$PROJ_DIR$\..\Application\ADS869x</state>
                     <state>$PROJ_DIR$\..\Application\DAC</state>
+                    <state>$PROJ_DIR$\..\Application\KalmanFilter</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1591,6 +1592,15 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\IWDG\iwdg_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>KalmanFilter</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\KalmanFilter\kalman_filter.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\KalmanFilter\kalman_filter.h</name>
             </file>
         </group>
         <group>

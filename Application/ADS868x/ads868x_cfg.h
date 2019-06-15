@@ -9,6 +9,7 @@ extern "C" {
 	#include "delay_task.h"
 	#include "gpio_task.h"
 	#include "spi_task.h"
+	#include "kalman_filter.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===命令寄存器
@@ -151,7 +152,12 @@ extern "C" {
 	#if (ADS868X_N_SAMPLE_COUNT<9)
 		#define ADS868X_N_SAMPLE_COUNT			9
 	#endif
-	
+
+	//===定义ADC的位数
+	#define ADS868X_ADC_SAMPLE_BITS				14
+	//===ADC采集数据的有效位数
+	#define ADS868X_DATA_SAMPLE_BITS			( 16-ADS868X_ADC_SAMPLE_BITS )
+
 	//===定义结构体
 	typedef struct _ADS868X_HandlerType			ADS868X_HandlerType;
 
