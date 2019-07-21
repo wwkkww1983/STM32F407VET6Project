@@ -39,7 +39,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>USE_FULL_LL_DRIVER;USE_HAL_DRIVER;STM32F407xx;HSE_VALUE=8000000UL;_IAR_;__ICCARM__;__CC_ARM;_Pragma(x)=;__interrupt=;__packed=__attribute__((__packed__));__weak=__attribute__((weak));%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Complier;..\Doc;..\STM32F4xx;..\STARTUP\MDKARM;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\USART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS868x;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc;..\Application\ADS869x;..\Application\DAC;..\Application\KalmanFilter;D:\Keil\ARM\RV31;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Complier;..\Doc;..\STM32F4xx;..\STARTUP\MDKARM;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\USART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS868x;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc;..\Application\ADS869x;..\Application\DAC;..\Application\KalmanFilter;D:\Keil_v5\ARM\RV31;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -131,6 +131,12 @@
     <ClInclude Include="..\Application\LED\led_cfg.h" />
     <ClInclude Include="..\Application\LED\led_lib.h" />
     <ClInclude Include="..\Application\LED\led_task.h" />
+    <ClInclude Include="..\Application\ModBusMaster\modbus_master_cfg.h" />
+    <ClInclude Include="..\Application\ModBusMaster\modbus_master_lib.h" />
+    <ClInclude Include="..\Application\ModBusMaster\modbus_master_task.h" />
+    <ClInclude Include="..\Application\ModBusSlave\mobus_slave_cfg.h" />
+    <ClInclude Include="..\Application\ModBusSlave\mobus_slave_lib.h" />
+    <ClInclude Include="..\Application\ModBusSlave\mobus_slave_task.h" />
     <ClInclude Include="..\Application\MyMalloc\my_malloc.h" />
     <ClInclude Include="..\Application\NRF2401\nrf2401_cfg.h" />
     <ClInclude Include="..\Application\NRF2401\nrf2401_lib.h" />
@@ -310,6 +316,12 @@
     <ClCompile Include="..\Application\LED\led_cfg.c" />
     <ClCompile Include="..\Application\LED\led_lib.c" />
     <ClCompile Include="..\Application\LED\led_task.c" />
+    <ClCompile Include="..\Application\ModBusMaster\modbus_master_cfg.c" />
+    <ClCompile Include="..\Application\ModBusMaster\modbus_master_lib.c" />
+    <ClCompile Include="..\Application\ModBusMaster\modbus_master_task.c" />
+    <ClCompile Include="..\Application\ModBusSlave\mobus_slave_cfg.c" />
+    <ClCompile Include="..\Application\ModBusSlave\mobus_slave_lib.c" />
+    <ClCompile Include="..\Application\ModBusSlave\mobus_slave_task.c" />
     <ClCompile Include="..\Application\MyMalloc\my_malloc.c" />
     <ClCompile Include="..\Application\NRF2401\nrf2401_cfg.c" />
     <ClCompile Include="..\Application\NRF2401\nrf2401_lib.c" />

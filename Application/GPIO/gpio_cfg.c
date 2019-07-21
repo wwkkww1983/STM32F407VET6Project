@@ -247,17 +247,17 @@ void GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 		if (isEnable)
 		{
 		#ifndef USE_MCU_STM32F1
-			LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+			LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOK);
 		#else
-			LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOA);
+			LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOK);
 		#endif
 		}
 		else
 		{
 		#ifndef USE_MCU_STM32F1
-			LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+			LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOK);
 		#else
-			LL_APB2_GRP1_DisableClock(LL_APB2_GRP1_PERIPH_GPIOA);
+			LL_APB2_GRP1_DisableClock(LL_APB2_GRP1_PERIPH_GPIOK);
 		#endif
 		}
 		return;

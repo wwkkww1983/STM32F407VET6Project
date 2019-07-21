@@ -91,6 +91,12 @@
     <Filter Include="Application\LED">
       <UniqueIdentifier>{9DB5296C-0941-9730-1252-1A257E5CF330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\ModBusMaster">
+      <UniqueIdentifier>{FED72902-EAFC-7882-1348-5E12FFCB77A0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\ModBusSlave">
+      <UniqueIdentifier>{ED64B9D9-599C-0171-62A6-6594CE5C286A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\MyMalloc">
       <UniqueIdentifier>{66B5E9BC-5244-7386-FB62-8781E7D0832C}</UniqueIdentifier>
     </Filter>
@@ -428,6 +434,24 @@
     </ClInclude>
     <ClInclude Include="..\Application\LED\led_task.h">
       <Filter>Application\LED</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ModBusMaster\modbus_master_cfg.h">
+      <Filter>Application\ModBusMaster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ModBusMaster\modbus_master_lib.h">
+      <Filter>Application\ModBusMaster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ModBusMaster\modbus_master_task.h">
+      <Filter>Application\ModBusMaster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ModBusSlave\mobus_slave_cfg.h">
+      <Filter>Application\ModBusSlave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ModBusSlave\mobus_slave_lib.h">
+      <Filter>Application\ModBusSlave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ModBusSlave\mobus_slave_task.h">
+      <Filter>Application\ModBusSlave</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\MyMalloc\my_malloc.h">
       <Filter>Application\MyMalloc</Filter>
@@ -961,6 +985,24 @@
     </ClCompile>
     <ClCompile Include="..\Application\LED\led_task.c">
       <Filter>Application\LED</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ModBusMaster\modbus_master_cfg.c">
+      <Filter>Application\ModBusMaster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ModBusMaster\modbus_master_lib.c">
+      <Filter>Application\ModBusMaster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ModBusMaster\modbus_master_task.c">
+      <Filter>Application\ModBusMaster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ModBusSlave\mobus_slave_cfg.c">
+      <Filter>Application\ModBusSlave</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ModBusSlave\mobus_slave_lib.c">
+      <Filter>Application\ModBusSlave</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ModBusSlave\mobus_slave_task.c">
+      <Filter>Application\ModBusSlave</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\MyMalloc\my_malloc.c">
       <Filter>Application\MyMalloc</Filter>

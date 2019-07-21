@@ -2401,6 +2401,76 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Application/ModBusSlave</GroupName>
+          <Files>
+            <File>
+              <FileName>mobus_slave_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ModBusSlave\mobus_slave_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>mobus_slave_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ModBusSlave\mobus_slave_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>mobus_slave_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ModBusSlave\mobus_slave_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>mobus_slave_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ModBusSlave\mobus_slave_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>mobus_slave_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ModBusSlave\mobus_slave_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>mobus_slave_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ModBusSlave\mobus_slave_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/ModBusMaster</GroupName>
+          <Files>
+            <File>
+              <FileName>modbus_master_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ModBusMaster\modbus_master_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>modbus_master_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ModBusMaster\modbus_master_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>modbus_master_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ModBusMaster\modbus_master_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>modbus_master_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ModBusMaster\modbus_master_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>modbus_master_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ModBusMaster\modbus_master_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>modbus_master_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ModBusMaster\modbus_master_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>

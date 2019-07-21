@@ -137,9 +137,9 @@ UINT8_T  RFASKTask_WM8510Task(USART_HandlerType*USARTx, WM8510_HandlerType *WM85
 			//---读取WM8510设置的输出频率
 		case CMD_RFASK_CMD2_GET_WM8510:
 			//---外部计数模式进行脉冲的计数
-			TimerTask_CalcFreq_Task();
+			TimerTask_CalcFreq_Task(1);
 			//---获取当前输出的频率KHz,增加获取脉冲的时间为10ms，牺牲时间换取精度
-			freqTemp =(UINT32_T)(TimerTask_GetFreqKHz()/10);// TimerTask_GetFreqKHz();
+			freqTemp = TimerTask_GetFreqKHz(); // (UINT32_T)(TimerTask_GetFreqKHz()/10);
 			//---获取当前输出的频率Hz
 			freqTemp *= 1000;
 			USARTTask_RealTime_AddByteSize(USARTx, 7);
@@ -1087,6 +1087,8 @@ UINT8_T RFASKTask_FreqCurrentScan(USART_HandlerType*USARTx, RFASK_HandlerType *r
 	UINT32_T xtalHz = 0;
 	//---停止解码，解码使用的中断优先级比较的高，避免因为中断优先级的问题，导致频率电流扫描异常的问题
 	DecodeTask_STOP();
+	//---复位看门狗
+	WDT_RESET();
 	//---初始化合格/失效判断结果数组---初始化为合格模式
 	//memset(rfask->msgSitePass, 0, FREQ_CURRENT_MAX_SITE);
 	for (freqPointNum = 0; freqPointNum < FREQ_CURRENT_MAX_SITE; freqPointNum++)
@@ -1128,6 +1130,7 @@ UINT8_T RFASKTask_FreqCurrentScan(USART_HandlerType*USARTx, RFASK_HandlerType *r
 		xtalHz = RFASK_CalcXTAL(rfask, freqX100MHz);
 		//---输出目标频率
 		WM8510Task_I2C_SetFreqHzWithAllFreqReg(WM8510x, xtalHz);
+		DelayTask_us(100);
 		//---下一次的频率输出
 		freqX100MHz += rfaskFreqCurrent->msgStepFreqX100MHz;
 		//---打开电源
@@ -1202,7 +1205,8 @@ UINT8_T RFASKTask_FreqCurrentScan(USART_HandlerType*USARTx, RFASK_HandlerType *r
 				{
 					siteCurrentEquaPointNum[siteNum] ++;
 					//---连续多个点的电流值不发生变化
-					if (siteCurrentEquaPointNum[siteNum] > 3)
+					//if (siteCurrentEquaPointNum[siteNum] > 3)					
+					if (siteCurrentEquaPointNum[siteNum] > RFASK_FREQ_CURRENT_CONT_EQUAL_POINT_MAX_NUM)
 					{
 						//---判断不合格；原因是该点的电流之前的几个点小或者差值比设定合格条件最小值小，或则比设定的合格条件的最大值大
 						rfask->msgSitePass[siteNum] = 1 + freqPointNum;
@@ -1247,7 +1251,9 @@ UINT8_T RFASKTask_FreqCurrentScan(USART_HandlerType*USARTx, RFASK_HandlerType *r
 					if (detaCurrentX10uA < rfaskFreqCurrent->msgADCPassMin)
 					{
 						currentEqualMinPointNum[siteNum]++;
-						if (currentEqualMinPointNum[siteNum] > 3)
+						//---下限连续相等的点数
+						//if (currentEqualMinPointNum[siteNum] > 3)
+						if (currentEqualMinPointNum[siteNum] > RFASK_FREQ_CURRENT_CONT_EQUAL_POINT_MAX_NUM)
 						{
 							//---判断不合格；原因是该点的电流之前的几个点小或者差值比设定合格条件最小值小，或则比设定的合格条件的最大值大
 							rfask->msgSitePass[siteNum] = 1 + freqPointNum;
@@ -1257,7 +1263,9 @@ UINT8_T RFASKTask_FreqCurrentScan(USART_HandlerType*USARTx, RFASK_HandlerType *r
 					else if (detaCurrentX10uA > rfaskFreqCurrent->msgADCPassMax)
 					{
 						currentEqualMaxPointNum[siteNum]++;
-						if (currentEqualMaxPointNum[siteNum] > 3)
+						//---上限连续相等的点数
+						//if (currentEqualMaxPointNum[siteNum] > 3)
+						if (currentEqualMaxPointNum[siteNum] > RFASK_FREQ_CURRENT_CONT_EQUAL_POINT_MAX_NUM)
 						{
 							//---判断不合格；原因是该点的电流之前的几个点小或者差值比设定合格条件最小值小，或则比设定的合格条件的最大值大
 							rfask->msgSitePass[siteNum] = 1 + freqPointNum;
@@ -1275,9 +1283,10 @@ UINT8_T RFASKTask_FreqCurrentScan(USART_HandlerType*USARTx, RFASK_HandlerType *r
 					{
 						currentPointNum[siteNum] = 0;
 						//---计算电流差值
-						detaCurrentX10uA = (UINT16_T)(rfask->msgSiteCurrent[siteNum] - currentPointCurrent[siteNum]);
+						//detaCurrentX10uA = (UINT16_T)(rfask->msgSiteCurrent[siteNum] - currentPointCurrent[siteNum]);
+						detaCurrentX10uA = ABS_SUB(rfask->msgSiteCurrent[siteNum],currentPointCurrent[siteNum]);
 						//---判断采集点合格条件
-						if ((detaCurrentX10uA < (5)))
+						if ((detaCurrentX10uA <3)||(rfask->msgSiteCurrent[siteNum]<currentPointCurrent[siteNum]))
 						{
 							//---判断不合格；原因是该点的电流之前的几个点小或者差值比设定合格条件最小值小，或则比设定的合格条件的最大值大
 							rfask->msgSitePass[siteNum] = 1 + freqPointNum;
@@ -1720,6 +1729,10 @@ UINT8_T RFASKTask_KeyTask(USART_HandlerType*USARTx, RFASK_HandlerType *rfask, WM
 			//---没有SITE激活，
 			return ERROR_3;
 		}
+		
+		//---关闭解码
+		DecodeTask_STOP();
+		
 		//---SOT输出高,清楚状态标志位，避免下次进入的时候状态保留的事上一状态
 		EOT_CTR_OUT_1;
 		BIN_CTR_OUT_1;
@@ -1781,12 +1794,12 @@ UINT8_T RFASKTask_KeyTask(USART_HandlerType*USARTx, RFASK_HandlerType *rfask, WM
 		//---完成EOT信号
 		RFASKTask_EOTSTOP();
 
-		//		if((_return!=RFASK_TASK_POINT_ONE)&&(_return!=RFASK_TASK_POINT_TWO))
-		//		{
-		//				DelayTask_ms(20);
-		//				//---启动解码
-		//				DecodeTask_START();
-		//		}
+		//if((_return!=RFASK_TASK_POINT_ONE)&&(_return!=RFASK_TASK_POINT_TWO))
+		//{
+		//		DelayTask_ms(20);
+		//		//---启动解码
+		//		DecodeTask_START();
+		//}
 	}
 	if (_return != 0xFF)
 	{

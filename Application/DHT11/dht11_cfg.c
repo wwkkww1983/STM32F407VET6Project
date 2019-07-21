@@ -13,8 +13,8 @@ pDHT11_HandlerType pDHT11Device0 = &g_DHT11Device0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T DHT11_Device0_Init(DHT11_HandlerType *DHT11x)
 {
-	DHT11x->msgDAT.msgGPIOBit = LL_GPIO_PIN_14;
-	DHT11x->msgDAT.msgGPIOPort = GPIOB;
+	DHT11x->msgDAT.msgGPIOBit = LL_GPIO_PIN_2;
+	DHT11x->msgDAT.msgGPIOPort = GPIOC;
 	return OK_0;
 }
 

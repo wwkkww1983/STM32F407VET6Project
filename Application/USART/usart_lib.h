@@ -31,12 +31,12 @@ extern "C" {
 	UINT8_T	 USARTLib_FillMode_Init( USART_HandlerType*USARTx );
 	UINT8_T  USARTLib_FillMode_AddByte(USART_HandlerType*USARTx, UINT8_T val);
 	UINT8_T  USARTLib_FillMode_AddData(USART_HandlerType*USARTx, UINT8_T *pVal, UINT16_T length);
+	UINT8_T  USARTLib_FillMode_WriteSTART(USART_HandlerType* USARTx, UINT8_T isNeedID);
 	UINT8_T  USARTLib_CRCTask_Read(USART_HandlerType*USARTx);
 	UINT8_T  USARTLib_CRCTask_Write(USART_HandlerType*USARTx);
-	UINT8_T  USARTLib_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID);
 	UINT8_T  USARTLib_PollMode_WriteByte(USART_HandlerType*USARTx, UINT8_T  val);
 	UINT8_T  USARTLib_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal);
-	void USARTLib_PrintfClockFreq(USART_HandlerType*USARTx);
+	void	 USARTLib_PrintfClockFreq(USART_HandlerType*USARTx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

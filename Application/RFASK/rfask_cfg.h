@@ -284,7 +284,7 @@ extern "C" {
 	//===设置第三频率点
 	#define FREQ_YSEL3_X100MHZ							31500	
 	//===设置第四频率点
-	#define FREQ_YSEL4_X100MHZ							23040	
+	#define FREQ_YSEL4_X100MHZ							23050	
 	//===设置默认频率点
 	#define FREQ_YSEL_X100MHz							2
 	

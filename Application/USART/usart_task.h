@@ -7,6 +7,7 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===头文件定义
 	#include "usart_lib.h"
+	#include "timer_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -105,13 +106,16 @@ extern "C" {
 	UINT8_T	 USARTTask_FillMode_Init( USART_HandlerType*USARTx );
 	UINT8_T  USARTTask_FillMode_AddByte(USART_HandlerType*USARTx, UINT8_T val);
 	UINT8_T  USARTTask_FillMode_AddData(USART_HandlerType*USARTx, UINT8_T *pVal, UINT16_T length);
+	UINT8_T  USARTTask_FillMode_WriteSTART(USART_HandlerType* USARTx, UINT8_T isNeedID);
 	UINT8_T  USARTTask_CRCTask_Read(USART_HandlerType*USARTx);
 	UINT8_T  USARTTask_CRCTask_Write(USART_HandlerType*USARTx);
-	UINT8_T  USARTTask_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID);
 	UINT8_T  USARTTask_PollMode_WriteByte(USART_HandlerType*USARTx, UINT8_T  val);
 	UINT8_T  USARTTask_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal);
 	UINT8_T	 USARTTask_DeviceID(USART_HandlerType*USARTx);
 	UINT8_T  USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *));
+
+	UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(UINT8_T*, UINT8_T*));
+
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }
