@@ -74,9 +74,11 @@ extern "C" {
 
 	//===定义结构体
 	typedef struct _W25QXX_HandlerType			W25QXX_HandlerType;
-
 	//===定义指针结构体
 	typedef	struct _W25QXX_HandlerType			*pW25QXX_HandlerType;
+
+	//===SPI模式使用硬件写保护模式
+	#define WM25QXX_SPI_USE_HWWP
 
 	//===结构定义
 	struct _W25QXX_HandlerType
@@ -88,6 +90,9 @@ extern "C" {
 		UINT16_T	msgErase32KbBlockDelayMS;									//---32Kb块的延时时间
 		UINT16_T	msgErase64KbBlockDelayMS;									//---64Kb块的延时时间
 		UINT16_T	msgChipID;													//---设备ID信息
+#ifdef WM25QXX_SPI_USE_HWWP
+		GPIO_HandlerType msgWP;													//---写保护控制端口，0---写保护使能；1---写保护不使能
+#endif
 		void(*msgFuncDelayms)(UINT32_T delay);									//---延时参数
 		SPI_HandlerType msgSPI;													//---使用的SPI模式
 	};

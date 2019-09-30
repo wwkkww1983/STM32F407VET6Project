@@ -36,9 +36,11 @@ extern "C" {
 	#endif
 	//===结构体定义
 	typedef struct _AT24CXX_HandlerType AT24CXX_HandlerType;
-
 	//===指针结构体定义
 	typedef struct _AT24CXX_HandlerType *pAT24CXX_HandlerType;
+
+	//===I2C模式使用硬件写保护模式
+	#define AT24CXX_I2C_USE_HWWP
 
 	//===AT24Cxx的数据结构体
 	struct _AT24CXX_HandlerType
@@ -49,7 +51,9 @@ extern "C" {
 		#ifdef USE_GOBAL_RAM
 			UINT8_T msgPageByteBuffer[AT24CXX_PAGE_BYTE_MAX_SIZE];				//---定义缓存区
 		#endif
+#ifdef AT24CXX_I2C_USE_HWWP
 		GPIO_HandlerType msgWP;												//---写保护控制端口，0---写保护不是能；1---写保护使能
+#endif
 		I2C_HandlerType msgI2C;												//---使用的I2C
 		void(*msgFuncDelayms)(UINT32_T delay);								//---毫秒延时函数,编程结束后需要等待5ms
 	};

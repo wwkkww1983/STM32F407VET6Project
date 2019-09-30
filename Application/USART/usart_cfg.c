@@ -95,15 +95,15 @@ UINT8_T USART_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal,
 	//---端口初始化
 	if ((USARTx != NULL) && (USARTx == USART_TASK_ONE))
 	{
-		USART1_Init(USARTx);
+		USART_Device0_Init(USARTx);
 	}
 	else if ((USARTx != NULL) && (USARTx == USART_TASK_TWO))
 	{
-		USART2_Init(USARTx);
+		USART_Device1_Init(USARTx);
 	}
 	else if ((USARTx != NULL) && (USARTx == USART_TASK_THREE))
 	{
-		USART3_Init(USARTx);
+		USART_Device2_Init(USARTx);
 	}
 	else
 	{
@@ -1922,7 +1922,7 @@ UINT8_T USART_DeviceInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex,
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USART1_Init(USART_HandlerType*USARTx)
+UINT8_T USART_Device0_Init(USART_HandlerType*USARTx)
 {
 	//---USART1 GPIO Configuration
 	//---PA9  ------> USART1_TX---端口复用为7
@@ -2044,7 +2044,7 @@ UINT8_T USART1_Init(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USART2_Init(USART_HandlerType*USARTx)
+UINT8_T USART_Device1_Init(USART_HandlerType*USARTx)
 {
 	return OK_0;
 }
@@ -2056,7 +2056,7 @@ UINT8_T USART2_Init(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USART3_Init(USART_HandlerType*USARTx)
+UINT8_T USART_Device2_Init(USART_HandlerType*USARTx)
 {
 	return OK_0;
 }

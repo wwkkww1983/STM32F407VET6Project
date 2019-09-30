@@ -3,9 +3,9 @@
 <title>Static Call Graph - [STM32F407VET6Project\STM32F407VET6Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F407VET6Project\STM32F407VET6Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6120001: Last Updated: Mon Sep 30 23:37:32 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6120001: Last Updated: Tue Oct  1 00:18:20 2019
 <BR><P>
-<H3>Maximum Stack Usage =        832 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        840 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; Sys_Init &rArr; ISPTask_EnterProg &rArr; ISPLib_EnterProg &rArr; ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
 <P>
@@ -528,7 +528,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CRCLib_Enable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[186]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Init
+<BR>[Called By]<UL><LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Init
 </UL>
 
 <P><STRONG><a name="[7e]"></a>CRCTask_Init</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, crc_task.o(.text.CRCTask_Init))
@@ -754,7 +754,7 @@ Global Symbols
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LM317_Init
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_MSW_GPIO_Init
 <LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_MHW_GPIO_Init
-<LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[a2]"></a>GPIOTask_Init</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, gpio_task.o(.text.GPIOTask_Init))
@@ -823,7 +823,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
 <P><STRONG><a name="[b0]"></a>ISPLib_EnterProg</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, isp_lib.o(.text.ISPLib_EnterProg))
-<BR><BR>[Stack]<UL><LI>Max Depth = 720<LI>Call Chain = ISPLib_EnterProg &rArr; ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
+<BR><BR>[Stack]<UL><LI>Max Depth = 728<LI>Call Chain = ISPLib_EnterProg &rArr; ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ISP_EnterProg
 </UL>
@@ -831,7 +831,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b2]"></a>ISPLib_Init</STRONG> (Thumb, 48 bytes, Stack size 48 bytes, isp_lib.o(.text.ISPLib_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = ISPLib_Init &rArr; ISP_Init &rArr; GPIOTask_Clock &rArr; GPIOLib_Clock &rArr; GPIO_Clock &rArr; LL_AHB1_GRP1_EnableClock
+<BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = ISPLib_Init &rArr; ISP_Init &rArr; GPIOTask_Clock &rArr; GPIOLib_Clock &rArr; GPIO_Clock &rArr; LL_AHB1_GRP1_EnableClock
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ISP_Init
 </UL>
@@ -847,7 +847,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b6]"></a>ISPTask_EnterProg</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, isp_task.o(.text.ISPTask_EnterProg))
-<BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = ISPTask_EnterProg &rArr; ISPLib_EnterProg &rArr; ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
+<BR><BR>[Stack]<UL><LI>Max Depth = 744<LI>Call Chain = ISPTask_EnterProg &rArr; ISPLib_EnterProg &rArr; ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ISPLib_EnterProg
 </UL>
@@ -855,7 +855,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b7]"></a>ISPTask_Init</STRONG> (Thumb, 48 bytes, Stack size 48 bytes, isp_task.o(.text.ISPTask_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 296<LI>Call Chain = ISPTask_Init &rArr; ISPLib_Init &rArr; ISP_Init &rArr; GPIOTask_Clock &rArr; GPIOLib_Clock &rArr; GPIO_Clock &rArr; LL_AHB1_GRP1_EnableClock
+<BR><BR>[Stack]<UL><LI>Max Depth = 280<LI>Call Chain = ISPTask_Init &rArr; ISPLib_Init &rArr; ISP_Init &rArr; GPIOTask_Clock &rArr; GPIOLib_Clock &rArr; GPIO_Clock &rArr; LL_AHB1_GRP1_EnableClock
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ISPLib_Init
 </UL>
@@ -870,7 +870,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sys_Init
 </UL>
 
-<P><STRONG><a name="[c3]"></a>ISP_Device0_Init</STRONG> (Thumb, 138 bytes, Stack size 8 bytes, isp_cfg.o(.text.ISP_Device0_Init))
+<P><STRONG><a name="[c3]"></a>ISP_Device0_Init</STRONG> (Thumb, 154 bytes, Stack size 8 bytes, isp_cfg.o(.text.ISP_Device0_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = ISP_Device0_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ISP_Init
@@ -888,8 +888,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ISP_Init
 </UL>
 
-<P><STRONG><a name="[b1]"></a>ISP_EnterProg</STRONG> (Thumb, 264 bytes, Stack size 72 bytes, isp_cfg.o(.text.ISP_EnterProg))
-<BR><BR>[Stack]<UL><LI>Max Depth = 704<LI>Call Chain = ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
+<P><STRONG><a name="[b1]"></a>ISP_EnterProg</STRONG> (Thumb, 266 bytes, Stack size 80 bytes, isp_cfg.o(.text.ISP_EnterProg))
+<BR><BR>[Stack]<UL><LI>Max Depth = 712<LI>Call Chain = ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPin
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
@@ -918,8 +918,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> isp_cfg.o(.text.ISP_SetClock)
 </UL>
-<P><STRONG><a name="[b3]"></a>ISP_Init</STRONG> (Thumb, 294 bytes, Stack size 112 bytes, isp_cfg.o(.text.ISP_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = ISP_Init &rArr; GPIOTask_Clock &rArr; GPIOLib_Clock &rArr; GPIO_Clock &rArr; LL_AHB1_GRP1_EnableClock
+<P><STRONG><a name="[b3]"></a>ISP_Init</STRONG> (Thumb, 296 bytes, Stack size 96 bytes, isp_cfg.o(.text.ISP_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = ISP_Init &rArr; GPIOTask_Clock &rArr; GPIOLib_Clock &rArr; GPIO_Clock &rArr; LL_AHB1_GRP1_EnableClock
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_Init
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOTask_Clock
@@ -965,7 +965,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> isp_cfg.o(.text.ISP_SetClock)
 </UL>
-<P><STRONG><a name="[b9]"></a>ISP_SetClock</STRONG> (Thumb, 554 bytes, Stack size 56 bytes, isp_cfg.o(.text.ISP_SetClock))
+<P><STRONG><a name="[b9]"></a>ISP_SetClock</STRONG> (Thumb, 574 bytes, Stack size 56 bytes, isp_cfg.o(.text.ISP_SetClock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 632<LI>Call Chain = ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
@@ -1037,7 +1037,7 @@ Global Symbols
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_MSW_GPIO_Init
 <LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_MHW_GPIO_Init
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_GPIO_DeInit
-<LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[d8]"></a>LL_RCC_GetSystemClocksFreq</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, stm32f4xx_ll_rcc.o(.text.LL_RCC_GetSystemClocksFreq))
@@ -1086,7 +1086,7 @@ Global Symbols
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB1_GRP1_ReleaseReset
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB1_GRP1_ForceReset
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[ea]"></a>LL_USART_Init</STRONG> (Thumb, 294 bytes, Stack size 48 bytes, stm32f4xx_ll_usart.o(.text.LL_USART_Init))
@@ -1098,7 +1098,7 @@ Global Symbols
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_SetBaudRate
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_IsEnabled
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[ef]"></a>LM317Lib_Init</STRONG> (Thumb, 32 bytes, Stack size 24 bytes, power_lib.o(.text.LM317Lib_Init))
@@ -1690,7 +1690,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[144]"></a>Sys_Init</STRONG> (Thumb, 236 bytes, Stack size 72 bytes, main.o(.text.Sys_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 808<LI>Call Chain = Sys_Init &rArr; ISPTask_EnterProg &rArr; ISPLib_EnterProg &rArr; ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
+<BR><BR>[Stack]<UL><LI>Max Depth = 816<LI>Call Chain = Sys_Init &rArr; ISPTask_EnterProg &rArr; ISPLib_EnterProg &rArr; ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
 </UL>
 <BR>[Calls]<UL><LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_Init
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
@@ -1770,78 +1770,43 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[172]"></a>USART1_Init</STRONG> (Thumb, 378 bytes, Stack size 144 bytes, usart_cfg.o(.text.USART1_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 280<LI>Call Chain = USART1_Init &rArr; USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
-</UL>
-<BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_Init
-<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_Init
-<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_DeInit
-<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOTask_Clock
-<LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
-<LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
-<LI><a href="#[17b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeviceInit
-<LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
-<LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_485GPIOInit
-<LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
-<LI><a href="#[175]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_GetPriorityGrouping
-<LI><a href="#[178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_EnableIRQ
-<LI><a href="#[176]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_EncodePriority
-<LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_EnableIT_RXNE
-<LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_Enable
-<LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_ConfigAsyncMode
-</UL>
-<BR>[Called By]<UL><LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
-</UL>
-
-<P><STRONG><a name="[19c]"></a>USART2_Init</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, usart_cfg.o(.text.USART2_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = USART2_Init
-</UL>
-<BR>[Called By]<UL><LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
-</UL>
-
-<P><STRONG><a name="[19d]"></a>USART3_Init</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, usart_cfg.o(.text.USART3_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = USART3_Init
-</UL>
-<BR>[Called By]<UL><LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
-</UL>
-
-<P><STRONG><a name="[17f]"></a>USARTLib_DeviceInit</STRONG> (Thumb, 94 bytes, Stack size 64 bytes, usart_lib.o(.text.USARTLib_DeviceInit))
+<P><STRONG><a name="[172]"></a>USARTLib_DeviceInit</STRONG> (Thumb, 94 bytes, Stack size 64 bytes, usart_lib.o(.text.USARTLib_DeviceInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = USARTLib_DeviceInit &rArr; USART_DeviceInit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[17b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeviceInit
+<BR>[Calls]<UL><LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeviceInit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_Init
 </UL>
 
-<P><STRONG><a name="[180]"></a>USARTLib_ITRead_Task</STRONG> (Thumb, 32 bytes, Stack size 24 bytes, usart_lib.o(.text.USARTLib_ITRead_Task))
+<P><STRONG><a name="[174]"></a>USARTLib_ITRead_Task</STRONG> (Thumb, 32 bytes, Stack size 24 bytes, usart_lib.o(.text.USARTLib_ITRead_Task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = USARTLib_ITRead_Task &rArr; USART_ITRead_Task &rArr; USART_ITRead_16BitsTask &rArr; USART_TimeTick_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_Task
+<BR>[Calls]<UL><LI><a href="#[175]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_Task
 </UL>
 <BR>[Called By]<UL><LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_ITRead_Task
 </UL>
 
-<P><STRONG><a name="[182]"></a>USARTLib_ITWrite_TXETask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, usart_lib.o(.text.USARTLib_ITWrite_TXETask))
+<P><STRONG><a name="[176]"></a>USARTLib_ITWrite_TXETask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, usart_lib.o(.text.USARTLib_ITWrite_TXETask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = USARTLib_ITWrite_TXETask &rArr; USART_ITWrite_TXETask &rArr; USART_WriteInit &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
-<BR>[Calls]<UL><LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
+<BR>[Calls]<UL><LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
 </UL>
 <BR>[Called By]<UL><LI><a href="#[16d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_ITWrite_TXETask
 </UL>
 
-<P><STRONG><a name="[184]"></a>USARTLib_IT_TCTask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, usart_lib.o(.text.USARTLib_IT_TCTask))
+<P><STRONG><a name="[178]"></a>USARTLib_IT_TCTask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, usart_lib.o(.text.USARTLib_IT_TCTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = USARTLib_IT_TCTask &rArr; USART_IT_TCTask &rArr; USART_ITWrite_TCTask &rArr; USART_WriteInit &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
-<BR>[Calls]<UL><LI><a href="#[185]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_IT_TCTask
+<BR>[Calls]<UL><LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_IT_TCTask
 </UL>
 <BR>[Called By]<UL><LI><a href="#[170]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_IT_TCTask
 </UL>
 
-<P><STRONG><a name="[186]"></a>USARTLib_Init</STRONG> (Thumb, 172 bytes, Stack size 104 bytes, usart_lib.o(.text.USARTLib_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 480<LI>Call Chain = USARTLib_Init &rArr; USART_Init &rArr; USART1_Init &rArr; USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
+<P><STRONG><a name="[17a]"></a>USARTLib_Init</STRONG> (Thumb, 172 bytes, Stack size 104 bytes, usart_lib.o(.text.USARTLib_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 480<LI>Call Chain = USARTLib_Init &rArr; USART_Init &rArr; USART_Device0_Init &rArr; USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CRCTask_Enable
-<LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
+<LI><a href="#[17b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_Init
 </UL>
@@ -1849,7 +1814,7 @@ Global Symbols
 <P><STRONG><a name="[169]"></a>USARTTask_ITRead_Task</STRONG> (Thumb, 32 bytes, Stack size 24 bytes, usart_task.o(.text.USARTTask_ITRead_Task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = USARTTask_ITRead_Task &rArr; USARTLib_ITRead_Task &rArr; USART_ITRead_Task &rArr; USART_ITRead_16BitsTask &rArr; USART_TimeTick_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[180]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ITRead_Task
+<BR>[Calls]<UL><LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ITRead_Task
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
@@ -1857,7 +1822,7 @@ Global Symbols
 <P><STRONG><a name="[16d]"></a>USARTTask_ITWrite_TXETask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, usart_task.o(.text.USARTTask_ITWrite_TXETask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = USARTTask_ITWrite_TXETask &rArr; USARTLib_ITWrite_TXETask &rArr; USART_ITWrite_TXETask &rArr; USART_WriteInit &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
-<BR>[Calls]<UL><LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ITWrite_TXETask
+<BR>[Calls]<UL><LI><a href="#[176]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ITWrite_TXETask
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
@@ -1865,16 +1830,16 @@ Global Symbols
 <P><STRONG><a name="[170]"></a>USARTTask_IT_TCTask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, usart_task.o(.text.USARTTask_IT_TCTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = USARTTask_IT_TCTask &rArr; USARTLib_IT_TCTask &rArr; USART_IT_TCTask &rArr; USART_ITWrite_TCTask &rArr; USART_WriteInit &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
-<BR>[Calls]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_IT_TCTask
+<BR>[Calls]<UL><LI><a href="#[178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_IT_TCTask
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
 
 <P><STRONG><a name="[148]"></a>USARTTask_Init</STRONG> (Thumb, 180 bytes, Stack size 120 bytes, usart_task.o(.text.USARTTask_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 600<LI>Call Chain = USARTTask_Init &rArr; USARTLib_Init &rArr; USART_Init &rArr; USART1_Init &rArr; USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
+<BR><BR>[Stack]<UL><LI>Max Depth = 600<LI>Call Chain = USARTTask_Init &rArr; USARTLib_Init &rArr; USART_Init &rArr; USART_Device0_Init &rArr; USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
-<BR>[Calls]<UL><LI><a href="#[186]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Init
-<LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_DeviceInit
+<BR>[Calls]<UL><LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Init
+<LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_DeviceInit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sys_Init
 </UL>
@@ -1882,13 +1847,13 @@ Global Symbols
 <P><STRONG><a name="[17c]"></a>USART_485GPIOInit</STRONG> (Thumb, 70 bytes, Stack size 24 bytes, usart_cfg.o(.text.USART_485GPIOInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = USART_485GPIOInit &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[189]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPin
-<LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
+<BR>[Calls]<UL><LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPin
+<LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_WriteInit
 <LI><a href="#[19e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_PrintfSuspend
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_PrintfResume
-<LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[195]"></a>USART_ClearOVF</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, usart_cfg.o(.text.USART_ClearOVF))
@@ -1898,25 +1863,60 @@ Global Symbols
 <LI><a href="#[193]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_16BitsTask
 </UL>
 
-<P><STRONG><a name="[173]"></a>USART_Clock</STRONG> (Thumb, 350 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_Clock))
+<P><STRONG><a name="[17f]"></a>USART_Clock</STRONG> (Thumb, 350 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_Clock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = USART_Clock &rArr; LL_APB2_GRP1_EnableClock
 </UL>
-<BR>[Calls]<UL><LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB2_GRP1_EnableClock
-<LI><a href="#[18b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB2_GRP1_DisableClock
-<LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB1_GRP1_EnableClock
-<LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB1_GRP1_DisableClock
+<BR>[Calls]<UL><LI><a href="#[180]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB2_GRP1_EnableClock
+<LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB2_GRP1_DisableClock
+<LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB1_GRP1_EnableClock
+<LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB1_GRP1_DisableClock
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
-<P><STRONG><a name="[17b]"></a>USART_DeviceInit</STRONG> (Thumb, 96 bytes, Stack size 48 bytes, usart_cfg.o(.text.USART_DeviceInit))
+<P><STRONG><a name="[184]"></a>USART_Device0_Init</STRONG> (Thumb, 378 bytes, Stack size 144 bytes, usart_cfg.o(.text.USART_Device0_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 280<LI>Call Chain = USART_Device0_Init &rArr; USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
+</UL>
+<BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_Init
+<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_Init
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_DeInit
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOTask_Clock
+<LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
+<LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
+<LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeviceInit
+<LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
+<LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_485GPIOInit
+<LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
+<LI><a href="#[186]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_GetPriorityGrouping
+<LI><a href="#[189]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_EnableIRQ
+<LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_EncodePriority
+<LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_EnableIT_RXNE
+<LI><a href="#[18b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_Enable
+<LI><a href="#[185]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_ConfigAsyncMode
+</UL>
+<BR>[Called By]<UL><LI><a href="#[17b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
+</UL>
+
+<P><STRONG><a name="[19c]"></a>USART_Device1_Init</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, usart_cfg.o(.text.USART_Device1_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = USART_Device1_Init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[17b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
+</UL>
+
+<P><STRONG><a name="[19d]"></a>USART_Device2_Init</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, usart_cfg.o(.text.USART_Device2_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = USART_Device2_Init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[17b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
+</UL>
+
+<P><STRONG><a name="[173]"></a>USART_DeviceInit</STRONG> (Thumb, 96 bytes, Stack size 48 bytes, usart_cfg.o(.text.USART_DeviceInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = USART_DeviceInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_DeviceInit
-<LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_DeviceInit
+<LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
-<P><STRONG><a name="[17d]"></a>USART_GPIOInit</STRONG> (Thumb, 74 bytes, Stack size 24 bytes, usart_cfg.o(.text.USART_GPIOInit))
+<P><STRONG><a name="[18c]"></a>USART_GPIOInit</STRONG> (Thumb, 74 bytes, Stack size 24 bytes, usart_cfg.o(.text.USART_GPIOInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[18e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetPinMode
@@ -1924,7 +1924,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_WriteInit
 <LI><a href="#[19e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_PrintfSuspend
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_PrintfResume
-<LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[18f]"></a>USART_ITPrintf_TCTask</STRONG> (Thumb, 90 bytes, Stack size 24 bytes, usart_cfg.o(.text.USART_ITPrintf_TCTask))
@@ -1934,7 +1934,7 @@ Global Symbols
 <LI><a href="#[192]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_TransmitData8
 <LI><a href="#[190]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_DisableIT_TC
 </UL>
-<BR>[Called By]<UL><LI><a href="#[185]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_IT_TCTask
+<BR>[Called By]<UL><LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_IT_TCTask
 </UL>
 
 <P><STRONG><a name="[193]"></a>USART_ITRead_16BitsTask</STRONG> (Thumb, 468 bytes, Stack size 56 bytes, usart_cfg.o(.text.USART_ITRead_16BitsTask))
@@ -1943,7 +1943,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[194]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_TimeTick_Init
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ClearOVF
 </UL>
-<BR>[Called By]<UL><LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_Task
+<BR>[Called By]<UL><LI><a href="#[175]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_Task
 </UL>
 
 <P><STRONG><a name="[196]"></a>USART_ITRead_8BitsTask</STRONG> (Thumb, 390 bytes, Stack size 48 bytes, usart_cfg.o(.text.USART_ITRead_8BitsTask))
@@ -1952,16 +1952,16 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[194]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_TimeTick_Init
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ClearOVF
 </UL>
-<BR>[Called By]<UL><LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_Task
+<BR>[Called By]<UL><LI><a href="#[175]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_Task
 </UL>
 
-<P><STRONG><a name="[181]"></a>USART_ITRead_Task</STRONG> (Thumb, 70 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_ITRead_Task))
+<P><STRONG><a name="[175]"></a>USART_ITRead_Task</STRONG> (Thumb, 70 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_ITRead_Task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = USART_ITRead_Task &rArr; USART_ITRead_16BitsTask &rArr; USART_TimeTick_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[196]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_8BitsTask
 <LI><a href="#[193]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_16BitsTask
 </UL>
-<BR>[Called By]<UL><LI><a href="#[180]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ITRead_Task
+<BR>[Called By]<UL><LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ITRead_Task
 </UL>
 
 <P><STRONG><a name="[197]"></a>USART_ITWrite_TCTask</STRONG> (Thumb, 128 bytes, Stack size 24 bytes, usart_cfg.o(.text.USART_ITWrite_TCTask))
@@ -1971,10 +1971,10 @@ Global Symbols
 <LI><a href="#[192]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_TransmitData8
 <LI><a href="#[190]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_DisableIT_TC
 </UL>
-<BR>[Called By]<UL><LI><a href="#[185]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_IT_TCTask
+<BR>[Called By]<UL><LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_IT_TCTask
 </UL>
 
-<P><STRONG><a name="[183]"></a>USART_ITWrite_TXETask</STRONG> (Thumb, 192 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_ITWrite_TXETask))
+<P><STRONG><a name="[177]"></a>USART_ITWrite_TXETask</STRONG> (Thumb, 192 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_ITWrite_TXETask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = USART_ITWrite_TXETask &rArr; USART_WriteInit &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_WriteInit
@@ -1983,31 +1983,31 @@ Global Symbols
 <LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_EnableIT_TC
 <LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_DisableIT_TXE
 </UL>
-<BR>[Called By]<UL><LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ITWrite_TXETask
+<BR>[Called By]<UL><LI><a href="#[176]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ITWrite_TXETask
 </UL>
 
-<P><STRONG><a name="[185]"></a>USART_IT_TCTask</STRONG> (Thumb, 80 bytes, Stack size 24 bytes, usart_cfg.o(.text.USART_IT_TCTask))
+<P><STRONG><a name="[179]"></a>USART_IT_TCTask</STRONG> (Thumb, 80 bytes, Stack size 24 bytes, usart_cfg.o(.text.USART_IT_TCTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = USART_IT_TCTask &rArr; USART_ITWrite_TCTask &rArr; USART_WriteInit &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TCTask
 <LI><a href="#[18f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITPrintf_TCTask
 <LI><a href="#[190]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_DisableIT_TC
 </UL>
-<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_IT_TCTask
+<BR>[Called By]<UL><LI><a href="#[178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_IT_TCTask
 </UL>
 
-<P><STRONG><a name="[187]"></a>USART_Init</STRONG> (Thumb, 246 bytes, Stack size 96 bytes, usart_cfg.o(.text.USART_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = USART_Init &rArr; USART1_Init &rArr; USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
+<P><STRONG><a name="[17b]"></a>USART_Init</STRONG> (Thumb, 246 bytes, Stack size 96 bytes, usart_cfg.o(.text.USART_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = USART_Init &rArr; USART_Device0_Init &rArr; USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_StructInit
-<LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_Init
-<LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_Init
-<LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device2_Init
+<LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device1_Init
+<LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[186]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Init
+<BR>[Called By]<UL><LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Init
 </UL>
 
-<P><STRONG><a name="[17e]"></a>USART_Printf</STRONG> (Thumb, 142 bytes, Stack size 40 bytes, usart_cfg.o(.text.USART_Printf))
+<P><STRONG><a name="[18d]"></a>USART_Printf</STRONG> (Thumb, 142 bytes, Stack size 40 bytes, usart_cfg.o(.text.USART_Printf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[19e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_PrintfSuspend
@@ -2015,13 +2015,13 @@ Global Symbols
 <LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_EnableIT_TC
 <LI><a href="#[19f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsnprintf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[191]"></a>USART_PrintfResume</STRONG> (Thumb, 40 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_PrintfResume))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = USART_PrintfResume &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
-<BR>[Calls]<UL><LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
+<BR>[Calls]<UL><LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
 <LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_485GPIOInit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[18f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITPrintf_TCTask
@@ -2031,7 +2031,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = USART_PrintfSuspend &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IWDGTask_Reset
-<LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
+<LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
 <LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_485GPIOInit
 <LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_IsEnabledIT_TXE
 <LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_IsEnabledIT_TC
@@ -2039,19 +2039,19 @@ Global Symbols
 <LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_IsActiveFlag_TC
 <LI><a href="#[1a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_ClearFlag_TC
 </UL>
-<BR>[Called By]<UL><LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
+<BR>[Called By]<UL><LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
 </UL>
 
 <P><STRONG><a name="[19b]"></a>USART_StructInit</STRONG> (Thumb, 218 bytes, Stack size 8 bytes, usart_cfg.o(.text.USART_StructInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = USART_StructInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
+<BR>[Called By]<UL><LI><a href="#[17b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
 </UL>
 
 <P><STRONG><a name="[194]"></a>USART_TimeTick_Init</STRONG> (Thumb, 90 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_TimeTick_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = USART_TimeTick_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
+<BR>[Called By]<UL><LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
 <LI><a href="#[196]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_8BitsTask
 <LI><a href="#[193]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITRead_16BitsTask
 </UL>
@@ -2059,10 +2059,10 @@ Global Symbols
 <P><STRONG><a name="[198]"></a>USART_WriteInit</STRONG> (Thumb, 84 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_WriteInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = USART_WriteInit &rArr; USART_GPIOInit &rArr; LL_GPIO_SetPinMode
 </UL>
-<BR>[Calls]<UL><LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
+<BR>[Calls]<UL><LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
 <LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_485GPIOInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
+<BR>[Called By]<UL><LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
 <LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TCTask
 </UL>
 
@@ -2083,7 +2083,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 832<LI>Call Chain = main &rArr; Sys_Init &rArr; ISPTask_EnterProg &rArr; ISPLib_EnterProg &rArr; ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
+<BR><BR>[Stack]<UL><LI>Max Depth = 840<LI>Call Chain = main &rArr; Sys_Init &rArr; ISPTask_EnterProg &rArr; ISPLib_EnterProg &rArr; ISP_EnterProg &rArr; ISP_SetClock &rArr; ISP_HW_Init &rArr; SPITask_MHW_PollMode_Init &rArr; SPILib_MHW_PollMode_Init &rArr; SPI_MHW_PollMode_Init &rArr; LL_SPI_Init &rArr; LL_SPI_SetCRCPolynomial
 </UL>
 <BR>[Calls]<UL><LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sys_Init
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IWDGTask_Reset
@@ -2103,7 +2103,7 @@ Global Symbols
 <P><STRONG><a name="[19f]"></a>vsnprintf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0vsnprintf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = vsnprintf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
+<BR>[Called By]<UL><LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
 </UL>
 
 <P><STRONG><a name="[1bf]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
@@ -2794,37 +2794,37 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_msInit
 </UL>
 
-<P><STRONG><a name="[18d]"></a>LL_APB1_GRP1_DisableClock</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_APB1_GRP1_DisableClock))
+<P><STRONG><a name="[183]"></a>LL_APB1_GRP1_DisableClock</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_APB1_GRP1_DisableClock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_APB1_GRP1_DisableClock
 </UL>
-<BR>[Called By]<UL><LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
+<BR>[Called By]<UL><LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
 </UL>
 
-<P><STRONG><a name="[18c]"></a>LL_APB1_GRP1_EnableClock</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, usart_cfg.o(.text.LL_APB1_GRP1_EnableClock))
+<P><STRONG><a name="[182]"></a>LL_APB1_GRP1_EnableClock</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, usart_cfg.o(.text.LL_APB1_GRP1_EnableClock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LL_APB1_GRP1_EnableClock
 </UL>
-<BR>[Called By]<UL><LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
+<BR>[Called By]<UL><LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
 </UL>
 
-<P><STRONG><a name="[18b]"></a>LL_APB2_GRP1_DisableClock</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_APB2_GRP1_DisableClock))
+<P><STRONG><a name="[181]"></a>LL_APB2_GRP1_DisableClock</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_APB2_GRP1_DisableClock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_APB2_GRP1_DisableClock
 </UL>
-<BR>[Called By]<UL><LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
+<BR>[Called By]<UL><LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
 </UL>
 
-<P><STRONG><a name="[18a]"></a>LL_APB2_GRP1_EnableClock</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, usart_cfg.o(.text.LL_APB2_GRP1_EnableClock))
+<P><STRONG><a name="[180]"></a>LL_APB2_GRP1_EnableClock</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, usart_cfg.o(.text.LL_APB2_GRP1_EnableClock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LL_APB2_GRP1_EnableClock
 </UL>
-<BR>[Called By]<UL><LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
+<BR>[Called By]<UL><LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Clock
 </UL>
 
-<P><STRONG><a name="[188]"></a>LL_GPIO_ResetOutputPin</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, usart_cfg.o(.text.LL_GPIO_ResetOutputPin))
+<P><STRONG><a name="[17d]"></a>LL_GPIO_ResetOutputPin</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, usart_cfg.o(.text.LL_GPIO_ResetOutputPin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LL_GPIO_ResetOutputPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_485GPIOInit
 </UL>
 
-<P><STRONG><a name="[189]"></a>LL_GPIO_SetOutputPin</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, usart_cfg.o(.text.LL_GPIO_SetOutputPin))
+<P><STRONG><a name="[17e]"></a>LL_GPIO_SetOutputPin</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, usart_cfg.o(.text.LL_GPIO_SetOutputPin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LL_GPIO_SetOutputPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_485GPIOInit
@@ -2833,7 +2833,7 @@ Local Symbols
 <P><STRONG><a name="[18e]"></a>LL_GPIO_SetPinMode</STRONG> (Thumb, 64 bytes, Stack size 32 bytes, usart_cfg.o(.text.LL_GPIO_SetPinMode))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = LL_GPIO_SetPinMode
 </UL>
-<BR>[Called By]<UL><LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
+<BR>[Called By]<UL><LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GPIOInit
 </UL>
 
 <P><STRONG><a name="[1a4]"></a>LL_USART_ClearFlag_TC</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_ClearFlag_TC))
@@ -2842,16 +2842,16 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[19e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_PrintfSuspend
 </UL>
 
-<P><STRONG><a name="[174]"></a>LL_USART_ConfigAsyncMode</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_ConfigAsyncMode))
+<P><STRONG><a name="[185]"></a>LL_USART_ConfigAsyncMode</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_ConfigAsyncMode))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_USART_ConfigAsyncMode
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[190]"></a>LL_USART_DisableIT_TC</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_DisableIT_TC))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_USART_DisableIT_TC
 </UL>
-<BR>[Called By]<UL><LI><a href="#[185]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_IT_TCTask
+<BR>[Called By]<UL><LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_IT_TCTask
 <LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TCTask
 <LI><a href="#[18f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITPrintf_TCTask
 </UL>
@@ -2859,26 +2859,26 @@ Local Symbols
 <P><STRONG><a name="[199]"></a>LL_USART_DisableIT_TXE</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_DisableIT_TXE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_USART_DisableIT_TXE
 </UL>
-<BR>[Called By]<UL><LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
+<BR>[Called By]<UL><LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
 </UL>
 
-<P><STRONG><a name="[17a]"></a>LL_USART_Enable</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_Enable))
+<P><STRONG><a name="[18b]"></a>LL_USART_Enable</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_Enable))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_USART_Enable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
-<P><STRONG><a name="[179]"></a>LL_USART_EnableIT_RXNE</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_EnableIT_RXNE))
+<P><STRONG><a name="[18a]"></a>LL_USART_EnableIT_RXNE</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_EnableIT_RXNE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_USART_EnableIT_RXNE
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[19a]"></a>LL_USART_EnableIT_TC</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_EnableIT_TC))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_USART_EnableIT_TC
 </UL>
-<BR>[Called By]<UL><LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
-<LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
+<BR>[Called By]<UL><LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
+<LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
 </UL>
 
 <P><STRONG><a name="[1a3]"></a>LL_USART_IsActiveFlag_TC</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, usart_cfg.o(.text.LL_USART_IsActiveFlag_TC))
@@ -2908,32 +2908,32 @@ Local Symbols
 <P><STRONG><a name="[192]"></a>LL_USART_TransmitData8</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, usart_cfg.o(.text.LL_USART_TransmitData8))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LL_USART_TransmitData8
 </UL>
-<BR>[Called By]<UL><LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
-<LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
+<BR>[Called By]<UL><LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Printf
+<LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TXETask
 <LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITWrite_TCTask
 <LI><a href="#[18f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITPrintf_TCTask
 </UL>
 
-<P><STRONG><a name="[176]"></a>NVIC_EncodePriority</STRONG> (Thumb, 128 bytes, Stack size 52 bytes, usart_cfg.o(.text.NVIC_EncodePriority))
+<P><STRONG><a name="[187]"></a>NVIC_EncodePriority</STRONG> (Thumb, 128 bytes, Stack size 52 bytes, usart_cfg.o(.text.NVIC_EncodePriority))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = NVIC_EncodePriority
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
-<P><STRONG><a name="[178]"></a>__NVIC_EnableIRQ</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, usart_cfg.o(.text.__NVIC_EnableIRQ))
+<P><STRONG><a name="[189]"></a>__NVIC_EnableIRQ</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, usart_cfg.o(.text.__NVIC_EnableIRQ))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __NVIC_EnableIRQ
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
-<P><STRONG><a name="[175]"></a>__NVIC_GetPriorityGrouping</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, usart_cfg.o(.text.__NVIC_GetPriorityGrouping))
-<BR><BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<P><STRONG><a name="[186]"></a>__NVIC_GetPriorityGrouping</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, usart_cfg.o(.text.__NVIC_GetPriorityGrouping))
+<BR><BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
-<P><STRONG><a name="[177]"></a>__NVIC_SetPriority</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, usart_cfg.o(.text.__NVIC_SetPriority))
+<P><STRONG><a name="[188]"></a>__NVIC_SetPriority</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, usart_cfg.o(.text.__NVIC_SetPriority))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __NVIC_SetPriority
 </UL>
-<BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
+<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Device0_Init
 </UL>
 
 <P><STRONG><a name="[1a8]"></a>_fp_digits</STRONG> (Thumb, 366 bytes, Stack size 64 bytes, printfa.o(i._fp_digits), UNUSED)

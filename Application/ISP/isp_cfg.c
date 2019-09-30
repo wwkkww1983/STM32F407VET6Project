@@ -113,6 +113,12 @@ UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 	//---清零发送缓存区
 	memset(ISPx->msgWriteByte, 0x00, 4);
 	memset(ISPx->msgReadByte, 0x00, 4);
+	//---电平转换使能控制端
+#ifdef ISP_USE_lEVEL_SHIFT
+	ISPx->msgOE.msgGPIOPort=GPIOA;
+	ISPx->msgOE.msgGPIOBit = LL_GPIO_PIN_12;
+#endif
+
 	/**SPI2 GPIO Configuration
 	PB12   ------> SPI2_NSS
 	PB13   ------> SPI2_SCK
@@ -217,21 +223,24 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 	ISPx->msgSPI.msgFuncTimeTick = pFuncTimerTick;
 	//---配置OE端口
 #ifdef ISP_USE_lEVEL_SHIFT
-	//---使能GPIO的时钟
-	GPIOTask_Clock(ISP_OE_PORT, 1);
-	//---GPIO的结构体
-	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;						//---配置状态为输出模式
-	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_MEDIUM;				//---GPIO的速度---低速设备
-	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;			//---输出模式---推挽输出
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;							//---上拉
+	if (ISPx->msgOE.msgGPIOPort != NULL)
+	{
+		//---使能GPIO的时钟
+		GPIOTask_Clock(ISPx->msgOE.msgGPIOPort, 1);
+		//---GPIO的结构体
+		LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
+		GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;						//---配置状态为输出模式
+		GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_MEDIUM;				//---GPIO的速度---低速设备
+		GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;			//---输出模式---推挽输出
+		GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;							//---上拉
 #ifndef USE_MCU_STM32F1
-	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;						//---端口复用模式
+		GPIO_InitStruct.Alternate = LL_GPIO_AF_0;						//---端口复用模式
 #endif
 	//---ISP_OE_BIT的初始化
-	GPIO_InitStruct.Pin = ISP_OE_BIT;
-	LL_GPIO_Init(ISP_OE_PORT, &GPIO_InitStruct);
-	GPIO_OUT_1(ISP_OE_PORT, ISP_OE_BIT);
+		GPIO_InitStruct.Pin = ISPx->msgOE.msgGPIOBit;
+		LL_GPIO_Init(ISPx->msgOE.msgGPIOPort, &GPIO_InitStruct);
+		GPIO_OUT_1(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
+	}
 #endif
 	return OK_0;
 }
@@ -247,9 +256,57 @@ UINT8_T ISP_DeInit(ISP_HandlerType *ISPx)
 	SPITask_DeInit(&(ISPx->msgSPI),1);
 	ISPx->msgInit = 0;
 #ifdef ISP_USE_lEVEL_SHIFT
-	ISP_OE_DISABLE;
+	GPIO_OUT_1(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
 #endif
 	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：销毁初始化
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_AutoInit(ISP_HandlerType* ISPx)
+{
+	if (ISPx->msgSPI.msgModelIsHW != 0)
+	{
+		ISP_HW_Init(ISPx);
+#ifdef USE_MCU_STM32
+		//---限制编程的最大速度，小鱼1MHz
+		if (ISPx->msgSPI.msgClockSpeed > ISP_SCK_PRE_32)
+		{
+			ISPx->msgSPI.msgClockSpeed = ISP_SCK_PRE_32;
+		}
+#endif
+		//---设置SPI的硬件时钟
+		SPITask_MHW_SetClock(&(ISPx->msgSPI), ISPx->msgSPI.msgClockSpeed);
+		//---传递发送命令函数
+		ISP_SEND_CMD = ISP_HW_SendCmd;
+	}
+	else
+	{
+		ISP_SW_Init(ISPx);
+		//---设置软件模拟的脉宽
+		SPITask_MSW_SetClock(&(ISPx->msgSPI), ISPx->msgSPI.msgPluseWidth);
+		//---传递发送命令函数
+		ISP_SEND_CMD = ISP_SW_SendCmd;
+	}
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：自动注销
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_AutoDeInit(ISP_HandlerType* ISPx)
+{
+	//---注销当前的所有配置
+	return	ISP_DeInit(ISPx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -366,7 +423,7 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 		ISP_SEND_CMD = ISP_SW_SendCmd;
 	}
 #ifdef ISP_USE_lEVEL_SHIFT
-	ISP_OE_ENABLE;
+	GPIO_OUT_0(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
 #endif
 	return OK_0;
 }
@@ -483,7 +540,7 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx)
 		ISPx->msgFuncDelayms(1);
 	}
 #ifdef ISP_USE_lEVEL_SHIFT
-	ISP_OE_DISABLE;
+	GPIO_OUT_1(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
 #endif
 	return ERROR_1;
 }
@@ -545,12 +602,6 @@ UINT8_T ISP_ReadReady(ISP_HandlerType *ISPx)
 			{
 				if (ISPx->msgSPI.msgFuncTimeTick != NULL)
 				{
-					//if ((ISPx->msgSPI.msgFuncTick() - nowTime) > 100)
-					//{
-					//	//---发送发生超时错误
-					//	_return = ERROR_2;
-					//	break;
-					//}
 					//---当前时间
 					nowTime = ISPx->msgSPI.msgFuncTimeTick();
 					//---判断滴答定时是否发生溢出操作

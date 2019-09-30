@@ -36,20 +36,7 @@ extern "C" {
 	//===编程最大字节数
 	#define ISP_COMM_MAX_SIZE					4	
 	//===定义是否使用电平转换芯片，带OE控制端的
-	#define ISP_USE_lEVEL_SHIFT 
-	//===定义使用的OE端口
-#ifdef ISP_USE_lEVEL_SHIFT
-	#define ISP_OE_PORT						GPIOE
-	#define ISP_OE_BIT						LL_GPIO_PIN_4
-	#define ISP_OE_STATE					GPIO_GET_STATE(ISP_OE_PORT,ISP_OE_BIT)
-	#define ISP_OE_WRITE					GPIO_SET_WRITE(ISP_OE_PORT,ISP_OE_BIT)
-	#define ISP_OE_READ						GPIO_SET_READ( ISP_OE_PORT,ISP_OE_BIT)
-	#define ISP_OE_OUT_0					GPIO_OUT_0(    ISP_OE_PORT,ISP_OE_BIT)
-	#define ISP_OE_OUT_1					GPIO_OUT_1(    ISP_OE_PORT,ISP_OE_BIT)
-	#define ISP_OE_OUT_C					GPIO_OUT_C(    ISP_OE_PORT,ISP_OE_BIT)
-	#define ISP_OE_ENABLE					ISP_OE_OUT_0
-	#define ISP_OE_DISABLE					ISP_OE_OUT_1
-#endif 													   
+	#define ISP_USE_lEVEL_SHIFT 												   
 															 
 	//===定义结构体
 	typedef struct _ISP_HandlerType				ISP_HandlerType;
@@ -64,6 +51,9 @@ extern "C" {
 		UINT8_T msgHideAddr;						//---接触64K的限制
 		UINT8_T msgWriteByte[ISP_COMM_MAX_SIZE];	//---发送数据
 		UINT8_T msgReadByte[ISP_COMM_MAX_SIZE];		//---读取数据
+#ifdef ISP_USE_lEVEL_SHIFT
+		GPIO_HandlerType msgOE;						//---电平转换使能控制端，0---使能；1---不使能
+#endif
 		void(*msgFuncDelayms)(UINT32_T delay);		//---延时参数
 		SPI_HandlerType msgSPI;						//---使用的SPI模式
 	};
@@ -82,6 +72,8 @@ extern "C" {
 	UINT8_T ISP_SW_Init(ISP_HandlerType *ISPx);
 	UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
 	UINT8_T ISP_DeInit(ISP_HandlerType *ISPx);
+	UINT8_T ISP_AutoInit(ISP_HandlerType* ISPx);
+	UINT8_T ISP_AutoDeInit(ISP_HandlerType* ISPx);
 	UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok);
 	UINT8_T ISP_SW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4);
 	UINT8_T ISP_HW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4);

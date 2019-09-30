@@ -236,9 +236,9 @@ extern "C" {
 	UINT8_T  USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable);
 	UINT8_T  USART_DeInit(USART_HandlerType*USARTx);
 	UINT8_T  USART_DeviceInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index);
-	UINT8_T  USART1_Init(USART_HandlerType*USARTx);
-	UINT8_T  USART2_Init(USART_HandlerType*USARTx);
-	UINT8_T  USART3_Init(USART_HandlerType*USARTx);
+	UINT8_T  USART_Device0_Init(USART_HandlerType*USARTx);
+	UINT8_T  USART_Device1_Init(USART_HandlerType*USARTx);
+	UINT8_T  USART_Device2_Init(USART_HandlerType*USARTx);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
