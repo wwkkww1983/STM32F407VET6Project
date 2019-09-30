@@ -310,3 +310,110 @@ UINT8_T ISPTask_UpdateChipFlashLongAddr(ISP_HandlerType *ISPx, UINT32_T addr)
 {
 	return ISPLib_UpdateChipFlashLongAddr(ISPx, addr);
 }
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_USARTCmdChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USARTx,UINT8_T isChildCmd)
+{
+	UINT8_T _return = 0;
+	//---依据命令解析数据
+	switch (USARTx->msgRxHandler.pMsgVal[USARTx->msgCmdIndex+isChildCmd])
+	{
+		case CMD_ISP_OPEN_CLOSE				:
+			break;
+		case CMD_ISP_ERASE					:
+			break;
+		case CMD_ISP_FLASH_PAGE_READ		:
+			break;
+		case CMD_ISP_FLASH_PAGE_WRITE		:
+			break;
+		case CMD_ISP_EEPROM_PAGE_READ		:
+			break;
+		case CMD_ISP_EEPROM_PAGE_WRITE		:
+			break;
+		case CMD_ISP_FUSE_LOCK_READ			:
+			break;
+		case CMD_ISP_FUSE_WRITE				:
+			break;
+		case CMD_ISP_LOCK_WRITE				:
+			break;
+		case CMD_ISP_ID_READ				:
+			break;
+		case CMD_ISP_CALIBRATIONBYTE_READ	:
+			break;
+		case CMD_ISP_ROM_PAGE_READ			:
+			break;
+		default:
+			//---不识别的命令
+			_return = ERROR_1;
+			break;
+	}
+	USARTx->msgTxHandler.pMsgVal[USARTx->msgDataOneIndex] = (_return == OK_0)?0 : 1;
+	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_USARTCmdParentTask(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
+{
+	UINT8_T _return = 0;
+	if ((USARTx != NULL) && (ISPx != NULL))
+	{
+		//---判断接收是否完成
+		if (USARTTask_GetReadState(USARTx) == 1)
+		{
+			//---CRC的校验和设备ID校验
+			if ((USARTTask_CRCTask_Read(USARTx) == OK_0) && (USARTTask_DeviceID(USARTx) == OK_0))
+			{
+				//---任务命令处理函数，主命令
+				USARTTask_FillMode_Init(USARTx);
+				//---主命令/命令
+				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxHandler.pMsgVal[USARTx->msgCmdIndex]);
+				//---子命令或者数据(发送这位代表测试结果0---合格，1---失败)
+				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex]);
+				//---处理子命令
+				_return=ISPTask_USARTCmdChildTask(ISPx, USARTx, 0);
+				//---返回结果紧跟在子命令后面
+				//USARTTask_FillMode_AddByte(USARTx, 0x00);
+				//---是否需要增加换行符
+				if (USARTx->msgTxHandler.msgAddNewLine == 1)
+				{
+					USARTTask_FillMode_AddByte(USARTx, 0x0D);
+					USARTTask_FillMode_AddByte(USARTx, 0x0A);
+				}
+				//---启动数据发送
+				USARTTask_FillMode_WriteSTART(USARTx, 0);
+			}
+			else
+			{
+				//---发生CRC校验错误
+				USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
+			}
+			return USARTTask_ReadInit(USARTx);
+		}
+		return USARTTask_TimeOVFTask(USARTx);
+	}
+	return ERROR_2;
+}
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_USARTCmdTask(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
+{
+	UINT8_T _return = OK_0;
+	_return=ISPTask_USARTCmdChildTask(ISPx, USARTx, 0);
+	return _return;
+}

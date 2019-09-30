@@ -231,21 +231,27 @@ void Sys_Init(void)
 	CRCTask_Init();
 	
 	//---初始化定时器
-	TimerTask_Init();
+	//TimerTask_Init();
 	
 	//---WM8510
-	WM8510Task_I2C_Init(pWM8510Device0, DelayTask_us, 0);
+	//WM8510Task_I2C_Init(pWM8510Device0, DelayTask_us, 0);
 
 	//WM8510Task_I2C_SetFreqMHz(pWM8510Device0,13);
 	//WM8510Task_I2C_SetFreqHzWithAllFreqReg(pWM8510Device0,12000000);
-	WM8510Task_I2C_SetFreqHzWithAllFreqRegAndCalibrateFreqKHzOutPut(pWM8510Device0,12000000);
+	//WM8510Task_I2C_SetFreqHzWithAllFreqRegAndCalibrateFreqKHzOutPut(pWM8510Device0,12000000);
 	//---指示灯的初始化
 	//LEDTask_Init();
-	
+	ISPTask_Init(pISPDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick);
 	//---DAC的初始化
 	DACTask_Init(DAC_CHANNEL_SELECT_ALL,1);
 	//---设置LM317作为可控电源的初始化
-	LM317Task_Init(0, 1500);
+	LM317Task_Init(0, 3000);
+	LM317_POWER_ON;
+
+	ISPTask_EnterProg(pISPDevice0);
+	
+	ISPTask_ReadChipID(pISPDevice0,debugRTemp);
+
 	//---ADS8688的初始化
 	//ADS868X_SPI_Init(pADS868XDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick, 1);
 	//---ADS8698的初始化
@@ -373,8 +379,8 @@ int main(void)
 			//DS1302Task_ReadRTC(pDS1302Device0);
 			cnt = 0;
 		}
-		DelayTask_ms(100);
-		USART_Printf(pUSART1, "Data:%d\r\n", cnt);
+		//DelayTask_ms(100);
+		//USART_Printf(pUSART1, "Data:%d\r\n", cnt);
 		
 		WDT_RESET();
 	}

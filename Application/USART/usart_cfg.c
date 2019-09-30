@@ -1966,64 +1966,46 @@ UINT8_T USART1_Init(USART_HandlerType*USARTx)
 
 	//---注销串口的初始化
 	LL_USART_DeInit(USART1);
-
 	//---使能USART1的时钟信号
 	USART_Clock(USART1, 1);
-
 	//---USART的接口结构体
 	LL_USART_InitTypeDef USART_InitStruct = { 0 };
-
 	//---波特率
 	USART_InitStruct.BaudRate = 115200;
-
 	//---数据位
 	USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
-
 	//---停止位
 	USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
-
 	//---校验位
 	USART_InitStruct.Parity = LL_USART_PARITY_NONE;
-
 	//---配置为收发模式
 	USART_InitStruct.TransferDirection = LL_USART_DIRECTION_TX_RX;
-
 	//---硬件流控制---默认为无
 	USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
-
 	//---过采样配置
 #if defined(USART_CR1_OVER8)
 
 	//---过采样次数---默认配置为16
 	USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
 #endif
-
 	//---初始化串口
 	LL_USART_Init(USART1, &USART_InitStruct);
-
 	//---串口异步模式配置
 	LL_USART_ConfigAsyncMode(USART1);
-
 	//---USART1_IRQ中断配置---中断等级配置
 	NVIC_SetPriority(USART1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
-
 	//---使能中断
 	NVIC_EnableIRQ(USART1_IRQn);
-
 	//---使能接收中断
 	LL_USART_EnableIT_RXNE(USART1);
-
 	//---使能串口
 	LL_USART_Enable(USART1);
-
 	//---配置消息结构体中的信息
 	USARTx->msgTxPort = GPIOA;
 	USARTx->msgTxBit = LL_GPIO_PIN_9;
 	USARTx->msgUSART = USART1;
-
 	//---串口序号
 	USARTx->msgIndex = 1 + 1;
-
 	//---校验是否需要超时函数
 	if (USARTx->msgFuncTimeTick != NULL)
 	{
@@ -2035,24 +2017,21 @@ UINT8_T USART1_Init(USART_HandlerType*USARTx)
 		USARTx->msgRxHandler.msgMaxTime = 0;
 		USARTx->msgTxHandler.msgMaxTime = 0;
 	}
-
 	//---配置CRC的等级
 	USARTx->msgTxHandler.msgCRCFlag = USART_CRC_NONE;
-
 	//---配置报头和报尾
 	USARTx->msgRxID = 0x55;
 	USARTx->msgTxID = 0x5A;
-
+	//---命令和地址配置
+	USART_DeviceInit(USARTx, USART1_DEVICE_ID, USART1_ID_INDEX, USART1_CMD_INDEX, USART1_DATA1_INDEX, USART1_DATA2_INDEX);
 	//---初始化485端口--推完输出模式，配置为接收模式
 	//////
 	//----------------
 	/////
 	//---定义485为接收模式
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
-
 	//---设置TX端口为输入模式
 	USART_GPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
-
 	//---打印初始化信息
 	USART_Printf(USARTx, "=>>串口1的初始化<<=\r\n");
 	return OK_0;

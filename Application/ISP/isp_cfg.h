@@ -21,28 +21,40 @@ extern "C" {
 	#define ISP_SCK_KHZ_16						6	//---32us
 	#define ISP_SCK_KHZ_32						7	//---16us
 	#define ISP_SCK_KHZ_64						8	//---8us
-	#define ISP_SCK_PRE_256						9	//---84M/256
-	#define ISP_SCK_PRE_128						10	//---84M/128
-	#define ISP_SCK_PRE_64						11	//---84M/64
-	#define ISP_SCK_PRE_32						12	//---84M/32
-	#define ISP_SCK_PRE_16						13	//---84M/16
-	#define ISP_SCK_PRE_8						14	//---84M/8
-	#define ISP_SCK_PRE_4						15	//---84M/4
-	#define ISP_SCK_PRE_2						16	//---84M/2
+	#define ISP_SCK_PRE_256						9	//---42M/256
+	#define ISP_SCK_PRE_128						10	//---42M/128
+	#define ISP_SCK_PRE_64						11	//---42M/64
+	#define ISP_SCK_PRE_32						12	//---42M/32
+	#define ISP_SCK_PRE_16						13	//---42M/16
+	#define ISP_SCK_PRE_8						14	//---42M/8
+	#define ISP_SCK_PRE_4						15	//---42M/4
+	#define ISP_SCK_PRE_2						16	//---42M/2
 	
 	//===最大的编程时钟
 	#define ISP_SCK_MAX_CLOCK					ISP_SCK_PRE_256
-	#define ISP_SCK_AUTO_MAX_COUNT				16
-	
+	#define ISP_SCK_AUTO_MAX_COUNT				16	
 	//===编程最大字节数
-	#define ISP_COMM_MAX_SIZE					4
-	
+	#define ISP_COMM_MAX_SIZE					4	
+	//===定义是否使用电平转换芯片，带OE控制端的
+	#define ISP_USE_lEVEL_SHIFT 
+	//===定义使用的OE端口
+#ifdef ISP_USE_lEVEL_SHIFT
+	#define ISP_OE_PORT						GPIOE
+	#define ISP_OE_BIT						LL_GPIO_PIN_4
+	#define ISP_OE_STATE					GPIO_GET_STATE(ISP_OE_PORT,ISP_OE_BIT)
+	#define ISP_OE_WRITE					GPIO_SET_WRITE(ISP_OE_PORT,ISP_OE_BIT)
+	#define ISP_OE_READ						GPIO_SET_READ( ISP_OE_PORT,ISP_OE_BIT)
+	#define ISP_OE_OUT_0					GPIO_OUT_0(    ISP_OE_PORT,ISP_OE_BIT)
+	#define ISP_OE_OUT_1					GPIO_OUT_1(    ISP_OE_PORT,ISP_OE_BIT)
+	#define ISP_OE_OUT_C					GPIO_OUT_C(    ISP_OE_PORT,ISP_OE_BIT)
+	#define ISP_OE_ENABLE					ISP_OE_OUT_0
+	#define ISP_OE_DISABLE					ISP_OE_OUT_1
+#endif 													   
+															 
 	//===定义结构体
 	typedef struct _ISP_HandlerType				ISP_HandlerType;
-
 	//===定义指针结构体
 	typedef	struct _ISP_HandlerType				*pISP_HandlerType;
-
 	//===结构定义
 	struct _ISP_HandlerType
 	{
@@ -57,13 +69,13 @@ extern "C" {
 	};
 
 	//===任务函数
-#define ISP_TASK_ONE		pISPDevice0
-#define ISP_TASK_TWO		0
-#define ISP_TASK_THREE		0
+	#define ISP_TASK_ONE						pISPDevice0
+	#define ISP_TASK_TWO						0
+	#define ISP_TASK_THREE						0
 
-//===外部调用接口
-	extern ISP_HandlerType g_ISPDevice0;
-	extern pISP_HandlerType pISPDevice0;
+	//===外部调用接口
+	extern ISP_HandlerType						g_ISPDevice0;
+	extern pISP_HandlerType						pISPDevice0;
 
 	//===函数定义
 	UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx);
