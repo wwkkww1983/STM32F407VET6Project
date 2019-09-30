@@ -79,10 +79,12 @@ stm32f407vet6project/stm32f4xx_it.o: ..\STM32F4xx\stm32f4xx_it.c \
   ..\Application\WM8510\wm8510_cfg.h ..\Application\I2C\i2c_task.h \
   ..\Application\I2C\i2c_lib.h ..\Application\I2C\i2c_cfg.h \
   ..\Application\Power\power_task.h ..\Application\Power\power_lib.h \
-  ..\Application\Power\power_cfg.h ..\Application\LED\led_task.h \
-  ..\Application\LED\led_lib.h ..\Application\LED\led_cfg.h \
-  ..\Application\Key\key_task.h ..\Application\Key\key_lib.h \
-  ..\Application\Key\key_cfg.h ..\Application\RFASK\rfask_eeprom.h \
+  ..\Application\Power\power_cfg.h ..\Application\DAC\dac_task.h \
+  ..\Application\DAC\dac_lib.h ..\Application\DAC\dac_cfg.h \
+  ..\Application\LED\led_task.h ..\Application\LED\led_lib.h \
+  ..\Application\LED\led_cfg.h ..\Application\Key\key_task.h \
+  ..\Application\Key\key_lib.h ..\Application\Key\key_cfg.h \
+  ..\Application\RFASK\rfask_eeprom.h \
   ..\Application\AT24Cxx\at24cxx_task.h \
   ..\Application\AT24Cxx\at24cxx_lib.h \
   ..\Application\AT24Cxx\at24cxx_cfg.h \

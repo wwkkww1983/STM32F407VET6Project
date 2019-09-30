@@ -49,6 +49,8 @@ extern "C" {
 	//===串口数据定义
 	struct _USART_HandlerType
 	{
+		UINT16_T							msgPrintfCount;		//---打印发送总数
+		UINT16_T							msgPrintfIndex;		//---打印发送序号
 		UINT8_T								msgIndex;			//---USART端口的索引号
 		UINT8_T								msgRxID;			//---接收报头
 		UINT8_T								msgTxID;			//---发送报头
@@ -72,7 +74,7 @@ extern "C" {
 	
 	//===重映射printf之后的数据缓存区
 	#ifdef USE_USART_PRINTF
-	#define USART_PRINTF_SIZE					1024
+	#define USART_PRINTF_SIZE					512
 	#endif
 	
 	//===使用的校验方式
@@ -116,6 +118,8 @@ extern "C" {
 	#define USART_BUSY								0
 	#define USART_OK								1
 	#define USART_ERROR								2
+	//===使用Printf传输数据中
+	#define USART_PRINTF							3
 	
 	//===定义的任务函数
 	#define USART_TASK_ONE							pUSART1
@@ -167,6 +171,7 @@ extern "C" {
 	UINT8_T  USART_WriteInit(USART_HandlerType*  USARTx);
 	UINT8_T  USART_DeviceID(USART_HandlerType*USARTx);
 	void     USART_Printf(USART_HandlerType*USARTx, char*fmt, ...);
+	UINT8_T USART_IT_TCTask(USART_HandlerType* USARTx);
 	void	 USART_PrintfClockFreq(USART_HandlerType*USARTx);
 	UINT8_T  USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable);
 	UINT8_T  USART_DeInit(USART_HandlerType*USARTx);

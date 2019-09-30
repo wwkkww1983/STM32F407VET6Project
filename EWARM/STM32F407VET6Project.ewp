@@ -226,8 +226,15 @@
                     <name>CCDefines</name>
                     <state>USE_FULL_LL_DRIVER</state>
                     <state>USE_HAL_DRIVER</state>
-                    <state>STM32F407xx</state>
                     <state>HSE_VALUE=8000000UL</state>
+                    <state>STM32F407xx</state>
+                    <state>__TARGET_FPU_VFP</state>
+                    <state>ARM_MATH_MATRIX_CHECK</state>
+                    <state>ARM_MATH_ROUNDING</state>
+                    <state>ARM_MATH_CM4</state>
+                    <state>__ICCARM__</state>
+                    <state>__IASMARM__</state>
+                    <state>__FPU_USED</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -362,14 +369,18 @@
                     <state>$PROJ_DIR$\..\STM32F4xx</state>
                     <state>$PROJ_DIR$/../Application/AD5593</state>
                     <state>$PROJ_DIR$/../Application/ADC</state>
-                    <state>$PROJ_DIR$/../Application/ADS8688</state>
+                    <state>$PROJ_DIR$/../Application/ADS868x</state>
+                    <state>$PROJ_DIR$/../Application/ADS869x</state>
+                    <state>$PROJ_DIR$/../Application/ADS1256</state>
                     <state>$PROJ_DIR$/../Application/APP</state>
                     <state>$PROJ_DIR$/../Application/AT24Cxx</state>
                     <state>$PROJ_DIR$/../Application/CRC</state>
+                    <state>$PROJ_DIR$/../Application/DAC</state>
                     <state>$PROJ_DIR$/../Application/Delay</state>
                     <state>$PROJ_DIR$/../Application/DHT11</state>
                     <state>$PROJ_DIR$/../Application/DS18B20</state>
                     <state>$PROJ_DIR$/../Application/EEPROM</state>
+                    <state>$PROJ_DIR$/../Application/Encode</state>
                     <state>$PROJ_DIR$/../Application/FLASH</state>
                     <state>$PROJ_DIR$/../Application/GPIO</state>
                     <state>$PROJ_DIR$/../Application/HMC830</state>
@@ -407,10 +418,13 @@
                     <state>$PROJ_DIR$\..\Application\RTC</state>
                     <state>$PROJ_DIR$\..\Application\MyMalloc</state>
                     <state>$PROJ_DIR$\..\Application\HMC472</state>
-                    <state>$PROJ_DIR$\..\Application\ADS868x</state>
-                    <state>$PROJ_DIR$\..\Application\ADS869x</state>
-                    <state>$PROJ_DIR$\..\Application\DAC</state>
                     <state>$PROJ_DIR$\..\Application\KalmanFilter</state>
+                    <state>$PROJ_DIR$\..\Application\ModBusMaster</state>
+                    <state>$PROJ_DIR$\..\Application\ModBusSlave</state>
+                    <state>$PROJ_DIR$\..\Application\MAX961x</state>
+                    <state>$PROJ_DIR$\..\Application\SMBUS</state>
+                    <state>$PROJ_DIR$\..\Application\LIN</state>
+                    <state>$PROJ_DIR$\..\Application\INA226</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1448,6 +1462,27 @@
             </file>
         </group>
         <group>
+            <name>ENC28J60</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>FLASH</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\FLASH\flash_cfg.c</name>
@@ -1550,6 +1585,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\IAP\iap_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>INA226</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_task.h</name>
             </file>
         </group>
         <group>
@@ -1667,6 +1723,90 @@
             </file>
         </group>
         <group>
+            <name>LIN</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>MAX961x</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>ModBusMaster</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>ModBusSlave</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>MyMalloc</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\MyMalloc\my_malloc.c</name>
@@ -1781,6 +1921,27 @@
             </file>
         </group>
         <group>
+            <name>Power</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>PVD</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\PVD\pvd_cfg.c</name>
@@ -1831,6 +1992,12 @@
                 <name>$PROJ_DIR$\..\Application\RFASK\rfask_cfg.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\Application\RFASK\rfask_eeprom.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\RFASK\rfask_eeprom.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\Application\RFASK\rfask_lib.c</name>
             </file>
             <file>
@@ -1874,6 +2041,27 @@
             </file>
         </group>
         <group>
+            <name>SDIO</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>SHT2x</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\SHT2x\sht2x_cfg.c</name>
@@ -1892,6 +2080,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\SHT2x\sht2x_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>SMBUS</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_task.h</name>
             </file>
         </group>
         <group>
@@ -2000,6 +2209,27 @@
             </file>
         </group>
         <group>
+            <name>W5500</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>WM8510</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\WM8510\wm8510_cfg.c</name>
@@ -2090,6 +2320,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_def.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_gpio.c</name>

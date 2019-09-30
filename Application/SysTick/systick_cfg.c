@@ -69,7 +69,7 @@ UINT8_T SysTick_StructInit(SysTick_HandlerType *sysTickx)
 //////输出参数:
 //////说		明： 最好1ms的滴答定时器
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysTick_Init(void)
+UINT8_T SysTick_msInit(void)
 {
 	//---初始化结构体
 	SysTick_StructInit(pSysTick);
@@ -408,7 +408,7 @@ UINT8_T SysTick_WaitusTick(UINT32_T usTime)
 	UINT32_T tload = SysTick->LOAD;
 
 	//---判断是不是超出界限
-	if (usTime < 1000)
+	if (usTime < 1001)
 	{
 		while (1)
 		{

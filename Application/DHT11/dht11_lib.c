@@ -7,9 +7,9 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11Lib_Init(DHT11_HandlerType *DHT11x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay))
+UINT8_T DHT11Lib_Init(DHT11_HandlerType *DHT11x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void))
 {
-	return DHT11_Init(DHT11x, pFuncDelayus, pFuncDelayms);
+	return DHT11_Init(DHT11x, pFuncDelayus, pFuncDelayms,pFuncTimerTick);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

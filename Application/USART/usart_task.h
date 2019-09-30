@@ -111,6 +111,7 @@ extern "C" {
 	UINT8_T  USARTTask_CRCTask_Write(USART_HandlerType*USARTx);
 	UINT8_T  USARTTask_PollMode_WriteByte(USART_HandlerType*USARTx, UINT8_T  val);
 	UINT8_T  USARTTask_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal);
+	UINT8_T  USARTTask_IT_TCTask(USART_HandlerType* USARTx);
 	UINT8_T	 USARTTask_DeviceID(USART_HandlerType*USARTx);
 	UINT8_T  USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *));
 

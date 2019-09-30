@@ -71,16 +71,13 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\ADS1256\ads1256_lib.h \
   ..\Application\ADS1256\ads1256_cfg.h ..\Application\SPI\spi_task.h \
   ..\Application\SPI\spi_lib.h ..\Application\SPI\spi_cfg.h \
-  ..\Application\ADS1256\ads1256_cfg.h \
   ..\Application\ADS868x\ads868x_task.h \
   ..\Application\ADS868x\ADS868X_lib.h \
   ..\Application\ADS868x\ADS868X_cfg.h \
   ..\Application\KalmanFilter\kalman_filter.h \
-  ..\Application\ADS868x\ads868x_cfg.h \
   ..\Application\ADS869x\ads869x_task.h \
   ..\Application\ADS869x\ADS869X_lib.h \
   ..\Application\ADS869x\ADS869X_cfg.h \
-  ..\Application\ADS869x\ads869x_cfg.h \
   ..\Application\AT24Cxx\at24cxx_task.h \
   ..\Application\AT24Cxx\at24cxx_lib.h \
   ..\Application\AT24Cxx\at24cxx_cfg.h \
@@ -118,10 +115,14 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\FLASH\flash_cfg.h ..\Application\HMC830\hmc830_task.h \
   ..\Application\HMC830\hmc830_task.h ..\Application\IAP\iap_task.h \
   ..\Application\IAP\iap_lib.h ..\Application\IAP\iap_cfg.h \
-  ..\Application\ISP\isp_task.h ..\Application\ISP\isp_lib.h \
-  ..\Application\ISP\isp_cfg.h ..\Application\LCD1602\lcd1602_task.h \
+  ..\Application\INA226\ina226_cfg.h ..\Application\ISP\isp_task.h \
+  ..\Application\ISP\isp_lib.h ..\Application\ISP\isp_cfg.h \
+  ..\Application\LCD1602\lcd1602_task.h \
   ..\Application\LCD1602\lcd1602_lib.h \
   ..\Application\LCD1602\lcd1602_cfg.h \
+  ..\Application\MAX961x\max961x_task.h \
+  ..\Application\MAX961x\max961x_lib.h \
+  ..\Application\MAX961x\max961x_cfg.h \
   ..\Application\NRF2401\nrf2401_task.h \
   ..\Application\NRF2401\nrf2401_lib.h \
   ..\Application\NRF2401\nrf2401_cfg.h ..\Application\OLED\oled_task.h \

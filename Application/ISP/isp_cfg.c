@@ -17,7 +17,7 @@ UINT8_T(*ISP_SEND_CMD)(ISP_HandlerType *, UINT8_T, UINT8_T, UINT8_T, UINT8_T);
 UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 {
 	//---注销当前的所有配置
-	SPITask_DeInit(&(ISPx->msgSPI));
+	SPITask_DeInit(&(ISPx->msgSPI),1);
 	
 	//---硬件端口的配置---硬件实现
 	SPITask_MHW_GPIO_Init(&(ISPx->msgSPI));
@@ -27,18 +27,18 @@ UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 
 	//---SPI的模式配置
 	SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
-	SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;						//---主机模式
-	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;				//---8位数据
+	SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;									//---主机模式
+	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;							//---8位数据
 	
 	//---时钟空闲时的极性
 	if(ISPx->msgSPI.msgCPOL==0)
 	{
-		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;				//---CLK空闲时为低电平 (CLK空闲是只能是低电平)
+		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;						//---CLK空闲时为低电平 (CLK空闲是只能是低电平)
 		GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
 	}
 	else
 	{
-		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_HIGH;				//---CLK空闲时为高电平 (CLK空闲是只能是低电平)
+		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_HIGH;					//---CLK空闲时为高电平 (CLK空闲是只能是低电平)
 	}
 	
 	//---数据采样的时钟边沿位置
@@ -51,10 +51,10 @@ UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 		SPI_InitStruct.ClockPhase = LL_SPI_PHASE_2EDGE;
 	}
 	
-	SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;							//---软件控制
-	SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV256;		//---系统时钟256分频
-	SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;						//---高位在前
-	SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;	//---硬件CRC不使能
+	SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;										//---软件控制
+	SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV256;					//---系统时钟256分频
+	SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;									//---高位在前
+	SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;				//---硬件CRC不使能
 	SPI_InitStruct.CRCPoly = 7;
 	SPITask_MHW_PollMode_Init(&(ISPx->msgSPI), SPI_InitStruct);
 	ISPx->msgInit = 1;
@@ -70,7 +70,7 @@ UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISP_SW_Init(ISP_HandlerType *ISPx)
 {
-	SPITask_DeInit(&(ISPx->msgSPI));
+	SPITask_DeInit(&(ISPx->msgSPI),1);
 
 	//---硬件端口的配置---软件实现
 	SPITask_MSW_GPIO_Init(&(ISPx->msgSPI));
@@ -237,7 +237,7 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISP_DeInit(ISP_HandlerType *ISPx)
 {
-	SPITask_DeInit(&(ISPx->msgSPI));
+	SPITask_DeInit(&(ISPx->msgSPI),1);
 	ISPx->msgInit = 0;
 	return OK_0;
 }

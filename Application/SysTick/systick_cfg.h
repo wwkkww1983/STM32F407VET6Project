@@ -35,7 +35,7 @@ extern "C" {
 	extern pSysTick_HandlerType		pSysTick;
 
 	//===函数定义
-	UINT8_T  SysTick_Init(void);
+	UINT8_T  SysTick_msInit(void);
 	UINT8_T  SysTick_DeInit(void);
 	UINT8_T	SysTick_CreateTickTask(void(*pFuncTick)(void));
 	UINT8_T SysTick_DeleteTickTask(void(*pFuncTick)(void));

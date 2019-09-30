@@ -186,9 +186,9 @@ extern "C" {
 		VLTUINT32_T msgChannelNowADCResult[ADS868X_CHANNEL_MAX];				//---AD通道的当前采样结果
 		VLTUINT32_T msgChannelOldADCResult[ADS868X_CHANNEL_MAX];				//---AD通道的上一次采样结果
 		VLTUINT32_T msgChannelPowerResult[ADS868X_CHANNEL_MAX];					//---AD通道的采样的电压结果
-		void(*msgFuncDelayms)(UINT32_T delay);									//---延时参数
 		SPI_HandlerType		msgSPI;												//---使用的SPI模式
 		GPIO_HandlerType	msgHWRST;											//---硬件复位信号
+		void(*msgFuncDelayms)(UINT32_T delay);									//---延时参数
 	};
 
 	//===任务函数

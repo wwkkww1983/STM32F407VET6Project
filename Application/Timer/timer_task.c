@@ -31,7 +31,7 @@ void TimerTask_CalcFreq_Task(UINT8_T ch)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT32_T TimerTask_GetFreqKHz(void)
+float TimerTask_GetFreqKHz(void)
 {
 	return TimerLib_GetFreqKHz();
 }

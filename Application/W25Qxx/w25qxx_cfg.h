@@ -7,8 +7,6 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "complier_lib.h"
 	#include "spi_task.h"
-	#include "systick_task.h"
-	#include "delay_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////
 	///擦除芯片的时候不要用全部擦除指令，全部擦除的指令，芯片耗时太长，建议选择用块擦除指令
@@ -73,7 +71,7 @@ extern "C" {
 	#define W25QXX_BLOCK_64KB_BYTE_SIZE			4096*64
 	#define W25QXX_BLOCK_64KB_NUM_MASK			0xFFFC0000
 	#define W25QXX_BLOCK_64KB_BYTE_MASK			0x3FFFF
-	
+
 	//===定义结构体
 	typedef struct _W25QXX_HandlerType			W25QXX_HandlerType;
 
@@ -83,15 +81,15 @@ extern "C" {
 	//===结构定义
 	struct _W25QXX_HandlerType
 	{
-		UINT8_T		msgInit;										//---判断是否初始化过了 0---未初始化，1---初始化
-		UINT8_T		msgBuffer[W25QXX_SECTOR_BYTE_SIZE];				//---数据缓存区
-		UINT32_T	msgEraseDelayMS;								//---全部擦除后的延时时间，
-		UINT16_T	msgEraseSectorDelayMS;							//---扇区的延时时间
-		UINT16_T	msgErase32KbBlockDelayMS;						//---32Kb块的延时时间
-		UINT16_T	msgErase64KbBlockDelayMS;						//---64Kb块的延时时间
-		UINT16_T	msgChipID;										//---设备ID信息
-		void(*msgFuncDelayms)(UINT32_T delay);						//---延时参数
-		SPI_HandlerType msgSPI;										//---使用的SPI模式
+		UINT8_T		msgInit;													//---判断是否初始化过了 0---未初始化，1---初始化
+		UINT8_T		msgBuffer[W25QXX_SECTOR_BYTE_SIZE];							//---数据缓存区
+		UINT32_T	msgEraseDelayMS;											//---全部擦除后的延时时间，
+		UINT16_T	msgEraseSectorDelayMS;										//---扇区的延时时间
+		UINT16_T	msgErase32KbBlockDelayMS;									//---32Kb块的延时时间
+		UINT16_T	msgErase64KbBlockDelayMS;									//---64Kb块的延时时间
+		UINT16_T	msgChipID;													//---设备ID信息
+		void(*msgFuncDelayms)(UINT32_T delay);									//---延时参数
+		SPI_HandlerType msgSPI;													//---使用的SPI模式
 	};
 
 	//===任务函数
@@ -105,34 +103,34 @@ extern "C" {
 
 	//===函数定义
 	UINT8_T W25QXX_SPI_Init(W25QXX_HandlerType *W25Qx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);
-	UINT8_T W25QXX_SPI_ReadRegSR1(W25QXX_HandlerType *W25Qx);
-	UINT8_T W25QXX_SPI_ReadRegSR2(W25QXX_HandlerType *W25Qx);
-	void W25QXX_SPI_WriteRegSR1(W25QXX_HandlerType *W25Qx, UINT8_T cmd);
-	void W25QXX_SPI_WriteRegSR2(W25QXX_HandlerType *W25Qx, UINT8_T cmd);
-	void W25QXX_SPI_EnableWrite(W25QXX_HandlerType *W25Qx);
-	void W25QXX_SPI_DisableWrite(W25QXX_HandlerType *W25Qx);
-	UINT16_T W25QXX_SPI_ReadID(W25QXX_HandlerType *W25Qx);
-	UINT8_T W25QXX_SPI_WaitBusy(W25QXX_HandlerType *W25Qx, UINT32_T timeOut);
-	void W25QXX_SPI_ReadData(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length);
-	void W25QXX_SPI_ReadFast(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length);
-	void W25QXX_SPI_WritePage(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length);
-	void W25QXX_SPI_EraseChip(W25QXX_HandlerType *W25Qx);
-	void W25QXX_SPI_EraseResume(W25QXX_HandlerType* W25Qx);
-	void W25QXX_SPI_EraseSuspend(W25QXX_HandlerType* W25Qx);
-	void W25QXX_SPI_EraseSector(W25QXX_HandlerType *W25Qx, UINT32_T sectorAddr);
-	void W25QXX_SPI_EraseBlock32KB(W25QXX_HandlerType *W25Qx, UINT32_T blockAddr);
-	void W25QXX_SPI_EraseBlock64KB(W25QXX_HandlerType *W25Qx, UINT32_T blockAddr);
-	void W25QXX_SPI_PowerDown(W25QXX_HandlerType *W25Qx);
-	void W25QXX_SPI_WakeUp(W25QXX_HandlerType *W25Qx);
-	void W25QXX_SPI_ReadUniqueIDNumber(W25QXX_HandlerType *W25Qx, UINT8_T *pVal);
-	void W25QXX_SPI_ReadJEDECID(W25QXX_HandlerType *W25Qx, UINT8_T *pVal);
-	void W25QXX_SPI_EraseSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr);
-	void W25QXX_SPI_ProgramSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UINT8_T *pVal, UINT16_T length);
-	void W25QXX_SPI_ReadSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UINT8_T *pVal, UINT16_T length);
-	void W25QXX_SPI_EnableReset(W25QXX_HandlerType *W25Qx);
-	void W25QXX_SPI_Reset(W25QXX_HandlerType *W25Qx);
-	void W25QXX_SPI_OnlyWrite(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T* pVal, UINT16_T length);
-	void W25QXX_SPI_CheckWrite(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T* pVal, UINT16_T length);
+	UINT8_T W25QXX_SPI_ReadRegSR1(W25QXX_HandlerType* W25Qx, UINT8_T isAutoInit);
+	UINT8_T W25QXX_SPI_ReadRegSR2(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit);
+	void W25QXX_SPI_WriteRegSR1(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T isAutoInit);
+	void W25QXX_SPI_WriteRegSR2(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T isAutoInit);
+	void W25QXX_SPI_EnableWrite(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit);
+	void W25QXX_SPI_DisableWrite(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit);
+	UINT16_T W25QXX_SPI_ReadID(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit);
+	UINT8_T W25QXX_SPI_WaitBusy(W25QXX_HandlerType *W25Qx, UINT32_T timeOut, UINT8_T isAutoInit);
+	void W25QXX_SPI_ReadData(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit);
+	void W25QXX_SPI_ReadFast(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit);
+	void W25QXX_SPI_WritePage(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit);
+	void W25QXX_SPI_EraseChip(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit);
+	void W25QXX_SPI_EraseResume(W25QXX_HandlerType* W25Qx, UINT8_T isAutoInit);
+	void W25QXX_SPI_EraseSuspend(W25QXX_HandlerType* W25Qx, UINT8_T isAutoInit);
+	void W25QXX_SPI_EraseSector(W25QXX_HandlerType *W25Qx, UINT32_T sectorAddr, UINT8_T isAutoInit);
+	void W25QXX_SPI_EraseBlock32KB(W25QXX_HandlerType *W25Qx, UINT32_T blockAddr, UINT8_T isAutoInit);
+	void W25QXX_SPI_EraseBlock64KB(W25QXX_HandlerType *W25Qx, UINT32_T blockAddr, UINT8_T isAutoInit);
+	void W25QXX_SPI_PowerDown(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit);
+	void W25QXX_SPI_WakeUp(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit);
+	void W25QXX_SPI_ReadUniqueIDNumber(W25QXX_HandlerType *W25Qx, UINT8_T *pVal, UINT8_T isAutoInit);
+	void W25QXX_SPI_ReadJEDECID(W25QXX_HandlerType *W25Qx, UINT8_T *pVal, UINT8_T isAutoInit);
+	void W25QXX_SPI_EraseSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UINT8_T isAutoInit);
+	void W25QXX_SPI_ProgramSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit);
+	void W25QXX_SPI_ReadSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit);
+	void W25QXX_SPI_EnableReset(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit);
+	void W25QXX_SPI_Reset(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit);
+	void W25QXX_SPI_WriteNoCheck(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T* pVal, UINT16_T length, UINT8_T isAutoInit);
+	void W25QXX_SPI_WriteAndCheck(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T* pVal, UINT16_T length, UINT8_T isAutoInit);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

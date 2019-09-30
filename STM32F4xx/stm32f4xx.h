@@ -122,11 +122,11 @@ extern "C" {
 #endif /* USE_HAL_DRIVER */
 
 /**
-  * @brief CMSIS version number V2.6.2
+  * @brief CMSIS version number V2.6.3
   */
 #define __STM32F4xx_CMSIS_VERSION_MAIN   (0x02U) /*!< [31:24] main version */
 #define __STM32F4xx_CMSIS_VERSION_SUB1   (0x06U) /*!< [23:16] sub1 version */
-#define __STM32F4xx_CMSIS_VERSION_SUB2   (0x02U) /*!< [15:8]  sub2 version */
+#define __STM32F4xx_CMSIS_VERSION_SUB2   (0x03U) /*!< [15:8]  sub2 version */
 #define __STM32F4xx_CMSIS_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
 #define __STM32F4xx_CMSIS_VERSION        ((__STM32F4xx_CMSIS_VERSION_MAIN << 24)\
                                          |(__STM32F4xx_CMSIS_VERSION_SUB1 << 16)\
@@ -211,11 +211,11 @@ extern "C" {
 	} FunctionalState;
 #define IS_FUNCTIONAL_STATE(STATE) (((STATE) == DISABLE) || ((STATE) == ENABLE))
 
-	typedef enum
-	{
-		ERROR = 0U,
-		SUCCESS = !ERROR
-	} ErrorStatus;
+typedef enum
+{
+  SUCCESS = 0U,
+  ERROR = !SUCCESS
+} ErrorStatus;
 
 	/**
 	  * @}
@@ -238,7 +238,8 @@ extern "C" {
 
 #define MODIFY_REG(REG, CLEARMASK, SETMASK)  WRITE_REG((REG), (((READ_REG(REG)) & (~(CLEARMASK))) | (SETMASK)))
 
-#define POSITION_VAL(VAL)     (__CLZ(__RBIT(VAL)))
+#define POSITION_VAL(VAL)     (__CLZ(__RBIT(VAL))) 
+
 
 		/**
 		  * @}

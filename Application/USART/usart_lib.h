@@ -37,6 +37,7 @@ extern "C" {
 	UINT8_T  USARTLib_PollMode_WriteByte(USART_HandlerType*USARTx, UINT8_T  val);
 	UINT8_T  USARTLib_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal);
 	void	 USARTLib_PrintfClockFreq(USART_HandlerType*USARTx);
+	UINT8_T USARTLib_IT_TCTask(USART_HandlerType* USARTx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -200,10 +200,10 @@ extern "C" {
 		UINT8_T msgDRate;															//---数据转换的速率，默认是0xF0
 		UINT8_T msgBufferON;														//---是否开启缓存区，0---不开启，1---开启
 		UINT32_T msgNowTime;														//---当前的时间
-		void(*msgFuncDelayms)(UINT32_T delay);										//---延时参数
 		GPIO_HandlerType	msgDRDY;												//---准备好信号
 		GPIO_HandlerType	msgHWRST;												//---硬件复位信号
 		SPI_HandlerType		msgSPI;													//---使用的SPI模式
+		void(*msgFuncDelayms)(UINT32_T delay);										//---延时参数
 	};
 
 	//===任务函数

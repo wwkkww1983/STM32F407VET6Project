@@ -146,7 +146,7 @@ void ADS868X_SPI_Device2_Init(ADS868X_HandlerType *ADS868x)
 UINT8_T ADS868X_SPI_HW_Init(ADS868X_HandlerType *ADS868x)
 {
 	//---注销当前的所有配置
-	SPITask_DeInit(&(ADS868x->msgSPI));
+	SPITask_DeInit(&(ADS868x->msgSPI),1);
 	//---硬件端口的配置---硬件实现
 	SPITask_MHW_GPIO_Init(&(ADS868x->msgSPI));
 	//---硬件SPI的初始化
@@ -195,7 +195,7 @@ UINT8_T ADS868X_SPI_HW_Init(ADS868X_HandlerType *ADS868x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS868X_SPI_SW_Init(ADS868X_HandlerType *ADS868x)
 {
-	SPITask_DeInit(&(ADS868x->msgSPI));
+	SPITask_DeInit(&(ADS868x->msgSPI),1);
 
 	//---硬件端口的配置---软件实现
 	SPITask_MSW_GPIO_Init(&(ADS868x->msgSPI));
@@ -365,7 +365,7 @@ UINT8_T ADS868X_SPI_AutoInit(ADS868X_HandlerType* ADS868x)
 UINT8_T ADS868X_SPI_AutoDeInit(ADS868X_HandlerType* ADS868x)
 {
 	//---注销当前的所有配置
-	return SPITask_DeInit(&(ADS868x->msgSPI));
+	return SPITask_DeInit(&(ADS868x->msgSPI),0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1428,11 +1428,11 @@ UINT8_T ADS868X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS868X_HandlerType* ADS
 			//---判断是否使能自动RST扫描功能
 			if (rstMode & 0x01)
 			{
-				KalmanOneFilter_Init(&kalmanFilterX, adcSampleTemp[j][0], 5e2);
+				KalmanOneFilter_Init(&kalmanFilterX, (float)adcSampleTemp[j][0], 5e2);
 				for (i = 1; i < ADS868X_N_SAMPLE_COUNT; i++)
 				{
 					//---卡尔曼滤波之后的结果
-					ADS868x->msgChannelNowADCResult[j] = KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[j][i]);
+					ADS868x->msgChannelNowADCResult[j] = (UINT32_T)KalmanOneFilter_Filter(&kalmanFilterX, (float)adcSampleTemp[j][i]);
 				}
 				//---计算采样的电压值
 				ADS868X_SPI_CalcChannelPower(ADS868x, j, 0);
@@ -1592,11 +1592,11 @@ UINT8_T ADS868X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS868X_HandlerTyp
 	}
 	if (_return == OK_0)
 	{
-		KalmanOneFilter_Init(&kalmanFilterX, adcSampleTemp[0], 5e2);
+		KalmanOneFilter_Init(&kalmanFilterX, (float)adcSampleTemp[0], 5e2);
 		for (i=1;i< ADS868X_N_SAMPLE_COUNT; i++)
 		{
 			//---卡尔曼滤波之后的结果
-			ADS868x->msgChannelNowADCResult[adcChannelIndex] = KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[i]);
+			ADS868x->msgChannelNowADCResult[adcChannelIndex] =(UINT32_T) KalmanOneFilter_Filter(&kalmanFilterX,(float) adcSampleTemp[i]);
 		}
 		//---计算采样的电压值
 		ADS868X_SPI_CalcChannelPower(ADS868x, adcChannelIndex, 1);

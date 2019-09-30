@@ -330,7 +330,17 @@ void USARTTask_PrintfClockFreq(USART_HandlerType*USARTx)
 {
 	USARTLib_PrintfClockFreq(USARTx);
 }
-
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USARTTask_IT_TCTask(USART_HandlerType* USARTx)
+{
+	return USARTLib_IT_TCTask(USARTx);
+}
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：
@@ -394,7 +404,7 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
+				USART_Printf(USARTx, (void*)"=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			return USARTTask_ReadInit(USARTx);
 		}
@@ -412,7 +422,7 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *))
 {
-	UINT16_T length = 0;
+	//UINT16_T length = 0;
 	UINT32_T freqVal = 0;
 	if (USARTx != NULL)
 	{

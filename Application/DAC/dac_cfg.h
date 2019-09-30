@@ -8,24 +8,28 @@ extern "C" {
 	#include "complier_lib.h"
 	#include "gpio_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-	//===设置DC的参考电压
-	#define DAC_REF_POWER_UV						3300000
+	//===设置DC的参考电压,单位是微伏
+	#define DAC_REF_POWER_UV						3300000UL
+	//===每BIT对应的电压值
+	#define DAC_BIT_POWER_UV						(UINT32_T)( (((float)DAC_REF_POWER_UV)/4096)+0.5 )
+	
+	//===配置通道1
+	#define	DAC_CHANNEL_SELECT_1					1
+	//===配置通道2
+	#define	DAC_CHANNEL_SELECT_2					2
+	//===配置通道3
+	#define DAC_CHANNEL_SELECT_ALL					3
 
 	//===函数定义
 	UINT8_T DAC_GPIO_Init(void);
 	UINT8_T DAC_Clock(UINT8_T isEnableid);
-	UINT8_T DAC_DAC1_Init(void);
-	UINT8_T DAC_DAC2_Init(void);
-	UINT8_T DAC_Init(void);
-	UINT8_T DAC_DAC1_WriteVoltageUV(UINT32_T volUV);
-	UINT8_T DAC_DAC1_WriteVoltageMV(UINT32_T volMV);
-	UINT8_T DAC_DAC1_WriteVoltageV(float volV);
-	UINT8_T DAC_DAC2_WriteVoltageUV(UINT32_T volUV);
-	UINT8_T DAC_DAC2_WriteVoltageMV(UINT32_T volMV);
-	UINT8_T DAC_DAC2_WriteVoltageV(float volV);
-	UINT8_T DAC_DAC_WriteVoltageUV(UINT32_T volUV);
-	UINT8_T DAC_DAC_WriteVoltageMV(UINT32_T volMV);
-	UINT8_T DAC_DAC_WriteVoltageV(float volV);
+	UINT8_T DAC_DAC1_Init(UINT8_T isEnableBuffer);
+	UINT8_T DAC_DAC2_Init(UINT8_T isEnableBuffer);
+	UINT8_T DAC_Channel_Init(UINT8_T ch, UINT8_T isEnableBuffer);
+	UINT8_T DAC_Init(UINT8_T ch, UINT8_T isEnableBuffer);
+	UINT8_T DAC_ChannelUV(UINT8_T ch, UINT32_T volUV);
+	UINT8_T DAC_ChannelMV(UINT8_T ch, UINT32_T volMV);
+	UINT8_T DAC_ChannelV(UINT8_T ch, float volV);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

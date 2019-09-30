@@ -65,8 +65,9 @@ void DelayN_us(UINT32_T us)
 {
 	if (us != 0)
 	{
+		Delay_ms(us / 1000);
 		//---等待时间的到达
-		SysTickTask_WaitusTick(us);
+		SysTickTask_WaitusTick(us%1000);
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////

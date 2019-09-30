@@ -50,7 +50,7 @@
 void NMI_Handler(void)
 {
 	/* USER CODE BEGIN NonMaskableInt_IRQn 0 */
-	CSSTask_NMI_IRQ();
+	//CSSTask_NMI_IRQ();
 	/* USER CODE END NonMaskableInt_IRQn 0 */
 	/* USER CODE BEGIN NonMaskableInt_IRQn 1 */
 
@@ -67,7 +67,7 @@ void NMI_Handler(void)
 void RCC_IRQHandler(void)
 {
 	/* USER CODE BEGIN NonMaskableInt_IRQn 0 */
-	CSSTask_RCC_IRQ();
+	//CSSTask_RCC_IRQ();
 	/* USER CODE END NonMaskableInt_IRQn 0 */
 	/* USER CODE BEGIN NonMaskableInt_IRQn 1 */
 
@@ -242,8 +242,7 @@ void USART1_IRQHandler(void)
 	//---数据发送完成中断处理函数
 	if (LL_USART_IsActiveFlag_TC(pUSART1->msgUSART) && LL_USART_IsEnabledIT_TC(pUSART1->msgUSART))
 	{
-		USARTTask_ITWrite_TCTask(pUSART1);
-
+		USARTTask_IT_TCTask(pUSART1);
 		//---清楚中断标志位
 		LL_USART_ClearFlag_TC(USART1);
 	}
@@ -321,7 +320,7 @@ void DMA2_Stream1_IRQHandler(void)
 //////////////////////////////////////////////////////////////////////////////
 void TIM2_IRQHandler(void)
 {
-	DecodeTask_IRQTask();
+	//DecodeTask_IRQTask();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

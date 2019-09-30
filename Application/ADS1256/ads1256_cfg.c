@@ -166,7 +166,7 @@ void ADS1256_SPI_Device2_Init(ADS1256_HandlerType *ADS1256x)
 UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 {
 	//---注销当前的所有配置
-	SPITask_DeInit(&(ADS1256x->msgSPI));
+	SPITask_DeInit(&(ADS1256x->msgSPI),1);
 
 	//---硬件端口的配置---硬件实现
 	SPITask_MHW_GPIO_Init(&(ADS1256x->msgSPI));
@@ -228,7 +228,7 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS1256_SPI_SW_Init(ADS1256_HandlerType *ADS1256x)
 {
-	SPITask_DeInit(&(ADS1256x->msgSPI));
+	SPITask_DeInit(&(ADS1256x->msgSPI),1);
 	
 	//---硬件端口的配置---软件实现
 	SPITask_MSW_GPIO_Init(&(ADS1256x->msgSPI));
@@ -356,7 +356,7 @@ UINT8_T ADS1256_SPI_AutoInit(ADS1256_HandlerType* ADS1256x)
 UINT8_T ADS1256_SPI_AutoDeInit(ADS1256_HandlerType* ADS1256x)
 {
 	//---注销当前的所有配置
-	return SPITask_DeInit(&(ADS1256x->msgSPI));
+	return SPITask_DeInit(&(ADS1256x->msgSPI),0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2012,7 +2012,7 @@ UINT8_T ADS1256_SPI_AutoCalibration(ADS1256_HandlerType* ADS1256x)
 	//---获取当前时间
 	UINT32_T nowTime = ADS1256x->msgSPI.msgFuncTimeTick();
 	UINT32_T cnt = 0;
-	UINT32_T tempError[8] = { 0 };
+	//UINT32_T tempError[8] = { 0 };
 	//---判断滴答定时是否发生溢出操作
 	if (nowTime < ADS1256x->msgNowTime)
 	{

@@ -476,6 +476,11 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 	{
 		return ERROR_6;
 	}
+	//---数据长度的大小
+	if (length <= pageByteNum)
+	{
+		pageByteNum = length;
+	}
 	//---当要写入的数据不大于2字节的时候，按页写入和按字节写入消耗的时间基本相同
 	if (length<3)
 	{

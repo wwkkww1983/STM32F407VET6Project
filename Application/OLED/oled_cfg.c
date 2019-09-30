@@ -70,8 +70,8 @@ const UINT8_T SYN_LOGO[] =
 };
 
 //===全局变量
-OLED_IIC_HandlerType		g_OLEDDevice0;
-pOLED_IIC_HandlerType		pOLEDDevice0 = &g_OLEDDevice0;
+OLED_IIC_HandlerType		g_OLEDI2CDevice0;
+pOLED_IIC_HandlerType		pOLEDI2CDevice0 = &g_OLEDI2CDevice0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -82,9 +82,10 @@ pOLED_IIC_HandlerType		pOLEDDevice0 = &g_OLEDDevice0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T OLED_Device0_Init(OLED_IIC_HandlerType *OLEDx)
 {
+	//---如果为6针的IIC模式，RES端口必须接入端口控制，否者需要拉高处理
 	//---RST端口的配置
-	OLEDx->msgRST.msgGPIOBit = 0;
-	OLEDx->msgRST.msgGPIOPort = NULL;
+	OLEDx->msgRST.msgGPIOBit = LL_GPIO_PIN_5;
+	OLEDx->msgRST.msgGPIOPort = GPIOB;
 
 	//---端口初始化
 	if (OLEDx->msgRST.msgGPIOPort != NULL)
@@ -117,7 +118,7 @@ UINT8_T OLED_Device0_Init(OLED_IIC_HandlerType *OLEDx)
 	OLEDx->msgI2C.msgSDA.msgGPIOPort = GPIOB;
 	OLEDx->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
 	OLEDx->msgI2C.msgModelIsHW = 0;
-	OLEDx->msgI2C.msgPluseWidth = 0;
+	OLEDx->msgI2C.msgPluseWidth = 1;
 	OLEDx->msgI2C.msgFuncDelayus = NULL;
 
 	//---通过调整0R电阻,屏可以0x78和0x7A两个地址 -- 默认0x78
@@ -496,7 +497,7 @@ void OLED_I2C_DrawBMP(OLED_IIC_HandlerType *OLEDx, UINT8_T x0Pos, UINT8_T y0Pos,
 		for (x = x0Pos; x < x1Pos; x++)
 		{
 			//---设置数据
-			OLED_I2C_WriteCmd(OLEDx, BMP[j++]);
+			OLED_I2C_WriteData(OLEDx, BMP[j++]);
 		}
 	}
 }

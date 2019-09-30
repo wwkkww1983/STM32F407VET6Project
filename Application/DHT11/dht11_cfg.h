@@ -13,6 +13,14 @@ extern "C" {
 	#include "delay_task.h"
 	#include "gpio_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
+	//===转换准备好
+	#define DHT11_READ_OK							0
+	//===转换准备忙
+	#define DHT11_READ_BUSY							1
+	//===转换准备异常
+	#define DHT11_READ_ERROR						2
+	//===最小读取的间隔时间为2秒
+	#define DHT11_READ_INTERVAL_MS					2000
 	//===定义结构体
 	typedef struct _DHT11_HandlerType DHT11_HandlerType;
 
@@ -22,11 +30,14 @@ extern "C" {
 	//===结构体定义
 	struct _DHT11_HandlerType
 	{
-		UINT32_T msgTempX1000;						//---温度
-		UINT32_T msgHumiX1000;						//---湿度
-		GPIO_HandlerType msgDAT;					//---端口
-		void(*msgFuncDelayus)(UINT32_T delay);	//---us延时函数
-		void(*msgFuncDelayms)(UINT32_T delay);	//---ms延时函数
+		UINT8_T				msgSTATE;				//---读取状态
+		UINT32_T			msgTempX1000;			//---温度
+		UINT32_T			msgHumiX1000;			//---湿度
+		UINT32_T			msgNowTime;				//---上一次记录的时间
+		GPIO_HandlerType	msgDAT;					//---端口
+		void(*msgFuncDelayus)(UINT32_T delay);		//---us延时函数
+		void(*msgFuncDelayms)(UINT32_T delay);		//---ms延时函数
+		UINT32_T(*msgFuncTimeTick)(void);			//---用于超时计数
 	};
 
 	//===定义的任务函数
@@ -39,7 +50,7 @@ extern "C" {
 	extern pDHT11_HandlerType pDHT11Device0;
 
 	//===函数定义
-	UINT8_T DHT11_Init(DHT11_HandlerType *DHT11x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay));
+	UINT8_T DHT11_Init(DHT11_HandlerType *DHT11x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void));
 	UINT8_T DHT11_Device0_Init(DHT11_HandlerType *DHT11x);
 	UINT8_T DHT11_Device1_Init(DHT11_HandlerType *DHT11x);
 	UINT8_T DHT11_Device2_Init(DHT11_HandlerType *DHT11x);

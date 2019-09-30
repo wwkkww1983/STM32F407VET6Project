@@ -2,11 +2,11 @@
 备注：
 	1. 解决Pe177警告，这是因为函数定义了，但是没有引用，且该函数定义的格式是内联函数；消除该警告的操作
 		A.IAR操作
-			a.====Tool---Options---C/C++Complier---Diagnostics；在Suppress these diagnostics填入参数Pe177
+			a.====Tool---Options---C/C++Complier---Diagnostics；在Suppress these diagnostics填入参数Pe177，多个忽略选项以逗号隔开
 			b.关于系统外部晶振频率的定义，可以在Tool---Option---C/C++Complier---Preprocessor下的Defined symbols:(one per line)中填入信息：HSE_VALUE=8000000
 		B.Keil操作
-			a.===Options操作中的C/C++下的Misc Controls 填写--gnu --diag_suppress=1 --diag_suppress=177（--diag_suppress=xxx,xxx代表的是屏蔽警告,c11修改为-fgnu）
-			b.===Options操作中的Asm下的Misc Controls 填写--cpreproc(为了避免汇编的错误)
+			a.===Options操作中的C/C++下的Misc Controls 填写--gnu --diag_suppress=1 --diag_suppress=177（--diag_suppress=xxx,xxx代表的是屏蔽警告,c11修改为-fgnu），多选项以空格隔开
+			b.===Options操作中的Asm下的Misc Controls 填写--cpreproc(为了避免汇编的错误，有些时候使用会产生意外的错误，请酌情使用)
 			c.===Options操作中的C/C++下的Define 填写：HSE_VALUE=8000000；如果有其他的定义需要以逗号隔开
 	2. 在STM32中，字节是8Bit的，半字是16Bit的，字是32Bit的
 	3. ARM程序包含3部分：RO，RW和ZI
@@ -46,4 +46,4 @@
 时间:20180929
 	1. 参考标准库和Hal库，移植FLASH模拟EEPROM的驱动程序
 时间:20180930
-	1. FLASH模拟EEPROM的驱动程序，调试成功，目前发现通过检查标志位的方式，容易导致数据无法编写，现在修改的事软件模拟延时等待
+	1. FLASH模拟EEPROM的驱动程序，调试成功，目前发现通过检查标志位的方式，容易导致数据无法编写，现在修改的是软件模拟延时等待

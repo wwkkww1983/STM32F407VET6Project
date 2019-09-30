@@ -10,6 +10,12 @@ extern "C" {
     //===函数定义
 	void PowerTask_Init(void);
 	void PowerTask_DeInit(void);
+	
+	//===函数定义
+	UINT8_T LM317Task_Init(UINT8_T isPowerON, UINT32_T volMV);
+	UINT8_T LM317Task_DeInit(void);
+	UINT8_T LM317Task_PowerMV(UINT32_T volMV);
+	UINT8_T LM317Task_PowerV(float volV);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

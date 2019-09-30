@@ -20,10 +20,10 @@ void Timer_CalcFreqMode_Init(void)
 	Timer_Clock(TIM3, 1);
 
 	//---使能端口时钟
-	GPIO_Clock(GPIOB, 1);
+	GPIO_Clock(GPIOC, 1);
 
-	//---GPIO初始化---PA1映射为Tim5_CH2
-	GPIO_InitStruct.Pin = LL_GPIO_PIN_5;
+	//---GPIO初始化---PC6映射为Tim3_CH1
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_6;
 #ifdef USE_MCU_STM32F1
 
 	LL_GPIO_AF_RemapPartial_TIM3();
@@ -35,9 +35,26 @@ void Timer_CalcFreqMode_Init(void)
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
 	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-	GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
+	GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
 #endif
-	LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+	//---GPIO初始化---PC7映射为Tim3_CH2
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_7;
+#ifdef USE_MCU_STM32F1
+
+	LL_GPIO_AF_RemapPartial_TIM3();
+
+	//GPIO_InitStruct.Mode		= LL_GPIO_MODE_FLOATING;
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+#else
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+	GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+#endif
+	LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 	/*
 	//---计数器的时钟的预分频
@@ -228,7 +245,7 @@ void Timer_CalcFreq_Init(void)
 	//---读取初始值
 	else if (pCalcFreq->msgStep[pCalcFreq->msgChannel] == 1)
 	{
-		//---触发中断
+		//---触发中断发生
 		if (LL_TIM_IsActiveFlag_TRIG(TIM3) != 0)
 		{
 			//---获取当前的计数结果
@@ -252,7 +269,7 @@ void Timer_CalcFreq_Init(void)
 			LL_TIM_ClearFlag_UPDATE(TIM3);
 			nOverCount++;
 		}
-		//---触发中断
+		//---触发中断发生
 		if (LL_TIM_IsActiveFlag_TRIG(TIM3) != 0)
 		{
 			//---清理中断标志
@@ -300,17 +317,16 @@ void Timer_CalcFreq_Task(UINT8_T ch)
 	SysTickTask_FuncTick(Timer_CalcFreq_Init);
 	*/
 	UINT8_T _return = SysTickTask_CreateTickTask(Timer_CalcFreq_Init);
+	//---读取当前滴答定时时间
+	UINT32_T nowTime = 0;
+	UINT32_T oldTime = SysTickTask_GetTick();
+	UINT32_T cnt = 0;
 
 	if (_return!=0)
 	{
 		pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] = 0;
 		goto GoToExit;
-	}
-
-	//---读取当前滴答定时时间
-	UINT32_T nowTime = 0;
-	UINT32_T oldTime = SysTickTask_GetTick();
-	UINT32_T cnt = 0;
+	}	
 
 	//---等待计数器计数完成
 	while (pCalcFreq->msgStep[pCalcFreq->msgChannel] != 3)
@@ -372,7 +388,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT32_T Timer_GetFreqKHz(void)
+float Timer_GetFreqKHz(void)
 {
 	return pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel];
 }

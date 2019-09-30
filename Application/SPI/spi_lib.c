@@ -55,9 +55,9 @@ UINT8_T SPILib_MSW_GPIO_Init(SPI_HandlerType *SPIx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPILib_GPIO_DeInit(SPI_HandlerType *SPIx)
+UINT8_T SPILib_GPIO_DeInit(SPI_HandlerType *SPIx, UINT8_T isInitSS)
 {
-	return SPI_GPIO_DeInit(SPIx);
+	return SPI_GPIO_DeInit(SPIx,isInitSS);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -67,9 +67,9 @@ UINT8_T SPILib_GPIO_DeInit(SPI_HandlerType *SPIx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPILib_DeInit(SPI_HandlerType *SPIx)
+UINT8_T SPILib_DeInit(SPI_HandlerType *SPIx, UINT8_T isInitSS)
 {
-	return  SPI_DeInit(SPIx);
+	return  SPI_DeInit(SPIx,isInitSS);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

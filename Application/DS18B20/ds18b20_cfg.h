@@ -6,9 +6,7 @@ extern "C" {
 #endif
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "complier_lib.h"
-	#ifdef USE_MCU_STM32
 	#include "delay_task.h"
-	#endif
 	#include "one_wire_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===定义结构体
@@ -20,11 +18,11 @@ extern "C" {
 	//===结构定义
 	struct _DS18B20_HandlerType
 	{
-		UINT8_T					msgIsPositive;						//0---无数据，1---是负数，2---是正值
-		UINT16_T				msgTempX100;						//---温度的值，放大100倍的值
-		UINT32_T				msgTempX10000;						//---温度的值，放大1000倍的值
-		OneWire_HandlerType		msgOneWire;							//---一线通信
-		void(*msgFuncDelayms)(UINT32_T delay);						//---ms延时函数
+		UINT8_T					msgIsPositive;		//---0---无数据，1---是负数，2---是正值
+		UINT16_T				msgTempX100;		//---温度的值，放大100倍的值
+		UINT32_T				msgTempX10000;		//---温度的值，放大1000倍的值
+		OneWire_HandlerType		msgOneWire;			//---一线通信
+		void(*msgFuncDelayms)(UINT32_T delay);		//---ms延时函数
 	};
 
 	//===定义的任务函数
@@ -32,7 +30,7 @@ extern "C" {
 	#define DS18B20_TASK_TWO						0
 	#define DS18B20_TASK_THREE						0
 
-//===外部调用接口
+	//===外部调用接口
 	extern DS18B20_HandlerType g_DS18B20Device0;
 	extern pDS18B20_HandlerType pDS18B20Device0;
 

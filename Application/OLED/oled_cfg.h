@@ -20,15 +20,15 @@ extern "C" {
 	//---[6]0 1 2 3 ... 127
 	//---[7]0 1 2 3 ... 127
 	//===定义大小
-	#define OLED_PAGE_SIZE					8
-	#define OLED_MAX_COL					128
-	#define OLED_MAX_ROW					64
+	#define OLED_PAGE_SIZE							8
+	#define OLED_MAX_COL							128
+	#define OLED_MAX_ROW							64
 	
-	#define OLED_XLevelL					0x02
-	#define OLED_XLevelH					0x10
-	#define OLED_Brightness					0xFF
-	#define OLED_X_WIDTH					128
-	#define OLED_Y_WIDTH					64
+	#define OLED_XLevelL							0x02
+	#define OLED_XLevelH							0x10
+	#define OLED_Brightness							0xFF
+	#define OLED_X_WIDTH							128
+	#define OLED_Y_WIDTH							64
 	
 	//===结构体定义
 	typedef struct _OLED_IIC_HandlerType			OLED_IIC_HandlerType;
@@ -44,13 +44,15 @@ extern "C" {
 	};
 
 	//===定义的任务函数
-	#define OLED_TASK_ONE							pOLEDDevice0
+	#define OLED_TASK_ONE							pOLEDI2CDevice0
 	#define OLED_TASK_TWO							0
 	#define OLED_TASK_THREE							0
 	
+	extern const UINT8_T SYN_LOGO[];
+
 	//===外部调用接口
-	extern OLED_IIC_HandlerType						g_OLEDDevice0;
-	extern pOLED_IIC_HandlerType					pOLEDDevice0;
+	extern OLED_IIC_HandlerType						g_OLEDI2CDevice0;
+	extern pOLED_IIC_HandlerType					pOLEDI2CDevice0;
 
 	//===函数定义
 	UINT8_T OLED_I2C_Init(OLED_IIC_HandlerType *OLEDx, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);

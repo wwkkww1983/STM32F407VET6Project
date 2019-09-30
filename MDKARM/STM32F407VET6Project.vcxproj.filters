@@ -58,11 +58,17 @@
     <Filter Include="Application\ENC28J60">
       <UniqueIdentifier>{18A80F52-0437-991B-AD55-AD1699C3A9C1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Encode">
+      <UniqueIdentifier>{F661C4BD-E245-8513-4BA6-7F6637A96F95}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\FLASH">
       <UniqueIdentifier>{B6D2041D-22E9-02B3-6B60-8ED4D7B5D33A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\GPIO">
       <UniqueIdentifier>{17DB5DF1-03D4-7C43-2C06-62C8185E5C4F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\HMC5883">
+      <UniqueIdentifier>{587BE10D-C4DC-BE1B-4D4A-05CEB9AAF5DA}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\HMC830">
       <UniqueIdentifier>{9B365CC2-871A-1D18-F07A-176BDC7D079A}</UniqueIdentifier>
@@ -72,6 +78,9 @@
     </Filter>
     <Filter Include="Application\IAP">
       <UniqueIdentifier>{62A8296C-CE33-9730-D744-1A25434FF330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\INA226">
+      <UniqueIdentifier>{5A45C2C4-4629-831A-AF89-7D6D9B8C6D9C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\ISP">
       <UniqueIdentifier>{B4AA296C-2036-9730-2947-1A259551F330}</UniqueIdentifier>
@@ -90,6 +99,12 @@
     </Filter>
     <Filter Include="Application\LED">
       <UniqueIdentifier>{9DB5296C-0941-9730-1252-1A257E5CF330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\LIN">
+      <UniqueIdentifier>{2BB6296C-9741-9730-A052-1A250C5DF330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\MAX961x">
+      <UniqueIdentifier>{86EE4474-F24F-2282-7BBD-6834E71D5941}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\ModBusMaster">
       <UniqueIdentifier>{FED72902-EAFC-7882-1348-5E12FFCB77A0}</UniqueIdentifier>
@@ -133,8 +148,14 @@
     <Filter Include="Application\Random">
       <UniqueIdentifier>{690E32DB-55F2-F230-BE52-ED83AA55DDB2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\SDIO">
+      <UniqueIdentifier>{973C64F1-8335-8343-AC67-68C898BF624F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\SHT2x">
       <UniqueIdentifier>{812CEE1D-ED42-ECB3-36BA-77D5A20FBD3B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\SMBUS">
+      <UniqueIdentifier>{32A2F01D-9EB8-EEB3-E72F-7AD55385BF3B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\SPI">
       <UniqueIdentifier>{D4D4296C-4060-9730-4971-1A25B57BF330}</UniqueIdentifier>
@@ -150,6 +171,9 @@
     </Filter>
     <Filter Include="Application\W25Qxx">
       <UniqueIdentifier>{A7C869E3-93AC-2A39-FC0C-258CE80F15BB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\W5500">
+      <UniqueIdentifier>{E99E2B1E-55B5-29B4-9E2C-B5D50A82FA3B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\WM8510">
       <UniqueIdentifier>{DA8253E5-C666-143B-2FC7-0E8E1BCAFEBC}</UniqueIdentifier>
@@ -342,6 +366,15 @@
     <ClInclude Include="..\Application\ENC28J60\enc28j60_task.h">
       <Filter>Application\ENC28J60</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\Encode\encode_cfg.h">
+      <Filter>Application\Encode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\Encode\encode_lib.h">
+      <Filter>Application\Encode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\Encode\encode_task.h">
+      <Filter>Application\Encode</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\FLASH\flash_cfg.h">
       <Filter>Application\FLASH</Filter>
     </ClInclude>
@@ -359,6 +392,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\GPIO\gpio_task.h">
       <Filter>Application\GPIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HMC5883\hmc5883_cfg.h">
+      <Filter>Application\HMC5883</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HMC5883\hmc5883_lib.h">
+      <Filter>Application\HMC5883</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HMC5883\hmc5883_task.h">
+      <Filter>Application\HMC5883</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\HMC830\hmc830_cfg.h">
       <Filter>Application\HMC830</Filter>
@@ -386,6 +428,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\IAP\iap_task.h">
       <Filter>Application\IAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\INA226\ina226_cfg.h">
+      <Filter>Application\INA226</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\INA226\ina226_lib.h">
+      <Filter>Application\INA226</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\INA226\ina226_task.h">
+      <Filter>Application\INA226</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\ISP\isp_cfg.h">
       <Filter>Application\ISP</Filter>
@@ -434,6 +485,24 @@
     </ClInclude>
     <ClInclude Include="..\Application\LED\led_task.h">
       <Filter>Application\LED</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\LIN\lin_cfg.h">
+      <Filter>Application\LIN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\LIN\lin_lib.h">
+      <Filter>Application\LIN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\LIN\lin_task.h">
+      <Filter>Application\LIN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MAX961x\max961x_cfg.h">
+      <Filter>Application\MAX961x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MAX961x\max961x_lib.h">
+      <Filter>Application\MAX961x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MAX961x\max961x_task.h">
+      <Filter>Application\MAX961x</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_cfg.h">
       <Filter>Application\ModBusMaster</Filter>
@@ -552,6 +621,15 @@
     <ClInclude Include="..\Application\Random\random_task.h">
       <Filter>Application\Random</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\SDIO\sdio_cfg.h">
+      <Filter>Application\SDIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\SDIO\sdio_lib.h">
+      <Filter>Application\SDIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\SDIO\sdio_task.h">
+      <Filter>Application\SDIO</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\SHT2x\sht2x_cfg.h">
       <Filter>Application\SHT2x</Filter>
     </ClInclude>
@@ -560,6 +638,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\SHT2x\sht2x_task.h">
       <Filter>Application\SHT2x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\SMBUS\smbus_cfg.h">
+      <Filter>Application\SMBUS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\SMBUS\smbus_lib.h">
+      <Filter>Application\SMBUS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\SMBUS\smbus_task.h">
+      <Filter>Application\SMBUS</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\SPI\spi_cfg.h">
       <Filter>Application\SPI</Filter>
@@ -614,6 +701,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\W25Qxx\w25qxx_task.h">
       <Filter>Application\W25Qxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\W5500\w5500_cfg.h">
+      <Filter>Application\W5500</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\W5500\w5500_lib.h">
+      <Filter>Application\W5500</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\W5500\w5500_task.h">
+      <Filter>Application\W5500</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\WM8510\wm8510_cfg.h">
       <Filter>Application\WM8510</Filter>
@@ -893,6 +989,15 @@
     <ClCompile Include="..\Application\ENC28J60\enc28j60_task.c">
       <Filter>Application\ENC28J60</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\Encode\encode_cfg.c">
+      <Filter>Application\Encode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\Encode\encode_lib.c">
+      <Filter>Application\Encode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\Encode\encode_task.c">
+      <Filter>Application\Encode</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\FLASH\flash_cfg.c">
       <Filter>Application\FLASH</Filter>
     </ClCompile>
@@ -910,6 +1015,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\GPIO\gpio_task.c">
       <Filter>Application\GPIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HMC5883\hmc5883_cfg.c">
+      <Filter>Application\HMC5883</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HMC5883\hmc5883_lib.c">
+      <Filter>Application\HMC5883</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HMC5883\hmc5883_task.c">
+      <Filter>Application\HMC5883</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\HMC830\hmc830_cfg.c">
       <Filter>Application\HMC830</Filter>
@@ -937,6 +1051,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\IAP\iap_task.c">
       <Filter>Application\IAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\INA226\ina226_cfg.c">
+      <Filter>Application\INA226</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\INA226\ina226_lib.c">
+      <Filter>Application\INA226</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\INA226\ina226_task.c">
+      <Filter>Application\INA226</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\ISP\isp_cfg.c">
       <Filter>Application\ISP</Filter>
@@ -985,6 +1108,24 @@
     </ClCompile>
     <ClCompile Include="..\Application\LED\led_task.c">
       <Filter>Application\LED</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\LIN\lin_cfg.c">
+      <Filter>Application\LIN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\LIN\lin_lib.c">
+      <Filter>Application\LIN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\LIN\lin_task.c">
+      <Filter>Application\LIN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MAX961x\max961x_cfg.c">
+      <Filter>Application\MAX961x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MAX961x\max961x_lib.c">
+      <Filter>Application\MAX961x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MAX961x\max961x_task.c">
+      <Filter>Application\MAX961x</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_cfg.c">
       <Filter>Application\ModBusMaster</Filter>
@@ -1103,6 +1244,15 @@
     <ClCompile Include="..\Application\Random\random_task.c">
       <Filter>Application\Random</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\SDIO\sdio_cfg.c">
+      <Filter>Application\SDIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\SDIO\sdio_lib.c">
+      <Filter>Application\SDIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\SDIO\sdio_task.c">
+      <Filter>Application\SDIO</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\SHT2x\sht2x_cfg.c">
       <Filter>Application\SHT2x</Filter>
     </ClCompile>
@@ -1111,6 +1261,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\SHT2x\sht2x_task.c">
       <Filter>Application\SHT2x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\SMBUS\smbus_cfg.c">
+      <Filter>Application\SMBUS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\SMBUS\smbus_lib.c">
+      <Filter>Application\SMBUS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\SMBUS\smbus_task.c">
+      <Filter>Application\SMBUS</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\SPI\spi_cfg.c">
       <Filter>Application\SPI</Filter>
@@ -1165,6 +1324,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\W25Qxx\w25qxx_task.c">
       <Filter>Application\W25Qxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\W5500\w5500_cfg.c">
+      <Filter>Application\W5500</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\W5500\w5500_lib.c">
+      <Filter>Application\W5500</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\W5500\w5500_task.c">
+      <Filter>Application\W5500</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\WM8510\wm8510_cfg.c">
       <Filter>Application\WM8510</Filter>

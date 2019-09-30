@@ -26,8 +26,8 @@ void WM8510_I2C_StructInit(WM8510_HandlerType *WM8510x)
 
 	WM8510x->nowR6[0] = 0x0D;
 	WM8510x->nowR6[1] = 0x41;
-	WM8510x->lastR6[0] = 0x0D;
-	WM8510x->lastR6[1] = 0x41;
+	WM8510x->lastR6[0] = 0x00;
+	WM8510x->lastR6[1] = 0x00;
 
 	WM8510x->nowR36[0] = 0x00;
 
@@ -74,11 +74,11 @@ UINT8_T WM8510_I2C_Device0_Init(WM8510_HandlerType *WM8510x)
 {
 	WM8510x->msgI2C.msgI2Cx = NULL;
 	WM8510x->msgI2C.msgSCL.msgGPIOPort = GPIOB;
-	WM8510x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_6;
+	WM8510x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_8;
 	WM8510x->msgI2C.msgSDA.msgGPIOPort = GPIOB;
-	WM8510x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
+	WM8510x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_9;
 	WM8510x->msgI2C.msgModelIsHW = 0;
-	WM8510x->msgI2C.msgPluseWidth = 0;
+	WM8510x->msgI2C.msgPluseWidth = 2;
 	WM8510x->msgI2C.msgFuncDelayus = NULL;
 	WM8510x->msgI2C.msgAddr = WM8510_WADDR;
 	WM8510x->msgI2C.msgClockSpeed = 0;
@@ -146,7 +146,7 @@ UINT8_T WM8510_I2C_Init(WM8510_HandlerType *WM8510x, void(*pFuncDelayus)(UINT32_
 	else
 	{
 		_return = I2CTask_MSW_Init(&(WM8510x->msgI2C), pFuncDelayus);
-		WM8510x->msgI2C.msgModelIsHW = 1;
+		WM8510x->msgI2C.msgModelIsHW = 0;
 	}
 	_return = WM8510_I2C_START(WM8510x);
 	return _return;
@@ -265,13 +265,13 @@ UINT8_T WM8510_I2C_SendCMD(WM8510_HandlerType *WM8510x, UINT8_T *pVal)
 {
 	if (WM8510x->msgI2C.msgModelIsHW == 0)
 	{
-		//---硬件I2C
-		return WM8510_HWI2C_WriteReg(WM8510x, pVal, 2);
+		//---软件模拟I2C
+		return WM8510_SWI2C_WriteReg(WM8510x, pVal, 2);
 	}
 	else
 	{
-		//---软件模拟I2C
-		return WM8510_SWI2C_WriteReg(WM8510x, pVal, 2);
+		//---硬件I2C
+		return WM8510_HWI2C_WriteReg(WM8510x, pVal, 2);
 	}
 }
 
@@ -770,10 +770,11 @@ GoToExit:
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T WM8510_CalibrateFreqKHzOutPut(WM8510_HandlerType *WM8510x)
 {
+	//---开启时钟校准程序
 	TimerTask_CalcFreq_Task(1);
-
-	//---获取当前输出的频率
-	UINT32_T freq = TimerTask_GetFreqKHz(); //(UINT32_T)(TimerTask_GetFreqKHz()/10);
+	//---获取当前输出的频率，进行数据的四舍五入计算
+	UINT32_T freq = (UINT32_T)(TimerTask_GetFreqKHz()+0.5);
+	//---实际频率与设定频率的对比校验
 	if (freq > WM8510x->freqKHz)
 	{
 		//---冗余计算
@@ -782,7 +783,6 @@ UINT8_T WM8510_CalibrateFreqKHzOutPut(WM8510_HandlerType *WM8510x)
 			return OK_0;
 		}
 	#if defined(USE_MCU_STM32)&&defined(USE_MCU_STM32F1)
-
 		//---F1最大采集的频率是32M
 		else if (freq > 32000)
 		{
@@ -799,7 +799,6 @@ UINT8_T WM8510_CalibrateFreqKHzOutPut(WM8510_HandlerType *WM8510x)
 			return OK_0;
 		}
 	#if defined(USE_MCU_STM32)&&defined(USE_MCU_STM32F1)
-
 		//---F1最大采集的频率是32M
 		else if (freq > 32000)
 		{
@@ -843,14 +842,12 @@ UINT8_T WM8510_I2C_CalibrateClock(WM8510_HandlerType *WM8510x)
 	{
 		//---开启时钟校准程序
 		TimerTask_CalcFreq_Task(1);
-
-		//---获取当前输出的频率
-		UINT32_T freq = (TimerTask_GetFreqKHz()-1);
-		
+		//---获取当前输出的频率,数据进行四舍五入计算
+		UINT32_T freq =(UINT32_T)(TimerTask_GetFreqKHz()-0.5);
+		//---实际频率与目标频率的拟合，输出的频率是WM8510的输入参考时钟
 		if(freq!=0xFFFF)
 		{
 			//outFreqKHz *= 10;
-
 			//---频率大小的绝对误差
 			UINT32_T freqDelta = ABS_SUB(outFreqKHz, freq);
 			//---绝对误差的最小下限

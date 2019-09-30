@@ -150,7 +150,7 @@ UINT8_T SPI_MSW_GPIO_Init(SPI_HandlerType *SPIx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *SPIx)
+UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *SPIx,UINT8_T isInitSS)
 {
 	//---端口的配置
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -164,7 +164,10 @@ UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *SPIx)
 #ifndef USE_MCU_STM32F1
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;
 #endif
-	LL_GPIO_Init(SPIx->msgCS.msgGPIOPort, &GPIO_InitStruct);
+	if (isInitSS!=0)
+	{
+		LL_GPIO_Init(SPIx->msgCS.msgGPIOPort, &GPIO_InitStruct);
+	}
 
 	//---SCK---设置为输出
 	GPIO_InitStruct.Pin = SPIx->msgSCK.msgGPIOBit;
@@ -190,7 +193,7 @@ UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *SPIx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_DeInit(SPI_HandlerType *SPIx)
+UINT8_T SPI_DeInit(SPI_HandlerType *SPIx, UINT8_T isInitSS)
 {
 	if (SPIx->msgSPIx != NULL)
 	{
@@ -201,7 +204,7 @@ UINT8_T SPI_DeInit(SPI_HandlerType *SPIx)
 		SPI_Clock(SPIx, 0);
 	}
 
-	return SPI_GPIO_DeInit(SPIx);
+	return SPI_GPIO_DeInit(SPIx, isInitSS);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -684,7 +687,7 @@ UINT8_T SPI_MSW_WriteAndReadBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 	else
 	{
 		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
+		//SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
 		if (SPIx->msgPluseWidth>0)
 		{
 			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);

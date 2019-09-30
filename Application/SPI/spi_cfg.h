@@ -33,7 +33,7 @@ extern "C" {
 		UINT32_T			msgGPIOAlternate;			//---GPIO的复用模式
 		UINT32_T			msgStandard;				//---使用的SPI协议
 		void(*msgFuncDelayus)(UINT32_T delay);			//---延时参数
-		UINT32_T(*msgFuncTimeTick)(void);					//---用于超时计数
+		UINT32_T(*msgFuncTimeTick)(void);				//---用于超时计数
 	};
 
 	//===函数定义
@@ -41,8 +41,8 @@ extern "C" {
 	void	SPI_MHW_SetTransferBitOrder(SPI_HandlerType *SPIx, UINT32_T BitOrder);
 	UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *spix);
 	UINT8_T SPI_MSW_GPIO_Init(SPI_HandlerType *spix);
-	UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *spix);
-	UINT8_T SPI_DeInit(SPI_HandlerType *spix);
+	UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *spix, UINT8_T isInitSS);
+	UINT8_T SPI_DeInit(SPI_HandlerType *spix, UINT8_T isInitSS);
 	UINT8_T SPI_Clock(SPI_HandlerType *spix, UINT8_T isEnable);
 	UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *spix, UINT8_T wVal, UINT8_T *pRVal);
 	UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandlerType *spix, UINT8_T *pWVal, UINT8_T *pRVal, UINT16_T length);

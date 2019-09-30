@@ -4,10 +4,9 @@
 USART_HandlerType  g_USART1 = { 0 };
 pUSART_HandlerType pUSART1 = &g_USART1;
 
-#ifdef USE_USART_PRINTF
-
 //===printf函数使用的缓存区
-char printfBuffer[USART_PRINTF_SIZE] = { 0 };
+#ifdef USE_USART_PRINTF
+	char g_PrintfBuffer[USART_PRINTF_SIZE] = { 0 };
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -993,7 +992,7 @@ UINT8_T USART_RealTime_AddByteCRC(USART_HandlerType*USARTx)
 UINT8_T USART_FillMode_Init(USART_HandlerType*USARTx)
 {
 	//---等待传输完成
-	while (USARTx->msgTxHandler.msgTaskState == USART_BUSY)
+	while ((USARTx->msgTxHandler.msgTaskState == USART_BUSY)||(USARTx->msgTxHandler.msgTaskState==USART_PRINTF))
 	{
 		WDT_RESET();
 	}
@@ -1295,7 +1294,7 @@ UINT8_T USART_CRCTask_Write(USART_HandlerType*USARTx)
 UINT8_T  USART_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
 {
 	//---等待传输完成
-	while (USARTx->msgTxHandler.msgTaskState == USART_BUSY)
+	while ((USARTx->msgTxHandler.msgTaskState == USART_BUSY)||(USARTx->msgTxHandler.msgTaskState==USART_PRINTF))
 	{
 		WDT_RESET();
 	}
@@ -1411,7 +1410,7 @@ UINT8_T USART_GetReadState(USART_HandlerType* USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_ClearReadState(USART_HandlerType* USARTx)
 {
-	USARTx->msgRxHandler.msgTaskState = USART_BUSY;
+	USARTx->msgRxHandler.msgTaskState = USART_OK;
 	return OK_0;
 }
 
@@ -1436,7 +1435,7 @@ UINT8_T USART_GetWriteState(USART_HandlerType* USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_ClearWriteState(USART_HandlerType* USARTx)
 {
-	USARTx->msgTxHandler.msgTaskState = USART_BUSY;
+	USARTx->msgTxHandler.msgTaskState = USART_OK;
 	return OK_0;
 }
 
@@ -1513,7 +1512,6 @@ UINT8_T USART_WriteInit(USART_HandlerType*  USARTx)
 
 	//---设置485为接收模式
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
-
 	//---数据发送完成，切换端口为输入模式
 	USART_GPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
 	return OK_0;
@@ -1540,15 +1538,14 @@ UINT8_T USART_DeviceID(USART_HandlerType*USARTx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：挂起发送
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
+void USART_PrintfSuspend(USART_HandlerType* USARTx)
 {
 #ifdef USE_USART_PRINTF
-
 	//---检查发送寄存器空中断是否使能
 	if (LL_USART_IsEnabledIT_TXE(USARTx->msgUSART))
 	{
@@ -1558,7 +1555,6 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 			WDT_RESET();
 		}
 	}
-
 	//---检查发送完成中断
 	if (LL_USART_IsEnabledIT_TC(USARTx->msgUSART))
 	{
@@ -1569,35 +1565,128 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 		}
 		LL_USART_ClearFlag_TC(USARTx->msgUSART);
 	}
-
 	//---定义485为发送模式
 	USART_485GPIOInit(USARTx, USART_485_TX_ENABLE);
-
 	//---切换发送端口为输出模式
 	USART_GPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
+#endif
+}
 
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：恢复发送
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void USART_PrintfResume(USART_HandlerType* USARTx)
+{
+#ifdef USE_USART_PRINTF
+	//---定义485为接收模式
+	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
+	//---数据发送完成，切换端口为输入模式
+	USART_GPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+#endif
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
+{
+#ifdef USE_USART_PRINTF
+	//---挂起操作
+	USART_PrintfSuspend(USARTx);
 	//---计算数据
-	UINT16_T length = 0, i = 0;
+	UINT16_T length = 0; 
 	va_list arg_ptr;
 	va_start(arg_ptr, fmt);
 
 	//---用于向字符串中打印数据、数据格式用户自定义;返回参数是最终生成字符串的长度
-	length = (UINT16_T)vsnprintf(printfBuffer, USART_PRINTF_SIZE, fmt, arg_ptr);
+	length = (UINT16_T)vsnprintf(g_PrintfBuffer, USART_PRINTF_SIZE, fmt, arg_ptr);
 	va_end(arg_ptr);
-
+	//---判断数据
+	if (length> USART_PRINTF_SIZE)
+	{
+		length = USART_PRINTF_SIZE;
+	}
+	USARTx->msgPrintfCount = length;
+	USARTx->msgPrintfIndex = 1;
+	USARTx->msgTxHandler.msgTaskState = USART_PRINTF;
+	//---发送完成,发送数据发送完成中断不使能
+	LL_USART_EnableIT_TC(USARTx->msgUSART);
+	//---发送8Bit的数据
+	LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[0]);	
+	/*
 	//---数据发送
-	for (i = 0; i < length; i++)
+	for ( UINT16_T i = 0; i < length; i++)
 	{
 		//---查询的方式发送数据
-		USART_PollMode_WriteByte(USARTx, printfBuffer[i]);
+		USART_PollMode_WriteByte(USARTx, g_PrintfBuffer[i]);
 	}
-	
-	//---定义485为接收模式
-	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
+	USART_PrintfResume(USARTx);
+	*/
 
-	//---数据发送完成，切换端口为输入模式
-	USART_GPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
 #endif
+	
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T  USART_ITPrintf_TCTask(USART_HandlerType* USARTx)
+{
+#ifdef USE_USART_PRINTF
+	if (USARTx->msgPrintfIndex>=USARTx->msgPrintfCount)
+	{
+		//---发送完成,发送数据发送完成中断不使能
+		LL_USART_DisableIT_TC(USARTx->msgUSART);
+		//---恢复操作
+		USART_PrintfResume(USARTx);
+		USARTx->msgTxHandler.msgTaskState = USART_OK;
+	}
+	else
+	{
+		//---发送8Bit的数据
+		LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[USARTx->msgPrintfIndex]);
+		USARTx->msgPrintfIndex++;
+	}
+#endif
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART_IT_TCTask(USART_HandlerType* USARTx)
+{
+	if (USARTx->msgTxHandler.msgTaskState == USART_BUSY)
+	{
+		USART_ITWrite_TCTask(USARTx);
+	}
+	else if (USARTx->msgTxHandler.msgTaskState == USART_PRINTF)
+	{
+		USART_ITPrintf_TCTask(USARTx);
+	}
+	else
+	{
+		USARTx->msgTxHandler.msgTaskState = USART_OK;
+		LL_USART_DisableIT_TC(USARTx->msgUSART);
+	}
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

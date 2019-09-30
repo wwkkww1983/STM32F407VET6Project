@@ -59,4 +59,6 @@ stm32f407vet6project/power_task.o: ..\Application\Power\power_task.c \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_wwdg.h \
   ..\Application\IWDG\iwdg_task.h ..\Application\IWDG\iwdg_lib.h \
   ..\Application\IWDG\iwdg_cfg.h ..\Application\GPIO\gpio_task.h \
-  ..\Application\GPIO\gpio_lib.h ..\Application\GPIO\gpio_cfg.h
+  ..\Application\GPIO\gpio_lib.h ..\Application\GPIO\gpio_cfg.h \
+  ..\Application\DAC\dac_task.h ..\Application\DAC\dac_lib.h \
+  ..\Application\DAC\dac_cfg.h

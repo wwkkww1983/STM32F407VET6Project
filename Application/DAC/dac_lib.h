@@ -8,18 +8,10 @@ extern "C" {
 	#include "dac_cfg.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===º¯Êý¶¨Òå
-	UINT8_T DACLib_DAC1_Init(void);
-	UINT8_T DACLib_DAC2_Init(void);
-	UINT8_T DACLib_Init(void);
-	UINT8_T DACLib_DAC1_WriteVoltageUV(UINT32_T volUV);
-	UINT8_T DACLib_DAC1_WriteVoltageMV(UINT32_T volMV);
-	UINT8_T DACLib_DAC1_WriteVoltageV(float volV);
-	UINT8_T DACLib_DAC2_WriteVoltageUV(UINT32_T volUV);
-	UINT8_T DACLib_DAC2_WriteVoltageMV(UINT32_T volMV);
-	UINT8_T DACLib_DAC2_WriteVoltageV(float volV);
-	UINT8_T DACLib_DAC_WriteVoltageUV(UINT32_T volUV);
-	UINT8_T DACLib_DAC_WriteVoltageMV(UINT32_T volMV);
-	UINT8_T DACLib_DAC_WriteVoltageV(float volV);
+	UINT8_T DACLib_Init(UINT8_T ch, UINT8_T isEnableBuffer);
+	UINT8_T DACLib_ChannelUV(UINT8_T ch, UINT32_T volUV);
+	UINT8_T DACLib_ChannelMV(UINT8_T ch, UINT32_T volMV);
+	UINT8_T DACLib_ChannelV(UINT8_T ch, float volV);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

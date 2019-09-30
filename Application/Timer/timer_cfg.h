@@ -35,7 +35,7 @@ extern "C" {
 	//===º¯Êý¶¨Òå
 	void Timer_CalcFreqMode_DeInit(void);
 	void Timer_CalcFreq_Task(UINT8_T ch);
-	UINT32_T Timer_GetFreqKHz(void);
+	float Timer_GetFreqKHz(void);
 	float Timer_GetFreqMHz(void);
 	void Timer_Init(void);
 	void Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable);

@@ -186,7 +186,7 @@ UINT8_T AscSortFun2(UINT16_T *pVal, UINT16_T length)
 	UINT16_T i = 0;
 	UINT16_T j = 0;
 	UINT16_T k = length - 1;
-	UINT16_T m = 0;
+	//UINT16_T m = 0;
 	UINT8_T flag;
 	UINT16_T tmp;
 
@@ -196,7 +196,7 @@ UINT8_T AscSortFun2(UINT16_T *pVal, UINT16_T length)
 		//---flag初始化为0
 		flag = 0;
 		//假设当前趟的第一个数为最值, 记在m中
-		m = i;
+		//m = i;
 
 		//---每排序一趟，则至少有一个元素已经有序，用 j<length-i-1 可以缩小排序范围
 		for (j = 0; j < (length - 1 - i); j++)
@@ -212,7 +212,7 @@ UINT8_T AscSortFun2(UINT16_T *pVal, UINT16_T length)
 				flag = 1;
 
 				//---记住最后一次交换的位置
-				m = j;
+				//m = j;
 			}
 		}
 
@@ -240,7 +240,7 @@ UINT8_T AscSortFun3(UINT32_T* pVal, UINT16_T length)
 	UINT16_T i = 0;
 	UINT16_T j = 0;
 	UINT16_T k = length - 1;
-	UINT16_T m = 0;
+	//UINT16_T m = 0;
 	UINT8_T flag;
 	UINT32_T tmp;
 
@@ -250,7 +250,7 @@ UINT8_T AscSortFun3(UINT32_T* pVal, UINT16_T length)
 		//---flag初始化为0
 		flag = 0;
 		//假设当前趟的第一个数为最值, 记在m中
-		m = i;
+		//m = i;
 
 		//---每排序一趟，则至少有一个元素已经有序，用 j<length-i-1 可以缩小排序范围
 		for (j = 0; j < (length - 1 - i); j++)
@@ -266,7 +266,7 @@ UINT8_T AscSortFun3(UINT32_T* pVal, UINT16_T length)
 				flag = 1;
 
 				//---记住最后一次交换的位置
-				m = j;
+				//m = j;
 			}
 		}
 

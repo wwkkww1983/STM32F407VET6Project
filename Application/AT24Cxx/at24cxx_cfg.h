@@ -40,7 +40,7 @@ extern "C" {
 	//===指针结构体定义
 	typedef struct _AT24CXX_HandlerType *pAT24CXX_HandlerType;
 
-	//===PCF853的数据结构体
+	//===AT24Cxx的数据结构体
 	struct _AT24CXX_HandlerType
 	{
 		UINT8_T  msgAT24CXXType;											//---使用的设备
@@ -51,7 +51,7 @@ extern "C" {
 		#endif
 		GPIO_HandlerType msgWP;												//---写保护控制端口，0---写保护不是能；1---写保护使能
 		I2C_HandlerType msgI2C;												//---使用的I2C
-		void(*msgFuncDelayms)(UINT32_T delay);								//---毫秒延时函数
+		void(*msgFuncDelayms)(UINT32_T delay);								//---毫秒延时函数,编程结束后需要等待5ms
 	};
 
 	//===定义的任务函数

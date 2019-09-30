@@ -10,6 +10,10 @@ extern "C" {
 	#include "gpio_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//上升沿写入数据，下降沿读取数据
+	//必须检查设备是否处于工作模式，标志位是秒寄存器的最高位，为1这是休眠模式，为0是工作模式
+	//休眠模式下计数器不工作，读取的数据都不对，工作模式下才开启计数器，读取的数据才能正确，
+	//上电默认是休眠模式
+	//注：DS1302的数据都是BCD格式，注意数据格式的转换
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===芯片寄存器地址定义 定义的写地址，读需要+1
 	#define DS1302_REG_SECOND					0x80        //秒数据地址
@@ -38,7 +42,8 @@ extern "C" {
 		GPIO_HandlerType	msgCLK;					//---CLK端口号
 		GPIO_HandlerType	msgDAT;					//---数据端口号
 		RTC_HandlerType		msgRTC;					//---实时时钟
-		UINT8_T				msgPluseWidth;			//---脉冲宽度，软件模拟使用
+		UINT16_T			msgPluseWidth;			//---脉冲宽度，软件模拟使用
+		UINT8_T				msgAMOrPM;				//---上午还是下午，0---上午，1---下午
 		void(*msgFuncDelayus)(UINT32_T delay);		//---延时参数
 	};
 
@@ -53,15 +58,16 @@ extern "C" {
 
 	//===函数定义
 	UINT8_T DS1302_Init(DS1302_HandlerType *DS1302x, void(*pFuncDelayus)(UINT32_T delay));
-	void DS1302_WriteBitLSB(DS1302_HandlerType *DS1302x, UINT8_T wVal, UINT8_T *pRVal);
-	void DS1302_WriteByteLSB(DS1302_HandlerType *DS1302x, UINT8_T wVal, UINT8_T *pRVal);
+	void  DS1302_DisableSleepMode(DS1302_HandlerType* DS1302x);
+	void  DS1302_EnableSleepMode(DS1302_HandlerType* DS1302x);
+	UINT8_T DS1302_CheckDevice(DS1302_HandlerType* DS1302x);
 	void DS1302_WriteReg(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T dat);
 	void DS1302_ReadReg(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T *pVal);
 	void DS1302_WriteTime(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T dat);
 	void DS1302_ReadTime(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T *pVal);
 	void DS1302_WriteRTC(DS1302_HandlerType *DS1302x, RTC_HandlerType rtcTime);
 	void DS1302_ReadRTC(DS1302_HandlerType *DS1302x);
-
+	void DS1302_ReadBurstRTC(DS1302_HandlerType* DS1302x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

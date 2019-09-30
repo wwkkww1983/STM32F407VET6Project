@@ -7,7 +7,9 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "complier_lib.h"
 	#include "gpio_task.h"
+	#include "dac_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
+	
 	//===DPSA使能端口
 	#define DPSA_CTRH_PORT						GPIOC
 	#define DPSA_CTRH_BIT						LL_GPIO_PIN_13
@@ -100,6 +102,42 @@ extern "C" {
 	//===函数定义
 	void Power_Init(void);
 	void Power_DeInit(void);
+	
+	//===LM317使能端口
+	#define LM317_CTRH_PORT						GPIOE
+	#define LM317_CTRH_BIT						LL_GPIO_PIN_4
+	#define LM317_CTRH_STATE					GPIO_GET_STATE(LM317_CTRH_PORT,LM317_CTRH_BIT)
+	#define LM317_CTRH_WRITE					GPIO_SET_WRITE(LM317_CTRH_PORT,LM317_CTRH_BIT)
+	#define LM317_CTRH_READ						GPIO_SET_READ( LM317_CTRH_PORT,LM317_CTRH_BIT)
+	#define LM317_CTRH_OUT_0					GPIO_OUT_0(    LM317_CTRH_PORT,LM317_CTRH_BIT)
+	#define LM317_CTRH_OUT_1					GPIO_OUT_1(    LM317_CTRH_PORT,LM317_CTRH_BIT)
+	#define LM317_CTRH_OUT_C					GPIO_OUT_C(    LM317_CTRH_PORT,LM317_CTRH_BIT)
+
+	#define LM317_CTRL_PORT						GPIOE
+	#define LM317_CTRL_BIT						LL_GPIO_PIN_3
+	#define LM317_CTRL_STATE					GPIO_GET_STATE(LM317_CTRL_PORT,LM317_CTRL_BIT)
+	#define LM317_CTRL_WRITE					GPIO_SET_WRITE(LM317_CTRL_PORT,LM317_CTRL_BIT)
+	#define LM317_CTRL_READ						GPIO_SET_READ( LM317_CTRL_PORT,LM317_CTRL_BIT)
+	#define LM317_CTRL_OUT_0					GPIO_OUT_0(	   LM317_CTRL_PORT,LM317_CTRL_BIT)
+	#define LM317_CTRL_OUT_1					GPIO_OUT_1(    LM317_CTRL_PORT,LM317_CTRL_BIT)
+	#define LM317_CTRL_OUT_C					GPIO_OUT_C(    LM317_CTRL_PORT,LM317_CTRL_BIT)
+	#define LM317_POWER_ON						( LM317_CTRL_OUT_0,LM317_CTRH_OUT_1 )
+	#define LM317_POWER_OFF						( LM317_CTRH_OUT_0,LM317_CTRL_OUT_1 )
+	#define LM317_POWER_HZ						( LM317_CTRH_OUT_0,LM317_CTRL_OUT_0 )
+	
+	
+	//===定义LM317的基础电压值
+	#define LM317_BASE_POWER_MV					1260
+	//===定义LM317最大输出的电压值
+	#define LM317_MAX_POWER_MV					(6000)
+	//===定义LM317最小输出的电压值
+	#define LM317_MIN_POWER_MV					(1500)//(1440)//---默认最小值
+
+	//===函数定义
+	UINT8_T LM317_Init(UINT8_T isPowerON, UINT32_T volMV);
+	UINT8_T LM317_DeInit(void);
+	UINT8_T LM317_PowerMV(UINT32_T volMV);
+	UINT8_T LM317_PowerV(float volV);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

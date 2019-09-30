@@ -146,7 +146,7 @@ void ADS869X_SPI_Device2_Init(ADS869X_HandlerType *ADS869x)
 UINT8_T ADS869X_SPI_HW_Init(ADS869X_HandlerType *ADS869x)
 {
 	//---注销当前的所有配置
-	SPITask_DeInit(&(ADS869x->msgSPI));
+	SPITask_DeInit(&(ADS869x->msgSPI),1);
 	//---硬件端口的配置---硬件实现
 	SPITask_MHW_GPIO_Init(&(ADS869x->msgSPI));
 	//---硬件SPI的初始化
@@ -195,7 +195,7 @@ UINT8_T ADS869X_SPI_HW_Init(ADS869X_HandlerType *ADS869x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS869X_SPI_SW_Init(ADS869X_HandlerType *ADS869x)
 {
-	SPITask_DeInit(&(ADS869x->msgSPI));
+	SPITask_DeInit(&(ADS869x->msgSPI),1);
 
 	//---硬件端口的配置---软件实现
 	SPITask_MSW_GPIO_Init(&(ADS869x->msgSPI));
@@ -365,7 +365,7 @@ UINT8_T ADS869X_SPI_AutoInit(ADS869X_HandlerType* ADS869x)
 UINT8_T ADS869X_SPI_AutoDeInit(ADS869X_HandlerType* ADS869x)
 {
 	//---注销当前的所有配置
-  return	SPITask_DeInit(&(ADS869x->msgSPI));
+  return	SPITask_DeInit(&(ADS869x->msgSPI),0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1450,7 +1450,7 @@ UINT8_T ADS869X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS869X_HandlerType* ADS
 				for (i = 1; i < ADS869X_N_SAMPLE_COUNT; i++)
 				{
 					//---卡尔曼滤波之后的结果
-					ADS869x->msgChannelNowADCResult[j] = KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[j][i]);
+					ADS869x->msgChannelNowADCResult[j] = (UINT32_T)KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[j][i]);
 				}
 				//---计算采样的电压值
 				ADS869X_SPI_CalcChannelPower(ADS869x, j, 0);
@@ -1616,7 +1616,7 @@ UINT8_T ADS869X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS869X_HandlerTyp
 		for (i=1;i< ADS869X_N_SAMPLE_COUNT; i++)
 		{
 			//---卡尔曼滤波之后的结果
-			ADS869x->msgChannelNowADCResult[adcChannelIndex] = KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[i]);
+			ADS869x->msgChannelNowADCResult[adcChannelIndex] =(UINT32_T) KalmanOneFilter_Filter(&kalmanFilterX, adcSampleTemp[i]);
 		}
 		//---计算采样的电压值
 		ADS869X_SPI_CalcChannelPower(ADS869x, adcChannelIndex, 1);
