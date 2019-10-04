@@ -6,7 +6,7 @@
 
 "-p" 
 
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\CONFIG\debugger\ST\STM32F407VE.ddf" 
+"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\CONFIG\debugger\ST\STM32F407VE.ddf" 
 
 "--semihosting" 
 

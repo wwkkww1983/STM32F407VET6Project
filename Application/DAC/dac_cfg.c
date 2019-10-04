@@ -7,7 +7,7 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DAC_GPIO_Init(void)
+UINT8_T DAC_GPIO_Init(UINT8_T ch)
 {
 	//---使能GPIO的时钟
 	GPIOTask_Clock(GPIOA, 1);
@@ -16,7 +16,19 @@ UINT8_T DAC_GPIO_Init(void)
 	//---GPIO的初始化----
 	//---DAC1---PA4
 	//---DAC2---PA5
-	GPIO_InitStruct.Pin = LL_GPIO_PIN_4 | LL_GPIO_PIN_5;					//---对应的GPIO的引脚
+	if (ch == 3)
+	{
+		GPIO_InitStruct.Pin = LL_GPIO_PIN_4 | LL_GPIO_PIN_5;				//---对应的GPIO的引脚
+	}
+	else if (ch == 2)
+	{
+		GPIO_InitStruct.Pin =LL_GPIO_PIN_5;									//---对应的GPIO的引脚
+	}
+	else
+	{
+		GPIO_InitStruct.Pin = LL_GPIO_PIN_4;								//---对应的GPIO的引脚
+	}
+	
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;								//---配置状态为模拟输入引脚
 	GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;								//---设置端口下拉使能
 	//---GPIO的初始化
@@ -162,7 +174,7 @@ UINT8_T DAC_Channel_Init(UINT8_T ch, UINT8_T isEnableBuffer)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T DAC_Init(UINT8_T ch, UINT8_T isEnableBuffer)
 {
-	DAC_GPIO_Init();
+	DAC_GPIO_Init(ch);
 	DAC_Clock(1);
 	if (ch==3)
 	{
@@ -235,5 +247,5 @@ UINT8_T DAC_ChannelMV(UINT8_T ch, UINT32_T volMV)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T DAC_ChannelV(UINT8_T ch, float volV)
 {
-	return DAC_ChannelUV(ch, (volV * 1000000));
+	return DAC_ChannelUV(ch, (UINT32_T)(volV * 1000000));
 }

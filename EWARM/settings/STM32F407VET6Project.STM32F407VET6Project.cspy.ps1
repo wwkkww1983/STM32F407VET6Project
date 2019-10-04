@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "E:\STM32_MCU\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\settings\STM32F407VET6Project.STM32F407VET6Project.general.xcl" --backend -f "E:\STM32_MCU\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\settings\STM32F407VET6Project.STM32F407VET6Project.driver.xcl" 
+& "D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "E:\STM32_MCU\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\settings\STM32F407VET6Project.STM32F407VET6Project.general.xcl" --backend -f "E:\STM32_MCU\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\settings\STM32F407VET6Project.STM32F407VET6Project.driver.xcl" 
 }
 else
 {
-& "D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "E:\STM32_MCU\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\settings\STM32F407VET6Project.STM32F407VET6Project.general.xcl" --debug_file=$debugfile --backend -f "E:\STM32_MCU\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\settings\STM32F407VET6Project.STM32F407VET6Project.driver.xcl" 
+& "D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "E:\STM32_MCU\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\settings\STM32F407VET6Project.STM32F407VET6Project.general.xcl" --debug_file=$debugfile --backend -f "E:\STM32_MCU\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\settings\STM32F407VET6Project.STM32F407VET6Project.driver.xcl" 
 }

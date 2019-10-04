@@ -162,7 +162,7 @@ extern "C" {
 	extern pINA226_HandlerType		pINA226Device0  ;
 
 	//===º¯Êý¶¨Òå
-	UINT8_T INA226_I2C_Device0_Init(INA226_HandlerType* INA226x);
+	UINT8_T HMC5883_I2C_Device0_Init(INA226_HandlerType* INA226x);
 	UINT8_T INA226_I2C_Device1_Init(INA226_HandlerType* INA226x);
 	UINT8_T INA226_I2C_Device2_Init(INA226_HandlerType* INA226x);
 	UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);

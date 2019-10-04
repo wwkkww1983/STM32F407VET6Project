@@ -57,4 +57,11 @@ stm32f407vet6project/hmc5883_cfg.o: ..\Application\HMC5883\hmc5883_cfg.c \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_utils.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_wwdg.h \
   ..\Application\IWDG\iwdg_task.h ..\Application\IWDG\iwdg_lib.h \
-  ..\Application\IWDG\iwdg_cfg.h
+  ..\Application\IWDG\iwdg_cfg.h ..\Application\I2C\i2c_task.h \
+  ..\Application\I2C\i2c_lib.h ..\Application\I2C\i2c_cfg.h \
+  ..\Application\GPIO\gpio_task.h ..\Application\GPIO\gpio_lib.h \
+  ..\Application\GPIO\gpio_cfg.h ..\Application\Delay\delay_task.h \
+  ..\Application\Delay\delay_lib.h ..\Application\Delay\delay_cfg.h \
+  ..\Application\SysTick\systick_task.h \
+  ..\Application\SysTick\systick_lib.h \
+  ..\Application\SysTick\systick_cfg.h

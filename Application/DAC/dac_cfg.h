@@ -21,7 +21,7 @@ extern "C" {
 	#define DAC_CHANNEL_SELECT_ALL					3
 
 	//===º¯Êý¶¨Òå
-	UINT8_T DAC_GPIO_Init(void);
+	UINT8_T DAC_GPIO_Init(UINT8_T ch);
 	UINT8_T DAC_Clock(UINT8_T isEnableid);
 	UINT8_T DAC_DAC1_Init(UINT8_T isEnableBuffer);
 	UINT8_T DAC_DAC2_Init(UINT8_T isEnableBuffer);

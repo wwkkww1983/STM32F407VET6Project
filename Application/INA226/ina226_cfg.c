@@ -18,7 +18,7 @@ UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_
 	//---指定设备的初始化
 	if ((INA226x != NULL) && (INA226x == INA226_TASK_ONE))
 	{
-		INA226_I2C_Device0_Init(INA226x);
+		HMC5883_I2C_Device0_Init(INA226x);
 	}
 	else if ((INA226x != NULL) && (INA226x == INA226_TASK_TWO))
 	{
@@ -60,7 +60,7 @@ UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_I2C_Device0_Init(INA226_HandlerType* INA226x)
+UINT8_T HMC5883_I2C_Device0_Init(INA226_HandlerType* INA226x)
 {
 	INA226x->msgI2C.msgI2Cx = NULL;
 	INA226x->msgI2C.msgSCL.msgGPIOPort = GPIOB;

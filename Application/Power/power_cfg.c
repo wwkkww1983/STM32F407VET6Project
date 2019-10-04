@@ -181,5 +181,5 @@ UINT8_T LM317_PowerMV(UINT32_T volMV)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T LM317_PowerV(float volV)
 {
-	return LM317_PowerMV(volV * 1000);
+	return LM317_PowerMV((UINT32_T)(volV * 1000));
 }

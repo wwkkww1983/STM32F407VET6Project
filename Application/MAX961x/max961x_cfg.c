@@ -104,7 +104,7 @@ UINT8_T MAX961X_I2C_Device2_Init(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_SWI2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
+UINT8_T HMC5883_SWI2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 
@@ -210,7 +210,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_HWI2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
+UINT8_T HMC5883_HWI2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
 {
 	return ERROR_1;
 }
@@ -238,11 +238,11 @@ UINT8_T MAX961X_I2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, U
 {
 	if (MAX961x->msgI2C.msgModelIsHW == 1)
 	{
-		return MAX961X_HWI2C_SingleWriteReg(MAX961x, addr, val);
+		return HMC5883_HWI2C_SingleWriteReg(MAX961x, addr, val);
 	}
 	else
 	{
-		return MAX961X_SWI2C_SingleWriteReg(MAX961x, addr, val);
+		return HMC5883_SWI2C_SingleWriteReg(MAX961x, addr, val);
 	}
 }
 
@@ -272,7 +272,7 @@ UINT8_T MAX961X_I2C_BurstWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_SWI2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T *pVal)
+UINT8_T HMC5883_SWI2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T *pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -324,7 +324,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_SWI2C_BurstReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
+UINT8_T HMC5883_SWI2C_BurstReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -384,7 +384,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_HWI2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T HMC5883_HWI2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal)
 {
 	return ERROR_1;
 }
@@ -412,11 +412,11 @@ UINT8_T MAX961X_I2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UI
 {
 	if (MAX961x->msgI2C.msgModelIsHW==1)
 	{
-		return MAX961X_HWI2C_SingleReadReg(MAX961x, addr, pVal);
+		return HMC5883_HWI2C_SingleReadReg(MAX961x, addr, pVal);
 	}
 	else
 	{
-		return MAX961X_SWI2C_SingleReadReg(MAX961x, addr, pVal);
+		return HMC5883_SWI2C_SingleReadReg(MAX961x, addr, pVal);
 	}
 }
 
@@ -435,7 +435,7 @@ UINT8_T MAX961X_I2C_BurstReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UIN
 	}
 	else
 	{
-		return MAX961X_SWI2C_BurstReadReg(MAX961x, addr, length, pVal);
+		return HMC5883_SWI2C_BurstReadReg(MAX961x, addr, length, pVal);
 	}
 }
 
