@@ -21,6 +21,7 @@ extern "C" {
 	struct _SysTick_HandlerType
 	{
 		VLTUINT8_T				msgTickTaskFlag[SYSTICK_FUNC_TASK_MAX_NUM];						//---滴答任务标签，0---可用，1---不可用
+		VLTUINT8_T				msgTickTaskCount;												//---滴答任务的总数
 		VLTUINT32_T				msgIncTick;														//---递加计数器
 		VLTUINT32_T				msgDecTick;														//---递减计数器
 		VLTUINT32_T				msgIncTickOVF;													//---递加计数器溢出
@@ -44,7 +45,7 @@ extern "C" {
 	UINT8_T  SysTick_IRQDecTick(UINT32_T waitDecTick);
 	UINT8_T  SysTick_DecTick(UINT32_T waitDecTick);
 	UINT32_T SysTick_GetTick(void);
-	UINT8_T  SysTick_IRQTick(void);
+	UINT8_T  SysTick_IRQTask(void);
 	UINT8_T  SysTick_WaitTick(UINT32_T usTime);
 	UINT8_T  SysTick_WaitusTick(UINT32_T usTime);
 	UINT8_T  SysTick_WaitSysTick(UINT32_T sysTickTime);

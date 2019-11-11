@@ -316,7 +316,7 @@ UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT
 	//---注册滴答函数
 	ADS1256x->msgSPI.msgFuncTimeTick = pFuncTimerTick;
 	//---获取当前的系统时间
-	ADS1256x->msgNowTime = ADS1256x->msgSPI.msgFuncTimeTick();
+	ADS1256x->msgRecordTime = ADS1256x->msgSPI.msgFuncTimeTick();
 	
 	//---配置默认参数
 	return ADS1256_SPI_ConfigInit(ADS1256x);
@@ -2014,13 +2014,13 @@ UINT8_T ADS1256_SPI_AutoCalibration(ADS1256_HandlerType* ADS1256x)
 	UINT32_T cnt = 0;
 	//UINT32_T tempError[8] = { 0 };
 	//---判断滴答定时是否发生溢出操作
-	if (nowTime < ADS1256x->msgNowTime)
+	if (nowTime < ADS1256x->msgRecordTime)
 	{
-		cnt = (0xFFFFFFFF - ADS1256x->msgNowTime + nowTime);
+		cnt = (0xFFFFFFFF - ADS1256x->msgRecordTime + nowTime);
 	}
 	else
 	{
-		cnt = nowTime - ADS1256x->msgNowTime;
+		cnt = nowTime - ADS1256x->msgRecordTime;
 	}
 	//---连续工作1秒之后，自动校准自己
 	if (cnt>ADS1256_SELF_CALIBRATION_SPAN_TIME_MS)
@@ -2129,7 +2129,7 @@ UINT8_T ADS1256_SPI_AutoSelfRecovery(ADS1256_HandlerType* ADS1256x)
 		//---配置设备
 		_return= ADS1256_SPI_ConfigInit(ADS1256x);
 		//---复位时钟
-		ADS1256x->msgNowTime = ADS1256x->msgSPI.msgFuncTimeTick();
+		ADS1256x->msgRecordTime = ADS1256x->msgSPI.msgFuncTimeTick();
 	}
 	if (_return==OK_0)
 	{

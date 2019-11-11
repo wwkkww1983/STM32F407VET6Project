@@ -130,10 +130,24 @@ UINT8_T SysTick_CreateTickTask(void(*pFuncTick)(void))
 	{
 		for (_return = 0; _return < SYSTICK_FUNC_TASK_MAX_NUM; _return++)
 		{
+			//---检查事件是否已经注册过了,避免重复注册
+			if ((pSysTick->msgTickTask[_return]!=NULL)&&(pSysTick->msgTickTask[_return] == pFuncTick))
+			{
+				pSysTick->msgTickTaskFlag[_return] = 1;
+				//---事件已经注册过，退出循环
+				break;
+			}
+			//---检查哪个事件为空
 			if (pSysTick->msgTickTaskFlag[_return]==0)
 			{
 				pSysTick->msgTickTask[_return] = pFuncTick;
 				pSysTick->msgTickTaskFlag[_return] = 1;
+				//---滴答任务的增加
+				if (pSysTick->msgTickTaskCount<0xFF)
+				{
+					pSysTick->msgTickTaskCount += 1;
+				}
+				//---找到空闲事件
 				break;
 			}
 		}
@@ -157,10 +171,17 @@ UINT8_T SysTick_DeleteTickTask(void(*pFuncTick)(void))
 	{
 		for (_return =0; _return < SYSTICK_FUNC_TASK_MAX_NUM; _return++)
 		{
-			if (pSysTick->msgTickTask[_return] == pFuncTick)
+			//---检查要注销的事件是否存在
+			if ((pSysTick->msgTickTask[_return] != NULL)&&(pSysTick->msgTickTask[_return] == pFuncTick))
 			{
 				pSysTick->msgTickTask[_return] = NULL;
 				pSysTick->msgTickTaskFlag[_return] = 0;
+				//---滴答任务的减少
+				if (pSysTick->msgTickTaskCount>0)
+				{
+					pSysTick->msgTickTaskCount -= 1;
+				}
+				//---找到要注销的事件
 				break;
 			}
 		}
@@ -308,7 +329,7 @@ UINT32_T SysTick_GetTick(void)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysTick_IRQTick(void)
+UINT8_T SysTick_IRQTask(void)
 {
 	//---递加计数
 	pSysTick->msgIncTick++;

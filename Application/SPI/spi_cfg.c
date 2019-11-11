@@ -324,6 +324,8 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, U
 	{
 		oldTime = SPIx->msgFuncTimeTick();
 	}
+	//---切换工作状态为工作模式
+	SPIx->msgState = 1;
 	//---数据收发
 	while (1)
 	{
@@ -384,6 +386,8 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, U
 			break;
 		}
 	}
+	//---切换工作状态为空闲模式
+	SPIx->msgState = 0;
 	return _return;
 }
 
@@ -410,6 +414,8 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandlerType *SPIx, UINT8_T *pWVal,
 		oldTime = SPIx->msgFuncTimeTick();
 	}
 	nowTime = 0;
+	//---切换工作状态为工作模式
+	SPIx->msgState=1;
 	//---数据收发
 	while (1)
 	{
@@ -473,6 +479,8 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandlerType *SPIx, UINT8_T *pWVal,
 			break;
 		}
 	}
+	//---切换工作状态为空闲模式
+	SPIx->msgState = 1;
 	return _return;
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -860,4 +868,107 @@ UINT8_T SPI_MSW_WriteAndReadBDataLSB(SPI_HandlerType *SPIx, UINT8_T *pWVal, UINT
 		}
 	}
 	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：8Bit数据中断处理函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void  SPI_IRQ8BitTask(SPI_HandlerType* SPIx)
+{
+	static UINT16_T i = 0;
+	//---收发完成标志位
+	static UINT8_T txAllowed = 1;
+	//---切换工作状态为工作模式
+	SPIx->msgState = 1;
+	//---等待发送缓冲区为空，TXE 事件---TXE=1，开始发送下一个数据
+	if ((txAllowed == 1) && (LL_SPI_IsActiveFlag_TXE(SPIx->msgSPIx))&&(LL_SPI_IsEnabledIT_TXE(SPIx->msgSPIx)))
+	{
+		//---写入数据寄存器，把要写入的数据写入发送缓冲区
+		LL_SPI_TransmitData8(SPIx->msgSPIx, SPIx->msg8BitTxPtr[i]);
+		//---切换为接收
+		txAllowed = 0;
+	}
+	//---等待接收缓冲区非空，RXNE 事件---等待RXNE=1，读取收到的数据
+	if ((txAllowed == 0) && (LL_SPI_IsActiveFlag_RXNE(SPIx->msgSPIx)) && (LL_SPI_IsEnabledIT_RXNE(SPIx->msgSPIx)))
+	{
+		//---读取数据寄存器，获取接收缓冲区数据
+		SPIx->msg8BitRxPtr[i] = LL_SPI_ReceiveData8(SPIx->msgSPIx);
+		//---切换为发送
+		txAllowed = 1;
+		//---下一个数据
+		i++;
+	}
+	//---判断数据是否收发完成
+	if (i==SPIx->msgDataCount)
+	{
+		i=0;
+		txAllowed=0;
+		//---切换工作状态为空闲模式
+		SPIx->msgState = 1;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：8Bit数据中断处理函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void  SPI_IRQ16BitTask(SPI_HandlerType* SPIx)
+{
+	static UINT16_T i = 0;
+	//---收发完成标志位
+	static UINT8_T txAllowed = 1;
+	//---切换工作状态为工作模式
+	SPIx->msgState = 1;
+	//---等待发送缓冲区为空，TXE 事件---TXE=1，开始发送下一个数据
+	if ((txAllowed == 1) && (LL_SPI_IsActiveFlag_TXE(SPIx->msgSPIx)) && (LL_SPI_IsEnabledIT_TXE(SPIx->msgSPIx)))
+	{
+		//---写入数据寄存器，把要写入的数据写入发送缓冲区
+		LL_SPI_TransmitData16(SPIx->msgSPIx, SPIx->msg16BitTxPtr[i]);
+		//---切换为接收
+		txAllowed = 0;
+	}
+	//---等待接收缓冲区非空，RXNE 事件---等待RXNE=1，读取收到的数据
+	if ((txAllowed == 0) && (LL_SPI_IsActiveFlag_RXNE(SPIx->msgSPIx)) && (LL_SPI_IsEnabledIT_RXNE(SPIx->msgSPIx)))
+	{
+		//---读取数据寄存器，获取接收缓冲区数据
+		SPIx->msg16BitRxPtr[i] = LL_SPI_ReceiveData16(SPIx->msgSPIx);
+		//---切换为发送
+		txAllowed = 1;
+		//---下一个数据
+		i++;
+	}
+	//---判断数据是否收发完成
+	if (i == SPIx->msgDataCount)
+	{
+		i = 0;
+		txAllowed = 0;
+		//---切换工作状态为空闲模式
+		SPIx->msgState = 1;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：中断处理函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void  SPI_IRQTask(SPI_HandlerType* SPIx, UINT8_T is16Bit)
+{
+	if (is16Bit==0)
+	{
+		SPI_IRQ8BitTask(SPIx);
+	}
+	else
+	{
+		SPI_IRQ16BitTask(SPIx);
+	}
 }

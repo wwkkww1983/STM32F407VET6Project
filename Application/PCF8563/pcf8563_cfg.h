@@ -52,9 +52,9 @@ extern "C" {
 	};
 
 	//===定义的任务函数
-	#define PCF8563_TASK_ONE	pPCF8563Device0
-	#define PCF8563_TASK_TWO	0
-	#define PCF8563_TASK_THREE	0
+	#define PCF8563_TASK_ONE						pPCF8563Device0
+	#define PCF8563_TASK_TWO						0
+	#define PCF8563_TASK_THREE						0
 	
 	//===外部调用接口
 	extern PCF8563_HandlerType g_PCF8563Device0;

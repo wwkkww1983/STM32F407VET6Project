@@ -35,11 +35,15 @@ extern "C" {
 
 	//===定义实验室自动化测试
 	#define LAB_AUTO_ISP_TEST
+
 	//===函数定义
 	UINT8_T ISPTask_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
 	UINT8_T ISPTask_DeInit(ISP_HandlerType *ISPx);
-	UINT8_T ISPTask_EnterProg(ISP_HandlerType *ISPx);
+	UINT8_T ISPTask_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady);
 	UINT8_T ISPTask_ExitProg(ISP_HandlerType *ISPx);
+	UINT8_T ISPTask_AddWatch(ISP_HandlerType* ISPx);
+	UINT8_T ISPTask_RemoveWatch(ISP_HandlerType* ISPx);
+	UINT8_T ISPTask_RefreshWatch(ISP_HandlerType* ISPx);
 	UINT8_T ISPTask_ReadReady(ISP_HandlerType *ISPx);
 	UINT8_T ISPTask_EraseChip(ISP_HandlerType *ISPx);
 	UINT8_T ISPTask_ReadChipID(ISP_HandlerType *ISPx, UINT8_T *pVal);
@@ -62,6 +66,7 @@ extern "C" {
 	UINT8_T ISPTask_UpdateChipFlashBuffer(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T index, UINT16_T length);
 	UINT8_T ISPTask_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr);
 	UINT8_T ISPTask_UpdateChipFlashLongAddr(ISP_HandlerType *ISPx, UINT32_T addr);
+	UINT8_T ISPTask_USARTCmd_Task(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -199,7 +199,7 @@ extern "C" {
 		UINT8_T msgSleepMode;														//---休眠模式，0---不休眠，1---休眠模式
 		UINT8_T msgDRate;															//---数据转换的速率，默认是0xF0
 		UINT8_T msgBufferON;														//---是否开启缓存区，0---不开启，1---开启
-		UINT32_T msgNowTime;														//---当前的时间
+		UINT32_T msgRecordTime;														//---当前的时间
 		GPIO_HandlerType	msgDRDY;												//---准备好信号
 		GPIO_HandlerType	msgHWRST;												//---硬件复位信号
 		SPI_HandlerType		msgSPI;													//---使用的SPI模式

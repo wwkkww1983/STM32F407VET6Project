@@ -21,23 +21,28 @@ extern "C" {
 	#define ISP_SCK_KHZ_16						6	//---32us
 	#define ISP_SCK_KHZ_32						7	//---16us
 	#define ISP_SCK_KHZ_64						8	//---8us
-	#define ISP_SCK_PRE_256						9	//---42M/256
-	#define ISP_SCK_PRE_128						10	//---42M/128
-	#define ISP_SCK_PRE_64						11	//---42M/64
-	#define ISP_SCK_PRE_32						12	//---42M/32
-	#define ISP_SCK_PRE_16						13	//---42M/16
-	#define ISP_SCK_PRE_8						14	//---42M/8
-	#define ISP_SCK_PRE_4						15	//---42M/4
-	#define ISP_SCK_PRE_2						16	//---42M/2
+	#define ISP_SCK_KHZ_128						9	//---4us
+	#define ISP_SCK_KHZ_256						10	//---2us
+	#define ISP_SCK_PRE_256						11	//---42M/256
+	#define ISP_SCK_PRE_128						12	//---42M/128
+	#define ISP_SCK_PRE_64						13	//---42M/64
+	#define ISP_SCK_PRE_32						14	//---42M/32
+	#define ISP_SCK_PRE_16						15	//---42M/16
+	#define ISP_SCK_PRE_8						16	//---42M/8
+	#define ISP_SCK_PRE_4						17	//---42M/4
+	#define ISP_SCK_PRE_2						18	//---42M/2
 	
 	//===最大的编程时钟
-	#define ISP_SCK_MAX_CLOCK					ISP_SCK_PRE_256
-	#define ISP_SCK_AUTO_MAX_COUNT				16	
-	//===编程最大字节数
+	#define ISP_SCK_MAX_CLOCK					ISP_SCK_PRE_64
+	//===编程时钟最大改变的次数
+	#define ISP_SCK_AUTO_MAX_COUNT				18	
+	//===编程缓存区的大小
 	#define ISP_COMM_MAX_SIZE					4	
+	//===定义ISP状态保持的时间状态
+	#define ISP_STATE_TIME_OUT_MS				500
 	//===定义是否使用电平转换芯片，带OE控制端的
-	#define ISP_USE_lEVEL_SHIFT 												   
-															 
+	#define ISP_USE_lEVEL_SHIFT 			
+	
 	//===定义结构体
 	typedef struct _ISP_HandlerType				ISP_HandlerType;
 	//===定义指针结构体
@@ -45,17 +50,20 @@ extern "C" {
 	//===结构定义
 	struct _ISP_HandlerType
 	{
-		UINT8_T msgInit;							//---判断是否初始化过了 0---未初始化，1---初始化
-		UINT8_T msgSetClok;							//---设置的编程时钟
-		UINT8_T msgDelayms;							//---编程之后的延时函数，单位是ms
-		UINT8_T msgHideAddr;						//---接触64K的限制
-		UINT8_T msgWriteByte[ISP_COMM_MAX_SIZE];	//---发送数据
-		UINT8_T msgReadByte[ISP_COMM_MAX_SIZE];		//---读取数据
+		UINT8_T		msgState;							//---编程状态，0---空闲状态，1---编程状态
+		UINT8_T		msgInit;							//---判断是否初始化过了 0---未初始化，1---初始化
+		UINT8_T		msgSetClok;							//---设置的编程时钟
+		UINT8_T		msgDelayms;							//---编程之后的延时函数，单位是ms
+		UINT8_T		msgHideAddr;						//---接触64K的限制
+		UINT8_T		msgIsPollReady;						//---是否轮询准备好信号，0---不需要；1---需要
+		UINT8_T		msgWriteByte[ISP_COMM_MAX_SIZE];	//---发送数据
+		UINT8_T		msgReadByte[ISP_COMM_MAX_SIZE];		//---读取数据
+		UINT32_T	msgRecordTime;						//---记录的时间参数
 #ifdef ISP_USE_lEVEL_SHIFT
-		GPIO_HandlerType msgOE;						//---电平转换使能控制端，0---使能；1---不使能
+		GPIO_HandlerType msgOE;							//---电平转换使能控制端，0---使能；1---不使能
 #endif
-		void(*msgFuncDelayms)(UINT32_T delay);		//---延时参数
-		SPI_HandlerType msgSPI;						//---使用的SPI模式
+		void(*msgFuncDelayms)(UINT32_T delay);			//---延时参数
+		SPI_HandlerType msgSPI;							//---使用的SPI模式
 	};
 
 	//===任务函数
@@ -78,8 +86,12 @@ extern "C" {
 	UINT8_T ISP_SW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4);
 	UINT8_T ISP_HW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4);
 	UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx);
-	UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx);
+	UINT8_T ISP_EnterProg(ISP_HandlerType* ISPx, UINT8_T isPollReady);
 	UINT8_T ISP_ExitProg(ISP_HandlerType *ISPx);
+	void	ISP_WatchTask(ISP_HandlerType* ISPx);
+	UINT8_T ISP_AddWatch(ISP_HandlerType* ISPx);
+	UINT8_T ISP_RemoveWatch(ISP_HandlerType* ISPx);
+	UINT8_T ISP_RefreshWatch(ISP_HandlerType* ISPx);
 	UINT8_T ISP_ReadReady(ISP_HandlerType *ISPx);
 	UINT8_T ISP_EraseChip(ISP_HandlerType *ISPx);
 	UINT8_T ISP_ReadChipID(ISP_HandlerType *ISPx, UINT8_T *pVal);

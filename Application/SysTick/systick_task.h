@@ -16,7 +16,7 @@ extern "C" {
 	UINT8_T  SysTickTask_IRQDecTick(UINT32_T waitDecTick);
 	UINT8_T  SysTickTask_DecTick(UINT32_T waitDecTick);
 	UINT32_T SysTickTask_GetTick(void);
-	UINT8_T	 SysTickTask_IRQTick(void);
+	UINT8_T	 SysTickTask_IRQTask(void);
 	UINT8_T	 SysTickTask_WaitTick(UINT32_T usTime);
 	UINT8_T  SysTickTask_WaitusTick(UINT32_T usTime);
 	UINT8_T  SysTickTask_1msIncTick(void);

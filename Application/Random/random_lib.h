@@ -8,10 +8,11 @@ extern "C" {
 	#include "random_cfg.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===º¯Êý¶¨Òå
-	void RandomLib_Init(void);
+	void RandomLib_Init(UINT8_T isEnableIT);
 	void RandomLib_DeInit(void);
 	UINT32_T RandomLib_GetVal(void);
 	UINT32_T RandomLib_GetRand(UINT32_T minVal, UINT32_T maxVal);
+	void RandomLib_IRQTask(void);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -214,3 +214,15 @@ UINT8_T SPILib_MSW_WriteAndReadDataLSB(SPI_HandlerType *SPIx, UINT8_T *pWVal, UI
 {
 	return SPI_MSW_WriteAndReadBDataLSB(SPIx, pWVal, pRVal, length);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：中断处理函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void SPILib_IRQTask(SPI_HandlerType* SPIx, UINT8_T is16Bit)
+{
+	SPI_IRQTask(SPIx, is16Bit);
+}

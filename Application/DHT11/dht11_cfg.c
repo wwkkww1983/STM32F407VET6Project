@@ -102,7 +102,6 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 
 	//---GPIO的初始化
 	DHT11_GPIO_Init(DHTxx);
-
 	//---us延时
 	if (pFuncDelayus != NULL)
 	{
@@ -125,7 +124,7 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 	//---注册滴答函数
 	DHTxx->msgFuncTimeTick=pFuncTimerTick;
 	//---当前时间
-	DHTxx->msgNowTime= DHTxx->msgFuncTimeTick();
+	DHTxx->msgRecordTime= DHTxx->msgFuncTimeTick();
 	return OK_0;
 }
 
@@ -324,13 +323,13 @@ UINT8_T DHT11_ReadSTATE(DHT11_HandlerType* DHTxx)
 	}
 	//===计算时间间隔
 	//---判断滴答定时是否发生溢出操作
-	if (DHTxx->msgNowTime < nowTime)
+	if (DHTxx->msgRecordTime > nowTime)
 	{
-		cnt = (0xFFFFFFFF - nowTime + DHTxx->msgNowTime);
+		cnt = (0xFFFFFFFF - nowTime + DHTxx->msgRecordTime);
 	}
 	else
 	{
-		cnt = DHTxx->msgNowTime - nowTime;
+		cnt = nowTime-DHTxx->msgRecordTime;
 	}
 	if (cnt>DHT11_READ_INTERVAL_MS)
 	{
@@ -388,6 +387,6 @@ UINT8_T DHT11_Read(DHT11_HandlerType *DHTxx)
 	//---设置当前状态为忙碌模式
 	DHTxx->msgSTATE= DHT11_READ_BUSY;
 	//---重置时间标签
-	DHTxx->msgNowTime = DHTxx->msgFuncTimeTick();
+	DHTxx->msgRecordTime = DHTxx->msgFuncTimeTick();
 	return OK_0;
 }

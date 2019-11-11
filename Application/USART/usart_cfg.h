@@ -35,9 +35,10 @@ extern "C" {
 		VLTUINT16_T		msgIndexW;								//---写序号
 		VLTUINT16_T		msgIndexR;								//---读序号
 		VLTUINT16_T		msgCount;								//---读写数据的长度
+		VLTUINT16_T		msgIndexF;								//---执行结果的标识号，在数据缓存区的位置信息
 		VLTUINT16_T		msgSize;								//---数据缓存区的大小
 		VLTUINT8_T		msgOverFlow;							//---超时标志位
-		VLTUINT32_T		msgNowTime;								//---超时时间开始至
+		VLTUINT32_T		msgRecordTime;								//---超时时间开始至
 		VLTUINT32_T		msgEndTime;								//---超时时间结束值
 		VLTUINT32_T		msgMaxTime;								//---超时时间
 		UINT8_T			*pMsgVal;								//---缓存区(需要提前定义好数据的缓存区)
@@ -54,7 +55,7 @@ extern "C" {
 		UINT8_T								msgIndex;			//---USART端口的索引号
 		UINT8_T								msgRxID;			//---接收报头
 		UINT8_T								msgTxID;			//---发送报头
-		UINT8_T								msgDeviceID;		//---设备ID
+		UINT8_T								msgID;				//---设备ID
 		UINT8_T								msgIDIndex;			//---设备ID在数组中的位置
 		UINT8_T								msgCmdIndex;		//---命令在数组中的位置
 		UINT8_T								msgDataOneIndex;	//---数据1在数组中的位置
@@ -215,11 +216,13 @@ extern "C" {
 	UINT8_T  USART_ITWrite_TXETask(USART_HandlerType*USARTx);
 	UINT8_T  USART_ITWrite_TCTask(USART_HandlerType*USARTx);
 	UINT8_T  USART_RealTime_AddByte(USART_HandlerType*USARTx, UINT8_T val);
-	UINT8_T  USART_RealTime_AddByteSize(USART_HandlerType*USARTx, UINT16_T val);
-	UINT8_T  USART_RealTime_AddByteCRC(USART_HandlerType*USARTx);
-	UINT8_T  USART_FillMode_Init( USART_HandlerType*USARTx );
+	UINT8_T  USART_RealTime_AddSize(USART_HandlerType*USARTx, UINT16_T val);
+	UINT8_T  USART_RealTime_AddCRC(USART_HandlerType*USARTx);
+	UINT8_T  USART_FillMode_Init( USART_HandlerType*USARTx, UINT8_T isChildCmd);
 	UINT8_T  USART_FillMode_AddByte(USART_HandlerType*USARTx, UINT8_T val);
 	UINT8_T  USART_FillMode_AddData(USART_HandlerType*USARTx, UINT8_T *pVal, UINT16_T length);
+	UINT8_T	 USART_FillMode_SetResultFlag(USART_HandlerType* USARTx, UINT8_T val);
+	UINT8_T  USART_FillMode_AddIndexW(USART_HandlerType* USARTx, UINT16_T val);
 	UINT8_T  USART_CRCTask_Read(USART_HandlerType*USARTx);
 	UINT8_T  USART_CRCTask_Write(USART_HandlerType*USARTx);
 	UINT8_T  USART_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID);
@@ -231,15 +234,15 @@ extern "C" {
 	UINT8_T  USART_WriteInit(USART_HandlerType*  USARTx);
 	UINT8_T  USART_DeviceID(USART_HandlerType*USARTx);
 	void     USART_Printf(USART_HandlerType*USARTx, char*fmt, ...);
-	UINT8_T USART_IT_TCTask(USART_HandlerType* USARTx);
+	UINT8_T  USART_IT_TCTask(USART_HandlerType* USARTx);
 	void	 USART_PrintfClockFreq(USART_HandlerType*USARTx);
 	UINT8_T  USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable);
 	UINT8_T  USART_DeInit(USART_HandlerType*USARTx);
-	UINT8_T  USART_DeviceInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index);
-	UINT8_T  USART_Device0_Init(USART_HandlerType*USARTx);
-	UINT8_T  USART_Device1_Init(USART_HandlerType*USARTx);
-	UINT8_T  USART_Device2_Init(USART_HandlerType*USARTx);
-
+	UINT8_T  USART_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index);
+	UINT8_T  USART1_Init(USART_HandlerType*USARTx);
+	UINT8_T  USART2_Init(USART_HandlerType*USARTx);
+	UINT8_T  USART3_Init(USART_HandlerType*USARTx);
+	void USART_IRQTask(USART_HandlerType* USARTx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

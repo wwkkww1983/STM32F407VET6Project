@@ -26,6 +26,7 @@ extern "C" {
 	UINT8_T SPILib_MSW_WriteAndReadByteLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal);
 	UINT8_T SPILib_MSW_WriteAndReadDataMSB(SPI_HandlerType *SPIx, UINT8_T *pWVal, UINT8_T *pRVal, UINT16_T length);
 	UINT8_T SPILib_MSW_WriteAndReadDataLSB(SPI_HandlerType *SPIx, UINT8_T *pWVal, UINT8_T *pRVal, UINT16_T length);
+	void  SPILib_IRQTask(SPI_HandlerType* SPIx, UINT8_T is16Bit);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -42,9 +42,9 @@ UINT8_T  USARTLib_DeInit(USART_HandlerType*  USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTLib_DeviceInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index)
+UINT8_T USARTLib_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index)
 {
-	return USART_DeviceInit(USARTx, id, idIndex, cmdIndex, d1Index, d2Index);
+	return USART_ParamInit(USARTx, id, idIndex, cmdIndex, d1Index, d2Index);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -267,9 +267,9 @@ UINT8_T  USARTLib_RealTime_AddByte(USART_HandlerType*USARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTLib_RealTime_AddByteSize(USART_HandlerType*USARTx, UINT16_T val)
+UINT8_T  USARTLib_RealTime_AddSize(USART_HandlerType*USARTx, UINT16_T val)
 {
-	return USART_RealTime_AddByteSize(USARTx, val);
+	return USART_RealTime_AddSize(USARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -279,9 +279,9 @@ UINT8_T  USARTLib_RealTime_AddByteSize(USART_HandlerType*USARTx, UINT16_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTLib_RealTime_AddByteCRC(USART_HandlerType*USARTx)
+UINT8_T  USARTLib_RealTime_AddCRC(USART_HandlerType*USARTx)
 {
-	return USART_RealTime_AddByteCRC(USARTx);
+	return USART_RealTime_AddCRC(USARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -291,9 +291,9 @@ UINT8_T  USARTLib_RealTime_AddByteCRC(USART_HandlerType*USARTx)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T	 USARTLib_FillMode_Init( USART_HandlerType*USARTx )
+UINT8_T	 USARTLib_FillMode_Init( USART_HandlerType*USARTx, UINT8_T isChildCmd)
 {
-	return USART_FillMode_Init( USARTx );
+	return USART_FillMode_Init( USARTx,isChildCmd );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -318,6 +318,30 @@ UINT8_T  USARTLib_FillMode_AddByte(USART_HandlerType*USARTx, UINT8_T val)
 UINT8_T USARTLib_FillMode_AddData(USART_HandlerType*USARTx, UINT8_T *pVal, UINT16_T length)
 {
 	return USART_FillMode_AddData(USARTx, pVal, length);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T	 USARTLib_FillMode_SetResultFlag(USART_HandlerType* USARTx, UINT8_T val)
+{
+	return USART_FillMode_SetResultFlag( USARTx,  val);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T  USARTLib_FillMode_AddIndexW(USART_HandlerType* USARTx, UINT16_T val)
+{
+	return USART_FillMode_AddIndexW(USARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -402,4 +426,16 @@ void USARTLib_PrintfClockFreq(USART_HandlerType*USARTx)
 UINT8_T USARTLib_IT_TCTask(USART_HandlerType* USARTx)
 {
 	return USART_IT_TCTask(USARTx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：中断处理函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void USARTLib_IRQTask(USART_HandlerType* USARTx)
+{
+	USART_IRQTask(USARTx);
 }

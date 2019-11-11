@@ -252,7 +252,7 @@ extern "C" {
 	UINT32_T LL_TIM_GetFlag(TIM_TypeDef *TIMx);
 	void LL_USART_ClearFlag(USART_TypeDef *USARTx);
 	UINT32_T LL_USART_GetFlag(USART_TypeDef *USARTx);
-	void HardFault_ErrIRQ( void );
+	void HardFault_IRQTask( void );
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

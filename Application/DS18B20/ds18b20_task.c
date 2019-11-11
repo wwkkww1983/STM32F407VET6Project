@@ -7,9 +7,9 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20Task_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay))
+UINT8_T DS18B20Task_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
-	return DS18B20Lib_OneWire_Init(DS18B20x, pFuncDelayus, pFuncDelayms);
+	return DS18B20Lib_OneWire_Init(DS18B20x, pFuncDelayus, pFuncDelayms,pFuncTimerTick);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

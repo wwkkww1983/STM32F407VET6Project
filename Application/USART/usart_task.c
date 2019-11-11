@@ -15,7 +15,7 @@ UINT8_T  USARTTask_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pR
 {
 	UINT8_T _return = OK_0;
 	_return = USARTLib_Init(USARTx, rxSize, pRxVal, rxCRCFlag, txSize, pTxVal, txCRCFlag, pTimerTick);
-	_return = USARTLib_DeviceInit(USARTx, USART1_DEVICE_ID, USART1_ID_INDEX, USART1_CMD_INDEX, USART1_DATA1_INDEX, USART1_DATA2_INDEX);
+	_return = USARTLib_ParamInit(USARTx, USART1_DEVICE_ID, USART1_ID_INDEX, USART1_CMD_INDEX, USART1_DATA1_INDEX, USART1_DATA2_INDEX);
 	return _return;
 }
 
@@ -38,9 +38,9 @@ UINT8_T  USARTTask_DeInit(USART_HandlerType*  USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_DeviceInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index)
+UINT8_T USARTTask_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index)
 {
-	return USARTLib_DeviceInit(USARTx, id, idIndex, cmdIndex, d1Index, d2Index);
+	return USARTLib_ParamInit(USARTx, id, idIndex, cmdIndex, d1Index, d2Index);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -207,9 +207,9 @@ UINT8_T  USARTTask_RealTime_AddByte(USART_HandlerType*USARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_RealTime_AddByteSize(USART_HandlerType*USARTx, UINT16_T val)
+UINT8_T  USARTTask_RealTime_AddSize(USART_HandlerType*USARTx, UINT16_T val)
 {
-	return USARTLib_RealTime_AddByteSize(USARTx, val);
+	return USARTLib_RealTime_AddSize(USARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -219,9 +219,9 @@ UINT8_T  USARTTask_RealTime_AddByteSize(USART_HandlerType*USARTx, UINT16_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_RealTime_AddByteCRC(USART_HandlerType*USARTx)
+UINT8_T  USARTTask_RealTime_AddCRC(USART_HandlerType*USARTx)
 {
-	return USARTLib_RealTime_AddByteCRC(USARTx);
+	return USARTLib_RealTime_AddCRC(USARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -231,9 +231,9 @@ UINT8_T  USARTTask_RealTime_AddByteCRC(USART_HandlerType*USARTx)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T	 USARTTask_FillMode_Init( USART_HandlerType*USARTx )
+UINT8_T	 USARTTask_FillMode_Init( USART_HandlerType*USARTx, UINT8_T isChildCmd)
 {
-	return USARTLib_FillMode_Init(USARTx);
+	return USARTLib_FillMode_Init(USARTx,isChildCmd);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -259,6 +259,31 @@ UINT8_T USARTTask_FillMode_AddData(USART_HandlerType*USARTx, UINT8_T *pVal, UINT
 {
 	return  USARTLib_FillMode_AddData(USARTx, pVal, length);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T	 USARTTask_FillMode_SetResultFlag(USART_HandlerType* USARTx, UINT8_T val)
+{
+	return USARTLib_FillMode_SetResultFlag(USARTx, val);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T  USARTTask_FillMode_AddIndexW(USART_HandlerType* USARTx, UINT16_T val)
+{
+	return USARTLib_FillMode_AddIndexW(USARTx, val);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：
@@ -355,6 +380,18 @@ UINT8_T USARTTask_DeviceID(USART_HandlerType*USARTx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：中断处理函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void USARTTask_IRQTask(USART_HandlerType* USARTx)
+{
+	USARTLib_IRQTask(USARTx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：
 //////输入参数:
 //////输出参数:
@@ -383,7 +420,7 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 				{
 					//USARTTask_FillMode_AddData(USARTx, USARTx->msgRxHandler.pMsgVal, length);
 					//USARTTask_RealTime_AddByteSize(USARTx, USARTx->msgRxHandler.msgCount);
-					USARTTask_RealTime_AddByteSize(USARTx, USARTx->msgRxHandler.msgIndexW);
+					USARTTask_RealTime_AddSize(USARTx, USARTx->msgRxHandler.msgIndexW);
 					for (length = USART1_ID_INDEX; length < USARTx->msgRxHandler.msgCount; length++)
 					{
 						USARTTask_RealTime_AddByte(USARTx, USARTx->msgRxHandler.pMsgVal[length]);
@@ -399,7 +436,7 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 				}
 
 				//---判断是否发送CRC
-				USARTTask_RealTime_AddByteCRC(USARTx);
+				USARTTask_RealTime_AddCRC(USARTx);
 			}
 			else
 			{
@@ -440,8 +477,8 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 					freqVal = (UINT32_T)(pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] * 100);
 				}
 
-				USARTTask_FillMode_Init(USARTx);
-				USARTTask_FillMode_AddByte(USARTx, 0xA4);
+				USARTTask_FillMode_Init(USARTx,0);
+				//USARTTask_FillMode_AddByte(USARTx, 0xA4);
 				USARTTask_FillMode_AddByte(USARTx, 0x00);
 				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 24));
 				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 16));

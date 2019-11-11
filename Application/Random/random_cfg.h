@@ -14,10 +14,11 @@ extern "C" {
 	#endif
 
 	//===º¯Êý¶¨Òå
-	void Random_Init(void);
+	void Random_Init(UINT8_T isEnableIT);
 	void Random_DeInit(void);
 	UINT32_T Random_GetVal(void);
 	UINT32_T Random_GetRand(UINT32_T minVal, UINT32_T maxVal);
+	void Random_IRQTask(void);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -369,8 +369,8 @@ extern "C" {
 	};
 
 	//===外部接口调用
-	extern RFASK_HandlerType	g_RFASK;
-	extern pRFASK_HandlerType	pRFASK;
+	extern RFASK_HandlerType							g_RFASK;
+	extern pRFASK_HandlerType							pRFASK;
 
 	//===函数定义
 	void	 RFASK_StructInit(RFASK_HandlerType* rfask);

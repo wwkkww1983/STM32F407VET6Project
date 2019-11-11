@@ -99,7 +99,7 @@ void ADS868X_SPI_Device0_Init(ADS868X_HandlerType *ADS868x)
 		ADS868x->msgChannelPowerResult[i] = 0;
 		ADS868X_SPI_ChannelRange(ADS868x, i);
 	}
-	ADS868x->msgDeviceReady = 0;
+	ADS868x->msgReadyOK = 0;
 	ADS868x->msgInitRetryCount = 3;
 	ADS868x->msgChipID = 0;
 	//---默认配置特性
@@ -596,7 +596,7 @@ UINT8_T ADS868X_SPI_Reset(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit)
 	{
 		_return = ADS868X_SPI_SoftReset(ADS868x,isAutoInit);
 	}
-	ADS868x->msgDeviceReady = 0;
+	ADS868x->msgReadyOK = 0;
 	return _return;
 }
 
@@ -1273,7 +1273,7 @@ UINT8_T ADS868X_SPI_GetAutoRSTResult(ADS868X_HandlerType *ADS868x, UINT8_T chNum
 	}
 
 	//---判断设备是否初始化成功
-	if (ADS868x->msgDeviceReady == 1)
+	if (ADS868x->msgReadyOK == 1)
 	{
 		_return = ADS868X_SPI_ConfigInit(ADS868x,0);
 		if (_return != OK_0)
@@ -1467,7 +1467,7 @@ UINT8_T  ADS868X_SPI_GetManualChannelResult(ADS868X_HandlerType* ADS868x, UINT16
 	}
 
 	//---判断设备是否初始化成功
-	if (ADS868x->msgDeviceReady==1)
+	if (ADS868x->msgReadyOK==1)
 	{
 		_return=ADS868X_SPI_ConfigInit(ADS868x,0);
 		if (_return!=OK_0)
@@ -1708,7 +1708,7 @@ UINT8_T ADS868X_SPI_ConfigInit(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit)
 	if (ADS868x->msgAutoSeqEn != tempBuffer[1])
 	{
 		_return = ERROR_1;
-		ADS868x->msgDeviceReady = 1;
+		ADS868x->msgReadyOK = 1;
 	}
 	else
 	{

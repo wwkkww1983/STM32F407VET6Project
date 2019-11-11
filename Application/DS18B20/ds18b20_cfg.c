@@ -6,7 +6,7 @@ pDS18B20_HandlerType pDS18B20Device0 = &g_DS18B20Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：设备1的初始化
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -15,12 +15,15 @@ UINT8_T DS18B20_OneWire_Device0_Init(DS18B20_HandlerType *DS18B20x)
 {
 	DS18B20x->msgOneWire.msgDAT.msgGPIOBit = LL_GPIO_PIN_2;
 	DS18B20x->msgOneWire.msgDAT.msgGPIOPort = GPIOC;
+	DS18B20x->msgTempBit=3;
+	DS18B20x->msgIntervalTime=800;
+	DS18B20x->msgTempBitValX10000=625;
 	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：设备2的初始化
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -32,7 +35,7 @@ UINT8_T DS18B20_OneWire_Device1_Init(DS18B20_HandlerType *DS18B20x)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：设备3的初始化
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -44,12 +47,12 @@ UINT8_T DS18B20_OneWire_Device2_Init(DS18B20_HandlerType *DS18B20x)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：初始化指定设备
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay))
+UINT8_T DS18B20_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	if ((DS18B20x != NULL) && (DS18B20x == DS18B20_TASK_ONE))
 	{
@@ -77,12 +80,18 @@ UINT8_T DS18B20_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(
 	{
 		DS18B20x->msgFuncDelayms = DelayTask_ms;
 	}
-	return OneWireTask_Init(&(DS18B20x->msgOneWire), pFuncDelayus);
+	//---注册滴答函数
+	DS18B20x->msgFuncTimeTick = pFuncTimerTick;
+	//---当前时间
+	DS18B20x->msgRecordTime = DS18B20x->msgFuncTimeTick();
+	//---配置基本参数
+	return DS18B20_OneWire_Config(DS18B20x,pFuncDelayus);
+	//return OneWireTask_Init(&(DS18B20x->msgOneWire), pFuncDelayus);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函	   数：
-//////功	   能：
+//////功	   能：销毁指定的设备
 //////输入参数:
 //////输出参数:
 //////说	   明：
@@ -129,24 +138,113 @@ UINT8_T DS18B20_OneWire_ReadByte(DS18B20_HandlerType *DS18B20x)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取温度的分辨率
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_ReadDeviceID(DS18B20_HandlerType *DS18B20x, UINT8_T *id)
+UINT8_T DS18B20_OneWire_ReadTempBit(DS18B20_HandlerType* DS18B20x,UINT8_T *pTempBit)
 {
-	UINT8_T i;
-
+	UINT8_T tempBit[3]={0};
+	UINT8_T i=0;
 	//---总线复位
 	if (DS18B20_OneWire_START(DS18B20x) == 0)
 	{
 		return ERROR_1;
 	}
+	//---忽略地址匹配
+	DS18B20_OneWire_WriteByte(DS18B20x, 0xCC);
+	//---读取暂存寄存器的值
+	DS18B20_OneWire_WriteByte(DS18B20x, 0xBE);
+	//---读取温度分辨率信息
+	for (i = 0; i < 3; i++)
+	{
+		tempBit[i] = DS18B20_OneWire_ReadByte(DS18B20x);
+	}
+	DS18B20x->msgTempTH = tempBit[0];
+	DS18B20x->msgTempTL = tempBit[1];
+	//DS18B20x->msgTempBit=tempBit[2];
+	tempBit[2]&=0x60;
+	tempBit[2]>>=5;
+	*pTempBit=tempBit[2];
+	//----总线复位
+	DS18B20_OneWire_START(DS18B20x);
+	return OK_0;
+}
 
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：写入温度的分辨率
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T DS18B20_OneWire_WriteTempBit(DS18B20_HandlerType* DS18B20x, UINT8_T tempBit)
+{
+	UINT8_T i = 0;
+	//---总线复位
+	if (DS18B20_OneWire_START(DS18B20x) == 0)
+	{
+		return ERROR_1;
+	}
+	DS18B20x->msgTempBit=tempBit;
+	//--9Bit
+	if (tempBit==0)
+	{
+		DS18B20x->msgIntervalTime=100;
+		DS18B20x->msgTempBitValX10000=5000;
+	}
+	//---10Bit
+	else if (tempBit == 1)
+	{
+		DS18B20x->msgIntervalTime = 200;
+		DS18B20x->msgTempBitValX10000 = 2500;
+	}
+	//---11Bit
+	else if (tempBit == 1)
+	{
+		DS18B20x->msgIntervalTime = 400;
+		DS18B20x->msgTempBitValX10000 = 1250;
+	}
+	//---12Bit
+	else
+	{
+		DS18B20x->msgIntervalTime = 800;
+		DS18B20x->msgTempBitValX10000 = 625;
+	}
+	tempBit<<=5;
+	tempBit|=0x1F;
+	//---忽略地址匹配
+	DS18B20_OneWire_WriteByte(DS18B20x, 0xCC);
+	//---读取暂存寄存器的值
+	DS18B20_OneWire_WriteByte(DS18B20x, 0x4E);
+	//---读取暂存寄存器的值
+	DS18B20_OneWire_WriteByte(DS18B20x, DS18B20x->msgTempTH);
+	DS18B20_OneWire_WriteByte(DS18B20x, DS18B20x->msgTempTL);
+	//---写入温度分辨率
+	DS18B20_OneWire_WriteByte(DS18B20x, tempBit);
+	//----总线复位
+	DS18B20_OneWire_START(DS18B20x);
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：读取设备的ID信息
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T DS18B20_OneWire_ReadID(DS18B20_HandlerType *DS18B20x, UINT8_T *id)
+{
+	UINT8_T i;
+	//---总线复位
+	if (DS18B20_OneWire_START(DS18B20x) == 0)
+	{
+		return ERROR_1;
+	}
 	//---发命令
 	DS18B20_OneWire_WriteByte(DS18B20x, 0x33);
-
 	//---读取设备的ID信息
 	for (i = 0; i < 8; i++)
 	{
@@ -159,6 +257,57 @@ UINT8_T DS18B20_OneWire_ReadDeviceID(DS18B20_HandlerType *DS18B20x, UINT8_T *id)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：开始转换,忽略ID匹配
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT16_T DS18B20_OneWire_StartConvert(DS18B20_HandlerType* DS18B20x)
+{
+	//---总线复位
+	if (DS18B20_OneWire_START(DS18B20x) == 0)
+	{
+		return ERROR_1;
+	}
+	//---忽略地址匹配
+	DS18B20_OneWire_WriteByte(DS18B20x, 0xCC);
+	//---启动转换
+	DS18B20_OneWire_WriteByte(DS18B20x, 0x44);
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：当期状态
+//////输入参数:
+//////输出参数: 0---可以读取；1---间隔读取时间还没有到达，不允许读取
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT16_T DS18B20_OneWire_STATE(DS18B20_HandlerType* DS18B20x)
+{
+	UINT32_T nowTime = DS18B20x->msgFuncTimeTick();
+	UINT32_T cnt = 0;
+	//---判断滴答定时是否发生溢出操作
+	if (DS18B20x->msgRecordTime > nowTime)
+	{
+		cnt = (0xFFFFFFFF - nowTime + DS18B20x->msgRecordTime);
+	}
+	else
+	{
+		cnt = nowTime-DS18B20x->msgRecordTime;
+	}
+	if (cnt > DS18B20x->msgIntervalTime)
+	{
+		return OK_0;
+	}
+	else
+	{
+		return ERROR_1;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
 //////函	   数： UINT16_T DS18B20_GetWenDu(DS18B20_HandlerType *DS18B20HandlerType)
 //////功	   能： 获取温度值
 //////输入参数: 无
@@ -167,44 +316,33 @@ UINT8_T DS18B20_OneWire_ReadDeviceID(DS18B20_HandlerType *DS18B20x, UINT8_T *id)
 ///////////////////////////////////////////////////////////////////////////////
 UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 {
-	UINT16_T _return = 0, temH = 0;
-	UINT8_T temL;
-
+	UINT16_T _return = 0;
+	UINT16_T tempH = 0;
+	UINT8_T tempL;
+	//---检查是否到达下次的读取的时间
+	_return= DS18B20_OneWire_STATE(DS18B20x);
+	if (_return!=OK_0)
+	{
+		return ERROR_1;
+	}
 	//---读取数据之前首先设置为数据无效，避免其他设备使用
 	DS18B20x->msgIsPositive = 0;
-
-	//---启动温度传感器---总线复位
-	DS18B20_OneWire_START(DS18B20x);
-
-	//---忽略地址
-	DS18B20_OneWire_WriteByte(DS18B20x, 0xCC);
-
-	//---启动转换
-	DS18B20_OneWire_WriteByte(DS18B20x, 0x44);
-
 	//---延时等待
 	DS18B20x->msgFuncDelayms(1);
-
 	//---初始化温度传感器---总线复位
 	DS18B20_OneWire_START(DS18B20x);
-
 	//---忽略地址
 	DS18B20_OneWire_WriteByte(DS18B20x, 0xCC);
-
 	//---读取温度
 	DS18B20_OneWire_WriteByte(DS18B20x, 0xBE);
-
 	//---读取低位
-	temL = DS18B20_OneWire_ReadByte(DS18B20x);
-
+	tempL = DS18B20_OneWire_ReadByte(DS18B20x);
 	//---读取高位
-	temH = DS18B20_OneWire_ReadByte(DS18B20x);
-
+	tempH = DS18B20_OneWire_ReadByte(DS18B20x);
 	//---获取温度码值
-	_return = (temH << 8) | temL;
-
+	_return = (tempH << 8) | tempL;
 	//---判断温度是正值还是负值
-	if ((temH & 0x80) == 0)
+	if ((tempH & 0x80) == 0)
 	{
 		//---读取的温度是正值
 		DS18B20x->msgIsPositive = 2;
@@ -214,29 +352,25 @@ UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 		//===读取的温度是负值
 		DS18B20x->msgIsPositive = 1;
 	}
-
 	//---读取的温度值
-	temH = _return;
-
+	tempH = _return;
 	//---保留有效位数据
-	temH &= 0x0FFF;
-
+	tempH &= 0x0FFF;
 	//---获取温度值对应的16进制的数据
 	if (DS18B20x->msgIsPositive == 2)
 	{
-		DS18B20x->msgTempX10000 = temH;
+		DS18B20x->msgTempX10000 = tempH;
 	}
 	else
 	{
-		DS18B20x->msgTempX10000 = 0x1000 - temH;
+		DS18B20x->msgTempX10000 = 0x1000 - tempH;
 	}
-
 	//---将十六进制数转换成温度值
-	DS18B20x->msgTempX10000 *= 625;
-
+	DS18B20x->msgTempX10000 *= DS18B20x->msgTempBitValX10000;//625;
 	//---获取实际温度值
 	DS18B20x->msgTempX100 = (UINT16_T)(DS18B20x->msgTempX10000 / 100);
-
+	//---启动下次转换
+	DS18B20_OneWire_StartConvert(DS18B20x);
 	//---返回温度码的值
 	return _return;
 }
@@ -255,43 +389,32 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id
 
 	//---启动温度传感器---总线复位
 	DS18B20_OneWire_START(DS18B20x);
-
 	//---忽略地址
 	DS18B20_OneWire_WriteByte(DS18B20x, 0x55);
-
 	//---写入ROM的ID
 	for (i = 0; i < 8; i++)
 	{
 		DS18B20_OneWire_WriteByte(DS18B20x, id[i]);
 	}
-
 	//---启动转换
 	DS18B20_OneWire_WriteByte(DS18B20x, 0x44);
-
 	//---延时等待
 	DS18B20x->msgFuncDelayms(1);
-
 	//---初始化温度传感器---总线复位
 	DS18B20_OneWire_START(DS18B20x);
-
 	//---忽略地址
 	DS18B20_OneWire_WriteByte(DS18B20x, 0x55);
-
 	//---写入ROM的ID
 	for (i = 0; i < 8; i++)
 	{
 		DS18B20_OneWire_WriteByte(DS18B20x, id[i]);
 	}
-
 	//---读取温度
 	DS18B20_OneWire_WriteByte(DS18B20x, 0xBE);
-
 	//---读取低位
 	temL = DS18B20_OneWire_ReadByte(DS18B20x);
-
 	//---读取高位
 	temH = DS18B20_OneWire_ReadByte(DS18B20x);
-
 	//---获取温度码值
 	_return = (temH << 8) | temL;
 
@@ -306,13 +429,10 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id
 		//===读取的温度是负值
 		DS18B20x->msgIsPositive = 1;
 	}
-
 	//---读取的温度值
 	temH = _return;
-
 	//---保留有效位数据
 	temH &= 0x0FFF;
-
 	//---获取温度值对应的16进制的数据
 	if (DS18B20x->msgIsPositive == 0)
 	{
@@ -322,13 +442,36 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id
 	{
 		DS18B20x->msgTempX10000 = 4096 - temH;
 	}
-
 	//---将十六进制数转换成温度值
-	DS18B20x->msgTempX10000 *= 625;
-
+	DS18B20x->msgTempX10000 *= DS18B20x->msgTempBitValX10000;;
 	//---获取实际温度值
 	DS18B20x->msgTempX100 = (UINT16_T)(DS18B20x->msgTempX10000 / 100);
-
+	//---启动下次转换
+	DS18B20_OneWire_StartConvert(DS18B20x);
 	//---返回温度码的值
 	return _return;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：配置初始化
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T DS18B20_OneWire_Config(DS18B20_HandlerType* DS18B20x,void(*pFuncDelayus)(UINT32_T delay))
+{
+	UINT8_T _return=0;
+	//---初始化一线接口的参数
+	OneWireTask_Init(&(DS18B20x->msgOneWire), pFuncDelayus);
+	//---读取端口的参数配置，特别是温度的分辨率
+	DS18B20_OneWire_ReadTempBit(DS18B20x,&_return);
+	if (_return!=DS18B20x->msgTempBit)
+	{
+		//---配置温度分辨率
+		DS18B20_OneWire_WriteTempBit(DS18B20x, DS18B20x->msgTempBit);
+	}
+	//---启动装换
+	return DS18B20_OneWire_StartConvert(DS18B20x);
 }

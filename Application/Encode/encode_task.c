@@ -50,8 +50,8 @@ UINT8_T EnCodeTask_USART_MenuTask(USART_HandlerType* USARTx)
 	//---ÅÐ¶ÏÖ÷ÃüÁî
 	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgCmdIndex] == CMD_ENCODE)
 	{
-		USARTTask_FillMode_Init(USARTx);
-		USARTTask_FillMode_AddByte(USARTx, CMD_ENCODE);
+		USARTTask_FillMode_Init(USARTx,0);
+		//USARTTask_FillMode_AddByte(USARTx, CMD_ENCODE);
 		//---½âÎöÃüÁî
 		switch (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex])
 		{

@@ -80,7 +80,7 @@ void RCC_IRQHandler(void)
 void HardFault_Handler(void)
 {
 	/* USER CODE BEGIN HardFault_IRQn 0 */
-	HardFault_ErrIRQ();
+	HardFault_IRQTask();
 	/* USER CODE END HardFault_IRQn 0 */
 	while (1)
 	{
@@ -191,7 +191,7 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
 	/* USER CODE BEGIN SysTick_IRQn 0 */
-	SysTickTask_IRQTick();
+	SysTickTask_IRQTask();
 	/* USER CODE END SysTick_IRQn 0 */
 
 	/* USER CODE BEGIN SysTick_IRQn 1 */
@@ -224,28 +224,7 @@ void WWDG_IRQHandler()
 //////////////////////////////////////////////////////////////////////////////
 void USART1_IRQHandler(void)
 {
-	//---数据接收中断处理函数---接收寄存器不为空
-	if (LL_USART_IsActiveFlag_RXNE(pUSART1->msgUSART) && LL_USART_IsEnabledIT_RXNE(pUSART1->msgUSART))
-	{
-		USARTTask_ITRead_Task(pUSART1, LL_USART_ReceiveData8(USART1));
-
-		//---清楚中断标志位
-		LL_USART_ClearFlag_RXNE(USART1);
-	}
-
-	//---数据发送寄存器空发送中断处理函数
-	if (LL_USART_IsActiveFlag_TXE(pUSART1->msgUSART) && LL_USART_IsEnabledIT_TXE(pUSART1->msgUSART))
-	{
-		USARTTask_ITWrite_TXETask(pUSART1);
-	}
-
-	//---数据发送完成中断处理函数
-	if (LL_USART_IsActiveFlag_TC(pUSART1->msgUSART) && LL_USART_IsEnabledIT_TC(pUSART1->msgUSART))
-	{
-		USARTTask_IT_TCTask(pUSART1);
-		//---清楚中断标志位
-		LL_USART_ClearFlag_TC(USART1);
-	}
+	USARTTask_IRQTask(pUSART1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -257,72 +236,8 @@ void USART1_IRQHandler(void)
 //////////////////////////////////////////////////////////////////////////////
 void HASH_RNG_IRQHandler(void)
 {
-	//===发生种子错误
-	if (LL_RNG_IsActiveFlag_SEIS(RNG))
-	{
-		//---清零种子错误标志
-		LL_RNG_ClearFlag_SEIS(RNG);
-		//---不会使能随机数
-		LL_RNG_Disable(RNG);
-		//---重新使能使能随机数
-		LL_RNG_Enable(RNG);
-	}
-	//===发生时钟错误
-	if (LL_RNG_IsActiveFlag_CEIS(RNG))
-	{
-		//---清零时钟错误标志
-		LL_RNG_ClearFlag_CEIS(RNG);
-	}
-	//===数据就绪
-	if (LL_RNG_IsActiveFlag_DRDY(RNG))
-	{
-		g_HASH_RNG_Val = LL_RNG_ReadRandData32(RNG);
-	}
+	RandomTask_IRQTask();
 }
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-void DMA2_Stream0_IRQHandler(void)
-{
-	if (LL_DMA_IsActiveFlag_TC0(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_0)))
-	{
-		//ADCTask_ADCTask_STOP(ADC1);
-	}
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-void DMA2_Stream1_IRQHandler(void)
-{
-	if (LL_DMA_IsActiveFlag_TC0(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_1)))
-	{
-		//ADCTask_ADCTask_STOP(ADC3);
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：定时器2的中断
-//////////////////////////////////////////////////////////////////////////////
-void TIM2_IRQHandler(void)
-{
-	//DecodeTask_IRQTask();
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：

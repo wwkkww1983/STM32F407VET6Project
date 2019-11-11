@@ -767,7 +767,7 @@ UINT32_T LL_USART_GetFlag(USART_TypeDef *USARTx)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-void HardFault_ErrMsg( unsigned int * hardfault_args )
+void HardFault_Msg( unsigned int * hardfault_args )
 {
 	memset( &g_HardFaultErrMsg, 0, sizeof( HardFault_HandlerType ) );
 
@@ -791,14 +791,14 @@ void HardFault_ErrMsg( unsigned int * hardfault_args )
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-void HardFault_ErrIRQ( void )
+void HardFault_IRQTask( void )
 {
 	__ASM(	"TST LR,#4");
 	__ASM(	"ITE EQ\n"
 			"MRSEQ R0, MSP\n"
 			"MRSNE R0, PSP"
 		);
-	__ASM(	"B HardFault_ErrMsg");
+	__ASM(	"B HardFault_Msg");
 }
 
 

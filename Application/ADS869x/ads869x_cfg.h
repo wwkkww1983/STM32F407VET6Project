@@ -169,13 +169,13 @@ extern "C" {
 	{
 		VLTUINT8_T  msgDelayms;													//---等待时间,单位是ms
 		VLTUINT8_T  msgInitRetryCount;											//---初始化重试的次数
-		VLTUINT8_T  msgDeviceReady;												//---设备是否初始化成功，0---初始化成功，1---初始化失败
+		VLTUINT8_T  msgReadyOK;													//---设备是否初始化成功，0---初始化成功，1---初始化失败
 		VLTUINT8_T  msgChipID;													//---设备的ID信息
 		VLTUINT8_T  msgAutoSeqEn;												//---通过AUTO_SEQ_EN的设置探测设备的存在
 		VLTUINT8_T  msgChannelPWRDN;											//---通道掉电模式
 		VLTUINT8_T  msgFeature;													//---特性设置参数
 		VLTUINT8_T  msgChannelMode[ADS869X_CHANNEL_MAX];						//---输入装换模式,0---未选中使能；1---选中使能
-		VLTUINT8_T	 msgIsPositive[ADS869X_CHANNEL_MAX];						//---0---无数据，1---是负数，2---是正值
+		VLTUINT8_T  msgIsPositive[ADS869X_CHANNEL_MAX];							//---0---无数据，1---是负数，2---是正值
 		VLTUINT8_T  msgChannelRangeIsPositive[ADS869X_CHANNEL_MAX];				//---0---是正负量程，1---是正量程
 		VLTUINT8_T  msgChannelRange[ADS869X_CHANNEL_MAX];						//---AD通道的量程参考
 		volatile float    msgADCKP[ADS869X_CHANNEL_MAX];						//---ADC采样的比例系数

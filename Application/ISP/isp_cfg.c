@@ -102,10 +102,12 @@ UINT8_T ISP_SW_Init(ISP_HandlerType *ISPx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 {
+	//---设定编程状态为空闲模式
+	ISPx->msgState=0;
 	//---设定初始化状态
 	ISPx->msgInit = 0;
 	//---设定硬件的时钟
-	ISPx->msgSetClok = ISP_SCK_PRE_64;//ISP_SCK_KHZ_32;//ISP_SCK_PRE_256;//
+	ISPx->msgSetClok = ISP_SCK_PRE_32;// ISP_SCK_PRE_64;//ISP_SCK_KHZ_32;//ISP_SCK_KHZ_64
 	//---初始化
 	ISPx->msgDelayms = 0;
 	//---初始化
@@ -115,8 +117,8 @@ UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 	memset(ISPx->msgReadByte, 0x00, 4);
 	//---电平转换使能控制端
 #ifdef ISP_USE_lEVEL_SHIFT
-	ISPx->msgOE.msgGPIOPort=GPIOA;
-	ISPx->msgOE.msgGPIOBit = LL_GPIO_PIN_12;
+	ISPx->msgOE.msgGPIOPort=GPIOD;
+	ISPx->msgOE.msgGPIOBit = LL_GPIO_PIN_14;
 #endif
 
 	/**SPI2 GPIO Configuration
@@ -352,6 +354,14 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 			ISPx->msgSPI.msgModelIsHW = 0;
 			ISPx->msgSPI.msgPluseWidth = 8;
 			break;
+		case ISP_SCK_KHZ_128	:
+			ISPx->msgSPI.msgModelIsHW = 0;
+			ISPx->msgSPI.msgPluseWidth = 4;
+			break;
+		case ISP_SCK_KHZ_256	:
+			ISPx->msgSPI.msgModelIsHW = 0;
+			ISPx->msgSPI.msgPluseWidth = 2;
+			break;
 		case ISP_SCK_PRE_256:
 			ISPx->msgSPI.msgModelIsHW = 1;
 			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV256;
@@ -399,10 +409,10 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 			ISP_HW_Init(ISPx);
 		}
 	#ifdef USE_MCU_STM32
-		//---限制编程的最大速度，小鱼1MHz
-		if (ISPx->msgSPI.msgClockSpeed > ISP_SCK_PRE_32)
+		//---限制编程的最大速度，小于1MHz；注意这里两个变量的使用，一个是设置ISP的时钟等级，一个是设置硬件SPI的时钟
+		if (ISPx->msgSetClok > ISP_SCK_PRE_32)
 		{
-			ISPx->msgSPI.msgClockSpeed = ISP_SCK_PRE_32;
+			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV32;
 		}
 	#endif
 		//---设置SPI的硬件时钟
@@ -502,11 +512,11 @@ UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx)
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：进入编程模式
-//////输入参数:
+//////输入参数: isPollReady：0---延时模式，1---轮询准备好信号
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx)
+UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 {
 	UINT8_T count = ISP_SCK_AUTO_MAX_COUNT;
 	//---设置时钟
@@ -521,6 +531,10 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx)
 		//---检查是否进入成功
 		if (ISPx->msgReadByte[2] == 0x53)
 		{
+			//---编程状态为编程模式
+			ISPx->msgState = 1;
+			//---配置查询准备好信号的标志
+			ISPx->msgIsPollReady=isPollReady;
 			return OK_0;
 		}
 		//---降速处理
@@ -531,11 +545,11 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx)
 		//---设置时钟
 		ISP_SetClock(ISPx, ISPx->msgSetClok);
 		//---置位时钟线和片选端
-		GPIO_OUT_1(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
+		//GPIO_OUT_1(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
 		GPIO_OUT_1(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
 		ISPx->msgFuncDelayms(1);
 		//---清零时钟线和片选端
-		GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
+		//GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
 		GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
 		ISPx->msgFuncDelayms(1);
 	}
@@ -559,6 +573,148 @@ UINT8_T ISP_ExitProg(ISP_HandlerType *ISPx)
 	ISPx->msgSetClok = ISP_SCK_MAX_CLOCK;
 	//---解除64K的限制
 	ISPx->msgHideAddr = 0xFF;
+	//---编程状态为空闲模式
+	ISPx->msgState=0;
+	//---移除注册的监控函数
+	ISP_RemoveWatch(ISPx);
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：编程监控任务
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void ISP_WatchTask(ISP_HandlerType* ISPx)
+{
+	UINT32_T nowTime = 0;
+	UINT32_T cnt = 0;
+	if (ISPx->msgState!=0)
+	{
+		//---获取当前时间节拍
+		nowTime= ISPx->msgSPI.msgFuncTimeTick();
+		//---计算时间间隔
+		if (ISPx->msgRecordTime > nowTime)
+		{
+			cnt = (0xFFFFFFFF - nowTime + ISPx->msgRecordTime);
+		}
+		else
+		{
+			cnt = nowTime - ISPx->msgRecordTime;
+		}
+		if (cnt > ISP_STATE_TIME_OUT_MS)
+		{
+			ISP_ExitProg(ISPx);
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：添加设备1的监控函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void ISP_AddWatchDevice0(void)
+{
+	ISP_WatchTask(ISP_TASK_ONE);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：添加设备2的监控函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void ISP_AddWatchDevice1(void)
+{
+	ISP_WatchTask(ISP_TASK_TWO);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：添加设备3的监控函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void ISP_AddWatchDevice2(void)
+{
+	ISP_WatchTask(ISP_TASK_THREE);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：添加监控
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_AddWatch(ISP_HandlerType* ISPx)
+{
+	//---使用的ISP的端口
+	if ((ISPx != NULL) && (ISPx == ISP_TASK_ONE))
+	{
+		SysTickTask_CreateTickTask(ISP_AddWatchDevice0);
+	}
+	else if ((ISPx != NULL) && (ISPx == ISP_TASK_TWO))
+	{
+		SysTickTask_CreateTickTask(ISP_AddWatchDevice1);
+	}
+	else if ((ISPx != NULL) && (ISPx == ISP_TASK_THREE))
+	{
+		SysTickTask_CreateTickTask(ISP_AddWatchDevice2);
+	}
+	else
+	{
+		return ERROR_1;
+	}
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：移除监控
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_RemoveWatch(ISP_HandlerType* ISPx)
+{
+	//---使用的ISP的端口
+	if ((ISPx != NULL) && (ISPx == ISP_TASK_ONE))
+	{
+		SysTick_DeleteTickTask(ISP_AddWatchDevice0);
+	}
+	else if ((ISPx != NULL) && (ISPx == ISP_TASK_TWO))
+	{
+		SysTick_DeleteTickTask(ISP_AddWatchDevice1);
+	}
+	else if ((ISPx != NULL) && (ISPx == ISP_TASK_THREE))
+	{
+		SysTick_DeleteTickTask(ISP_AddWatchDevice2);
+	}
+	else
+	{
+		return ERROR_1;
+	}
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：刷新监控
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_RefreshWatch(ISP_HandlerType* ISPx)
+{
+	ISPx->msgRecordTime= ISPx->msgSPI.msgFuncTimeTick();
 	return OK_0;
 }
 
@@ -652,8 +808,18 @@ UINT8_T ISP_EraseChip(ISP_HandlerType *ISPx)
 	_return = ISP_SEND_CMD(ISPx, 0xAC, 0x80, 0x00, 0x00);
 	if (_return == 0)
 	{
-		//---擦除之后的等待延时
-		ISPx->msgFuncDelayms(10 + ISPx->msgDelayms);
+		//---检查轮询方式
+		if (ISPx->msgIsPollReady!=0)
+		{
+			_return = ISP_ReadReady(ISPx);
+			_return+=0x80;
+		}
+		else
+		{
+			//---擦除之后的等待延时
+			ISPx->msgFuncDelayms(10 + ISPx->msgDelayms);
+		}
+		
 	}
 	return _return;
 }
@@ -821,18 +987,34 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 	{
 		return ERROR_2;
 	}
-	//---写入之后延时等待
-	ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
-	//---保存低位值
-	*(pVal++) = ISPx->msgReadByte[3];
+	//---检查轮询方式
+	if (ISPx->msgIsPollReady != 0)
+	{
+		_return = ISP_ReadReady(ISPx);
+		_return += 0x80;
+	}
+	else
+	{
+		//---写入之后延时等待
+		ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+	}
 	//---写入熔丝位高位
 	_return = ISP_SEND_CMD(ISPx, 0xAC, 0xA8, 0x00, pVal[1]);
 	if (_return != 0x00)
 	{
 		return ERROR_3;
 	}
-	//---写入之后延时等待
-	ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+	//---检查轮询方式
+	if (ISPx->msgIsPollReady != 0)
+	{
+		_return = ISP_ReadReady(ISPx);
+		_return += 0x80;
+	}
+	else
+	{
+		//---写入之后延时等待
+		ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+	}
 	//---写入熔丝位拓展位
 	if (isNeedExternFuse != 0x00)
 	{
@@ -841,8 +1023,17 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 		//---判断写入是否成功
 		if (_return == OK_0)
 		{
-			//---写入之后延时等待
-			ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+			//---检查轮询方式
+			if (ISPx->msgIsPollReady != 0)
+			{
+				_return = ISP_ReadReady(ISPx);
+				_return += 0x80;
+			}
+			else
+			{
+				//---写入之后延时等待
+				ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+			}
 		}
 	}
 	return _return;
@@ -862,8 +1053,17 @@ UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
 	//---判断写入是否成功
 	if (_return == OK_0)
 	{
-		//---写入之后延时等待
-		ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+		//---检查轮询方式
+		if (ISPx->msgIsPollReady != 0)
+		{
+			_return = ISP_ReadReady(ISPx);
+			_return += 0x80;
+		}
+		else
+		{
+			//---写入之后延时等待
+			ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+		}
 	}
 	return _return;
 }
@@ -928,8 +1128,17 @@ UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hi
 		{
 			break;
 		}
-		//---写入之后延时等待
-		ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+		//---检查轮询方式
+		if (ISPx->msgIsPollReady != 0)
+		{
+			_return = ISP_ReadReady(ISPx);
+			_return += 0x80;
+		}
+		else
+		{
+			//---写入之后延时等待
+			ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+		}
 		//---地址偏移
 		lowAddr++;
 		if (lowAddr == 0x00)
@@ -972,8 +1181,17 @@ UINT8_T ISP_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVa
 			{
 				break;
 			}
-			//---写入之后延时等待
-			ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+			//---检查轮询方式
+			if (ISPx->msgIsPollReady != 0)
+			{
+				_return = ISP_ReadReady(ISPx);
+				_return += 0x80;
+			}
+			else
+			{
+				//---写入之后延时等待
+				ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+			}
 		}
 		//---地址偏移
 		lowAddr++;
@@ -1156,8 +1374,17 @@ UINT8_T ISP_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, UINT8
 		_return = ISP_SEND_CMD(ISPx, 0x4C, highAddr, lowAddr, 0x00);
 		if (_return == OK_0)
 		{
-			//---写入之后延时等待
-			ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+			//---检查轮询方式
+			if (ISPx->msgIsPollReady != 0)
+			{
+				_return = ISP_ReadReady(ISPx);
+				_return += 0x80;
+			}
+			else
+			{
+				//---写入之后延时等待
+				ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+			}
 		}
 	}
 	return _return;

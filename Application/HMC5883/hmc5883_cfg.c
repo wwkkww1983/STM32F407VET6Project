@@ -383,7 +383,7 @@ UINT8_T HMC5883_I2C_BurstReadReg(HMC5883_HandlerType* HMC5883x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T HMC5883_ConfigInit(HMC5883_HandlerType* HMC5883x)
 {
-	HMC5883_I2C_SingleWriteReg(HMC5883x,0x02, 0x00);
+	return HMC5883_I2C_SingleWriteReg(HMC5883x,0x02, 0x00);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
