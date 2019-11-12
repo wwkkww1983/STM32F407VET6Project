@@ -27,6 +27,7 @@ UINT8_T USART_StructInit(USART_HandlerType*  USARTx)
 	USARTx->msgCmdIndex = 0;
 	USARTx->msgDataOneIndex = 0;
 	USARTx->msgDataTwoIndex = 0;
+	USARTx->msgIndexOffset=0;
 	USARTx->msgTxBit = 0;
 	USARTx->msgTxPort = NULL;
 	USARTx->msg485Bit = 0;

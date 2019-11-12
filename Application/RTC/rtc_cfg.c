@@ -645,7 +645,8 @@ UINT8_T SysRTC_HardRTCSetDate(SYS_RTC_HandlerType* RTCx, UINT8_T year, UINT8_T m
 	RTCx->msgRTC.year=year;
 	RTCx->msgRTC.month=month;
 	RTCx->msgRTC.day=day;
-	RTCx->msgRTC.week=SysRTC_CalcWeekDay(RTCx); 
+	//---计算星期几
+	RTCx->msgRTC.week=SysRTC_CalcWeekDay(&RTCx->msgRTC); 
 
 	//---设置年月日星期,将十进制转换成BCD编码
 	RTC_DateStruct.Year = DecToBcd(RTCx->msgRTC.year);

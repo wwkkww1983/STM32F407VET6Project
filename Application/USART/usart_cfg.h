@@ -60,6 +60,7 @@ extern "C" {
 		UINT8_T								msgCmdIndex;		//---命令在数组中的位置
 		UINT8_T								msgDataOneIndex;	//---数据1在数组中的位置
 		UINT8_T								msgDataTwoIndex;	//---数据2在数组中的位置
+		UINT8_T								msgIndexOffset;		//---索引的偏移量
 		UINT32_T							msgTxBit;			//---发送GPIO端口
 		GPIO_TypeDef						*msgTxPort;			//---USART的GPIO端口号
 		UINT32_T							msg485Bit;			//---485的使能GPIO端口

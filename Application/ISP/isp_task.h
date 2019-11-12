@@ -32,6 +32,8 @@ extern "C" {
 	#define CMD_ISP_CALIBRATIONBYTE_READ				0x1A		
 	//===ISP读取ROM信息
 	#define CMD_ISP_ROM_PAGE_READ						0x1B		
+	//===ISP编程时钟设置
+	#define CMD_ISP_PROG_CLOCK_SET						0x1C
 
 	//===定义实验室自动化测试
 	#define LAB_AUTO_ISP_TEST
@@ -39,6 +41,7 @@ extern "C" {
 	//===函数定义
 	UINT8_T ISPTask_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
 	UINT8_T ISPTask_DeInit(ISP_HandlerType *ISPx);
+	UINT8_T ISPTask_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clok);
 	UINT8_T ISPTask_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady);
 	UINT8_T ISPTask_ExitProg(ISP_HandlerType *ISPx);
 	UINT8_T ISPTask_AddWatch(ISP_HandlerType* ISPx);

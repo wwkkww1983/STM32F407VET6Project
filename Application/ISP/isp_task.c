@@ -2,7 +2,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：初始化
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -13,7 +13,7 @@ UINT8_T ISPTask_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay),
 }
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：注销初始化
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -25,7 +25,19 @@ UINT8_T ISPTask_DeInit(ISP_HandlerType *ISPx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：设置固定编程时钟
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clok)
+{
+	return ISPLib_SetProgClock(ISPx,clok);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：进入编程
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -37,7 +49,7 @@ UINT8_T ISPTask_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：退出编程
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -49,7 +61,7 @@ UINT8_T ISPTask_ExitProg(ISP_HandlerType *ISPx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：添加监控
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -61,7 +73,7 @@ UINT8_T ISPTask_AddWatch(ISP_HandlerType* ISPx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：注销监控
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -73,7 +85,7 @@ UINT8_T ISPTask_RemoveWatch(ISP_HandlerType* ISPx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：刷新监控
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -85,7 +97,7 @@ UINT8_T ISPTask_RefreshWatch(ISP_HandlerType* ISPx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取Ready信号
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -97,7 +109,7 @@ UINT8_T ISPTask_ReadReady(ISP_HandlerType *ISPx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：擦除设备
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -109,7 +121,7 @@ UINT8_T ISPTask_EraseChip(ISP_HandlerType *ISPx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取ChipID
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -121,7 +133,7 @@ UINT8_T ISPTask_ReadChipID(ISP_HandlerType *ISPx, UINT8_T *pVal)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取校准字
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -133,7 +145,7 @@ UINT8_T ISPTask_ReadChipCalibration(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取熔丝位
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -145,7 +157,7 @@ UINT8_T ISPTask_ReadChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNee
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取加密位
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -157,7 +169,7 @@ UINT8_T ISPTask_ReadChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取ROM信息
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -169,7 +181,7 @@ UINT8_T ISPTask_ReadChipRom(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T addr, 
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：编程熔丝位
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -181,7 +193,7 @@ UINT8_T ISPTask_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNe
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：编程加密位
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -193,7 +205,7 @@ UINT8_T ISPTask_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取EEPROM
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -205,7 +217,7 @@ UINT8_T ISPTask_ReadChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取EEPROM
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -217,7 +229,7 @@ UINT8_T ISPTask_ReadChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UIN
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：编程EEPROM
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -241,7 +253,7 @@ UINT8_T ISPTask_WriteChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UI
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：编程EEPROM
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -253,7 +265,7 @@ UINT8_T ISPTask_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T 
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：编程EEPROM
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -265,31 +277,7 @@ UINT8_T ISPTask_WriteChipEepromLongAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T ISPTask_UpdateExternAddr(ISP_HandlerType *ISPx, UINT8_T addr)
-{
-	return ISPLib_UpdateExternAddr(ISPx, addr);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T ISPTask_UpdateExternLongAddr(ISP_HandlerType *ISPx, UINT32_T addr)
-{
-	return ISPLib_UpdateExternLongAddr(ISPx, addr);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
+//////功		能：读取Flash
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -301,7 +289,7 @@ UINT8_T ISPTask_ReadChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T 
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：读取Flash
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -313,7 +301,31 @@ UINT8_T ISPTask_ReadChipFlashLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：更新拓展位地址
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_UpdateExternAddr(ISP_HandlerType* ISPx, UINT8_T addr)
+{
+	return ISPLib_UpdateExternAddr(ISPx, addr);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：更新拓展位地址
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_UpdateExternLongAddr(ISP_HandlerType* ISPx, UINT32_T addr)
+{
+	return ISPLib_UpdateExternLongAddr(ISPx, addr);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：更新数据到数据缓存区
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -325,7 +337,7 @@ UINT8_T ISPTask_UpdateChipFlashBuffer(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：更新数据到指定的数据地址
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -337,7 +349,7 @@ UINT8_T ISPTask_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, U
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：更新数据到数据的指定地址
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -358,9 +370,9 @@ UINT8_T ISPTask_USARTCmd_OpenAndClose(ISP_HandlerType* ISPx, USART_HandlerType* 
 {
 	UINT8_T	_return=0;
 	//---命令位置
-	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex]==1)
+	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]==1)
 	{
-		_return=ISPTask_EnterProg(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex]);
+		_return=ISPTask_EnterProg(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex+ USARTx->msgIndexOffset]);
 	}
 	else
 	{
@@ -379,21 +391,8 @@ UINT8_T ISPTask_USARTCmd_OpenAndClose(ISP_HandlerType* ISPx, USART_HandlerType* 
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_EraseChip(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
-	UINT8_T	_return = 0;
-	//---检查当前编程模式
-	if (ISPx->msgState==0)
-	{
-		//---进入编程模式
-		_return = ISPTask_EnterProg(ISPx, ISPx->msgIsPollReady);
-	}
-	//---编程模式验证
-	if (_return==OK_0)
-	{
-		//---设备擦除
-		_return = ISPTask_EraseChip(ISPx);
-	}
-	//---执行结果
-	return _return;
+	//---设备擦除
+	return ISPTask_EraseChip(ISPx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -406,20 +405,10 @@ UINT8_T ISPTask_USARTCmd_EraseChip(ISP_HandlerType* ISPx, USART_HandlerType* USA
 UINT8_T ISPTask_USARTCmd_ReadChipID(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
 	UINT8_T	_return = 0;
-	//---检查当前编程模式
-	if (ISPx->msgState == 0)
-	{
-		//---进入编程模式
-		_return = ISPTask_EnterProg(ISPx, ISPx->msgIsPollReady);
-	}
-	//---编程模式验证
-	if (_return==OK_0)
-	{
-		//---读取设备ID信息
-		_return = ISPTask_ReadChipID(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW);
-		//---数据长度偏移
-		USARTx->msgTxHandler.msgIndexW += 3;
-	}
+	//---读取设备ID信息
+	_return = ISPTask_ReadChipID(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW);
+	//---数据长度偏移
+	USARTx->msgTxHandler.msgIndexW += 3;
 	//---执行结果
 	return _return;
 }
@@ -434,20 +423,10 @@ UINT8_T ISPTask_USARTCmd_ReadChipID(ISP_HandlerType* ISPx, USART_HandlerType* US
 UINT8_T ISPTask_USARTCmd_ReadChipCalibration(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
 	UINT8_T	_return = 0;
-	//---检查当前编程模式
-	if (ISPx->msgState == 0)
-	{
-		//---进入编程模式
-		_return = ISPTask_EnterProg(ISPx, ISPx->msgIsPollReady);
-	}
-	//---编程模式验证
-	if (_return==OK_0)
-	{
-		//---读取设备的校准字
-		_return = ISPTask_ReadChipCalibration(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex]);
-		//---数据地址偏移
-		USARTx->msgTxHandler.msgIndexW += USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex];
-	}
+	//---读取设备的校准字
+	_return = ISPTask_ReadChipCalibration(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
+	//---数据地址偏移
+	USARTx->msgTxHandler.msgIndexW += USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset];
 	//---执行结果
 	return _return;
 }
@@ -462,33 +441,23 @@ UINT8_T ISPTask_USARTCmd_ReadChipCalibration(ISP_HandlerType* ISPx, USART_Handle
 UINT8_T ISPTask_USARTCmd_ReadChipFuseAndLock(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
 	UINT8_T	_return = 0;
-	//---检查当前编程模式
-	if (ISPx->msgState == 0)
+	//---判断是读取熔丝位还是加密位
+	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 0)
 	{
-		//---进入编程模式
-		_return = ISPTask_EnterProg(ISPx, ISPx->msgIsPollReady);
-	}
-	//---编程模式验证
-	if (_return == OK_0)
-	{
-		//---判断是读取熔丝位还是加密位
-		if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex]==0)
+		//---读取熔丝位
+		_return = ISPTask_ReadChipFuse(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset]);
+		//---校验是否读取拓展熔丝位
+		if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset] != 0)
 		{
-			//---读取熔丝位
-			_return=ISPTask_ReadChipFuse(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex]);
-			//---校验是否读取拓展熔丝位
-			if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex] != 0)
-			{
-				USARTx->msgTxHandler.msgIndexW +=1;
-			}
-			USARTx->msgTxHandler.msgIndexW +=2;
-		}
-		else 
-		{
-			//---读取加密位
-			_return = ISPTask_ReadChipLock(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW);
 			USARTx->msgTxHandler.msgIndexW += 1;
 		}
+		USARTx->msgTxHandler.msgIndexW += 2;
+	}
+	else
+	{
+		//---读取加密位
+		_return = ISPTask_ReadChipLock(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW);
+		USARTx->msgTxHandler.msgIndexW += 1;
 	}
 	//---执行结果
 	return _return;
@@ -504,21 +473,7 @@ UINT8_T ISPTask_USARTCmd_ReadChipFuseAndLock(ISP_HandlerType* ISPx, USART_Handle
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
-	UINT8_T	_return = 0;
-	//---检查当前编程模式
-	if (ISPx->msgState == 0)
-	{
-		//---进入编程模式
-		_return = ISPTask_EnterProg(ISPx, ISPx->msgIsPollReady);
-	}
-	//---编程模式验证
-	if (_return == OK_0)
-	{
-		//---编程熔丝位
-		_return=ISPTask_WriteChipFuse(ISPx, USARTx->msgRxHandler.pMsgVal+USARTx->msgDataTwoIndex, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex]);
-	}
-	//---执行结果
-	return _return;
+	return ISPTask_WriteChipFuse(ISPx, USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -530,21 +485,7 @@ UINT8_T ISPTask_USARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, USART_HandlerType*
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_WriteChipLock(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
-	UINT8_T	_return = 0;
-	//---检查当前编程模式
-	if (ISPx->msgState == 0)
-	{
-		//---进入编程模式
-		_return = ISPTask_EnterProg(ISPx, ISPx->msgIsPollReady);
-	}
-	//---编程模式验证
-	if (_return == OK_0)
-	{
-		//---编程加密位
-		_return = ISPTask_WriteChipLock(ISPx, USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex);
-	}
-	//---执行结果
-	return _return;
+	return ISPTask_WriteChipLock(ISPx, USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -558,23 +499,26 @@ UINT8_T ISPTask_USARTCmd_ReadChipRom(ISP_HandlerType* ISPx, USART_HandlerType* U
 {
 	UINT8_T	_return = 0;
 	UINT16_T length=0;
-	//---检查当前编程模式
-	if (ISPx->msgState == 0)
-	{
-		//---进入编程模式
-		_return = ISPTask_EnterProg(ISPx, ISPx->msgIsPollReady);
-	}
-	//---编程模式验证
-	if (_return == OK_0)
-	{
-		//---计算要读取数据的长度
-		length= USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex];
-		length=(length<<8)+ USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex+1];
-		//---读取ROM页信息
-		_return=ISPTask_ReadChipRom(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex],length);
-	}
+	//---计算要读取数据的长度。
+	length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset];
+	length = (length << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1];
+	//---读取ROM页信息
+	_return = ISPTask_ReadChipRom(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset], length);
 	//---执行结果
 	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：设置编程时钟
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_USARTCmd_ReadProgClok(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
+{
+	ISPTask_SetProgClock(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -589,8 +533,9 @@ UINT8_T ISPTask_USARTCmd_ChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USA
 	UINT8_T _return = 0;
 	//---填充测试执行结果
 	USARTTask_FillMode_AddByte(USARTx, 0x00);
+	USARTx->msgIndexOffset= (isChildCmd == 0 ? 0 : 1);
 	//---依据命令解析数据
-	switch (USARTx->msgRxHandler.pMsgVal[USARTx->msgCmdIndex+ (isChildCmd == 0 ? 0 : 1)])
+	switch (USARTx->msgRxHandler.pMsgVal[USARTx->msgCmdIndex+ USARTx->msgIndexOffset])
 	{
 		case CMD_ISP_OPEN_CLOSE:
 			//---命令之后，第1字节0---代表关闭，1---代表打开；第2字节与打开有关，与关闭无关
@@ -626,6 +571,9 @@ UINT8_T ISPTask_USARTCmd_ChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USA
 		case CMD_ISP_ROM_PAGE_READ:
 			_return= ISPTask_USARTCmd_ReadChipRom(ISPx,USARTx);
 			break;
+		case CMD_ISP_PROG_CLOCK_SET:
+			_return= ISPTask_USARTCmd_ReadProgClok(ISPx, USARTx);
+			break;
 		default:
 			//---不识别的命令
 			_return = ERROR_1;
@@ -643,7 +591,6 @@ UINT8_T ISPTask_USARTCmd_ChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USA
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_ParentTask(ISP_HandlerType* ISPx, USART_HandlerType* USARTx, UINT8_T isChildCmd)
 {
-	UINT8_T _return = 0;
 	if ((USARTx != NULL) && (ISPx != NULL))
 	{
 		//---判断接收是否完成
@@ -652,12 +599,10 @@ UINT8_T ISPTask_USARTCmd_ParentTask(ISP_HandlerType* ISPx, USART_HandlerType* US
 			//---CRC的校验和设备ID校验
 			if ((USARTTask_CRCTask_Read(USARTx) == OK_0) && (USARTTask_DeviceID(USARTx) == OK_0))
 			{
-				//---任务命令处理函数，数据报头，长度，地址ID的处理
+				//---任务命令处理函数，数据报头，长度，地址ID,命令的处理
 				USARTTask_FillMode_Init(USARTx,isChildCmd);
 				//---处理子命令
-				_return=ISPTask_USARTCmd_ChildTask(ISPx, USARTx, isChildCmd);
-				//---返回结果紧跟在子命令后面
-				//USARTTask_FillMode_AddByte(USARTx, 0x00);
+				ISPTask_USARTCmd_ChildTask(ISPx, USARTx, isChildCmd);
 				//---是否需要增加换行符
 				if (USARTx->msgTxHandler.msgAddNewLine == 1)
 				{

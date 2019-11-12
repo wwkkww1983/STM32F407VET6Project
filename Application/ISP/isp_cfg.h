@@ -14,26 +14,26 @@ extern "C" {
 	//===编程可选择的时钟
 	#define ISP_SCK_AUTO						0	//---自动
 	#define ISP_SCK_KHZ_0_5						1	//---1ms
-	#define ISP_SCK_KHZ_1						2	//---500us
-	#define ISP_SCK_KHZ_2						3	//---250us
-	#define ISP_SCK_KHZ_4						4	//---125us
-	#define ISP_SCK_KHZ_8						5	//---64us
-	#define ISP_SCK_KHZ_16						6	//---32us
-	#define ISP_SCK_KHZ_32						7	//---16us
-	#define ISP_SCK_KHZ_64						8	//---8us
-	#define ISP_SCK_KHZ_128						9	//---4us
-	#define ISP_SCK_KHZ_256						10	//---2us
-	#define ISP_SCK_PRE_256						11	//---42M/256
-	#define ISP_SCK_PRE_128						12	//---42M/128
-	#define ISP_SCK_PRE_64						13	//---42M/64
-	#define ISP_SCK_PRE_32						14	//---42M/32
-	#define ISP_SCK_PRE_16						15	//---42M/16
+	#define ISP_SCK_KHZ_1						2	//---500us---0.99KHZ
+	#define ISP_SCK_KHZ_2						3	//---250us---1.98KHZ
+	#define ISP_SCK_KHZ_4						4	//---125us---3.96KHZ
+	#define ISP_SCK_KHZ_8						5	//---64us---7.66KHZ
+	#define ISP_SCK_KHZ_16						6	//---32us---15.06KHZ
+	#define ISP_SCK_KHZ_32						7	//---16us---29.05KHZ
+	#define ISP_SCK_KHZ_64						8	//---8us---54.46KHZ
+	#define ISP_SCK_KHZ_128						9	//---4us---89.928KHZ
+	#define ISP_SCK_KHZ_256						10	//---2us---145.35KHZ
+	#define ISP_SCK_PRE_256						11	//---42M/256---163.934KHZ
+	#define ISP_SCK_PRE_128						12	//---42M/128---328.95KHZ
+	#define ISP_SCK_PRE_64						13	//---42M/64---657.89KHZ
+	#define ISP_SCK_PRE_32						14	//---42M/32---1.315M
+	#define ISP_SCK_PRE_16						15	//---42M/16---2.63M
 	#define ISP_SCK_PRE_8						16	//---42M/8
 	#define ISP_SCK_PRE_4						17	//---42M/4
 	#define ISP_SCK_PRE_2						18	//---42M/2
 	
-	//===最大的编程时钟
-	#define ISP_SCK_MAX_CLOCK					ISP_SCK_PRE_64
+	//===默认编程时钟
+	#define ISP_SCK_DEFAULT_CLOCK				ISP_SCK_PRE_16
 	//===编程时钟最大改变的次数
 	#define ISP_SCK_AUTO_MAX_COUNT				18	
 	//===编程缓存区的大小
@@ -53,6 +53,7 @@ extern "C" {
 		UINT8_T		msgState;							//---编程状态，0---空闲状态，1---编程状态
 		UINT8_T		msgInit;							//---判断是否初始化过了 0---未初始化，1---初始化
 		UINT8_T		msgSetClok;							//---设置的编程时钟
+		UINT8_T		msgAutoClock;						//---是否使用自动时钟，0---自动时钟，1---设定的时钟
 		UINT8_T		msgDelayms;							//---编程之后的延时函数，单位是ms
 		UINT8_T		msgHideAddr;						//---接触64K的限制
 		UINT8_T		msgIsPollReady;						//---是否轮询准备好信号，0---不需要；1---需要
@@ -83,6 +84,7 @@ extern "C" {
 	UINT8_T ISP_AutoInit(ISP_HandlerType* ISPx);
 	UINT8_T ISP_AutoDeInit(ISP_HandlerType* ISPx);
 	UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok);
+	UINT8_T ISP_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clok);
 	UINT8_T ISP_SW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4);
 	UINT8_T ISP_HW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4);
 	UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx);

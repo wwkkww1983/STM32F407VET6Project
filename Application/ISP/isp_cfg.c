@@ -107,7 +107,7 @@ UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 	//---设定初始化状态
 	ISPx->msgInit = 0;
 	//---设定硬件的时钟
-	ISPx->msgSetClok = ISP_SCK_PRE_32;// ISP_SCK_PRE_64;//ISP_SCK_KHZ_32;//ISP_SCK_KHZ_64
+	ISPx->msgSetClok = ISP_SCK_DEFAULT_CLOCK;
 	//---初始化
 	ISPx->msgDelayms = 0;
 	//---初始化
@@ -276,10 +276,10 @@ UINT8_T ISP_AutoInit(ISP_HandlerType* ISPx)
 	{
 		ISP_HW_Init(ISPx);
 #ifdef USE_MCU_STM32
-		//---限制编程的最大速度，小鱼1MHz
-		if (ISPx->msgSPI.msgClockSpeed > ISP_SCK_PRE_32)
+		//---限制编程的最大速度，小于1MHz；注意这里两个变量的使用，一个是设置ISP的时钟等级，一个是设置硬件SPI的时钟
+		if (ISPx->msgSetClok > ISP_SCK_PRE_32)
 		{
-			ISPx->msgSPI.msgClockSpeed = ISP_SCK_PRE_32;
+			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV32;
 		}
 #endif
 		//---设置SPI的硬件时钟
@@ -313,7 +313,7 @@ UINT8_T ISP_AutoDeInit(ISP_HandlerType* ISPx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：设置编程时钟
+//////功		能：设置自动编程编程时钟
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -412,7 +412,7 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 		//---限制编程的最大速度，小于1MHz；注意这里两个变量的使用，一个是设置ISP的时钟等级，一个是设置硬件SPI的时钟
 		if (ISPx->msgSetClok > ISP_SCK_PRE_32)
 		{
-			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV32;
+			//ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV32;
 		}
 	#endif
 		//---设置SPI的硬件时钟
@@ -435,6 +435,33 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 #ifdef ISP_USE_lEVEL_SHIFT
 	GPIO_OUT_0(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
 #endif
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：设置固定编程时钟
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clok)
+{
+	if (clok==0)
+	{
+		ISPx->msgAutoClock=0;
+	}
+	else if((clok<ISP_SCK_AUTO_MAX_COUNT)||(clok==ISP_SCK_AUTO_MAX_COUNT))
+	{
+		ISPx->msgAutoClock=1;
+		ISPx->msgSetClok=clok;
+	}
+	else
+	{
+		ISPx->msgAutoClock = 0;
+		//---恢复为默认时钟
+		ISPx->msgSetClok = ISP_SCK_DEFAULT_CLOCK;
+	}
 	return OK_0;
 }
 
@@ -535,12 +562,25 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 			ISPx->msgState = 1;
 			//---配置查询准备好信号的标志
 			ISPx->msgIsPollReady=isPollReady;
-			return OK_0;
+			//return OK_0;
 		}
-		//---降速处理
-		if (ISPx->msgSetClok >= ISP_SCK_KHZ_2)
+		if (ISPx->msgAutoClock==0)
 		{
-			ISPx->msgSetClok = ISPx->msgSetClok;
+			//---自动降速处理
+			if (ISPx->msgSetClok >= ISP_SCK_KHZ_2)
+			{
+				//---降速处理
+				ISPx->msgSetClok -= 1;
+			}
+			else
+			{
+				//---限制最低时速
+				ISPx->msgSetClok = ISP_SCK_KHZ_2;
+			}
+		}
+		else
+		{
+			count-=1;
 		}
 		//---设置时钟
 		ISP_SetClock(ISPx, ISPx->msgSetClok);
@@ -569,8 +609,12 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 UINT8_T ISP_ExitProg(ISP_HandlerType *ISPx)
 {
 	ISP_DeInit(ISPx);
-	//---恢复时钟的速度
-	ISPx->msgSetClok = ISP_SCK_MAX_CLOCK;
+	//---自动编程时钟校验
+	if (ISPx->msgAutoClock==0)
+	{
+		//---恢复时钟的速度
+		ISPx->msgSetClok = ISP_SCK_DEFAULT_CLOCK;
+	}
 	//---解除64K的限制
 	ISPx->msgHideAddr = 0xFF;
 	//---编程状态为空闲模式
@@ -930,7 +974,9 @@ UINT8_T ISP_ReadChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：读取ROM页信息
-//////输入参数:
+//////输入参数:	pVal---数据缓存区
+//////			addr---数据地址，地址是字地址
+//////			length---读取数据的长度，数据长度是字节长度，内部处理成字长度
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
@@ -1071,7 +1117,10 @@ UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：读取EEPROM
-//////输入参数:
+//////输入参数:  pVal	---数据缓存区
+//////			highAddr---数据地址的高字节，地址是字节地址
+//////			lowAddr ---数据地址的低字节，地址是字节地址
+//////			length	---读取数据的长度，数据长度是字节长度
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
@@ -1101,7 +1150,9 @@ UINT8_T ISP_ReadChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hig
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：读取EEPROM
-//////输入参数:
+//////输入参数:  pVal	---数据缓存区
+//////			addr	---数据地址，地址是字节地址
+//////			length	---读取数据的长度，数据长度是字节长度
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
@@ -1113,7 +1164,10 @@ UINT8_T ISP_ReadChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：编程EEPROM
-//////输入参数:
+//////输入参数:  pVal	---数据缓存区
+//////			highAddr---数据地址的高字节，地址是字节地址
+//////			lowAddr ---数据地址的低字节，地址是字节地址
+//////			length	---读取数据的长度，数据长度是字节长度
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
@@ -1152,7 +1206,9 @@ UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hi
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：编程EEPROM
-//////输入参数:
+//////输入参数:  pVal	---数据缓存区
+//////			addr	---数据地址，地址是字节地址
+//////			length	---读取数据的长度，数据长度是字节长度
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
@@ -1164,7 +1220,10 @@ UINT8_T ISP_WriteChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：跳空编程EEPROM
-//////输入参数:
+//////输入参数:  pVal	---数据缓存区
+//////			highAddr---数据地址的高字节，地址是字节地址
+//////			lowAddr ---数据地址的低字节，地址是字节地址
+//////			length	---读取数据的长度，数据长度是字节长度
 //////输出参数:
 //////说		明：如果写入的数据是空数据，那么就跳过写入
 //////////////////////////////////////////////////////////////////////////////
@@ -1206,7 +1265,9 @@ UINT8_T ISP_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVa
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：跳空编程EEPROM
-//////输入参数:
+//////输入参数:  pVal	---数据缓存区
+//////			addr	---数据地址，地址是字节地址
+//////			length	---读取数据的长度，数据长度是字节长度
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
@@ -1218,7 +1279,7 @@ UINT8_T ISP_WriteChipEepromLongAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：更新拓展位地址
-//////输入参数:
+//////输入参数: addr---数据拓展位地址，地址是字地址
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////

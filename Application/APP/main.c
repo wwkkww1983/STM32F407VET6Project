@@ -153,8 +153,8 @@ void Sys_Init(void)
 	//---初始化LM317做的可调电源
 	LM317Task_Init(0,3300);
 	LM317_POWER_ON;
-	//ISPTask_EnterProg(pISPDevice0,0);
-	//ISPTask_ReadChipID(pISPDevice0,tempID);
+	ISPTask_EnterProg(pISPDevice0,0);
+	ISPTask_ReadChipID(pISPDevice0,tempID);
 	
 	
 	//---串口的初始化

@@ -10,6 +10,7 @@ extern "C" {
 	//===º¯Êý¶¨Òå
 	UINT8_T ISPLib_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
 	UINT8_T ISPLib_DeInit(ISP_HandlerType *ISPx);
+	UINT8_T ISPLib_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clok);
 	UINT8_T ISPLib_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady);
 	UINT8_T ISPLib_ExitProg(ISP_HandlerType *ISPx);
 	UINT8_T ISPLib_AddWatch(ISP_HandlerType* ISPx);
