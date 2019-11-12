@@ -34,6 +34,8 @@ extern "C" {
 	
 	//===默认编程时钟
 	#define ISP_SCK_DEFAULT_CLOCK				ISP_SCK_PRE_16
+	//===编程最大色时钟
+	#define ISP_SCK_MAX_CLOCK					ISP_SCK_PRE_32
 	//===编程时钟最大改变的次数
 	#define ISP_SCK_AUTO_MAX_COUNT				18	
 	//===编程缓存区的大小
@@ -57,6 +59,9 @@ extern "C" {
 		UINT8_T		msgDelayms;							//---编程之后的延时函数，单位是ms
 		UINT8_T		msgHideAddr;						//---接触64K的限制
 		UINT8_T		msgIsPollReady;						//---是否轮询准备好信号，0---不需要；1---需要
+		UINT16_T	msgFlashPageWordSize;				//---Flash的每页字数
+		UINT16_T	msgEerpomPageByteSize;				//---Eeprom的每页字节数
+		UINT16_T	msgPageWordIndex;					//---缓存区的序号
 		UINT8_T		msgWriteByte[ISP_COMM_MAX_SIZE];	//---发送数据
 		UINT8_T		msgReadByte[ISP_COMM_MAX_SIZE];		//---读取数据
 		UINT32_T	msgRecordTime;						//---记录的时间参数

@@ -112,6 +112,12 @@ UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 	ISPx->msgDelayms = 0;
 	//---初始化
 	ISPx->msgHideAddr = 0;
+	//---设置为延时模式
+	ISPx->msgIsPollReady=0;
+	//---设置Flash每页的字节数
+	ISPx->msgFlashPageWordSize=0;
+	//---初始化缓存区的序号
+	ISPx->msgPageWordIndex=0;
 	//---清零发送缓存区
 	memset(ISPx->msgWriteByte, 0x00, 4);
 	memset(ISPx->msgReadByte, 0x00, 4);
@@ -244,6 +250,8 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 		GPIO_OUT_1(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
 	}
 #endif
+	//---当前时间戳
+	ISPx->msgRecordTime=ISPx->msgSPI.msgFuncTimeTick();
 	return OK_0;
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -410,9 +418,9 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 		}
 	#ifdef USE_MCU_STM32
 		//---限制编程的最大速度，小于1MHz；注意这里两个变量的使用，一个是设置ISP的时钟等级，一个是设置硬件SPI的时钟
-		if (ISPx->msgSetClok > ISP_SCK_PRE_32)
+		if (ISPx->msgSetClok > ISP_SCK_MAX_CLOCK)
 		{
-			//ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV32;
+			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV32;
 		}
 	#endif
 		//---设置SPI的硬件时钟
@@ -564,10 +572,11 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 			ISPx->msgIsPollReady=isPollReady;
 			//return OK_0;
 		}
+		//---校验是否是自动调速模式
 		if (ISPx->msgAutoClock==0)
 		{
 			//---自动降速处理
-			if (ISPx->msgSetClok >= ISP_SCK_KHZ_2)
+			if (ISPx->msgSetClok >ISP_SCK_KHZ_2)
 			{
 				//---降速处理
 				ISPx->msgSetClok -= 1;
@@ -991,6 +1000,7 @@ UINT8_T ISP_ReadChipRom(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T addr, UINT
 	}
 	//---用移位运算当做除2运算
 	length >>= 1;
+	//---读取ROM页信息
 	for (i = 0; i < length; i++)
 	{
 		//---ROM页低位数据
@@ -1042,7 +1052,7 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 	else
 	{
 		//---写入之后延时等待
-		ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+		ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
 	}
 	//---写入熔丝位高位
 	_return = ISP_SEND_CMD(ISPx, 0xAC, 0xA8, 0x00, pVal[1]);
@@ -1059,7 +1069,7 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 	else
 	{
 		//---写入之后延时等待
-		ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+		ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
 	}
 	//---写入熔丝位拓展位
 	if (isNeedExternFuse != 0x00)
@@ -1078,7 +1088,7 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 			else
 			{
 				//---写入之后延时等待
-				ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+				ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
 			}
 		}
 	}
@@ -1108,7 +1118,7 @@ UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
 		else
 		{
 			//---写入之后延时等待
-			ISPx->msgFuncDelayms(6 + ISPx->msgDelayms);
+			ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
 		}
 	}
 	return _return;
@@ -1191,7 +1201,7 @@ UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hi
 		else
 		{
 			//---写入之后延时等待
-			ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+			ISPx->msgFuncDelayms(10 + ISPx->msgDelayms);
 		}
 		//---地址偏移
 		lowAddr++;
@@ -1249,7 +1259,7 @@ UINT8_T ISP_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVa
 			else
 			{
 				//---写入之后延时等待
-				ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+				ISPx->msgFuncDelayms(10 + ISPx->msgDelayms);
 			}
 		}
 		//---地址偏移
@@ -1402,6 +1412,7 @@ UINT8_T ISP_UpdateChipFlashBuffer(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T 
 	}
 	//---用移位运算当做除2运算
 	length >>= 1;
+	//---填充缓存区
 	for (i = 0; i < length; i++)
 	{
 		//---更新低位地址的缓存区
@@ -1417,6 +1428,8 @@ UINT8_T ISP_UpdateChipFlashBuffer(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T 
 			return ERROR_4;
 		}
 	}
+	//---更新缓存区的序号；
+	ISPx->msgPageWordIndex+=length;
 	return _return;
 }
 

@@ -167,6 +167,7 @@ UINT8_T LM317_PowerMV(UINT32_T volMV)
 		volMV = LM317_MIN_POWER_MV;
 	}
 	volMV -= LM317_BASE_POWER_MV;
+	//---运放放大2倍，反算DAC的值，需要除于放大倍数
 	volMV >>= 1;
 	DACTask_ChannelMV(DAC_CHANNEL_SELECT_1, volMV);
 	return OK_0;

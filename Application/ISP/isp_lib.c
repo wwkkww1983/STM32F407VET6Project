@@ -551,3 +551,39 @@ UINT8_T ISPLib_UpdateChipFlashLongAddr(ISP_HandlerType *ISPx, UINT32_T addr)
 {
 	return ISP_UpdateChipFlashLongAddr(ISPx, addr);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：页模式向指定的数据写入Flash
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPLib_WriteChipFlashPage(ISP_HandlerType* ISPx,UINT8_T *pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr,UINT16_T length)
+{
+	UINT8_T _return=OK_0;
+	UINT32_T pageAddr = 0;
+	//---计算字节地址，之后需要换算成字地址
+	pageAddr=externAddr;
+	pageAddr=(pageAddr<<8)+highAddr;
+	pageAddr+=lowAddr;
+	//---计算地址的偏移
+	pageAddr+=length;
+	//---填充数据缓存
+	_return= ISP_UpdateChipFlashBuffer(ISPx,pVal,(UINT8_T)ISPx->msgPageWordIndex,length);
+	//---换算返回结果
+	_return = (_return == OK_0 ? OK_0 : ERROR_1);
+	//---缓存区填满，执行数据写入操作
+	if ((_return==OK_0)&&(ISPx->msgPageWordIndex==ISPx->msgFlashPageWordSize))
+	{
+		//---将字节地址换算成字地址
+		pageAddr >>= 1;
+		//---更新数据到指定的页地址
+		_return= ISP_UpdateChipFlashLongAddr(ISPx,pageAddr);
+		//---数据缓存区的
+		ISPx->msgPageWordIndex=0;
+		//---换算返回结果
+		_return = (_return == OK_0 ? OK_0 : ERROR_2);
+	}
+	return _return;
+}
