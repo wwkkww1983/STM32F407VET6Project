@@ -331,69 +331,69 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 	switch (clok)
 	{
 		case ISP_SCK_KHZ_0_5:
-			ISPx->msgSPI.msgModelIsHW = 0;
+			ISPx->msgSPI.msgModelIsHW  = 0;
 			ISPx->msgSPI.msgPluseWidth = 1000;
 			break;
 		case ISP_SCK_KHZ_1:
-			ISPx->msgSPI.msgModelIsHW = 0;
+			ISPx->msgSPI.msgModelIsHW  = 0;
 			ISPx->msgSPI.msgPluseWidth = 500;
 			break;
 		case ISP_SCK_KHZ_2:
-			ISPx->msgSPI.msgModelIsHW = 0;
+			ISPx->msgSPI.msgModelIsHW  = 0;
 			ISPx->msgSPI.msgPluseWidth = 250;
 			break;
 		case ISP_SCK_KHZ_4:
-			ISPx->msgSPI.msgModelIsHW = 0;
-			ISPx->msgSPI.msgPluseWidth = 125;
+			ISPx->msgSPI.msgModelIsHW  = 0;
+			ISPx->msgSPI.msgPluseWidth = 124;
 			break;
 		case ISP_SCK_KHZ_8:
-			ISPx->msgSPI.msgModelIsHW = 0;
-			ISPx->msgSPI.msgPluseWidth = 64;
+			ISPx->msgSPI.msgModelIsHW  = 0;
+			ISPx->msgSPI.msgPluseWidth = 60;
 			break;
 		case ISP_SCK_KHZ_16:
-			ISPx->msgSPI.msgModelIsHW = 0;
-			ISPx->msgSPI.msgPluseWidth = 32;
+			ISPx->msgSPI.msgModelIsHW  = 0;
+			ISPx->msgSPI.msgPluseWidth = 28;
 			break;
 		case ISP_SCK_KHZ_32:
-			ISPx->msgSPI.msgModelIsHW = 0;
-			ISPx->msgSPI.msgPluseWidth = 16;
+			ISPx->msgSPI.msgModelIsHW  = 0;
+			ISPx->msgSPI.msgPluseWidth = 12;
 			break;
 		case ISP_SCK_KHZ_64:
-			ISPx->msgSPI.msgModelIsHW = 0;
-			ISPx->msgSPI.msgPluseWidth = 8;
-			break;
-		case ISP_SCK_KHZ_128	:
-			ISPx->msgSPI.msgModelIsHW = 0;
+			ISPx->msgSPI.msgModelIsHW  = 0;
 			ISPx->msgSPI.msgPluseWidth = 4;
 			break;
+		case ISP_SCK_KHZ_128	:
+			ISPx->msgSPI.msgModelIsHW  = 0;
+			ISPx->msgSPI.msgPluseWidth = 3;
+			break;
 		case ISP_SCK_KHZ_256	:
-			ISPx->msgSPI.msgModelIsHW = 0;
-			ISPx->msgSPI.msgPluseWidth = 2;
+			ISPx->msgSPI.msgModelIsHW  = 0;
+			ISPx->msgSPI.msgPluseWidth = 0;
 			break;
 		case ISP_SCK_PRE_256:
-			ISPx->msgSPI.msgModelIsHW = 1;
+			ISPx->msgSPI.msgModelIsHW  = 1;
 			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV256;
 			break;
 		case ISP_SCK_PRE_128:
-			ISPx->msgSPI.msgModelIsHW = 1;
+			ISPx->msgSPI.msgModelIsHW  = 1;
 			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV128;
 			break;
 		case ISP_SCK_PRE_64:
-			ISPx->msgSPI.msgModelIsHW = 1;
+			ISPx->msgSPI.msgModelIsHW  = 1;
 			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV64;
 			break;
 		case ISP_SCK_PRE_32:
-			ISPx->msgSPI.msgModelIsHW = 1;
+			ISPx->msgSPI.msgModelIsHW  = 1;
 			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV32;
 			break;
 		case ISP_SCK_PRE_16:
 		#ifdef USE_MCU_STM32
-			ISPx->msgSPI.msgModelIsHW = 1;
+			ISPx->msgSPI.msgModelIsHW  = 1;
 			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV16;
 		#endif
 			break;
 		case ISP_SCK_PRE_8:
-			ISPx->msgSPI.msgModelIsHW = 1;
+			ISPx->msgSPI.msgModelIsHW  = 1;
 			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV8;
 			break;
 		case ISP_SCK_PRE_4:
@@ -1474,4 +1474,114 @@ UINT8_T ISP_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, UINT8
 UINT8_T ISP_UpdateChipFlashLongAddr(ISP_HandlerType *ISPx, UINT32_T addr)
 {
 	return ISP_UpdateChipFlashAddr(ISPx, (UINT8_T)(addr >> 16), (UINT8_T)(addr >> 8), (UINT8_T)(addr));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：校验Flash数据是否为空
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_CheckChipFlashEmpty(ISP_HandlerType* ISPx,UINT8_T pageByteSizeH,UINT8_T pageByteSizeL,UINT8_T pageNumH,UINT8_T pageNumL)
+{
+	UINT8_T _return = OK_0;
+	UINT16_T length=0;
+	UINT16_T pageNum=0;
+	UINT16_T i=0;
+	UINT32_T addr=0;
+	//---计算每页字节数
+	length=pageByteSizeH;
+	length=(length<<8)+pageByteSizeL;
+	//---计算页数
+	pageNum=pageNumH;
+	pageNum=(pageNum<<8)+pageNumL;
+	//---申请内存
+	UINT8_T *pFlashBuffer= (UINT8_T*)MyMalloc(length);
+	//---判断缓存空间申请是否成功
+	if (pFlashBuffer == NULL)
+	{
+		_return = ERROR_1;
+		goto GoToExit;
+	}
+	for (i=0;i<pageNum;i++)
+	{
+		_return=ISP_ReadChipFlashLongAddr(ISPx,pFlashBuffer,addr,length);
+		if (_return!=OK_0)
+		{
+			_return=ERROR_2;
+			goto GoToExit;
+		}
+		//---校验数据是否全部为0xFF
+		_return=CompareFun5(pFlashBuffer,0xFF,length);
+		if (_return!=OK_0)
+		{
+			_return = ERROR_3;
+			goto GoToExit;
+		}
+		//---计算地址偏移
+		addr+=(length>>1);
+	}
+	//---退出入口
+	GoToExit:
+	//---释放缓存空间
+	MyFree(pFlashBuffer);
+	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：校验Eeprom数据是否为空
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_CheckChipFlashEmptyLong(ISP_HandlerType* ISPx, UINT16_T pageByteSize, UINT16_T pageNum)
+{
+	return ISP_CheckChipFlashEmpty(ISPx,(UINT8_T)(pageByteSize>>8),(UINT8_T)(pageByteSize),(UINT8_T)(pageNum>>8),(UINT8_T)(pageNum));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：校验Eeprom数据是否为空
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UINT8_T num)
+{
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	UINT16_T addr = 0;
+	//---申请内存
+	UINT8_T* pEepromBuffer = (UINT8_T*)MyMalloc(byteSize);
+	//---判断缓存空间申请是否成功
+	if (pEepromBuffer == NULL)
+	{
+		_return = ERROR_1;
+		goto GoToExit;
+	}
+	for (i = 0; i < num; i++)
+	{
+		_return = ISP_ReadChipEepromLongAddr(ISPx, pEepromBuffer, addr, byteSize);
+		if (_return != OK_0)
+		{
+			_return = ERROR_2;
+			goto GoToExit;
+		}
+		//---校验数据是否全部为0xFF
+		_return = CompareFun5(pEepromBuffer, 0xFF, byteSize);
+		if (_return != OK_0)
+		{
+			_return = ERROR_3;
+			goto GoToExit;
+		}
+		//---计算地址偏移
+		addr += byteSize;
+	}
+	//---退出入口
+GoToExit:
+	//---释放缓存空间
+	MyFree(pEepromBuffer);
+	return _return;
 }

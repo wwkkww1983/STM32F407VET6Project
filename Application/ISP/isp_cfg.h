@@ -9,6 +9,7 @@ extern "C" {
 	#include "spi_task.h"
 	#include "systick_task.h"
 	#include "delay_task.h"
+	#include "my_malloc.h"
 	
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===编程可选择的时钟
@@ -121,6 +122,9 @@ extern "C" {
 	UINT8_T ISP_UpdateChipFlashBuffer(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T index, UINT16_T length);
 	UINT8_T ISP_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr);
 	UINT8_T ISP_UpdateChipFlashLongAddr(ISP_HandlerType *ISPx, UINT32_T addr);
+	UINT8_T ISP_CheckChipFlashEmpty(ISP_HandlerType* ISPx, UINT8_T pageByteSizeH, UINT8_T pageByteSizeL, UINT8_T pageNumH, UINT8_T pageNumL);
+	UINT8_T ISP_CheckChipFlashEmptyLong(ISP_HandlerType* ISPx, UINT16_T pageByteSize, UINT16_T pageNum);
+	UINT8_T ISP_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UINT8_T num);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

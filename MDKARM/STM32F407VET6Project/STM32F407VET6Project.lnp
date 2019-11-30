@@ -1,4 +1,4 @@
---cpu=Cortex-M4.fp
+--cpu=Cortex-M4.fp.sp
 "stm32f407vet6project\complier_cfg.o"
 "stm32f407vet6project\complier_lib.o"
 "stm32f407vet6project\stm32_cfg.o"

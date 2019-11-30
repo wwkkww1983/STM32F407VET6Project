@@ -22,9 +22,13 @@ void SystemClock_Config(void)
 	LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 	//---设置内部调节器的输出电压
 	LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
-
-	//---使能外部系统晶振
-	LL_RCC_HSE_Enable();
+	#if 1
+		//---使能系统外部无源晶振
+		LL_RCC_HSE_Enable();
+	#else
+		//---使能系统外部有源晶振
+		LL_RCC_HSE_EnableBypass();
+	#endif
 	//---等待外部系统晶振稳定
 	while (LL_RCC_HSE_IsReady() != 1)
 	{
@@ -40,8 +44,12 @@ void SystemClock_Config(void)
 	//---设置系统的PLL
 	#if (HSE_VALUE==8000000UL)
 		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_4, 168, LL_RCC_PLLP_DIV_2);
+	#elif (HSE_VALUE==12000000UL)
+		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_6, 168, LL_RCC_PLLP_DIV_2);
 	#elif (HSE_VALUE==16000000UL)
 		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 168, LL_RCC_PLLP_DIV_2);
+	#elif (HSE_VALUE==24000000UL)
+		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_12, 168, LL_RCC_PLLP_DIV_2);
 	#else
 		#error "外部晶振配置成错误，只支持8M和16M的配置!"
 	#endif
@@ -177,10 +185,15 @@ int main(void)
 	//---主循环
 	while (1)
 	{
+		//---打印初始化信息
+		USART_Printf(pUSART1, "电压:%1f\r\n",123.123);
+		/*
 		//---模拟RTC处理
 		//SysRTCTask_SoftBuildTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---ISP通过USART的命令处理数据
 		ISPTask_USARTCmd_Task(pISPDevice0,pUSART1);
+		*/
+		DelayTask_ms(100);
 		
 		WDT_RESET();
 	}

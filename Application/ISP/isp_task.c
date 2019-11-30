@@ -373,6 +373,42 @@ UINT8_T ISPTask_WriteChipFlashPage(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_CheckChipFlashEmpty(ISP_HandlerType* ISPx, UINT8_T pageByteSizeH, UINT8_T pageByteSizeL, UINT8_T pageNumH, UINT8_T pageNumL)
+{
+	return ISPLib_CheckChipFlashEmpty(ISPx, pageByteSizeH, pageByteSizeL, pageNumH, pageNumL);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_CheckChipFlashEmptyLong(ISP_HandlerType* ISPx, UINT16_T pageByteSize, UINT16_T pageNum)
+{
+	return ISPLib_CheckChipFlashEmptyLong(ISPx, pageByteSize, pageNum);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UINT8_T num)
+{
+	return ISPLib_CheckChipEepromEmpty(ISPx, byteSize, num);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：退出或者进入编程模式
 //////输入参数:
 //////输出参数:
@@ -403,8 +439,32 @@ UINT8_T ISPTask_USARTCmd_OpenAndClose(ISP_HandlerType* ISPx, USART_HandlerType* 
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_EraseChip(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
-	//---设备擦除
-	return ISPTask_EraseChip(ISPx);
+	UINT8_T _return=OK_0;
+	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 0)
+	{
+		//---设备擦除
+		_return= ISPTask_EraseChip(ISPx);
+	}
+	else if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 1)
+	{
+		//---检查Flash为空
+		_return=ISPTask_CheckChipFlashEmpty(ISPx, 
+											USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1], USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 2],
+											USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 3], USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 4]
+											);
+	}
+	else if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
+	{
+		//---检查Eeprom为空
+		_return = ISPTask_CheckChipEepromEmpty(	ISPx,
+												USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1], USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 2]
+											  );
+	}
+	else
+	{
+		_return=0xFF;
+	}
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -529,7 +589,7 @@ UINT8_T ISPTask_USARTCmd_ReadChipRom(ISP_HandlerType* ISPx, USART_HandlerType* U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISPTask_USARTCmd_ReadProgClok(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
+UINT8_T ISPTask_USARTCmd_SetProgClok(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
 	ISPTask_SetProgClock(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
 	return OK_0;
@@ -705,7 +765,7 @@ UINT8_T ISPTask_USARTCmd_ChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USA
 			break;
 		case CMD_ISP_PROG_CLOCK_SET:
 			//---设置编程时钟
-			_return= ISPTask_USARTCmd_ReadProgClok(ISPx, USARTx);
+			_return= ISPTask_USARTCmd_SetProgClok(ISPx, USARTx);
 			break;
 		default:
 			//---不识别的命令

@@ -27,6 +27,8 @@ extern "C" {
 	UINT8_T  CompareFun2(UINT8_T *p1, UINT8_T *p2, UINT16_T index, UINT16_T length);
 	UINT8_T  CompareFun3(UINT16_T *p1, UINT16_T *p2, UINT16_T length);
 	UINT8_T  CompareFun4(UINT16_T *p1, UINT16_T *p2, UINT16_T index, UINT16_T length);
+	UINT8_T	 CompareFun5(UINT8_T* p1, UINT8_T val, UINT16_T length);
+	UINT8_T  CompareFun6(UINT16_T* p1, UINT16_T val, UINT16_T length);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

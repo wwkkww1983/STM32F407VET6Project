@@ -65,7 +65,8 @@ stm32f407vet6project/isp_task.o: ..\Application\ISP\isp_task.c \
   ..\Application\Delay\delay_lib.h ..\Application\Delay\delay_cfg.h \
   ..\Application\SysTick\systick_task.h \
   ..\Application\SysTick\systick_lib.h \
-  ..\Application\SysTick\systick_cfg.h ..\Application\USART\usart_task.h \
+  ..\Application\SysTick\systick_cfg.h \
+  ..\Application\MyMalloc\my_malloc.h ..\Application\USART\usart_task.h \
   ..\Application\USART\usart_lib.h ..\Application\USART\usart_cfg.h \
   ..\Application\CRC\crc_task.h ..\Application\CRC\crc_lib.h \
   ..\Application\CRC\crc_cfg.h ..\Application\Timer\timer_task.h \
