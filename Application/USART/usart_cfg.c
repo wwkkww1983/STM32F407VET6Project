@@ -229,7 +229,6 @@ UINT8_T USART_TimeTick_Init(USART_HandlerType*USARTx, UINT8_T isRx)
 	{
 		temp = USARTx->msgFuncTimeTick();
 	}
-
 	//---时间节点
 	if (isRx)
 	{
@@ -382,7 +381,6 @@ UINT8_T  USART_TimeOVFTask(USART_HandlerType*USARTx, UINT8_T isRx)
 			{
 				//---打印超时的串口信息
 				USART_Printf(USARTx, "=>>接收串口%d发生超时错误!<<=\r\n", (USARTx->msgIndex - 1));
-
 				//---复位接收数据缓存区
 				USART_ReadInit(USARTx);
 			}

@@ -17,19 +17,15 @@ UINT8_T(*ISP_SEND_CMD)(ISP_HandlerType *, UINT8_T, UINT8_T, UINT8_T, UINT8_T);
 UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 {
 	//---注销当前的所有配置
-	SPITask_DeInit(&(ISPx->msgSPI),1);
-	
+	SPITask_DeInit(&(ISPx->msgSPI),1);	
 	//---硬件端口的配置---硬件实现
 	SPITask_MHW_GPIO_Init(&(ISPx->msgSPI));
-
 	//---硬件SPI的初始化
 	LL_SPI_InitTypeDef SPI_InitStruct={0};
-
 	//---SPI的模式配置
 	SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
 	SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;									//---主机模式
-	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;							//---8位数据
-	
+	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;							//---8位数据	
 	//---时钟空闲时的极性
 	if(ISPx->msgSPI.msgCPOL==0)
 	{
@@ -39,8 +35,7 @@ UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 	else
 	{
 		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_HIGH;					//---CLK空闲时为高电平 (CLK空闲是只能是低电平)
-	}
-	
+	}	
 	//---数据采样的时钟边沿位置
 	if (ISPx->msgSPI.msgCPOL == 0)
 	{
@@ -49,8 +44,7 @@ UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 	else
 	{
 		SPI_InitStruct.ClockPhase = LL_SPI_PHASE_2EDGE;
-	}
-	
+	}	
 	SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;										//---软件控制
 	SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV256;					//---系统时钟256分频
 	SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;									//---高位在前
@@ -71,10 +65,8 @@ UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 UINT8_T ISP_SW_Init(ISP_HandlerType *ISPx)
 {
 	SPITask_DeInit(&(ISPx->msgSPI),1);
-
 	//---硬件端口的配置---软件实现
 	SPITask_MSW_GPIO_Init(&(ISPx->msgSPI));
-
 	//---时钟空闲时的极性
 	if (ISPx->msgSPI.msgCPOL == 0)
 	{
@@ -84,11 +76,9 @@ UINT8_T ISP_SW_Init(ISP_HandlerType *ISPx)
 	{
 		GPIO_OUT_1(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
 	}
-
 	//---除片选信号输出高电平，其余端口都输出低电平，默认的初始化是高电平，在这里需要改动
 	GPIO_OUT_0(ISPx->msgSPI.msgMOSI.msgGPIOPort, ISPx->msgSPI.msgMOSI.msgGPIOBit);
 	GPIO_OUT_0(ISPx->msgSPI.msgMISO.msgGPIOPort, ISPx->msgSPI.msgMISO.msgGPIOBit);
-
 	ISPx->msgInit = 1;
 	return OK_0;
 }
@@ -118,6 +108,8 @@ UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 	ISPx->msgFlashPageWordSize=0;
 	//---初始化缓存区的序号
 	ISPx->msgPageWordIndex=0;
+	//---配置轮询时间
+	ISPx->msgIntervalTime=ISP_STATE_TIME_OUT_MS;
 	//---清零发送缓存区
 	memset(ISPx->msgWriteByte, 0x00, 4);
 	memset(ISPx->msgReadByte, 0x00, 4);
@@ -570,7 +562,9 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 			ISPx->msgState = 1;
 			//---配置查询准备好信号的标志
 			ISPx->msgIsPollReady=isPollReady;
-			//return OK_0;
+			//---增加监控函数
+			ISP_AddWatch(ISPx);
+			return OK_0;
 		}
 		//---校验是否是自动调速模式
 		if (ISPx->msgAutoClock==0)
@@ -628,6 +622,8 @@ UINT8_T ISP_ExitProg(ISP_HandlerType *ISPx)
 	ISPx->msgHideAddr = 0xFF;
 	//---编程状态为空闲模式
 	ISPx->msgState=0;
+	//---检查编程结束模式设置为延时等待
+	ISPx->msgIsPollReady=0;
 	//---移除注册的监控函数
 	ISP_RemoveWatch(ISPx);
 	return OK_0;
@@ -651,13 +647,15 @@ void ISP_WatchTask(ISP_HandlerType* ISPx)
 		//---计算时间间隔
 		if (ISPx->msgRecordTime > nowTime)
 		{
-			cnt = (0xFFFFFFFF - nowTime + ISPx->msgRecordTime);
+			cnt = (0xFFFFFFFF - ISPx->msgRecordTime + nowTime);
 		}
 		else
 		{
 			cnt = nowTime - ISPx->msgRecordTime;
 		}
-		if (cnt > ISP_STATE_TIME_OUT_MS)
+		//if (cnt > ISP_STATE_TIME_OUT_MS)
+		//---检查是否发生超时事件
+		if (cnt>ISPx->msgIntervalTime)
 		{
 			ISP_ExitProg(ISPx);
 		}
@@ -709,24 +707,33 @@ void ISP_AddWatchDevice2(void)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISP_AddWatch(ISP_HandlerType* ISPx)
 {
-	//---使用的ISP的端口
-	if ((ISPx != NULL) && (ISPx == ISP_TASK_ONE))
+	UINT8_T _return=OK_0;
+	if (ISPx!=NULL)
 	{
-		SysTickTask_CreateTickTask(ISP_AddWatchDevice0);
-	}
-	else if ((ISPx != NULL) && (ISPx == ISP_TASK_TWO))
-	{
-		SysTickTask_CreateTickTask(ISP_AddWatchDevice1);
-	}
-	else if ((ISPx != NULL) && (ISPx == ISP_TASK_THREE))
-	{
-		SysTickTask_CreateTickTask(ISP_AddWatchDevice2);
+		//---刷新时间
+		_return=ISP_RefreshWatch(ISPx);
 	}
 	else
 	{
-		return ERROR_1;
+		//---使用的ISP的端口
+		if (ISPx == ISP_TASK_ONE)
+		{
+			SysTickTask_CreateTickTask(ISP_AddWatchDevice0);
+		}
+		else if (ISPx == ISP_TASK_TWO)
+		{
+			SysTickTask_CreateTickTask(ISP_AddWatchDevice1);
+		}
+		else if (ISPx == ISP_TASK_TWO)
+		{
+			SysTickTask_CreateTickTask(ISP_AddWatchDevice2);
+		}
+		else
+		{
+			_return= ERROR_1;
+		}
 	}
-	return OK_0;
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -767,8 +774,39 @@ UINT8_T ISP_RemoveWatch(ISP_HandlerType* ISPx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISP_RefreshWatch(ISP_HandlerType* ISPx)
 {
-	ISPx->msgRecordTime= ISPx->msgSPI.msgFuncTimeTick();
+	//---配置轮训间隔为最大值，单位是ms
+	ISPx->msgIntervalTime = ISP_STATE_TIME_OUT_MS;
+	//---刷新纪录时间
+	ISPx->msgRecordTime = ISPx->msgSPI.msgFuncTimeTick();
 	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：设置间隔时间
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_SetIntervalTime(ISP_HandlerType* ISPx,UINT16_T intervalTime)
+{
+	//---配置轮训间隔时间，单位是ms
+	ISPx->msgIntervalTime= intervalTime;
+	//---刷新纪录时间
+	ISPx->msgRecordTime = ISPx->msgSPI.msgFuncTimeTick();
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：获取间隔时间
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT16_T ISP_GetIntervalTime(ISP_HandlerType* ISPx)
+{
+	return ISPx->msgIntervalTime;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1102,10 +1140,10 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
+UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T val)
 {
 	//---写入加密位
-	UINT8_T _return = ISP_SEND_CMD(ISPx, 0xAC, 0xE0, 0x00, pVal[0]);
+	UINT8_T _return = ISP_SEND_CMD(ISPx, 0xAC, 0xE0, 0x00, val);
 	//---判断写入是否成功
 	if (_return == OK_0)
 	{

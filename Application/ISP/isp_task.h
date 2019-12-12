@@ -47,6 +47,8 @@ extern "C" {
 	UINT8_T ISPTask_AddWatch(ISP_HandlerType* ISPx);
 	UINT8_T ISPTask_RemoveWatch(ISP_HandlerType* ISPx);
 	UINT8_T ISPTask_RefreshWatch(ISP_HandlerType* ISPx);
+	UINT8_T ISPTask_SetIntervalTime(ISP_HandlerType* ISPx, UINT16_T intervalTime);
+	UINT16_T ISPTask_GetIntervalTime(ISP_HandlerType* ISPx);
 	UINT8_T ISPTask_ReadReady(ISP_HandlerType *ISPx);
 	UINT8_T ISPTask_EraseChip(ISP_HandlerType *ISPx);
 	UINT8_T ISPTask_ReadChipID(ISP_HandlerType *ISPx, UINT8_T *pVal);
@@ -55,7 +57,7 @@ extern "C" {
 	UINT8_T ISPTask_ReadChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal);
 	UINT8_T ISPTask_ReadChipRom(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T addr, UINT16_T length);
 	UINT8_T ISPTask_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedExternFuse);
-	UINT8_T ISPTask_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal);
+	UINT8_T ISPTask_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T val);
 	UINT8_T ISPTask_ReadChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
 	UINT8_T ISPTask_ReadChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length);
 	UINT8_T ISPTask_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);

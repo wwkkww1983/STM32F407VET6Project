@@ -41,13 +41,19 @@ void SystemClock_Config(void)
 	}
 	//---使能备份域的访问
 	LL_PWR_EnableBkUpAccess();
-	//---设置系统的PLL
-	#if (HSE_VALUE==8000000UL)
+	//---设置系统的PLL,用于配置系统的主时钟
+	#if (HSE_VALUE==4000000UL)
+		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_2, 168, LL_RCC_PLLP_DIV_2);
+	#elif (HSE_VALUE==6000000UL)
+		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_3, 168, LL_RCC_PLLP_DIV_2);
+	#elif (HSE_VALUE==8000000UL)
 		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_4, 168, LL_RCC_PLLP_DIV_2);
 	#elif (HSE_VALUE==12000000UL)
 		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_6, 168, LL_RCC_PLLP_DIV_2);
 	#elif (HSE_VALUE==16000000UL)
 		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 168, LL_RCC_PLLP_DIV_2);
+	#elif (HSE_VALUE==20000000UL)
+		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_10, 168, LL_RCC_PLLP_DIV_2);
 	#elif (HSE_VALUE==24000000UL)
 		LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_12, 168, LL_RCC_PLLP_DIV_2);
 	#else
@@ -57,7 +63,6 @@ void SystemClock_Config(void)
 	//LL_RCC_PLL_ConfigDomain_48M(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_4, 168, LL_RCC_PLLQ_DIV_7);
 	//---使能PLL
 	LL_RCC_PLL_Enable();
-
 	//---等待PLL稳定
 	while (LL_RCC_PLL_IsReady() != 1)
 	{
@@ -70,8 +75,7 @@ void SystemClock_Config(void)
 	LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
 	//---设置系统时钟
 	LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
-
-	//--- 等待系统时钟稳定
+	//--- 等待系统时钟稳定，即PLL锁定倍频之后的频率
 	while (LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
 	{
 	}
@@ -162,8 +166,7 @@ void Sys_Init(void)
 	LM317Task_Init(0,3300);
 	LM317_POWER_ON;
 	ISPTask_EnterProg(pISPDevice0,0);
-	ISPTask_ReadChipID(pISPDevice0,tempID);
-	
+	ISPTask_ReadChipID(pISPDevice0,tempID);	
 	
 	//---串口的初始化
 	USARTTask_Init( pUSART1 , USART1_RX_MAX_SIZE , USART1_RX_BUFFER , USART_CRC_NONE , USART1_TX_MAX_SIZE , USART1_TX_BUFFER , USART_CRC_NONE , SysTickTask_GetTick );
@@ -184,17 +187,12 @@ int main(void)
 	Sys_Init();
 	//---主循环
 	while (1)
-	{
-		//---打印初始化信息
-		USART_Printf(pUSART1, "电压:%1f\r\n",123.123);
-		/*
+	{		
 		//---模拟RTC处理
 		//SysRTCTask_SoftBuildTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---ISP通过USART的命令处理数据
 		ISPTask_USARTCmd_Task(pISPDevice0,pUSART1);
-		*/
-		DelayTask_ms(100);
-		
+		//---喂狗
 		WDT_RESET();
 	}
 }

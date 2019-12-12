@@ -65,6 +65,7 @@ extern "C" {
 		UINT16_T	msgPageWordIndex;					//---缓存区的序号
 		UINT8_T		msgWriteByte[ISP_COMM_MAX_SIZE];	//---发送数据
 		UINT8_T		msgReadByte[ISP_COMM_MAX_SIZE];		//---读取数据
+		UINT16_T	msgIntervalTime;					//---轮询时间间隔,单位是ms
 		UINT32_T	msgRecordTime;						//---记录的时间参数
 #ifdef ISP_USE_lEVEL_SHIFT
 		GPIO_HandlerType msgOE;							//---电平转换使能控制端，0---使能；1---不使能
@@ -100,6 +101,8 @@ extern "C" {
 	UINT8_T ISP_AddWatch(ISP_HandlerType* ISPx);
 	UINT8_T ISP_RemoveWatch(ISP_HandlerType* ISPx);
 	UINT8_T ISP_RefreshWatch(ISP_HandlerType* ISPx);
+	UINT8_T ISP_SetIntervalTime(ISP_HandlerType* ISPx, UINT16_T intervalTime);
+	UINT16_T ISP_GetIntervalTime(ISP_HandlerType* ISPx);
 	UINT8_T ISP_ReadReady(ISP_HandlerType *ISPx);
 	UINT8_T ISP_EraseChip(ISP_HandlerType *ISPx);
 	UINT8_T ISP_ReadChipID(ISP_HandlerType *ISPx, UINT8_T *pVal);
@@ -108,7 +111,7 @@ extern "C" {
 	UINT8_T ISP_ReadChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal);
 	UINT8_T ISP_ReadChipRom(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T addr, UINT16_T length);
 	UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedExternFuse);
-	UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal);
+	UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T val);
 	UINT8_T ISP_ReadChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
 	UINT8_T ISP_ReadChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length);
 	UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);

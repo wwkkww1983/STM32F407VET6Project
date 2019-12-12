@@ -97,6 +97,30 @@ UINT8_T ISPTask_RefreshWatch(ISP_HandlerType* ISPx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：设置轮询间隔时间
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_SetIntervalTime(ISP_HandlerType* ISPx, UINT16_T intervalTime)
+{
+	return ISPLib_SetIntervalTime(ISPx, intervalTime);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：读取轮询间隔时间
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT16_T ISPTask_GetIntervalTime(ISP_HandlerType* ISPx)
+{
+	return ISPLib_GetIntervalTime(ISPx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：读取Ready信号
 //////输入参数:
 //////输出参数:
@@ -198,9 +222,9 @@ UINT8_T ISPTask_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNe
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISPTask_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
+UINT8_T ISPTask_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T val)
 {
-	return ISPLib_WriteChipLock(ISPx, pVal);
+	return ISPLib_WriteChipLock(ISPx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -464,6 +488,12 @@ UINT8_T ISPTask_USARTCmd_EraseChip(ISP_HandlerType* ISPx, USART_HandlerType* USA
 	{
 		_return=0xFF;
 	}
+	//---检验是不是查空操作
+	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]!=0)
+	{
+		//---填充查空操作的值
+		USARTTask_FillMode_AddByte(USARTx, _return);
+	}
 	return _return;
 }
 
@@ -557,7 +587,7 @@ UINT8_T ISPTask_USARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, USART_HandlerType*
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_WriteChipLock(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
-	return ISPTask_WriteChipLock(ISPx, USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset);
+	return ISPTask_WriteChipLock(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -571,9 +601,16 @@ UINT8_T ISPTask_USARTCmd_ReadChipRom(ISP_HandlerType* ISPx, USART_HandlerType* U
 {
 	UINT8_T	_return = 0;
 	UINT16_T length=0;
-	//---计算要读取数据的长度。
-	length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset];
-	length = (length << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1];
+	//---计算读取数据的大小
+	if (USARTx->msgRxHandler.msgSize < 0xFF)
+	{
+		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset];
+	}
+	else
+	{
+		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset];
+		length = (length << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+	}
 	//---读取ROM页信息
 	_return = ISPTask_ReadChipRom(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset], length);
 	//---数据的偏移
@@ -607,8 +644,15 @@ UINT8_T ISPTask_USARTCmd_ReadChipFlash(ISP_HandlerType * ISPx, USART_HandlerType
 	UINT8_T	_return = 0;
 	UINT16_T length = 0;
 	//---计算读取数据的大小
-	length= USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset+2];
-	length=(length<<8)+ USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset+3];
+	if (USARTx->msgRxHandler.msgSize < 0xFF)
+	{
+		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+	}
+	else
+	{
+		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+		length = (length << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 3];
+	}
 	//---读取指定位置的Flash数据
 	_return= ISPTask_ReadChipFlashAddr(ISPx,USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW, 
 											USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
@@ -632,7 +676,7 @@ UINT8_T ISPTask_USARTCmd_WriteChipFlashPage(ISP_HandlerType* ISPx, USART_Handler
 {
 	UINT8_T dataOffset = 0;
 	UINT16_T length = 0;
-	//---计算读取数据的大小
+	//---计算写入数据的大小
 	if (USARTx->msgRxHandler.msgSize<0xFF)
 	{
 		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
@@ -643,8 +687,7 @@ UINT8_T ISPTask_USARTCmd_WriteChipFlashPage(ISP_HandlerType* ISPx, USART_Handler
 		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
 		length = (length << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 3];
 		dataOffset = 4;
-	}
-	
+	}	
 	//---从指定位置编程数据
 	return ISPTask_WriteChipFlashPage(ISPx,	USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + dataOffset,
 											USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
@@ -665,8 +708,15 @@ UINT8_T ISPTask_USARTCmd_ReadChipEeprom(ISP_HandlerType* ISPx, USART_HandlerType
 	UINT8_T	_return = 0;
 	UINT16_T length = 0;
 	//---计算读取数据的大小
-	length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
-	length = (length << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+	if (USARTx->msgRxHandler.msgSize < 0xFF)
+	{
+		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+	}
+	else
+	{
+		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+		length = (length << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+	}
 	//---读取指定位置的Eeprom数据
 	_return = ISPTask_ReadChipEepromAddr(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgTxHandler.msgIndexW,
 											USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
@@ -720,7 +770,7 @@ UINT8_T ISPTask_USARTCmd_ChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USA
 			_return= ISPTask_USARTCmd_OpenAndClose(ISPx,USARTx);
 			break;
 		case CMD_ISP_ERASE:
-			//---擦除设备
+			//---擦除设备，第1字节0---代表擦除，1---代表查空Flash，2---代表查空Eeprom
 			_return= ISPTask_USARTCmd_EraseChip(ISPx, USARTx);
 			break;
 		case CMD_ISP_FLASH_PAGE_READ:
@@ -772,6 +822,8 @@ UINT8_T ISPTask_USARTCmd_ChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USA
 			_return = ERROR_1;
 			break;
 	}
+	//---填充测试结果
+	USARTTask_FillMode_SetResultFlag(USARTx,_return);
 	return _return;
 }
 
