@@ -135,7 +135,9 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\Random\random_cfg.h ..\Application\RTC\rtc_task.h \
   ..\Application\RTC\rtc_lib.h ..\Application\RTC\rtc_cfg.h \
   ..\Application\SHT2x\sht2x_task.h ..\Application\SHT2x\sht2x_lib.h \
-  ..\Application\SHT2x\sht2x_cfg.h ..\Application\W25Qxx\w25qxx_task.h \
-  ..\Application\W25Qxx\w25qxx_lib.h ..\Application\W25Qxx\w25qxx_cfg.h \
-  ..\Application\WWDG\wwdg_task.h ..\Application\WWDG\wwdg_lib.h \
-  ..\Application\WWDG\wwdg_cfg.h
+  ..\Application\SHT2x\sht2x_cfg.h ..\Application\SI5351A\si5351a_task.h \
+  ..\Application\SI5351A\si5351a_lib.h \
+  ..\Application\SI5351A\si5351a_cfg.h \
+  ..\Application\W25Qxx\w25qxx_task.h ..\Application\W25Qxx\w25qxx_lib.h \
+  ..\Application\W25Qxx\w25qxx_cfg.h ..\Application\WWDG\wwdg_task.h \
+  ..\Application\WWDG\wwdg_lib.h ..\Application\WWDG\wwdg_cfg.h

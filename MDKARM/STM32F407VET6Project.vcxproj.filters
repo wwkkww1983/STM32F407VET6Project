@@ -154,6 +154,9 @@
     <Filter Include="Application\SHT2x">
       <UniqueIdentifier>{812CEE1D-ED42-ECB3-36BA-77D5A20FBD3B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\SI5351A">
+      <UniqueIdentifier>{B3F74E52-1F59-2C60-A8C6-72121427631F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\SMBUS">
       <UniqueIdentifier>{32A2F01D-9EB8-EEB3-E72F-7AD55385BF3B}</UniqueIdentifier>
     </Filter>
@@ -638,6 +641,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\SHT2x\sht2x_task.h">
       <Filter>Application\SHT2x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\SI5351A\si5351a_cfg.h">
+      <Filter>Application\SI5351A</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\SI5351A\si5351a_lib.h">
+      <Filter>Application\SI5351A</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\SI5351A\si5351a_task.h">
+      <Filter>Application\SI5351A</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\SMBUS\smbus_cfg.h">
       <Filter>Application\SMBUS</Filter>
@@ -1261,6 +1273,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\SHT2x\sht2x_task.c">
       <Filter>Application\SHT2x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\SI5351A\si5351a_cfg.c">
+      <Filter>Application\SI5351A</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\SI5351A\si5351a_lib.c">
+      <Filter>Application\SI5351A</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\SI5351A\si5351a_task.c">
+      <Filter>Application\SI5351A</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\SMBUS\smbus_cfg.c">
       <Filter>Application\SMBUS</Filter>

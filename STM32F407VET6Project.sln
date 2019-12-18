@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29324.140
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 16
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STM32F407VET6Project", "MDKARM\STM32F407VET6Project.vcxproj", "{5BDC3446-476B-BE0F-F089-D20ADCF7CEB5}"
 EndProject
 Global
@@ -15,8 +13,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7C1DE544-31AD-445C-992B-02E1016B29A0}
 	EndGlobalSection
 EndGlobal

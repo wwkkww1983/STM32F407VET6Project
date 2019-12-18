@@ -309,7 +309,7 @@ UINT8_T I2C_MSW_SendBit(I2C_HandlerType *I2Cx, UINT8_T bitVal)
 	
 	if (I2Cx->msgPluseWidth>0)
 	{
-		I2Cx->msgFuncDelayus(I2Cx->msgPluseWidth-1);
+		I2Cx->msgFuncDelayus(I2Cx->msgPluseWidth);
 	}
 	return OK_0;
 }

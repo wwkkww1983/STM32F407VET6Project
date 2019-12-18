@@ -425,6 +425,7 @@
                     <state>$PROJ_DIR$\..\Application\SMBUS</state>
                     <state>$PROJ_DIR$\..\Application\LIN</state>
                     <state>$PROJ_DIR$\..\Application\INA226</state>
+                    <state>$PROJ_DIR$\..\Application\SI5351A</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2096,6 +2097,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\SHT2x\sht2x_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>SI5351A</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_task.h</name>
             </file>
         </group>
         <group>

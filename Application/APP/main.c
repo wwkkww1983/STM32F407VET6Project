@@ -131,6 +131,24 @@ void NVIC_Init(void)
 //////////////////////////////////////////////////////////////////////////////
 void Sys_Init(void)
 {
+	GPIOTask_Clock(GPIOB, 1);
+	//---GPIO的结构体
+	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
+
+	//---GPIO的初始化
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_7;								//---对应的GPIO的引脚
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;						//---配置状态为输出模式
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;					//---GPIO的速度---低速设备
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;			//---输出模式---推挽输出
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;						//---下拉
+#ifndef USE_MCU_STM32F1
+	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;						//---端口复用模式
+#endif
+	//---工作指示灯的初始化
+	LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	GPIO_OUT_1(GPIOB,LL_GPIO_PIN_7);
+	
 	//---系统时钟的初始化
 	SystemClock_Config();	
 	//---NVIC初始化
@@ -150,10 +168,20 @@ void Sys_Init(void)
 	//---CRC校验初始化
 	CRCTask_Init();
 	//---ISP的初始化
-	ISPTask_Init(pISPDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
+	//ISPTask_Init(pISPDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
 	//---WM8510
 	//WM8510Task_I2C_Init(pWM8510Device0, DelayTask_us, 0);
-
+	//---SI5351A
+	SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, 0);
+	//GPIO_OUT_C(GPIOB,LL_GPIO_PIN_7);
+	SI5351ATask_SetFreqMHz(pSI5351ADevice0,0,13.56 );
+//	GPIO_OUT_C(GPIOB,LL_GPIO_PIN_7);
+//	SI5351ATask_SetFreqMHz(pSI5351ADevice0,0,16);
+//	GPIO_OUT_C(GPIOB,LL_GPIO_PIN_7);
+//	SI5351ATask_SetFreqMHz(pSI5351ADevice0,0,18);
+//	GPIO_OUT_C(GPIOB,LL_GPIO_PIN_7);
+//	SI5351ATask_SetFreqMHz(pSI5351ADevice0,0,20);
+//	GPIO_OUT_C(GPIOB,LL_GPIO_PIN_7);
 	//WM8510Task_I2C_SetFreqMHz(pWM8510Device0,13);
 	//WM8510Task_I2C_SetFreqHzWithAllFreqReg(pWM8510Device0,12000000);
 	
@@ -161,12 +189,12 @@ void Sys_Init(void)
 	//LEDTask_Init();
 	
 	//---DAC的初始化
-	DACTask_Init(3,1);
+	//DACTask_Init(3,1);
 	//---初始化LM317做的可调电源
-	LM317Task_Init(0,3300);
-	LM317_POWER_ON;
-	ISPTask_EnterProg(pISPDevice0,0);
-	ISPTask_ReadChipID(pISPDevice0,tempID);	
+	//LM317Task_Init(0,3300);
+	//LM317_POWER_ON;
+	//ISPTask_EnterProg(pISPDevice0,0);
+	//ISPTask_ReadChipID(pISPDevice0,tempID);	
 	
 	//---串口的初始化
 	USARTTask_Init( pUSART1 , USART1_RX_MAX_SIZE , USART1_RX_BUFFER , USART_CRC_NONE , USART1_TX_MAX_SIZE , USART1_TX_BUFFER , USART_CRC_NONE , SysTickTask_GetTick );
@@ -191,7 +219,7 @@ int main(void)
 		//---模拟RTC处理
 		//SysRTCTask_SoftBuildTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---ISP通过USART的命令处理数据
-		ISPTask_USARTCmd_Task(pISPDevice0,pUSART1);
+		//ISPTask_USARTCmd_Task(pISPDevice0,pUSART1);
 		//---喂狗
 		WDT_RESET();
 	}

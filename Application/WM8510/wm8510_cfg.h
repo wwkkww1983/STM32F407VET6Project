@@ -9,7 +9,8 @@ extern "C" {
 	#include "complier_lib.h"
 	#include "timer_task.h"
 	#include "i2c_task.h"
-	
+	//////////////////////////////////////////////////////////////////////////////////////
+
 	//===每100KHz需要补偿15Hz
 	//===每20KHz需要补偿3Hz
 	//=== 12M时钟下最小输出频率是156KHz----单位为HZ
@@ -261,10 +262,8 @@ extern "C" {
 	
 	//===写命令
 	#define WM8510_WADDR			0x34				// 1A-34
-	
 	//===读命令
-	#define WM8510_RADDR			0x35				// 1B-35
-	
+	#define WM8510_RADDR			0x35				// 1B-35	
 	//WM8510寄存器功能位
 	#define	R0_Reset				0x00 				//复位
 	
@@ -430,34 +429,34 @@ extern "C" {
 	//===定义结构
 	struct _WM8510_HandlerType
 	{
-		UINT8_T mclkDIV;			//---mclk的分频数
-		UINT8_T bclkDIV;			//---bclk的分频数
-		UINT8_T preDIV;				//---预分频数
-		UINT8_T	pllN;				//---pll的N值
-		UINT8_T R0[2];				//---寄存器R0的配置值
-		UINT8_T R1[2];				//---寄存器R1的配置值
-		UINT8_T nowR6[2];			//---寄存器R6的配置值
-		UINT8_T lastR6[2];			//---寄存器R6的配置值
-		UINT8_T nowR36[2];			//---寄存器R36的配置值
-		UINT8_T lastR36[2];			//---寄存器R36的配置值
-		UINT8_T nowR37[2];			//---寄存器R37的配置值
-		UINT8_T lastR37[2];			//---寄存器R37的配置值
-		UINT8_T nowR38[2];			//---寄存器R38的配置值
-		UINT8_T lastR38[2];			//---寄存器R38的配置值
-		UINT8_T nowR39[2];			//---寄存器R39的配置值
-		UINT8_T lastR39[2];			//---寄存器R39的配置值
+		UINT8_T msgMclkDIV;				//---mclk的分频数
+		UINT8_T msgBclkDIV;				//---bclk的分频数
+		UINT8_T msgPreDIV;				//---预分频数
+		UINT8_T	msgPllN;				//---pll的N值
+		UINT8_T msgR0[2];				//---寄存器R0的配置值
+		UINT8_T msgR1[2];				//---寄存器R1的配置值
+		UINT8_T msgNowR6[2];			//---寄存器R6的配置值
+		UINT8_T msgLastR6[2];			//---寄存器R6的配置值
+		UINT8_T msgNowR36[2];			//---寄存器R36的配置值
+		UINT8_T msgLastR36[2];			//---寄存器R36的配置值
+		UINT8_T msgNowR37[2];			//---寄存器R37的配置值
+		UINT8_T msgLastR37[2];			//---寄存器R37的配置值
+		UINT8_T msgNowR38[2];			//---寄存器R38的配置值
+		UINT8_T msgLastR38[2];			//---寄存器R38的配置值
+		UINT8_T msgNowR39[2];			//---寄存器R39的配置值
+		UINT8_T msgLastR39[2];			//---寄存器R39的配置值
 	#ifdef USE_WM8510_RESET
-		UINT16_T freqChangeCount;	//---记录当前频率变化的次数
+		UINT16_T msgFreqChangeCount;	//---记录当前频率变化的次数
 	#endif
-		UINT32_T freqAdd;			//---输出频率的补偿值，每100KHz补偿15Hz
-		UINT32_T pllK;				//---pll的K值
-		UINT32_T pllFreq;			//---pll频率
-		UINT32_T refOSC;			//---参考时钟
-		UINT32_T freqHz;			//---输出的频率Hz
-		UINT32_T freqKHz;			//---输出的频率KHz
-		float pllRate;				//---pll的比值
+		UINT32_T mssgFreqAdd;			//---输出频率的补偿值，每100KHz补偿15Hz
+		UINT32_T msgPllK;				//---pll的K值
+		UINT32_T magPllFreq;			//---pll频率
+		UINT32_T msgRefOSC;				//---参考时钟
+		UINT32_T msgFreqHz;				//---输出的频率Hz
+		UINT32_T msgFreqKHz;			//---输出的频率KHz
+		float	msgPllRate;				//---pll的比值
 
-		I2C_HandlerType msgI2C;		//---使用的I2C设备
+		I2C_HandlerType msgI2C;			//---使用的I2C设备
 	};
 
 	//===定义的任务函数
@@ -470,7 +469,7 @@ extern "C" {
 	extern pWM8510_HandlerType pWM8510Device0;
 
 	//===函数定义
-	void    WM8510_I2C_StructInit(WM8510_HandlerType *WM8510x);
+	void    WM8510_I2C_ParamsInit(WM8510_HandlerType *WM8510x);
 	UINT8_T WM8510_I2C_Device0_Init(WM8510_HandlerType *WM8510x);
 	UINT8_T WM8510_I2C_Device1_Init(WM8510_HandlerType *WM8510x);
 	UINT8_T WM8510_I2C_Device2_Init(WM8510_HandlerType *WM8510x);

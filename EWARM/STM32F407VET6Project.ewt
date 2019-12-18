@@ -1256,13 +1256,13 @@
                 <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_cfg.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_cfg.h</name>
+                <name>$PROJ_DIR$\..\Application\ADS868x\ADS868X_cfg.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_lib.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_lib.h</name>
+                <name>$PROJ_DIR$\..\Application\ADS868x\ADS868X_lib.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\ADS868x\ads868x_task.c</name>
@@ -1277,13 +1277,13 @@
                 <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_cfg.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_cfg.h</name>
+                <name>$PROJ_DIR$\..\Application\ADS869x\ADS869X_cfg.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_lib.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_lib.h</name>
+                <name>$PROJ_DIR$\..\Application\ADS869x\ADS869X_lib.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_task.c</name>
@@ -1536,6 +1536,27 @@
             </file>
         </group>
         <group>
+            <name>ENC28J60</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>FLASH</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\FLASH\flash_cfg.c</name>
@@ -1641,6 +1662,27 @@
             </file>
         </group>
         <group>
+            <name>INA226</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\INA226\ina226_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>ISP</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\ISP\isp_cfg.c</name>
@@ -1680,6 +1722,15 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\IWDG\iwdg_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>KalmanFilter</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\KalmanFilter\kalman_filter.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\KalmanFilter\kalman_filter.h</name>
             </file>
         </group>
         <group>
@@ -1743,6 +1794,90 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\LED\led_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>LIN</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\LIN\lin_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>MAX961x</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MAX961x\max961x_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>ModBusMaster</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>ModBusSlave</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_task.h</name>
             </file>
         </group>
         <group>
@@ -1860,6 +1995,27 @@
             </file>
         </group>
         <group>
+            <name>Power</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Power\power_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>PVD</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\PVD\pvd_cfg.c</name>
@@ -1910,6 +2066,12 @@
                 <name>$PROJ_DIR$\..\Application\RFASK\rfask_cfg.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\Application\RFASK\rfask_eeprom.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\RFASK\rfask_eeprom.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\Application\RFASK\rfask_lib.c</name>
             </file>
             <file>
@@ -1953,6 +2115,27 @@
             </file>
         </group>
         <group>
+            <name>SDIO</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SDIO\sdio_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>SHT2x</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\SHT2x\sht2x_cfg.c</name>
@@ -1971,6 +2154,48 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\SHT2x\sht2x_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>SI5351A</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SI5351A\si5351a_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>SMBUS</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\SMBUS\smbus_task.h</name>
             </file>
         </group>
         <group>
@@ -2079,6 +2304,27 @@
             </file>
         </group>
         <group>
+            <name>W5500</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\W5500\w5500_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>WM8510</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\WM8510\wm8510_cfg.c</name>
@@ -2169,6 +2415,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_def.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_gpio.c</name>

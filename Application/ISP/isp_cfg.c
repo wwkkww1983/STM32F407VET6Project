@@ -618,6 +618,8 @@ UINT8_T ISP_ExitProg(ISP_HandlerType *ISPx)
 		//---恢复时钟的速度
 		ISPx->msgSetClok = ISP_SCK_DEFAULT_CLOCK;
 	}
+	//---清除数据缓存区的序号
+	ISPx->msgPageWordIndex = 0;
 	//---解除64K的限制
 	ISPx->msgHideAddr = 0xFF;
 	//---编程状态为空闲模式
@@ -712,10 +714,7 @@ UINT8_T ISP_AddWatch(ISP_HandlerType* ISPx)
 	{
 		//---刷新时间
 		_return=ISP_RefreshWatch(ISPx);
-	}
-	else
-	{
-		//---使用的ISP的端口
+		//---使用的ISP的端口,并注册相应的任务函数
 		if (ISPx == ISP_TASK_ONE)
 		{
 			SysTickTask_CreateTickTask(ISP_AddWatchDevice0);
@@ -1143,7 +1142,7 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T val)
 {
 	//---写入加密位
-	UINT8_T _return = ISP_SEND_CMD(ISPx, 0xAC, 0xE0, 0x00, val);
+	UINT8_T _return = ISP_SEND_CMD(ISPx, 0xAC, 0xE0, 0x00, val|0xC0);
 	//---判断写入是否成功
 	if (_return == OK_0)
 	{
@@ -1222,6 +1221,7 @@ UINT8_T ISP_ReadChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_
 UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
+	UINT8_T refreshFlag=0;
 	UINT16_T i = 0;
 	for (i = 0; i < length; i++)
 	{
@@ -1234,7 +1234,7 @@ UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hi
 		if (ISPx->msgIsPollReady != 0)
 		{
 			_return = ISP_ReadReady(ISPx);
-			_return += 0x80;
+			//_return += 0x80;
 		}
 		else
 		{
@@ -1246,6 +1246,14 @@ UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hi
 		if (lowAddr == 0x00)
 		{
 			highAddr++;
+		}
+		refreshFlag++;
+		//---检查次数，避免延时等待的时候退出了编程模式
+		if (refreshFlag>20)
+		{
+			refreshFlag=0;
+			//---刷新时间
+			ISP_RefreshWatch(ISPx);
 		}
 	}
 	return _return;
@@ -1622,4 +1630,18 @@ GoToExit:
 	//---释放缓存空间
 	MyFree(pEepromBuffer);
 	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：配置存储器的信息
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISP_SetMemeryInfo(ISP_HandlerType* ISPx, UINT16_T flashPageWordSize,UINT16_T eepromPageByteSize)
+{
+	ISPx->msgFlashPageWordSize=flashPageWordSize;
+	ISPx->msgEerpomPageByteSize= eepromPageByteSize;
+	return OK_0;
 }

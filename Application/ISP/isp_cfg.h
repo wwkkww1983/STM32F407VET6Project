@@ -128,7 +128,7 @@ extern "C" {
 	UINT8_T ISP_CheckChipFlashEmpty(ISP_HandlerType* ISPx, UINT8_T pageByteSizeH, UINT8_T pageByteSizeL, UINT8_T pageNumH, UINT8_T pageNumL);
 	UINT8_T ISP_CheckChipFlashEmptyLong(ISP_HandlerType* ISPx, UINT16_T pageByteSize, UINT16_T pageNum);
 	UINT8_T ISP_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UINT8_T num);
-
+	UINT8_T ISP_SetMemeryInfo(ISP_HandlerType* ISPx, UINT16_T flashPageWordSize, UINT16_T eepromPageByteSize);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

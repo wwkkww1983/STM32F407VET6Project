@@ -12,6 +12,7 @@ extern "C" {
 	UINT8_T ISPLib_DeInit(ISP_HandlerType *ISPx);
 	UINT8_T ISPLib_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clok);
 	UINT8_T ISPLib_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady);
+	UINT8_T ISPLib_EnterProgAndConfigMemery(ISP_HandlerType* ISPx, UINT8_T isPollReady, UINT16_T flashPageWordSize, UINT16_T eepromPageByteSize);
 	UINT8_T ISPLib_ExitProg(ISP_HandlerType *ISPx);
 	UINT8_T ISPLib_AddWatch(ISP_HandlerType* ISPx);
 	UINT8_T ISPLib_RemoveWatch(ISP_HandlerType* ISPx);

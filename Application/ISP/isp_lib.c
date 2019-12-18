@@ -37,7 +37,7 @@ UINT8_T ISPLib_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clok)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：进入编程
+//////功		能：进入编程模式
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -45,6 +45,24 @@ UINT8_T ISPLib_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clok)
 UINT8_T ISPLib_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady)
 {
 	return ISP_EnterProg(ISPx,isPollReady);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：进入编程模式并配置Memery信息
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPLib_EnterProgAndConfigMemery(ISP_HandlerType* ISPx, UINT8_T isPollReady, UINT16_T flashPageWordSize, UINT16_T eepromPageByteSize)
+{
+	UINT8_T _return= ISP_EnterProg(ISPx, isPollReady);
+	//---校验进入编程模式
+	if (_return==OK_0)
+	{
+		_return=ISP_SetMemeryInfo(ISPx,flashPageWordSize, eepromPageByteSize);
+	}
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -842,12 +860,6 @@ UINT8_T ISPLib_WriteChipFlashPage(ISP_HandlerType* ISPx,UINT8_T *pVal, UINT8_T e
 	{
 		//---刷新时间
 		ISP_RefreshWatch(ISPx);
-		//---计算字节地址，之后需要换算成字地址
-		pageAddr = externAddr;
-		pageAddr = (pageAddr << 8) + highAddr;
-		pageAddr += lowAddr;
-		//---计算地址的偏移
-		pageAddr += length;
 		//---填充数据缓存
 		_return = ISP_UpdateChipFlashBuffer(ISPx, pVal, (UINT8_T)ISPx->msgPageWordIndex, length);
 		//---换算返回结果
@@ -855,8 +867,10 @@ UINT8_T ISPLib_WriteChipFlashPage(ISP_HandlerType* ISPx,UINT8_T *pVal, UINT8_T e
 		//---缓存区填满，执行数据写入操作
 		if ((_return == OK_0) && (ISPx->msgPageWordIndex == ISPx->msgFlashPageWordSize))
 		{
-			//---将字节地址换算成字地址
-			pageAddr >>= 1;
+			//---计算字地址，传输的地址是字地址
+			pageAddr =  externAddr;
+			pageAddr = (pageAddr << 8) + highAddr;
+			pageAddr = (pageAddr << 8) + lowAddr;
 			//---更新数据到指定的页地址
 			_return = ISP_UpdateChipFlashLongAddr(ISPx, pageAddr);
 			//---数据缓存区的

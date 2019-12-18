@@ -49,6 +49,18 @@ UINT8_T ISPTask_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_EnterProgAndConfigMemery(ISP_HandlerType* ISPx, UINT8_T isPollReady, UINT16_T flashPageWordSize, UINT16_T eepromPageByteSize)
+{
+	return ISPLib_EnterProgAndConfigMemery(ISPx, isPollReady,flashPageWordSize, eepromPageByteSize);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：退出编程
 //////输入参数:
 //////输出参数:
@@ -444,7 +456,14 @@ UINT8_T ISPTask_USARTCmd_OpenAndClose(ISP_HandlerType* ISPx, USART_HandlerType* 
 	//---命令位置
 	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]==1)
 	{
-		_return=ISPTask_EnterProg(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex+ USARTx->msgIndexOffset]);
+		//---配置Flash的每页字数
+		UINT16_T flashPerPageWordSize= USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset+1];
+		flashPerPageWordSize=(flashPerPageWordSize<<8)+ USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset+2];
+		//---配置Eeprom的每页字节数
+		UINT16_T eepromPerPageByteSize = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 3];
+		eepromPerPageByteSize = (eepromPerPageByteSize << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 4];
+		//_return=ISPTask_EnterProg(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex+ USARTx->msgIndexOffset]);
+		_return=ISPTask_EnterProgAndConfigMemery(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],flashPerPageWordSize,eepromPerPageByteSize);
 	}
 	else
 	{
@@ -587,7 +606,7 @@ UINT8_T ISPTask_USARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, USART_HandlerType*
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_WriteChipLock(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
-	return ISPTask_WriteChipLock(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset]);
+	return ISPTask_WriteChipLock(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -738,12 +757,22 @@ UINT8_T ISPTask_USARTCmd_ReadChipEeprom(ISP_HandlerType* ISPx, USART_HandlerType
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_WriteChipEeprom(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
+	UINT8_T dataOffset = 0;
 	UINT16_T length = 0;
 	//---计算读取数据的大小
-	length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
-	length = (length << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+	if (USARTx->msgRxHandler.msgSize < 0xFF)
+	{
+		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+		dataOffset = 2;
+	}
+	else
+	{
+		length = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+		length = (length << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+		dataOffset = 3;
+	}
 	//---编程指定位置的Eeprom数据
-	return ISP_WriteChipEepromAddr(ISPx,USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 3,
+	return ISPTask_WriteChipEepromAddr(ISPx,USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + dataOffset,
 										USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
 										USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
 										length);

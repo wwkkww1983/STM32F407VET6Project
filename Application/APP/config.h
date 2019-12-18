@@ -46,6 +46,7 @@ extern "C" {
 	#include "rfask_task.h"
 	#include "rtc_task.h"
 	#include "sht2x_task.h"
+	#include "si5351a_task.h"
 	#include "spi_task.h"
 	#include "systick_task.h"
 	#include "timer_task.h"
