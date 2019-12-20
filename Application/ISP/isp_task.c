@@ -54,9 +54,9 @@ UINT8_T ISPTask_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISPTask_EnterProgAndConfigMemery(ISP_HandlerType* ISPx, UINT8_T isPollReady, UINT16_T flashPageWordSize, UINT16_T eepromPageByteSize)
+UINT8_T ISPTask_EnterProgAndConfigInfo(ISP_HandlerType* ISPx, UINT8_T isPollReady,UINT8_T *pVal)
 {
-	return ISPLib_EnterProgAndConfigMemery(ISPx, isPollReady,flashPageWordSize, eepromPageByteSize);
+	return ISPLib_EnterProgAndConfigInfo(ISPx, isPollReady, pVal);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -277,6 +277,54 @@ UINT8_T ISPTask_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：写数据到Eeprom缓存区
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_UpdateChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal)
+{
+	return ISPLib_UpdateChipEepromPage( ISPx, pVal);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：更新数据到Eeprom存储区
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_UpdateChipEepromAddr(ISP_HandlerType* ISPx, UINT8_T highAddr, UINT8_T lowAddr)
+{
+	return ISPLib_UpdateChipEepromAddr(ISPx,highAddr,lowAddr);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：更新数据到Eeprom存储区
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_UpdateChipEepromLongAddr(ISP_HandlerType* ISPx, UINT16_T addr)
+{
+	return ISPLib_UpdateChipEepromLongAddr(ISPx,addr);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：按页写数据到Eeprom存储区
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_WriteChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
+{
+	return ISPLib_WriteChipEepromPage(ISPx,pVal,highAddr,lowAddr,pageNum);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：
 //////输入参数:
 //////输出参数:
@@ -309,6 +357,18 @@ UINT8_T ISPTask_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T 
 UINT8_T ISPTask_WriteChipEepromLongAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length)
 {
 	return  ISPLib_WriteChipEepromLongAddrWithJumpEmpty(ISPx, pVal, addr, length);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_WriteChipEeprom(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
+{
+	return ISP_WriteChipEeprom(ISPx, pVal,  highAddr,  lowAddr,  pageNum);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -445,6 +505,18 @@ UINT8_T ISPTask_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UI
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_SetConfigInfo(ISP_HandlerType* ISPx, UINT8_T* pVal)
+{
+	return ISPLib_SetConfigInfo(ISPx, pVal);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：退出或者进入编程模式
 //////输入参数:
 //////输出参数:
@@ -456,14 +528,13 @@ UINT8_T ISPTask_USARTCmd_OpenAndClose(ISP_HandlerType* ISPx, USART_HandlerType* 
 	//---命令位置
 	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]==1)
 	{
-		//---配置Flash的每页字数
-		UINT16_T flashPerPageWordSize= USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset+1];
-		flashPerPageWordSize=(flashPerPageWordSize<<8)+ USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset+2];
-		//---配置Eeprom的每页字节数
-		UINT16_T eepromPerPageByteSize = USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 3];
-		eepromPerPageByteSize = (eepromPerPageByteSize << 8) + USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 4];
-		//_return=ISPTask_EnterProg(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex+ USARTx->msgIndexOffset]);
-		_return=ISPTask_EnterProgAndConfigMemery(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],flashPerPageWordSize,eepromPerPageByteSize);
+		//---进入编程模式，并配置基本参数
+		_return=ISPTask_EnterProgAndConfigInfo(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset], USARTx->msgRxHandler.pMsgVal+USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1);
+	}
+	else if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
+	{
+		//---配置基本参数,主要是使不使能EEPROM的页编程模式
+		_return= ISPTask_SetConfigInfo(ISPx, USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1);
 	}
 	else
 	{
@@ -647,7 +718,23 @@ UINT8_T ISPTask_USARTCmd_ReadChipRom(ISP_HandlerType* ISPx, USART_HandlerType* U
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_SetProgClok(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
-	ISPTask_SetProgClock(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
+	UINT8_T _return=OK_0;
+	//---读取电压
+	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 1)
+	{
+
+	}
+	//---设置电压
+	else if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
+	{
+
+	}
+	else
+	{
+		//---设置编程时钟
+		_return = ISPTask_SetProgClock(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
+	}
+	
 	return OK_0;
 }
 
@@ -772,10 +859,10 @@ UINT8_T ISPTask_USARTCmd_WriteChipEeprom(ISP_HandlerType* ISPx, USART_HandlerTyp
 		dataOffset = 3;
 	}
 	//---编程指定位置的Eeprom数据
-	return ISPTask_WriteChipEepromAddr(ISPx,USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + dataOffset,
-										USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
-										USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
-										length);
+	return ISPTask_WriteChipEeprom( ISPx, USARTx->msgRxHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + dataOffset,
+									USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
+									USARTx->msgRxHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
+									length);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -843,7 +930,7 @@ UINT8_T ISPTask_USARTCmd_ChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USA
 			_return= ISPTask_USARTCmd_ReadChipRom(ISPx,USARTx);
 			break;
 		case CMD_ISP_PROG_CLOCK_SET:
-			//---设置编程时钟
+			//---设置编程时钟，多级参数，后续需要有电源的设置和读取
 			_return= ISPTask_USARTCmd_SetProgClok(ISPx, USARTx);
 			break;
 		default:

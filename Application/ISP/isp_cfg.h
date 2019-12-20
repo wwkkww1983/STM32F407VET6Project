@@ -60,8 +60,9 @@ extern "C" {
 		UINT8_T		msgDelayms;							//---编程之后的延时函数，单位是ms
 		UINT8_T		msgHideAddr;						//---接触64K的限制
 		UINT8_T		msgIsPollReady;						//---是否轮询准备好信号，0---不需要；1---需要
-		UINT16_T	msgFlashPageWordSize;				//---Flash的每页字数
-		UINT16_T	msgEerpomPageByteSize;				//---Eeprom的每页字节数
+		UINT8_T		msgEepromIsPageMode;				//---eeprom是否支持页编程模式，0---不支持，1---支持
+		UINT16_T	msgFlashPerPageWordSize;			//---Flash的每页字数
+		UINT16_T	msgEerpomPerPageByteSize;			//---Eeprom的每页字节数
 		UINT16_T	msgPageWordIndex;					//---缓存区的序号
 		UINT8_T		msgWriteByte[ISP_COMM_MAX_SIZE];	//---发送数据
 		UINT8_T		msgReadByte[ISP_COMM_MAX_SIZE];		//---读取数据
@@ -113,22 +114,28 @@ extern "C" {
 	UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedExternFuse);
 	UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T val);
 	UINT8_T ISP_ReadChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
+	UINT8_T ISP_UpdateChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal);
+	UINT8_T ISP_UpdateChipEepromAddr(ISP_HandlerType* ISPx, UINT8_T highAddr, UINT8_T lowAddr);
+	UINT8_T ISP_UpdateChipEepromLongAddr(ISP_HandlerType* ISPx, UINT16_T addr);
+	UINT8_T ISP_WriteChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum);
 	UINT8_T ISP_ReadChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length);
 	UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
 	UINT8_T ISP_WriteChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length);
 	UINT8_T ISP_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
 	UINT8_T ISP_WriteChipEepromLongAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length);
+	UINT8_T ISP_WriteChipEeprom(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum);
 	UINT8_T ISP_UpdateExternAddr(ISP_HandlerType *ISPx, UINT8_T addr);
 	UINT8_T ISP_UpdateExternLongAddr(ISP_HandlerType *ISPx, UINT32_T addr);
 	UINT8_T ISP_ReadChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
 	UINT8_T ISP_ReadChipFlashLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT32_T addr, UINT16_T length);
-	UINT8_T ISP_UpdateChipFlashBuffer(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T index, UINT16_T length);
+	UINT8_T ISP_UpdateChipFlashPage(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T index, UINT16_T length);
 	UINT8_T ISP_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr);
 	UINT8_T ISP_UpdateChipFlashLongAddr(ISP_HandlerType *ISPx, UINT32_T addr);
+	UINT8_T ISP_WriteChipFlashPage(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
 	UINT8_T ISP_CheckChipFlashEmpty(ISP_HandlerType* ISPx, UINT8_T pageByteSizeH, UINT8_T pageByteSizeL, UINT8_T pageNumH, UINT8_T pageNumL);
 	UINT8_T ISP_CheckChipFlashEmptyLong(ISP_HandlerType* ISPx, UINT16_T pageByteSize, UINT16_T pageNum);
 	UINT8_T ISP_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UINT8_T num);
-	UINT8_T ISP_SetMemeryInfo(ISP_HandlerType* ISPx, UINT16_T flashPageWordSize, UINT16_T eepromPageByteSize);
+	UINT8_T ISP_SetConfigInfo(ISP_HandlerType* ISPx, UINT8_T* pVal);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -202,6 +202,7 @@
 "stm32f407vet6project\si5351a_cfg.o"
 "stm32f407vet6project\si5351a_lib.o"
 "stm32f407vet6project\si5351a_task.o"
+"stm32f407vet6project\task_manage.o"
 --library_type=microlib --strict --scatter "STM32F407VET6Project\STM32F407VET6Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

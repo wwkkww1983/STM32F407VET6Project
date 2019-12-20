@@ -7,8 +7,8 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "complier_lib.h"
 	
-	//===定义一个函数类型的参数
-	typedef  void(*iapFun)(void);
+	//===定义一个函数类型的指针
+	typedef void(*iapFunc)(void);
 
 	//===函数定义
 	void IAP_ToAPP(UINT32_T appAddr);

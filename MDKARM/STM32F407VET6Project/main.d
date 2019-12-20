@@ -1,6 +1,7 @@
 stm32f407vet6project/main.o: ..\Application\APP\main.c \
-  ..\Application\APP\main.h ..\Application\APP\config.h \
-  ..\Complier\complier_lib.h ..\Complier\complier_cfg.h \
+  ..\Application\APP\main.h ..\Application\Task_Manage\task_manage.h \
+  ..\Application\APP\config.h ..\Complier\complier_lib.h \
+  ..\Complier\complier_cfg.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \

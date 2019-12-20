@@ -31,8 +31,7 @@ extern "C" {
 	extern  pSYS_RTC_HandlerType					pSysHWRTC;
 
 	//===º¯Êý¶¨Òå
-	void SysRTC_SoftCalcRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode);
-	void SysRTC_SoftCalcRTCTask(SYS_RTC_HandlerType*RTCx, UINT32_T rtcSecond);
+	void SysRTC_SoftRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode);
 	UINT8_T SysRTC_CalcWeekDay(RTC_HandlerType*RTCx);
 	UINT8_T SysRTC_RealTimeWatch(SYS_RTC_HandlerType* RTCx);
 	UINT8_T SysRTC_RefreshWatch(SYS_RTC_HandlerType* RTCx);

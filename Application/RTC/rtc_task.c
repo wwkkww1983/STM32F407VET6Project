@@ -7,23 +7,10 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void SysRTCTask_SoftCalcRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays,UINT8_T watchaMode)
+void SysRTCTask_SoftRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays,UINT8_T watchaMode)
 {
-	SysRTCTask_SoftCalcRTCInit(RTCx,spanDays, watchaMode);
+	SysRTCLib_SoftRTCInit(RTCx,spanDays, watchaMode);
 }
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：软件计算RTC时间
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-void SysRTCTask_SoftCalcRTCTask(SYS_RTC_HandlerType*RTCx, UINT32_T rtcSecond)
-{
-	SysRTCTask_SoftCalcRTCTask(RTCx, rtcSecond);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：
@@ -33,7 +20,7 @@ void SysRTCTask_SoftCalcRTCTask(SYS_RTC_HandlerType*RTCx, UINT32_T rtcSecond)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysRTCTask_CalcWeekDay(RTC_HandlerType*RTCx)
 {
-	return SysRTCTask_CalcWeekDay(RTCx);
+	return SysRTCLib_CalcWeekDay(RTCx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -45,7 +32,7 @@ UINT8_T SysRTCTask_CalcWeekDay(RTC_HandlerType*RTCx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysRTCTask_RealTimeWatch(SYS_RTC_HandlerType* RTCx)
 {
-	return SysRTCTask_RealTimeWatch(RTCx);
+	return SysRTCLib_RealTimeWatch(RTCx);
 }
 
 
@@ -58,7 +45,7 @@ UINT8_T SysRTCTask_RealTimeWatch(SYS_RTC_HandlerType* RTCx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysRTCTask_RefreshWatch(SYS_RTC_HandlerType* RTCx)
 {
-	return SysRTCTask_RefreshWatch(RTCx);
+	return SysRTCLib_RefreshWatch(RTCx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -70,7 +57,7 @@ UINT8_T SysRTCTask_RefreshWatch(SYS_RTC_HandlerType* RTCx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysRTCTask_SetWatchTime(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays)
 {
-	return SysRTCTask_SetWatchTime(RTCx, spanDays);
+	return SysRTCLib_SetWatchTime(RTCx, spanDays);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -82,7 +69,7 @@ UINT8_T SysRTCTask_SetWatchTime(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysRTCTask_ClearWatch(SYS_RTC_HandlerType* RTCx)
 {
-	return SysRTCTask_ClearWatch(RTCx);
+	return SysRTCLib_ClearWatch(RTCx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -94,7 +81,7 @@ UINT8_T SysRTCTask_ClearWatch(SYS_RTC_HandlerType* RTCx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysRTCTask_WatchTask(SYS_RTC_HandlerType* RTCx)
 {
-	return SysRTCTask_WatchTask(RTCx);
+	return SysRTCLib_WatchTask(RTCx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -106,7 +93,7 @@ UINT8_T SysRTCTask_WatchTask(SYS_RTC_HandlerType* RTCx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysRTCTask_SoftRTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond)
 {
-	return SysRTCTask_SoftRTCTask(RTCx, rtcSecond);
+	return SysRTCLib_SoftRTCTask(RTCx, rtcSecond);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

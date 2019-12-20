@@ -54,13 +54,13 @@ UINT8_T ISPLib_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISPLib_EnterProgAndConfigMemery(ISP_HandlerType* ISPx, UINT8_T isPollReady, UINT16_T flashPageWordSize, UINT16_T eepromPageByteSize)
+UINT8_T ISPLib_EnterProgAndConfigInfo(ISP_HandlerType* ISPx, UINT8_T isPollReady,UINT8_T *pVal)
 {
 	UINT8_T _return= ISP_EnterProg(ISPx, isPollReady);
 	//---校验进入编程模式
 	if (_return==OK_0)
 	{
-		_return=ISP_SetMemeryInfo(ISPx,flashPageWordSize, eepromPageByteSize);
+		_return=ISP_SetConfigInfo(ISPx,pVal);
 	}
 	return _return;
 }
@@ -513,6 +513,30 @@ UINT8_T ISPLib_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPLib_UpdateChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal)
+{
+	return ISP_UpdateChipEepromPage(ISPx,pVal);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPLib_UpdateChipEepromAddr(ISP_HandlerType* ISPx, UINT8_T highAddr, UINT8_T lowAddr)
+{
+	return ISP_UpdateChipEepromAddr(ISPx, highAddr,lowAddr);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：编程EEPROM
 //////输入参数:
 //////输出参数:
@@ -605,6 +629,42 @@ UINT8_T ISPLib_WriteChipEepromLongAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8
 		_return = ERROR_1;
 	}
 	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPLib_UpdateChipEepromLongAddr(ISP_HandlerType* ISPx, UINT16_T addr)
+{
+	return ISP_UpdateChipEepromLongAddr(ISPx,addr);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：页模式编程Eeprom
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPLib_WriteChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal,UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
+{
+	return ISP_WriteChipEepromPage(ISPx, pVal,highAddr,lowAddr,pageNum);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPLib_WriteChipEeprom(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
+{
+	return ISP_WriteChipEeprom( ISPx,  pVal, highAddr, lowAddr, pageNum);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -761,7 +821,7 @@ UINT8_T ISPLib_UpdateChipFlashBuffer(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8
 		//---刷新时间
 		ISP_RefreshWatch(ISPx);
 		//---更新Flash的缓存区数据
-		_return = ISP_UpdateChipFlashBuffer(ISPx, pVal, index, length);
+		_return = ISP_UpdateChipFlashPage(ISPx, pVal, index, length);
 		_return = (_return == OK_0 ? OK_0 : ERROR_2);
 		//---设置时间间隔
 		ISP_SetIntervalTime(ISPx, 100);
@@ -848,45 +908,7 @@ UINT8_T ISPLib_UpdateChipFlashLongAddr(ISP_HandlerType *ISPx, UINT32_T addr)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPLib_WriteChipFlashPage(ISP_HandlerType* ISPx,UINT8_T *pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr,UINT16_T length)
 {
-	UINT8_T _return=OK_0;
-	UINT32_T pageAddr = 0;
-	//---检查当前编程模式
-	if (ISPx->msgState == 0)
-	{
-		//---进入编程模式
-		_return = ISP_EnterProg(ISPx, ISPx->msgIsPollReady);
-	}
-	if (_return == OK_0)
-	{
-		//---刷新时间
-		ISP_RefreshWatch(ISPx);
-		//---填充数据缓存
-		_return = ISP_UpdateChipFlashBuffer(ISPx, pVal, (UINT8_T)ISPx->msgPageWordIndex, length);
-		//---换算返回结果
-		_return = (_return == OK_0 ? OK_0 : ERROR_1);
-		//---缓存区填满，执行数据写入操作
-		if ((_return == OK_0) && (ISPx->msgPageWordIndex == ISPx->msgFlashPageWordSize))
-		{
-			//---计算字地址，传输的地址是字地址
-			pageAddr =  externAddr;
-			pageAddr = (pageAddr << 8) + highAddr;
-			pageAddr = (pageAddr << 8) + lowAddr;
-			//---更新数据到指定的页地址
-			_return = ISP_UpdateChipFlashLongAddr(ISPx, pageAddr);
-			//---数据缓存区的
-			ISPx->msgPageWordIndex = 0;
-			//---换算返回结果
-			_return = (_return == OK_0 ? OK_0 : ERROR_2);
-		}
-		//---设置时间间隔
-		ISP_SetIntervalTime(ISPx, 100);
-	}
-	else
-	{
-		_return = ERROR_1;
-	}
-	
-	return _return;
+	return ISP_WriteChipFlashPage(ISPx, pVal,externAddr, highAddr, lowAddr, length);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -986,4 +1008,16 @@ UINT8_T ISPLib_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UIN
 		_return = ERROR_1;
 	}
 	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPLib_SetConfigInfo(ISP_HandlerType* ISPx, UINT8_T*pVal)
+{
+	return ISP_SetConfigInfo(ISPx, pVal);
 }

@@ -9,7 +9,7 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===º¯Êý¶¨Òå
-	void SysRTCTask_SoftCalcRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode);
+	void SysRTCTask_SoftRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode);
 	void SysRTCTask_SoftCalcRTCTask(SYS_RTC_HandlerType*RTCx, UINT32_T rtcSecond);
 	UINT8_T SysRTCTask_CalcWeekDay(RTC_HandlerType*RTCx);
 	UINT8_T SysRTCTask_RealTimeWatch(SYS_RTC_HandlerType* RTCx);

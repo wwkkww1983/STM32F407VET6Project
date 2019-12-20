@@ -12,7 +12,7 @@ extern "C" {
 	UINT8_T ISPLib_DeInit(ISP_HandlerType *ISPx);
 	UINT8_T ISPLib_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clok);
 	UINT8_T ISPLib_EnterProg(ISP_HandlerType *ISPx, UINT8_T isPollReady);
-	UINT8_T ISPLib_EnterProgAndConfigMemery(ISP_HandlerType* ISPx, UINT8_T isPollReady, UINT16_T flashPageWordSize, UINT16_T eepromPageByteSize);
+	UINT8_T ISPLib_EnterProgAndConfigInfo(ISP_HandlerType* ISPx, UINT8_T isPollReady, UINT8_T* pVal);
 	UINT8_T ISPLib_ExitProg(ISP_HandlerType *ISPx);
 	UINT8_T ISPLib_AddWatch(ISP_HandlerType* ISPx);
 	UINT8_T ISPLib_RemoveWatch(ISP_HandlerType* ISPx);
@@ -31,9 +31,14 @@ extern "C" {
 	UINT8_T ISPLib_ReadChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
 	UINT8_T ISPLib_ReadChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length);
 	UINT8_T ISPLib_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
+	UINT8_T ISPLib_UpdateChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal);
+	UINT8_T ISPLib_UpdateChipEepromAddr(ISP_HandlerType* ISPx, UINT8_T highAddr, UINT8_T lowAddr);
+	UINT8_T ISPLib_UpdateChipEepromLongAddr(ISP_HandlerType* ISPx, UINT16_T addr);
+	UINT8_T ISPLib_WriteChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum);
 	UINT8_T ISPLib_WriteChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length);
 	UINT8_T ISPLib_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
 	UINT8_T ISPLib_WriteChipEepromLongAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length);
+	UINT8_T ISPLib_WriteChipEeprom(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum);
 	UINT8_T ISPLib_UpdateExternAddr(ISP_HandlerType *ISPx, UINT8_T addr);
 	UINT8_T ISPLib_UpdateExternLongAddr(ISP_HandlerType *ISPx, UINT32_T addr);
 	UINT8_T ISPLib_ReadChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
@@ -45,7 +50,7 @@ extern "C" {
 	UINT8_T ISPLib_CheckChipFlashEmpty(ISP_HandlerType* ISPx, UINT8_T pageByteSizeH, UINT8_T pageByteSizeL, UINT8_T pageNumH, UINT8_T pageNumL);
 	UINT8_T ISPLib_CheckChipFlashEmptyLong(ISP_HandlerType* ISPx, UINT16_T pageByteSize, UINT16_T pageNum);
 	UINT8_T ISPLib_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UINT8_T num);
-
+	UINT8_T ISPLib_SetConfigInfo(ISP_HandlerType* ISPx, UINT8_T* pVal);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

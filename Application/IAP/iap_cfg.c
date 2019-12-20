@@ -26,7 +26,7 @@ void MSR_MSP(UINT32_T addr)
 void IAP_ToAPP(UINT32_T appAddr)
 {
 	//---定义一个函数类型的参数
-	void(*iapToAppFun)(void);
+	void(*iapToAppFunc)(void);
 
 	//----检查栈顶地址是否合法.
 	if (((*(VLTUINT32_T*)appAddr) & 0x2FFE0000) == 0x20000000)
@@ -44,10 +44,10 @@ void IAP_ToAPP(UINT32_T appAddr)
 		MSR_MSP(*(VLTUINT32_T*)appAddr);
 
 		//---用户代码区第二个字为程序开始地址(新程序复位地址) 
-		iapToAppFun = (iapFun)*(VLTUINT32_T*)(appAddr + 4);
+		iapToAppFunc = (iapFunc)*(VLTUINT32_T*)(appAddr + 4);
 
 		//---设置PC指针为新程序复位中断函数的地址，往下执行
-		iapToAppFun();
+		iapToAppFunc();
 	}
 }
 
@@ -61,7 +61,7 @@ void IAP_ToAPP(UINT32_T appAddr)
 void IAP_ToIAP(UINT32_T iapAddr)
 {
 	//---定义一个函数类型的参数
-	void(*iapToIapFun)(void);
+	void(*iapToIapFunc)(void);
 
 	//---关闭外设
 	LL_RCC_DeInit();
@@ -79,8 +79,8 @@ void IAP_ToIAP(UINT32_T iapAddr)
 	MSR_MSP(*(VLTUINT32_T*)iapAddr);
 
 	//---用户代码区第二个字为程序开始地址(新程序复位地址) 
-	iapToIapFun = (iapFun) *(VLTUINT32_T*)(iapAddr + 4);
+	iapToIapFunc = (iapFunc) *(VLTUINT32_T*)(iapAddr + 4);
 
 	//---设置PC指针为新程序复位中断函数的地址，往下执行
-	iapToIapFun();
+	iapToIapFunc();
 }

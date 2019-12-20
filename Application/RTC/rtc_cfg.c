@@ -18,7 +18,7 @@ const UINT8_T g_MonthDaysTab[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void SysRTC_SoftCalcRTCInit(SYS_RTC_HandlerType* RTCx,UINT16_T spanDays, UINT8_T watchaMode)
+void SysRTC_SoftRTCInit(SYS_RTC_HandlerType* RTCx,UINT16_T spanDays, UINT8_T watchaMode)
 {
 	//---取编译日期---年月日---__DATE__===Jul 03 2018
 	//---一月
