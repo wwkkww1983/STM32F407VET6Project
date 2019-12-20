@@ -4178,7 +4178,7 @@
 
   <Group>
     <GroupName>Application/RTC</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -5849,7 +5849,7 @@
   </Group>
 
   <Group>
-    <GroupName>Application/Task_Manage</GroupName>
+    <GroupName>Application/TaskManage</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -5861,7 +5861,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\Task_Manage\task_manage.c</PathWithFileName>
+      <PathWithFileName>..\Application\TaskManage\task_manage.c</PathWithFileName>
       <FilenameWithoutPath>task_manage.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -5873,7 +5873,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\Task_Manage\task_manage.h</PathWithFileName>
+      <PathWithFileName>..\Application\TaskManage\task_manage.h</PathWithFileName>
       <FilenameWithoutPath>task_manage.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>

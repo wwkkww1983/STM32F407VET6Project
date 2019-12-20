@@ -1,6 +1,6 @@
 stm32f407vet6project/task_manage.o: \
-  ..\Application\Task_Manage\task_manage.c \
-  ..\Application\Task_Manage\task_manage.h ..\Application\APP\config.h \
+  ..\Application\TaskManage\task_manage.c \
+  ..\Application\TaskManage\task_manage.h ..\Application\APP\config.h \
   ..\Complier\complier_lib.h ..\Complier\complier_cfg.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \

@@ -166,8 +166,8 @@
     <Filter Include="Application\SysTick">
       <UniqueIdentifier>{7281BBC6-DEE2-98D4-6750-DF86D3B0CF93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Task_Manage">
-      <UniqueIdentifier>{634E5DFB-CF85-A592-D88F-09B64446CC8B}</UniqueIdentifier>
+    <Filter Include="Application\TaskManage">
+      <UniqueIdentifier>{647F4099-5079-69EB-39E6-FFFB257FCF57}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Timer">
       <UniqueIdentifier>{69CE121E-D5E4-10B4-1E5C-9CD58AB1E13B}</UniqueIdentifier>
@@ -681,8 +681,8 @@
     <ClInclude Include="..\Application\SysTick\systick_task.h">
       <Filter>Application\SysTick</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\Task_Manage\task_manage.h">
-      <Filter>Application\Task_Manage</Filter>
+    <ClInclude Include="..\Application\TaskManage\task_manage.h">
+      <Filter>Application\TaskManage</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\Timer\timer_cfg.h">
       <Filter>Application\Timer</Filter>
@@ -1316,8 +1316,8 @@
     <ClCompile Include="..\Application\SysTick\systick_task.c">
       <Filter>Application\SysTick</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\Task_Manage\task_manage.c">
-      <Filter>Application\Task_Manage</Filter>
+    <ClCompile Include="..\Application\TaskManage\task_manage.c">
+      <Filter>Application\TaskManage</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\Timer\timer_cfg.c">
       <Filter>Application\Timer</Filter>
