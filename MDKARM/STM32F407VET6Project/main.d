@@ -118,7 +118,7 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\IAP\iap_lib.h ..\Application\IAP\iap_cfg.h \
   ..\Application\INA226\ina226_cfg.h ..\Application\ISP\isp_task.h \
   ..\Application\ISP\isp_lib.h ..\Application\ISP\isp_cfg.h \
-  ..\Application\LCD1602\lcd1602_task.h \
+  ..\Application\ADC\adc_Task.h ..\Application\LCD1602\lcd1602_task.h \
   ..\Application\LCD1602\lcd1602_lib.h \
   ..\Application\LCD1602\lcd1602_cfg.h \
   ..\Application\MAX961x\max961x_task.h \

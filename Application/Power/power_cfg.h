@@ -131,7 +131,7 @@ extern "C" {
 	//===定义LM317最大输出的电压值
 	#define LM317_MAX_POWER_MV					(6000)
 	//===定义LM317最小输出的电压值
-	#define LM317_MIN_POWER_MV					(1500)//(1440)//---默认最小值
+	#define LM317_MIN_POWER_MV					(1450)//(1440)//---默认最小值
 
 	//===函数定义
 	UINT8_T LM317_Init(UINT8_T isPowerON, UINT32_T volMV);

@@ -70,4 +70,9 @@ stm32f407vet6project/isp_task.o: ..\Application\ISP\isp_task.c \
   ..\Application\USART\usart_lib.h ..\Application\USART\usart_cfg.h \
   ..\Application\CRC\crc_task.h ..\Application\CRC\crc_lib.h \
   ..\Application\CRC\crc_cfg.h ..\Application\Timer\timer_task.h \
-  ..\Application\Timer\timer_lib.h ..\Application\Timer\timer_cfg.h
+  ..\Application\Timer\timer_lib.h ..\Application\Timer\timer_cfg.h \
+  ..\Application\Power\power_task.h ..\Application\Power\power_lib.h \
+  ..\Application\Power\power_cfg.h ..\Application\DAC\dac_task.h \
+  ..\Application\DAC\dac_lib.h ..\Application\DAC\dac_cfg.h \
+  ..\Application\ADC\adc_Task.h ..\Application\ADC\adc_lib.h \
+  ..\Application\ADC\adc_cfg.h

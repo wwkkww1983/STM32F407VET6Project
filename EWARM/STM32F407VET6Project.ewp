@@ -426,6 +426,10 @@
                     <state>$PROJ_DIR$\..\Application\LIN</state>
                     <state>$PROJ_DIR$\..\Application\INA226</state>
                     <state>$PROJ_DIR$\..\Application\SI5351A</state>
+                    <state>$PROJ_DIR$\..\Application\TaskManage</state>
+                    <state>$PROJ_DIR$\..\Application\HVPP</state>
+                    <state>$PROJ_DIR$\..\Application\HVSP</state>
+                    <state>$PROJ_DIR$\..\Application\JTAG</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1563,6 +1567,48 @@
             </file>
         </group>
         <group>
+            <name>HVPP</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVPP\hvpp_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVPP\hvpp_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVPP\hvpp_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVPP\hvpp_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVPP\hvpp_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVPP\hvpp_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>HVSP</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVSP\hvsp_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVSP\hvsp_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVSP\hvsp_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVSP\hvsp_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVSP\hvsp_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HVSP\hvsp_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>I2C</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\I2C\i2c_cfg.c</name>
@@ -1665,6 +1711,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\IWDG\iwdg_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>JTAG</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\JTAG\jtag_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\JTAG\jtag_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\JTAG\jtag_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\JTAG\jtag_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\JTAG\jtag_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\JTAG\jtag_task.h</name>
             </file>
         </group>
         <group>
@@ -2181,6 +2248,15 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\SysTick\systick_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>TaskManage</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\TaskManage\task_manage.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\TaskManage\task_manage.h</name>
             </file>
         </group>
         <group>

@@ -517,6 +517,49 @@ UINT8_T ISPTask_SetConfigInfo(ISP_HandlerType* ISPx, UINT8_T* pVal)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_ReadChipPower(ISP_HandlerType* ISPx, UINT8_T* pVal)
+{
+	//---读取芯片的供电电压
+	UINT16_T tempPower= ADCTask_GetChipPower();
+	//---读取电压值
+	//---填充数据
+	*(pVal++)=(UINT8_T)(tempPower>>8);
+	*pVal=(UINT8_T)(tempPower);
+	return  OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_WriteChipPower(ISP_HandlerType* ISPx, UINT8_T* pVal)
+{
+	UINT16_T tempPower = *(pVal++);
+	tempPower= (tempPower<<8)+*(pVal++);
+	//---通过DAC设置可调电源LM317的输出值
+	LM317Task_Init(0, tempPower);
+	//---校验电源是否开启
+	if (*pVal>0)
+	{
+		LM317_POWER_ON;
+	}
+	else
+	{
+		LM317_POWER_HZ;
+	}
+	return  OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：退出或者进入编程模式
 //////输入参数:
 //////输出参数:
@@ -722,20 +765,21 @@ UINT8_T ISPTask_USARTCmd_SetProgClok(ISP_HandlerType* ISPx, USART_HandlerType* U
 	//---读取电压
 	if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 1)
 	{
-
+		_return= ISPTask_ReadChipPower(ISPx, USARTx->msgTxHandler.pMsgVal + USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1);
+		USARTx->msgTxHandler.msgIndexW += 2;
 	}
 	//---设置电压
 	else if (USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
 	{
-
+		_return=ISPTask_WriteChipPower(ISPx, USARTx->msgRxHandler.pMsgVal+USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1);
 	}
 	else
 	{
 		//---设置编程时钟
-		_return = ISPTask_SetProgClock(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
+		_return = ISPTask_SetProgClock(ISPx, USARTx->msgRxHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset+1]);
 	}
 	
-	return OK_0;
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

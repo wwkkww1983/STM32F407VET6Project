@@ -38,7 +38,7 @@ extern "C" {
 		VLTUINT16_T		msgIndexF;								//---执行结果的标识号，在数据缓存区的位置信息
 		VLTUINT16_T		msgSize;								//---数据缓存区的大小
 		VLTUINT8_T		msgOverFlow;							//---超时标志位
-		VLTUINT32_T		msgRecordTime;								//---超时时间开始至
+		VLTUINT32_T		msgRecordTime;							//---超时时间开始至
 		VLTUINT32_T		msgEndTime;								//---超时时间结束值
 		VLTUINT32_T		msgMaxTime;								//---超时时间
 		UINT8_T			*pMsgVal;								//---缓存区(需要提前定义好数据的缓存区)

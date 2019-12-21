@@ -73,6 +73,12 @@
     <Filter Include="Application\HMC830">
       <UniqueIdentifier>{9B365CC2-871A-1D18-F07A-176BDC7D079A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\HVPP">
+      <UniqueIdentifier>{E6815EF1-D27A-7D43-FBAC-62C8E7045D4F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\HVSP">
+      <UniqueIdentifier>{49825EF1-357B-7D43-5EAD-62C84A055D4F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\I2C">
       <UniqueIdentifier>{66A6296C-D231-9730-DB42-1A25474DF330}</UniqueIdentifier>
     </Filter>
@@ -87,6 +93,9 @@
     </Filter>
     <Filter Include="Application\IWDG">
       <UniqueIdentifier>{F3105FF1-DF09-7E43-083C-63C8F4935D4F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\JTAG">
+      <UniqueIdentifier>{2E905FF1-1A89-7E43-43BB-63C82F135E4F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\KalmanFilter">
       <UniqueIdentifier>{82B79D00-6EDC-EC80-9727-D21083ABEB9E}</UniqueIdentifier>
@@ -417,6 +426,24 @@
     <ClInclude Include="..\Application\HMC830\hmc830_task.h">
       <Filter>Application\HMC830</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\HVPP\hvpp_cfg.h">
+      <Filter>Application\HVPP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVPP\hvpp_lib.h">
+      <Filter>Application\HVPP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVPP\hvpp_task.h">
+      <Filter>Application\HVPP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVSP\hvsp_cfg.h">
+      <Filter>Application\HVSP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVSP\hvsp_lib.h">
+      <Filter>Application\HVSP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVSP\hvsp_task.h">
+      <Filter>Application\HVSP</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\I2C\i2c_cfg.h">
       <Filter>Application\I2C</Filter>
     </ClInclude>
@@ -461,6 +488,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\IWDG\iwdg_task.h">
       <Filter>Application\IWDG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\JTAG\jtag_cfg.h">
+      <Filter>Application\JTAG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\JTAG\jtag_lib.h">
+      <Filter>Application\JTAG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\JTAG\jtag_task.h">
+      <Filter>Application\JTAG</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\KalmanFilter\kalman_filter.h">
       <Filter>Application\KalmanFilter</Filter>
@@ -1052,6 +1088,24 @@
     <ClCompile Include="..\Application\HMC830\hmc830_task.c">
       <Filter>Application\HMC830</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\HVPP\hvpp_cfg.c">
+      <Filter>Application\HVPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVPP\hvpp_lib.c">
+      <Filter>Application\HVPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVPP\hvpp_task.c">
+      <Filter>Application\HVPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVSP\hvsp_cfg.c">
+      <Filter>Application\HVSP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVSP\hvsp_lib.c">
+      <Filter>Application\HVSP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVSP\hvsp_task.c">
+      <Filter>Application\HVSP</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\I2C\i2c_cfg.c">
       <Filter>Application\I2C</Filter>
     </ClCompile>
@@ -1096,6 +1150,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\IWDG\iwdg_task.c">
       <Filter>Application\IWDG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\JTAG\jtag_cfg.c">
+      <Filter>Application\JTAG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\JTAG\jtag_lib.c">
+      <Filter>Application\JTAG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\JTAG\jtag_task.c">
+      <Filter>Application\JTAG</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\KalmanFilter\kalman_filter.c">
       <Filter>Application\KalmanFilter</Filter>

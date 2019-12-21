@@ -67,7 +67,7 @@ extern "C" {
 	void HASH_RNG_IRQHandler(void);
 	void DMA2_Stream0_IRQHandler(void);
 	void DMA2_Stream1_IRQHandler(void);
-  void PVD_IRQHandler(void);
+    void PVD_IRQHandler(void);
 
 #ifdef __cplusplus
 }

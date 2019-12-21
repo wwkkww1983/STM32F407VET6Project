@@ -203,6 +203,15 @@
 "stm32f407vet6project\si5351a_lib.o"
 "stm32f407vet6project\si5351a_task.o"
 "stm32f407vet6project\task_manage.o"
+"stm32f407vet6project\jtag_cfg.o"
+"stm32f407vet6project\jtag_lib.o"
+"stm32f407vet6project\jtag_task.o"
+"stm32f407vet6project\hvpp_cfg.o"
+"stm32f407vet6project\hvpp_lib.o"
+"stm32f407vet6project\hvpp_task.o"
+"stm32f407vet6project\hvsp_cfg.o"
+"stm32f407vet6project\hvsp_lib.o"
+"stm32f407vet6project\hvsp_task.o"
 --library_type=microlib --strict --scatter "STM32F407VET6Project\STM32F407VET6Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -160,6 +160,9 @@ void Sys_Init(void)
 	//---初始化LM317做的可调电源
 	LM317Task_Init(0,3300);
 	LM317_POWER_ON;
+	//---ADC初始化
+	ADCTask_ADC_Init();
+	ADCTask_ADCTask_START(ADC1);
 	//---串口的初始化
 	USARTTask_Init( pUSART1 , USART1_RX_MAX_SIZE , USART1_RX_BUFFER , USART_CRC_NONE , USART1_TX_MAX_SIZE , USART1_TX_BUFFER , USART_CRC_NONE , SysTickTask_GetTick );
 	//---任务管理初始化

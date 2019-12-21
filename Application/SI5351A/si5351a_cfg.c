@@ -824,7 +824,7 @@ UINT8_T SI5351A_SetFreqHz(SI5351A_HandlerType* SI5351Ax,UINT8_T clkChannel, UINT
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SI5351A_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz)
 {
-	UINT64_T freq= freqKHz*1000;
+	UINT64_T freq= (UINT64_T)freqKHz*1000;
 	return SI5351A_CalcConfig(SI5351Ax, clkChannel, freq);
 }
 
@@ -837,7 +837,7 @@ UINT8_T SI5351A_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, fl
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SI5351A_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz)
 {
-	UINT64_T freq = freqMHz * 1000000;
+	UINT64_T freq = (UINT64_T)freqMHz * 1000000;
 	return SI5351A_CalcConfig(SI5351Ax, clkChannel, freq);
 }
 

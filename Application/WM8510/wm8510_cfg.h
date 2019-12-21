@@ -261,11 +261,11 @@ extern "C" {
 	#define	WM8510_R56_ADDR				(56<<1)
 	
 	//===Ð´ÃüÁî
-	#define WM8510_WADDR			0x34				// 1A-34
+	#define WM8510_WADDR				0x34				// 1A-34
 	//===¶ÁÃüÁî
-	#define WM8510_RADDR			0x35				// 1B-35	
+	#define WM8510_RADDR				0x35				// 1B-35	
 	//WM8510¼Ä´æÆ÷¹¦ÄÜÎ»
-	#define	R0_Reset				0x00 				//¸´Î»
+	#define	R0_Reset					0x00 				//¸´Î»
 	
 	//===R1
 	#define	WM8510_R1H_BUFDCOPEN			0x01

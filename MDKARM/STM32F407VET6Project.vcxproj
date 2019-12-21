@@ -39,7 +39,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>USE_FULL_LL_DRIVER;USE_HAL_DRIVER;HSE_VALUE=8000000;HSE_STARTUP_TIMEOUT=100;LSE_STARTUP_TIMEOUT=5000;LSE_VALUE=32768;EXTERNAL_CLOCK_VALUE=12288000;HSI_VALUE=16000000;LSI_VALUE=32000;STM32F407xx;__TARGET_FPU_VFP;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING;ARM_MATH_CM4;__FPU_PRESENT=1;_IAR_;__ICCARM__;__CC_ARM;_Pragma(x)=;__interrupt=;__packed=__attribute__((__packed__));__weak=__attribute__((weak));%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Complier;..\Doc;..\STM32F4xx;..\STARTUP\MDKARM;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\USART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS868x;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc;..\Application\ADS869x;..\Application\DAC;..\Application\KalmanFilter;..\Application\SDIO;..\Application\W5500;..\Application\MAX961x;..\Application\SMBUS;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Application\LIN;..\Application\HMC5883;..\Application\INA226;..\Application\SI5351A;..\Application\TaskManage;D:\Keil_v5\ARM\RV31;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Complier;..\Doc;..\STM32F4xx;..\STARTUP\MDKARM;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\USART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS868x;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc;..\Application\ADS869x;..\Application\DAC;..\Application\KalmanFilter;..\Application\SDIO;..\Application\W5500;..\Application\MAX961x;..\Application\SMBUS;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Application\LIN;..\Application\HMC5883;..\Application\INA226;..\Application\SI5351A;..\Application\TaskManage;..\Application\JTAG;..\Application\HVPP;..\Application\HVSP;D:\Keil_v5\ARM\RV31;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -115,6 +115,12 @@
     <ClInclude Include="..\Application\HMC830\hmc830_cfg.h" />
     <ClInclude Include="..\Application\HMC830\hmc830_lib.h" />
     <ClInclude Include="..\Application\HMC830\hmc830_task.h" />
+    <ClInclude Include="..\Application\HVPP\hvpp_cfg.h" />
+    <ClInclude Include="..\Application\HVPP\hvpp_lib.h" />
+    <ClInclude Include="..\Application\HVPP\hvpp_task.h" />
+    <ClInclude Include="..\Application\HVSP\hvsp_cfg.h" />
+    <ClInclude Include="..\Application\HVSP\hvsp_lib.h" />
+    <ClInclude Include="..\Application\HVSP\hvsp_task.h" />
     <ClInclude Include="..\Application\I2C\i2c_cfg.h" />
     <ClInclude Include="..\Application\I2C\i2c_lib.h" />
     <ClInclude Include="..\Application\I2C\i2c_task.h" />
@@ -130,6 +136,9 @@
     <ClInclude Include="..\Application\IWDG\iwdg_cfg.h" />
     <ClInclude Include="..\Application\IWDG\iwdg_lib.h" />
     <ClInclude Include="..\Application\IWDG\iwdg_task.h" />
+    <ClInclude Include="..\Application\JTAG\jtag_cfg.h" />
+    <ClInclude Include="..\Application\JTAG\jtag_lib.h" />
+    <ClInclude Include="..\Application\JTAG\jtag_task.h" />
     <ClInclude Include="..\Application\KalmanFilter\kalman_filter.h" />
     <ClInclude Include="..\Application\Key\key_cfg.h" />
     <ClInclude Include="..\Application\Key\key_lib.h" />
@@ -328,6 +337,12 @@
     <ClCompile Include="..\Application\HMC830\hmc830_cfg.c" />
     <ClCompile Include="..\Application\HMC830\hmc830_lib.c" />
     <ClCompile Include="..\Application\HMC830\hmc830_task.c" />
+    <ClCompile Include="..\Application\HVPP\hvpp_cfg.c" />
+    <ClCompile Include="..\Application\HVPP\hvpp_lib.c" />
+    <ClCompile Include="..\Application\HVPP\hvpp_task.c" />
+    <ClCompile Include="..\Application\HVSP\hvsp_cfg.c" />
+    <ClCompile Include="..\Application\HVSP\hvsp_lib.c" />
+    <ClCompile Include="..\Application\HVSP\hvsp_task.c" />
     <ClCompile Include="..\Application\I2C\i2c_cfg.c" />
     <ClCompile Include="..\Application\I2C\i2c_lib.c" />
     <ClCompile Include="..\Application\I2C\i2c_task.c" />
@@ -343,6 +358,9 @@
     <ClCompile Include="..\Application\IWDG\iwdg_cfg.c" />
     <ClCompile Include="..\Application\IWDG\iwdg_lib.c" />
     <ClCompile Include="..\Application\IWDG\iwdg_task.c" />
+    <ClCompile Include="..\Application\JTAG\jtag_cfg.c" />
+    <ClCompile Include="..\Application\JTAG\jtag_lib.c" />
+    <ClCompile Include="..\Application\JTAG\jtag_task.c" />
     <ClCompile Include="..\Application\KalmanFilter\kalman_filter.c" />
     <ClCompile Include="..\Application\Key\key_cfg.c" />
     <ClCompile Include="..\Application\Key\key_lib.c" />

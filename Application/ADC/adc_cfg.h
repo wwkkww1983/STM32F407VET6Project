@@ -15,7 +15,7 @@ extern "C" {
 	///////PC3---ADCChannel13
 	///////ADC1和ADC3才能发起DMA请求
 	///////ADC部分的驱动需要依据不同的需要进行更改，不同的项目需要，配置方式不一致，需要重新设计修改
-	#define  ADC_CHANNEL_NUM					2
+	#define  ADC_CHANNEL_NUM					1//2
 	#define	 ADC_CHANNEL_SIZE					18
 	#define  ADC_CHANNEL_MAX_SIZE				( ADC_CHANNEL_NUM*ADC_CHANNEL_SIZE )
 	
@@ -60,6 +60,7 @@ extern "C" {
 	UINT8_T ADC_ADCTask_START(ADC_TypeDef *ADCx);
 	UINT8_T ADC_ADCTask_STOP(ADC_TypeDef *ADCx);
 	UINT8_T ADC_HandleChannelVal(ADCASK_HandlerType *ADCASKx);
+	UINT16_T ADC_GetChipPower(void);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

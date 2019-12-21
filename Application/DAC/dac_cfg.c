@@ -209,6 +209,10 @@ UINT8_T DAC_ChannelUV(UINT8_T ch,UINT32_T volUV)
 	{
 		vol = 0xFFF;
 	}
+	if(vol>1000)
+	{
+		vol-=4;
+	}
 	//---设置数据输出格式,右对齐，12位数据
 	if (ch==3)
 	{
