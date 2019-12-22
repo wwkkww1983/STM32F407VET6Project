@@ -313,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>0</Optim>
+            <Optim>3</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -2262,36 +2262,6 @@
               <FileName>usart_task.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Application\USART\usart_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>usart_dma_cfg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Application\USART\usart_dma_cfg.h</FilePath>
-            </File>
-            <File>
-              <FileName>usart_dma_lib.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Application\USART\usart_dma_lib.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart_dma_lib.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Application\USART\usart_dma_lib.h</FilePath>
-            </File>
-            <File>
-              <FileName>usart_dma_task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Application\USART\usart_dma_task.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart_dma_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Application\USART\usart_dma_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>usart_dma_cfg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Application\USART\usart_dma_cfg.c</FilePath>
             </File>
           </Files>
         </Group>

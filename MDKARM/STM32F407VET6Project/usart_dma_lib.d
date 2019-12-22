@@ -1,8 +1,8 @@
 stm32f407vet6project/usart_dma_lib.o: \
   ..\Application\USART\usart_dma_lib.c \
   ..\Application\USART\usart_dma_lib.h \
-  ..\Application\USART\usart_dma_cfg.h ..\Complier\complier_lib.h \
-  ..\Complier\complier_cfg.h \
+  ..\Application\USART\usart_dma_cfg.h ..\Application\USART\usart_cfg.h \
+  ..\Complier\complier_lib.h ..\Complier\complier_cfg.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
@@ -59,4 +59,7 @@ stm32f407vet6project/usart_dma_lib.o: \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_utils.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_wwdg.h \
   ..\Application\IWDG\iwdg_task.h ..\Application\IWDG\iwdg_lib.h \
-  ..\Application\IWDG\iwdg_cfg.h
+  ..\Application\IWDG\iwdg_cfg.h ..\Application\GPIO\gpio_task.h \
+  ..\Application\GPIO\gpio_lib.h ..\Application\GPIO\gpio_cfg.h \
+  ..\Application\CRC\crc_task.h ..\Application\CRC\crc_lib.h \
+  ..\Application\CRC\crc_cfg.h

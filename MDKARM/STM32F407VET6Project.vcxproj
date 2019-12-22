@@ -217,9 +217,6 @@
     <ClInclude Include="..\Application\Timer\timer_lib.h" />
     <ClInclude Include="..\Application\Timer\timer_task.h" />
     <ClInclude Include="..\Application\USART\usart_cfg.h" />
-    <ClInclude Include="..\Application\USART\usart_dma_cfg.h" />
-    <ClInclude Include="..\Application\USART\usart_dma_lib.h" />
-    <ClInclude Include="..\Application\USART\usart_dma_task.h" />
     <ClInclude Include="..\Application\USART\usart_lib.h" />
     <ClInclude Include="..\Application\USART\usart_task.h" />
     <ClInclude Include="..\Application\W25Qxx\w25qxx_cfg.h" />
@@ -439,9 +436,6 @@
     <ClCompile Include="..\Application\Timer\timer_lib.c" />
     <ClCompile Include="..\Application\Timer\timer_task.c" />
     <ClCompile Include="..\Application\USART\usart_cfg.c" />
-    <ClCompile Include="..\Application\USART\usart_dma_cfg.c" />
-    <ClCompile Include="..\Application\USART\usart_dma_lib.c" />
-    <ClCompile Include="..\Application\USART\usart_dma_task.c" />
     <ClCompile Include="..\Application\USART\usart_lib.c" />
     <ClCompile Include="..\Application\USART\usart_task.c" />
     <ClCompile Include="..\Application\W25Qxx\w25qxx_cfg.c" />

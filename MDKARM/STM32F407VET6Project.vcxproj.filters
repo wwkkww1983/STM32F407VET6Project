@@ -732,15 +732,6 @@
     <ClInclude Include="..\Application\USART\usart_cfg.h">
       <Filter>Application\USART</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\USART\usart_dma_cfg.h">
-      <Filter>Application\USART</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Application\USART\usart_dma_lib.h">
-      <Filter>Application\USART</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Application\USART\usart_dma_task.h">
-      <Filter>Application\USART</Filter>
-    </ClInclude>
     <ClInclude Include="..\Application\USART\usart_lib.h">
       <Filter>Application\USART</Filter>
     </ClInclude>
@@ -1392,15 +1383,6 @@
       <Filter>Application\Timer</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\USART\usart_cfg.c">
-      <Filter>Application\USART</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Application\USART\usart_dma_cfg.c">
-      <Filter>Application\USART</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Application\USART\usart_dma_lib.c">
-      <Filter>Application\USART</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Application\USART\usart_dma_task.c">
       <Filter>Application\USART</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\USART\usart_lib.c">

@@ -50,9 +50,9 @@ UINT8_T USARTTask_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idInd
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_ReadInit(USART_HandlerType*  USARTx)
+UINT8_T  USARTTask_Read_Init(USART_HandlerType*  USARTx)
 {
-	return USARTLib_ReadInit(USARTx);
+	return USARTLib_Read_Init(USARTx);
 }
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -160,9 +160,9 @@ UINT8_T  USARTTask_ITRead_Task(USART_HandlerType*USARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_WriteInit(USART_HandlerType*USARTx)
+UINT8_T USARTTask_Write_Init(USART_HandlerType*USARTx)
 {
-	return USARTLib_WriteInit(USARTx);
+	return USARTLib_Write_Init(USARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -443,7 +443,7 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 				//---发生CRC校验错误
 				USART_Printf(USARTx, (void*)"=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
 			}
-			return USARTTask_ReadInit(USARTx);
+			return USARTTask_Read_Init(USARTx);
 		}
 		return USARTTask_TimeOVFTask(USARTx);
 	}
@@ -492,7 +492,7 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 				//---发生CRC校验错误
 				USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
 			}
-			return USARTTask_ReadInit(USARTx);
+			return USARTTask_Read_Init(USARTx);
 		}
 		return USARTTask_TimeOVFTask(USARTx);
 	}

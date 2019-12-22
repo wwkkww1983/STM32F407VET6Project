@@ -12,7 +12,7 @@ extern "C" {
 	UINT8_T  USARTLib_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void));
 	UINT8_T  USARTLib_DeInit(USART_HandlerType*  USARTx);
 	UINT8_T  USARTLib_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index);
-	UINT8_T  USARTLib_ReadInit(USART_HandlerType*  USARTx);
+	UINT8_T  USARTLib_Read_Init(USART_HandlerType*  USARTx);
 	UINT8_T  USARTLib_GetReadState(USART_HandlerType* USARTx);
 	UINT8_T  USARTLib_ClearReadState(USART_HandlerType* USARTx);
 	UINT8_T  USARTLib_GetWriteState(USART_HandlerType* USARTx);
@@ -21,7 +21,7 @@ extern "C" {
 	UINT8_T  USARTLib_ITRead_8BitsTask(USART_HandlerType*USARTx, UINT8_T val);
 	UINT8_T  USARTLib_ITRead_16BitsTask(USART_HandlerType*USARTx, UINT8_T val);
 	UINT8_T  USARTLib_ITRead_Task(USART_HandlerType*USARTx, UINT8_T val);
-	UINT8_T  USARTLib_WriteInit(USART_HandlerType*USARTx);
+	UINT8_T  USARTLib_Write_Init(USART_HandlerType*USARTx);
 	UINT8_T  USARTLib_DeviceID(USART_HandlerType*USARTx);
 	UINT8_T  USARTLib_ITWrite_TXETask(USART_HandlerType*USARTx);
 	UINT8_T  USARTLib_ITWrite_TCTask(USART_HandlerType*USARTx);

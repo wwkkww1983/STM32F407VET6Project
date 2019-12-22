@@ -54,9 +54,9 @@ UINT8_T USARTLib_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idInde
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTLib_ReadInit(USART_HandlerType*  USARTx)
+UINT8_T  USARTLib_Read_Init(USART_HandlerType*  USARTx)
 {
-	return USART_ReadInit(USARTx);
+	return USART_Read_Init(USARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -209,9 +209,9 @@ UINT8_T  USARTLib_ITRead_Task(USART_HandlerType*USARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTLib_WriteInit(USART_HandlerType*USARTx)
+UINT8_T USARTLib_Write_Init(USART_HandlerType*USARTx)
 {
-	return USART_WriteInit(USARTx);
+	return USART_Write_Init(USARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

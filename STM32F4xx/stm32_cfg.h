@@ -253,6 +253,9 @@ extern "C" {
 	void LL_USART_ClearFlag(USART_TypeDef *USARTx);
 	UINT32_T LL_USART_GetFlag(USART_TypeDef *USARTx);
 	void HardFault_IRQTask( void );
+	void LL_DMA_ClearFlag_HT(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
+	void LL_DMA_ClearFlag_TC(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
+	void LL_DMA_ClearFlag(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

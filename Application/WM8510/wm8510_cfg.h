@@ -224,48 +224,48 @@ extern "C" {
 	};
 
 	//===W8510寄存器地址
-	#define WM8510_R0_ADDR				(0<<1)
-	#define WM8510_R1_ADDR				(1<<1)
-	#define WM8510_R2_ADDR				(2<<1)
-	#define WM8510_R3_ADDR				(3<<1)
-	#define WM8510_R4_ADDR				(4<<1)
-	#define WM8510_R5_ADDR				(5<<1)
-	#define WM8510_R6_ADDR				(6<<1)
-	#define WM8510_R7_ADDR				(7<<1)
-	#define WM8510_R8_ADDR				(8<<1)
-	#define WM8510_R10_ADDR				(10<<1)
-	#define WM8510_R11_ADDR				(11<<1)
-	#define WM8510_R14_ADDR				(14<<1)
-	#define WM8510_R15_ADDR				(15<<1)
-	#define WM8510_R24_ADDR				(24<<1)
-	#define WM8510_R25_ADDR				(25<<1)
-	#define WM8510_R27_ADDR				(27<<1)
-	#define WM8510_R28_ADDR				(28<<1)
-	#define WM8510_R29_ADDR				(29<<1)
-	#define WM8510_R30_ADDR				(30<<1)
-	#define WM8510_R32_ADDR				(32<<1)
-	#define WM8510_R33_ADDR				(33<<1)
-	#define WM8510_R34_ADDR				(34<<1)
-	#define WM8510_R35_ADDR				(35<<1)
-	#define WM8510_R36_ADDR				(36<<1)
-	#define WM8510_R37_ADDR				(37<<1)
-	#define WM8510_R38_ADDR				(38<<1)
-	#define WM8510_R39_ADDR				(39<<1)
-	#define WM8510_R40_ADDR				(40<<1)
-	#define WM8510_R44_ADDR				(44<<1)
-	#define WM8510_R45_ADDR				(45<<1)
-	#define WM8510_R47_ADDR				(47<<1)
-	#define WM8510_R49_ADDR				(49<<1)
-	#define WM8510_R50_ADDR				(50<<1)
-	#define WM8510_R54_ADDR				(54<<1)
-	#define	WM8510_R56_ADDR				(56<<1)
+	#define WM8510_R0_ADDR					(0<<1)
+	#define WM8510_R1_ADDR					(1<<1)
+	#define WM8510_R2_ADDR					(2<<1)
+	#define WM8510_R3_ADDR					(3<<1)
+	#define WM8510_R4_ADDR					(4<<1)
+	#define WM8510_R5_ADDR					(5<<1)
+	#define WM8510_R6_ADDR					(6<<1)
+	#define WM8510_R7_ADDR					(7<<1)
+	#define WM8510_R8_ADDR					(8<<1)
+	#define WM8510_R10_ADDR					(10<<1)
+	#define WM8510_R11_ADDR					(11<<1)
+	#define WM8510_R14_ADDR					(14<<1)
+	#define WM8510_R15_ADDR					(15<<1)
+	#define WM8510_R24_ADDR					(24<<1)
+	#define WM8510_R25_ADDR					(25<<1)
+	#define WM8510_R27_ADDR					(27<<1)
+	#define WM8510_R28_ADDR					(28<<1)
+	#define WM8510_R29_ADDR					(29<<1)
+	#define WM8510_R30_ADDR					(30<<1)
+	#define WM8510_R32_ADDR					(32<<1)
+	#define WM8510_R33_ADDR					(33<<1)
+	#define WM8510_R34_ADDR					(34<<1)
+	#define WM8510_R35_ADDR					(35<<1)
+	#define WM8510_R36_ADDR					(36<<1)
+	#define WM8510_R37_ADDR					(37<<1)
+	#define WM8510_R38_ADDR					(38<<1)
+	#define WM8510_R39_ADDR					(39<<1)
+	#define WM8510_R40_ADDR					(40<<1)
+	#define WM8510_R44_ADDR					(44<<1)
+	#define WM8510_R45_ADDR					(45<<1)
+	#define WM8510_R47_ADDR					(47<<1)
+	#define WM8510_R49_ADDR					(49<<1)
+	#define WM8510_R50_ADDR					(50<<1)
+	#define WM8510_R54_ADDR					(54<<1)
+	#define	WM8510_R56_ADDR					(56<<1)
 	
 	//===写命令
-	#define WM8510_WADDR				0x34				// 1A-34
+	#define WM8510_WADDR					0x34				// 1A-34
 	//===读命令
-	#define WM8510_RADDR				0x35				// 1B-35	
+	#define WM8510_RADDR					0x35				// 1B-35	
 	//WM8510寄存器功能位
-	#define	R0_Reset					0x00 				//复位
+	#define	R0_Reset						0x00 				//复位
 	
 	//===R1
 	#define	WM8510_R1H_BUFDCOPEN			0x01

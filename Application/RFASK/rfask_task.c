@@ -1606,7 +1606,7 @@ UINT8_T RFASKTask_Task(USART_HandlerType* USARTx, RFASK_HandlerType* rfask, WM85
 			//---发生CRC校验错误
 			USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
 		}
-		return USARTTask_ReadInit(USARTx);
+		return USARTTask_Read_Init(USARTx);
 	}
 	return USARTTask_TimeOVFTask(USARTx);
 }
