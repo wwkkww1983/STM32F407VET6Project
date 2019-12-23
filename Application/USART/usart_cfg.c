@@ -3,6 +3,7 @@
 //===全局变量定义
 USART_HandlerType  g_USART1 = { 0 };
 pUSART_HandlerType pUSART1 = &g_USART1;
+VLTUINT8_T tcCount=0;
 
 //===printf函数使用的缓存区
 #ifdef USE_USART_PRINTF
@@ -35,40 +36,40 @@ UINT8_T USART_StructInit(USART_HandlerType*  USARTx)
 	USARTx->msgUSART = NULL;
 
 	//---接收缓存区
-	USARTx->msgRxHandler.msgIsDMA = 1;
-	USARTx->msgRxHandler.msgCheckSum = 0;
-	USARTx->msgRxHandler.msgCRCFlag = 0;
-	USARTx->msgRxHandler.msgStep = 0;
-	USARTx->msgRxHandler.msgAddNewLine = 0;
-	USARTx->msgRxHandler.msgIndexW = 0;
-	USARTx->msgRxHandler.msgIndexR = 0;
-	USARTx->msgRxHandler.msgIndexF =0;
-	USARTx->msgRxHandler.msgCount = 0;
-	USARTx->msgRxHandler.msgSize = 0;
-	USARTx->msgRxHandler.msgTaskState = USART_BUSY;
-	USARTx->msgRxHandler.msgOverFlow = 0;
-	USARTx->msgRxHandler.msgRecordTime = 0;
-	USARTx->msgRxHandler.msgEndTime = 0;
-	USARTx->msgRxHandler.msgMaxTime = 0;
-	USARTx->msgRxHandler.pMsgVal = NULL;
+	USARTx->msgRXDHandler.msgIsDMA = 1;
+	USARTx->msgRXDHandler.msgCheckSum = 0;
+	USARTx->msgRXDHandler.msgCRCFlag = 0;
+	USARTx->msgRXDHandler.msgStep = 0;
+	USARTx->msgRXDHandler.msgAddNewLine = 0;
+	USARTx->msgRXDHandler.msgIndexW = 0;
+	USARTx->msgRXDHandler.msgIndexR = 0;
+	USARTx->msgRXDHandler.msgIndexF =0;
+	USARTx->msgRXDHandler.msgCount = 0;
+	USARTx->msgRXDHandler.msgSize = 0;
+	USARTx->msgRXDHandler.msgTaskState = USART_BUSY;
+	USARTx->msgRXDHandler.msgOverFlow = 0;
+	USARTx->msgRXDHandler.msgRecordTime = 0;
+	USARTx->msgRXDHandler.msgEndTime = 0;
+	USARTx->msgRXDHandler.msgMaxTime = 0;
+	USARTx->msgRXDHandler.pMsgVal = NULL;
 
 	//---发送缓存区
-	USARTx->msgRxHandler.msgIsDMA = 1;
-	USARTx->msgTxHandler.msgCheckSum = 0;
-	USARTx->msgTxHandler.msgCRCFlag = 0;
-	USARTx->msgTxHandler.msgStep = 0;
-	USARTx->msgTxHandler.msgAddNewLine = 0;
-	USARTx->msgTxHandler.msgIndexW = 0;
-	USARTx->msgTxHandler.msgIndexR = 0;
-	USARTx->msgTxHandler.msgIndexF = 0;
-	USARTx->msgTxHandler.msgCount = 0;
-	USARTx->msgTxHandler.msgSize = 0;
-	USARTx->msgTxHandler.msgTaskState = USART_OK;
-	USARTx->msgTxHandler.msgOverFlow = 0;
-	USARTx->msgTxHandler.msgRecordTime = 0;
-	USARTx->msgTxHandler.msgEndTime = 0;
-	USARTx->msgTxHandler.msgMaxTime = 0;
-	USARTx->msgTxHandler.pMsgVal = NULL;
+	USARTx->msgTXDHandler.msgIsDMA = 1;
+	USARTx->msgTXDHandler.msgCheckSum = 0;
+	USARTx->msgTXDHandler.msgCRCFlag = 0;
+	USARTx->msgTXDHandler.msgStep = 0;
+	USARTx->msgTXDHandler.msgAddNewLine = 0;
+	USARTx->msgTXDHandler.msgIndexW = 0;
+	USARTx->msgTXDHandler.msgIndexR = 0;
+	USARTx->msgTXDHandler.msgIndexF = 0;
+	USARTx->msgTXDHandler.msgCount = 0;
+	USARTx->msgTXDHandler.msgSize = 0;
+	USARTx->msgTXDHandler.msgTaskState = USART_OK;
+	USARTx->msgTXDHandler.msgOverFlow = 0;
+	USARTx->msgTXDHandler.msgRecordTime = 0;
+	USARTx->msgTXDHandler.msgEndTime = 0;
+	USARTx->msgTXDHandler.msgMaxTime = 0;
+	USARTx->msgTXDHandler.pMsgVal = NULL;
 
 	//---计数器
 	USARTx->msgFuncTimeTick = NULL;
@@ -85,12 +86,12 @@ UINT8_T USART_StructInit(USART_HandlerType*  USARTx)
 UINT8_T USART_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void))
 {
 	USART_StructInit(USARTx);
-	USARTx->msgRxHandler.msgCRCFlag = rxCRCFlag;
-	USARTx->msgRxHandler.msgSize = rxSize;
-	USARTx->msgRxHandler.pMsgVal = pRxVal;
-	USARTx->msgTxHandler.msgCRCFlag = txCRCFlag;
-	USARTx->msgTxHandler.msgSize = txSize;
-	USARTx->msgTxHandler.pMsgVal = pTxVal;
+	USARTx->msgRXDHandler.msgCRCFlag = rxCRCFlag;
+	USARTx->msgRXDHandler.msgSize = rxSize;
+	USARTx->msgRXDHandler.pMsgVal = pRxVal;
+	USARTx->msgTXDHandler.msgCRCFlag = txCRCFlag;
+	USARTx->msgTXDHandler.msgSize = txSize;
+	USARTx->msgTXDHandler.pMsgVal = pTxVal;
 	//---注册计数函数
 	USARTx->msgFuncTimeTick = pTimerTick;
 	//---端口初始化
@@ -170,7 +171,7 @@ UINT8_T  USART_485GPIOInit(USART_HandlerType*  USARTx, UINT8_T isEnable)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_EnableCRC_RX(USART_HandlerType*USARTx, UINT8_T crcFlag)
 {
-	USARTx->msgRxHandler.msgCRCFlag = crcFlag;
+	USARTx->msgRXDHandler.msgCRCFlag = crcFlag;
 	return OK_0;
 }
 
@@ -183,7 +184,7 @@ UINT8_T USART_EnableCRC_RX(USART_HandlerType*USARTx, UINT8_T crcFlag)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_GetCRC_RX(USART_HandlerType*USARTx)
 {
-	return  USARTx->msgRxHandler.msgCRCFlag;
+	return  USARTx->msgRXDHandler.msgCRCFlag;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -195,7 +196,7 @@ UINT8_T USART_GetCRC_RX(USART_HandlerType*USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_EnableCRC_TX(USART_HandlerType*USARTx, UINT8_T crcFlag)
 {
-	USARTx->msgTxHandler.msgCRCFlag = crcFlag;
+	USARTx->msgTXDHandler.msgCRCFlag = crcFlag;
 	return OK_0;
 }
 
@@ -208,7 +209,7 @@ UINT8_T USART_EnableCRC_TX(USART_HandlerType*USARTx, UINT8_T crcFlag)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_GetCRC_TX(USART_HandlerType*USARTx)
 {
-	return  USARTx->msgTxHandler.msgCRCFlag;
+	return  USARTx->msgTXDHandler.msgCRCFlag;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -229,17 +230,17 @@ UINT8_T USART_TimeTick_Init(USART_HandlerType*USARTx, UINT8_T isRx)
 	//---时间节点
 	if (isRx)
 	{
-		USARTx->msgRxHandler.msgRecordTime = temp;
+		USARTx->msgRXDHandler.msgRecordTime = temp;
 
 		//---同步时钟
-		USARTx->msgRxHandler.msgEndTime = USARTx->msgRxHandler.msgRecordTime;
+		USARTx->msgRXDHandler.msgEndTime = USARTx->msgRXDHandler.msgRecordTime;
 	}
 	else
 	{
-		USARTx->msgTxHandler.msgRecordTime = temp;
+		USARTx->msgTXDHandler.msgRecordTime = temp;
 
 		//---同步时钟
-		USARTx->msgTxHandler.msgEndTime = USARTx->msgTxHandler.msgRecordTime;
+		USARTx->msgTXDHandler.msgEndTime = USARTx->msgTXDHandler.msgRecordTime;
 	}
 	return OK_0;
 }
@@ -256,20 +257,20 @@ UINT8_T USART_TimeTick_DeInit(USART_HandlerType*USARTx, UINT8_T isRx)
 	if (isRx)
 	{
 		//---清零溢出标志位
-		USARTx->msgRxHandler.msgOverFlow = 0;
+		USARTx->msgRXDHandler.msgOverFlow = 0;
 		//---清零当前时钟
-		USARTx->msgRxHandler.msgEndTime = 0;
+		USARTx->msgRXDHandler.msgEndTime = 0;
 		//---同步时钟
-		USARTx->msgRxHandler.msgRecordTime = USARTx->msgRxHandler.msgEndTime;
+		USARTx->msgRXDHandler.msgRecordTime = USARTx->msgRXDHandler.msgEndTime;
 	}
 	else
 	{
 		//---清零溢出标志位
-		USARTx->msgTxHandler.msgOverFlow = 0;
+		USARTx->msgTXDHandler.msgOverFlow = 0;
 		//---清零当前时钟
-		USARTx->msgTxHandler.msgEndTime = 0;
+		USARTx->msgTXDHandler.msgEndTime = 0;
 		//---同步时钟
-		USARTx->msgTxHandler.msgRecordTime = USARTx->msgTxHandler.msgEndTime;
+		USARTx->msgTXDHandler.msgRecordTime = USARTx->msgTXDHandler.msgEndTime;
 	}
 	return OK_0;
 }
@@ -293,23 +294,23 @@ UINT8_T USART_TimeTick_OVF(USART_HandlerType*USARTx, UINT32_T timeOut, UINT8_T i
 	if (isRx)
 	{
 		//---获取当前时间
-		USARTx->msgRxHandler.msgEndTime = temp;
+		USARTx->msgRXDHandler.msgEndTime = temp;
 		//---判断是否发生超时错误
-		if (USARTx->msgRxHandler.msgEndTime > USARTx->msgRxHandler.msgRecordTime)
+		if (USARTx->msgRXDHandler.msgEndTime > USARTx->msgRXDHandler.msgRecordTime)
 		{
 			//---计时器未发生溢出操作
-			if ((USARTx->msgRxHandler.msgEndTime - USARTx->msgRxHandler.msgRecordTime) > timeOut)
+			if ((USARTx->msgRXDHandler.msgEndTime - USARTx->msgRXDHandler.msgRecordTime) > timeOut)
 			{
-				USARTx->msgRxHandler.msgOverFlow = 1;
+				USARTx->msgRXDHandler.msgOverFlow = 1;
 				return ERROR_1;
 			}
 		}
-		else if (USARTx->msgRxHandler.msgEndTime < USARTx->msgRxHandler.msgRecordTime)
+		else if (USARTx->msgRXDHandler.msgEndTime < USARTx->msgRXDHandler.msgRecordTime)
 		{
 			//---计时器发生溢出操作
-			if ((0xFFFFFFFF - USARTx->msgRxHandler.msgRecordTime + USARTx->msgRxHandler.msgEndTime) > timeOut)
+			if ((0xFFFFFFFF - USARTx->msgRXDHandler.msgRecordTime + USARTx->msgRXDHandler.msgEndTime) > timeOut)
 			{
-				USARTx->msgRxHandler.msgOverFlow = 1;
+				USARTx->msgRXDHandler.msgOverFlow = 1;
 				return ERROR_1;
 			}
 		}
@@ -317,23 +318,23 @@ UINT8_T USART_TimeTick_OVF(USART_HandlerType*USARTx, UINT32_T timeOut, UINT8_T i
 	else
 	{
 		//---获取当前时间
-		USARTx->msgTxHandler.msgEndTime = temp;
+		USARTx->msgTXDHandler.msgEndTime = temp;
 		//---判断是否发生超时错误
-		if (USARTx->msgTxHandler.msgEndTime > USARTx->msgTxHandler.msgRecordTime)
+		if (USARTx->msgTXDHandler.msgEndTime > USARTx->msgTXDHandler.msgRecordTime)
 		{
 			//---计时器未发生溢出操作
-			if ((USARTx->msgTxHandler.msgEndTime - USARTx->msgTxHandler.msgRecordTime) > timeOut)
+			if ((USARTx->msgTXDHandler.msgEndTime - USARTx->msgTXDHandler.msgRecordTime) > timeOut)
 			{
-				USARTx->msgTxHandler.msgOverFlow = 1;
+				USARTx->msgTXDHandler.msgOverFlow = 1;
 				return ERROR_1;
 			}
 		}
-		else if (USARTx->msgTxHandler.msgEndTime < USARTx->msgTxHandler.msgRecordTime)
+		else if (USARTx->msgTXDHandler.msgEndTime < USARTx->msgTXDHandler.msgRecordTime)
 		{
 			//---计时器发生溢出操作
-			if ((0xFFFFFFFF - USARTx->msgTxHandler.msgRecordTime + USARTx->msgTxHandler.msgEndTime) > timeOut)
+			if ((0xFFFFFFFF - USARTx->msgTXDHandler.msgRecordTime + USARTx->msgTXDHandler.msgEndTime) > timeOut)
 			{
-				USARTx->msgTxHandler.msgOverFlow = 1;
+				USARTx->msgTXDHandler.msgOverFlow = 1;
 				return ERROR_1;
 			}
 		}
@@ -352,19 +353,19 @@ UINT8_T  USART_TimeOVFTask(USART_HandlerType*USARTx, UINT8_T isRx)
 {
 	UINT8_T _return = OK_0;
 	//---校验是不是DMA接收模式
-	if (USARTx->msgRxHandler.msgIsDMA==0)
+	if (USARTx->msgRXDHandler.msgIsDMA==0)
 	{
 		//---判断是接收还是发送
 		if (isRx != 0)
 		{
-			if ((USARTx->msgRxHandler.msgRecordTime != 0) && (USARTx->msgRxHandler.msgMaxTime != 0))
+			if ((USARTx->msgRXDHandler.msgRecordTime != 0) && (USARTx->msgRXDHandler.msgMaxTime != 0))
 			{
-				if (USARTx->msgRxHandler.msgRecordTime == 0)
+				if (USARTx->msgRXDHandler.msgRecordTime == 0)
 				{
 					return OK_0;
 				}
 				//---获取超时值
-				_return = USART_TimeTick_OVF(USARTx, USARTx->msgRxHandler.msgMaxTime, 1);
+				_return = USART_TimeTick_OVF(USARTx, USARTx->msgRXDHandler.msgMaxTime, 1);
 				//---超时条件判断
 				//if ((_return != OK_0) && (USARTx->msgRxHandler.msgNowTime != 0))
 				if ((_return != OK_0))
@@ -378,16 +379,16 @@ UINT8_T  USART_TimeOVFTask(USART_HandlerType*USARTx, UINT8_T isRx)
 		}
 		else
 		{
-			if ((USARTx->msgTxHandler.msgRecordTime != 0) && (USARTx->msgTxHandler.msgMaxTime != 0))
+			if ((USARTx->msgTXDHandler.msgRecordTime != 0) && (USARTx->msgTXDHandler.msgMaxTime != 0))
 			{
-				if (USARTx->msgTxHandler.msgRecordTime == 0)
+				if (USARTx->msgTXDHandler.msgRecordTime == 0)
 				{
 					return OK_0;
 				}
 				//---获取超时值
-				_return = USART_TimeTick_OVF(USARTx, USARTx->msgTxHandler.msgMaxTime, 0);
+				_return = USART_TimeTick_OVF(USARTx, USARTx->msgTXDHandler.msgMaxTime, 0);
 				//---超时条件判断，发现某些状态下当前记录的时间值在改写为零的时候，时间记录点没有发生同步更新
-				if ((_return != OK_0) && (USARTx->msgTxHandler.msgRecordTime != 0))
+				if ((_return != OK_0) && (USARTx->msgTXDHandler.msgRecordTime != 0))
 				{
 					//---打印超时的串口信息
 					USART_Printf(USARTx, "=>>发送串口%d发生超时错误!<<=\r\n", (USARTx->msgIndex - 1));
@@ -397,7 +398,7 @@ UINT8_T  USART_TimeOVFTask(USART_HandlerType*USARTx, UINT8_T isRx)
 				}
 				else
 				{
-					USARTx->msgTxHandler.msgOverFlow = 0;
+					USARTx->msgTXDHandler.msgOverFlow = 0;
 				}
 			}
 		}
@@ -418,18 +419,18 @@ UINT8_T  USART_ITRead_8BitsTask(USART_HandlerType*USARTx, UINT8_T val)
 	static UINT8_T tempVal;
 	tempVal = val;
 	//---数据接收步序
-	switch (USARTx->msgRxHandler.msgStep)
+	switch (USARTx->msgRXDHandler.msgStep)
 	{
 		//---接收数据的报头
 		case 0:
-			if (USARTx->msgRxHandler.msgIndexR == 0)
+			if (USARTx->msgRXDHandler.msgIndexR == 0)
 			{
 				if (USARTx->msgRxID == tempVal)
 				{
-					USARTx->msgRxHandler.pMsgVal[0] = tempVal;
-					USARTx->msgRxHandler.msgStep = 1;
+					USARTx->msgRXDHandler.pMsgVal[0] = tempVal;
+					USARTx->msgRXDHandler.msgStep = 1;
 					//---记录数据的个数
-					USARTx->msgRxHandler.msgCount = 1;
+					USARTx->msgRXDHandler.msgCount = 1;
 					//---收到第一个符合格式的数据，启动超时计数器
 					USART_TimeTick_Init(USARTx, 1);
 					//---清零超时标志
@@ -440,41 +441,41 @@ UINT8_T  USART_ITRead_8BitsTask(USART_HandlerType*USARTx, UINT8_T val)
 
 			//---接收数据的长度
 		case 1:
-			if ((tempVal > 0) && (tempVal < (UINT8_T)(USARTx->msgRxHandler.msgSize & 0xFF)))
+			if ((tempVal > 0) && (tempVal < (UINT8_T)(USARTx->msgRXDHandler.msgSize & 0xFF)))
 			{
-				USARTx->msgRxHandler.pMsgVal[1] = tempVal;
+				USARTx->msgRXDHandler.pMsgVal[1] = tempVal;
 				//---获取数据的接收长度
-				USARTx->msgRxHandler.msgIndexW = tempVal;
+				USARTx->msgRXDHandler.msgIndexW = tempVal;
 				//---记录数据的个数
-				USARTx->msgRxHandler.msgCount += 1;
+				USARTx->msgRXDHandler.msgCount += 1;
 				//---下一步骤
-				USARTx->msgRxHandler.msgStep = 2;
+				USARTx->msgRXDHandler.msgStep = 2;
 			}
 			else
 			{
-				USARTx->msgRxHandler.msgStep = 0;
+				USARTx->msgRXDHandler.msgStep = 0;
 			}
 			//---复位超时计数器
 			USART_TimeTick_Init(USARTx, 1);
 			break;
 			//---接收数据信息
 		case 2:
-			USARTx->msgRxHandler.pMsgVal[USARTx->msgRxHandler.msgIndexR + 2] = tempVal;
-			USARTx->msgRxHandler.msgIndexR++;
+			USARTx->msgRXDHandler.pMsgVal[USARTx->msgRXDHandler.msgIndexR + 2] = tempVal;
+			USARTx->msgRXDHandler.msgIndexR++;
 			//---记录数据的个数
-			USARTx->msgRxHandler.msgCount += 1;
+			USARTx->msgRXDHandler.msgCount += 1;
 			//---判断是否溢出
-			if (USARTx->msgRxHandler.msgIndexR >= USARTx->msgRxHandler.msgSize)
+			if (USARTx->msgRXDHandler.msgIndexR >= USARTx->msgRXDHandler.msgSize)
 			{
-				USARTx->msgRxHandler.msgIndexR = 0;
+				USARTx->msgRXDHandler.msgIndexR = 0;
 			}
 			//---复位超时计数器
 			USART_TimeTick_Init(USARTx, 1);
 			//---判断是否接收完成
-			if (USARTx->msgRxHandler.msgIndexR >= USARTx->msgRxHandler.msgIndexW)
+			if (USARTx->msgRXDHandler.msgIndexR >= USARTx->msgRXDHandler.msgIndexW)
 			{
-				USARTx->msgRxHandler.msgStep = 3;
-				USARTx->msgRxHandler.msgTaskState = USART_OK;
+				USARTx->msgRXDHandler.msgStep = 3;
+				USARTx->msgRXDHandler.msgTaskState = USART_OK;
 				//---清零超时计数器
 				//USART_TimeTick_DeInit(USARTx, 1);
 			}
@@ -503,18 +504,18 @@ UINT8_T  USART_ITRead_16BitsTask(USART_HandlerType*USARTx, UINT8_T val)
 	static UINT8_T tempVal;
 	tempVal = val;
 	//---数据接收步序
-	switch (USARTx->msgRxHandler.msgStep)
+	switch (USARTx->msgRXDHandler.msgStep)
 	{
 		//---接收数据的报头
 		case 0:
-			if (USARTx->msgRxHandler.msgIndexR == 0)
+			if (USARTx->msgRXDHandler.msgIndexR == 0)
 			{
 				if (USARTx->msgRxID == tempVal)
 				{
-					USARTx->msgRxHandler.pMsgVal[0] = tempVal;
-					USARTx->msgRxHandler.msgStep = 1;
+					USARTx->msgRXDHandler.pMsgVal[0] = tempVal;
+					USARTx->msgRXDHandler.msgStep = 1;
 					//---记录数据的个数
-					USARTx->msgRxHandler.msgCount = 1;
+					USARTx->msgRXDHandler.msgCount = 1;
 					//---收到第一个符合格式的数据，启动超时计数器
 					USART_TimeTick_Init(USARTx, 1);
 					//---清零超时标志
@@ -525,54 +526,54 @@ UINT8_T  USART_ITRead_16BitsTask(USART_HandlerType*USARTx, UINT8_T val)
 
 			//---接收数据的长度高位
 		case 1:
-			USARTx->msgRxHandler.pMsgVal[1] = tempVal;
-			USARTx->msgRxHandler.msgIndexW = tempVal;
-			USARTx->msgRxHandler.msgIndexW <<= 8;
-			USARTx->msgRxHandler.msgStep = 2;
+			USARTx->msgRXDHandler.pMsgVal[1] = tempVal;
+			USARTx->msgRXDHandler.msgIndexW = tempVal;
+			USARTx->msgRXDHandler.msgIndexW <<= 8;
+			USARTx->msgRXDHandler.msgStep = 2;
 			//---记录数据的个数
-			USARTx->msgRxHandler.msgCount += 1;
+			USARTx->msgRXDHandler.msgCount += 1;
 			//---复位超时计数器
 			USART_TimeTick_Init(USARTx, 1);
 			break;
 			//---接收数据的长度低位
 		case 2:
-			USARTx->msgRxHandler.pMsgVal[2] = tempVal;
-			USARTx->msgRxHandler.msgIndexW += tempVal;
+			USARTx->msgRXDHandler.pMsgVal[2] = tempVal;
+			USARTx->msgRXDHandler.msgIndexW += tempVal;
 			//---记录数据的个数
-			USARTx->msgRxHandler.msgCount += 1;
+			USARTx->msgRXDHandler.msgCount += 1;
 			//---判断数据是否合法
-			if ((USARTx->msgRxHandler.msgIndexW > 0) && (USARTx->msgRxHandler.msgIndexW < USARTx->msgRxHandler.msgSize))
+			if ((USARTx->msgRXDHandler.msgIndexW > 0) && (USARTx->msgRXDHandler.msgIndexW < USARTx->msgRXDHandler.msgSize))
 			{
 				//---记录数据的个数
-				USARTx->msgRxHandler.msgCount = USARTx->msgRxHandler.msgIndexW;
+				USARTx->msgRXDHandler.msgCount = USARTx->msgRXDHandler.msgIndexW;
 				//---下一步骤
-				USARTx->msgRxHandler.msgStep = 3;
+				USARTx->msgRXDHandler.msgStep = 3;
 			}
 			else
 			{
-				USARTx->msgRxHandler.msgStep = 0;
+				USARTx->msgRXDHandler.msgStep = 0;
 			}
 			//---复位超时计数器
 			USART_TimeTick_Init(USARTx, 1);
 			break;
 			//---接收数据信息
 		case 3:
-			USARTx->msgRxHandler.pMsgVal[USARTx->msgRxHandler.msgIndexR + 3] = tempVal;
-			USARTx->msgRxHandler.msgIndexR++;
+			USARTx->msgRXDHandler.pMsgVal[USARTx->msgRXDHandler.msgIndexR + 3] = tempVal;
+			USARTx->msgRXDHandler.msgIndexR++;
 			//---记录数据的个数
-			USARTx->msgRxHandler.msgCount += 1;
+			USARTx->msgRXDHandler.msgCount += 1;
 			//---判断是否溢出
-			if (USARTx->msgRxHandler.msgIndexR >= USARTx->msgRxHandler.msgSize)
+			if (USARTx->msgRXDHandler.msgIndexR >= USARTx->msgRXDHandler.msgSize)
 			{
-				USARTx->msgRxHandler.msgIndexR = 0;
+				USARTx->msgRXDHandler.msgIndexR = 0;
 			}
 			//---复位超时计数器
 			USART_TimeTick_Init(USARTx, 1);
 			//---判断是否接收完成
-			if (USARTx->msgRxHandler.msgIndexR >= USARTx->msgRxHandler.msgIndexW)
+			if (USARTx->msgRXDHandler.msgIndexR >= USARTx->msgRXDHandler.msgIndexW)
 			{
-				USARTx->msgRxHandler.msgStep = 4;
-				USARTx->msgRxHandler.msgTaskState = USART_OK;
+				USARTx->msgRXDHandler.msgStep = 4;
+				USARTx->msgRXDHandler.msgTaskState = USART_OK;
 				//---清零超时计数器
 				//USART_TimeTick_DeInit(USARTx, 1);
 			}
@@ -597,7 +598,7 @@ UINT8_T  USART_ITRead_16BitsTask(USART_HandlerType*USARTx, UINT8_T val)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T  USART_ITRead_Task(USART_HandlerType*USARTx, UINT8_T val)
 {
-	if (USARTx->msgRxHandler.msgSize < 0xFF)
+	if (USARTx->msgRXDHandler.msgSize < 0xFF)
 	{
 		return USART_ITRead_8BitsTask(USARTx, val);
 	}
@@ -699,22 +700,23 @@ UINT8_T USART_PollMode_ReadData(USART_HandlerType*USARTx, char *pVal)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T  USART_ITWrite_TXETask(USART_HandlerType*USARTx)
 {
-	if (USARTx->msgTxHandler.msgIndexW != 0)
+	VLTUINT8_T tempFlag=OK_0;
+	if (USARTx->msgTXDHandler.msgIndexW != 0)
 	{
-		if (USARTx->msgTxHandler.msgIndexR != USARTx->msgTxHandler.msgIndexW)
+		if (USARTx->msgTXDHandler.msgIndexR != USARTx->msgTXDHandler.msgIndexW)
 		{
 			//---发送8Bit的数据
-			LL_USART_TransmitData8(USARTx->msgUSART, USARTx->msgTxHandler.pMsgVal[USARTx->msgTxHandler.msgIndexR]);
+			LL_USART_TransmitData8(USARTx->msgUSART, USARTx->msgTXDHandler.pMsgVal[USARTx->msgTXDHandler.msgIndexR]);
 			//---数据缓存区序号增加
-			USARTx->msgTxHandler.msgIndexR++;
+			USARTx->msgTXDHandler.msgIndexR++;
 			//---校验缓存区是否溢出
-			if (USARTx->msgTxHandler.msgIndexR >= USARTx->msgTxHandler.msgSize)
+			if (USARTx->msgTXDHandler.msgIndexR >= USARTx->msgTXDHandler.msgSize)
 			{
-				USARTx->msgTxHandler.msgIndexR = 0;
+				USARTx->msgTXDHandler.msgIndexR = 0;
 			}
 			//---校验数据是否都填入缓存区
 			//if (USARTx->msgTxHandler.msgIndexR >= USARTx->msgTxHandler.msgIndexW)
-			if ((USARTx->msgTxHandler.msgIndexR >= USARTx->msgTxHandler.msgIndexW) && (USARTx->msgTxHandler.msgCount > 0) && (USARTx->msgTxHandler.msgIndexR >= USARTx->msgTxHandler.msgCount))
+			if ((USARTx->msgTXDHandler.msgIndexR >= USARTx->msgTXDHandler.msgIndexW) && (USARTx->msgTXDHandler.msgCount > 0) && (USARTx->msgTXDHandler.msgIndexR >= USARTx->msgTXDHandler.msgCount))
 			{
 				//---发送完成,发送数据寄存器空中断不使能
 				LL_USART_DisableIT_TXE(USARTx->msgUSART);
@@ -724,11 +726,15 @@ UINT8_T  USART_ITWrite_TXETask(USART_HandlerType*USARTx)
 		}
 		else
 		{
-			//---发送完成,发送数据寄存器空中断不使能---检查是否存在异常；关闭发送数据寄存器空中断
-			LL_USART_DisableIT_TXE(USARTx->msgUSART);
+			tempFlag = ERROR_1;
 		}
 	}
 	else
+	{
+		tempFlag = ERROR_2;
+	}
+	//---校验结果
+	if (tempFlag)
 	{
 		//---发送完成,发送数据寄存器空中断不使能---检查是否存在异常；关闭发送数据寄存器空中断
 		LL_USART_DisableIT_TXE(USARTx->msgUSART);
@@ -750,22 +756,22 @@ UINT8_T  USART_ITWrite_TXETask(USART_HandlerType*USARTx)
 UINT8_T  USART_ITWrite_TCTask(USART_HandlerType*USARTx)
 {
 	//---定义了485，由于485响应的延迟问题,增加发送换行符，用于缓冲485的响应
-	if ((USARTx->msg485Port != NULL) && (USARTx->msgTxHandler.msgStep == 0))
+	if ((USARTx->msg485Port != NULL) && (USARTx->msgTXDHandler.msgStep == 0))
 	{
 		//---发送8Bit的数据
 		LL_USART_TransmitData8(USARTx->msgUSART, 0x0D);
-		USARTx->msgTxHandler.msgStep = 1;
+		USARTx->msgTXDHandler.msgStep = 1;
 	}
-	else if ((USARTx->msg485Port != NULL) && (USARTx->msgTxHandler.msgStep == 1))
+	else if ((USARTx->msg485Port != NULL) && (USARTx->msgTXDHandler.msgStep == 1))
 	{
 		//---发送8Bit的数据
 		LL_USART_TransmitData8(USARTx->msgUSART, 0x0A);
-		USARTx->msgTxHandler.msgStep = 2;
+		USARTx->msgTXDHandler.msgStep = 2;
 	}
 	else
 	{
 		//---清零发送步序
-		USARTx->msgTxHandler.msgStep = 0;
+		USARTx->msgTXDHandler.msgStep = 0;
 		//---发送完成,发送数据发送完成中断不使能
 		LL_USART_DisableIT_TC(USARTx->msgUSART);
 		//---清空数据发送缓存区
@@ -785,14 +791,14 @@ UINT8_T  USART_ITWrite_TCTask(USART_HandlerType*USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_RealTime_AddByte(USART_HandlerType*USARTx, UINT8_T val)
 {
-	if (USARTx->msgTxHandler.pMsgVal != NULL)
+	if (USARTx->msgTXDHandler.pMsgVal != NULL)
 	{
-		if (USARTx->msgTxHandler.msgIndexW >= USARTx->msgTxHandler.msgSize)
+		if (USARTx->msgTXDHandler.msgIndexW >= USARTx->msgTXDHandler.msgSize)
 		{
-			USARTx->msgTxHandler.msgIndexW = 0;
+			USARTx->msgTXDHandler.msgIndexW = 0;
 		}
-		USARTx->msgTxHandler.pMsgVal[USARTx->msgTxHandler.msgIndexW] = val;
-		USARTx->msgTxHandler.msgIndexW++;
+		USARTx->msgTXDHandler.pMsgVal[USARTx->msgTXDHandler.msgIndexW] = val;
+		USARTx->msgTXDHandler.msgIndexW++;
 		//---判断发送寄存器空中断是否使能
 		if (LL_USART_IsEnabledIT_TXE(USARTx->msgUSART) == 0)
 		{
@@ -818,17 +824,17 @@ UINT8_T USART_RealTime_AddByte(USART_HandlerType*USARTx, UINT8_T val)
 UINT8_T USART_RealTime_AddSize(USART_HandlerType*USARTx, UINT16_T val)
 {
 	UINT8_T _return = ERROR_1;
-	if (USARTx->msgTxHandler.pMsgVal != NULL)
+	if (USARTx->msgTXDHandler.pMsgVal != NULL)
 	{
-		if ((USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CHECKSUM) || (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CRC8))
+		if ((USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CHECKSUM) || (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CRC8))
 		{
 			val += 1;
 		}
-		else if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CRC16)
+		else if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CRC16)
 		{
 			val += 2;
 		}
-		else if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CRC32)
+		else if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CRC32)
 		{
 			val += 4;
 		}
@@ -838,12 +844,12 @@ UINT8_T USART_RealTime_AddSize(USART_HandlerType*USARTx, UINT16_T val)
 			val += 1;
 		}
 		//---判断是否增加换行符
-		if ((USARTx->msgTxHandler.msgAddNewLine==1))
+		if ((USARTx->msgTXDHandler.msgAddNewLine==1))
 		{
 			val += 2;
 		}
 		//---判断数据的格式
-		if (USARTx->msgTxHandler.msgSize > 250)
+		if (USARTx->msgTXDHandler.msgSize > 250)
 		{
 			USART_RealTime_AddByte(USARTx, (UINT8_T)(val >> 8));
 			_return = USART_RealTime_AddByte(USARTx, (UINT8_T)(val & 0xFF));
@@ -860,7 +866,7 @@ UINT8_T USART_RealTime_AddSize(USART_HandlerType*USARTx, UINT16_T val)
 			_return = USART_RealTime_AddByte(USARTx, USARTx->msgID);
 		}		
 		//---计算发送数据的个数
-		USARTx->msgTxHandler.msgCount = val;
+		USARTx->msgTXDHandler.msgCount = val;
 	}
 	return _return;
 }
@@ -875,29 +881,29 @@ UINT8_T USART_RealTime_AddSize(USART_HandlerType*USARTx, UINT16_T val)
 UINT8_T USART_RealTime_AddCRC(USART_HandlerType*USARTx)
 {
 	//---校验CRC是否初始化
-	if ((USARTx->msgTxHandler.msgCRCFlag != USART_CRC_NONE) && (CRCTask_Enable() == OK_0))
+	if ((USARTx->msgTXDHandler.msgCRCFlag != USART_CRC_NONE) && (CRCTask_Enable() == OK_0))
 	{
 		UINT32_T crcVal = 0;
 		//---判断数据校验模式
-		if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CHECKSUM)
+		if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CHECKSUM)
 		{
-			crcVal = CRCTask_CheckSum(USARTx->msgTxHandler.pMsgVal, USARTx->msgTxHandler.msgIndexW);
+			crcVal = CRCTask_CheckSum(USARTx->msgTXDHandler.pMsgVal, USARTx->msgTXDHandler.msgIndexW);
 			USART_RealTime_AddByte(USARTx, (UINT8_T)crcVal);
 		}
-		else if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CRC8)
+		else if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CRC8)
 		{
-			crcVal = CRCTask_CRC8(USE_CRC8_07H, USARTx->msgTxHandler.pMsgVal, USARTx->msgTxHandler.msgIndexW);
+			crcVal = CRCTask_CRC8(USE_CRC8_07H, USARTx->msgTXDHandler.pMsgVal, USARTx->msgTXDHandler.msgIndexW);
 			USART_RealTime_AddByte(USARTx, (UINT8_T)crcVal);
 		}
-		else if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CRC16)
+		else if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CRC16)
 		{
-			crcVal = CRCTask_CRC16(USARTx->msgTxHandler.pMsgVal, USARTx->msgTxHandler.msgIndexW);
+			crcVal = CRCTask_CRC16(USARTx->msgTXDHandler.pMsgVal, USARTx->msgTXDHandler.msgIndexW);
 			USART_RealTime_AddByte(USARTx, (UINT8_T)(crcVal >> 8));
 			USART_RealTime_AddByte(USARTx, (UINT8_T)crcVal);
 		}
-		else if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CRC32)
+		else if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CRC32)
 		{
-			crcVal = CRCTask_CRC32(USARTx->msgTxHandler.pMsgVal, USARTx->msgTxHandler.msgIndexW);
+			crcVal = CRCTask_CRC32(USARTx->msgTXDHandler.pMsgVal, USARTx->msgTXDHandler.msgIndexW);
 			USART_RealTime_AddByte(USARTx, (UINT8_T)(crcVal >> 24));
 			USART_RealTime_AddByte(USARTx, (UINT8_T)(crcVal >> 16));
 			USART_RealTime_AddByte(USARTx, (UINT8_T)(crcVal >> 8));
@@ -906,7 +912,7 @@ UINT8_T USART_RealTime_AddCRC(USART_HandlerType*USARTx)
 		return OK_0;
 	}
 	//---判断是否增加换行符
-	if ((USARTx->msgTxHandler.msgAddNewLine==1))
+	if ((USARTx->msgTXDHandler.msgAddNewLine==1))
 	{
 		USART_RealTime_AddByte(USARTx, 0x0D);
 		USART_RealTime_AddByte(USARTx, 0x0A);
@@ -924,20 +930,20 @@ UINT8_T USART_RealTime_AddCRC(USART_HandlerType*USARTx)
 UINT8_T USART_FillMode_Init(USART_HandlerType*USARTx,UINT8_T isChildCmd)
 {
 	//---等待传输完成
-	while ((USARTx->msgTxHandler.msgTaskState == USART_BUSY)||(USARTx->msgTxHandler.msgTaskState==USART_PRINTF))
+	while ((USARTx->msgTXDHandler.msgTaskState == USART_BUSY)||(USARTx->msgTXDHandler.msgTaskState==USART_PRINTF))
 	{
 		WDT_RESET();
 	}
-	USARTx->msgTxHandler.msgIndexW = 0;
-	USARTx->msgTxHandler.msgIndexF=0;
+	USARTx->msgTXDHandler.msgIndexW = 0;
+	USARTx->msgTXDHandler.msgIndexF=0;
 	//---填充数据报头
 	USART_FillMode_AddByte( USARTx, USARTx->msgTxID );
 	//---填充数据长度
 	USART_FillMode_AddByte( USARTx, 0x00 );
-	if (USARTx->msgTxHandler.msgSize > 0xFF)
+	if (USARTx->msgTXDHandler.msgSize > 0xFF)
 	{
 		USART_FillMode_AddByte( USARTx, 0x00 );
-		USARTx->msgTxHandler.msgIndexF+=1;
+		USARTx->msgTXDHandler.msgIndexF+=1;
 	}
 	//---填充多设备通信的设备ID
 	if ((USARTx->msgCmdIndex - USARTx->msgIDIndex) != 0)
@@ -945,15 +951,15 @@ UINT8_T USART_FillMode_Init(USART_HandlerType*USARTx,UINT8_T isChildCmd)
 		USART_FillMode_AddByte(USARTx, USARTx->msgID);
 	}
 	//---主命令/命令
-	USART_FillMode_AddByte(USARTx, USARTx->msgRxHandler.pMsgVal[USARTx->msgCmdIndex]);
+	USART_FillMode_AddByte(USARTx, USARTx->msgRXDHandler.pMsgVal[USARTx->msgCmdIndex]);
 	//---校验是否有子命令
 	if (isChildCmd!=0)
 	{
 		//---子命令
-		USART_FillMode_AddByte(USARTx, USARTx->msgRxHandler.pMsgVal[USARTx->msgCmdIndex + (isChildCmd == 0 ? 0 : 1)]);
+		USART_FillMode_AddByte(USARTx, USARTx->msgRXDHandler.pMsgVal[USARTx->msgCmdIndex + (isChildCmd == 0 ? 0 : 1)]);
 	}
 	//---标识返回执行结果在缓存区中断的序号
-	USARTx->msgTxHandler.msgIndexF = USARTx->msgTxHandler.msgIndexW;
+	USARTx->msgTXDHandler.msgIndexF = USARTx->msgTXDHandler.msgIndexW;
 	//---返回执行结果
 	return OK_0;
 }
@@ -967,11 +973,11 @@ UINT8_T USART_FillMode_Init(USART_HandlerType*USARTx,UINT8_T isChildCmd)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_FillMode_AddByte(USART_HandlerType*USARTx, UINT8_T val)
 {
-	USARTx->msgTxHandler.pMsgVal[USARTx->msgTxHandler.msgIndexW] = val;
-	USARTx->msgTxHandler.msgIndexW++;
-	if (USARTx->msgTxHandler.msgIndexW >= USARTx->msgTxHandler.msgSize)
+	USARTx->msgTXDHandler.pMsgVal[USARTx->msgTXDHandler.msgIndexW] = val;
+	USARTx->msgTXDHandler.msgIndexW++;
+	if (USARTx->msgTXDHandler.msgIndexW >= USARTx->msgTXDHandler.msgSize)
 	{
-		USARTx->msgTxHandler.msgIndexW = 0;
+		USARTx->msgTXDHandler.msgIndexW = 0;
 	}
 	return OK_0;
 }
@@ -1008,7 +1014,7 @@ UINT8_T USART_FillMode_AddData(USART_HandlerType*USARTx, UINT8_T *pVal, UINT16_T
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_FillMode_SetResultFlag(USART_HandlerType* USARTx, UINT8_T val)
 {
-	USARTx->msgTxHandler.pMsgVal[USARTx->msgTxHandler.msgIndexF] = val;
+	USARTx->msgTXDHandler.pMsgVal[USARTx->msgTXDHandler.msgIndexF] = val;
 	return OK_0;
 }
 
@@ -1021,7 +1027,7 @@ UINT8_T USART_FillMode_SetResultFlag(USART_HandlerType* USARTx, UINT8_T val)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_FillMode_AddIndexW(USART_HandlerType* USARTx, UINT16_T val)
 {
-	USARTx->msgTxHandler.msgIndexW += val;
+	USARTx->msgTXDHandler.msgIndexW += val;
 	return OK_0;
 }
 
@@ -1037,116 +1043,116 @@ UINT8_T USART_CRCTask_Read(USART_HandlerType*USARTx)
 	UINT32_T crcVal = 0;
 	UINT32_T crcTemp = 0;
 	//---接收数据的个数
-	UINT16_T length = USARTx->msgRxHandler.msgIndexW;
+	UINT16_T length = USARTx->msgRXDHandler.msgIndexW;
 	//---校验CRC是否初始化
-	if ((USARTx->msgRxHandler.msgCRCFlag != USART_CRC_NONE) && (CRCTask_Enable() == OK_0))
+	if ((USARTx->msgRXDHandler.msgCRCFlag != USART_CRC_NONE) && (CRCTask_Enable() == OK_0))
 	{
 		//---判断数据校验模式
-		if (USARTx->msgRxHandler.msgCRCFlag == USART_CRC_CHECKSUM)
+		if (USARTx->msgRXDHandler.msgCRCFlag == USART_CRC_CHECKSUM)
 		{
 			length -= 1;
-			if (USARTx->msgRxHandler.msgSize < 250)
+			if (USARTx->msgRXDHandler.msgSize < 250)
 			{
-				USARTx->msgRxHandler.pMsgVal[1] = (UINT8_T)(length);
+				USARTx->msgRXDHandler.pMsgVal[1] = (UINT8_T)(length);
 				//---获取校验和
-				crcTemp = USARTx->msgRxHandler.pMsgVal[length + 2];
+				crcTemp = USARTx->msgRXDHandler.pMsgVal[length + 2];
 				//---参与校验和计算的数据总长度
 				length += 2;
 			}
 			else
 			{
-				USARTx->msgRxHandler.pMsgVal[1] = (UINT8_T)(length >> 8);
-				USARTx->msgRxHandler.pMsgVal[2] = (UINT8_T)(length);
+				USARTx->msgRXDHandler.pMsgVal[1] = (UINT8_T)(length >> 8);
+				USARTx->msgRXDHandler.pMsgVal[2] = (UINT8_T)(length);
 				//---获取校验和
-				crcTemp = USARTx->msgRxHandler.pMsgVal[length + 3];
+				crcTemp = USARTx->msgRXDHandler.pMsgVal[length + 3];
 				//---参与校验和计算的数据总长度
 				length += 3;
 			}
 			//---计算校验和
-			crcVal = CRCTask_CheckSum(USARTx->msgRxHandler.pMsgVal, length);
+			crcVal = CRCTask_CheckSum(USARTx->msgRXDHandler.pMsgVal, length);
 		}
-		else if (USARTx->msgRxHandler.msgCRCFlag == USART_CRC_CRC8)
+		else if (USARTx->msgRXDHandler.msgCRCFlag == USART_CRC_CRC8)
 		{
 			length -= 1;
-			if (USARTx->msgRxHandler.msgSize < 250)
+			if (USARTx->msgRXDHandler.msgSize < 250)
 			{
-				USARTx->msgRxHandler.pMsgVal[1] = (UINT8_T)(length);
+				USARTx->msgRXDHandler.pMsgVal[1] = (UINT8_T)(length);
 				//---获取校验和
-				crcTemp = USARTx->msgRxHandler.pMsgVal[length + 2];
+				crcTemp = USARTx->msgRXDHandler.pMsgVal[length + 2];
 				//---参与校验和计算的数据总长度
 				length += 2;
 			}
 			else
 			{
-				USARTx->msgRxHandler.pMsgVal[1] = (UINT8_T)(length >> 8);
-				USARTx->msgRxHandler.pMsgVal[2] = (UINT8_T)(length);
+				USARTx->msgRXDHandler.pMsgVal[1] = (UINT8_T)(length >> 8);
+				USARTx->msgRXDHandler.pMsgVal[2] = (UINT8_T)(length);
 				//---获取校验和
-				crcTemp = USARTx->msgRxHandler.pMsgVal[length + 3];
+				crcTemp = USARTx->msgRXDHandler.pMsgVal[length + 3];
 				//---参与校验和计算的数据总长度
 				length += 3;
 			}
 			//---计算CRC8校验值
-			crcVal = CRCTask_CRC8(USE_CRC8_07H, USARTx->msgRxHandler.pMsgVal, length);
+			crcVal = CRCTask_CRC8(USE_CRC8_07H, USARTx->msgRXDHandler.pMsgVal, length);
 		}
-		else if (USARTx->msgRxHandler.msgCRCFlag == USART_CRC_CRC16)
+		else if (USARTx->msgRXDHandler.msgCRCFlag == USART_CRC_CRC16)
 		{
 			length -= 2;
-			if (USARTx->msgRxHandler.msgSize < 250)
+			if (USARTx->msgRXDHandler.msgSize < 250)
 			{
-				USARTx->msgRxHandler.pMsgVal[1] = (UINT8_T)(length);
+				USARTx->msgRXDHandler.pMsgVal[1] = (UINT8_T)(length);
 				//---获取CRC16的高位值
-				crcTemp = USARTx->msgRxHandler.pMsgVal[length + 1];
+				crcTemp = USARTx->msgRXDHandler.pMsgVal[length + 1];
 				//---获取CRC16的低位值
-				crcTemp = (crcTemp << 8) + USARTx->msgRxHandler.pMsgVal[length + 2];
+				crcTemp = (crcTemp << 8) + USARTx->msgRXDHandler.pMsgVal[length + 2];
 				//---参与校验和计算的数据总长度
 				length += 2;
 			}
 			else
 			{
-				USARTx->msgRxHandler.pMsgVal[1] = (UINT8_T)(length >> 8);
-				USARTx->msgRxHandler.pMsgVal[2] = (UINT8_T)(length);
+				USARTx->msgRXDHandler.pMsgVal[1] = (UINT8_T)(length >> 8);
+				USARTx->msgRXDHandler.pMsgVal[2] = (UINT8_T)(length);
 				//---获取CRC16的高位值
-				crcTemp = USARTx->msgRxHandler.pMsgVal[length + 2];
+				crcTemp = USARTx->msgRXDHandler.pMsgVal[length + 2];
 				//---获取CRC16的低位值
-				crcTemp = (crcTemp << 8) + USARTx->msgRxHandler.pMsgVal[length + 3];
+				crcTemp = (crcTemp << 8) + USARTx->msgRXDHandler.pMsgVal[length + 3];
 				//---参与校验和计算的数据总长度
 				length += 3;
 			}
 			//---计算CRC16校验值
-			crcVal = CRCTask_CRC16(USARTx->msgRxHandler.pMsgVal, length);
+			crcVal = CRCTask_CRC16(USARTx->msgRXDHandler.pMsgVal, length);
 		}
-		else if (USARTx->msgRxHandler.msgCRCFlag == USART_CRC_CRC32)
+		else if (USARTx->msgRXDHandler.msgCRCFlag == USART_CRC_CRC32)
 		{
 			length -= 4;
-			if (USARTx->msgRxHandler.msgSize < 250)
+			if (USARTx->msgRXDHandler.msgSize < 250)
 			{
-				USARTx->msgRxHandler.pMsgVal[1] = (UINT8_T)(length);
+				USARTx->msgRXDHandler.pMsgVal[1] = (UINT8_T)(length);
 				//---获取CRC32的最高位值
-				crcTemp = USARTx->msgRxHandler.pMsgVal[length - 1];
+				crcTemp = USARTx->msgRXDHandler.pMsgVal[length - 1];
 				//---获取CRC32的次高位值
-				crcTemp = (crcTemp << 8) + USARTx->msgRxHandler.pMsgVal[length];
+				crcTemp = (crcTemp << 8) + USARTx->msgRXDHandler.pMsgVal[length];
 				//---获取CRC32的次低位值
-				crcTemp = (crcTemp << 8) + USARTx->msgRxHandler.pMsgVal[length + 1];
+				crcTemp = (crcTemp << 8) + USARTx->msgRXDHandler.pMsgVal[length + 1];
 				//---获取CRC32的低位值
-				crcTemp = (crcTemp << 8) + USARTx->msgRxHandler.pMsgVal[length + 2];
+				crcTemp = (crcTemp << 8) + USARTx->msgRXDHandler.pMsgVal[length + 2];
 				//---参与校验和计算的数据总长度
 				length += 2;
 			}
 			else
 			{
-				USARTx->msgRxHandler.pMsgVal[1] = (UINT8_T)(length >> 8);
-				USARTx->msgRxHandler.pMsgVal[2] = (UINT8_T)(length);
+				USARTx->msgRXDHandler.pMsgVal[1] = (UINT8_T)(length >> 8);
+				USARTx->msgRXDHandler.pMsgVal[2] = (UINT8_T)(length);
 				//---获取CRC32的最高位值
-				crcTemp = USARTx->msgRxHandler.pMsgVal[length];
+				crcTemp = USARTx->msgRXDHandler.pMsgVal[length];
 				//---获取CRC32的次高位值
-				crcTemp = (crcTemp << 8) + USARTx->msgRxHandler.pMsgVal[length + 1];
+				crcTemp = (crcTemp << 8) + USARTx->msgRXDHandler.pMsgVal[length + 1];
 				//---获取CRC32的次低位值
-				crcTemp = (crcTemp << 8) + USARTx->msgRxHandler.pMsgVal[length + 2];
+				crcTemp = (crcTemp << 8) + USARTx->msgRXDHandler.pMsgVal[length + 2];
 				//---获取CRC32的低位值
-				crcTemp = (crcTemp << 8) + USARTx->msgRxHandler.pMsgVal[length + 3];
+				crcTemp = (crcTemp << 8) + USARTx->msgRXDHandler.pMsgVal[length + 3];
 				length += 3;
 			}
-			crcVal = CRCTask_CRC32(USARTx->msgRxHandler.pMsgVal, length);
+			crcVal = CRCTask_CRC32(USARTx->msgRXDHandler.pMsgVal, length);
 		}
 		//---比对CRC的值
 		if (crcVal != crcTemp)
@@ -1166,57 +1172,57 @@ UINT8_T USART_CRCTask_Read(USART_HandlerType*USARTx)
 UINT8_T USART_CRCTask_Write(USART_HandlerType*USARTx)
 {
 	//---校验CRC是否初始化
-	if ((USARTx->msgTxHandler.msgCRCFlag != USART_CRC_NONE) && (CRCTask_Enable() == OK_0))
+	if ((USARTx->msgTXDHandler.msgCRCFlag != USART_CRC_NONE) && (CRCTask_Enable() == OK_0))
 	{
 		UINT32_T crcVal = 0;
 		//--要发送数据的总长度
-		UINT16_T length = USARTx->msgTxHandler.msgIndexW;
+		UINT16_T length = USARTx->msgTXDHandler.msgIndexW;
 		//---判断是否增加换行符
-		if ((USARTx->msgTxHandler.msgAddNewLine==1))
+		if ((USARTx->msgTXDHandler.msgAddNewLine==1))
 		{
 			length += 2;
 		}
 		//---数据大小的整理
-		if (USARTx->msgTxHandler.msgSize < 0xFF)
+		if (USARTx->msgTXDHandler.msgSize < 0xFF)
 		{
-			USARTx->msgTxHandler.pMsgVal[1] = (UINT8_T)(length- 2);
+			USARTx->msgTXDHandler.pMsgVal[1] = (UINT8_T)(length- 2);
 		}
 		else
 		{
-			USARTx->msgTxHandler.pMsgVal[1] = (UINT8_T)((length - 3) >> 8);
-			USARTx->msgTxHandler.pMsgVal[2] = (UINT8_T)((length - 3));
+			USARTx->msgTXDHandler.pMsgVal[1] = (UINT8_T)((length - 3) >> 8);
+			USARTx->msgTXDHandler.pMsgVal[2] = (UINT8_T)((length - 3));
 		}		
 		//---判断数据校验模式
-		if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CHECKSUM)
+		if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CHECKSUM)
 		{
 			//---校验和
-			crcVal = CRCTask_CheckSum(USARTx->msgTxHandler.pMsgVal, USARTx->msgTxHandler.msgIndexW);
+			crcVal = CRCTask_CheckSum(USARTx->msgTXDHandler.pMsgVal, USARTx->msgTXDHandler.msgIndexW);
 			USART_FillMode_AddByte(USARTx, (UINT8_T)crcVal);
 		}
-		else if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CRC8)
+		else if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CRC8)
 		{
 			//---CRC8校验
-			crcVal = CRCTask_CRC8(USE_CRC8_07H, USARTx->msgTxHandler.pMsgVal, USARTx->msgTxHandler.msgIndexW);
+			crcVal = CRCTask_CRC8(USE_CRC8_07H, USARTx->msgTXDHandler.pMsgVal, USARTx->msgTXDHandler.msgIndexW);
 			USART_FillMode_AddByte(USARTx, (UINT8_T)crcVal);
 		}
-		else if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CRC16)
+		else if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CRC16)
 		{
 			//---CRC16校验
-			crcVal = CRCTask_CRC16(USARTx->msgTxHandler.pMsgVal, USARTx->msgTxHandler.msgIndexW);
+			crcVal = CRCTask_CRC16(USARTx->msgTXDHandler.pMsgVal, USARTx->msgTXDHandler.msgIndexW);
 			USART_FillMode_AddByte(USARTx, (UINT8_T)(crcVal >> 8));
 			USART_FillMode_AddByte(USARTx, (UINT8_T)crcVal);
 		}
-		else if (USARTx->msgTxHandler.msgCRCFlag == USART_CRC_CRC32)
+		else if (USARTx->msgTXDHandler.msgCRCFlag == USART_CRC_CRC32)
 		{
 			//---CRC32校验
-			crcVal = CRCTask_CRC32(USARTx->msgTxHandler.pMsgVal, USARTx->msgTxHandler.msgIndexW);
+			crcVal = CRCTask_CRC32(USARTx->msgTXDHandler.pMsgVal, USARTx->msgTXDHandler.msgIndexW);
 			USART_FillMode_AddByte(USARTx, (UINT8_T)(crcVal >> 24));
 			USART_FillMode_AddByte(USARTx, (UINT8_T)(crcVal >> 16));
 			USART_FillMode_AddByte(USARTx, (UINT8_T)(crcVal >> 8));
 			USART_FillMode_AddByte(USARTx, (UINT8_T)crcVal);
 		}
 		//---发送数据的大小
-		USARTx->msgTxHandler.msgCount = USARTx->msgTxHandler.msgIndexW;
+		USARTx->msgTXDHandler.msgCount = USARTx->msgTXDHandler.msgIndexW;
 		return OK_0;
 	}
 	return ERROR_1;
@@ -1232,48 +1238,56 @@ UINT8_T USART_CRCTask_Write(USART_HandlerType*USARTx)
 UINT8_T  USART_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
 {
 	//---等待传输完成
-	while ((USARTx->msgTxHandler.msgTaskState == USART_BUSY)||(USARTx->msgTxHandler.msgTaskState==USART_PRINTF))
+	while ((USARTx->msgTXDHandler.msgTaskState == USART_BUSY)||(USARTx->msgTXDHandler.msgTaskState==USART_PRINTF))
 	{
 		WDT_RESET();
 	}
 	//---设置发送状态为空闲中
-	USARTx->msgTxHandler.msgTaskState = USART_BUSY;
+	USARTx->msgTXDHandler.msgTaskState = USART_BUSY;
 	//---判断是否需要填充报头
 	if (isNeedID == 1)
 	{
 		//---填充报头和数据长度
-		USARTx->msgTxHandler.pMsgVal[0] = USARTx->msgTxID;
+		USARTx->msgTXDHandler.pMsgVal[0] = USARTx->msgTxID;
 	}
 	//---填充设备ID
 	if ((USARTx->msgCmdIndex - USARTx->msgIDIndex) != 0)
 	{
-		USARTx->msgTxHandler.pMsgVal[USARTx->msgIDIndex] = USARTx->msgID;
+		USARTx->msgTXDHandler.pMsgVal[USARTx->msgIDIndex] = USARTx->msgID;
 	}	
 	//---发送CRC处理
 	USART_CRCTask_Write(USARTx);
 	//---判断是否增加换行符
-	if (( USARTx->msgTxHandler.msgAddNewLine == 1 ))
+	if (( USARTx->msgTXDHandler.msgAddNewLine == 1 ))
 	{
 		USART_FillMode_AddByte( USARTx, 0x0D );
 		USART_FillMode_AddByte( USARTx, 0x0A );
 	}	
 	//---数据大小的整理
-	if (USARTx->msgTxHandler.msgSize < 0xFF)
+	if (USARTx->msgTXDHandler.msgSize < 0xFF)
 	{
-		USARTx->msgTxHandler.pMsgVal[1] = (UINT8_T)(USARTx->msgTxHandler.msgIndexW - 2);
+		USARTx->msgTXDHandler.pMsgVal[1] = (UINT8_T)(USARTx->msgTXDHandler.msgIndexW - 2);
 	}
 	else
 	{
-		USARTx->msgTxHandler.pMsgVal[1] = (UINT8_T)((USARTx->msgTxHandler.msgIndexW - 3) >> 8);
-		USARTx->msgTxHandler.pMsgVal[2] = (UINT8_T)((USARTx->msgTxHandler.msgIndexW - 3));
+		USARTx->msgTXDHandler.pMsgVal[1] = (UINT8_T)((USARTx->msgTXDHandler.msgIndexW - 3) >> 8);
+		USARTx->msgTXDHandler.pMsgVal[2] = (UINT8_T)((USARTx->msgTXDHandler.msgIndexW - 3));
 	}
-	USARTx->msgTxHandler.msgCount=USARTx->msgTxHandler.msgIndexW;
+	USARTx->msgTXDHandler.msgCount=USARTx->msgTXDHandler.msgIndexW;
 	//---设置485为发送模式
 	USART_485GPIOInit(USARTx, USART_485_TX_ENABLE);
 	//---切换发送端口为输出模式
 	USART_GPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
-	//---发送数据寄存器空中断使能
-	LL_USART_EnableIT_TXE(USARTx->msgUSART);
+	//---校验是不是DMA模式
+	if (USARTx->msgTXDHandler.msgIsDMA==0)
+	{
+		//---发送数据寄存器空中断使能
+		LL_USART_EnableIT_TXE(USARTx->msgUSART);
+	}
+	else
+	{
+		USART_Write_DMA_RESTART(USARTx);
+	}
 	return OK_0;
 }
 
@@ -1288,11 +1302,11 @@ UINT8_T USART_GetOVF(USART_HandlerType* USARTx, UINT8_T isRx)
 {
 	if (isRx)
 	{
-		return USARTx->msgRxHandler.msgOverFlow;
+		return USARTx->msgRXDHandler.msgOverFlow;
 	}
 	else
 	{
-		return USARTx->msgTxHandler.msgOverFlow;
+		return USARTx->msgTXDHandler.msgOverFlow;
 	}
 }
 
@@ -1307,11 +1321,11 @@ UINT8_T USART_ClearOVF(USART_HandlerType* USARTx, UINT8_T isRx)
 {
 	if (isRx)
 	{
-		USARTx->msgRxHandler.msgOverFlow = 0;
+		USARTx->msgRXDHandler.msgOverFlow = 0;
 	}
 	else
 	{
-		USARTx->msgTxHandler.msgOverFlow = 0;
+		USARTx->msgTXDHandler.msgOverFlow = 0;
 	}
 	return OK_0;
 }
@@ -1325,7 +1339,7 @@ UINT8_T USART_ClearOVF(USART_HandlerType* USARTx, UINT8_T isRx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_GetReadState(USART_HandlerType* USARTx)
 {
-	return USARTx->msgRxHandler.msgTaskState;
+	return USARTx->msgRXDHandler.msgTaskState;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1337,7 +1351,7 @@ UINT8_T USART_GetReadState(USART_HandlerType* USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_ClearReadState(USART_HandlerType* USARTx)
 {
-	USARTx->msgRxHandler.msgTaskState = USART_OK;
+	USARTx->msgRXDHandler.msgTaskState = USART_OK;
 	return OK_0;
 }
 
@@ -1350,7 +1364,7 @@ UINT8_T USART_ClearReadState(USART_HandlerType* USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_GetWriteState(USART_HandlerType* USARTx)
 {
-	return USARTx->msgTxHandler.msgTaskState;
+	return USARTx->msgTXDHandler.msgTaskState;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1362,7 +1376,7 @@ UINT8_T USART_GetWriteState(USART_HandlerType* USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_ClearWriteState(USART_HandlerType* USARTx)
 {
-	USARTx->msgTxHandler.msgTaskState = USART_OK;
+	USARTx->msgTXDHandler.msgTaskState = USART_OK;
 	return OK_0;
 }
 
@@ -1378,23 +1392,23 @@ UINT8_T  USART_Read_Init(USART_HandlerType*  USARTx)
 	//---设置485位接收模式
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---清零步序
-	USARTx->msgRxHandler.msgStep = 0;
+	USARTx->msgRXDHandler.msgStep = 0;
 	//---清除写数组索引
-	USARTx->msgRxHandler.msgIndexW = 0;
+	USARTx->msgRXDHandler.msgIndexW = 0;
 	//---清除读数组索引
-	USARTx->msgRxHandler.msgIndexR = 0;
+	USARTx->msgRXDHandler.msgIndexR = 0;
 	//---清零接收数据个数
-	USARTx->msgRxHandler.msgCount = 0;
+	USARTx->msgRXDHandler.msgCount = 0;
 	//---清零接收完成标志
-	USARTx->msgRxHandler.msgTaskState = USART_BUSY;
+	USARTx->msgRXDHandler.msgTaskState = USART_BUSY;
 	//---清零超时计数
-	USARTx->msgRxHandler.msgRecordTime = 0;
+	USARTx->msgRXDHandler.msgRecordTime = 0;
 	//---清零超时计数
-	USARTx->msgRxHandler.msgEndTime = 0;
+	USARTx->msgRXDHandler.msgEndTime = 0;
 	//---清零超时标志
-	USARTx->msgRxHandler.msgOverFlow = 0;
+	USARTx->msgRXDHandler.msgOverFlow = 0;
 	//---校验是不是DMA模式
-	if(USARTx->msgRxHandler.msgIsDMA!=0)
+	if(USARTx->msgRXDHandler.msgIsDMA!=0)
 	{
 		USART_Read_DMA_RESTART(USARTx);
 	}
@@ -1411,21 +1425,21 @@ UINT8_T  USART_Read_Init(USART_HandlerType*  USARTx)
 UINT8_T USART_Write_Init(USART_HandlerType*  USARTx)
 {
 	//---设置发送状态为发送完成
-	USARTx->msgTxHandler.msgTaskState = USART_OK;
+	USARTx->msgTXDHandler.msgTaskState = USART_OK;
 	//---清除写数组索引
-	USARTx->msgTxHandler.msgIndexW = 0;
+	USARTx->msgTXDHandler.msgIndexW = 0;
 	//---清除读数组索引
-	USARTx->msgTxHandler.msgIndexR = 0;
+	USARTx->msgTXDHandler.msgIndexR = 0;
 	//---清零发送数据个数
-	USARTx->msgTxHandler.msgCount = 0;
+	USARTx->msgTXDHandler.msgCount = 0;
 	//---清零超时计数
-	USARTx->msgTxHandler.msgRecordTime = 0;
+	USARTx->msgTXDHandler.msgRecordTime = 0;
 	//---清零超时计数
-	USARTx->msgTxHandler.msgEndTime = 0;
+	USARTx->msgTXDHandler.msgEndTime = 0;
 	//---清零超时标志
-	USARTx->msgTxHandler.msgOverFlow = 0;
+	USARTx->msgTXDHandler.msgOverFlow = 0;
 	//---操作步序归零
-	USARTx->msgTxHandler.msgStep = 0;
+	USARTx->msgTXDHandler.msgStep = 0;
 	//---设置485为接收模式
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---数据发送完成，切换端口为输入模式
@@ -1444,7 +1458,7 @@ UINT8_T USART_DeviceID(USART_HandlerType*USARTx)
 {
 	if ((USARTx->msgCmdIndex - USARTx->msgIDIndex) != 0)
 	{
-		if (USARTx->msgRxHandler.pMsgVal[USARTx->msgIDIndex] != USARTx->msgID)
+		if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgIDIndex] != USARTx->msgID)
 		{
 			return ERROR_1;
 		}
@@ -1475,7 +1489,7 @@ void USART_PrintfSuspend(USART_HandlerType* USARTx)
 	if (LL_USART_IsEnabledIT_TC(USARTx->msgUSART))
 	{
 		//---等待发送完成
-		while ((LL_USART_IsActiveFlag_TC(USARTx->msgUSART) != RESET) && (USARTx->msgTxHandler.msgStep == 0))
+		while ((LL_USART_IsActiveFlag_TC(USARTx->msgUSART) != RESET) && (USARTx->msgTXDHandler.msgStep == 0))
 		{
 			WDT_RESET();
 		}
@@ -1532,23 +1546,12 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 	}
 	USARTx->msgPrintfCount = length;
 	USARTx->msgPrintfIndex = 1;
-	USARTx->msgTxHandler.msgTaskState = USART_PRINTF;
+	USARTx->msgTXDHandler.msgTaskState = USART_PRINTF;
 	//---发送完成,发送数据发送完成中断不使能
 	LL_USART_EnableIT_TC(USARTx->msgUSART);
 	//---发送8Bit的数据
 	LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[0]);	
-	/*
-	//---数据发送
-	for ( UINT16_T i = 0; i < length; i++)
-	{
-		//---查询的方式发送数据
-		USART_PollMode_WriteByte(USARTx, g_PrintfBuffer[i]);
-	}
-	USART_PrintfResume(USARTx);
-	*/
-
-#endif
-	
+#endif	
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1567,7 +1570,7 @@ UINT8_T  USART_ITPrintf_TCTask(USART_HandlerType* USARTx)
 		LL_USART_DisableIT_TC(USARTx->msgUSART);
 		//---恢复操作
 		USART_PrintfResume(USARTx);
-		USARTx->msgTxHandler.msgTaskState = USART_OK;
+		USARTx->msgTXDHandler.msgTaskState = USART_OK;
 	}
 	else
 	{
@@ -1588,17 +1591,17 @@ UINT8_T  USART_ITPrintf_TCTask(USART_HandlerType* USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_IT_TCTask(USART_HandlerType* USARTx)
 {
-	if (USARTx->msgTxHandler.msgTaskState == USART_BUSY)
+	if (USARTx->msgTXDHandler.msgTaskState == USART_BUSY)
 	{
 		USART_ITWrite_TCTask(USARTx);
 	}
-	else if (USARTx->msgTxHandler.msgTaskState == USART_PRINTF)
+	else if (USARTx->msgTXDHandler.msgTaskState == USART_PRINTF)
 	{
 		USART_ITPrintf_TCTask(USARTx);
 	}
 	else
 	{
-		USARTx->msgTxHandler.msgTaskState = USART_OK;
+		USARTx->msgTXDHandler.msgTaskState = USART_OK;
 		LL_USART_DisableIT_TC(USARTx->msgUSART);
 	}
 	return OK_0;
@@ -1900,16 +1903,16 @@ UINT8_T USART1_ConfigInit(USART_HandlerType* USARTx)
 	//---校验是否需要超时函数
 	if (USARTx->msgFuncTimeTick != NULL)
 	{
-		USARTx->msgRxHandler.msgMaxTime = 100;
-		USARTx->msgTxHandler.msgMaxTime = 100;
+		USARTx->msgRXDHandler.msgMaxTime = 100;
+		USARTx->msgTXDHandler.msgMaxTime = 100;
 	}
 	else
 	{
-		USARTx->msgRxHandler.msgMaxTime = 0;
-		USARTx->msgTxHandler.msgMaxTime = 0;
+		USARTx->msgRXDHandler.msgMaxTime = 0;
+		USARTx->msgTXDHandler.msgMaxTime = 0;
 	}
 	//---配置CRC的等级
-	USARTx->msgTxHandler.msgCRCFlag = USART_CRC_NONE;
+	USARTx->msgTXDHandler.msgCRCFlag = USART_CRC_NONE;
 	//---配置报头和报尾
 	USARTx->msgRxID = 0x55;
 	USARTx->msgTxID = 0x5A;
@@ -1919,6 +1922,7 @@ UINT8_T USART1_ConfigInit(USART_HandlerType* USARTx)
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---设置TX端口为输入模式
 	USART_GPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1932,7 +1936,7 @@ UINT8_T USART1_Init(USART_HandlerType*USARTx)
 {
 	USART1_ConfigInit(USARTx);
 	//---校验接收是不是DMA传输
-	if (USARTx->msgRxHandler.msgIsDMA==0)
+	if (USARTx->msgRXDHandler.msgIsDMA==0)
 	{
 		//---使能接收中断
 		LL_USART_EnableIT_RXNE(USART1);
@@ -1945,9 +1949,9 @@ UINT8_T USART1_Init(USART_HandlerType*USARTx)
 		USART1_Read_DMA_Init(USARTx);
 	}
 	//---校验发送是不是DMA传输方式
-	if (USARTx->msgTxHandler.msgIsDMA != 0)
+	if (USARTx->msgTXDHandler.msgIsDMA != 0)
 	{
-		
+		USART1_Write_DMA_Init(USARTx);
 	}
 	//---USART1_IRQ中断配置---中断等级配置
 	NVIC_SetPriority(USART1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
@@ -1984,7 +1988,6 @@ UINT8_T USART3_Init(USART_HandlerType*USARTx)
 	return OK_0;
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：中断处理函数
@@ -2013,6 +2016,7 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 	//---数据发送完成中断处理函数
 	if (LL_USART_IsActiveFlag_TC(USARTx->msgUSART) && LL_USART_IsEnabledIT_TC(USARTx->msgUSART))
 	{
+		tcCount++;
 		//---中断处理函数
 		USART_IT_TCTask(USARTx);
 		//---清楚中断标志位
@@ -2046,8 +2050,10 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 	{
 		//---中断处理函数,DMA数据接收
 		USART_DMA_IDLETask(USARTx);
-		//---清楚中断标志位
+		//---清楚空闲中断标志位
 		LL_USART_ClearFlag_IDLE(USARTx->msgUSART);
+		//---清楚DMA中断标识
+		LL_DMA_ClearFlag(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream);
 	}
 
 	//---上溢错误中断
@@ -2112,8 +2118,8 @@ UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx)
 	LL_DMA_DeInit(DMA2, LL_DMA_STREAM_2);
 	//---DMA时钟总线配置
 	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
-	USARTx->msgRxHandler.msgDMA = DMA2;
-	USARTx->msgRxHandler.msgDMAChannelOrStream = LL_DMA_STREAM_2;
+	USARTx->msgRXDHandler.msgDMA = DMA2;
+	USARTx->msgRXDHandler.msgDMAChannelOrStream = LL_DMA_STREAM_2;
 #endif
 	//---DMA初始化结构体
 	LL_DMA_InitTypeDef DMA_InitTypeDef = { 0 };
@@ -2122,7 +2128,7 @@ UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx)
 	DMA_InitTypeDef.Channel = LL_DMA_CHANNEL_4;
 #endif
 	//---数据大小
-	DMA_InitTypeDef.NbData = USARTx->msgRxHandler.msgSize;
+	DMA_InitTypeDef.NbData = USARTx->msgRXDHandler.msgSize;
 	//---方向从外设到存储器
 	DMA_InitTypeDef.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 #ifndef USE_MCU_STM32F1
@@ -2132,7 +2138,7 @@ UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx)
 	DMA_InitTypeDef.FIFOThreshold = LL_DMA_FIFOTHRESHOLD_1_2;
 #endif
 	//---存储器地址
-	DMA_InitTypeDef.MemoryOrM2MDstAddress = (UINT32_T)(USARTx->msgRxHandler.pMsgVal);
+	DMA_InitTypeDef.MemoryOrM2MDstAddress = (UINT32_T)(USARTx->msgRXDHandler.pMsgVal);
 	//---半字两字节
 	DMA_InitTypeDef.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
 	//---存储器地址增加
@@ -2159,9 +2165,9 @@ UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx)
 	LL_DMA_EnableChannel(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
 #else
 	//---初始化DMA
-	LL_DMA_Init(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	LL_DMA_Init(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
 	//---使能DMA
-	LL_DMA_EnableStream(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	LL_DMA_EnableStream(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream);
 	//---是能串口接收DMA
 	LL_USART_EnableDMAReq_RX(USARTx->msgUSART);
 #endif
@@ -2178,7 +2184,7 @@ UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx)
 	NVIC_EnableIRQ(DMA2_Stream2_IRQn);
 #endif
 	//---使能DMA传输结束中断
-	LL_DMA_EnableIT_TC(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	LL_DMA_EnableIT_TC(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream);
 	//<<<---RX的DMA配置结束
 	return OK_0;
 }
@@ -2192,6 +2198,85 @@ UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART1_Write_DMA_Init(USART_HandlerType* USARTx)
 {
+	//>>>---TX的DMA配置
+//---将DMA全部寄存器重新设置为缺省值
+#ifdef USE_MCU_STM32F1
+	//---F1对应是的DMA1的通道1对应ADC1
+	LL_DMA_DeInit(DMA1, LL_DMA_CHANNEL_1);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+#else
+	LL_DMA_DeInit(DMA2, LL_DMA_STREAM_7);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
+	USARTx->msgTXDHandler.msgDMA = DMA2;
+	USARTx->msgTXDHandler.msgDMAChannelOrStream = LL_DMA_STREAM_7;
+#endif
+	//---DMA初始化结构体
+	LL_DMA_InitTypeDef DMA_InitTypeDef = { 0 };
+#ifndef USE_MCU_STM32F1
+	//---DMA通道
+	DMA_InitTypeDef.Channel = LL_DMA_CHANNEL_4;
+#endif
+	//---数据大小
+	DMA_InitTypeDef.NbData = USARTx->msgTXDHandler.msgSize;
+	//---方向从存储器到外设
+	DMA_InitTypeDef.Direction = LL_DMA_DIRECTION_MEMORY_TO_PERIPH;
+#ifndef USE_MCU_STM32F1
+	//---不用FIFO用直连模式
+	DMA_InitTypeDef.FIFOMode = LL_DMA_FIFOMODE_DISABLE;
+	//---半字两字节
+	DMA_InitTypeDef.FIFOThreshold = LL_DMA_FIFOTHRESHOLD_1_2;
+#endif
+	//---存储器地址
+	DMA_InitTypeDef.MemoryOrM2MDstAddress = (UINT32_T)(USARTx->msgTXDHandler.pMsgVal);
+	//---半字两字节
+	DMA_InitTypeDef.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
+	//---存储器地址增加
+	DMA_InitTypeDef.MemoryOrM2MDstIncMode = LL_DMA_MEMORY_INCREMENT;
+	//---DMA正常模式
+	DMA_InitTypeDef.Mode = LL_DMA_MODE_NORMAL; //LL_DMA_MODE_CIRCULAR;
+	//---DMA外设地址
+	DMA_InitTypeDef.PeriphOrM2MSrcAddress = (UINT32_T) & (USARTx->msgUSART->DR);
+#ifndef USE_MCU_STM32F1
+	//---无FIFO
+	DMA_InitTypeDef.PeriphBurst = LL_DMA_PBURST_SINGLE;
+#endif
+	//---半字两字节
+	DMA_InitTypeDef.PeriphOrM2MSrcDataSize = LL_DMA_PDATAALIGN_BYTE;
+	//---外设基地址不变
+	DMA_InitTypeDef.PeriphOrM2MSrcIncMode = LL_DMA_PERIPH_NOINCREMENT;
+	//---传输通道优先级为高
+	DMA_InitTypeDef.Priority = LL_DMA_PRIORITY_HIGH;
+	//---DMA初始化
+#ifdef USE_MCU_STM32F1
+	//---初始化DMA
+	LL_DMA_Init(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA
+	LL_DMA_EnableChannel(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
+#else
+	//---初始化DMA
+	LL_DMA_Init(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA,注意发送状态下不能使能DMA，只有需要的时候才能打开
+	//LL_DMA_EnableStream(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
+	//---使能串口发送DMA
+	LL_USART_EnableDMAReq_TX(USARTx->msgUSART);
+#endif
+	//---中断配置
+#ifdef USE_MCU_STM32F1
+	//---DMA中断配置
+	NVIC_SetPriority(DMA1_Channel1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 1, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+#else
+	//---DMA中断配置
+	NVIC_SetPriority(DMA2_Stream7_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA2_Stream7_IRQn);
+#endif
+	//---使能DMA传输结束中断
+	LL_DMA_EnableIT_TC(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream);
+	//<<<---TX的DMA配置结束
 	return OK_0;
 }
 
@@ -2210,11 +2295,11 @@ UINT16_T USART_Read_DMA_STOP(USART_HandlerType* USARTx)
 	LL_DMA_ClearFlag_GI1(USARTx->msgRxHandler.msgDMA);
 #else
 	//---不使能DMA
-	LL_DMA_DisableStream(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	LL_DMA_DisableStream(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream);
 #endif
-	LL_DMA_ClearFlag(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	LL_DMA_ClearFlag(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream);
 	//---计算接收数据的长度
-	UINT16_T length = USARTx->msgRxHandler.msgSize - LL_DMA_GetDataLength(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	UINT16_T length = USARTx->msgRXDHandler.msgSize - LL_DMA_GetDataLength(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream);
 	return length;
 }
 
@@ -2235,11 +2320,34 @@ UINT8_T USART_Read_DMA_RESTART(USART_HandlerType* USARTx)
 	LL_DMA_EnableChannel(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
 #else
 	//---设置DMA读取数据的大小
-	LL_DMA_SetDataLength(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream, USARTx->msgRxHandler.msgSize);
+	LL_DMA_SetDataLength(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream, USARTx->msgRXDHandler.msgSize);
 	//---使能DMA
-	LL_DMA_EnableStream(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	LL_DMA_EnableStream(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream);
 #endif
 	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：停止DMA的发送模式
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT16_T USART_Write_DMA_STOP(USART_HandlerType* USARTx)
+{
+#ifdef USE_MCU_STM32F1
+	//---使能DMA
+	LL_DMA_DisableChannel(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	LL_DMA_ClearFlag_GI1(USARTx->msgRxHandler.msgDMA);
+#else
+	//---不使能DMA
+	LL_DMA_DisableStream(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream);
+#endif
+	LL_DMA_ClearFlag(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream);
+	//---计算接收数据的长度
+	UINT16_T length = USARTx->msgTXDHandler.msgSize - LL_DMA_GetDataLength(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream);
+	return length;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2252,14 +2360,15 @@ UINT8_T USART_Read_DMA_RESTART(USART_HandlerType* USARTx)
 UINT8_T USART_Write_DMA_RESTART(USART_HandlerType* USARTx)
 {
 	//---设置DMA发送数据的大小
-	LL_DMA_SetDataLength(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream, USARTx->msgTxHandler.msgCount);
+	LL_DMA_SetDataLength(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream, USARTx->msgTXDHandler.msgCount);
 #ifdef USE_MCU_STM32F1
 	//---使能DMA
-	LL_DMA_EnableChannel(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	LL_DMA_EnableChannel(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
 #else
 	//---使能DMA
-	LL_DMA_EnableStream(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
+	LL_DMA_EnableStream(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream);
 #endif
+	tcCount =0;
 	return OK_0;
 }
 
@@ -2276,24 +2385,24 @@ UINT8_T USART_DMA_IDLETask(USART_HandlerType* USARTx)
 	//---停止接收DMA模式,并获取接收数据的长度
 	UINT16_T dataLength= USART_Read_DMA_STOP(USARTx);
 	//---校验报头是否正确
-	if (USARTx->msgRxHandler.pMsgVal[0] == USARTx->msgRxID)
+	if (USARTx->msgRXDHandler.pMsgVal[0] == USARTx->msgRxID)
 	{
 		//---数据长度信息
-		UINT16_T length = USARTx->msgRxHandler.pMsgVal[1];
+		UINT16_T length = USARTx->msgRXDHandler.pMsgVal[1];
 		//---校验数据长度信息
-		if (USARTx->msgRxHandler.msgSize < 0xFF)
+		if (USARTx->msgRXDHandler.msgSize < 0xFF)
 		{
 			length += 2;
 		}
 		else
 		{
-			length = (length << 8) + USARTx->msgRxHandler.pMsgVal[1];
+			length = (length << 8) + USARTx->msgRXDHandler.pMsgVal[1];
 			length += 3;
 		}
 		//---校验数据是否合法
 		if (length == dataLength)
 		{
-			USARTx->msgRxHandler.msgTaskState = USART_OK;
+			USARTx->msgRXDHandler.msgTaskState = USART_OK;
 		}
 		else
 		{
@@ -2319,7 +2428,10 @@ UINT8_T USART_DMA_IDLETask(USART_HandlerType* USARTx)
 //////////////////////////////////////////////////////////////////////////////
 void USART_Read_DMA_IRQTask(USART_HandlerType* USARTx)
 {
-
+	//---DMA处理模式
+	USART_DMA_IDLETask(USARTx);
+	//---清楚空闲中断标志位
+	LL_USART_ClearFlag_IDLE(USARTx->msgUSART);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2333,14 +2445,16 @@ void USART_Write_DMA_IRQTask(USART_HandlerType* USARTx)
 {
 #ifdef USE_MCU_STM32F1
 	//---不使能DMA
-	LL_DMA_DisableChannel(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream;
+	LL_DMA_DisableChannel(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream;
 	LL_DMA_ClearFlag_GI1(DMA1);
 #else
 	//---不使能DMA
-	LL_DMA_DisableStream(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
+	LL_DMA_DisableStream(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream);
 #endif
 	//---清除标识
-	LL_DMA_ClearFlag(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
+	LL_DMA_ClearFlag(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream);
 	//---清零发送
-	USART_Write_Init(USARTx);
+	//USART_Write_Init(USARTx);
+	//---使能发送完成中断，用于切换TXD端口为输入状态
+	LL_USART_EnableIT_TC(USARTx->msgUSART);
 }

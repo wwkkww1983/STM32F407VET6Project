@@ -16,8 +16,8 @@ UINT8_T  USARTLib_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRx
 		if (CRCTask_Enable() != OK_0)
 		{
 			//---CRC校验函数调用失败,之后的CRC标志设置为无校验位
-			USARTx->msgRxHandler.msgCRCFlag = 0;
-			USARTx->msgTxHandler.msgCRCFlag = 0;
+			USARTx->msgRXDHandler.msgCRCFlag = 0;
+			USARTx->msgTXDHandler.msgCRCFlag = 0;
 		}
 	}
 	return _return;

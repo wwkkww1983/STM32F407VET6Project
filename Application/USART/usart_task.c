@@ -414,20 +414,20 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 				//---数据接收完成
 				if (pFuncTask != NULL)
 				{
-					pFuncTask(USARTx->msgRxHandler.pMsgVal, USARTx->msgTxHandler.pMsgVal);
+					pFuncTask(USARTx->msgRXDHandler.pMsgVal, USARTx->msgTXDHandler.pMsgVal);
 				}
 				else
 				{
 					//USARTTask_FillMode_AddData(USARTx, USARTx->msgRxHandler.pMsgVal, length);
 					//USARTTask_RealTime_AddByteSize(USARTx, USARTx->msgRxHandler.msgCount);
-					USARTTask_RealTime_AddSize(USARTx, USARTx->msgRxHandler.msgIndexW);
-					for (length = USART1_ID_INDEX; length < USARTx->msgRxHandler.msgCount; length++)
+					USARTTask_RealTime_AddSize(USARTx, USARTx->msgRXDHandler.msgIndexW);
+					for (length = USART1_ID_INDEX; length < USARTx->msgRXDHandler.msgCount; length++)
 					{
-						USARTTask_RealTime_AddByte(USARTx, USARTx->msgRxHandler.pMsgVal[length]);
+						USARTTask_RealTime_AddByte(USARTx, USARTx->msgRXDHandler.pMsgVal[length]);
 					}
 
 					//---是否需要增加换行符
-					if (USARTx->msgTxHandler.msgAddNewLine==1)
+					if (USARTx->msgTXDHandler.msgAddNewLine==1)
 					{
 						USARTTask_RealTime_AddByte(USARTx, 0x0D);
 						USARTTask_RealTime_AddByte(USARTx, 0x0A);
@@ -469,7 +469,7 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 			//---CRC的校验
 			if ((USARTTask_CRCTask_Read(USARTx) == OK_0) && (USARTTask_DeviceID(USARTx) == OK_0))
 			{
-				if (USARTx->msgRxHandler.pMsgVal[USART1_CMD_INDEX]==0xA4)
+				if (USARTx->msgRXDHandler.pMsgVal[USART1_CMD_INDEX]==0xA4)
 				{
 					//---获取时钟频率
 					TimerTask_CalcFreq_Task(0);

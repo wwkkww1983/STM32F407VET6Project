@@ -296,6 +296,36 @@ void TIM2_IRQHandler(void)
 	//DecodeTask_IRQTask();
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：DMA中断函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void DMA2_Stream2_IRQHandler(void)
+{
+	if (LL_DMA_IsActiveFlag_TC2(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_2)))
+	{
+		USART_Read_DMA_IRQTask(pUSART1);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：DMA中断函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void DMA2_Stream7_IRQHandler(void)
+{
+	if (LL_DMA_IsActiveFlag_TC7(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_7)))
+	{
+		USART_Write_DMA_IRQTask(pUSART1);
+	}
+}
+
 /******************************************************************************/
 /* STM32F4xx Peripheral Interrupt Handlers                                    */
 /* Add here the Interrupt Handlers for the used peripherals.                  */

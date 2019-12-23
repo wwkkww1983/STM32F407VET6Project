@@ -17,12 +17,12 @@ extern "C" {
 	typedef struct _USART_HandlerDef						*pUSART_HandlerDef;
 
 	//===接收数据结构体
-	typedef struct _USART_HandlerDef						USART_RxHandlerType;
-	typedef struct _USART_HandlerDef						*pUSART_RxHandlerType;
+	typedef struct _USART_HandlerDef						USART_RXDHandlerType;
+	typedef struct _USART_HandlerDef						*pUSART_RXDHandlerType;
 
 	//===发送数据结构体
-	typedef struct _USART_HandlerDef						USART_TxHandlerType;
-	typedef struct _USART_HandlerDef						*pUSART_TxHandlerType;
+	typedef struct _USART_HandlerDef						USART_TXDHandlerType;
+	typedef struct _USART_HandlerDef						*pUSART_TXDHandlerType;
 
 	//===串口数据结构体定义
 	struct _USART_HandlerDef
@@ -69,9 +69,9 @@ extern "C" {
 		UINT32_T								msg485Bit;								//---485的使能GPIO端口
 		GPIO_TypeDef							*msg485Port;							//---485的使能GPIO端口
 		USART_TypeDef							*msgUSART;								//---USART端口
-		USART_TxHandlerType						msgTxHandler;							//---发送函数
-		USART_RxHandlerType						msgRxHandler;							//---接收函数
-		UINT32_T(*msgFuncTimeTick)(void);											//---用于超时计数
+		USART_TXDHandlerType					msgTXDHandler;							//---发送函数
+		USART_RXDHandlerType					msgRXDHandler;							//---接收函数
+		UINT32_T(*msgFuncTimeTick)(void);												//---用于超时计数
 	};
 
 	//===是否重映射printf函数
@@ -120,12 +120,19 @@ extern "C" {
 	#define USART_485_TX_ENABLE						1
 	
 	//===串口的状态
+	//===串口忙碌状态
 	#define USART_BUSY								0
+	//===串口空闲状态
 	#define USART_OK								1
+	//===串口错误状态
 	#define USART_ERROR								2
 	//===使用Printf传输数据中
 	#define USART_PRINTF							3
-	
+	//===串口DMA状态
+	#define USART_DMA								4
+	//===串口中断空闲状态
+	#define USART_IT_IDLE							5
+
 	//===定义的任务函数
 	#define USART_TASK_ONE							pUSART1
 	#define USART_TASK_TWO							0
@@ -249,11 +256,15 @@ extern "C" {
 	void	 USART_IRQTask(USART_HandlerType* USARTx);
 
 	//===函数定义
-	UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx);
-	UINT8_T USART1_Write_DMA_Init(USART_HandlerType* USARTx);
-	UINT8_T USART_DMA_IDLETask(USART_HandlerType* USARTx);
+	UINT8_T	 USART1_Read_DMA_Init(USART_HandlerType* USARTx);
+	UINT8_T  USART1_Write_DMA_Init(USART_HandlerType* USARTx);
 	UINT16_T USART_Read_DMA_STOP(USART_HandlerType* USARTx);
-	UINT8_T USART_Read_DMA_RESTART(USART_HandlerType* USARTx);
+	UINT8_T  USART_Read_DMA_RESTART(USART_HandlerType* USARTx);
+	UINT16_T USART_Write_DMA_STOP(USART_HandlerType* USARTx);
+	UINT8_T  USART_Write_DMA_RESTART(USART_HandlerType* USARTx);
+	UINT8_T  USART_DMA_IDLETask(USART_HandlerType* USARTx);
+	void	 USART_Read_DMA_IRQTask(USART_HandlerType* USARTx);
+	void	 USART_Write_DMA_IRQTask(USART_HandlerType* USARTx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -21,10 +21,8 @@ extern "C" {
 	
 	//===定义结构体
 	typedef struct _ADCASK_HandlerType			ADCASK_HandlerType;
-
 	//===定义指针结构体
 	typedef struct _ADCASK_HandlerType			*pADCASK_HandlerType;
-
 	//===结构体变量
 	struct _ADCASK_HandlerType
 	{

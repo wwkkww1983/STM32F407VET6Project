@@ -152,55 +152,7 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>2042</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134258162</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Application\USART\usart_cfg.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\STM32F407VET6Project\../Application/USART/usart_cfg.c\2042</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>1005</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134227506</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Application\ISP\isp_task.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\STM32F407VET6Project\../Application/ISP/isp_task.c\1005</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>1025</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134227626</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Application\ISP\isp_task.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\STM32F407VET6Project\../Application/ISP/isp_task.c\1025</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>2228</LineNumber>
+          <LineNumber>1595</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -299,6 +251,11 @@
           <count>16</count>
           <WinNumber>1</WinNumber>
           <ItemText>DMA_InitTypeDef,0x10</ItemText>
+        </Ww>
+        <Ww>
+          <count>17</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>tcCount</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -449,7 +406,7 @@
 
   <Group>
     <GroupName>STM32F4xx</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2969,7 +2926,7 @@
 
   <Group>
     <GroupName>Application/ISP</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -4609,7 +4566,7 @@
 
   <Group>
     <GroupName>Application/USART</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

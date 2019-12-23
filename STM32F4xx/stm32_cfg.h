@@ -255,6 +255,9 @@ extern "C" {
 	void HardFault_IRQTask( void );
 	void LL_DMA_ClearFlag_HT(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
 	void LL_DMA_ClearFlag_TC(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
+	void LL_DMA_ClearFlag_TE(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
+	void LL_DMA_ClearFlag_DME(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
+	void LL_DMA_ClearFlag_FE(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
 	void LL_DMA_ClearFlag(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
 
 	//////////////////////////////////////////////////////////////////////////////////////

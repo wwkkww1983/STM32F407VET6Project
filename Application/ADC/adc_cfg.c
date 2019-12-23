@@ -336,13 +336,15 @@ UINT8_T ADC_ADC1_DMA_Stop(void)
 	//---使能DMA
 	LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_1);
 	LL_DMA_ClearFlag_GI1(DMA1);
-	LL_DMA_ClearFlag_HT1(DMA1);
-	LL_DMA_ClearFlag_TC1(DMA1);
+	//LL_DMA_ClearFlag_HT1(DMA1);
+	//LL_DMA_ClearFlag_TC1(DMA1);
+	LL_DMA_ClearFlag(DMA1, LL_DMA_CHANNEL_1);
 #else
 	//---不使能DMA
 	LL_DMA_DisableStream(DMA2, LL_DMA_STREAM_0);
-	LL_DMA_ClearFlag_HT0(DMA2);
-	LL_DMA_ClearFlag_TC0(DMA2);
+	//LL_DMA_ClearFlag_HT0(DMA2);
+	//LL_DMA_ClearFlag_TC0(DMA2);
+	LL_DMA_ClearFlag(DMA2, LL_DMA_STREAM_0);
 #endif
 	//---使能装换
 	LL_ADC_Disable(ADC1);

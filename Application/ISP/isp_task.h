@@ -36,10 +36,7 @@ extern "C" {
 	#define CMD_ISP_ROM_PAGE_READ						0x1B		
 	//===ISP编程时钟设置
 	#define CMD_ISP_PROG_CLOCK_SET						0x1C
-
-	//===定义实验室自动化测试
-	#define LAB_AUTO_ISP_TEST
-
+	
 	//===函数定义
 	UINT8_T ISPTask_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
 	UINT8_T ISPTask_DeInit(ISP_HandlerType *ISPx);

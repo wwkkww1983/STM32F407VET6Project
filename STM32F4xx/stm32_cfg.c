@@ -968,6 +968,246 @@ void LL_DMA_ClearFlag_TC(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
+void LL_DMA_ClearFlag_TE(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
+{
+#ifdef USE_MCU_STM32F1
+	if (channelOrStream == LL_DMA_CHANNEL_0)
+	{
+		LL_DMA_ClearFlag_TC0(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_1)
+	{
+		LL_DMA_ClearFlag_TC1(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_2)
+	{
+		LL_DMA_ClearFlag_TC2(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_3)
+	{
+		LL_DMA_ClearFlag_TC3(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_4)
+	{
+		LL_DMA_ClearFlag_TC4(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_5)
+	{
+		LL_DMA_ClearFlag_TC5(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_6)
+	{
+		LL_DMA_ClearFlag_TC6(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_7)
+	{
+		LL_DMA_ClearFlag_TC7(DMAx);
+	}
+#elif defined(USE_MCU_STM32F4)
+	if (channelOrStream == LL_DMA_STREAM_0)
+	{
+		LL_DMA_ClearFlag_TE0(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_1)
+	{
+		LL_DMA_ClearFlag_TE1(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_2)
+	{
+		LL_DMA_ClearFlag_TE2(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_3)
+	{
+		LL_DMA_ClearFlag_TE3(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_4)
+	{
+		LL_DMA_ClearFlag_TE4(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_5)
+	{
+		LL_DMA_ClearFlag_TE5(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_6)
+	{
+		LL_DMA_ClearFlag_TE6(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_7)
+	{
+		LL_DMA_ClearFlag_TE7(DMAx);
+	}
+#else
+	#error "不支持的STM32芯片"
+#endif
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数： 
+//////功		能： 清除标志位
+//////输入参数: 
+//////输出参数: 
+//////说		明： 
+//////////////////////////////////////////////////////////////////////////////
+void LL_DMA_ClearFlag_DME(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
+{
+#ifdef USE_MCU_STM32F1
+	if (channelOrStream == LL_DMA_CHANNEL_0)
+	{
+		LL_DMA_ClearFlag_TC0(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_1)
+	{
+		LL_DMA_ClearFlag_TC1(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_2)
+	{
+		LL_DMA_ClearFlag_TC2(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_3)
+	{
+		LL_DMA_ClearFlag_TC3(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_4)
+	{
+		LL_DMA_ClearFlag_TC4(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_5)
+	{
+		LL_DMA_ClearFlag_TC5(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_6)
+	{
+		LL_DMA_ClearFlag_TC6(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_7)
+	{
+		LL_DMA_ClearFlag_TC7(DMAx);
+	}
+#elif defined(USE_MCU_STM32F4)
+	if (channelOrStream == LL_DMA_STREAM_0)
+	{
+		LL_DMA_ClearFlag_DME0(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_1)
+	{
+		LL_DMA_ClearFlag_DME1(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_2)
+	{
+		LL_DMA_ClearFlag_DME2(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_3)
+	{
+		LL_DMA_ClearFlag_DME3(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_4)
+	{
+		LL_DMA_ClearFlag_DME4(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_5)
+	{
+		LL_DMA_ClearFlag_DME5(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_6)
+	{
+		LL_DMA_ClearFlag_DME6(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_7)
+	{
+		LL_DMA_ClearFlag_DME7(DMAx);
+	}
+#else
+	#error "不支持的STM32芯片"
+#endif
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数： 
+//////功		能： 清除标志位
+//////输入参数: 
+//////输出参数: 
+//////说		明： 
+//////////////////////////////////////////////////////////////////////////////
+void LL_DMA_ClearFlag_FE(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
+{
+#ifdef USE_MCU_STM32F1
+	if (channelOrStream == LL_DMA_CHANNEL_0)
+	{
+		LL_DMA_ClearFlag_TC0(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_1)
+	{
+		LL_DMA_ClearFlag_TC1(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_2)
+	{
+		LL_DMA_ClearFlag_TC2(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_3)
+	{
+		LL_DMA_ClearFlag_TC3(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_4)
+	{
+		LL_DMA_ClearFlag_TC4(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_5)
+	{
+		LL_DMA_ClearFlag_TC5(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_6)
+	{
+		LL_DMA_ClearFlag_TC6(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_CHANNEL_7)
+	{
+		LL_DMA_ClearFlag_TC7(DMAx);
+	}
+#elif defined(USE_MCU_STM32F4)
+	if (channelOrStream == LL_DMA_STREAM_0)
+	{
+		LL_DMA_ClearFlag_FE0(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_1)
+	{
+		LL_DMA_ClearFlag_FE1(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_2)
+	{
+		LL_DMA_ClearFlag_FE2(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_3)
+	{
+		LL_DMA_ClearFlag_FE3(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_4)
+	{
+		LL_DMA_ClearFlag_FE4(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_5)
+	{
+		LL_DMA_ClearFlag_FE5(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_6)
+	{
+		LL_DMA_ClearFlag_FE6(DMAx);
+	}
+	else if (channelOrStream == LL_DMA_STREAM_7)
+	{
+		LL_DMA_ClearFlag_FE7(DMAx);
+	}
+#else
+	#error "不支持的STM32芯片"
+#endif
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数： 
+//////功		能： 清除标志位
+//////输入参数: 
+//////输出参数: 
+//////说		明： 
+//////////////////////////////////////////////////////////////////////////////
 void LL_DMA_ClearFlag(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 {
 	#ifdef USE_MCU_STM32F1
@@ -1016,41 +1256,65 @@ void LL_DMA_ClearFlag(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 		{
 			LL_DMA_ClearFlag_HT0(DMAx);
 			LL_DMA_ClearFlag_TC0(DMAx);
+			LL_DMA_ClearFlag_TE0(DMAx);
+			LL_DMA_ClearFlag_FE0(DMAx);
+			LL_DMA_ClearFlag_DME0(DMAx);
 		}
 		else if (channelOrStream == LL_DMA_STREAM_1)
 		{
 			LL_DMA_ClearFlag_HT1(DMAx);
 			LL_DMA_ClearFlag_TC1(DMAx);
+			LL_DMA_ClearFlag_TE1(DMAx);
+			LL_DMA_ClearFlag_FE1(DMAx);
+			LL_DMA_ClearFlag_DME1(DMAx);
 		}
 		else if (channelOrStream == LL_DMA_STREAM_2)
 		{
 			LL_DMA_ClearFlag_HT2(DMAx);
 			LL_DMA_ClearFlag_TC2(DMAx);
+			LL_DMA_ClearFlag_TE2(DMAx);
+			LL_DMA_ClearFlag_FE2(DMAx);
+			LL_DMA_ClearFlag_DME2(DMAx);
 		}
 		else if (channelOrStream == LL_DMA_STREAM_3)
 		{
 			LL_DMA_ClearFlag_HT3(DMAx);
 			LL_DMA_ClearFlag_TC3(DMAx);
+			LL_DMA_ClearFlag_TE3(DMAx);
+			LL_DMA_ClearFlag_FE3(DMAx);
+			LL_DMA_ClearFlag_DME3(DMAx);
 		}
 		else if (channelOrStream == LL_DMA_STREAM_4)
 		{
 			LL_DMA_ClearFlag_HT4(DMAx);
 			LL_DMA_ClearFlag_TC4(DMAx);
+			LL_DMA_ClearFlag_TE4(DMAx);
+			LL_DMA_ClearFlag_FE4(DMAx);
+			LL_DMA_ClearFlag_DME4(DMAx);
 		}
 		else if (channelOrStream == LL_DMA_STREAM_5)
 		{
 			LL_DMA_ClearFlag_HT5(DMAx);
 			LL_DMA_ClearFlag_TC5(DMAx);
+			LL_DMA_ClearFlag_TE5(DMAx);
+			LL_DMA_ClearFlag_FE5(DMAx);
+			LL_DMA_ClearFlag_DME5(DMAx);
 		}
 		else if (channelOrStream == LL_DMA_STREAM_6)
 		{
 			LL_DMA_ClearFlag_HT6(DMAx);
 			LL_DMA_ClearFlag_TC6(DMAx);
+			LL_DMA_ClearFlag_TE6(DMAx);
+			LL_DMA_ClearFlag_FE6(DMAx);
+			LL_DMA_ClearFlag_DME6(DMAx);
 		}
 		else if (channelOrStream == LL_DMA_STREAM_7)
 		{
 			LL_DMA_ClearFlag_HT7(DMAx);
 			LL_DMA_ClearFlag_TC7(DMAx);
+			LL_DMA_ClearFlag_TE7(DMAx);
+			LL_DMA_ClearFlag_FE7(DMAx);
+			LL_DMA_ClearFlag_DME7(DMAx);
 		}
 	#else
 	#error "不支持的STM32芯片"
