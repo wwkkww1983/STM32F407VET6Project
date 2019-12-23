@@ -48,6 +48,8 @@ extern "C" {
 	UINT8_T  USARTTask_IT_TCTask(USART_HandlerType* USARTx);
 	UINT8_T	 USARTTask_DeviceID(USART_HandlerType*USARTx);
 	void	 USARTTask_IRQTask(USART_HandlerType* USARTx);
+	void	 USARTTask_Read_DMA_IRQTask(USART_HandlerType* USARTx);
+	void	 USARTTask_Write_DMA_IRQTask(USART_HandlerType* USARTx);
 	UINT8_T  USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *));
 	UINT8_T  USARTTask_DebugPollFuncTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(UINT8_T*, UINT8_T*));
 

@@ -295,7 +295,7 @@
                 <option>
                     <name>CCAllowList</name>
                     <version>1</version>
-                    <state>10010100</state>
+                    <state>00000000</state>
                 </option>
                 <option>
                     <name>CCDebugInfo</name>
@@ -430,6 +430,7 @@
                     <state>$PROJ_DIR$\..\Application\HVPP</state>
                     <state>$PROJ_DIR$\..\Application\HVSP</state>
                     <state>$PROJ_DIR$\..\Application\JTAG</state>
+                    <state>$PROJ_DIR$\..\Application\AHT10</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -445,7 +446,7 @@
                 </option>
                 <option>
                     <name>CCOptLevel</name>
-                    <state>2</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CCOptStrategy</name>
@@ -454,7 +455,7 @@
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
-                    <state>2</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CompilerMisraRules98</name>
@@ -1237,6 +1238,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\ADS869x\ads869x_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>AHT10</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_task.h</name>
             </file>
         </group>
         <group>

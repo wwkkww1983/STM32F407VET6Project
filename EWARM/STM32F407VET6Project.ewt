@@ -1293,6 +1293,27 @@
             </file>
         </group>
         <group>
+            <name>AHT10</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AHT10\aht10_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>APP</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\APP\config.h</name>

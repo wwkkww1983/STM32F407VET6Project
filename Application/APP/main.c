@@ -150,11 +150,11 @@ void Sys_Init(void)
 	//---ISP的初始化
 	ISPTask_Init(pISPDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
 	//---WM8510
-	//WM8510Task_I2C_Init(pWM8510Device0, DelayTask_us, 0);
+	WM8510Task_I2C_Init(pWM8510Device0, DelayTask_us, 0);
 	//---SI5351A
 	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, 0);
 	//---指示灯的初始化
-	//LEDTask_Init();	
+	LEDTask_Init();	
 	//---DAC的初始化
 	DACTask_Init(3,1);
 	//---初始化LM317做的可调电源
@@ -185,8 +185,9 @@ int main(void)
 	//---主循环
 	while (1)
 	{		
+		USARTTask_FuncTask(pUSART1,NULL);
 		//---模拟RTC处理
-		SysRTCTask_SoftRTCTask(pSysSoftRTC, SysTickTask_GetTick());
+		//SysRTCTask_SoftRTCTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---任务管理函数
 		Task_Manage();
 		//---喂狗

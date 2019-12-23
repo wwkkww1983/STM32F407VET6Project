@@ -19,6 +19,9 @@
     <Filter Include="Application\ADS869x">
       <UniqueIdentifier>{7F892EDF-EBEA-0BED-7458-529FE0B842AC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\AHT10">
+      <UniqueIdentifier>{0673A81C-7289-A6B2-BB00-32D42756773A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\APP">
       <UniqueIdentifier>{4988296C-B513-9730-BE24-1A252A2FF330}</UniqueIdentifier>
     </Filter>
@@ -266,6 +269,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\ADS869x\ads869x_task.h">
       <Filter>Application\ADS869x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AHT10\aht10_cfg.h">
+      <Filter>Application\AHT10</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AHT10\aht10_lib.h">
+      <Filter>Application\AHT10</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AHT10\aht10_task.h">
+      <Filter>Application\AHT10</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\APP\config.h">
       <Filter>Application\APP</Filter>
@@ -922,6 +934,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\ADS869x\ads869x_task.c">
       <Filter>Application\ADS869x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AHT10\aht10_cfg.c">
+      <Filter>Application\AHT10</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AHT10\aht10_lib.c">
+      <Filter>Application\AHT10</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AHT10\aht10_task.c">
+      <Filter>Application\AHT10</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\APP\main.c">
       <Filter>Application\APP</Filter>

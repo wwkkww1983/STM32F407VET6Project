@@ -62,6 +62,9 @@
     <ClInclude Include="..\Application\ADS869x\ads869x_cfg.h" />
     <ClInclude Include="..\Application\ADS869x\ads869x_lib.h" />
     <ClInclude Include="..\Application\ADS869x\ads869x_task.h" />
+    <ClInclude Include="..\Application\AHT10\aht10_cfg.h" />
+    <ClInclude Include="..\Application\AHT10\aht10_lib.h" />
+    <ClInclude Include="..\Application\AHT10\aht10_task.h" />
     <ClInclude Include="..\Application\APP\config.h" />
     <ClInclude Include="..\Application\APP\main.h" />
     <ClInclude Include="..\Application\AT24Cxx\at24cxx_cfg.h" />
@@ -282,6 +285,9 @@
     <ClCompile Include="..\Application\ADS869x\ads869x_cfg.c" />
     <ClCompile Include="..\Application\ADS869x\ads869x_lib.c" />
     <ClCompile Include="..\Application\ADS869x\ads869x_task.c" />
+    <ClCompile Include="..\Application\AHT10\aht10_cfg.c" />
+    <ClCompile Include="..\Application\AHT10\aht10_lib.c" />
+    <ClCompile Include="..\Application\AHT10\aht10_task.c" />
     <ClCompile Include="..\Application\APP\main.c" />
     <ClCompile Include="..\Application\AT24Cxx\at24cxx_cfg.c" />
     <ClCompile Include="..\Application\AT24Cxx\at24cxx_lib.c" />
