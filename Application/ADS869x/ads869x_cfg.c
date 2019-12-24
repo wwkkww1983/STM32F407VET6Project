@@ -309,21 +309,21 @@ UINT8_T ADS869X_SPI_Init(ADS869X_HandlerType *ADS869x, void(*pFuncDelayus)(UINT3
 	//---×¢²ámsÑÓÊ±Ê±¼ä
 	if (pFuncDelayms != NULL)
 	{
-		ADS869x->msgFuncDelayms = pFuncDelayms;
+		ADS869x->msgDelayms = pFuncDelayms;
 	}
 	else
 	{
-		ADS869x->msgFuncDelayms = DelayTask_ms;
+		ADS869x->msgDelayms = DelayTask_ms;
 	}
 
 	//---×¢²áusÑÓÊ±º¯Êý
 	if (pFuncDelayus != NULL)
 	{
-		ADS869x->msgSPI.msgFuncDelayus = pFuncDelayus;
+		ADS869x->msgSPI.msgDelayus = pFuncDelayus;
 	}
 	else
 	{
-		ADS869x->msgSPI.msgFuncDelayus = DelayTask_us;
+		ADS869x->msgSPI.msgDelayus = DelayTask_us;
 	}
 
 	//---×¢²áµÎ´ðº¯Êý
@@ -553,9 +553,9 @@ UINT8_T  ADS869X_SPI_HardReset(ADS869X_HandlerType *ADS869x)
 	if (ADS869x->msgHWRST.msgGPIOPort!=NULL)
 	{
 		GPIO_OUT_0(ADS869x->msgHWRST.msgGPIOPort, ADS869x->msgHWRST.msgGPIOBit);
-		ADS869x->msgFuncDelayms(1);
+		ADS869x->msgDelayms(1);
 		GPIO_OUT_1(ADS869x->msgHWRST.msgGPIOPort, ADS869x->msgHWRST.msgGPIOBit);
-		ADS869x->msgFuncDelayms(1);
+		ADS869x->msgDelayms(1);
 	}
 	return OK_0;
 }

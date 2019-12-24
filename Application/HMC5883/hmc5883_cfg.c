@@ -1,8 +1,8 @@
 #include "hmc5883_cfg.h"
 
 //===全局变量定义
-HMC5883_HandlerType		g_HMC5883Device0 = { 0 };
-pHMC5883_HandlerType	pHMC5883Device0=&g_HMC5883Device0;
+HMC5883_HandlerType		g_Hmc5883Device0 = { 0 };
+pHMC5883_HandlerType	pHmc5883Device0=&g_Hmc5883Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函	   数：
@@ -48,7 +48,7 @@ UINT8_T HMC5883_I2C_Init(HMC5883_HandlerType* HMC5883x, void(*pFuncDelayus)(UINT
 		//---设置为软件件模式
 		HMC5883x->msgI2C.msgModelIsHW = 0;
 	}
-	HMC5883x->msgFuncDelayms = pFuncDelayms;
+	HMC5883x->msgDelayms = pFuncDelayms;
 	//---配置初始化
 	_return = HMC5883_ConfigInit(HMC5883x);
 	//---配置初始化
@@ -71,7 +71,7 @@ UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandlerType* HMC5883x)
 	HMC5883x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
 	HMC5883x->msgI2C.msgModelIsHW = 0;
 	HMC5883x->msgI2C.msgPluseWidth = 2;
-	HMC5883x->msgI2C.msgFuncDelayus = NULL;
+	HMC5883x->msgI2C.msgDelayus = NULL;
 	HMC5883x->msgI2C.msgAddr = 0x3c;
 	HMC5883x->msgI2C.msgClockSpeed = 0;
 	return OK_0;
@@ -439,7 +439,7 @@ void HMC5883_CalibrateMag(HMC5883_HandlerType* HMC5883x)
 		{
 			zMin = z;
 		}
-		HMC5883x->msgFuncDelayms(100);
+		HMC5883x->msgDelayms(100);
 	}
 	//---compute offsets,计算偏差
 	if (ABS(xMax - xMin) > CALIB_THRESHOLD)

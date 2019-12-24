@@ -1,8 +1,8 @@
 #include "w25qxx_cfg.h"
 
 //===全局变量的定义
-W25QXX_HandlerType  g_W25QXXDevice0 = { 0 };
-pW25QXX_HandlerType pW25QXXDevice0 = &g_W25QXXDevice0;
+W25QXX_HandlerType  g_W25qxxDevice0 = { 0 };
+pW25QXX_HandlerType pW25qxxDevice0 = &g_W25qxxDevice0;
 
 //===统一发送函数
 UINT8_T(*W25QXX_SEND_CMD)(W25QXX_HandlerType *, UINT8_T, UINT8_T *);
@@ -267,21 +267,21 @@ UINT8_T W25QXX_SPI_Init(W25QXX_HandlerType *W25Qx, void(*pFuncDelayus)(UINT32_T 
 	//---注册ms延时时间
 	if (pFuncDelayms != NULL)
 	{
-		W25Qx->msgFuncDelayms = pFuncDelayms;
+		W25Qx->msgDelayms = pFuncDelayms;
 	}
 	else
 	{
-		W25Qx->msgFuncDelayms = DelayTask_ms;
+		W25Qx->msgDelayms = DelayTask_ms;
 	}
 
 	//---注册us延时函数
 	if (pFuncDelayus != NULL)
 	{
-		W25Qx->msgSPI.msgFuncDelayus = pFuncDelayus;
+		W25Qx->msgSPI.msgDelayus = pFuncDelayus;
 	}
 	else
 	{
-		W25Qx->msgSPI.msgFuncDelayus = DelayTask_us;
+		W25Qx->msgSPI.msgDelayus = DelayTask_us;
 	}
 	//---注册滴答函数
 	W25Qx->msgSPI.msgFuncTimeTick = pFuncTimerTick;
@@ -1137,7 +1137,7 @@ void W25QXX_SPI_PowerDown(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 	GPIO_OUT_1(W25Qx->msgSPI.msgCS.msgGPIOPort, W25Qx->msgSPI.msgCS.msgGPIOBit);
 
 	//---TDP
-	W25Qx->msgSPI.msgFuncDelayus(3);
+	W25Qx->msgSPI.msgDelayus(3);
 	//---自适应软件和硬件时序结束
 	if (isAutoInit)
 	{
@@ -1166,7 +1166,7 @@ void W25QXX_SPI_WakeUp(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 	GPIO_OUT_1(W25Qx->msgSPI.msgCS.msgGPIOPort, W25Qx->msgSPI.msgCS.msgGPIOBit);
 
 	//---TRES1
-	W25Qx->msgSPI.msgFuncDelayus(3);
+	W25Qx->msgSPI.msgDelayus(3);
 	//---自适应软件和硬件时序结束
 	if (isAutoInit)
 	{

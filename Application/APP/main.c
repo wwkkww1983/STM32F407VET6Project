@@ -148,9 +148,9 @@ void Sys_Init(void)
 	//---CRC校验初始化
 	CRCTask_Init();
 	//---ISP的初始化
-	ISPTask_Init(pISPDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
+	ISPTask_Init(pIspDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
 	//---WM8510
-	WM8510Task_I2C_Init(pWM8510Device0, DelayTask_us, 0);
+	WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, 0);
 	//---SI5351A
 	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, 0);
 	//---指示灯的初始化
@@ -160,11 +160,13 @@ void Sys_Init(void)
 	//---初始化LM317做的可调电源
 	LM317Task_Init(0,3300);
 	LM317_POWER_ON;
+	JTAG_Init(pJtagDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick);
+	JTAG_ReadIDChip(pJtagDevice0,NULL,0);
 	//---ADC初始化
 	ADCTask_ADC_Init();
 	ADCTask_ADCTask_START(ADC1);
 	//---串口的初始化
-	USARTTask_Init( pUSART1 , USART1_RX_MAX_SIZE , USART1_RX_BUFFER , USART_CRC_NONE , USART1_TX_MAX_SIZE , USART1_TX_BUFFER , USART_CRC_NONE , SysTickTask_GetTick );
+	USARTTask_Init(pUsart1, USART1_RX_MAX_SIZE , USART1_RX_BUFFER , USART_CRC_NONE , USART1_TX_MAX_SIZE , USART1_TX_BUFFER , USART_CRC_NONE , SysTickTask_GetTick );
 	//---任务管理初始化
 	Task_Manage_Init();
 	//---开启看门狗
@@ -185,9 +187,8 @@ int main(void)
 	//---主循环
 	while (1)
 	{		
-		USARTTask_FuncTask(pUSART1,NULL);
 		//---模拟RTC处理
-		//SysRTCTask_SoftRTCTask(pSysSoftRTC, SysTickTask_GetTick());
+		SysRTCTask_SoftRTCTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---任务管理函数
 		Task_Manage();
 		//---喂狗

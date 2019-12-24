@@ -1,8 +1,8 @@
 #include "ds1302_cfg.h"
 
 //===全局变量定义
-DS1302_HandlerType		g_DS1302Device0 = { 0 };
-pDS1302_HandlerType		pDS1302Device0 = &g_DS1302Device0;
+DS1302_HandlerType		g_Ds1302Device0 = { 0 };
+pDS1302_HandlerType		pDs1302Device0 = &g_Ds1302Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -23,7 +23,7 @@ UINT8_T DS1302_Device0_Init(DS1302_HandlerType *DS1302x)
 	DS1302x->msgDAT.msgGPIOBit = LL_GPIO_PIN_8;
 
 	DS1302x->msgPluseWidth = 1000;
-	DS1302x->msgFuncDelayus = NULL;
+	DS1302x->msgDelayus = NULL;
 
 	//---使能端口时钟
 	GPIOTask_Clock(DS1302x->msgCS.msgGPIOPort, 1);
@@ -112,11 +112,11 @@ UINT8_T DS1302_Init(DS1302_HandlerType *DS1302x, void(*pFuncDelayus)(UINT32_T de
    //---us延时
 	if (pFuncDelayus!=NULL)
 	{
-		DS1302x->msgFuncDelayus = pFuncDelayus;
+		DS1302x->msgDelayus = pFuncDelayus;
 	}
 	else
 	{
-		DS1302x->msgFuncDelayus = DelayTask_us;
+		DS1302x->msgDelayus = DelayTask_us;
 	}
 	//---退出休眠模式
 	DS1302_DisableSleepMode(DS1302x);
@@ -146,12 +146,12 @@ void DS1302_WriteByteLSB(DS1302_HandlerType* DS1302x, UINT8_T wVal)
 		GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
 		if (DS1302x->msgPluseWidth > 0)
 		{
-			DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+			DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 		}
 		GPIO_OUT_1(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
 		if (DS1302x->msgPluseWidth > 0)
 		{
-			DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+			DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 		}
 		wVal >>= 1;
 	}
@@ -175,7 +175,7 @@ UINT8_T DS1302_ReadByteLSB(DS1302_HandlerType* DS1302x)
 		GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
 		if (DS1302x->msgPluseWidth > 0)
 		{
-			DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+			DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 		}	
 		_return >>= 1;
 		//---读取1bit的数据
@@ -190,7 +190,7 @@ UINT8_T DS1302_ReadByteLSB(DS1302_HandlerType* DS1302x)
 		GPIO_OUT_1(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
 		if (DS1302x->msgPluseWidth > 0)
 		{
-			DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+			DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 		}
 	}
 	return _return;
@@ -264,19 +264,19 @@ void DS1302_WriteReg(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T dat)
 	GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
 	if (DS1302x->msgPluseWidth > 0)
 	{
-		DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 	}
 	GPIO_OUT_1(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);
 	if (DS1302x->msgPluseWidth > 0)
 	{
-		DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 	}
 	DS1302_WriteByteLSB(DS1302x, addr&0xFE);
 	DS1302_WriteByteLSB(DS1302x, dat);
 	GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
 	if (DS1302x->msgPluseWidth > 0)
 	{
-		DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 	}
 	GPIO_OUT_0(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);
 }
@@ -294,19 +294,19 @@ void DS1302_ReadReg(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T *pVal)
 	GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
 	if (DS1302x->msgPluseWidth > 0)
 	{
-		DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 	}
 	GPIO_OUT_1(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);
 	if (DS1302x->msgPluseWidth > 0)
 	{
-		DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 	}
 	DS1302_WriteByteLSB(DS1302x, addr|0x01);
 	*pVal=DS1302_ReadByteLSB(DS1302x);
 	GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
 	if (DS1302x->msgPluseWidth > 0)
 	{
-		DS1302x->msgFuncDelayus(DS1302x->msgPluseWidth);
+		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
 	}
 	GPIO_OUT_0(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);	
 	

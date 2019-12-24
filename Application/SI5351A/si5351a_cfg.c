@@ -1,8 +1,8 @@
 #include "si5351a_cfg.h"
 
 //===变量定义
-SI5351A_HandlerType			g_SI5351ADevice0={0};
-pSI5351A_HandlerType		pSI5351ADevice0=&g_SI5351ADevice0;
+SI5351A_HandlerType			g_Si5351aDevice0={0};
+pSI5351A_HandlerType		pSi5351aDevice0=&g_Si5351aDevice0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -35,7 +35,7 @@ UINT8_T SI5351A_I2C_Device0_Init(SI5351A_HandlerType* SI5351Ax)
 	SI5351Ax->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_9;
 	SI5351Ax->msgI2C.msgModelIsHW = 0;
 	SI5351Ax->msgI2C.msgPluseWidth = 1;
-	SI5351Ax->msgI2C.msgFuncDelayus = NULL;
+	SI5351Ax->msgI2C.msgDelayus = NULL;
 	SI5351Ax->msgI2C.msgAddr = SI5351A_WADDR;
 	SI5351Ax->msgI2C.msgClockSpeed = 0;
 	return OK_0;

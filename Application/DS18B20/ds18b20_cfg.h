@@ -27,18 +27,18 @@ extern "C" {
 		UINT16_T				msgTempBitValX10000;	//---文段分辨率每Bit代表的温度的值
 		UINT32_T				msgRecordTime;			//---记录的时间参数
 		OneWire_HandlerType		msgOneWire;				//---一线通信
-		void(*msgFuncDelayms)(UINT32_T delay);			//---ms延时函数
+		void(*msgDelayms)(UINT32_T delay);				//---ms延时函数
 		UINT32_T(*msgFuncTimeTick)(void);				//---时间节拍
 	};
 
 	//===定义的任务函数
-	#define DS18B20_TASK_ONE						pDS18B20Device0
+	#define DS18B20_TASK_ONE						pDs18b20Device0
 	#define DS18B20_TASK_TWO						0
 	#define DS18B20_TASK_THREE						0
 
 	//===外部调用接口
-	extern DS18B20_HandlerType g_DS18B20Device0;
-	extern pDS18B20_HandlerType pDS18B20Device0;
+	extern DS18B20_HandlerType						g_Ds18b20Device0;
+	extern pDS18B20_HandlerType						pDs18b20Device0;
 
 	//===函数的定义
 	UINT8_T  DS18B20_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));

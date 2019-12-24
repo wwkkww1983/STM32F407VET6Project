@@ -55,17 +55,17 @@ extern "C" {
 		GPIO_HandlerType msgWP;												//---写保护控制端口，0---写保护不是能；1---写保护使能
 #endif
 		I2C_HandlerType msgI2C;												//---使用的I2C
-		void(*msgFuncDelayms)(UINT32_T delay);								//---毫秒延时函数,编程结束后需要等待5ms
+		void(*msgDelayms)(UINT32_T delay);								//---毫秒延时函数,编程结束后需要等待5ms
 	};
 
 	//===定义的任务函数
-	#define AT24CXX_TASK_ONE		pAT24CXXDevice0
+	#define AT24CXX_TASK_ONE		pAT24cxxDevice0
 	#define AT24CXX_TASK_TWO		0
 	#define AT24CXX_TASK_THREE		0
 
 	//===外部调用接口
-	extern AT24CXX_HandlerType		g_AT24CXXDevice0;
-	extern pAT24CXX_HandlerType		pAT24CXXDevice0;
+	extern AT24CXX_HandlerType		g_AT24cxxDevice0;
+	extern pAT24CXX_HandlerType		pAT24cxxDevice0;
 
 	//===函数定义
 	UINT8_T AT24CXX_I2C_Init(AT24CXX_HandlerType *AT24CXXx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT8_T isHWI2C);

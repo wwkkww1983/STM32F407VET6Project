@@ -14,14 +14,14 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	UINT8_T tempAddrX2[16] = { 0 };
 
 	//---读取配置信息
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_TYPE_ADDR_X1, tempAddrX1, 5);
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_TYPE_ADDR_X2, tempAddrX2, 5);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_TYPE_ADDR_X1, tempAddrX1, 5);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_TYPE_ADDR_X2, tempAddrX2, 5);
 	//---数据匹配
 	if (CompareFun1(tempAddrX1, tempAddrX2, 5) != 0)
 	{
-		AT24CXXTask_I2C_ReadData(pAT24CXXDevice0,  RFASK_TYPE_ADDR_X3, tempAddrX1, 5);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_TYPE_ADDR_X1, tempAddrX1, 5);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_TYPE_ADDR_X2, tempAddrX1, 5);
+		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0,  RFASK_TYPE_ADDR_X3, tempAddrX1, 5);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_TYPE_ADDR_X1, tempAddrX1, 5);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_TYPE_ADDR_X2, tempAddrX1, 5);
 		_return = ERROR_1;
 	}
 	if (tempAddrX1[0]!=0xFF)
@@ -44,14 +44,14 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	memset(tempAddrX2, 0, 16);
 
 	//---读取默认频率点
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_FREQ_YSEL1_ADDR_X1, tempAddrX1, 16);
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_FREQ_YSEL1_ADDR_X2, tempAddrX2, 16);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_FREQ_YSEL1_ADDR_X1, tempAddrX1, 16);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_FREQ_YSEL1_ADDR_X2, tempAddrX2, 16);
 	//---数据匹配
 	if (CompareFun1(tempAddrX1, tempAddrX2, 16) != 0)
 	{
-		AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_FREQ_YSEL1_ADDR_X3,  tempAddrX1, 16);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_FREQ_YSEL1_ADDR_X1, tempAddrX1, 16);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_FREQ_YSEL1_ADDR_X1, tempAddrX1, 16);
+		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_FREQ_YSEL1_ADDR_X3,  tempAddrX1, 16);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_FREQ_YSEL1_ADDR_X1, tempAddrX1, 16);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_FREQ_YSEL1_ADDR_X1, tempAddrX1, 16);
 		_return = ERROR_2;
 	}
 	if (tempAddrX1[0] != 0xFF)
@@ -82,14 +82,14 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	memset(tempAddrX2, 0, 16);
 
 	//---读取第一个频率扫描的频率配置参数
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X2, tempAddrX2, 16);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X2, tempAddrX2, 16);
 	//---数据匹配
 	if (CompareFun1(tempAddrX1, tempAddrX2, 16) != 0)
 	{
-		AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X3, tempAddrX1, 16);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X2, tempAddrX1, 16);
+		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X3, tempAddrX1, 16);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X2, tempAddrX1, 16);
 		_return = ERROR_3;
 	}
 	if (tempAddrX1[0] != 0xFF)
@@ -129,14 +129,14 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	memset(tempAddrX2, 0, 16);
 
 	//---读取第一个频率扫描的ADC配置参数
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX2, 8);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX2, 8);
 	//---数据匹配
 	if (CompareFun1(tempAddrX1, tempAddrX2, 8) != 0)
 	{
-		AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X3, tempAddrX1,  8);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX1, 8);
+		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X3, tempAddrX1,  8);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX1, 8);
 		_return = ERROR_4;
 	}
 	if (tempAddrX1[0] != 0xFF)
@@ -156,14 +156,14 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	memset(tempAddrX2, 0, 16);
 
 	//---读取第二个频率扫描的频率配置参数
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X2, tempAddrX2, 16);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X2, tempAddrX2, 16);
 	//---数据匹配
 	if (CompareFun1(tempAddrX1, tempAddrX2, 16) != 0)
 	{
-		AT24CXXTask_I2C_ReadData(pAT24CXXDevice0,  RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X3, tempAddrX1, 16);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X2, tempAddrX1, 16);
+		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0,  RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X3, tempAddrX1, 16);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X2, tempAddrX1, 16);
 		_return = ERROR_5;
 	}
 	if (tempAddrX1[0] != 0xFF)
@@ -201,14 +201,14 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	memset(tempAddrX2, 0, 16);
 
 	//---读取第二个频率扫描的ADC配置参数
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX2, 8);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX2, 8);
 	//---数据匹配
 	if (CompareFun1(tempAddrX1, tempAddrX2, 8) != 0)
 	{
-		AT24CXXTask_I2C_ReadData(pAT24CXXDevice0,  RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X3, tempAddrX1, 8);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX1, 8);
+		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0,  RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X3, tempAddrX1, 8);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX1, 8);
 		_return = ERROR_6;
 	}
 	if (tempAddrX1[0] != 0xFF)
@@ -254,19 +254,19 @@ UINT8_T RFASK_EEPROMWrite(AT24CXX_HandlerType* AT24CXXx, UINT16_T addr, UINT32_T
 	else
 	{
 		//---第一次保存的参数的位置
-		_return = AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, addr, &temp[4 - cout], cout);
+		_return = AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, addr, &temp[4 - cout], cout);
 		if (_return != 0)
 		{
 			_return += 2;
 		}
 		//---第二次保存参数的位置
-		_return = AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, addr + 0x50, &temp[4 - cout], cout);
+		_return = AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, addr + 0x50, &temp[4 - cout], cout);
 		if (_return != 0)
 		{
 			_return += 3;
 		}
 		//---第三次保存参数的位置
-		_return = AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, addr + 0xA0, &temp[4 - cout], cout);
+		_return = AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, addr + 0xA0, &temp[4 - cout], cout);
 		if (_return != 0)
 		{
 			_return += 4;

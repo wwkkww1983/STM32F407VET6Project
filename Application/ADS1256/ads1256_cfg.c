@@ -296,21 +296,21 @@ UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT
 	//---注册ms延时时间
 	if (pFuncDelayms!=NULL)
 	{
-		ADS1256x->msgFuncDelayms = pFuncDelayms;
+		ADS1256x->msgDelayms = pFuncDelayms;
 	}
 	else
 	{
-		ADS1256x->msgFuncDelayms = DelayTask_ms;
+		ADS1256x->msgDelayms = DelayTask_ms;
 	}
 
 	//---注册us延时函数
 	if (pFuncDelayus!=NULL)
 	{
-		ADS1256x->msgSPI.msgFuncDelayus = pFuncDelayus;
+		ADS1256x->msgSPI.msgDelayus = pFuncDelayus;
 	}
 	else
 	{
-		ADS1256x->msgSPI.msgFuncDelayus = DelayTask_us;
+		ADS1256x->msgSPI.msgDelayus = DelayTask_us;
 	}
 
 	//---注册滴答函数
@@ -558,7 +558,7 @@ UINT8_T ADS1256_SPI_ReadReg(ADS1256_HandlerType *ADS1256x, UINT8_T regAddr, UINT
 		_return|=ADS1256_SPI_SEND_CMD( ADS1256x, 0x00, NULL );
 		_return <<= 1;
 		//---必须延迟才能读取芯片返回数据
-		ADS1256x->msgSPI.msgFuncDelayus( 10 );
+		ADS1256x->msgSPI.msgDelayus( 10 );
 		//---读寄存器值
 		_return|=ADS1256_SPI_SEND_CMD( ADS1256x, 0xFF, pRVal );
 	}
@@ -614,9 +614,9 @@ UINT8_T ADS1256_SPI_HardReset(ADS1256_HandlerType *ADS1256x)
 	if (ADS1256x->msgHWRST.msgGPIOPort != NULL)
 	{
 		GPIO_OUT_0( ADS1256x->msgHWRST.msgGPIOPort, ADS1256x->msgHWRST.msgGPIOBit );
-		ADS1256x->msgFuncDelayms( 1 );
+		ADS1256x->msgDelayms( 1 );
 		GPIO_OUT_1( ADS1256x->msgHWRST.msgGPIOPort, ADS1256x->msgHWRST.msgGPIOBit );
-		ADS1256x->msgFuncDelayms( 1 );
+		ADS1256x->msgDelayms( 1 );
 
 		//---读取默认的转换速率，默认值是0xF0
 		_return = ADS1256_SPI_ReadDRate( ADS1256x, &dRate );
@@ -1445,52 +1445,52 @@ UINT8_T ADS1256_SPI_WaitResultOK(ADS1256_HandlerType* ADS1256x,UINT8_T dRate)
 	switch (dRate)
 	{
 		case ADS1256_DRATE_15000SPS:
-			ADS1256x->msgSPI.msgFuncDelayus(67);
+			ADS1256x->msgSPI.msgDelayus(67);
 			break;
 		case ADS1256_DRATE_7500SPS :
-			ADS1256x->msgSPI.msgFuncDelayus(134);
+			ADS1256x->msgSPI.msgDelayus(134);
 			break;
 		case ADS1256_DRATE_3750SPS :
-			ADS1256x->msgSPI.msgFuncDelayus(268);
+			ADS1256x->msgSPI.msgDelayus(268);
 			break;
 		case ADS1256_DRATE_2000SPS :
-			ADS1256x->msgSPI.msgFuncDelayus(500);
+			ADS1256x->msgSPI.msgDelayus(500);
 			break;
 		case ADS1256_DRATE_1000SPS :
-			ADS1256x->msgFuncDelayms(1);
+			ADS1256x->msgDelayms(1);
 			break;
 		case ADS1256_DRATE_500SPS  :
-			ADS1256x->msgFuncDelayms(2);
+			ADS1256x->msgDelayms(2);
 			break;
 		case ADS1256_DRATE_100SPS  :
-			ADS1256x->msgFuncDelayms(10);
+			ADS1256x->msgDelayms(10);
 			break;
 		case ADS1256_DRATE_60SPS   :
-			ADS1256x->msgFuncDelayms(17);
+			ADS1256x->msgDelayms(17);
 			break;
 		case ADS1256_DRATE_50SPS   :
-			ADS1256x->msgFuncDelayms(20);
+			ADS1256x->msgDelayms(20);
 			break;
 		case ADS1256_DRATE_30SPS   :
-			ADS1256x->msgFuncDelayms(34);
+			ADS1256x->msgDelayms(34);
 			break;
 		case ADS1256_DRATE_25SPS   :
-			ADS1256x->msgFuncDelayms(40);
+			ADS1256x->msgDelayms(40);
 			break;
 		case ADS1256_DRATE_15SPS   :
-			ADS1256x->msgFuncDelayms(67);
+			ADS1256x->msgDelayms(67);
 			break;
 		case ADS1256_DRATE_10SPS   :
-			ADS1256x->msgFuncDelayms(100);
+			ADS1256x->msgDelayms(100);
 			break;
 		case ADS1256_DRATE_5SPS	   :
-			ADS1256x->msgFuncDelayms(200);
+			ADS1256x->msgDelayms(200);
 			break;
 		case ADS1256_DRATE_2P5SPS  :
-			ADS1256x->msgFuncDelayms(400);
+			ADS1256x->msgDelayms(400);
 			break;
 		case ADS1256_DRATE_30000SPS:
-			ADS1256x->msgSPI.msgFuncDelayus(34);
+			ADS1256x->msgSPI.msgDelayus(34);
 		default:
 			break;
 	}
@@ -1531,7 +1531,7 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 		//---延时等待转换完成,速率慢转换时间长，避免发生超时错误
 		if (ADS1256x->msgDRate< ADS1256_DRATE_15SPS)
 		{
-			ADS1256x->msgFuncDelayms(0x100- ADS1256x->msgDRate);
+			ADS1256x->msgDelayms(0x100- ADS1256x->msgDRate);
 		}
 		if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
 		{
@@ -1554,7 +1554,7 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 			//---等待准备完成
 			//_return = ADS1256_SPI_WaitDRDY(ADS1256x);
 			
-			ADS1256x->msgSPI.msgFuncDelayus(10);
+			ADS1256x->msgSPI.msgDelayus(10);
 			
 			//---读取数据
 			ADS1256_SPI_SEND_CMD(ADS1256x, 0xFF, &temp[0]);

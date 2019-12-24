@@ -36,7 +36,7 @@ extern "C" {
 	};
 
 	//===外部调用参数
-	extern MyMalloc_HandlerType g_MyaMallcoDev;	//在mallco.c里面定义
+	extern MyMalloc_HandlerType				g_MyMallcoDev;	//在mallco.c里面定义
 
 	//===函数调用
 	void MyMemcpy(void *des, void *src, UINT32_T nSize);

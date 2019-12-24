@@ -153,7 +153,7 @@ UINT8_T  RFASKTask_WM8510Task(USART_HandlerType*USARTx, WM8510_HandlerType *WM85
 			break;
 			//---复位WM8510的输出
 		case CMD_RFASK_CMD2_RESET_WM8510:
-			WM8510Task_I2C_Reset(pWM8510Device0);
+			WM8510Task_I2C_Reset(pWm8510Device0);
 			USARTTask_RealTime_AddSize(USARTx, 3);
 			USARTTask_RealTime_AddByte(USARTx, USARTx->msgRXDHandler.pMsgVal[USARTx->msgCmdIndex]);
 			//--得到返回结果

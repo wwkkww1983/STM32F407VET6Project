@@ -28,7 +28,7 @@ extern "C" {
 		UINT16_T			msgPluseWidth;															//---脉冲宽度，软件模拟使用
 		UINT16_T			msgAddr;																//---设备的地址
 		UINT32_T			msgClockSpeed;															//---硬件I2C的时钟速度
-		void(*msgFuncDelayus)(UINT32_T delay);														//---延时参数
+		void(*msgDelayus)(UINT32_T delay);														//---延时参数
 	};
 
 	//===函数定义

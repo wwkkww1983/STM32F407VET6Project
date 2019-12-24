@@ -110,13 +110,13 @@ extern "C" {
 	};
 
 	//===定义的任务函数
-	#define SI5351A_TASK_ONE						pSI5351ADevice0
+	#define SI5351A_TASK_ONE						pSi5351aDevice0
 	#define SI5351A_TASK_TWO						0
 	#define SI5351A_TASK_THREE						0
 	
 	//===外部调用接口
-	extern SI5351A_HandlerType						g_SI5351ADevice0;
-	extern pSI5351A_HandlerType						pSI5351ADevice0;
+	extern SI5351A_HandlerType						g_Si5351aDevice0;
+	extern pSI5351A_HandlerType						pSi5351aDevice0;
 	
 	//===函数定义
 	UINT8_T SI5351A_I2C_WriteSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T val);

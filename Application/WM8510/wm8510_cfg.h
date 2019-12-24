@@ -460,13 +460,13 @@ extern "C" {
 	};
 
 	//===定义的任务函数
-	#define WM8510_TASK_ONE		pWM8510Device0
-	#define WM8510_TASK_TWO		0
-	#define WM8510_TASK_THREE	0
+	#define WM8510_TASK_ONE				pWm8510Device0
+	#define WM8510_TASK_TWO				0
+	#define WM8510_TASK_THREE			0
 
 	//===外部调用接口
-	extern WM8510_HandlerType  g_WM8510Device0;
-	extern pWM8510_HandlerType pWM8510Device0;
+	extern WM8510_HandlerType			g_Wm8510Device0;
+	extern pWM8510_HandlerType			pWm8510Device0;
 
 	//===函数定义
 	void    WM8510_I2C_ParamsInit(WM8510_HandlerType *WM8510x);

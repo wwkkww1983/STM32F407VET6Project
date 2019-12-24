@@ -134,13 +134,13 @@ extern "C" {
 	#define USART_IT_IDLE							5
 
 	//===定义的任务函数
-	#define USART_TASK_ONE							pUSART1
+	#define USART_TASK_ONE							pUsart1
 	#define USART_TASK_TWO							0
 	#define USART_TASK_THREE						0
 	
 	//===外部调用接口
-	extern USART_HandlerType						g_USART1;
-	extern pUSART_HandlerType						pUSART1;
+	extern USART_HandlerType						g_Usart1;
+	extern pUSART_HandlerType						pUsart1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////串口1的配置参数开始//////////////////////////////////////////////

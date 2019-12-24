@@ -119,7 +119,7 @@ UINT8_T OLED_Device0_Init(OLED_IIC_HandlerType *OLEDx)
 	OLEDx->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
 	OLEDx->msgI2C.msgModelIsHW = 0;
 	OLEDx->msgI2C.msgPluseWidth = 1;
-	OLEDx->msgI2C.msgFuncDelayus = NULL;
+	OLEDx->msgI2C.msgDelayus = NULL;
 
 	//---通过调整0R电阻,屏可以0x78和0x7A两个地址 -- 默认0x78
 	OLEDx->msgI2C.msgAddr = 0x78;

@@ -52,13 +52,13 @@ extern "C" {
 	};
 
 	//===定义的任务函数
-	#define PCF8563_TASK_ONE						pPCF8563Device0
+	#define PCF8563_TASK_ONE						pPcf8563Device0
 	#define PCF8563_TASK_TWO						0
 	#define PCF8563_TASK_THREE						0
 	
 	//===外部调用接口
-	extern PCF8563_HandlerType g_PCF8563Device0;
-	extern pPCF8563_HandlerType pPCF8563Device0;
+	extern PCF8563_HandlerType						g_Pcf8563Device0;
+	extern pPCF8563_HandlerType						pPcf8563Device0;
 
 	//===函数定义
 	UINT8_T PCF8563_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);

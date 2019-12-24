@@ -1,8 +1,8 @@
 #include "wm8510_cfg.h"
 
 //===变量定义
-WM8510_HandlerType  g_WM8510Device0 = { 0 };
-pWM8510_HandlerType pWM8510Device0 = &g_WM8510Device0;
+WM8510_HandlerType  g_Wm8510Device0 = { 0 };
+pWM8510_HandlerType pWm8510Device0 = &g_Wm8510Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -79,7 +79,7 @@ UINT8_T WM8510_I2C_Device0_Init(WM8510_HandlerType *WM8510x)
 	WM8510x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_9;
 	WM8510x->msgI2C.msgModelIsHW = 0;
 	WM8510x->msgI2C.msgPluseWidth = 2;
-	WM8510x->msgI2C.msgFuncDelayus = NULL;
+	WM8510x->msgI2C.msgDelayus = NULL;
 	WM8510x->msgI2C.msgAddr = WM8510_WADDR;
 	WM8510x->msgI2C.msgClockSpeed = 0;
 	return OK_0;

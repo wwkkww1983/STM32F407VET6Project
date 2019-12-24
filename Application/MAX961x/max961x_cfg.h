@@ -35,9 +35,9 @@ extern "C" {
 
 	
 	//===通道读取设置
-	#define MAX961X_READ_CHANNEL_X1_GAIN_CURRENT		0x00
-	#define MAX961X_READ_CHANNEL_X4_GAIN_CURRENT		0x01
-	#define MAX961X_READ_CHANNEL_X8_GAIN_CURRENT		0x02
+	#define MAX961X_READ_CHANNEL_1X_GAIN_CURRENT		0x00
+	#define MAX961X_READ_CHANNEL_4X_GAIN_CURRENT		0x01
+	#define MAX961X_READ_CHANNEL_8X_GAIN_CURRENT		0x02
 	#define MAX961X_READ_CHANNEL_INPUT_VOLTAGE			0x03
 	#define MAX961X_READ_CHANNEL_OUTPUT_VOLTAGE			0x04
 	#define MAX961X_READ_CHANNEL_SET_VOLTAGE			0x05
@@ -50,16 +50,15 @@ extern "C" {
 	#define MAX961X_CURRENT_STEP_MA						0.1075
 	//===温度最小分辨率			
 	#define MAX961X_TEMPERATURE_STEP_C					0.48
-
 	//===采样电阻的大小,单位是毫欧
 	#define	MAX961X_SAMPLE_RES_MR						20
+	//===设备的写地址
+	#define	MAX961X_WADDR								0xE0
 
 	//===结构体定义
 	typedef struct _MAX961X_HandlerType					MAX961X_HandlerType;
-
 	//===指针结构体定义
 	typedef struct _MAX961X_HandlerType					* pMAX961X_HandlerType;
-
 	//===AT24Cxx的数据结构体
 	struct _MAX961X_HandlerType
 	{

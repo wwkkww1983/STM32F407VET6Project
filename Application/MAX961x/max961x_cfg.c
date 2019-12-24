@@ -67,8 +67,8 @@ UINT8_T MAX961X_I2C_Device0_Init(MAX961X_HandlerType* MAX961x)
 	MAX961x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
 	MAX961x->msgI2C.msgModelIsHW = 0;
 	MAX961x->msgI2C.msgPluseWidth = 2;
-	MAX961x->msgI2C.msgFuncDelayus = NULL;
-	MAX961x->msgI2C.msgAddr = 0xE0;  
+	MAX961x->msgI2C.msgDelayus = NULL;
+	MAX961x->msgI2C.msgAddr = MAX961X_WADDR;
 	MAX961x->msgI2C.msgClockSpeed = 0;
 	return OK_0;
 }
@@ -482,7 +482,7 @@ UINT8_T MAX961X_I2C_GetRSVoltage(MAX961X_HandlerType* MAX961x)
 		//---计算采集的数据量
 		MAX961x->msgRSVoltagemV = adcTemp[0];
 		MAX961x->msgRSVoltagemV =(MAX961x->msgRSVoltagemV*256)+ adcTemp[1];
-		//---得到实际的采集量
+		//---得到实际的采集量,数据格式是左对齐，低四位无效
 		MAX961x->msgRSVoltagemV = ((UINT16_T)MAX961x->msgRSVoltagemV >> 4);//-4;
 		MAX961x->msgRSVoltagemV *= MAX961X_VOLTAGE_STEP_MV;
 	}
@@ -512,7 +512,7 @@ UINT8_T MAX961X_I2C_GetRSCurrent(MAX961X_HandlerType* MAX961x,UINT8_T currentGai
 		//---计算采集的数据量
 		MAX961x->msgRSCurrentmA = adcTemp[0];
 		MAX961x->msgRSCurrentmA = (MAX961x->msgRSCurrentmA*256) + adcTemp[1];
-		//---得到实际的采集量
+		//---得到实际的采集量,数据格式是左对齐，低四位无效
 		MAX961x->msgRSCurrentmA = ((UINT16_T)MAX961x->msgRSCurrentmA >> 4);
 		//---得到X1电压值，单位mV
 		MAX961x->msgRSCurrentmA *= MAX961X_CURRENT_STEP_MA;
@@ -541,7 +541,7 @@ UINT8_T MAX961X_I2C_GetOutVoltage(MAX961X_HandlerType* MAX961x)
 	{
 		//---读取OUT端的输出电压的值
 		_return = MAX961X_I2C_BurstReadReg(MAX961x, MAX961X_REG_OUT_DATA_MSB_ADDR, 2, adcTemp);
-		//---计算采集的数据量
+		//---计算采集的数据量,数据格式是左对齐，低四位无效
 		MAX961x->msgOutputVoltagemV = adcTemp[0];
 		MAX961x->msgOutputVoltagemV = (MAX961x->msgOutputVoltagemV*256) + adcTemp[1];
 		//---得到实际的采集量
@@ -571,7 +571,7 @@ UINT8_T MAX961X_I2C_GetSetVoltage(MAX961X_HandlerType* MAX961x)
 		//---计算采集的数据量
 		MAX961x->msgSetVoltagemV = adcTemp[0];
 		MAX961x->msgSetVoltagemV = (MAX961x->msgSetVoltagemV*256) + adcTemp[1];
-		//---得到实际的采集量
+		//---得到实际的采集量,数据格式是左对齐，低四位无效
 		MAX961x->msgSetVoltagemV = ((UINT16_T)MAX961x->msgSetVoltagemV >> 4);
 		MAX961x->msgSetVoltagemV *= MAX961X_VOLTAGE_STEP_MV;
 	}
@@ -598,6 +598,7 @@ UINT8_T MAX961X_I2C_GetTemperature(MAX961X_HandlerType* MAX961x)
 		//---计算采集的数据量
 		MAX961x->msgTemperatureC = adcTemp[0];
 		MAX961x->msgTemperatureC = (MAX961x->msgTemperatureC*256) + adcTemp[1];
+		//---得到实际的采集量,数据格式是左对齐，低七位无效
 		MAX961x->msgTemperatureC = ((UINT16_T)MAX961x->msgTemperatureC >> 7);
 		//---得到实际的采集量
 		if (adcTemp[0]&0x80)

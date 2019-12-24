@@ -1,8 +1,8 @@
 #include "rfask_cfg.h"
 
 //===变量定义
-RFASK_HandlerType	g_RFASK = {0};
-pRFASK_HandlerType	pRFASK = &g_RFASK;
+RFASK_HandlerType	g_Rfask = {0};
+pRFASK_HandlerType	pRfask = &g_Rfask;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：

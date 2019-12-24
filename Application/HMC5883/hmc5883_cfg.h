@@ -56,17 +56,17 @@ extern "C" {
 		float				msgAngle;					//---当前角度，方位角
 		GPIO_HandlerType	msgDRDY;					//---数据准备，中断引脚。内部被拉高。选项为连接，当数据位于输出寄存器上时会在低电位上停250us
 		I2C_HandlerType		msgI2C;						//---使用的I2C
-		void(*msgFuncDelayms)(UINT32_T delay);			//---延时参数
+		void(*msgDelayms)(UINT32_T delay);			//---延时参数
 	};
 
 	//===定义的任务函数
-	#define HMC5883_TASK_ONE							pHMC5883Device0
+	#define HMC5883_TASK_ONE							pHmc5883Device0
 	#define HMC5883_TASK_TWO							0
 	#define HMC5883_TASK_THREE							0
 	
 	//===外部调用
-	extern HMC5883_HandlerType							g_HMC5883Device0;
-	extern pHMC5883_HandlerType							pHMC5883Device0;
+	extern HMC5883_HandlerType							g_Hmc5883Device0;
+	extern pHMC5883_HandlerType							pHmc5883Device0;
 
 	//===函数定义
 	UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandlerType* HMC5883x);

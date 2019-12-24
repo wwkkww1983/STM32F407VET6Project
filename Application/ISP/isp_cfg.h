@@ -53,36 +53,36 @@ extern "C" {
 	//===结构定义
 	struct _ISP_HandlerType
 	{
-		UINT8_T		msgState;							//---编程状态，0---空闲状态，1---编程状态
-		UINT8_T		msgInit;							//---判断是否初始化过了 0---未初始化，1---初始化
-		UINT8_T		msgSetClok;							//---设置的编程时钟
-		UINT8_T		msgAutoClock;						//---是否使用自动时钟，0---自动时钟，1---设定的时钟
-		UINT8_T		msgDelayms;							//---编程之后的延时函数，单位是ms
-		UINT8_T		msgHideAddr;						//---接触64K的限制
-		UINT8_T		msgIsPollReady;						//---是否轮询准备好信号，0---不需要；1---需要
-		UINT8_T		msgEepromIsPageMode;				//---eeprom是否支持页编程模式，0---不支持，1---支持
-		UINT16_T	msgFlashPerPageWordSize;			//---Flash的每页字数
-		UINT16_T	msgEerpomPerPageByteSize;			//---Eeprom的每页字节数
-		UINT16_T	msgPageWordIndex;					//---缓存区的序号
-		UINT8_T		msgWriteByte[ISP_COMM_MAX_SIZE];	//---发送数据
-		UINT8_T		msgReadByte[ISP_COMM_MAX_SIZE];		//---读取数据
-		UINT16_T	msgIntervalTime;					//---轮询时间间隔,单位是ms
-		UINT32_T	msgRecordTime;						//---记录的时间参数
+		UINT8_T		msgState;																		//---编程状态，0---空闲状态，1---编程状态
+		UINT8_T		msgInit;																		//---判断是否初始化过了 0---未初始化，1---初始化
+		UINT8_T		msgSetClok;																		//---设置的编程时钟
+		UINT8_T		msgAutoClock;																	//---是否使用自动时钟，0---自动时钟，1---设定的时钟
+		UINT8_T		msgWaitms;																		//---编程之后的延时函数，单位是ms
+		UINT8_T		msgHideAddr;																	//---接触64K的限制
+		UINT8_T		msgIsPollReady;																	//---是否轮询准备好信号，0---不需要；1---需要
+		UINT8_T		msgEepromIsPageMode;															//---eeprom是否支持页编程模式，0---不支持，1---支持
+		UINT16_T	msgFlashPerPageWordSize;														//---Flash的每页字数
+		UINT16_T	msgEerpomPerPageByteSize;														//---Eeprom的每页字节数
+		UINT16_T	msgPageWordIndex;																//---缓存区的序号
+		UINT8_T		msgWriteByte[ISP_COMM_MAX_SIZE];												//---发送数据
+		UINT8_T		msgReadByte[ISP_COMM_MAX_SIZE];													//---读取数据
+		UINT16_T	msgIntervalTime;																//---轮询时间间隔,单位是ms
+		UINT32_T	msgRecordTime;																	//---记录的时间参数
 #ifdef ISP_USE_lEVEL_SHIFT
-		GPIO_HandlerType msgOE;							//---电平转换使能控制端，0---使能；1---不使能
+		GPIO_HandlerType msgOE;																		//---电平转换使能控制端，0---使能；1---不使能
 #endif
-		void(*msgFuncDelayms)(UINT32_T delay);			//---延时参数
-		SPI_HandlerType msgSPI;							//---使用的SPI模式
+		void(*msgDelayms)(UINT32_T delay);															//---延时参数
+		SPI_HandlerType msgSPI;																		//---使用的SPI模式
 	};
 
 	//===任务函数
-	#define ISP_TASK_ONE						pISPDevice0
+	#define ISP_TASK_ONE						pIspDevice0
 	#define ISP_TASK_TWO						0
 	#define ISP_TASK_THREE						0
 
 	//===外部调用接口
-	extern ISP_HandlerType						g_ISPDevice0;
-	extern pISP_HandlerType						pISPDevice0;
+	extern ISP_HandlerType						g_IspDevice0;
+	extern pISP_HandlerType						pIspDevice0;
 
 	//===函数定义
 	UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx);

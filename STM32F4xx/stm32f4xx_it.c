@@ -224,7 +224,7 @@ void WWDG_IRQHandler()
 //////////////////////////////////////////////////////////////////////////////
 void USART1_IRQHandler(void)
 {
-	USARTTask_IRQTask(pUSART1);
+	USARTTask_IRQTask(pUsart1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -307,7 +307,7 @@ void DMA2_Stream2_IRQHandler(void)
 {
 	if (LL_DMA_IsActiveFlag_TC2(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_2)))
 	{
-		USARTTask_Read_DMA_IRQTask(pUSART1);
+		USARTTask_Read_DMA_IRQTask(pUsart1);
 	}
 }
 
@@ -322,7 +322,7 @@ void DMA2_Stream7_IRQHandler(void)
 {
 	if (LL_DMA_IsActiveFlag_TC7(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_7)))
 	{
-		USARTTask_Write_DMA_IRQTask(pUSART1);
+		USARTTask_Write_DMA_IRQTask(pUsart1);
 	}
 }
 

@@ -19,7 +19,7 @@ const UINT32_T g_MemBlockSize = MEM_BLOCK_SIZE;
 const UINT32_T g_MemTotalSize = MEM_MAX_SIZE;
 
 //===内存管理控制器
-MyMalloc_HandlerType g_MyaMallcoDev =
+MyMalloc_HandlerType g_MyMallcoDev =
 {
 	MyMemInit,			//内存初始化
 	MyMemusedRate,		//内存使用率
@@ -71,13 +71,13 @@ void MyMemset(void *s, UINT8_T c, UINT32_T nSize)
 void MyMemInit(void)
 {
 	//---内存状态表数据清零
-	MyMemset(g_MyaMallcoDev.msgMemMap, 0, g_MemTableSize * 2);
+	MyMemset(g_MyMallcoDev.msgMemMap, 0, g_MemTableSize * 2);
 
 	//---内存池所有数据清零
-	MyMemset(g_MyaMallcoDev.msgMemPool, 0, g_MemTotalSize);
+	MyMemset(g_MyMallcoDev.msgMemPool, 0, g_MemTotalSize);
 
 	//---内存管理初始化OK
-	g_MyaMallcoDev.msgMemReady = 1;
+	g_MyMallcoDev.msgMemReady = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ UINT8_T MyMemusedRate(void)
 	UINT32_T i = 0;
 	for (i = 0;i < g_MemTableSize;i++)
 	{
-		if (g_MyaMallcoDev.msgMemMap[i])
+		if (g_MyMallcoDev.msgMemMap[i])
 		{
 			used++;
 		}
@@ -120,9 +120,9 @@ UINT32_T MyMemMalloc(UINT32_T size)
 	UINT32_T i = 0;
 
 	//---未初始化,先执行初始化
-	if (!g_MyaMallcoDev.msgMemReady)
+	if (!g_MyMallcoDev.msgMemReady)
 	{
-		g_MyaMallcoDev.init();
+		g_MyMallcoDev.init();
 	}
 
 	//---不需要分配
@@ -139,7 +139,7 @@ UINT32_T MyMemMalloc(UINT32_T size)
 	for (offset = g_MemTableSize - 1;offset >= 0;offset--)
 	{
 		//---连续空内存块数增加
-		if (!g_MyaMallcoDev.msgMemMap[offset])
+		if (!g_MyMallcoDev.msgMemMap[offset])
 		{
 			cmemb++;
 		}
@@ -155,7 +155,7 @@ UINT32_T MyMemMalloc(UINT32_T size)
 			//---标注内存块非空
 			for (i = 0;i < nmemb;i++)
 			{
-				g_MyaMallcoDev.msgMemMap[offset + i] = nmemb;
+				g_MyMallcoDev.msgMemMap[offset + i] = nmemb;
 			}
 
 			//---返回偏移地址
@@ -179,9 +179,9 @@ UINT8_T MyMemFree(UINT32_T offset)
 	int i = 0;
 
 	//---未初始化,先执行初始化
-	if (!g_MyaMallcoDev.msgMemReady)
+	if (!g_MyMallcoDev.msgMemReady)
 	{
-		g_MyaMallcoDev.init();
+		g_MyMallcoDev.init();
 
 		//---未初始化
 		return 1;
@@ -194,12 +194,12 @@ UINT8_T MyMemFree(UINT32_T offset)
 		int index = offset / g_MemBlockSize;
 
 		//---内存块数量
-		int nmemb = g_MyaMallcoDev.msgMemMap[index];
+		int nmemb = g_MyMallcoDev.msgMemMap[index];
 
 		//---内存块清零
 		for (i = 0;i < nmemb;i++)
 		{
-			g_MyaMallcoDev.msgMemMap[index + i] = 0;
+			g_MyMallcoDev.msgMemMap[index + i] = 0;
 		}
 		return 0;
 	}
@@ -225,7 +225,7 @@ void MyFree(void *pMemAddr)
 		//---地址为0
 		return;
 	}
-	offset = (UINT32_T)pMemAddr - (UINT32_T)g_MyaMallcoDev.msgMemPool;
+	offset = (UINT32_T)pMemAddr - (UINT32_T)g_MyMallcoDev.msgMemPool;
 
 	//---释放内存
 	MyMemFree(offset);
@@ -251,7 +251,7 @@ void *MyMalloc(UINT32_T nSize)
 	}
 	else
 	{
-		return (void*)((UINT32_T)g_MyaMallcoDev.msgMemPool + offset);
+		return (void*)((UINT32_T)g_MyMallcoDev.msgMemPool + offset);
 	}
 }
 
@@ -276,12 +276,12 @@ void *MyRealloc(void *pMemAddr, UINT32_T nSize)
 	else
 	{
 		//---拷贝旧内存内容到新内存
-		MyMemcpy((void*)((UINT32_T)g_MyaMallcoDev.msgMemPool + offset), pMemAddr, nSize);
+		MyMemcpy((void*)((UINT32_T)g_MyMallcoDev.msgMemPool + offset), pMemAddr, nSize);
 
 		//---释放旧内存
 		MyFree(pMemAddr);
 
 		//---返回新内存首地址
-		return (void*)((UINT32_T)g_MyaMallcoDev.msgMemPool + offset);
+		return (void*)((UINT32_T)g_MyMallcoDev.msgMemPool + offset);
 	}
 }

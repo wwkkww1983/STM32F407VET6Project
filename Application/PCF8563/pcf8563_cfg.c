@@ -1,8 +1,8 @@
 #include "pcf8563_cfg.h"
 
 //===变量的定义
-PCF8563_HandlerType g_PCF8563Device0 = { 0 };
-pPCF8563_HandlerType pPCF8563Device0 = &g_PCF8563Device0;
+PCF8563_HandlerType g_Pcf8563Device0 = { 0 };
+pPCF8563_HandlerType pPcf8563Device0 = &g_Pcf8563Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函	   数：
@@ -65,7 +65,7 @@ UINT8_T PCF8563_I2C_Device0_Init(PCF8563_HandlerType *PCF8563x)
 	PCF8563x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
 	PCF8563x->msgI2C.msgModelIsHW = 0;
 	PCF8563x->msgI2C.msgPluseWidth = 0;
-	PCF8563x->msgI2C.msgFuncDelayus = NULL;
+	PCF8563x->msgI2C.msgDelayus = NULL;
 	PCF8563x->msgI2C.msgAddr = 0xA2;//PCF8563_WRITE_ADDR;
 	PCF8563x->msgI2C.msgClockSpeed = 0;
 	return OK_0;

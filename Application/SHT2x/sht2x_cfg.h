@@ -66,13 +66,13 @@ extern "C" {
 	};
 
 	//===定义的任务函数
-	#define SHT2X_TASK_ONE								pSHT2XDevice0
+	#define SHT2X_TASK_ONE								pSht2xDevice0
 	#define SHT2X_TASK_TWO								0
 	#define SHT2X_TASK_THREE							0
 
 	//===外部调用接口
-	extern SHT2X_HandlerType g_SHT2XDevice0;
-	extern pSHT2X_HandlerType pSHT2XDevice0;
+	extern SHT2X_HandlerType							g_Sht2xDevice0;
+	extern pSHT2X_HandlerType							pSht2xDevice0;
 
 	//===函数定义
 	UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);

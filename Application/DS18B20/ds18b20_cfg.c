@@ -1,8 +1,8 @@
 #include "ds18b20_cfg.h"
 
 //---变量定义
-DS18B20_HandlerType g_DS18B20Device0 = { 0 };
-pDS18B20_HandlerType pDS18B20Device0 = &g_DS18B20Device0;
+DS18B20_HandlerType g_Ds18b20Device0 = { 0 };
+pDS18B20_HandlerType pDs18b20Device0 = &g_Ds18b20Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -74,11 +74,11 @@ UINT8_T DS18B20_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(
 	//---注册延时函数
 	if (pFuncDelayms != NULL)
 	{
-		DS18B20x->msgFuncDelayms = pFuncDelayms;
+		DS18B20x->msgDelayms = pFuncDelayms;
 	}
 	else
 	{
-		DS18B20x->msgFuncDelayms = DelayTask_ms;
+		DS18B20x->msgDelayms = DelayTask_ms;
 	}
 	//---注册滴答函数
 	DS18B20x->msgFuncTimeTick = pFuncTimerTick;
@@ -328,7 +328,7 @@ UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 	//---读取数据之前首先设置为数据无效，避免其他设备使用
 	DS18B20x->msgIsPositive = 0;
 	//---延时等待
-	DS18B20x->msgFuncDelayms(1);
+	DS18B20x->msgDelayms(1);
 	//---初始化温度传感器---总线复位
 	DS18B20_OneWire_START(DS18B20x);
 	//---忽略地址
@@ -399,7 +399,7 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id
 	//---启动转换
 	DS18B20_OneWire_WriteByte(DS18B20x, 0x44);
 	//---延时等待
-	DS18B20x->msgFuncDelayms(1);
+	DS18B20x->msgDelayms(1);
 	//---初始化温度传感器---总线复位
 	DS18B20_OneWire_START(DS18B20x);
 	//---忽略地址

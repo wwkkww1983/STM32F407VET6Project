@@ -173,14 +173,14 @@ UINT8_T EnCodeTask_EepromInit(void)
 	UINT8_T tempAddrX2[2] = { 0x00,0x00 };
 	
 	//---信号源CHA的默认功率
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X1, tempAddrX1, 2);
-	AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X2, tempAddrX2, 2);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X1, tempAddrX1, 2);
+	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X2, tempAddrX2, 2);
 	//---数据大小的对比
 	if (CompareFun1(tempAddrX1, tempAddrX2, 2) != 0)
 	{
-		AT24CXXTask_I2C_ReadData(pAT24CXXDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X3, tempAddrX1, 2);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X1, tempAddrX1, 2);
-		AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X2, tempAddrX1, 2);
+		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X3, tempAddrX1, 2);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X1, tempAddrX1, 2);
+		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X2, tempAddrX1, 2);
 	}
 	//---判断数据是否合法
 	if (tempAddrX1[0] != 0xFF)
@@ -203,19 +203,19 @@ UINT8_T EnCodeTask_EepromWrite(void)
 	UINT8_T temp[2] = { g_GenCodeChannelMask1,g_GenCodeChannelMask2 };
 	UINT8_T _return = 0;
 	//---第一次保存的参数的位置
-	_return = AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X1, temp, 2);
+	_return = AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X1, temp, 2);
 	if (_return != 0)
 	{
 		_return += 1;
 	}
 	//---第二次保存参数的位置
-	_return = AT24CXXTask_I2C_WriteData(pAT24CXXDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X2, temp, 2);
+	_return = AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X2, temp, 2);
 	if (_return != 0)
 	{
 		_return += 1;
 	}
 	//---第三次保存参数的位置
-	_return = AT24CXXTask_I2C_WriteData(pAT24CXXDevice0,ENCODE_GEN_CHANNEL_MASK1_ADDR_X3, temp, 2);
+	_return = AT24CXXTask_I2C_WriteData(pAT24cxxDevice0,ENCODE_GEN_CHANNEL_MASK1_ADDR_X3, temp, 2);
 	if (_return != 0)
 	{
 		_return += 1;

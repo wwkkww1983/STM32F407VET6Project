@@ -83,6 +83,7 @@ stm32f407vet6project/task_manage.o: \
   ..\Application\ADS1256\ads1256_task.h \
   ..\Application\ADS1256\ads1256_lib.h \
   ..\Application\ADS1256\ads1256_cfg.h ..\Application\AHT10\aht10_task.h \
+  ..\Application\AHT10\aht10_lib.h ..\Application\AHT10\aht10_cfg.h \
   ..\Application\BKP\bkp_task.h ..\Application\BKP\bkp_lib.h \
   ..\Application\BKP\bkp_cfg.h ..\Application\CRC\crc_task.h \
   ..\Application\CRC\crc_lib.h ..\Application\CRC\crc_cfg.h \
@@ -141,4 +142,5 @@ stm32f407vet6project/task_manage.o: \
   ..\Application\SI5351A\si5351a_cfg.h \
   ..\Application\W25Qxx\w25qxx_task.h ..\Application\W25Qxx\w25qxx_lib.h \
   ..\Application\W25Qxx\w25qxx_cfg.h ..\Application\WWDG\wwdg_task.h \
-  ..\Application\WWDG\wwdg_lib.h ..\Application\WWDG\wwdg_cfg.h
+  ..\Application\WWDG\wwdg_lib.h ..\Application\WWDG\wwdg_cfg.h \
+  ..\Application\JTAG\jtag_cfg.h

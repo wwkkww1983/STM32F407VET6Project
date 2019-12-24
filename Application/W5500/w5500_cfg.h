@@ -22,7 +22,7 @@ extern "C" {
 		GPIO_HandlerType	msgHWRST;											//---硬件复位信号
 		GPIO_HandlerType	msgHWINT;											//---硬件中断信号
 
-		void(*msgFuncDelayms)(UINT32_T delay);									//---延时参数
+		void(*msgDelayms)(UINT32_T delay);									//---延时参数
 	};
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

@@ -1,8 +1,8 @@
 #include "at24cxx_cfg.h"
 
 //===全局变量定义
-AT24CXX_HandlerType g_AT24CXXDevice0={0};
-pAT24CXX_HandlerType pAT24CXXDevice0 = &g_AT24CXXDevice0;
+AT24CXX_HandlerType g_AT24cxxDevice0={0};
+pAT24CXX_HandlerType pAT24cxxDevice0 = &g_AT24cxxDevice0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函	   数：
@@ -51,11 +51,11 @@ UINT8_T AT24CXX_I2C_Init(AT24CXX_HandlerType *AT24CXXx, void(*pFuncDelayus)(UINT
 	//---毫秒延时函数的注册
 	if (pFuncDelayms != NULL)
 	{
-		AT24CXXx->msgFuncDelayms = pFuncDelayms;
+		AT24CXXx->msgDelayms = pFuncDelayms;
 	}
 	else
 	{
-		AT24CXXx->msgFuncDelayms = DelayTask_ms;
+		AT24CXXx->msgDelayms = DelayTask_ms;
 	}
 	return _return;
 }
@@ -179,7 +179,7 @@ UINT8_T AT24CXX_I2C_DeviceType(AT24CXX_HandlerType *AT24CXXx)
 	AT24CXXx->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
 	AT24CXXx->msgI2C.msgModelIsHW = 0;
 	AT24CXXx->msgI2C.msgPluseWidth = 0;
-	AT24CXXx->msgI2C.msgFuncDelayus = NULL;
+	AT24CXXx->msgI2C.msgDelayus = NULL;
 	AT24CXXx->msgI2C.msgAddr = 0xA0;  // PCF8563_WRITE_ADDR;
 	AT24CXXx->msgI2C.msgClockSpeed = 0;
 
@@ -332,9 +332,9 @@ UINT8_T AT24CXX_SWI2C_WriteOneByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr,
 	if (_return==OK_0)
 	{
 		//---自编程时间是5ms
-		if (AT24CXXx->msgFuncDelayms != NULL)
+		if (AT24CXXx->msgDelayms != NULL)
 		{
-			AT24CXXx->msgFuncDelayms(5);
+			AT24CXXx->msgDelayms(5);
 		}
 
 	}
@@ -445,9 +445,9 @@ UINT8_T AT24CXX_SWI2C_WritePageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T page
 	if (_return == OK_0)
 	{
 		//---自编程时间是5ms
-		if (AT24CXXx->msgFuncDelayms != NULL)
+		if (AT24CXXx->msgDelayms != NULL)
 		{
-			AT24CXXx->msgFuncDelayms(5);
+			AT24CXXx->msgDelayms(5);
 		}
 
 	}

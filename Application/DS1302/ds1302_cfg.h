@@ -44,17 +44,17 @@ extern "C" {
 		RTC_HandlerType		msgRTC;					//---实时时钟
 		UINT16_T			msgPluseWidth;			//---脉冲宽度，软件模拟使用
 		UINT8_T				msgAMOrPM;				//---上午还是下午，0---上午，1---下午
-		void(*msgFuncDelayus)(UINT32_T delay);		//---延时参数
+		void(*msgDelayus)(UINT32_T delay);			//---延时参数
 	};
 
 	//===定义的任务函数
-	#define DS1302_TASK_ONE							pDS1302Device0
+	#define DS1302_TASK_ONE							pDs1302Device0
 	#define DS1302_TASK_TWO							0
 	#define DS1302_TASK_THREE						0
 
 	//===外部调用接口
-	extern DS1302_HandlerType						g_DS1302Device0;
-	extern pDS1302_HandlerType						pDS1302Device0;
+	extern DS1302_HandlerType						g_Ds1302Device0;
+	extern pDS1302_HandlerType						pDs1302Device0;
 
 	//===函数定义
 	UINT8_T DS1302_Init(DS1302_HandlerType *DS1302x, void(*pFuncDelayus)(UINT32_T delay));

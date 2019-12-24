@@ -167,7 +167,7 @@ extern "C" {
 	//===定义结构体
 	struct _ADS868X_HandlerType
 	{
-		VLTUINT8_T  msgDelayms;													//---等待时间,单位是ms
+		VLTUINT8_T  msgWaitms;													//---等待时间,单位是ms
 		VLTUINT8_T  msgInitRetryCount;											//---初始化重试的次数
 		VLTUINT8_T  msgReadyOK;													//---设备是否初始化成功，0---初始化成功，1---初始化失败
 		VLTUINT8_T  msgChipID;													//---设备的ID信息
@@ -188,7 +188,7 @@ extern "C" {
 		VLTUINT32_T msgChannelPowerResult[ADS868X_CHANNEL_MAX];					//---AD通道的采样的电压结果
 		SPI_HandlerType		msgSPI;												//---使用的SPI模式
 		GPIO_HandlerType	msgHWRST;											//---硬件复位信号
-		void(*msgFuncDelayms)(UINT32_T delay);									//---延时参数
+		void(*msgDelayms)(UINT32_T delay);									//---延时参数
 	};
 
 	//===任务函数

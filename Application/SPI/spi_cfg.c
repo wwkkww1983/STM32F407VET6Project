@@ -566,32 +566,36 @@ UINT8_T SPI_MSW_WriteAndReadBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 	if (((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 0)) || ((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 1)))
 	{
 		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		if (SPIx->msgPluseWidth>0)
+		/*if (SPIx->msgPluseWidth>0)
 		{
 			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}
+		}*/
+		SPIx->msgDelayus(SPIx->msgPluseWidth);
 		SPI_MSW_BitMSB(SPIx, wVal, pRVal);
 		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		if (SPIx->msgPluseWidth>0)
+		/*if (SPIx->msgPluseWidth>0)
 		{
 			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}
+		}*/
+		SPIx->msgDelayus(SPIx->msgPluseWidth);
 	}
 	//---10---01
 	//if (((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 0))|| ((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 1)))
 	else
 	{
 		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		if (SPIx->msgPluseWidth>0)
+		/*if (SPIx->msgPluseWidth>0)
 		{
 			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}
+		}*/
+		SPIx->msgDelayus(SPIx->msgPluseWidth);
 		SPI_MSW_BitMSB(SPIx, wVal, pRVal);
 		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		if (SPIx->msgPluseWidth>0)
+		/*if (SPIx->msgPluseWidth>0)
 		{
 			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}
+		}*/
+		SPIx->msgDelayus(SPIx->msgPluseWidth);
 	}
 	return OK_0;
 }
@@ -679,33 +683,36 @@ UINT8_T SPI_MSW_WriteAndReadBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 	if (((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 0)) || ((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 1)))
 	{
 		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		if (SPIx->msgPluseWidth>0)
+		/*if (SPIx->msgPluseWidth>0)
 		{
 			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}
+		}*/
+		SPIx->msgDelayus(SPIx->msgPluseWidth);
 		SPI_MSW_BitLSB(SPIx, wVal, pRVal);
 		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		if (SPIx->msgPluseWidth>0)
+		/*if (SPIx->msgPluseWidth>0)
 		{
 			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}
+		}*/
+		SPIx->msgDelayus(SPIx->msgPluseWidth);
 	}
 	//---10---01
 	//if (((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 0))|| ((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 1)))
 	else
 	{
 		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		//SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		if (SPIx->msgPluseWidth>0)
+		/*if (SPIx->msgPluseWidth>0)
 		{
 			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}
+		}*/
+		SPIx->msgDelayus(SPIx->msgPluseWidth);
 		SPI_MSW_BitLSB(SPIx, wVal, pRVal);
 		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		if (SPIx->msgPluseWidth>0)
+		/*if (SPIx->msgPluseWidth>0)
 		{
 			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}
+		}*/
+		SPIx->msgDelayus(SPIx->msgPluseWidth);
 	}
 	return OK_0;
 }

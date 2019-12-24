@@ -93,18 +93,18 @@ extern "C" {
 #ifdef WM25QXX_SPI_USE_HWWP
 		GPIO_HandlerType msgWP;													//---写保护控制端口，0---写保护使能；1---写保护不使能
 #endif
-		void(*msgFuncDelayms)(UINT32_T delay);									//---延时参数
+		void(*msgDelayms)(UINT32_T delay);									//---延时参数
 		SPI_HandlerType msgSPI;													//---使用的SPI模式
 	};
 
 	//===任务函数
-	#define W25QXX_TASK_ONE						pW25QXXDevice0
+	#define W25QXX_TASK_ONE						pW25qxxDevice0
 	#define W25QXX_TASK_TWO						0
 	#define W25QXX_TASK_THREE					0
 	
 	//===外部调用接口
-	extern W25QXX_HandlerType					g_W25QXXDevice0;
-	extern pW25QXX_HandlerType					pW25QXXDevice0;
+	extern W25QXX_HandlerType					g_W25qxxDevice0;
+	extern pW25QXX_HandlerType					pW25qxxDevice0;
 
 	//===函数定义
 	UINT8_T W25QXX_SPI_Init(W25QXX_HandlerType *W25Qx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);

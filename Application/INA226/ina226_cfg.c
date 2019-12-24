@@ -1,8 +1,8 @@
 #include "ina226_cfg.h"
 
 //===全局变量定义
-INA226_HandlerType		g_INA226Device0 = { 0 };
-pINA226_HandlerType		pINA226Device0 = &g_INA226Device0;
+INA226_HandlerType		g_Ina226Device0 = { 0 };
+pINA226_HandlerType		pIna226Device0 = &g_Ina226Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函	   数：
@@ -69,7 +69,7 @@ UINT8_T INA226_I2C_Device0_Init(INA226_HandlerType* INA226x)
 	INA226x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
 	INA226x->msgI2C.msgModelIsHW = 0;
 	INA226x->msgI2C.msgPluseWidth = 2;
-	INA226x->msgI2C.msgFuncDelayus = NULL;
+	INA226x->msgI2C.msgDelayus = NULL;
 	INA226x->msgI2C.msgAddr = 0x80;
 	INA226x->msgI2C.msgClockSpeed = 0;
 	return OK_0;

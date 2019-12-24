@@ -1,8 +1,8 @@
 #include "usart_cfg.h"
 
 //===全局变量定义
-USART_HandlerType  g_USART1 = { 0 };
-pUSART_HandlerType pUSART1 = &g_USART1;
+USART_HandlerType  g_Usart1 = { 0 };
+pUSART_HandlerType pUsart1 = &g_Usart1;
 VLTUINT8_T tcCount=0;
 
 //===printf函数使用的缓存区

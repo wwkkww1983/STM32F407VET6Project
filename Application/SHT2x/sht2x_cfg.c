@@ -1,8 +1,8 @@
 #include "sht2x_cfg.h"
 
 //===变量的定义
-SHT2X_HandlerType g_SHT2XDevice0 = { 0 };
-pSHT2X_HandlerType pSHT2XDevice0 = &g_SHT2XDevice0;
+SHT2X_HandlerType g_Sht2xDevice0 = { 0 };
+pSHT2X_HandlerType pSht2xDevice0 = &g_Sht2xDevice0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函	   数：
@@ -63,7 +63,7 @@ UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandlerType *SHT2x)
 	SHT2x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
 	SHT2x->msgI2C.msgModelIsHW = 0;
 	SHT2x->msgI2C.msgPluseWidth = 0;
-	SHT2x->msgI2C.msgFuncDelayus = NULL;
+	SHT2x->msgI2C.msgDelayus = NULL;
 	SHT2x->msgI2C.msgAddr = 0x80;  // SHT2X_WRITE_ADDR;
 	SHT2x->msgI2C.msgClockSpeed = 0;
 	return OK_0;

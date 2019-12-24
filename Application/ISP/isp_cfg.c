@@ -1,8 +1,8 @@
 #include "isp_cfg.h"
 
 //===全局变量的定义
-ISP_HandlerType  g_ISPDevice0 = { 0 };
-pISP_HandlerType pISPDevice0 = &g_ISPDevice0;
+ISP_HandlerType  g_IspDevice0 = { 0 };
+pISP_HandlerType pIspDevice0 = &g_IspDevice0;
 
 //===统一发送函数
 UINT8_T(*ISP_SEND_CMD)(ISP_HandlerType *, UINT8_T, UINT8_T, UINT8_T, UINT8_T);
@@ -206,20 +206,20 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 	//---注册ms的延时函数
 	if (pFuncDelayms!=NULL)
 	{
-		ISPx->msgFuncDelayms = pFuncDelayms;
+		ISPx->msgDelayms = pFuncDelayms;
 	}
 	else
 	{
-		ISPx->msgFuncDelayms = DelayTask_ms;
+		ISPx->msgDelayms = DelayTask_ms;
 	}
 	//---注册us延时函数
 	if (pFuncDelayus!=NULL)
 	{
-		ISPx->msgSPI.msgFuncDelayus = pFuncDelayus;
+		ISPx->msgSPI.msgDelayus = pFuncDelayus;
 	}
 	else
 	{
-		ISPx->msgSPI.msgFuncDelayus = DelayTask_us;
+		ISPx->msgSPI.msgDelayus = DelayTask_us;
 	}
 	//---注册滴答函数
 	ISPx->msgSPI.msgFuncTimeTick = pFuncTimerTick;
@@ -238,7 +238,7 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 #ifndef USE_MCU_STM32F1
 		GPIO_InitStruct.Alternate = LL_GPIO_AF_0;						//---端口复用模式
 #endif
-	//---ISP_OE_BIT的初始化
+		//---ISP_OE_BIT的初始化
 		GPIO_InitStruct.Pin = ISPx->msgOE.msgGPIOBit;
 		LL_GPIO_Init(ISPx->msgOE.msgGPIOPort, &GPIO_InitStruct);
 		GPIO_OUT_1(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
@@ -524,11 +524,11 @@ UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx)
 	//---首先拉低时钟线
 	GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
 	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
-	ISPx->msgFuncDelayms(1);
+	ISPx->msgDelayms(1);
 	GPIO_OUT_1(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
-	ISPx->msgFuncDelayms(1);
+	ISPx->msgDelayms(1);
 	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
-	ISPx->msgFuncDelayms(1);
+	ISPx->msgDelayms(1);
 	//---解除64K的限制
 	ISPx->msgHideAddr = 0xFF;
 	return OK_0;
@@ -588,11 +588,11 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 		//---置位时钟线和片选端
 		//GPIO_OUT_1(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
 		GPIO_OUT_1(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
-		ISPx->msgFuncDelayms(1);
+		ISPx->msgDelayms(1);
 		//---清零时钟线和片选端
 		//GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
 		GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
-		ISPx->msgFuncDelayms(1);
+		ISPx->msgDelayms(1);
 	}
 #ifdef ISP_USE_lEVEL_SHIFT
 	GPIO_OUT_1(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
@@ -907,7 +907,7 @@ UINT8_T ISP_EraseChip(ISP_HandlerType *ISPx)
 		else
 		{
 			//---擦除之后的等待延时
-			ISPx->msgFuncDelayms(10 + ISPx->msgDelayms);
+			ISPx->msgDelayms(10 + ISPx->msgWaitms);
 		}
 		
 	}
@@ -1089,7 +1089,7 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 	else
 	{
 		//---写入之后延时等待
-		ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+		ISPx->msgDelayms(5 + ISPx->msgDelayms);
 	}
 	//---写入熔丝位高位
 	_return = ISP_SEND_CMD(ISPx, 0xAC, 0xA8, 0x00, pVal[1]);
@@ -1106,7 +1106,7 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 	else
 	{
 		//---写入之后延时等待
-		ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+		ISPx->msgDelayms(5 + ISPx->msgWaitms);
 	}
 	//---写入熔丝位拓展位
 	if (isNeedExternFuse != 0x00)
@@ -1125,7 +1125,7 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 			else
 			{
 				//---写入之后延时等待
-				ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+				ISPx->msgDelayms(5 + ISPx->msgWaitms);
 			}
 		}
 	}
@@ -1155,7 +1155,7 @@ UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T val)
 		else
 		{
 			//---写入之后延时等待
-			ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+			ISPx->msgDelayms(5 + ISPx->msgWaitms);
 		}
 	}
 	return _return;
@@ -1239,7 +1239,7 @@ UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hi
 		else
 		{
 			//---写入之后延时等待
-			ISPx->msgFuncDelayms(10 + ISPx->msgDelayms);
+			ISPx->msgDelayms(10 + ISPx->msgDelayms);
 		}
 		//---地址偏移
 		lowAddr++;
@@ -1308,7 +1308,7 @@ UINT8_T ISP_UpdateChipEepromAddr(ISP_HandlerType* ISPx,UINT8_T highAddr, UINT8_T
 		else
 		{
 			//---写入之后延时等待
-			ISPx->msgFuncDelayms(10 + ISPx->msgDelayms);
+			ISPx->msgDelayms(10 + ISPx->msgDelayms);
 		}
 	}
 	return _return;
@@ -1435,7 +1435,7 @@ UINT8_T ISP_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVa
 			else
 			{
 				//---写入之后延时等待
-				ISPx->msgFuncDelayms(10 + ISPx->msgDelayms);
+				ISPx->msgDelayms(10 + ISPx->msgWaitms);
 			}
 		}
 		//---地址偏移
@@ -1656,7 +1656,7 @@ UINT8_T ISP_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, UINT8
 			else
 			{
 				//---写入之后延时等待
-				ISPx->msgFuncDelayms(5 + ISPx->msgDelayms);
+				ISPx->msgDelayms(5 + ISPx->msgWaitms);
 			}
 		}
 	}

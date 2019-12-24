@@ -153,13 +153,13 @@ extern "C" {
 	};
 
 	//===定义的任务函数
-	#define INA226_TASK_ONE								pINA226Device0
+	#define INA226_TASK_ONE								pIna226Device0
 	#define INA226_TASK_TWO								0
 	#define INA226_TASK_THREE							0
 
 	//===外部调用
-	extern INA226_HandlerType		g_INA226Device0 ;
-	extern pINA226_HandlerType		pINA226Device0  ;
+	extern INA226_HandlerType							g_Ina226Device0 ;
+	extern pINA226_HandlerType							pIna226Device0  ;
 
 	//===函数定义
 	UINT8_T INA226_I2C_Device0_Init(INA226_HandlerType* INA226x);

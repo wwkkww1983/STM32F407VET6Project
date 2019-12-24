@@ -195,7 +195,7 @@ extern "C" {
 		UINT32_T msgChannelNowPowerResult[ADS1256_CHANNEL_MAX];						//---当前ADC计算的电压结果
 		UINT32_T msgChannelOldPowerResult[ADS1256_CHANNEL_MAX];						//---上一次ADC计算的电压结果
 		UINT32_T msgChannelADCResult[ADS1256_CHANNEL_MAX];							//---ADC转换结果
-		UINT8_T msgDelayms;															//---等待时间,单位是ms
+		UINT8_T msgWaitms;															//---等待时间,单位是ms
 		UINT8_T msgSleepMode;														//---休眠模式，0---不休眠，1---休眠模式
 		UINT8_T msgDRate;															//---数据转换的速率，默认是0xF0
 		UINT8_T msgBufferON;														//---是否开启缓存区，0---不开启，1---开启
@@ -203,7 +203,7 @@ extern "C" {
 		GPIO_HandlerType	msgDRDY;												//---准备好信号
 		GPIO_HandlerType	msgHWRST;												//---硬件复位信号
 		SPI_HandlerType		msgSPI;													//---使用的SPI模式
-		void(*msgFuncDelayms)(UINT32_T delay);										//---延时参数
+		void(*msgDelayms)(UINT32_T delay);										//---延时参数
 	};
 
 	//===任务函数
