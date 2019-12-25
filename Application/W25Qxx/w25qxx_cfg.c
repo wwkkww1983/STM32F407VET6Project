@@ -284,8 +284,14 @@ UINT8_T W25QXX_SPI_Init(W25QXX_HandlerType *W25Qx, void(*pFuncDelayus)(UINT32_T 
 		W25Qx->msgSPI.msgDelayus = DelayTask_us;
 	}
 	//---×¢²áµÎ´ðº¯Êý
-	W25Qx->msgSPI.msgFuncTimeTick = pFuncTimerTick;
-
+	if (pFuncTimerTick != NULL)
+	{
+		W25Qx->msgSPI.msgFuncTimeTick = pFuncTimerTick;
+	}
+	else
+	{
+		W25Qx->msgSPI.msgFuncTimeTick = SysTickTask_GetTick;
+	}	
 #ifdef WM25QXX_SPI_USE_HWWP
 	if (W25Qx->msgWP.msgGPIOPort != NULL)
 	{

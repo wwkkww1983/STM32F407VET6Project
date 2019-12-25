@@ -325,10 +325,15 @@ UINT8_T ADS868X_SPI_Init(ADS868X_HandlerType *ADS868x, void(*pFuncDelayus)(UINT3
 	{
 		ADS868x->msgSPI.msgDelayus = DelayTask_us;
 	}
-
 	//---◊¢≤·µŒ¥∫Ø ˝
-	ADS868x->msgSPI.msgFuncTimeTick = pFuncTimerTick;
-
+	if (pFuncTimerTick != NULL)
+	{
+		ADS868x->msgSPI.msgFuncTimeTick = pFuncTimerTick;
+	}
+	else
+	{
+		ADS868x->msgSPI.msgFuncTimeTick = SysTickTask_GetTick;
+	}
 	//---≈‰÷√ADS868X
 	return ADS868X_SPI_ConfigInit(ADS868x,0);
 }

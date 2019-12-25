@@ -161,7 +161,10 @@ void Sys_Init(void)
 	LM317Task_Init(0,3300);
 	LM317_POWER_ON;
 	JTAG_Init(pJtagDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick);
-	JTAG_ReadIDChip(pJtagDevice0,NULL,0);
+	JTAG_EnterProg(pJtagDevice0);
+	JTAG_ReadIDChip(pJtagDevice0,NULL);
+	JTAG_ReadChipID(pJtagDevice0, NULL);
+	JTAG_ExitProg(pJtagDevice0);
 	//---ADC≥ı ºªØ
 	ADCTask_ADC_Init();
 	ADCTask_ADCTask_START(ADC1);

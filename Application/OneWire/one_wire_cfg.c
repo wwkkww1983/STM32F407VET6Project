@@ -12,20 +12,16 @@ UINT8_T OneWire_Init(OneWire_HandlerType *OneWirex, void(*pFuncDelayus)(UINT32_T
 	//---使能端口时钟
 	GPIOTask_Clock(OneWirex->msgDAT.msgGPIOPort, 1);
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
 	//---GPIO的初始化
-	GPIO_InitStruct.Pin = OneWirex->msgDAT.msgGPIOBit;			//---对应的GPIO的引脚
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;					//---配置状态为输出模式
-	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;			//---GPIO的速度
-	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;				//---输出模式---开漏输出
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;						//---上拉使能
-
+	GPIO_InitStruct.Pin = OneWirex->msgDAT.msgGPIOBit;												//---对应的GPIO的引脚
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;														//---配置状态为输出模式
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;											//---GPIO的速度
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;											//---输出模式---开漏输出
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;															//---上拉使能
 	//---初始化端口
 	LL_GPIO_Init(OneWirex->msgDAT.msgGPIOPort, &GPIO_InitStruct);
-
 	//---端口输出高电平
 	GPIO_OUT_1(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
-
 	//---延时函数
 	if (pFuncDelayus != NULL)
 	{
@@ -49,7 +45,6 @@ UINT8_T OneWire_DeInit(OneWire_HandlerType *OneWirex)
 {
 	LL_GPIO_DeInit(OneWirex->msgDAT.msgGPIOPort);
 	GPIO_OUT_1(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
-
 	return OK_0;
 }
 
@@ -63,19 +58,15 @@ UINT8_T OneWire_DeInit(OneWire_HandlerType *OneWirex)
 UINT8_T OneWire_START(OneWire_HandlerType *OneWirex)
 {
 	UINT8_T _return = OK_0;
-
 	//---设置为输出且输出零
 	GPIO_OUT_0(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
-
 	//>=480
 	OneWirex->msgDelayus(500);
 	//---输出高电平
 	GPIO_OUT_1(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
-
 	//15us~60us之间
 	OneWirex->msgDelayus(50);
 	_return = GPIO_GET_STATE(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
-
 	//60us~240us
 	OneWirex->msgDelayus(200);
 	return _return;
@@ -92,7 +83,6 @@ UINT8_T OneWire_WriteBit(OneWire_HandlerType *OneWirex, UINT8_T bitVal)
 {
 	//---控制总线，强制拉低
 	GPIO_OUT_0(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
-
 	//=4
 	OneWirex->msgDelayus(4);
 	//---发送数据
@@ -101,12 +91,10 @@ UINT8_T OneWire_WriteBit(OneWire_HandlerType *OneWirex, UINT8_T bitVal)
 		//---释放总线
 		GPIO_OUT_1(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
 	}
-
 	//=60us
 	OneWirex->msgDelayus(50);
 	//---释放总线
 	GPIO_OUT_1(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
-
 	//=4
 	OneWirex->msgDelayus(4);
 	return 0;
@@ -122,24 +110,20 @@ UINT8_T OneWire_WriteBit(OneWire_HandlerType *OneWirex, UINT8_T bitVal)
 UINT8_T OneWire_ReadBit(OneWire_HandlerType *OneWirex)
 {
 	UINT8_T _return = 0;
-
 	//---控制总线,强制拉低
 	GPIO_OUT_0(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
-
 	//=8
 	OneWirex->msgDelayus(8);
-
 	//---释放总线
 	GPIO_OUT_1(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit);
-
 	//=14
 	OneWirex->msgDelayus(14);
 	//---读取数据
-	if (GPIO_GET_STATE(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit))
+	/*if (GPIO_GET_STATE(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit))
 	{
 		_return = 1;
-	}
-
+	}*/
+	_return=((GPIO_GET_STATE(OneWirex->msgDAT.msgGPIOPort, OneWirex->msgDAT.msgGPIOBit) != 0x00) ? 1 : 0);
 	//=40
 	OneWirex->msgDelayus(40);
 	//---释放总线
@@ -180,9 +164,7 @@ UINT8_T OneWire_ReadByte(OneWire_HandlerType *OneWirex)
 	{
 		_return |= (OneWire_ReadBit(OneWirex) << i);
 	}
-
 	//=5
 	OneWirex->msgDelayus(5);
-
 	return _return;
 }

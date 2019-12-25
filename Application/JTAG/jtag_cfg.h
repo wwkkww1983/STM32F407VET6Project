@@ -8,8 +8,12 @@ extern "C" {
 	#include "complier_lib.h"
 	#include "gpio_task.h"
 	#include "spi_task.h"
+	#include "systick_task.h"
+	#include "delay_task.h"
+	#include "my_malloc.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-
+	//===定义JTAG状态保持的时间状态
+	#define JTAG_STATE_TIME_OUT_MS				500
 	//===定义是否使用电平转换芯片，带OE控制端的
 	#define JTAG_USE_lEVEL_SHIFT 	
 
@@ -19,9 +23,24 @@ extern "C" {
 	#define	JTAG_GPIO_0(tp)						GPIO_OUT_0(tp.msgGPIOPort,tp.msgGPIOBit)
 	//===TCK的脉冲宽度
 	#define JTAG_TCK_PULSE(tck)					(	JTAG_GPIO_1(tck->msgTCK),\
+													DELAY_NOP_COUNT(4),\
 													tck->msgDelayus(tck->msgPluseWidth),\
 													JTAG_GPIO_0(tck->msgTCK),\
-													tck->msgDelayus(tck->msgPluseWidth) \
+													tck->msgDelayus(tck->msgPluseWidth)\
+												)
+	//===TMS输出1变化一次
+	#define JTAG_TMS_1(tck)						(	JTAG_GPIO_1(tck->msgTMS),\
+													JTAG_GPIO_1(tck->msgTCK),\
+													tck->msgDelayus(tck->msgPluseWidth),\
+													JTAG_GPIO_0(tck->msgTCK),\
+													tck->msgDelayus(tck->msgPluseWidth)\
+												)
+	//===TMS输出0变化一次
+	#define JTAG_TMS_0(tck)						(	JTAG_GPIO_0(tck->msgTMS),\
+													JTAG_GPIO_1(tck->msgTCK),\
+													tck->msgDelayus(tck->msgPluseWidth),\
+													JTAG_GPIO_0(tck->msgTCK),\
+													tck->msgDelayus(tck->msgPluseWidth)\
 												)
 
 	//===TAP的运行状态
@@ -83,9 +102,19 @@ extern "C" {
 	#ifdef JTAG_USE_lEVEL_SHIFT
 		GPIO_HandlerType	msgOE;																	//---OE使用的端口，用于控制电平装换的开关
 	#endif
+		UINT8_T				msgState;																//---编程状态，0---空闲状态，1---编程状态
+		UINT8_T				msgInit;																//---判断是否初始化过了 0---未初始化，1---初始化
+		UINT8_T				msgHideAddr;															//---接触64K的限制
+		UINT8_T				msgEepromIsPageMode;													//---eeprom是否支持页编程模式，0---不支持，1---支持
+		UINT16_T			msgFlashPerPageWordSize;												//---Flash的每页字数
+		UINT16_T			msgEerpomPerPageByteSize;												//---Eeprom的每页字节数
+		UINT16_T			msgPageWordIndex;														//---缓存区的序号
 		UINT16_T			msgPluseWidth;															//---非编程状态下TCK的脉冲宽度
+		UINT16_T			msgIntervalTime;														//---轮询时间间隔,单位是ms
+		UINT32_T			msgRecordTime;															//---记录的时间参数
 		void(*msgDelayus)(UINT32_T delay);															//---us延时参数
 		void(*msgDelayms)(UINT32_T delay);															//---ms延时参数
+		UINT32_T(*msgFuncTimeTick)(void);															//---用于超时计数
 		//SPI_HandlerType msgSPI;																	//---使用的SPI模式
 	};
 
@@ -99,9 +128,15 @@ extern "C" {
 	extern pJTAG_HandlerType					pJtagDevice0;
 
 	//===函数定义
-	UINT8_T JTAG_Init(JTAG_HandlerType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
-
-	UINT32_T JTAG_ReadIDChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isRunAvrReset);
+	UINT8_T JTAG_Init(JTAG_HandlerType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));	UINT8_T JTAG_EnterProg(JTAG_HandlerType* JTAGx);
+	UINT8_T JTAG_ExitProg(JTAG_HandlerType* JTAGx);
+	UINT8_T JTAG_RemoveWatch(JTAG_HandlerType* JTAGx);
+	UINT8_T JTAG_RefreshWatch(JTAG_HandlerType* JTAGx);
+	UINT8_T JTAG_AddWatch(JTAG_HandlerType* JTAGx);
+	UINT8_T JTAG_SetIntervalTime(JTAG_HandlerType* JTAGx, UINT16_T intervalTime);
+	UINT16_T JTAG_GetIntervalTime(JTAG_HandlerType* JTAGx);
+	UINT8_T JTAG_ReadIDChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal);
+	UINT8_T JTAG_ReadChipID(JTAG_HandlerType* JTAGx, UINT8_T* pVal);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -10,6 +10,7 @@ extern "C" {
 	#include "gpio_task.h"
 	#include "spi_task.h"
 	#include "kalman_filter.h"
+	#include "systick_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===ÃüÁî¼Ä´æÆ÷

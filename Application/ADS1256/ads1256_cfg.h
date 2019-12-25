@@ -9,6 +9,7 @@ extern "C" {
 	#include "spi_task.h"
 	#include "delay_task.h"
 	#include "gpio_task.h"
+	#include "systick_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//---ADS1256------MCU
 	//---RST----------NC(为了保证复位的彻底性，最好加上)

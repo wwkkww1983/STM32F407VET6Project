@@ -55,19 +55,16 @@ UINT8_T DHT11_GPIO_Init(DHT11_HandlerType *DHTxx)
 	//---使能端口时钟
 	GPIOTask_Clock(DHTxx->msgDAT.msgGPIOPort, 1);
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
 	//---GPIO的初始化
-	GPIO_InitStruct.Pin = DHTxx->msgDAT.msgGPIOBit;       //---对应的GPIO的引脚
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT; //---配置状态为输出模式
-	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH; //---GPIO的速度
-	GPIO_InitStruct.OutputType =
-		LL_GPIO_OUTPUT_OPENDRAIN;           //---输出模式---开漏输出
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP; //---上拉使能
+	GPIO_InitStruct.Pin = DHTxx->msgDAT.msgGPIOBit;													//---对应的GPIO的引脚
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;														//---配置状态为输出模式
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;												//---GPIO的速度
+	GPIO_InitStruct.OutputType =LL_GPIO_OUTPUT_OPENDRAIN;											//---输出模式---开漏输出
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;															//---上拉使能
 #ifndef USE_MCU_STM32F1
-	GPIO_InitStruct.Alternate = LL_GPIO_AF_0; //---端口复用模式
+	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;														//---端口复用模式
 #endif
-
-  //---初始化端口
+	//---初始化端口
 	LL_GPIO_Init(DHTxx->msgDAT.msgGPIOPort, &GPIO_InitStruct);
 	GPIO_OUT_1(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
 	return 0;
@@ -99,7 +96,6 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 	{
 		return ERROR_1;
 	}
-
 	//---GPIO的初始化
 	DHT11_GPIO_Init(DHTxx);
 	//---us延时
@@ -111,7 +107,6 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 	{
 		DHTxx->msgDelayus = DelayTask_us;
 	}
-
 	//---ms延时
 	if (pFuncDelayms != NULL)
 	{
@@ -122,7 +117,14 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 		DHTxx->msgDelayms = DelayTask_ms;
 	}
 	//---注册滴答函数
-	DHTxx->msgFuncTimeTick=pFuncTimerTick;
+	if (pFuncTimerTick != NULL)
+	{
+		DHTxx->msgFuncTimeTick = pFuncTimerTick;
+	}
+	else
+	{
+		DHTxx->msgFuncTimeTick = SysTickTask_GetTick;
+	}
 	//---当前时间
 	DHTxx->msgRecordTime= DHTxx->msgFuncTimeTick();
 	return OK_0;
@@ -154,18 +156,13 @@ UINT8_T DHT11_RESET(DHT11_HandlerType *DHTxx)
 {
 	//---释放总线
 	GPIO_OUT_1(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
-
 	//---主机拉高2us
 	DHTxx->msgDelayus(2);
-
 	GPIO_OUT_0(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
-
 	//---触发开始,总线拉低要大于18ms
 	DHTxx->msgDelayms(20);
-
 	//---释放总线
 	GPIO_OUT_1(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
-
 	//主机拉高20~40us;等待DHT11的低电平响应信号
 	DHTxx->msgDelayus(30);
 	return OK_0;
@@ -181,7 +178,6 @@ UINT8_T DHT11_RESET(DHT11_HandlerType *DHTxx)
 UINT8_T DHT11_Check(DHT11_HandlerType *DHTxx)
 {
 	UINT8_T count = 0;
-
 	//---DHT11如果响应的话会拉低总线40~80us
 	while (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) != 0)
 	{
@@ -197,7 +193,6 @@ UINT8_T DHT11_Check(DHT11_HandlerType *DHTxx)
 		return ERROR_1;
 	}
 	count = 0;
-
 	//---DHT11高电平数据准备信号再次拉高40~80us
 	while (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) == 0)
 	{
@@ -208,7 +203,6 @@ UINT8_T DHT11_Check(DHT11_HandlerType *DHTxx)
 			break;
 		}
 	}
-
 	if (count > 200)
 	{
 		return ERROR_1;
@@ -231,7 +225,6 @@ UINT8_T DHT11_START(DHT11_HandlerType *DHTxx)
 	{
 		return _return;
 	}
-
 	//---检测设备
 	return DHT11_Check(DHTxx);
 }
@@ -247,7 +240,6 @@ UINT8_T DHT11_START(DHT11_HandlerType *DHTxx)
 UINT8_T DHT11_ReadBit(DHT11_HandlerType *DHTxx)
 {
 	UINT8_T count = 0;
-
 	//---等待变为低电平---高电平保持的时间约为50us
 	while (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) != 0)
 	{
@@ -259,10 +251,8 @@ UINT8_T DHT11_ReadBit(DHT11_HandlerType *DHTxx)
 			break;
 		}
 	}
-
 	//---读取高电平等待一下
 	DHTxx->msgDelayus(10);
-
 	//---等待变高电平---低电平保持的时间约为20us
 	while (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) == 0)
 	{
@@ -275,10 +265,8 @@ UINT8_T DHT11_ReadBit(DHT11_HandlerType *DHTxx)
 			break;
 		}
 	}
-
 	//---等待40us;数据为0的信号时间为26-28us，1则为70us
 	DHTxx->msgDelayus(50);
-
 	//---读取状态
 	if (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) != 0)
 	{

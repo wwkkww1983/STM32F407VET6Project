@@ -493,14 +493,15 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandlerType *SPIx, UINT8_T *pWVal,
 UINT8_T SPI_MSW_WriteBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal)
 {
 	//---发送1bit的数据
-	if ((wVal & 0x80) == 0x00)
+	/*if ((wVal & 0x80) == 0x00)
 	{
 		GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	}
 	else
 	{
 		GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}
+	}*/
+	((wVal & 0x80) != 0x00) ? GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit) : GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	return OK_0;
 }
 
@@ -516,10 +517,11 @@ UINT8_T SPI_MSW_ReadBitMSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 	//---读取1bit的数据
 	if (pRVal != NULL)
 	{
-		if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
+		/*if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
 		{
 			*pRVal |= 1;
-		}
+		}*/
+		*pRVal |= ((GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0) ? 1 : 0);
 	}
 	return OK_0;
 }
@@ -534,21 +536,23 @@ UINT8_T SPI_MSW_ReadBitMSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 UINT8_T SPI_MSW_BitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	//---发送1bit的数据
-	if ((wVal & 0x80) == 0x00)
+	/*if ((wVal & 0x80) == 0x00)
 	{
 		GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	}
 	else
 	{
 		GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}
+	}*/
+	((wVal & 0x80) != 0x00) ? GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit) : GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	//---读取1bit的数据
 	if (pRVal != NULL)
 	{
-		if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
+		/*if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
 		{
 			*pRVal |= 1;
-		}
+		}*/
+		*pRVal |=((GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)?1:0);
 	}
 	return OK_0;
 }
@@ -566,17 +570,10 @@ UINT8_T SPI_MSW_WriteAndReadBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 	if (((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 0)) || ((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 1)))
 	{
 		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		/*if (SPIx->msgPluseWidth>0)
-		{
-			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}*/
 		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		DELAY_NOP_COUNT(4);
 		SPI_MSW_BitMSB(SPIx, wVal, pRVal);
 		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		/*if (SPIx->msgPluseWidth>0)
-		{
-			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}*/
 		SPIx->msgDelayus(SPIx->msgPluseWidth);
 	}
 	//---10---01
@@ -584,17 +581,10 @@ UINT8_T SPI_MSW_WriteAndReadBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 	else
 	{
 		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		/*if (SPIx->msgPluseWidth>0)
-		{
-			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}*/
 		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		DELAY_NOP_COUNT(4);
 		SPI_MSW_BitMSB(SPIx, wVal, pRVal);
 		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		/*if (SPIx->msgPluseWidth>0)
-		{
-			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}*/
 		SPIx->msgDelayus(SPIx->msgPluseWidth);
 	}
 	return OK_0;
@@ -610,14 +600,15 @@ UINT8_T SPI_MSW_WriteAndReadBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 UINT8_T SPI_MSW_WriteBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal)
 {
 	//---发送1bit的数据
-	if ((wVal & 0x01) == 0x00)
+	/*if ((wVal & 0x01) == 0x00)
 	{
 		GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	}
 	else
 	{
 		GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}
+	}*/
+	((wVal & 0x01) != 0x00) ? GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit) : GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	return OK_0;
 }
 
@@ -633,10 +624,11 @@ UINT8_T SPI_MSW_ReadBitLSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 	//---读取1bit的数据
 	if (pRVal != NULL)
 	{
-		if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
+	/*	if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
 		{
 			*pRVal |= 0x80;
-		}
+		}*/
+		*pRVal |= ((GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0) ? 0x80 : 0);
 	}
 	return OK_0;
 }
@@ -651,21 +643,23 @@ UINT8_T SPI_MSW_ReadBitLSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 UINT8_T SPI_MSW_BitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	//---发送1bit的数据
-	if ((wVal & 0x01) == 0x00)
+	/*if ((wVal & 0x01) == 0x00)
 	{
 		GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	}
 	else
 	{
 		GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}
+	}*/
+	((wVal&0x01)!=0x00)? GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit): GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	//---读取1bit的数据
 	if (pRVal != NULL)
 	{
-		if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
+		/*if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
 		{
 			*pRVal |= 0x80;
-		}
+		}*/
+		*pRVal |= ((GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0) ? 0x80 : 0);
 	}
 	return OK_0;
 }
@@ -683,17 +677,10 @@ UINT8_T SPI_MSW_WriteAndReadBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 	if (((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 0)) || ((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 1)))
 	{
 		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		/*if (SPIx->msgPluseWidth>0)
-		{
-			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}*/
 		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		DELAY_NOP_COUNT(4);
 		SPI_MSW_BitLSB(SPIx, wVal, pRVal);
 		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		/*if (SPIx->msgPluseWidth>0)
-		{
-			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}*/
 		SPIx->msgDelayus(SPIx->msgPluseWidth);
 	}
 	//---10---01
@@ -701,17 +688,10 @@ UINT8_T SPI_MSW_WriteAndReadBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 	else
 	{
 		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		/*if (SPIx->msgPluseWidth>0)
-		{
-			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}*/
 		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		DELAY_NOP_COUNT(4);
 		SPI_MSW_BitLSB(SPIx, wVal, pRVal);
 		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-		/*if (SPIx->msgPluseWidth>0)
-		{
-			SPIx->msgFuncDelayus(SPIx->msgPluseWidth);
-		}*/
 		SPIx->msgDelayus(SPIx->msgPluseWidth);
 	}
 	return OK_0;
@@ -768,17 +748,8 @@ UINT8_T SPI_MSW_WriteAndReadByteMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T
 		SPI_MSW_WriteAndReadBitMSB(SPIx, wVal, pRVal);
 		wVal <<= 1;
 	}
-
 	//---时钟线的极性
-	if (SPIx->msgCPOL==0)
-	{
-		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-	}
-	else
-	{
-		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-	}
-
+	(SPIx->msgCPOL == 0) ? GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit) : GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
 	return OK_0;
 }
 
@@ -805,17 +776,8 @@ UINT8_T SPI_MSW_WriteAndReadByteLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T
 		SPI_MSW_WriteAndReadBitLSB(SPIx, wVal, pRVal);
 		wVal >>= 1;
 	}
-
 	//---时钟线的极性
-	if (SPIx->msgCPOL == 0)
-	{
-		GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-	}
-	else
-	{
-		GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-	}
-	
+	(SPIx->msgCPOL == 0)? GPIO_OUT_0(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit): GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
 	return OK_0;
 }
 

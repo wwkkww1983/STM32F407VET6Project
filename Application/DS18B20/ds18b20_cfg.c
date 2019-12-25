@@ -81,7 +81,14 @@ UINT8_T DS18B20_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(
 		DS18B20x->msgDelayms = DelayTask_ms;
 	}
 	//---注册滴答函数
-	DS18B20x->msgFuncTimeTick = pFuncTimerTick;
+	if (pFuncTimerTick != NULL)
+	{
+		DS18B20x->msgFuncTimeTick = pFuncTimerTick;
+	}
+	else
+	{
+		DS18B20x->msgFuncTimeTick = SysTickTask_GetTick;
+	}
 	//---当前时间
 	DS18B20x->msgRecordTime = DS18B20x->msgFuncTimeTick();
 	//---配置基本参数

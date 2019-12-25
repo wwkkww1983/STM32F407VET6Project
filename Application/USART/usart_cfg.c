@@ -3,7 +3,6 @@
 //===全局变量定义
 USART_HandlerType  g_Usart1 = { 0 };
 pUSART_HandlerType pUsart1 = &g_Usart1;
-VLTUINT8_T tcCount=0;
 
 //===printf函数使用的缓存区
 #ifdef USE_USART_PRINTF
@@ -2012,17 +2011,14 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 		//---中断处理函数
 		USART_ITWrite_TXETask(USARTx);
 	}
-
 	//---数据发送完成中断处理函数
 	if (LL_USART_IsActiveFlag_TC(USARTx->msgUSART) && LL_USART_IsEnabledIT_TC(USARTx->msgUSART))
 	{
-		tcCount++;
 		//---中断处理函数
 		USART_IT_TCTask(USARTx);
 		//---清楚中断标志位
 		LL_USART_ClearFlag_TC(USARTx->msgUSART);
 	}
-
 	//---UART5和UART5，不适用CTS检测
 	if ((USARTx->msgUSART!=UART4)&& (USARTx->msgUSART != UART5))
 	{
@@ -2035,7 +2031,6 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 			LL_USART_ClearFlag_nCTS(USARTx->msgUSART);
 		}
 	}
-
 	//---LIN断路检测中断
 	if (LL_USART_IsActiveFlag_LBD(USARTx->msgUSART) && LL_USART_IsEnabledIT_LBD(USARTx->msgUSART))
 	{
@@ -2044,7 +2039,6 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 		//---清楚中断标志位
 		LL_USART_ClearFlag_LBD(USARTx->msgUSART);
 	}
-
 	//---空闲状态中断
 	if (LL_USART_IsActiveFlag_IDLE(USARTx->msgUSART) && LL_USART_IsEnabledIT_IDLE(USARTx->msgUSART))
 	{
@@ -2055,7 +2049,6 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 		//---清楚DMA中断标识
 		LL_DMA_ClearFlag(USARTx->msgRXDHandler.msgDMA, USARTx->msgRXDHandler.msgDMAChannelOrStream);
 	}
-
 	//---上溢错误中断
 	if (LL_USART_IsActiveFlag_ORE(USARTx->msgUSART) && LL_USART_IsEnabledIT_ERROR(USARTx->msgUSART))
 	{
@@ -2064,8 +2057,6 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 		//---清楚中断标志位
 		LL_USART_ClearFlag_ORE(USARTx->msgUSART);
 	}
-
-
 	//---噪声中断
 	if (LL_USART_IsActiveFlag_NE(USARTx->msgUSART) && LL_USART_IsEnabledIT_ERROR(USARTx->msgUSART))
 	{
@@ -2074,7 +2065,6 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 		//---清楚中断标志位
 		LL_USART_ClearFlag_NE(USARTx->msgUSART);
 	}
-
 	//---帧错误中断
 	if (LL_USART_IsActiveFlag_FE(USARTx->msgUSART) && LL_USART_IsEnabledIT_ERROR(USARTx->msgUSART))
 	{
@@ -2083,7 +2073,6 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 		//---清楚中断标志位
 		LL_USART_ClearFlag_FE(USARTx->msgUSART);
 	}
-
 	//---奇偶校验中断
 	if (LL_USART_IsActiveFlag_PE(USARTx->msgUSART) && LL_USART_IsEnabledIT_PE(USARTx->msgUSART))
 	{
@@ -2368,7 +2357,6 @@ UINT8_T USART_Write_DMA_RESTART(USART_HandlerType* USARTx)
 	//---使能DMA
 	LL_DMA_EnableStream(USARTx->msgTXDHandler.msgDMA, USARTx->msgTXDHandler.msgDMAChannelOrStream);
 #endif
-	tcCount =0;
 	return OK_0;
 }
 

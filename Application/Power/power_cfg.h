@@ -8,6 +8,7 @@ extern "C" {
 	#include "complier_lib.h"
 	#include "gpio_task.h"
 	#include "dac_task.h"
+	#include "delay_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===DPSAÊ¹ÄÜ¶Ë¿Ú
@@ -121,7 +122,7 @@ extern "C" {
 	#define LM317_CTRL_OUT_0					GPIO_OUT_0(	   LM317_CTRL_PORT,LM317_CTRL_BIT)
 	#define LM317_CTRL_OUT_1					GPIO_OUT_1(    LM317_CTRL_PORT,LM317_CTRL_BIT)
 	#define LM317_CTRL_OUT_C					GPIO_OUT_C(    LM317_CTRL_PORT,LM317_CTRL_BIT)
-	#define LM317_POWER_ON						( LM317_CTRL_OUT_0,LM317_CTRH_OUT_1 )
+	#define LM317_POWER_ON						( LM317_CTRL_OUT_0,LM317_CTRH_OUT_1,DelayTask_ms(1) )
 	#define LM317_POWER_OFF						( LM317_CTRH_OUT_0,LM317_CTRL_OUT_1 )
 	#define LM317_POWER_HZ						( LM317_CTRH_OUT_0,LM317_CTRL_OUT_0 )
 	

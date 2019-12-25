@@ -9,6 +9,9 @@ extern "C" {
 	#include "complier_lib.h"
 	#include "systick_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
+	//===增加的NOP延时个数
+	#define DELAY_NOP_COUNT(x)					Delay_nop(x)	
+
 	//===函数定义
 	void Delay_us(UINT32_T us);
 	void Delay_ms(UINT32_T ms);

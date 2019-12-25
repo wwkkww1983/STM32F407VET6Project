@@ -24,17 +24,17 @@ UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 	LL_SPI_InitTypeDef SPI_InitStruct={0};
 	//---SPI的模式配置
 	SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
-	SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;									//---主机模式
-	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;							//---8位数据	
+	SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;														//---主机模式
+	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;												//---8位数据	
 	//---时钟空闲时的极性
 	if(ISPx->msgSPI.msgCPOL==0)
 	{
-		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;						//---CLK空闲时为低电平 (CLK空闲是只能是低电平)
+		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;											//---CLK空闲时为低电平 (CLK空闲是只能是低电平)
 		GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
 	}
 	else
 	{
-		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_HIGH;					//---CLK空闲时为高电平 (CLK空闲是只能是低电平)
+		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_HIGH;										//---CLK空闲时为高电平 (CLK空闲是只能是低电平)
 	}	
 	//---数据采样的时钟边沿位置
 	if (ISPx->msgSPI.msgCPOL == 0)
@@ -45,10 +45,10 @@ UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 	{
 		SPI_InitStruct.ClockPhase = LL_SPI_PHASE_2EDGE;
 	}	
-	SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;										//---软件控制
-	SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV256;					//---系统时钟256分频
-	SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;									//---高位在前
-	SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;				//---硬件CRC不使能
+	SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;															//---软件控制
+	SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV256;										//---系统时钟256分频
+	SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;														//---高位在前
+	SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;									//---硬件CRC不使能
 	SPI_InitStruct.CRCPoly = 7;
 	SPITask_MHW_PollMode_Init(&(ISPx->msgSPI), SPI_InitStruct);
 	ISPx->msgInit = 1;
@@ -222,7 +222,14 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 		ISPx->msgSPI.msgDelayus = DelayTask_us;
 	}
 	//---注册滴答函数
-	ISPx->msgSPI.msgFuncTimeTick = pFuncTimerTick;
+	if (pFuncTimerTick != NULL)
+	{
+		ISPx->msgSPI.msgFuncTimeTick = pFuncTimerTick;
+	}
+	else
+	{
+		ISPx->msgSPI.msgFuncTimeTick = SysTickTask_GetTick;
+	}
 	//---配置OE端口
 #ifdef ISP_USE_lEVEL_SHIFT
 	if (ISPx->msgOE.msgGPIOPort != NULL)
@@ -231,12 +238,12 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 		GPIOTask_Clock(ISPx->msgOE.msgGPIOPort, 1);
 		//---GPIO的结构体
 		LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-		GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;						//---配置状态为输出模式
-		GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_MEDIUM;				//---GPIO的速度---低速设备
-		GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;			//---输出模式---推挽输出
-		GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;							//---上拉
+		GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;													//---配置状态为输出模式
+		GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_MEDIUM;											//---GPIO的速度---低速设备
+		GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;										//---输出模式---推挽输出
+		GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;														//---上拉
 #ifndef USE_MCU_STM32F1
-		GPIO_InitStruct.Alternate = LL_GPIO_AF_0;						//---端口复用模式
+		GPIO_InitStruct.Alternate = LL_GPIO_AF_0;													//---端口复用模式
 #endif
 		//---ISP_OE_BIT的初始化
 		GPIO_InitStruct.Pin = ISPx->msgOE.msgGPIOBit;
@@ -723,7 +730,7 @@ UINT8_T ISP_AddWatch(ISP_HandlerType* ISPx)
 		{
 			SysTickTask_CreateTickTask(ISP_AddWatchDevice1);
 		}
-		else if (ISPx == ISP_TASK_TWO)
+		else if (ISPx == ISP_TASK_THREE)
 		{
 			SysTickTask_CreateTickTask(ISP_AddWatchDevice2);
 		}
@@ -1066,7 +1073,7 @@ UINT8_T ISP_ReadChipRom(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T addr, UINT
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：编程熔丝位
+//////功		能：编程熔丝位,编程顺序依次是低位，高位，拓展位
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -1089,7 +1096,7 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 	else
 	{
 		//---写入之后延时等待
-		ISPx->msgDelayms(5 + ISPx->msgDelayms);
+		ISPx->msgDelayms(5 + ISPx->msgWaitms);
 	}
 	//---写入熔丝位高位
 	_return = ISP_SEND_CMD(ISPx, 0xAC, 0xA8, 0x00, pVal[1]);
@@ -1239,7 +1246,7 @@ UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hi
 		else
 		{
 			//---写入之后延时等待
-			ISPx->msgDelayms(10 + ISPx->msgDelayms);
+			ISPx->msgDelayms(10 + ISPx->msgWaitms);
 		}
 		//---地址偏移
 		lowAddr++;
@@ -1308,7 +1315,7 @@ UINT8_T ISP_UpdateChipEepromAddr(ISP_HandlerType* ISPx,UINT8_T highAddr, UINT8_T
 		else
 		{
 			//---写入之后延时等待
-			ISPx->msgDelayms(10 + ISPx->msgDelayms);
+			ISPx->msgDelayms(10 + ISPx->msgWaitms);
 		}
 	}
 	return _return;

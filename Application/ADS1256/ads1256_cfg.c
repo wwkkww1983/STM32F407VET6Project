@@ -312,9 +312,15 @@ UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT
 	{
 		ADS1256x->msgSPI.msgDelayus = DelayTask_us;
 	}
-
 	//---注册滴答函数
-	ADS1256x->msgSPI.msgFuncTimeTick = pFuncTimerTick;
+	if (pFuncTimerTick != NULL)
+	{
+		ADS1256x->msgSPI.msgFuncTimeTick = pFuncTimerTick;
+	}
+	else
+	{
+		ADS1256x->msgSPI.msgFuncTimeTick = SysTickTask_GetTick;
+	}
 	//---获取当前的系统时间
 	ADS1256x->msgRecordTime = ADS1256x->msgSPI.msgFuncTimeTick();
 	

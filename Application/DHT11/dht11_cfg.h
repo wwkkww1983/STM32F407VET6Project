@@ -12,6 +12,7 @@ extern "C" {
 	#include "complier_lib.h"
 	#include "delay_task.h"
 	#include "gpio_task.h"
+	#include "systick_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===转换准备好
 	#define DHT11_READ_OK							0
