@@ -390,7 +390,7 @@ extern "C" {
 	}CMD_HMC472_MENU;
 	
 	//===HMC472控制的主命令
-	#define CMD_HMC472				0xA0
+	#define CMD_HMC472							0xA0
 	
 	//===软件版本	
 	#define HMC472_GEN_VERSION					"0.0.1"

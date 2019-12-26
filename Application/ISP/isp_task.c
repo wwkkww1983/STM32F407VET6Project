@@ -569,15 +569,15 @@ UINT8_T ISPTask_USARTCmd_OpenAndClose(ISP_HandlerType* ISPx, USART_HandlerType* 
 {
 	UINT8_T	_return=0;
 	//---命令位置
-	if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]==1)
+	if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]==1)
 	{
 		//---进入编程模式，并配置基本参数
-		_return=ISPTask_EnterProgAndConfigInfo(ISPx, USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset], USARTx->msgRXDHandler.pMsgVal+USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1);
+		_return=ISPTask_EnterProgAndConfigInfo(ISPx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset], USARTx->msgRxdHandler.pMsgVal+USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1);
 	}
-	else if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
+	else if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
 	{
 		//---配置基本参数,主要是使不使能EEPROM的页编程模式
-		_return= ISPTask_SetConfigInfo(ISPx, USARTx->msgRXDHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1);
+		_return= ISPTask_SetConfigInfo(ISPx, USARTx->msgRxdHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1);
 	}
 	else
 	{
@@ -597,24 +597,24 @@ UINT8_T ISPTask_USARTCmd_OpenAndClose(ISP_HandlerType* ISPx, USART_HandlerType* 
 UINT8_T ISPTask_USARTCmd_EraseChip(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
 	UINT8_T _return=OK_0;
-	if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 0)
+	if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 0)
 	{
 		//---设备擦除
 		_return= ISPTask_EraseChip(ISPx);
 	}
-	else if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 1)
+	else if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 1)
 	{
 		//---检查Flash为空
 		_return=ISPTask_CheckChipFlashEmpty(ISPx, 
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1], USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 2],
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 3], USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 4]
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1], USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 2],
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 3], USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 4]
 											);
 	}
-	else if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
+	else if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
 	{
 		//---检查Eeprom为空
 		_return = ISPTask_CheckChipEepromEmpty(	ISPx,
-												USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1], USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 2]
+												USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1], USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 2]
 											  );
 	}
 	else
@@ -622,7 +622,7 @@ UINT8_T ISPTask_USARTCmd_EraseChip(ISP_HandlerType* ISPx, USART_HandlerType* USA
 		_return=0xFF;
 	}
 	//---检验是不是查空操作
-	if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]!=0)
+	if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]!=0)
 	{
 		//---填充查空操作的值
 		USARTTask_FillMode_AddByte(USARTx, _return);
@@ -641,9 +641,9 @@ UINT8_T ISPTask_USARTCmd_ReadChipID(ISP_HandlerType* ISPx, USART_HandlerType* US
 {
 	UINT8_T	_return = 0;
 	//---读取设备ID信息
-	_return = ISPTask_ReadChipID(ISPx, USARTx->msgTXDHandler.pMsgVal + USARTx->msgTXDHandler.msgIndexW);
+	_return = ISPTask_ReadChipID(ISPx, USARTx->msgTxdHandler.pMsgVal + USARTx->msgTxdHandler.msgIndexW);
 	//---数据长度偏移
-	USARTx->msgTXDHandler.msgIndexW += 3;
+	USARTx->msgTxdHandler.msgIndexW += 3;
 	//---执行结果
 	return _return;
 }
@@ -659,9 +659,9 @@ UINT8_T ISPTask_USARTCmd_ReadChipCalibration(ISP_HandlerType* ISPx, USART_Handle
 {
 	UINT8_T	_return = 0;
 	//---读取设备的校准字
-	_return = ISPTask_ReadChipCalibration(ISPx, USARTx->msgTXDHandler.pMsgVal + USARTx->msgTXDHandler.msgIndexW, USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
+	_return = ISPTask_ReadChipCalibration(ISPx, USARTx->msgTxdHandler.pMsgVal + USARTx->msgTxdHandler.msgIndexW, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
 	//---数据地址偏移
-	USARTx->msgTXDHandler.msgIndexW += USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset];
+	USARTx->msgTxdHandler.msgIndexW += USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset];
 	//---执行结果
 	return _return;
 }
@@ -677,22 +677,22 @@ UINT8_T ISPTask_USARTCmd_ReadChipFuseAndLock(ISP_HandlerType* ISPx, USART_Handle
 {
 	UINT8_T	_return = 0;
 	//---判断是读取熔丝位还是加密位
-	if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 0)
+	if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 0)
 	{
 		//---读取熔丝位
-		_return = ISPTask_ReadChipFuse(ISPx, USARTx->msgTXDHandler.pMsgVal + USARTx->msgTXDHandler.msgIndexW, USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset]);
+		_return = ISPTask_ReadChipFuse(ISPx, USARTx->msgTxdHandler.pMsgVal + USARTx->msgTxdHandler.msgIndexW, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset]);
 		//---校验是否读取拓展熔丝位
-		if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset] != 0)
+		if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset] != 0)
 		{
-			USARTx->msgTXDHandler.msgIndexW += 1;
+			USARTx->msgTxdHandler.msgIndexW += 1;
 		}
-		USARTx->msgTXDHandler.msgIndexW += 2;
+		USARTx->msgTxdHandler.msgIndexW += 2;
 	}
 	else
 	{
 		//---读取加密位
-		_return = ISPTask_ReadChipLock(ISPx, USARTx->msgTXDHandler.pMsgVal + USARTx->msgTXDHandler.msgIndexW);
-		USARTx->msgTXDHandler.msgIndexW += 1;
+		_return = ISPTask_ReadChipLock(ISPx, USARTx->msgTxdHandler.pMsgVal + USARTx->msgTxdHandler.msgIndexW);
+		USARTx->msgTxdHandler.msgIndexW += 1;
 	}
 	//---执行结果
 	return _return;
@@ -708,7 +708,7 @@ UINT8_T ISPTask_USARTCmd_ReadChipFuseAndLock(ISP_HandlerType* ISPx, USART_Handle
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
-	return ISPTask_WriteChipFuse(ISPx, USARTx->msgRXDHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset, USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
+	return ISPTask_WriteChipFuse(ISPx, USARTx->msgRxdHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -720,7 +720,7 @@ UINT8_T ISPTask_USARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, USART_HandlerType*
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISPTask_USARTCmd_WriteChipLock(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
-	return ISPTask_WriteChipLock(ISPx, USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
+	return ISPTask_WriteChipLock(ISPx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -735,19 +735,19 @@ UINT8_T ISPTask_USARTCmd_ReadChipRom(ISP_HandlerType* ISPx, USART_HandlerType* U
 	UINT8_T	_return = 0;
 	UINT16_T length=0;
 	//---计算读取数据的大小
-	if (USARTx->msgRXDHandler.msgSize < 0xFF)
+	if (USARTx->msgRxdHandler.msgSize < 0xFF)
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset];
 	}
 	else
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset];
-		length = (length << 8) + USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset];
+		length = (length << 8) + USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
 	}
 	//---读取ROM页信息
-	_return = ISPTask_ReadChipRom(ISPx, USARTx->msgTXDHandler.pMsgVal + USARTx->msgTXDHandler.msgIndexW, USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset], length);
+	_return = ISPTask_ReadChipRom(ISPx, USARTx->msgTxdHandler.pMsgVal + USARTx->msgTxdHandler.msgIndexW, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset], length);
 	//---数据的偏移
-	USARTx->msgTXDHandler.msgIndexW += length;
+	USARTx->msgTxdHandler.msgIndexW += length;
 	//---执行结果
 	return _return;
 }
@@ -763,20 +763,20 @@ UINT8_T ISPTask_USARTCmd_SetProgClok(ISP_HandlerType* ISPx, USART_HandlerType* U
 {
 	UINT8_T _return=OK_0;
 	//---读取电压
-	if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 1)
+	if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 1)
 	{
-		_return= ISPTask_ReadChipPower(ISPx, USARTx->msgTXDHandler.pMsgVal + USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1);
-		USARTx->msgTXDHandler.msgIndexW += 2;
+		_return= ISPTask_ReadChipPower(ISPx, USARTx->msgTxdHandler.pMsgVal + USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1);
+		USARTx->msgTxdHandler.msgIndexW += 2;
 	}
 	//---设置电压
-	else if (USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
+	else if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset] == 2)
 	{
-		_return=ISPTask_WriteChipPower(ISPx, USARTx->msgRXDHandler.pMsgVal+USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1);
+		_return=ISPTask_WriteChipPower(ISPx, USARTx->msgRxdHandler.pMsgVal+USARTx->msgDataOneIndex + USARTx->msgIndexOffset + 1);
 	}
 	else
 	{
 		//---设置编程时钟
-		_return = ISPTask_SetProgClock(ISPx, USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset+1]);
+		_return = ISPTask_SetProgClock(ISPx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset+1]);
 	}
 	
 	return _return;
@@ -794,23 +794,23 @@ UINT8_T ISPTask_USARTCmd_ReadChipFlash(ISP_HandlerType * ISPx, USART_HandlerType
 	UINT8_T	_return = 0;
 	UINT16_T length = 0;
 	//---计算读取数据的大小
-	if (USARTx->msgRXDHandler.msgSize < 0xFF)
+	if (USARTx->msgRxdHandler.msgSize < 0xFF)
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
 	}
 	else
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
-		length = (length << 8) + USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 3];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+		length = (length << 8) + USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 3];
 	}
 	//---读取指定位置的Flash数据
-	_return= ISPTask_ReadChipFlashAddr(ISPx,USARTx->msgTXDHandler.pMsgVal + USARTx->msgTXDHandler.msgIndexW, 
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset+1],
+	_return= ISPTask_ReadChipFlashAddr(ISPx,USARTx->msgTxdHandler.pMsgVal + USARTx->msgTxdHandler.msgIndexW, 
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset+1],
 											length);
 	//---数据的偏移
-	USARTx->msgTXDHandler.msgIndexW += length;
+	USARTx->msgTxdHandler.msgIndexW += length;
 	//---执行结果
 	return _return;
 }
@@ -827,22 +827,22 @@ UINT8_T ISPTask_USARTCmd_WriteChipFlashPage(ISP_HandlerType* ISPx, USART_Handler
 	UINT8_T dataOffset = 0;
 	UINT16_T length = 0;
 	//---计算写入数据的大小
-	if (USARTx->msgRXDHandler.msgSize<0xFF)
+	if (USARTx->msgRxdHandler.msgSize<0xFF)
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
 		dataOffset=3;
 	}
 	else
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
-		length = (length << 8) + USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 3];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+		length = (length << 8) + USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 3];
 		dataOffset = 4;
 	}	
 	//---从指定位置编程数据
-	return ISPTask_WriteChipFlashPage(ISPx,	USARTx->msgRXDHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + dataOffset,
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1],
+	return ISPTask_WriteChipFlashPage(ISPx,	USARTx->msgRxdHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + dataOffset,
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1],
 											length);
 }
 
@@ -858,22 +858,22 @@ UINT8_T ISPTask_USARTCmd_ReadChipEeprom(ISP_HandlerType* ISPx, USART_HandlerType
 	UINT8_T	_return = 0;
 	UINT16_T length = 0;
 	//---计算读取数据的大小
-	if (USARTx->msgRXDHandler.msgSize < 0xFF)
+	if (USARTx->msgRxdHandler.msgSize < 0xFF)
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
 	}
 	else
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
-		length = (length << 8) + USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+		length = (length << 8) + USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
 	}
 	//---读取指定位置的Eeprom数据
-	_return = ISPTask_ReadChipEepromAddr(ISPx, USARTx->msgTXDHandler.pMsgVal + USARTx->msgTXDHandler.msgIndexW,
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
-											USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
+	_return = ISPTask_ReadChipEepromAddr(ISPx, USARTx->msgTxdHandler.pMsgVal + USARTx->msgTxdHandler.msgIndexW,
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
+											USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
 											length);
 	//---数据的偏移
-	USARTx->msgTXDHandler.msgIndexW += length;
+	USARTx->msgTxdHandler.msgIndexW += length;
 	//---执行结果
 	return _return;
 	
@@ -891,21 +891,21 @@ UINT8_T ISPTask_USARTCmd_WriteChipEeprom(ISP_HandlerType* ISPx, USART_HandlerTyp
 	UINT8_T dataOffset = 0;
 	UINT16_T length = 0;
 	//---计算读取数据的大小
-	if (USARTx->msgRXDHandler.msgSize < 0xFF)
+	if (USARTx->msgRxdHandler.msgSize < 0xFF)
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
 		dataOffset = 2;
 	}
 	else
 	{
-		length = USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
-		length = (length << 8) + USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
+		length = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 1];
+		length = (length << 8) + USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + 2];
 		dataOffset = 3;
 	}
 	//---编程指定位置的Eeprom数据
-	return ISPTask_WriteChipEeprom( ISPx, USARTx->msgRXDHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + dataOffset,
-									USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
-									USARTx->msgRXDHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
+	return ISPTask_WriteChipEeprom( ISPx, USARTx->msgRxdHandler.pMsgVal + USARTx->msgDataTwoIndex + USARTx->msgIndexOffset + dataOffset,
+									USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex + USARTx->msgIndexOffset],
+									USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + USARTx->msgIndexOffset],
 									length);
 }
 
@@ -923,7 +923,7 @@ UINT8_T ISPTask_USARTCmd_ChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USA
 	USARTTask_FillMode_AddByte(USARTx, 0x00);
 	USARTx->msgIndexOffset= (isChildCmd == 0 ? 0 : 1);
 	//---依据命令解析数据
-	switch (USARTx->msgRXDHandler.pMsgVal[USARTx->msgCmdIndex+ USARTx->msgIndexOffset])
+	switch (USARTx->msgRxdHandler.pMsgVal[USARTx->msgCmdIndex+ USARTx->msgIndexOffset])
 	{
 		case CMD_ISP_OPEN_CLOSE:
 			//---命令之后，第1字节0---代表关闭，1---代表打开；第2字节与打开有关，与关闭无关
@@ -1009,7 +1009,7 @@ UINT8_T ISPTask_USARTCmd_ParentTask(ISP_HandlerType* ISPx, USART_HandlerType* US
 				//---处理任务
 				ISPTask_USARTCmd_ChildTask(ISPx, USARTx, isChildCmd);
 				//---是否需要增加换行符
-				if (USARTx->msgTXDHandler.msgAddNewLine == 1)
+				if (USARTx->msgTxdHandler.msgAddNewLine == 1)
 				{
 					USARTTask_FillMode_AddByte(USARTx, 0x0D);
 					USARTTask_FillMode_AddByte(USARTx, 0x0A);
@@ -1044,7 +1044,7 @@ UINT8_T ISPTask_USARTCmd_ParentTask_New(ISP_HandlerType* ISPx, USART_HandlerType
 	//---处理任务
 	ISPTask_USARTCmd_ChildTask(ISPx, USARTx, isChildCmd);
 	//---是否需要增加换行符
-	if (USARTx->msgTXDHandler.msgAddNewLine == 1)
+	if (USARTx->msgTxdHandler.msgAddNewLine == 1)
 	{
 		USARTTask_FillMode_AddByte(USARTx, 0x0D);
 		USARTTask_FillMode_AddByte(USARTx, 0x0A);

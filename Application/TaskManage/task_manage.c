@@ -94,13 +94,13 @@ UINT8_T Task_Manage(void)
 		//---CRC的校验和设备ID校验
 		if ((USARTTask_CRCTask_Read(pUsart1) == OK_0) && (USARTTask_DeviceID(pUsart1) == OK_0))
 		{
-			if ((pUsart1->msgRXDHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset]>= CMD_ISP_BASE_CMD)&&
-				(pUsart1->msgRXDHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset] <=CMD_ISP_END_CMD))
+			if ((pUsart1->msgRxdHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset]>= CMD_ISP_BASE_CMD)&&
+				(pUsart1->msgRxdHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset] <=CMD_ISP_END_CMD))
 			{
 				g_TaskMangeIndex = TASK_MANAGE_ISP_USART;
 			}
-			else if ((pUsart1->msgRXDHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset] >= CMD_JTAG_BASE_CMD) &&
-				(pUsart1->msgRXDHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset] <= CMD_JTAG_END_CMD))
+			else if ((pUsart1->msgRxdHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset] >= CMD_JTAG_BASE_CMD) &&
+				(pUsart1->msgRxdHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset] <= CMD_JTAG_END_CMD))
 			{
 				g_TaskMangeIndex = TASK_MANAGE_JTAG_USART;
 			}

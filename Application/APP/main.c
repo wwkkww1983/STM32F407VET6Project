@@ -154,7 +154,7 @@ void Sys_Init(void)
 	//---SI5351A
 	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, 0);
 	//---指示灯的初始化
-	LEDTask_Init();	
+	//LEDTask_Init();	
 	//---DAC的初始化
 	DACTask_Init(3,1);
 	//---初始化LM317做的可调电源

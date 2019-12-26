@@ -1,7 +1,5 @@
-stm32f407vet6project/usart_dma_lib.o: \
-  ..\Application\USART\usart_dma_lib.c \
-  ..\Application\USART\usart_dma_lib.h \
-  ..\Application\USART\usart_dma_cfg.h ..\Application\USART\usart_cfg.h \
+stm32f407vet6project/hmc472_lib.o: ..\Application\HMC472\hmc472_lib.c \
+  ..\Application\HMC472\hmc472_lib.h ..\Application\HMC472\hmc472_cfg.h \
   ..\Complier\complier_lib.h ..\Complier\complier_cfg.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
@@ -61,5 +59,7 @@ stm32f407vet6project/usart_dma_lib.o: \
   ..\Application\IWDG\iwdg_task.h ..\Application\IWDG\iwdg_lib.h \
   ..\Application\IWDG\iwdg_cfg.h ..\Application\GPIO\gpio_task.h \
   ..\Application\GPIO\gpio_lib.h ..\Application\GPIO\gpio_cfg.h \
-  ..\Application\CRC\crc_task.h ..\Application\CRC\crc_lib.h \
-  ..\Application\CRC\crc_cfg.h
+  ..\Application\Delay\delay_task.h ..\Application\Delay\delay_lib.h \
+  ..\Application\Delay\delay_cfg.h ..\Application\SysTick\systick_task.h \
+  ..\Application\SysTick\systick_lib.h \
+  ..\Application\SysTick\systick_cfg.h

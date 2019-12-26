@@ -70,6 +70,9 @@
     <Filter Include="Application\GPIO">
       <UniqueIdentifier>{17DB5DF1-03D4-7C43-2C06-62C8185E5C4F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\HMC472">
+      <UniqueIdentifier>{1D265CC2-090A-1D18-726A-176B5E6D079A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\HMC5883">
       <UniqueIdentifier>{587BE10D-C4DC-BE1B-4D4A-05CEB9AAF5DA}</UniqueIdentifier>
     </Filter>
@@ -419,6 +422,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\GPIO\gpio_task.h">
       <Filter>Application\GPIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HMC472\hmc472_cfg.h">
+      <Filter>Application\HMC472</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HMC472\hmc472_lib.h">
+      <Filter>Application\HMC472</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HMC472\hmc472_task.h">
+      <Filter>Application\HMC472</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\HMC5883\hmc5883_cfg.h">
       <Filter>Application\HMC5883</Filter>
@@ -1081,6 +1093,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\GPIO\gpio_task.c">
       <Filter>Application\GPIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HMC472\hmc472_cfg.c">
+      <Filter>Application\HMC472</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HMC472\hmc472_lib.c">
+      <Filter>Application\HMC472</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HMC472\hmc472_task.c">
+      <Filter>Application\HMC472</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\HMC5883\hmc5883_cfg.c">
       <Filter>Application\HMC5883</Filter>
