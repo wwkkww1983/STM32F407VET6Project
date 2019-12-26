@@ -170,8 +170,6 @@ void Sys_Init(void)
 	ADCTask_ADCTask_START(ADC1);
 	//---串口的初始化
 	USARTTask_Init(pUsart1, USART1_RX_MAX_SIZE , USART1_RX_BUFFER , USART_CRC_NONE , USART1_TX_MAX_SIZE , USART1_TX_BUFFER , USART_CRC_NONE , SysTickTask_GetTick );
-	//---任务管理初始化
-	Task_Manage_Init();
 	//---开启看门狗
 	//IWDGTask_Init(pIWDG);
 }

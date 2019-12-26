@@ -55,7 +55,7 @@ extern "C" {
 	#include "w25qxx_task.h"
 	#include "wm8510_task.h"
 	#include "wwdg_task.h"
-	#include "jtag_cfg.h"
+	#include "jtag_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -8,17 +8,6 @@ extern "C" {
 	#include"config.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	
-	//===定义结构体
-	typedef struct _TASK_HandlerType				TASK_HandlerType;
-	//===定义指针结构体
-	typedef	struct _TASK_HandlerType				* pTASK_HandlerType;
-	//===结构定义
-	struct _TASK_HandlerType
-	{
-		UINT8_T msgTaskIndex;			//---任务索引号；0---空任务，1---非空任务
-		UINT8_T (*msgTaskFunc)();		//---任务执行函数
-	};
-
 	//===定义执行的任务
 	#define	TASK_MANAGE_NONE						0		//---空任务
 	#define	TASK_MANAGE_ISP_USART					1		//---ISP编程，通讯方式串口

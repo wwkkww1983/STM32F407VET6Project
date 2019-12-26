@@ -102,9 +102,9 @@ extern "C" {
 	#ifdef JTAG_USE_lEVEL_SHIFT
 		GPIO_HandlerType	msgOE;																	//---OE使用的端口，用于控制电平装换的开关
 	#endif
+		UINT8_T				msgJtagCmd;																//---是否进入JTAG指令PROG_COMMANDS，0---位使用，1---使用
 		UINT8_T				msgState;																//---编程状态，0---空闲状态，1---编程状态
 		UINT8_T				msgInit;																//---判断是否初始化过了 0---未初始化，1---初始化
-		UINT8_T				msgHideAddr;															//---接触64K的限制
 		UINT8_T				msgEepromIsPageMode;													//---eeprom是否支持页编程模式，0---不支持，1---支持
 		UINT16_T			msgFlashPerPageWordSize;												//---Flash的每页字数
 		UINT16_T			msgEerpomPerPageByteSize;												//---Eeprom的每页字节数
@@ -118,6 +118,19 @@ extern "C" {
 		//SPI_HandlerType msgSPI;																	//---使用的SPI模式
 	};
 
+	//===定义状态
+	#define	JTAG_PROG_NONE						0
+	#define JTAG_PROG_PREPARE					1
+	#define JTAG_PROG_CMD						2
+	#define JTAG_PROG_PAGELOAD					3
+	#define JTAG_PROG_PAGEREAD					4
+	#define JTAG_PROG_READ_EEPROM				5
+	#define JTAG_PROG_READ_FLASH				6
+	#define JTAG_PROG_READ_ROM					7
+	#define JTAG_PROG_WRITE_EEPROM				8
+	#define JTAG_PROG_WRITE_FLASH				9
+
+
 	//===任务函数
 	#define JTAG_TASK_ONE						pJtagDevice0
 	#define JTAG_TASK_TWO						0
@@ -128,15 +141,34 @@ extern "C" {
 	extern pJTAG_HandlerType					pJtagDevice0;
 
 	//===函数定义
-	UINT8_T JTAG_Init(JTAG_HandlerType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));	UINT8_T JTAG_EnterProg(JTAG_HandlerType* JTAGx);
+	UINT8_T JTAG_Init(JTAG_HandlerType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));	
+	UINT8_T JTAG_EnterProg(JTAG_HandlerType* JTAGx);
 	UINT8_T JTAG_ExitProg(JTAG_HandlerType* JTAGx);
 	UINT8_T JTAG_RemoveWatch(JTAG_HandlerType* JTAGx);
 	UINT8_T JTAG_RefreshWatch(JTAG_HandlerType* JTAGx);
 	UINT8_T JTAG_AddWatch(JTAG_HandlerType* JTAGx);
 	UINT8_T JTAG_SetIntervalTime(JTAG_HandlerType* JTAGx, UINT16_T intervalTime);
 	UINT16_T JTAG_GetIntervalTime(JTAG_HandlerType* JTAGx);
+	UINT8_T JTAG_EraseChip(JTAG_HandlerType* JTAGx);
 	UINT8_T JTAG_ReadIDChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal);
 	UINT8_T JTAG_ReadChipID(JTAG_HandlerType* JTAGx, UINT8_T* pVal);
+	UINT8_T JTAG_ReadChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal);
+	UINT8_T JTAG_ReadChipCalibration(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T length);
+	UINT8_T JTAG_ReadChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNeedExternFuse);
+	UINT8_T JTAG_ReadChipLock(JTAG_HandlerType* JTAGx, UINT8_T* pVal);
+	UINT8_T JTAG_ReadChipRom(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T addr, UINT16_T length);
+	UINT8_T JTAG_WriteChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNeedExternFuse);
+	UINT8_T JTAG_WriteChipLock(JTAG_HandlerType* JTAGx, UINT8_T lockVal);
+	UINT8_T JTAG_ReadChipEepromAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
+	UINT8_T JTAG_ReadChipEepromLongAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT16_T addr, UINT16_T length);
+	UINT8_T JTAG_WriteChipEeprom(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum);
+	UINT8_T JTAG_ReadChipFlashAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
+	UINT8_T JTAG_ReadChipFlashLongAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT32_T addr, UINT16_T length);
+	UINT8_T JTAG_WriteChipFlashPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length);
+	UINT8_T JTAG_CheckChipFlashEmpty(JTAG_HandlerType* JTAGx, UINT8_T pageByteSizeH, UINT8_T pageByteSizeL, UINT8_T pageNumH, UINT8_T pageNumL);
+	UINT8_T JTAG_CheckChipFlashEmptyLong(JTAG_HandlerType* JTAGx, UINT16_T pageByteSize, UINT16_T pageNum);
+	UINT8_T JTAG_CheckChipEepromEmpty(JTAG_HandlerType* JTAGx, UINT8_T byteSize, UINT8_T num);
+	UINT8_T JTAG_SetConfigInfo(JTAG_HandlerType* JTAGx, UINT8_T* pVal);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -143,4 +143,5 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\W25Qxx\w25qxx_task.h ..\Application\W25Qxx\w25qxx_lib.h \
   ..\Application\W25Qxx\w25qxx_cfg.h ..\Application\WWDG\wwdg_task.h \
   ..\Application\WWDG\wwdg_lib.h ..\Application\WWDG\wwdg_cfg.h \
+  ..\Application\JTAG\jtag_task.h ..\Application\JTAG\jtag_lib.h \
   ..\Application\JTAG\jtag_cfg.h

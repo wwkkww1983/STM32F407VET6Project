@@ -10,32 +10,36 @@ extern "C" {
 	#include "power_task.h"
 	#include "adc_Task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
+	//===ISP的编程的命令的基地址							
+	#define CMD_ISP_BASE_CMD							0x10
 	//===打开或者关闭ISP
-	#define	CMD_ISP_OPEN_CLOSE							0x10	
+	#define	CMD_ISP_OPEN_CLOSE							(	CMD_ISP_BASE_CMD+0	)	
 	//===ISP擦除芯片
-	#define	CMD_ISP_ERASE								0x11	
+	#define	CMD_ISP_ERASE								(	CMD_ISP_BASE_CMD+1	)	
 	//===ISP按页读取Flash
-	#define CMD_ISP_FLASH_PAGE_READ						0x12	
+	#define CMD_ISP_FLASH_PAGE_READ						(	CMD_ISP_BASE_CMD+2	)	
 	//===ISP按页写入Flash
-	#define CMD_ISP_FLASH_PAGE_WRITE					0x13		
+	#define CMD_ISP_FLASH_PAGE_WRITE					(	CMD_ISP_BASE_CMD+3	)		
 	//===ISP按页读取Eeeprom
-	#define	CMD_ISP_EEPROM_PAGE_READ					0x14		
+	#define	CMD_ISP_EEPROM_PAGE_READ					(	CMD_ISP_BASE_CMD+4	)			
 	//===ISP按页写入Eeprom
-	#define CMD_ISP_EEPROM_PAGE_WRITE					0x15		
+	#define CMD_ISP_EEPROM_PAGE_WRITE					(	CMD_ISP_BASE_CMD+5	)			
 	//===ISP读取熔丝位和锁定位
-	#define CMD_ISP_FUSE_LOCK_READ						0x16		
+	#define CMD_ISP_FUSE_LOCK_READ						(	CMD_ISP_BASE_CMD+6	)		
 	//===ISP写入熔丝位
-	#define CMD_ISP_FUSE_WRITE							0x17	
+	#define CMD_ISP_FUSE_WRITE							(	CMD_ISP_BASE_CMD+7	)		
 	//===ISP写入锁定位
-	#define CMD_ISP_LOCK_WRITE							0x18		
+	#define CMD_ISP_LOCK_WRITE							(	CMD_ISP_BASE_CMD+8	)		
 	//===ISP读取芯片标识
-	#define CMD_ISP_ID_READ								0x19	
+	#define CMD_ISP_ID_READ								(	CMD_ISP_BASE_CMD+9	)
 	//===ISP读取校准字
-	#define CMD_ISP_CALIBRATIONBYTE_READ				0x1A		
+	#define CMD_ISP_CALIBRATIONBYTE_READ				(	CMD_ISP_BASE_CMD+10	)	
 	//===ISP读取ROM信息
-	#define CMD_ISP_ROM_PAGE_READ						0x1B		
+	#define CMD_ISP_ROM_PAGE_READ						(	CMD_ISP_BASE_CMD+11	)	
 	//===ISP编程时钟设置
-	#define CMD_ISP_PROG_CLOCK_SET						0x1C
+	#define CMD_ISP_PROG_CLOCK_SET						(	CMD_ISP_BASE_CMD+12	)
+	//===命令结束地址
+	#define CMD_ISP_END_CMD								(   CMD_ISP_BASE_CMD+12	)
 	
 	//===函数定义
 	UINT8_T ISPTask_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
@@ -82,7 +86,9 @@ extern "C" {
 	UINT8_T ISPTask_CheckChipFlashEmptyLong(ISP_HandlerType* ISPx, UINT16_T pageByteSize, UINT16_T pageNum);
 	UINT8_T ISPTask_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UINT8_T num);
 	UINT8_T ISPTask_SetConfigInfo(ISP_HandlerType* ISPx, UINT8_T* pVal);
-	
+	UINT8_T ISPTask_ReadChipPower(ISP_HandlerType* ISPx, UINT8_T* pVal);
+	UINT8_T ISPTask_WriteChipPower(ISP_HandlerType* ISPx, UINT8_T* pVal);
+
 	//===带通讯端口的函数定义
 	UINT8_T ISPTask_USARTCmd_OpenAndClose(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
 	UINT8_T ISPTask_USARTCmd_EraseChip(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);

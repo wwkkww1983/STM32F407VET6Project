@@ -1541,11 +1541,15 @@ UINT8_T ISP_ReadChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T exte
 	//---用移位运算当做除2运算
 	length >>= 1;
 	//---更新拓展位
-	_return = ISP_UpdateExternAddr(ISPx, externAddr);
-	if (_return != OK_0)
+	if (externAddr!=0)
 	{
-		return ERROR_3;
+		_return = ISP_UpdateExternAddr(ISPx, externAddr);
+		if (_return != OK_0)
+		{
+			return ERROR_3;
+		}
 	}
+	//---一次读取数据
 	for (i = 0; i < length; i++)
 	{
 		//---读取低位数据
@@ -1575,7 +1579,6 @@ UINT8_T ISP_ReadChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T exte
 			if (highAddr == 0x00)
 			{
 				externAddr++;
-
 				//---更新拓展位
 				_return = ISP_UpdateExternAddr(ISPx, externAddr);
 				if (_return != 0x00)
@@ -1648,7 +1651,11 @@ UINT8_T ISP_UpdateChipFlashPage(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T in
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISP_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr)
 {
-	UINT8_T _return = ISP_UpdateExternAddr(ISPx, externAddr);
+	UINT8_T _return = OK_0;
+	if (externAddr!=0)
+	{
+		_return= ISP_UpdateExternAddr(ISPx, externAddr);
+	}	
 	if (_return == OK_0)
 	{
 		_return = ISP_SEND_CMD(ISPx, 0x4C, highAddr, lowAddr, 0x00);
@@ -1778,7 +1785,7 @@ UINT8_T ISP_CheckChipFlashEmpty(ISP_HandlerType* ISPx,UINT8_T pageByteSizeH,UINT
 		addr+=(length>>1);
 	}
 	//---退出入口
-	GoToExit:
+GoToExit:
 	//---释放缓存空间
 	MyFree(pFlashBuffer);
 	return _return;
@@ -1786,7 +1793,7 @@ UINT8_T ISP_CheckChipFlashEmpty(ISP_HandlerType* ISPx,UINT8_T pageByteSizeH,UINT
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：校验Eeprom数据是否为空
+//////功		能：校验Eeprom数据是否为空,参数也大小
 //////输入参数:
 //////输出参数:
 //////说		明：

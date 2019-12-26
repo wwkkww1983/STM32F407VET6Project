@@ -591,128 +591,95 @@ UINT8_T JTAG_RunShiftDR(JTAG_HandlerType* JTAGx)
 			break;
 		case EXIT1_DR:
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 	}
 	JTAGx->msgTapState = SHIFT_DR;
@@ -732,16 +699,13 @@ UINT8_T JTAG_RunExit1DR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case CAPTURE_DR:
 			break;
@@ -751,133 +715,99 @@ UINT8_T JTAG_RunExit1DR(JTAG_HandlerType* JTAGx)
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != EXIT1_DR)
 	{
 		//---exit1_dr
-		JTAG_GPIO_1(JTAGx->msgTMS);
-		JTAG_TCK_PULSE(JTAGx);
+		JTAG_TMS_1(JTAGx);
 	}
 	JTAGx->msgTapState = EXIT1_DR;
 	return OK_0;
@@ -896,41 +826,31 @@ UINT8_T JTAG_RunPauseDR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			break;
@@ -938,182 +858,131 @@ UINT8_T JTAG_RunPauseDR(JTAG_HandlerType* JTAGx)
 			break;
 		case EXIT2_DR:
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != PAUSE_DR)
 	{
 		//---pause_dr
-		JTAG_GPIO_0(JTAGx->msgTMS);
-		JTAG_TCK_PULSE(JTAGx);
+		JTAG_TMS_0(JTAGx);
 	}
 	JTAGx->msgTapState = PAUSE_DR;
 	return OK_0;
@@ -1132,14 +1001,12 @@ UINT8_T JTAG_RunExit2DR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
@@ -1149,24 +1016,21 @@ UINT8_T JTAG_RunExit2DR(JTAG_HandlerType* JTAGx)
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
@@ -1182,14 +1046,12 @@ UINT8_T JTAG_RunExit2DR(JTAG_HandlerType* JTAGx)
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
@@ -1199,105 +1061,85 @@ UINT8_T JTAG_RunExit2DR(JTAG_HandlerType* JTAGx)
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
 			JTAG_GPIO_1(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
@@ -1305,51 +1147,40 @@ UINT8_T JTAG_RunExit2DR(JTAG_HandlerType* JTAGx)
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
 			JTAG_GPIO_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState!=EXIT2_DR)
 	{
 		//---exit2_dr
-		JTAG_GPIO_1(JTAGx->msgTMS);
-		JTAG_TCK_PULSE(JTAGx);
+		JTAG_TMS_1(JTAGx);
 	}
 	JTAGx->msgTapState = EXIT2_DR;
 	return OK_0;
@@ -1368,39 +1199,31 @@ UINT8_T JTAG_RunUpdateDR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			break;
@@ -1408,136 +1231,99 @@ UINT8_T JTAG_RunUpdateDR(JTAG_HandlerType* JTAGx)
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != UPDATE_DR)
 	{
 		//---update_dr
-		JTAG_GPIO_1(JTAGx->msgTMS);
-		JTAG_TCK_PULSE(JTAGx);
+		JTAG_TMS_1(JTAGx);
 	}
 	JTAGx->msgTapState = UPDATE_DR;
 	return OK_0;
@@ -1560,37 +1346,29 @@ UINT8_T JTAG_RunSelectIRScan(JTAG_HandlerType* JTAGx)
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			break;
@@ -1598,37 +1376,29 @@ UINT8_T JTAG_RunSelectIRScan(JTAG_HandlerType* JTAGx)
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			break;
@@ -1636,19 +1406,16 @@ UINT8_T JTAG_RunSelectIRScan(JTAG_HandlerType* JTAGx)
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 	}
 	//---select_dr_scan
-	JTAG_GPIO_1(JTAGx->msgTMS);
-	JTAG_TCK_PULSE(JTAGx);	
+	JTAG_TMS_1(JTAGx);
 	//---校验是否保持时钟不变
 	if (JTAGx->msgTapState != SELECT_IR_SCAN)
 	{
 		//---select_ir_scan
-		JTAG_GPIO_1(JTAGx->msgTMS);
-		JTAG_TCK_PULSE(JTAGx);
+		JTAG_TMS_1(JTAGx);
 	}
 	JTAGx->msgTapState = SELECT_IR_SCAN;
 	return OK_0;
@@ -1667,88 +1434,65 @@ UINT8_T JTAG_RunCaptureIR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			break;
@@ -1756,81 +1500,61 @@ UINT8_T JTAG_RunCaptureIR(JTAG_HandlerType* JTAGx)
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != CAPTURE_IR)
 	{
 		//---capture_ir
-		JTAG_GPIO_0(JTAGx->msgTMS);
-		JTAG_TCK_PULSE(JTAGx);
+		JTAG_TMS_0(JTAGx);
 	}
 	JTAGx->msgTapState = CAPTURE_IR;
 	return OK_0;
@@ -1849,169 +1573,125 @@ UINT8_T JTAG_RunShiftIR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			break;
 		case SHIFT_IR:
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---pasuse_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 	}
 	JTAGx->msgTapState = SHIFT_IR;
@@ -2031,117 +1711,85 @@ UINT8_T JTAG_RunExit1IR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			break;
@@ -2151,50 +1799,39 @@ UINT8_T JTAG_RunExit1IR(JTAG_HandlerType* JTAGx)
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != EXIT1_IR)
 	{
 		//---exit1_ir
-		JTAG_GPIO_1(JTAGx->msgTMS);
-		JTAG_TCK_PULSE(JTAGx);
+		JTAG_TMS_1(JTAGx);
 	}
 	JTAGx->msgTapState = EXIT1_IR;
 	return OK_0;
@@ -2213,184 +1850,131 @@ UINT8_T JTAG_RunPauseIR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			break;
@@ -2398,55 +1982,41 @@ UINT8_T JTAG_RunPauseIR(JTAG_HandlerType* JTAGx)
 			break;
 		case EXIT2_IR:
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---shift_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 	}
 	//---pause_ir
-	JTAG_GPIO_0(JTAGx->msgTMS);
-	JTAG_TCK_PULSE(JTAGx);
+	JTAG_TMS_0(JTAGx);
 	JTAGx->msgTapState = PAUSE_IR;
 	return OK_0;
 }
@@ -2464,245 +2034,177 @@ UINT8_T JTAG_RunExit2IR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---pasuse_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != EXIT2_IR)
 	{
 		//---exit2_ir
-		JTAG_GPIO_1(JTAGx->msgTMS);
-		JTAG_TCK_PULSE(JTAGx);
+		JTAG_TMS_1(JTAGx);
 	}
 	JTAGx->msgTapState = EXIT2_IR;
 	return OK_0;
@@ -2721,161 +2223,117 @@ UINT8_T JTAG_RunUpdateIR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			break;
@@ -2885,20 +2343,15 @@ UINT8_T JTAG_RunUpdateIR(JTAG_HandlerType* JTAGx)
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---select_ir_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_0(JTAGx);
 			//---exit1_ir
-			JTAG_GPIO_1(JTAGx->msgTMS);
-			JTAG_TCK_PULSE(JTAGx);
+			JTAG_TMS_1(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != UPDATE_IR)
@@ -3113,7 +2566,17 @@ UINT8_T JTAG_EnterProg(JTAG_HandlerType* JTAGx)
 		JTAG_GPIO_Init(JTAGx);
 	}
 	JTAG_TAPClear(JTAGx);
-	return JTAG_TAPPreEnter(JTAGx);
+	UINT8_T _return= JTAG_TAPPreEnter(JTAGx);
+	//---校验进入结果
+	if (_return==OK_0)
+	{
+		JTAGx->msgState = JTAG_PROG_PREPARE;
+	}
+	else
+	{
+		JTAGx->msgState = JTAG_PROG_NONE;
+	}
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -3129,10 +2592,10 @@ UINT8_T JTAG_ExitProg(JTAG_HandlerType* JTAGx)
 	JTAGx->msgEepromIsPageMode = 0;
 	//---清除数据缓存区的序号
 	JTAGx->msgPageWordIndex = 0;
-	//---解除64K的限制
-	JTAGx->msgHideAddr = 0xFF;
 	//---编程状态为空闲模式
-	JTAGx->msgState = 0;
+	JTAGx->msgState = JTAG_PROG_NONE;
+	//---置位标签
+	JTAGx->msgJtagCmd = 0;
 	//---移除注册的监控函数
 	JTAG_RemoveWatch(JTAGx);
 	//---执行退出操作
@@ -3150,7 +2613,7 @@ void JTAG_WatchTask(JTAG_HandlerType* JTAGx)
 {
 	UINT32_T nowTime = 0;
 	UINT32_T cnt = 0;
-	if (JTAGx->msgState != 0)
+	if (JTAGx->msgState != JTAG_PROG_NONE)
 	{
 		//---获取当前时间节拍
 		nowTime = JTAGx->msgFuncTimeTick();
@@ -3392,26 +2855,17 @@ UINT8_T JTAG_WaitPollChipComplete(JTAG_HandlerType* JTAGx,UINT16_T cmd)
 UINT8_T JTAG_EraseChip(JTAG_HandlerType* JTAGx)
 {
 	UINT8_T i = 0;
-	UINT32_T tempID = 0;
-	//---发送命令
+	//---使能JTAG指令
 	JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
 	//---准备发送数据
 	JTAG_RunCaptureDR(JTAGx);
-	//---读取数据
-	JTAG_ShiftDR_BIT(JTAGx, 0x2300, 15, 1);
-	tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3180, 15, 0);
-	if ((tempID&0xFF00) != 0x2300)
-	{
-		return ERROR_1;
-	}
-	tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3380, 15, 0);
-	if ((tempID & 0xFF00) != 0x3100)
-	{
-		return ERROR_2;
-	}
-	tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3380, 15, 0);
-	//---返回擦除结果
-	return JTAG_WaitPollChipComplete(JTAGx,3380);
+	//---加载擦除命令
+	JTAG_ShiftDR_BIT(JTAGx, 0x2380, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3180, 15, 0);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3380, 15, 0);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3380, 15, 0);
+	//---等待擦除完成
+	return JTAG_WaitPollChipComplete(JTAGx,0x3380);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -3423,14 +2877,25 @@ UINT8_T JTAG_EraseChip(JTAG_HandlerType* JTAGx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T JTAG_ReadIDChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
 {
+	UINT8_T i=0;
+	UINT32_T tempID =0;
 	//---发送命令
 	JTAG_ShiftIR_BIT(JTAGx, IDCODE, 4, 0);
 	//---准备发送数据
 	JTAG_RunCaptureDR(JTAGx);
 	//---读取数据
-	UINT32_T tempID = JTAG_ShiftDR_BIT(JTAGx, 0, 32, 1);
+	tempID= JTAG_ShiftDR_BIT(JTAGx, 0, 32, 1);
 	//---忽略版本信息
 	tempID &= 0x0FFFFFFF;
+	//---校验缓存区
+	if (pVal!=NULL)
+	{
+		for (i = 0; i < 4; i++)
+		{
+			pVal[i]=(UINT8_T)tempID;
+			tempID>>=8;
+		}
+	}
 	return OK_0;
 }
 
@@ -3445,34 +2910,36 @@ UINT8_T JTAG_ReadChipID(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
 {
 	UINT8_T i = 0;
 	UINT32_T tempID = 0;
-	UINT8_T _return = OK_0;
 	//---发送命令
 	JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
 	//---准备发送数据
 	JTAG_RunCaptureDR(JTAGx);
-	//---读取ID命令
+	//---加载读取命令
 	JTAG_ShiftDR_BIT(JTAGx, 0x2308, 15, 1);
 	//---轮训读取ChipID
 	for (i = 0; i < 3; i++)
 	{
 		//---加载地址
-		tempID = JTAG_ShiftDR_BIT(JTAGx, 0x0300 + i, 15, 1);
-		if (tempID != 0x2308)
-		{
-			_return = ERROR_1;
-			break;
-		}
-		//---读取ID
+		JTAG_ShiftDR_BIT(JTAGx, 0x0300 + i, 15, 1);
 		JTAG_ShiftDR_BIT(JTAGx, 0x3200, 15, 0);
+		//---读取结果
 		tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 0);
-		if ((tempID & 0xFF00) != 0x3200)
-		{
-			_return = ERROR_2;
-			break;
-		}
 		*(pVal++) = (UINT8_T)(tempID);
 	}
-	return _return;
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：读取芯片信息，包含ChipID和JtagID信息
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T JTAG_ReadChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
+{
+	JTAG_ReadIDChip(JTAGx,pVal);
+	return JTAG_ReadChipID(JTAGx,pVal+4);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -3486,34 +2953,23 @@ UINT8_T JTAG_ReadChipCalibration(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T
 {
 	UINT8_T i = 0;
 	UINT32_T tempID = 0;
-	UINT8_T _return = OK_0;
 	//---发送命令
 	JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
 	//---准备发送数据
 	JTAG_RunCaptureDR(JTAGx);
-	//---读取命令
+	//---加载读取命令
 	JTAG_ShiftDR_BIT(JTAGx, 0x2308, 15, 1);
 	//---读取指定大小的数据
 	for (i = 0; i < length; i++)
 	{
 		//---加载地址
-		tempID = JTAG_ShiftDR_BIT(JTAGx, 0x0300 + i, 15, 1);
-		if (tempID != 0x2308)
-		{
-			_return = ERROR_1;
-			break;
-		}
-		//---读取ID
+		JTAG_ShiftDR_BIT(JTAGx, 0x0300 + i, 15, 1);
 		JTAG_ShiftDR_BIT(JTAGx, 0x3600, 15, 0);
+		//---读取结果
 		tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 0);
-		if ((tempID & 0xFF00) != 0x3600)
-		{
-			_return = ERROR_2;
-			break;
-		}
 		*(pVal++) = (UINT8_T)(tempID);
 	}
-	return _return;
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -3531,49 +2987,25 @@ UINT8_T JTAG_ReadChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNeed
 	JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
 	//---准备发送数据
 	JTAG_RunCaptureDR(JTAGx);
-	//---读取命令
+	//---加载读取命令
 	JTAG_ShiftDR_BIT(JTAGx, 0x2304, 15, 1);
 	//---读取熔丝位低位值
-	tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3200, 15, 1);
-	if (tempID != 0x2304)
-	{
-		return ERROR_1;
-	}
-	//---读取结果
+	JTAG_ShiftDR_BIT(JTAGx, 0x3200, 15, 1);
+	//---获取熔丝位低位值
 	tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
-	if ((tempID & 0xFF00) != 0x3200)
-	{
-		return ERROR_2;
-	}
 	*(pVal++) = (UINT8_T)tempID;
 	//---读取熔丝位高位值
-	tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3E00, 15, 1);
-	if ((tempID & 0xFF00) != 0x3300)
-	{
-		return ERROR_3;
-	}
-	//---读取结果
+	JTAG_ShiftDR_BIT(JTAGx, 0x3E00, 15, 1);
+	//---获取熔丝位高位值
 	tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3F00, 15, 1);
-	if ((tempID & 0xFF00) != 0x3E00)
-	{
-		return ERROR_4;
-	}
 	*(pVal++) = (UINT8_T)tempID;
 	//---校验拓展位
 	if (isNeedExternFuse!=0)
 	{
 		//---读取熔丝位拓展位值
-		tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3A00, 15, 1);
-		if ((tempID & 0xFF00) != 0x3F00)
-		{
-			return ERROR_3;
-		}
-		//---读取结果
+		JTAG_ShiftDR_BIT(JTAGx, 0x3A00, 15, 1);
+		//---获取熔丝位拓展位值
 		tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3B00, 15, 1);
-		if ((tempID & 0xFF00) != 0x3A00)
-		{
-			return ERROR_4;
-		}
 		*(pVal++) = (UINT8_T)tempID;
 	}
 	else
@@ -3592,27 +3024,18 @@ UINT8_T JTAG_ReadChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNeed
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T JTAG_ReadChipLock(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
 {
-	UINT8_T i = 0;
 	UINT32_T tempID = 0;
 	//---发送命令
 	JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
 	//---准备发送数据
 	JTAG_RunCaptureDR(JTAGx);
-	//---读取命令
+	//---加载读取命令
 	JTAG_ShiftDR_BIT(JTAGx, 0x2304, 15, 1);
-	//---读取熔丝位低位值
-	tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3600, 15, 1);
-	if ((tempID & 0xFF00) != 0x2300)
-	{
-		return ERROR_1;
-	}
-	//---读取结果
+	//---读取加密位值
+	JTAG_ShiftDR_BIT(JTAGx, 0x3600, 15, 1);
+	//---获取加密位值
 	tempID = JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
-	if ((tempID & 0xFF00) != 0x3600)
-	{
-		return ERROR_2;
-	}
-	*(pVal++) = (UINT8_T)tempID;
+	*(pVal++) = ((UINT8_T)tempID)|0xFC;
 	return OK_0;
 }
 
@@ -3636,34 +3059,35 @@ UINT8_T JTAG_ReadChipRom(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T addr, U
 	}
 	//---用移位运算当做除2运算
 	length >>= 1;
-	//---发送命令
-	JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
-	//---准备发送数据
-	JTAG_RunCaptureDR(JTAGx);
-	//---读取ID命令
-	JTAG_ShiftDR_BIT(JTAGx, 0x2308, 15, 1);
+	//---判断是否已近进入编程命令
+	if ((JTAGx->msgJtagCmd==0)||(JTAGx->msgState!=JTAG_PROG_READ_ROM))
+	{
+		//---发送命令
+		JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
+		//---准备发送数据
+		JTAG_RunCaptureDR(JTAGx);
+		//---加载读取命令
+		JTAG_ShiftDR_BIT(JTAGx, 0x2308, 15, 1);
+		//---置位标签
+		JTAGx->msgJtagCmd=1;
+		JTAGx->msgState = JTAG_PROG_READ_ROM;
+	}	
 	//---读取ROM页信息
 	for (i = 0; i < length; i++)
 	{
 		//---读取低字节数据,加载地址
-		tempROM = JTAG_ShiftDR_BIT(JTAGx, (0x0300 + i+addr), 15, 1);
+		JTAG_ShiftDR_BIT(JTAGx, (0x0300 |(i+addr)), 15, 1);
 		//---读取结果
 		JTAG_ShiftDR_BIT(JTAGx, 0x3200, 15, 0);
+		//---获取低字节数据
 		tempROM = JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 0);
-		if ((tempROM & 0xFF00) != 0x3200)
-		{
-			return (0x80+i+ERROR_1);
-		}
 		*(pVal++) = (UINT8_T)(tempROM);
 		//---读取高字节数据，加载地址
-		tempROM = JTAG_ShiftDR_BIT(JTAGx, (0x0300 + i+addr), 15, 1);
+		JTAG_ShiftDR_BIT(JTAGx, (0x0300 |(i+addr)), 15, 1);
 		//---读取结果
 		JTAG_ShiftDR_BIT(JTAGx, 0x3600, 15, 0);
+		//---获取高字节数据
 		tempROM = JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 0);
-		if ((tempROM & 0xFF00) != 0x3600)
-		{
-			return (0x80 + i + ERROR_2);
-		}
 		*(pVal++) = (UINT8_T)(tempROM);
 	}
 	return OK_0;
@@ -3684,99 +3108,49 @@ UINT8_T JTAG_WriteChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNee
 	JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
 	//---准备发送数据
 	JTAG_RunCaptureDR(JTAGx);
-	//---编程熔丝位
+	//---加载编程熔丝位命令
 	JTAG_ShiftDR_BIT(JTAGx, 0x2340, 15, 1);
 	//---加载低位数据
-	tempFuse=JTAG_ShiftDR_BIT(JTAGx, 0x1300|*(pVal++), 15, 1);
-	//---校验结果
-	if ((tempFuse & 0xFF00) != 0x2300)
-	{
-		return ERROR_1;
-	}
+	JTAG_ShiftDR_BIT(JTAGx, 0x1300|*(pVal++), 15, 1);
 	//---写熔丝位低位
-	tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
-	//---校验结果
-	if ((tempFuse & 0xFF00) != 0x1300)
-	{
-		return ERROR_2;
-	}
-	tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x3100, 15, 1);
-	//---校验结果
-	if ((tempFuse & 0xFF00) != 0x3300)
-	{
-		return ERROR_3;
-	}
-	tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
-	//---校验结果
-	if ((tempFuse & 0xFF00) != 0x3100)
-	{
-		return ERROR_4;
-	}
 	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
-	//---等待编程结束
+	JTAG_ShiftDR_BIT(JTAGx, 0x3100, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
+	//---等待编程低位熔丝位结束
 	_return=JTAG_WaitPollChipComplete(JTAGx,0x3300);
 	if (_return!=OK_0)
 	{
-		return ERROR_5;
+		return ERROR_1;
 	}
 	//---加载高位数据
-	tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x1300|*(pVal++), 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x1300|*(pVal++), 15, 1);
 	//---写熔丝位高位
-	tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
-	//---校验结果
-	if ((tempFuse & 0xFF00) != 0x1300)
-	{
-		return ERROR_6;
-	}
-	tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x3500, 15, 1);
-	//---校验结果
-	if ((tempFuse & 0xFF00) != 0x3700)
-	{
-		return ERROR_7;
-	}
-	tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
-	//---校验结果
-	if ((tempFuse & 0xFF00) != 0x3500)
-	{
-		return ERROR_8;
-	}
 	JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
-	//---等待编程结束
+	JTAG_ShiftDR_BIT(JTAGx, 0x3500, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
+	//---等待编程高位熔丝位结束
 	_return = JTAG_WaitPollChipComplete(JTAGx, 0x3700);
 	if (_return != OK_0)
 	{
-		return ERROR_9;
+		return ERROR_2;
 	}
 	//---校验编程拓展熔丝位
 	if (isNeedExternFuse)
 	{
 		//---加载拓展位数据
-		tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x1300|*pVal, 15, 1);
+		JTAG_ShiftDR_BIT(JTAGx, 0x1300|*pVal, 15, 1);
 		//---写熔丝位高位
-		tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x3B00, 15, 1);
-		//---校验结果
-		if ((tempFuse & 0xFF00) != 0x1300)
-		{
-			return ERROR_10;
-		}
-		tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x3900, 15, 1);
-		//---校验结果
-		if ((tempFuse & 0xFF00) != 0x3B00)
-		{
-			return ERROR_11;
-		}
-		tempFuse = JTAG_ShiftDR_BIT(JTAGx, 0x3B00, 15, 1);
-		//---校验结果
-		if ((tempFuse & 0xFF00) != 0x3900)
-		{
-			return ERROR_12;
-		}
 		JTAG_ShiftDR_BIT(JTAGx, 0x3B00, 15, 1);
-		//---等待编程结束
+		JTAG_ShiftDR_BIT(JTAGx, 0x3900, 15, 1);
+		JTAG_ShiftDR_BIT(JTAGx, 0x3B00, 15, 1);
+		JTAG_ShiftDR_BIT(JTAGx, 0x3B00, 15, 1);
+		//---等待编程拓展位熔丝位结束
 		_return = JTAG_WaitPollChipComplete(JTAGx, 0x3700);
 		if (_return != OK_0)
 		{
-			return ERROR_13;
+			return ERROR_3;
 		}
 	}
 	return _return;
@@ -3789,43 +3163,23 @@ UINT8_T JTAG_WriteChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNee
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipLock(JTAG_HandlerType* JTAGx, UINT8_T val)
+UINT8_T JTAG_WriteChipLock(JTAG_HandlerType* JTAGx, UINT8_T lockVal)
 {
 	UINT32_T tempLock = 0;
 	//---发送命令
 	JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
 	//---准备发送数据
 	JTAG_RunCaptureDR(JTAGx);
-	//---编程熔丝位
+	//---加载编程加密位命令
 	JTAG_ShiftDR_BIT(JTAGx, 0x2320, 15, 1);
-	//---加载低位数据
-	tempLock = JTAG_ShiftDR_BIT(JTAGx, 0x13C0|val, 15, 1);
-	//---校验结果
-	if ((tempLock & 0xFF00) != 0x2300)
-	{
-		return ERROR_1;
-	}
-	//---写熔丝位低位
-	tempLock = JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
-	//---校验结果
-	if ((tempLock & 0xFF00) != 0x1300)
-	{
-		return ERROR_2;
-	}
-	tempLock = JTAG_ShiftDR_BIT(JTAGx, 0x3100, 15, 1);
-	//---校验结果
-	if ((tempLock & 0xFF00) != 0x3300)
-	{
-		return ERROR_3;
-	}
-	tempLock = JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
-	//---校验结果
-	if ((tempLock & 0xFF00) != 0x3100)
-	{
-		return ERROR_4;
-	}
+	//---加载加密位数据
+	JTAG_ShiftDR_BIT(JTAGx, 0x13C0|lockVal, 15, 1);
+	//---写加密位
 	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
-	//---等待编程结束
+	JTAG_ShiftDR_BIT(JTAGx, 0x3100, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
+	//---等待编程加密位结束
 	return ((JTAG_WaitPollChipComplete(JTAGx, 0x3300)==OK_0)?OK_0:ERROR_5);
 }
 
@@ -3843,13 +3197,19 @@ UINT8_T JTAG_ReadChipEepromAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T 
 {
 	UINT32_T tempeEPROM = 0;
 	UINT16_T i=0;
-	//---发送命令
-	JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
-	//---准备发送数据
-	JTAG_RunCaptureDR(JTAGx);
-	//---编程熔丝位
-	JTAG_ShiftDR_BIT(JTAGx, 0x2303, 15, 1);
-	//---读取ROM页信息
+	//---校验是否进入编程命令
+	if ((JTAGx->msgJtagCmd==0) || (JTAGx->msgState != JTAG_PROG_READ_EEPROM))
+	{
+		//---发送命令
+		JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
+		//---准备发送数据
+		JTAG_RunCaptureDR(JTAGx);
+		//---加载读取命令
+		JTAG_ShiftDR_BIT(JTAGx, 0x2303, 15, 1);
+		JTAGx->msgJtagCmd=1;
+		JTAGx->msgState = JTAG_PROG_READ_EEPROM;
+	}	
+	//---读取EEPROM信息
 	for (i = 0; i < length; i++)
 	{
 		//---加载高地址
@@ -3857,31 +3217,16 @@ UINT8_T JTAG_ReadChipEepromAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T 
 		//---加载低地址
 		JTAG_ShiftDR_BIT(JTAGx, 0x0300 | lowAddr, 15, 1);
 		//---准备读取数据
-		tempeEPROM=JTAG_ShiftDR_BIT(JTAGx, 0x3300|lowAddr, 15, 0);
-		//---校验数据
-		if ((tempeEPROM & 0xFF00) != 0x0300)
-		{
-			return ERROR_1;
-		}
-		//---读取高字节数据，加载地址
-		tempeEPROM = JTAG_ShiftDR_BIT(JTAGx, 0x3200, 15, 1);
-		//---校验数据
-		if ((tempeEPROM & 0xFF00) != 0x3300)
-		{
-			return ERROR_2;
-		}
-		//---读取结果
-		tempeEPROM = JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 0);
-		//---校验数据
-		if ((tempeEPROM & 0xFF00) != 0x3200)
-		{
-			return (0x80 + i + ERROR_2);
-		}
+		JTAG_ShiftDR_BIT(JTAGx, 0x3300|lowAddr, 15, 0);
+		JTAG_ShiftDR_BIT(JTAGx, 0x3200, 15, 1);
+		JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 0);
 		*(pVal++) = (UINT8_T)(tempeEPROM);
-		//---地址偏移
+		//---低位地址偏移
 		lowAddr++;
+		//---校验高位地址偏移
 		if (lowAddr==0)
 		{
+			//---高位地址偏移
 			highAddr++;
 		}
 	}
@@ -3904,72 +3249,66 @@ UINT8_T JTAG_ReadChipEepromLongAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：编程EEPROM
-//////输入参数:  pVal	---数据缓存区
-//////			highAddr---数据地址的高字节，地址是字节地址
-//////			lowAddr ---数据地址的低字节，地址是字节地址
-//////			length	---读取数据的长度，数据长度是字节长度
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipEepromAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
-{
-	
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：更新存储器的缓存区
+//////功		能：页编程模式，更新数据到EEPROM的编程缓存区
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipEepromPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
+UINT8_T JTAG_UpdateChipEepromPage(JTAG_HandlerType* JTAGx, UINT8_T highAddr, UINT8_T lowAddr, UINT8_T* pVal)
 {
-
+	UINT32_T tempVal = 0;
+	UINT8_T i = 0;
+	//---校验是否进入Flash写入模式
+	if ((JTAGx->msgJtagCmd == 0) || (JTAGx->msgState != JTAG_PROG_WRITE_EEPROM))
+	{
+		//---发送命令
+		JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
+		//---准备发送数据
+		JTAG_RunCaptureDR(JTAGx);
+		//---编程EEPROM
+		JTAG_ShiftDR_BIT(JTAGx, 0x2311, 15, 1);
+		JTAGx->msgJtagCmd = 1;
+		JTAGx->msgState = JTAG_PROG_WRITE_EEPROM;
+	}
+	//---加载高位地址
+	JTAG_ShiftDR_BIT(JTAGx, 0x0700 | highAddr, 15, 1);
+	//---填充缓存区
+	for (i = 0; i < JTAGx->msgEerpomPerPageByteSize; i++)
+	{
+		//---加载低位地址
+		JTAG_ShiftDR_BIT(JTAGx, 0x0300 | lowAddr, 15, 1);
+		//---加载数据
+		JTAG_ShiftDR_BIT(JTAGx, 0x1300 | *(pVal++), 15, 1);
+		//---锁存数据
+		JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
+		JTAG_ShiftDR_BIT(JTAGx, 0x7700, 15, 1);
+		JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
+		lowAddr++;
+	}
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：更新数据到指定页地址
+//////功		能：页编程模式，执行页写入操作
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipEepromAddr(JTAG_HandlerType* JTAGx, UINT8_T highAddr, UINT8_T lowAddr)
+UINT8_T JTAG_UpdateChipEeprom(JTAG_HandlerType* JTAGx)
 {
-
+	//---使能页写入
+	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3100, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
+	//---等待页写入完成
+	return JTAG_WaitPollChipComplete(JTAGx, 0x3300);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipEepromLongAddr(JTAG_HandlerType* JTAGx, UINT16_T addr)
-{
-	return JTAG_UpdateChipEepromAddr(JTAGx, (UINT8_T)(addr >> 8), (UINT8_T)(addr & 0xFF));
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：编程EEPROM
-//////输入参数:  pVal	---数据缓存区
-//////			addr	---数据地址，地址是字节地址
-//////			length	---读取数据的长度，数据长度是字节长度
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipEepromLongAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT16_T addr, UINT16_T length)
-{
-	return JTAG_WriteChipEepromAddr(JTAGx, pVal, (UINT8_T)(addr >> 8), (UINT8_T)(addr & 0xFF), length);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
+//////功		能：页编程模式，进行EEPROM的编程
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -3980,7 +3319,7 @@ UINT8_T JTAG_WriteChipEepromPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T
 	UINT32_T pageAddr = 0;
 	UINT16_T i = 0;
 	//---检查当前编程模式
-	if (JTAGx->msgState == 0)
+	if (JTAGx->msgState == JTAG_PROG_NONE)
 	{
 		//---进入编程模式
 		_return = JTAG_EnterProg(JTAGx);
@@ -3998,11 +3337,11 @@ UINT8_T JTAG_WriteChipEepromPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T
 		for (i = 0; i < pageNum; i++)
 		{
 			//---填充数据缓存
-			_return = JTAG_UpdateChipEepromPage(JTAGx, pVal);
+			_return = JTAG_UpdateChipEepromPage(JTAGx,(UINT8_T)(pageAddr>>8),(UINT8_T)(pageAddr), pVal);
 			//---换算返回结果
 			_return = (_return == OK_0 ? OK_0 : ERROR_2);
-			//---更新数据到指定的页地址
-			_return = JTAG_UpdateChipEepromLongAddr(JTAGx, pageAddr);
+			//---执行页写入操作
+			_return = JTAG_UpdateChipEeprom(JTAGx);
 			//---换算返回结果
 			_return = (_return == OK_0 ? OK_0 : ERROR_3);
 			//---校验页编程的结果
@@ -4032,77 +3371,15 @@ UINT8_T JTAG_WriteChipEepromPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：跳空编程EEPROM
-//////输入参数:  pVal	---数据缓存区
-//////			highAddr---数据地址的高字节，地址是字节地址
-//////			lowAddr ---数据地址的低字节，地址是字节地址
-//////			length	---读取数据的长度，数据长度是字节长度
-//////输出参数:
-//////说		明：如果写入的数据是空数据，那么就跳过写入
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipEepromAddrWithJumpEmpty(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
-{
-	
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：跳空编程EEPROM
-//////输入参数:  pVal	---数据缓存区
-//////			addr	---数据地址，地址是字节地址
-//////			length	---读取数据的长度，数据长度是字节长度
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipEepromLongAddrWithJumpEmpty(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT16_T addr, UINT16_T length)
-{
-	return JTAG_WriteChipEepromAddrWithJumpEmpty(JTAGx, pVal, (UINT8_T)(addr >> 8), (UINT8_T)(addr & 0xFF), length);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
+//////功		能：JTAG编程EEPROM，JTAG只支持页编程，不支持字节编程
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T JTAG_WriteChipEeprom(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
 {
-	//---校验编程模式
-	if (JTAGx->msgEepromIsPageMode != 0)
-	{
-		//---编程指定位置的Eeprom数据,编程模式页模式
-		return JTAG_WriteChipEepromPage(JTAGx, pVal, highAddr, lowAddr, pageNum);
-	}
-	else
-	{
-		//---编程指定位置的Eeprom数据，编程模式字模式
-		return JTAG_WriteChipEepromAddr(JTAGx, pVal, highAddr, lowAddr, pageNum);
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：更新拓展位地址
-//////输入参数: addr---数据拓展位地址，地址是字地址
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateExternAddr(JTAG_HandlerType* JTAGx, UINT8_T addr)
-{
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：更新拓展位地址
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateExternLongAddr(JTAG_HandlerType* JTAGx, UINT32_T addr)
-{
-	return JTAG_UpdateExternAddr(JTAGx, (UINT8_T)(addr >> 16));
+	//---编程指定位置的Eeprom数据,编程模式页模式
+	return JTAG_WriteChipEepromPage(JTAGx, pVal, highAddr, lowAddr, pageNum);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -4114,7 +3391,57 @@ UINT8_T JTAG_UpdateExternLongAddr(JTAG_HandlerType* JTAGx, UINT32_T addr)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T JTAG_ReadChipFlashAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
-
+	UINT32_T tempeFlash = 0;
+	UINT16_T i = 0;
+	if ((JTAGx->msgJtagCmd == 0) || (JTAGx->msgState != JTAG_PROG_READ_FLASH))
+	{
+		//---发送命令
+		JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
+		//---准备发送数据
+		JTAG_RunCaptureDR(JTAGx);
+		//---编程熔丝位
+		JTAG_ShiftDR_BIT(JTAGx, 0x2302, 15, 1);
+		JTAGx->msgJtagCmd = 1;
+		JTAGx->msgState = JTAG_PROG_READ_FLASH;
+	}
+	//---判断是否加载拓展位地址
+	if (externAddr!=0)
+	{
+		//---加载拓展位地址
+		JTAG_ShiftDR_BIT(JTAGx, 0x0B00 | externAddr, 15, 1);
+	}
+	//---读取ROM页信息
+	for (i = 0; i < length; i++)
+	{
+		//---加载高地址
+		JTAG_ShiftDR_BIT(JTAGx, 0x0700 | highAddr, 15, 1);
+		//---加载低地址
+		JTAG_ShiftDR_BIT(JTAGx, 0x0300 | lowAddr, 15, 1);
+		//---准备读取数据
+		JTAG_ShiftDR_BIT(JTAGx, 0x3200, 15, 1);
+		//---读取低位数据
+		tempeFlash = JTAG_ShiftDR_BIT(JTAGx, 0x3600, 15, 0);
+		*(pVal++)=(UINT8_T)tempeFlash;
+		//---读取高位数据
+		tempeFlash = JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 0);
+		*(pVal++) = (UINT8_T)(tempeFlash);
+		//---低位地址偏移
+		lowAddr++;
+		if (lowAddr == 0)
+		{
+			//---高位地址偏移
+			highAddr++;
+			//---判断是否发生拓展位变化
+			if (highAddr==0)
+			{
+				//---拓展位地址偏移
+				externAddr++;
+				//---加载拓展位地址
+				JTAG_ShiftDR_BIT(JTAGx, 0x0B00 | externAddr, 15, 1);
+			}
+		}
+	}
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -4131,43 +3458,85 @@ UINT8_T JTAG_ReadChipFlashLongAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT3
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：更新Flash缓存区
+//////功		能：页编程模式，更新数据到FLASH的编程缓存区
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipFlashPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T index, UINT16_T length)
+UINT8_T JTAG_UpdateChipFlashPage(JTAG_HandlerType* JTAGx,UINT8_T externAddr,UINT8_T highAddr,UINT8_T lowAddr, UINT8_T* pVal,UINT16_T length)
 {
-
+	UINT32_T tempVal = 0;
+	UINT8_T i = 0;
+	//---判断数据长度是否为偶数
+	if ((length & 0x01) != 0x00)
+	{
+		return ERROR_2;
+	}
+	//---用移位运算当做除2运算
+	length >>= 1;
+	//---校验是否进入Flash写入模式
+	if ((JTAGx->msgJtagCmd == 0) || (JTAGx->msgState != JTAG_PROG_WRITE_FLASH))
+	{
+		//---发送命令
+		JTAG_ShiftIR_BIT(JTAGx, PROG_COMMANDS, 4, 1);
+		//---准备发送数据
+		JTAG_RunCaptureDR(JTAGx);
+		//---编程熔丝位
+		JTAG_ShiftDR_BIT(JTAGx, 0x2310, 15, 1);
+		JTAGx->msgJtagCmd = 1;
+		JTAGx->msgState = JTAG_PROG_WRITE_FLASH;
+	}
+	//---检验是否需要加载高地址和低地址
+	if (JTAGx->msgPageWordIndex==0)
+	{
+		if (externAddr!=0)
+		{
+			//---加载拓展位地址
+			JTAG_ShiftDR_BIT(JTAGx, 0x0B00 | externAddr, 15, 1);
+		}
+		//---加载高位地址
+		JTAG_ShiftDR_BIT(JTAGx, 0x0700 | externAddr, 15, 1);
+	}
+	//---填充缓存区
+	for (i = 0; i < length; i++)
+	{
+		//---加载低位地址
+		JTAG_ShiftDR_BIT(JTAGx,0x0300 | lowAddr  , 15, 1);
+		//---加载低位数据
+		JTAG_ShiftDR_BIT(JTAGx,0x1300 | *(pVal++), 15, 1);
+		//---加载高位数据
+		JTAG_ShiftDR_BIT(JTAGx,0x1700 | *(pVal++), 15, 1);
+		//---锁存数据
+		JTAG_ShiftDR_BIT(JTAGx,0x3700, 15, 1);
+		JTAG_ShiftDR_BIT(JTAGx,0x7700, 15, 1);		
+		JTAG_ShiftDR_BIT(JTAGx,0x3700, 15, 1);
+		lowAddr++;
+	}
+	//---更新缓存区的序号；
+	JTAGx->msgPageWordIndex += length;
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：更新数据到指定页地址
+//////功		能：页编程模式，执行页写入操作
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipFlashAddr(JTAG_HandlerType* JTAGx, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr)
+UINT8_T JTAG_UpdateChipFlash(JTAG_HandlerType* JTAGx)
 {
-
+	//---使能页写入
+	JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3500, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
+	JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
+	//---等待页写入完成
+	return JTAG_WaitPollChipComplete(JTAGx, 0x3700);
 }
-
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：更新数据到指定页地址
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipFlashLongAddr(JTAG_HandlerType* JTAGx, UINT32_T addr)
-{
-	return JTAG_UpdateChipFlashAddr(JTAGx, (UINT8_T)(addr >> 16), (UINT8_T)(addr >> 8), (UINT8_T)(addr));
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：页模式向指定的数据写入Flash
+//////功		能：页模式，将指定的数据写入Flash
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -4187,18 +3556,14 @@ UINT8_T JTAG_WriteChipFlashPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T 
 		//---刷新时间
 		JTAG_RefreshWatch(JTAGx);
 		//---填充数据缓存
-		_return = JTAG_UpdateChipFlashPage(JTAGx, pVal, (UINT8_T)JTAGx->msgPageWordIndex, length);
+		_return = JTAG_UpdateChipFlashPage(JTAGx,externAddr,highAddr,lowAddr, pVal, length);
 		//---换算返回结果
 		_return = (_return == OK_0 ? OK_0 : ERROR_1);
 		//---缓存区填满，执行数据写入操作
 		if ((_return == OK_0) && (JTAGx->msgPageWordIndex == JTAGx->msgFlashPerPageWordSize))
 		{
-			//---计算字地址，传输的地址是字地址
-			pageAddr = externAddr;
-			pageAddr = (pageAddr << 8) + highAddr;
-			pageAddr = (pageAddr << 8) + lowAddr;
-			//---更新数据到指定的页地址
-			_return = JTAG_UpdateChipFlashLongAddr(JTAGx, pageAddr);
+			//---执行写页操作
+			_return= JTAG_UpdateChipFlash(JTAGx);
 			//---数据缓存区的
 			JTAGx->msgPageWordIndex = 0;
 			//---换算返回结果
