@@ -17,7 +17,7 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_TYPE_ADDR_X1, tempAddrX1, 5);
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_TYPE_ADDR_X2, tempAddrX2, 5);
 	//---数据匹配
-	if (CompareFun1(tempAddrX1, tempAddrX2, 5) != 0)
+	if (CompareByteToByte(tempAddrX1, tempAddrX2, 5) != 0)
 	{
 		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0,  RFASK_TYPE_ADDR_X3, tempAddrX1, 5);
 		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_TYPE_ADDR_X1, tempAddrX1, 5);
@@ -47,7 +47,7 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_FREQ_YSEL1_ADDR_X1, tempAddrX1, 16);
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_FREQ_YSEL1_ADDR_X2, tempAddrX2, 16);
 	//---数据匹配
-	if (CompareFun1(tempAddrX1, tempAddrX2, 16) != 0)
+	if (CompareByteToByte(tempAddrX1, tempAddrX2, 16) != 0)
 	{
 		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_FREQ_YSEL1_ADDR_X3,  tempAddrX1, 16);
 		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_FREQ_YSEL1_ADDR_X1, tempAddrX1, 16);
@@ -85,7 +85,7 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X2, tempAddrX2, 16);
 	//---数据匹配
-	if (CompareFun1(tempAddrX1, tempAddrX2, 16) != 0)
+	if (CompareByteToByte(tempAddrX1, tempAddrX2, 16) != 0)
 	{
 		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X3, tempAddrX1, 16);
 		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTONE_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
@@ -132,7 +132,7 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX2, 8);
 	//---数据匹配
-	if (CompareFun1(tempAddrX1, tempAddrX2, 8) != 0)
+	if (CompareByteToByte(tempAddrX1, tempAddrX2, 8) != 0)
 	{
 		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X3, tempAddrX1,  8);
 		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTONE_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
@@ -159,7 +159,7 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X2, tempAddrX2, 16);
 	//---数据匹配
-	if (CompareFun1(tempAddrX1, tempAddrX2, 16) != 0)
+	if (CompareByteToByte(tempAddrX1, tempAddrX2, 16) != 0)
 	{
 		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0,  RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X3, tempAddrX1, 16);
 		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTTWO_START_MAX_CURRENT_ADDR_X1, tempAddrX1, 16);
@@ -204,7 +204,7 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X2, tempAddrX2, 8);
 	//---数据匹配
-	if (CompareFun1(tempAddrX1, tempAddrX2, 8) != 0)
+	if (CompareByteToByte(tempAddrX1, tempAddrX2, 8) != 0)
 	{
 		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0,  RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X3, tempAddrX1, 8);
 		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, RFASK_POINTTWO_FREQ_CURRENT_POWER_ADDR_X1, tempAddrX1, 8);

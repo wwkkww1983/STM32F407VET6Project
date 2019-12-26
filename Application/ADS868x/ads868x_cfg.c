@@ -1369,9 +1369,9 @@ UINT8_T ADS868X_SPI_GetAutoRSTNSampleResult(ADS868X_HandlerType* ADS868x, UINT8_
 			if (rstMode & 0x01)
 			{
 				//---升序排列数据
-				AscSortFun2(adcSampleTemp[j], ADS868X_N_SAMPLE_COUNT);
+				AscSortWord(adcSampleTemp[j], ADS868X_N_SAMPLE_COUNT);
 				//---计算均值
-				ADS868x->msgChannelNowADCResult[j] = CalcAvgFun1(adcSampleTemp[j], (ADS868X_N_SAMPLE_COUNT - 2), 2);
+				ADS868x->msgChannelNowADCResult[j] = CalcAvgWordFromIndex(adcSampleTemp[j], (ADS868X_N_SAMPLE_COUNT - 2), 2);
 				//---计算采样的电压值
 				ADS868X_SPI_CalcChannelPower(ADS868x, j,1);
 			}
@@ -1549,9 +1549,9 @@ UINT8_T ADS868X_SPI_GetManualChannelNSampleResult(ADS868X_HandlerType* ADS868x, 
 	if (_return==OK_0)
 	{
 		//---升序排列数据
-		AscSortFun2(adcSampleTemp, ADS868X_N_SAMPLE_COUNT);
+		AscSortWord(adcSampleTemp, ADS868X_N_SAMPLE_COUNT);
 		//---计算均值
-		ADS868x->msgChannelNowADCResult[adcChannelIndex] = CalcAvgFun1(adcSampleTemp, (ADS868X_N_SAMPLE_COUNT - 2), 2);
+		ADS868x->msgChannelNowADCResult[adcChannelIndex] = CalcAvgWordFromIndex(adcSampleTemp, (ADS868X_N_SAMPLE_COUNT - 2), 2);
 		//---计算采样的电压值
 		ADS868X_SPI_CalcChannelPower(ADS868x, adcChannelIndex,1);
 	}

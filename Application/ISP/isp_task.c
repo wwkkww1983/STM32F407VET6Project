@@ -1028,6 +1028,31 @@ UINT8_T ISPTask_USARTCmd_ParentTask(ISP_HandlerType* ISPx, USART_HandlerType* US
 	}
 	return ERROR_2;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ISPTask_USARTCmd_ParentTask_New(ISP_HandlerType* ISPx, USART_HandlerType* USARTx, UINT8_T isChildCmd)
+{
+	UINT8_T _return = OK_0;
+	//---任务命令处理函数，数据报头，长度，地址ID,命令的处理
+	USARTTask_FillMode_Init(USARTx, isChildCmd);
+	//---处理任务
+	ISPTask_USARTCmd_ChildTask(ISPx, USARTx, isChildCmd);
+	//---是否需要增加换行符
+	if (USARTx->msgTXDHandler.msgAddNewLine == 1)
+	{
+		USARTTask_FillMode_AddByte(USARTx, 0x0D);
+		USARTTask_FillMode_AddByte(USARTx, 0x0A);
+	}
+	//---启动数据发送
+	USARTTask_FillMode_WriteSTART(USARTx, 0);
+	return _return;
+}
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：
@@ -1038,6 +1063,7 @@ UINT8_T ISPTask_USARTCmd_ParentTask(ISP_HandlerType* ISPx, USART_HandlerType* US
 UINT8_T ISPTask_USARTCmd_Task(ISP_HandlerType* ISPx, USART_HandlerType* USARTx)
 {
 	UINT8_T _return = OK_0;
-	_return= ISPTask_USARTCmd_ParentTask(ISPx, USARTx, 0);
+	//_return= ISPTask_USARTCmd_ParentTask(ISPx, USARTx, 0);
+	_return = ISPTask_USARTCmd_ParentTask_New(ISPx, USARTx, 0);
 	return _return;
 }

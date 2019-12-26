@@ -176,7 +176,7 @@ UINT8_T EnCodeTask_EepromInit(void)
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X1, tempAddrX1, 2);
 	AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X2, tempAddrX2, 2);
 	//---数据大小的对比
-	if (CompareFun1(tempAddrX1, tempAddrX2, 2) != 0)
+	if (CompareByteToByte(tempAddrX1, tempAddrX2, 2) != 0)
 	{
 		AT24CXXTask_I2C_ReadData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X3, tempAddrX1, 2);
 		AT24CXXTask_I2C_WriteData(pAT24cxxDevice0, ENCODE_GEN_CHANNEL_MASK1_ADDR_X1, tempAddrX1, 2);

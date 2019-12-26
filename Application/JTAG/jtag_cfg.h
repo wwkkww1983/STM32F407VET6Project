@@ -119,16 +119,16 @@ extern "C" {
 	};
 
 	//===定义状态
-	#define	JTAG_PROG_NONE						0
-	#define JTAG_PROG_PREPARE					1
-	#define JTAG_PROG_CMD						2
-	#define JTAG_PROG_PAGELOAD					3
-	#define JTAG_PROG_PAGEREAD					4
-	#define JTAG_PROG_READ_EEPROM				5
-	#define JTAG_PROG_READ_FLASH				6
-	#define JTAG_PROG_READ_ROM					7
-	#define JTAG_PROG_WRITE_EEPROM				8
-	#define JTAG_PROG_WRITE_FLASH				9
+	#define	JTAG_PROG_NONE						0													//---无编程任务
+	#define JTAG_PROG_PREPARE					1													//---编程准备中
+	#define JTAG_PROG_CMD						2													//---使能编程命令
+	#define JTAG_PROG_PAGELOAD					3													//---高效编程Flash模式
+	#define JTAG_PROG_PAGEREAD					4													//---高效读取Flash模式
+	#define JTAG_PROG_READ_EEPROM				5													//---读取Eeprom数据
+	#define JTAG_PROG_READ_FLASH				6													//---读取Flash数据
+	#define JTAG_PROG_READ_ROM					7													//---读取ROM信息
+	#define JTAG_PROG_WRITE_EEPROM				8													//---编程Eeprom数据
+	#define JTAG_PROG_WRITE_FLASH				9													//---编程Flash数据
 
 
 	//===任务函数

@@ -751,11 +751,11 @@ UINT8_T ADC_HandleChannelVal(ADCASK_HandlerType *ADCASKx)
 		//pADCVal++;
 	}
 	//---A通道数据降序排列
-	DescSortFun2(adcAChannel, ADC_CHANNEL_SIZE);
+	DescSortWord(adcAChannel, ADC_CHANNEL_SIZE);
 	//---B通道数据降序排列
 	//DescSortFun2(adcBChannel, ADC_CHANNEL_SIZE);
 	//---计算A通道采样值
-	ADCASKx->msgAChannelVal = CalcAvgFun1(adcAChannel, (ADC_CHANNEL_SIZE - 2), 2);
+	ADCASKx->msgAChannelVal = CalcAvgWordFromIndex(adcAChannel, (ADC_CHANNEL_SIZE - 2), 2);
 	//---计算B通道采样值
 	//ADCASKx->msgBChannelVal = CalcAvgFun1(adcBChannel, (ADC_CHANNEL_SIZE - 2), 2);
 	return OK_0;

@@ -3616,7 +3616,7 @@ UINT8_T JTAG_CheckChipFlashEmpty(JTAG_HandlerType* JTAGx, UINT8_T pageByteSizeH,
 			goto GoToExit;
 		}
 		//---校验数据是否全部为0xFF
-		_return = CompareFun5(pFlashBuffer, 0xFF, length);
+		_return = CompareByte(pFlashBuffer, 0xFF, length);
 		if (_return != OK_0)
 		{
 			_return = ERROR_3;
@@ -3673,7 +3673,7 @@ UINT8_T JTAG_CheckChipEepromEmpty(JTAG_HandlerType* JTAGx, UINT8_T byteSize, UIN
 			goto GoToExit;
 		}
 		//---校验数据是否全部为0xFF
-		_return = CompareFun5(pEepromBuffer, 0xFF, byteSize);
+		_return = CompareByte(pEepromBuffer, 0xFF, byteSize);
 		if (_return != OK_0)
 		{
 			_return = ERROR_3;

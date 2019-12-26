@@ -1775,7 +1775,7 @@ UINT8_T ISP_CheckChipFlashEmpty(ISP_HandlerType* ISPx,UINT8_T pageByteSizeH,UINT
 			goto GoToExit;
 		}
 		//---校验数据是否全部为0xFF
-		_return=CompareFun5(pFlashBuffer,0xFF,length);
+		_return=CompareByte(pFlashBuffer,0xFF,length);
 		if (_return!=OK_0)
 		{
 			_return = ERROR_3;
@@ -1832,7 +1832,7 @@ UINT8_T ISP_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UINT8_
 			goto GoToExit;
 		}
 		//---校验数据是否全部为0xFF
-		_return = CompareFun5(pEepromBuffer, 0xFF, byteSize);
+		_return = CompareByte(pEepromBuffer, 0xFF, byteSize);
 		if (_return != OK_0)
 		{
 			_return = ERROR_3;
