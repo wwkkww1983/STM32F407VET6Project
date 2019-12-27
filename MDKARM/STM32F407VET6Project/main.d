@@ -98,26 +98,18 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\LED\led_task.h ..\Application\LED\led_lib.h \
   ..\Application\LED\led_cfg.h ..\Application\Key\key_task.h \
   ..\Application\Key\key_lib.h ..\Application\Key\key_cfg.h \
-  ..\Application\RFASK\rfask_eeprom.h ..\Application\DHT11\dht11_task.h \
-  ..\Application\DHT11\dht11_lib.h ..\Application\DHT11\dht11_cfg.h \
-  ..\Application\DS18B20\ds18b20_task.h \
-  ..\Application\DS18B20\ds18b20_lib.h \
-  ..\Application\DS18B20\ds18b20_cfg.h \
-  ..\Application\OneWire\one_wire_task.h \
-  ..\Application\OneWire\one_wire_lib.h \
-  ..\Application\OneWire\one_wire_cfg.h \
-  ..\Application\DS1302\ds1302_task.h ..\Application\DS1302\ds1302_lib.h \
-  ..\Application\DS1302\ds1302_cfg.h ..\Application\EEPROM\eeprom_task.h \
-  ..\Application\EEPROM\eeprom_lib.h ..\Application\EEPROM\eeprom_cfg.h \
-  ..\Application\FLASH\flash_task.h ..\Application\FLASH\flash_lib.h \
-  ..\Application\FLASH\flash_cfg.h ..\Application\HMC830\hmc830_task.h \
-  ..\Application\HMC830\hmc830_task.h ..\Application\IAP\iap_task.h \
-  ..\Application\IAP\iap_lib.h ..\Application\IAP\iap_cfg.h \
-  ..\Application\INA226\ina226_cfg.h ..\Application\ISP\isp_task.h \
-  ..\Application\ISP\isp_lib.h ..\Application\ISP\isp_cfg.h \
-  ..\Application\ADC\adc_Task.h ..\Application\LCD1602\lcd1602_task.h \
+  ..\Application\RFASK\rfask_eeprom.h \
+  ..\Application\Encode\encode_task.h ..\Application\Encode\encode_lib.h \
+  ..\Application\Encode\encode_cfg.h ..\Application\HardWare\hw_cfg.h \
+  ..\Application\HVPP\hvpp_task.h ..\Application\HVSP\hvsp_task.h \
+  ..\Application\IAP\iap_task.h ..\Application\IAP\iap_lib.h \
+  ..\Application\IAP\iap_cfg.h ..\Application\INA226\ina226_cfg.h \
+  ..\Application\ISP\isp_task.h ..\Application\ISP\isp_lib.h \
+  ..\Application\ISP\isp_cfg.h ..\Application\ADC\adc_Task.h \
+  ..\Application\JTAG\jtag_task.h ..\Application\JTAG\jtag_lib.h \
+  ..\Application\JTAG\jtag_cfg.h ..\Application\LCD1602\lcd1602_task.h \
   ..\Application\LCD1602\lcd1602_lib.h \
-  ..\Application\LCD1602\lcd1602_cfg.h \
+  ..\Application\LCD1602\lcd1602_cfg.h ..\Application\MCO\mco_cfg.h \
   ..\Application\MAX961x\max961x_task.h \
   ..\Application\MAX961x\max961x_lib.h \
   ..\Application\MAX961x\max961x_cfg.h \
@@ -125,6 +117,9 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\NRF2401\nrf2401_lib.h \
   ..\Application\NRF2401\nrf2401_cfg.h ..\Application\OLED\oled_task.h \
   ..\Application\OLED\oled_lib.h ..\Application\OLED\oled_cfg.h \
+  ..\Application\OneWire\one_wire_task.h \
+  ..\Application\OneWire\one_wire_lib.h \
+  ..\Application\OneWire\one_wire_cfg.h \
   ..\Application\PCF8563\pcf8563_task.h \
   ..\Application\PCF8563\pcf8563_lib.h \
   ..\Application\PCF8563\pcf8563_cfg.h ..\Application\PID\pid_task.h \
@@ -138,6 +133,4 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\SI5351A\si5351a_cfg.h \
   ..\Application\W25Qxx\w25qxx_task.h ..\Application\W25Qxx\w25qxx_lib.h \
   ..\Application\W25Qxx\w25qxx_cfg.h ..\Application\WWDG\wwdg_task.h \
-  ..\Application\WWDG\wwdg_lib.h ..\Application\WWDG\wwdg_cfg.h \
-  ..\Application\JTAG\jtag_task.h ..\Application\JTAG\jtag_lib.h \
-  ..\Application\JTAG\jtag_cfg.h
+  ..\Application\WWDG\wwdg_lib.h ..\Application\WWDG\wwdg_cfg.h

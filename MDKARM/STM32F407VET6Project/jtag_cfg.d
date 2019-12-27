@@ -65,4 +65,4 @@ stm32f407vet6project/jtag_cfg.o: ..\Application\JTAG\jtag_cfg.c \
   ..\Application\SysTick\systick_task.h \
   ..\Application\SysTick\systick_lib.h \
   ..\Application\SysTick\systick_cfg.h \
-  ..\Application\MyMalloc\my_malloc.h
+  ..\Application\MyMalloc\my_malloc.h ..\Application\HardWare\hw_cfg.h

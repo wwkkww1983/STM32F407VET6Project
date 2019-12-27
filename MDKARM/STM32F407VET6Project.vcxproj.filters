@@ -61,6 +61,9 @@
     <Filter Include="Application\ENC28J60">
       <UniqueIdentifier>{18A80F52-0437-991B-AD55-AD1699C3A9C1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\EXIT">
+      <UniqueIdentifier>{62E45CF1-4EDD-7B43-770F-61C863675B4F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\Encode">
       <UniqueIdentifier>{F661C4BD-E245-8513-4BA6-7F6637A96F95}</UniqueIdentifier>
     </Filter>
@@ -84,6 +87,9 @@
     </Filter>
     <Filter Include="Application\HVSP">
       <UniqueIdentifier>{49825EF1-357B-7D43-5EAD-62C84A055D4F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\HardWare">
+      <UniqueIdentifier>{5651A43E-42E0-2D08-EBFE-4103D76C3EAE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\I2C">
       <UniqueIdentifier>{66A6296C-D231-9730-DB42-1A25474DF330}</UniqueIdentifier>
@@ -120,6 +126,9 @@
     </Filter>
     <Filter Include="Application\MAX961x">
       <UniqueIdentifier>{86EE4474-F24F-2282-7BBD-6834E71D5941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\MCO">
+      <UniqueIdentifier>{A7B9296C-1345-9730-1C56-1A258860F330}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\ModBusMaster">
       <UniqueIdentifier>{FED72902-EAFC-7882-1348-5E12FFCB77A0}</UniqueIdentifier>
@@ -396,6 +405,15 @@
     <ClInclude Include="..\Application\ENC28J60\enc28j60_task.h">
       <Filter>Application\ENC28J60</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\EXIT\exit_cfg.h">
+      <Filter>Application\EXIT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\EXIT\exit_lib.h">
+      <Filter>Application\EXIT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\EXIT\exit_task.h">
+      <Filter>Application\EXIT</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\Encode\encode_cfg.h">
       <Filter>Application\Encode</Filter>
     </ClInclude>
@@ -467,6 +485,9 @@
     </ClInclude>
     <ClInclude Include="..\Application\HVSP\hvsp_task.h">
       <Filter>Application\HVSP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HardWare\hw_cfg.h">
+      <Filter>Application\HardWare</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\I2C\i2c_cfg.h">
       <Filter>Application\I2C</Filter>
@@ -569,6 +590,9 @@
     </ClInclude>
     <ClInclude Include="..\Application\MAX961x\max961x_task.h">
       <Filter>Application\MAX961x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MCO\mco_cfg.h">
+      <Filter>Application\MCO</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_cfg.h">
       <Filter>Application\ModBusMaster</Filter>
@@ -1067,6 +1091,15 @@
     <ClCompile Include="..\Application\ENC28J60\enc28j60_task.c">
       <Filter>Application\ENC28J60</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\EXIT\exit_cfg.c">
+      <Filter>Application\EXIT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\EXIT\exit_lib.c">
+      <Filter>Application\EXIT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\EXIT\exit_task.c">
+      <Filter>Application\EXIT</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\Encode\encode_cfg.c">
       <Filter>Application\Encode</Filter>
     </ClCompile>
@@ -1138,6 +1171,9 @@
     </ClCompile>
     <ClCompile Include="..\Application\HVSP\hvsp_task.c">
       <Filter>Application\HVSP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HardWare\hw_cfg.c">
+      <Filter>Application\HardWare</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\I2C\i2c_cfg.c">
       <Filter>Application\I2C</Filter>
@@ -1240,6 +1276,9 @@
     </ClCompile>
     <ClCompile Include="..\Application\MAX961x\max961x_task.c">
       <Filter>Application\MAX961x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MCO\mco_cfg.c">
+      <Filter>Application\MCO</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_cfg.c">
       <Filter>Application\ModBusMaster</Filter>

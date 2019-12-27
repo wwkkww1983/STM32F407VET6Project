@@ -9,6 +9,53 @@ UINT8_T(*ISP_SEND_CMD)(ISP_HandlerType *, UINT8_T, UINT8_T, UINT8_T, UINT8_T);
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void ISP_Device0_RST(UINT8_T rstState)
+{
+	if (rstState == ISP_RST_TO_GND)
+	{
+		RST_TO_GND;
+	}
+	else if (rstState == ISP_RST_TO_VCC)
+	{
+		RST_TO_VCC;
+	}
+	else
+	{
+		RST_TO_HZ;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void ISP_Device1_RST(UINT8_T rstState)
+{
+	
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void ISP_Device2_RST(UINT8_T rstState)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：硬件初始化
 //////输入参数:
 //////输出参数:
@@ -117,17 +164,40 @@ UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 	memset(ISPx->msgReadByte, 0x00, 4);
 	//---电平转换使能控制端
 #ifdef ISP_USE_lEVEL_SHIFT
-	ISPx->msgOE.msgGPIOPort=GPIOD;
-	ISPx->msgOE.msgGPIOBit = LL_GPIO_PIN_14;
+    #ifdef ISP_USE_HV_RESET
+	   ISPx->msgOE.msgGPIOPort=GPIOD;
+	   ISPx->msgOE.msgGPIOBit = LL_GPIO_PIN_10;
+	#else
+	   ISPx->msgOE.msgGPIOPort=GPIOD;
+	   ISPx->msgOE.msgGPIOBit = LL_GPIO_PIN_14;
+    #endif
 #endif
-
+	//---常规板子
 	/**SPI2 GPIO Configuration
 	PB12   ------> SPI2_NSS
 	PB13   ------> SPI2_SCK
 	PB14   ------> SPI2_MISO
 	PB15   ------> SPI2_MOSI
 	*/
+	//---高压板
+	/**SPI2 GPIO Configuration
+	PB13   ------> SPI2_SCK
+	PC2    ------> SPI2_MISO
+	PC3    ------> SPI2_MOSI
+	*/
 	//---CS
+#ifdef ISP_USE_HV_RESET
+	ISPx->msgPortRst = ISP_Device0_RST;
+	//---SCK
+	ISPx->msgSPI.msgSCK.msgGPIOPort = GPIOB;
+	ISPx->msgSPI.msgSCK.msgGPIOBit = LL_GPIO_PIN_13;
+	//---MISO
+	ISPx->msgSPI.msgMISO.msgGPIOPort = GPIOC;
+	ISPx->msgSPI.msgMISO.msgGPIOBit = LL_GPIO_PIN_2;
+	//---MOSI
+	ISPx->msgSPI.msgMOSI.msgGPIOPort = GPIOC;
+	ISPx->msgSPI.msgMOSI.msgGPIOBit = LL_GPIO_PIN_3;
+#else
 	ISPx->msgSPI.msgCS.msgGPIOPort = GPIOB;
 	ISPx->msgSPI.msgCS.msgGPIOBit = LL_GPIO_PIN_12;
 	//---SCK
@@ -139,6 +209,8 @@ UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 	//---MOSI
 	ISPx->msgSPI.msgMOSI.msgGPIOPort = GPIOB;
 	ISPx->msgSPI.msgMOSI.msgGPIOBit = LL_GPIO_PIN_15;
+#endif
+	
 	//---复用模式
 #ifndef USE_MCU_STM32F1
 	ISPx->msgSPI.msgGPIOAlternate = LL_GPIO_AF_5;
@@ -266,6 +338,11 @@ UINT8_T ISP_DeInit(ISP_HandlerType *ISPx)
 {
 	SPITask_DeInit(&(ISPx->msgSPI),1);
 	ISPx->msgInit = 0;
+	//---处理高压端口信息
+#ifdef ISP_USE_HV_RESET
+	ISPx->msgPortRst(ISP_RST_TO_HZ);
+#endif
+	//---处理电平转换芯片
 #ifdef ISP_USE_lEVEL_SHIFT
 	GPIO_OUT_1(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
 #endif
@@ -525,16 +602,32 @@ UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx)
 	GPIO_SET_WRITE(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
 	//---首先拉低时钟线
 	GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
+#ifdef ISP_USE_HV_RESET
+	ISPx->msgPortRst(ISP_RST_TO_GND);
+#else
 	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+#endif
 	//---打开电源
 	//POWER_DUT_ON;
 	//---首先拉低时钟线
 	GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
+#ifdef ISP_USE_HV_RESET
+	ISPx->msgPortRst(ISP_RST_TO_GND);
+#else
 	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+#endif
 	ISPx->msgDelayms(1);
+#ifdef ISP_USE_HV_RESET
+	ISPx->msgPortRst(ISP_RST_TO_VCC);
+#else
 	GPIO_OUT_1(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+#endif
 	ISPx->msgDelayms(1);
+#ifdef ISP_USE_HV_RESET
+	ISPx->msgPortRst(ISP_RST_TO_GND);
+#else
 	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+#endif
 	ISPx->msgDelayms(1);
 	//---解除64K的限制
 	ISPx->msgHideAddr = 0xFF;
@@ -594,13 +687,25 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 		ISP_SetClock(ISPx, ISPx->msgSetClok);
 		//---置位时钟线和片选端
 		//GPIO_OUT_1(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
+#ifdef ISP_USE_HV_RESET
+		ISPx->msgPortRst(ISP_RST_TO_VCC);
+#else
 		GPIO_OUT_1(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+#endif
 		ISPx->msgDelayms(1);
 		//---清零时钟线和片选端
 		//GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
+#ifdef ISP_USE_HV_RESET
+		ISPx->msgPortRst(ISP_RST_TO_GND);
+#else
 		GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+#endif
 		ISPx->msgDelayms(1);
 	}
+	//---设置RST端口未HZ状态，避免高压倒灌
+#ifdef ISP_USE_HV_RESET
+	ISPx->msgPortRst = (ISP_RST_TO_HZ);
+#endif 
 #ifdef ISP_USE_lEVEL_SHIFT
 	GPIO_OUT_1(ISPx->msgOE.msgGPIOPort, ISPx->msgOE.msgGPIOBit);
 #endif

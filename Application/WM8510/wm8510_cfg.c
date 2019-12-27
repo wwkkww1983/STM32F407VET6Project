@@ -73,10 +73,17 @@ void WM8510_I2C_ParamsInit(WM8510_HandlerType *WM8510x)
 UINT8_T WM8510_I2C_Device0_Init(WM8510_HandlerType *WM8510x)
 {
 	WM8510x->msgI2C.msgI2Cx = NULL;
-	WM8510x->msgI2C.msgSCL.msgGPIOPort = GPIOB;
-	WM8510x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_8;
-	WM8510x->msgI2C.msgSDA.msgGPIOPort = GPIOB;
-	WM8510x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_9;
+	#ifdef WM8510_USE_HV_RESET
+		WM8510x->msgI2C.msgSCL.msgGPIOPort = GPIOB;
+		WM8510x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_6;
+		WM8510x->msgI2C.msgSDA.msgGPIOPort = GPIOB;
+		WM8510x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
+	#else
+		WM8510x->msgI2C.msgSCL.msgGPIOPort = GPIOB;
+		WM8510x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_8;
+		WM8510x->msgI2C.msgSDA.msgGPIOPort = GPIOB;
+		WM8510x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_9;
+	#endif
 	WM8510x->msgI2C.msgModelIsHW = 0;
 	WM8510x->msgI2C.msgPluseWidth = 2;
 	WM8510x->msgI2C.msgDelayus = NULL;

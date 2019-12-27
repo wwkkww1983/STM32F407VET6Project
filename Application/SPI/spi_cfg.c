@@ -48,16 +48,11 @@ void SPI_MHW_SetTransferBitOrder(SPI_HandlerType *SPIx, UINT32_T BitOrder)
 UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 {
 	//---端口时钟的配置
-	GPIOTask_Clock(SPIx->msgCS.msgGPIOPort, 1);
 	GPIOTask_Clock(SPIx->msgSCK.msgGPIOPort, 1);
 	GPIOTask_Clock(SPIx->msgMOSI.msgGPIOPort, 1);
 	GPIOTask_Clock(SPIx->msgMISO.msgGPIOPort, 1);
-
 	//---端口的配置
-	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
-	//---SS---设置为输出
-	GPIO_InitStruct.Pin = SPIx->msgCS.msgGPIOBit;
+	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };	
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -67,6 +62,9 @@ UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 	#endif
 	if (SPIx->msgCS.msgGPIOPort!=NULL)	
 	{
+		GPIOTask_Clock(SPIx->msgCS.msgGPIOPort, 1);
+		//---SS---设置为输出
+		GPIO_InitStruct.Pin = SPIx->msgCS.msgGPIOBit;
 		LL_GPIO_Init(SPIx->msgCS.msgGPIOPort, &GPIO_InitStruct);
 		GPIO_OUT_1(SPIx->msgCS.msgGPIOPort, SPIx->msgCS.msgGPIOBit);
 	}
@@ -104,16 +102,11 @@ UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 UINT8_T SPI_MSW_GPIO_Init(SPI_HandlerType *SPIx)
 {
 	//---端口时钟的配置
-	GPIOTask_Clock(SPIx->msgCS.msgGPIOPort, 1);
 	GPIOTask_Clock(SPIx->msgSCK.msgGPIOPort, 1);
 	GPIOTask_Clock(SPIx->msgMOSI.msgGPIOPort, 1);
 	GPIOTask_Clock(SPIx->msgMISO.msgGPIOPort, 1);
-
 	//---端口的配置
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
-	//---SS---设置为输出
-	GPIO_InitStruct.Pin = SPIx->msgCS.msgGPIOBit;
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -121,25 +114,27 @@ UINT8_T SPI_MSW_GPIO_Init(SPI_HandlerType *SPIx)
 	#ifndef USE_MCU_STM32F1
 		GPIO_InitStruct.Alternate = LL_GPIO_AF_0;
 	#endif
-	LL_GPIO_Init(SPIx->msgCS.msgGPIOPort, &GPIO_InitStruct);
-
+	if (SPIx->msgCS.msgGPIOPort!=NULL)
+	{
+		GPIOTask_Clock(SPIx->msgCS.msgGPIOPort, 1);
+		//---SS---设置为输出
+		GPIO_InitStruct.Pin = SPIx->msgCS.msgGPIOBit;
+		LL_GPIO_Init(SPIx->msgCS.msgGPIOPort, &GPIO_InitStruct);
+		GPIO_OUT_1(SPIx->msgCS.msgGPIOPort, SPIx->msgCS.msgGPIOBit);
+	}
 	//---SCK---设置为输出
 	GPIO_InitStruct.Pin = SPIx->msgSCK.msgGPIOBit;
 	LL_GPIO_Init(SPIx->msgSCK.msgGPIOPort, &GPIO_InitStruct);
-
+	GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
 	//---MOSI---设置为输出
 	GPIO_InitStruct.Pin = SPIx->msgMOSI.msgGPIOBit;
 	LL_GPIO_Init(SPIx->msgMOSI.msgGPIOPort, &GPIO_InitStruct);
-
+	GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	//---MISO---设置为输入
 	GPIO_InitStruct.Pin = SPIx->msgMISO.msgGPIOBit;
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
-	LL_GPIO_Init(SPIx->msgMISO.msgGPIOPort, &GPIO_InitStruct);
-	GPIO_OUT_1(SPIx->msgCS.msgGPIOPort, SPIx->msgCS.msgGPIOBit);
-	GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-	GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
+	LL_GPIO_Init(SPIx->msgMISO.msgGPIOPort, &GPIO_InitStruct);	
 	GPIO_OUT_1(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit);
-
 	return OK_0;
 }
 
@@ -154,9 +149,6 @@ UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *SPIx,UINT8_T isInitSS)
 {
 	//---端口的配置
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
-	//---SS---设置为输出
-	GPIO_InitStruct.Pin = SPIx->msgCS.msgGPIOBit;
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -164,25 +156,24 @@ UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *SPIx,UINT8_T isInitSS)
 #ifndef USE_MCU_STM32F1
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;
 #endif
-	if (isInitSS!=0)
+	if ((isInitSS!=0)&&(SPIx->msgCS.msgGPIOPort!=NULL))
 	{
+		//---SS---设置为输入
+		GPIO_InitStruct.Pin = SPIx->msgCS.msgGPIOBit;
 		LL_GPIO_Init(SPIx->msgCS.msgGPIOPort, &GPIO_InitStruct);
+		GPIO_OUT_1(SPIx->msgCS.msgGPIOPort, SPIx->msgCS.msgGPIOBit);
 	}
-
-	//---SCK---设置为输出
+	//---SCK---设置为输入
 	GPIO_InitStruct.Pin = SPIx->msgSCK.msgGPIOBit;
 	LL_GPIO_Init(SPIx->msgSCK.msgGPIOPort, &GPIO_InitStruct);
-
-	//---MOSI---设置为输出
+	GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
+	//---MOSI---设置为输入
 	GPIO_InitStruct.Pin = SPIx->msgMOSI.msgGPIOBit;
 	LL_GPIO_Init(SPIx->msgMOSI.msgGPIOPort, &GPIO_InitStruct);
-
+	GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
 	//---MISO---设置为输入
 	GPIO_InitStruct.Pin = SPIx->msgMISO.msgGPIOBit;
-	LL_GPIO_Init(SPIx->msgMISO.msgGPIOPort, &GPIO_InitStruct);
-	GPIO_OUT_1(SPIx->msgCS.msgGPIOPort, SPIx->msgCS.msgGPIOBit);
-	GPIO_OUT_1(SPIx->msgSCK.msgGPIOPort, SPIx->msgSCK.msgGPIOBit);
-	GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
+	LL_GPIO_Init(SPIx->msgMISO.msgGPIOPort, &GPIO_InitStruct);	
 	GPIO_OUT_1(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit);
 	return OK_0;
 }
@@ -199,11 +190,9 @@ UINT8_T SPI_DeInit(SPI_HandlerType *SPIx, UINT8_T isInitSS)
 	{
 		//---恢复当前配置为初始值
 		LL_SPI_DeInit(SPIx->msgSPIx);
-
 		//---不使能SPI的时钟线
 		SPI_Clock(SPIx, 0);
 	}
-
 	return SPI_GPIO_DeInit(SPIx, isInitSS);
 }
 

@@ -1,6 +1,6 @@
-stm32f407vet6project/jtag_lib.o: ..\Application\JTAG\jtag_lib.c \
-  ..\Application\JTAG\jtag_lib.h ..\Application\JTAG\jtag_cfg.h \
-  ..\Complier\complier_lib.h ..\Complier\complier_cfg.h \
+stm32f407vet6project/mco_cfg.o: ..\Application\MCO\mco_cfg.c \
+  ..\Application\MCO\mco_cfg.h ..\Complier\complier_lib.h \
+  ..\Complier\complier_cfg.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
@@ -58,11 +58,4 @@ stm32f407vet6project/jtag_lib.o: ..\Application\JTAG\jtag_lib.c \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_wwdg.h \
   ..\Application\IWDG\iwdg_task.h ..\Application\IWDG\iwdg_lib.h \
   ..\Application\IWDG\iwdg_cfg.h ..\Application\GPIO\gpio_task.h \
-  ..\Application\GPIO\gpio_lib.h ..\Application\GPIO\gpio_cfg.h \
-  ..\Application\SPI\spi_task.h ..\Application\SPI\spi_lib.h \
-  ..\Application\SPI\spi_cfg.h ..\Application\Delay\delay_task.h \
-  ..\Application\Delay\delay_lib.h ..\Application\Delay\delay_cfg.h \
-  ..\Application\SysTick\systick_task.h \
-  ..\Application\SysTick\systick_lib.h \
-  ..\Application\SysTick\systick_cfg.h \
-  ..\Application\MyMalloc\my_malloc.h ..\Application\HardWare\hw_cfg.h
+  ..\Application\GPIO\gpio_lib.h ..\Application\GPIO\gpio_cfg.h

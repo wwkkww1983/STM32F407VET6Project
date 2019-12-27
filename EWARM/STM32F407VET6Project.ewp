@@ -425,6 +425,7 @@
                     <state>$PROJ_DIR$\..\Application\SMBUS</state>
                     <state>$PROJ_DIR$\..\Application\LIN</state>
                     <state>$PROJ_DIR$\..\Application\INA226</state>
+					<state>$PROJ_DIR$\..\Application\EXIT</state>
                     <state>$PROJ_DIR$\..\Application\SI5351A</state>
                     <state>$PROJ_DIR$\..\Application\TaskManage</state>
                     <state>$PROJ_DIR$\..\Application\HVPP</state>
@@ -1527,6 +1528,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\ENC28J60\enc28j60_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>EXIT</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.h</name>
             </file>
         </group>
         <group>

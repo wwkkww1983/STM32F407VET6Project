@@ -11,10 +11,9 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	//===编码器使用的定时器
-	#define ENCODE_USE_TIMER								TIM2
-
+	#define ENCODE_USE_TIMER							TIM2
 	//===编码器定时器中断
-	#define ENCODE_USE_TIMER_IRQ							TIM2_IRQn
+	#define ENCODE_USE_TIMER_IRQ						TIM2_IRQn
 	
 	//===CH1的端口定义---PA0
 	#define ENCODE_CH1_PORT								GPIOA

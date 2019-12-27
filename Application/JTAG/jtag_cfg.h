@@ -11,35 +11,38 @@ extern "C" {
 	#include "systick_task.h"
 	#include "delay_task.h"
 	#include "my_malloc.h"
+	#include "hw_cfg.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===定义JTAG状态保持的时间状态
 	#define JTAG_STATE_TIME_OUT_MS				500
 	//===定义是否使用电平转换芯片，带OE控制端的
 	#define JTAG_USE_lEVEL_SHIFT 	
+	//===定义使用了高压HVSET模式
+	#define JTAG_USE_HV_RESET
 
 	//===JTAG的GPIO的操作定义
 	#define	JTAG_GPIO_STATE(tp)					GPIO_GET_STATE(tp.msgGPIOPort,tp.msgGPIOBit)
-	#define	JTAG_GPIO_1(tp)						GPIO_OUT_1(tp.msgGPIOPort,tp.msgGPIOBit)
-	#define	JTAG_GPIO_0(tp)						GPIO_OUT_0(tp.msgGPIOPort,tp.msgGPIOBit)
+	#define	JTAG_GPIO_OUT_1(tp)					GPIO_OUT_1(tp.msgGPIOPort,tp.msgGPIOBit)
+	#define	JTAG_GPIO_OUT_0(tp)					GPIO_OUT_0(tp.msgGPIOPort,tp.msgGPIOBit)
 	//===TCK的脉冲宽度
-	#define JTAG_TCK_PULSE(tck)					(	JTAG_GPIO_1(tck->msgTCK),\
+	#define JTAG_TCK_PULSE(tck)					(	JTAG_GPIO_OUT_1(tck->msgTCK),\
 													DELAY_NOP_COUNT(4),\
 													tck->msgDelayus(tck->msgPluseWidth),\
-													JTAG_GPIO_0(tck->msgTCK),\
+													JTAG_GPIO_OUT_0(tck->msgTCK),\
 													tck->msgDelayus(tck->msgPluseWidth)\
 												)
 	//===TMS输出1变化一次
-	#define JTAG_TMS_1(tck)						(	JTAG_GPIO_1(tck->msgTMS),\
-													JTAG_GPIO_1(tck->msgTCK),\
+	#define JTAG_TMS_OUT_1(tck)					(	JTAG_GPIO_OUT_1(tck->msgTMS),\
+													JTAG_GPIO_OUT_1(tck->msgTCK),\
 													tck->msgDelayus(tck->msgPluseWidth),\
-													JTAG_GPIO_0(tck->msgTCK),\
+													JTAG_GPIO_OUT_0(tck->msgTCK),\
 													tck->msgDelayus(tck->msgPluseWidth)\
 												)
 	//===TMS输出0变化一次
-	#define JTAG_TMS_0(tck)						(	JTAG_GPIO_0(tck->msgTMS),\
-													JTAG_GPIO_1(tck->msgTCK),\
+	#define JTAG_TMS_OUT_0(tck)					(	JTAG_GPIO_OUT_0(tck->msgTMS),\
+													JTAG_GPIO_OUT_1(tck->msgTCK),\
 													tck->msgDelayus(tck->msgPluseWidth),\
-													JTAG_GPIO_0(tck->msgTCK),\
+													JTAG_GPIO_OUT_0(tck->msgTCK),\
 													tck->msgDelayus(tck->msgPluseWidth)\
 												)
 
@@ -98,7 +101,12 @@ extern "C" {
 		GPIO_HandlerType	msgTDO;																	//---TDO使用的端口
 		GPIO_HandlerType	msgTCK;																	//---TCK使用的端口
 		GPIO_HandlerType	msgTMS;																	//---TMS使用的端口
+#ifdef JTAG_USE_HV_RESET
+		void (*msgPortRst)(UINT8_T rstState);														//---高压模式操作RST端口的函数
+#else
 		GPIO_HandlerType	msgRST;																	//---RST使用的端口,硬件复位端口
+#endif
+		
 	#ifdef JTAG_USE_lEVEL_SHIFT
 		GPIO_HandlerType	msgOE;																	//---OE使用的端口，用于控制电平装换的开关
 	#endif
@@ -131,10 +139,15 @@ extern "C" {
 	#define JTAG_PROG_WRITE_FLASH				9													//---编程Flash数据
 
 
+	//===定义RST的状态
+	#define JTAG_RST_TO_HZ						0													//---RST处于高阻状态
+	#define JTAG_RST_TO_GND						1													//---RST处于接地
+	#define JTAG_RST_TO_VCC						2													//---RST接工作电压
+
 	//===任务函数
-	#define JTAG_TASK_ONE						pJtagDevice0
-	#define JTAG_TASK_TWO						0
-	#define JTAG_TASK_THREE						0
+	#define JTAG_TASK_ONE						pJtagDevice0										//---任务1
+	#define JTAG_TASK_TWO						0													//---任务2
+	#define JTAG_TASK_THREE						0													//---任务3
 
 	//===外部调用接口
 	extern JTAG_HandlerType						g_JtagDevice0;

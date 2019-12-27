@@ -12,10 +12,72 @@ pJTAG_HandlerType	pJtagDevice0 = &g_JtagDevice0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
+void JTAG_Device0_RST(UINT8_T rstState)
+{
+	if (rstState == JTAG_RST_TO_GND)
+	{
+		RST_TO_GND;
+	}
+	else if (rstState == JTAG_RST_TO_VCC)
+	{
+		RST_TO_VCC;
+	}
+	else
+	{
+		RST_TO_HZ;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void JTAG_Device1_RST(UINT8_T rstState)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void JTAG_Device2_RST(UINT8_T rstState)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
 UINT8_T JTAG_Device0_Init(JTAG_HandlerType* JTAGx)
 {
 	//---默认状态是test_logic_reset
 	JTAGx->msgTapState = TEST_LOGIC_RESET;
+#ifdef JTAG_USE_HV_RESET
+	JTAGx->msgPortRst = JTAG_Device0_RST;
+	//---TCK->PD1---host->device
+	JTAGx->msgTCK.msgGPIOPort = GPIOD;
+	JTAGx->msgTCK.msgGPIOBit = LL_GPIO_PIN_1;
+	//---TMS->PD0---host->device
+	JTAGx->msgTMS.msgGPIOPort = GPIOD;
+	JTAGx->msgTMS.msgGPIOBit = LL_GPIO_PIN_0;
+	//---TDI->PD3---host->device
+	JTAGx->msgTDI.msgGPIOPort = GPIOD;
+	JTAGx->msgTDI.msgGPIOBit = LL_GPIO_PIN_3;
+	//---TDO->PD2---device->host
+	JTAGx->msgTDO.msgGPIOPort = GPIOA;
+	JTAGx->msgTDO.msgGPIOBit = LL_GPIO_PIN_2;
+#elif
 	//---TCK->PB3---host->device
 	JTAGx->msgTCK.msgGPIOPort = GPIOB;
 	JTAGx->msgTCK.msgGPIOBit = LL_GPIO_PIN_3;
@@ -31,11 +93,18 @@ UINT8_T JTAG_Device0_Init(JTAG_HandlerType* JTAGx)
 	//---TDO->PA6---device->host
 	JTAGx->msgTDO.msgGPIOPort = GPIOA;
 	JTAGx->msgTDO.msgGPIOBit = LL_GPIO_PIN_6;
+#endif
 	//---OE使用的端口
 #ifdef JTAG_USE_lEVEL_SHIFT
-	//---OE->PD13---控制电平装换的使能
-	JTAGx->msgOE.msgGPIOPort = GPIOD;
-	JTAGx->msgOE.msgGPIOBit = LL_GPIO_PIN_13;
+     #ifdef JTAG_USE_HV_RESET
+	     //---OE->PD13---控制电平装换的使能
+	     JTAGx->msgOE.msgGPIOPort = GPIOD;
+	     JTAGx->msgOE.msgGPIOBit = LL_GPIO_PIN_11;
+	#else
+         //---OE->PD13---控制电平装换的使能
+	     JTAGx->msgOE.msgGPIOPort = GPIOD;
+	     JTAGx->msgOE.msgGPIOBit = LL_GPIO_PIN_13;
+	#endif
 #endif
 	JTAGx->msgPluseWidth = 0;
 	return OK_0;
@@ -80,7 +149,6 @@ UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 	GPIOTask_Clock(JTAGx->msgTDO.msgGPIOPort, 1);
 	GPIOTask_Clock(JTAGx->msgTMS.msgGPIOPort, 1);
 	GPIOTask_Clock(JTAGx->msgTCK.msgGPIOPort, 1);
-	GPIOTask_Clock(JTAGx->msgRST.msgGPIOPort, 1);
 	//---JTAG的OE使能端
 #ifdef JTAG_USE_lEVEL_SHIFT
 	GPIOTask_Clock(JTAGx->msgOE.msgGPIOPort, 1);
@@ -97,30 +165,34 @@ UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 	//---TDI---输出为低
 	GPIO_InitStruct.Pin = JTAGx->msgTDI.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgTDI.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_0(JTAGx->msgTDI);
+	JTAG_GPIO_OUT_0(JTAGx->msgTDI);
 	//---TCK---输出为低
 	GPIO_InitStruct.Pin = JTAGx->msgTCK.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgTCK.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_0(JTAGx->msgTCK);
+	JTAG_GPIO_OUT_0(JTAGx->msgTCK);
 	//---TMS---输出为高
 	GPIO_InitStruct.Pin = JTAGx->msgTMS.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgTMS.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_1(JTAGx->msgTMS);
+	JTAG_GPIO_OUT_1(JTAGx->msgTMS);
+#ifndef JTAG_USE_HV_RESET
+	//---使能端口时钟
+	GPIOTask_Clock(JTAGx->msgRST.msgGPIOPort, 1);
 	//---RST---输出为高
 	GPIO_InitStruct.Pin = JTAGx->msgRST.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgRST.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_1(JTAGx->msgRST);
+	JTAG_GPIO_OUT_1(JTAGx->msgRST);
+#endif
 #ifdef JTAG_USE_lEVEL_SHIFT
 	//---OE---输出为低，低有效
 	GPIO_InitStruct.Pin = JTAGx->msgOE.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgOE.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_0(JTAGx->msgOE);
+	JTAG_GPIO_OUT_0(JTAGx->msgOE);
 #endif 
 	//---TDO---输入，上拉使能
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;														//---配置状态为输入模式
 	GPIO_InitStruct.Pin = JTAGx->msgTDO.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgTDO.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_1(JTAGx->msgTDO);
+	JTAG_GPIO_OUT_1(JTAGx->msgTDO);
 	//---端口初始化了
 	JTAGx->msgInit=1;
 	return OK_0;
@@ -147,27 +219,33 @@ UINT8_T JTAG_GPIO_DeInit(JTAG_HandlerType* JTAGx)
 	//---TDI---输入上拉
 	GPIO_InitStruct.Pin = JTAGx->msgTDI.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgTDI.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_1(JTAGx->msgTDI);
+	JTAG_GPIO_OUT_1(JTAGx->msgTDI);
 	//---TCK---输入上拉
 	GPIO_InitStruct.Pin = JTAGx->msgTCK.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgTCK.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_1(JTAGx->msgTCK);
+	JTAG_GPIO_OUT_1(JTAGx->msgTCK);
 	//---TMS---输入上拉
 	GPIO_InitStruct.Pin = JTAGx->msgTMS.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgTMS.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_1(JTAGx->msgTMS);
+	JTAG_GPIO_OUT_1(JTAGx->msgTMS);
+	//---RST端口配置
+#ifdef JTAG_USE_HV_RESET
+	//---设置为高阻态
+	JTAGx->msgPortRst(JTAG_RST_TO_HZ);
+#else
 	//---RST---输入上拉
 	GPIO_InitStruct.Pin = JTAGx->msgRST.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgRST.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_1(JTAGx->msgRST);
+	JTAG_GPIO_OUT_1(JTAGx->msgRST);
+#endif
 #ifdef JTAG_USE_lEVEL_SHIFT
 	//---OE---输出为低，低有效
-	JTAG_GPIO_0(JTAGx->msgOE);
+	JTAG_GPIO_OUT_0(JTAGx->msgOE);
 #endif 
 	//---TDO---输入上拉
 	GPIO_InitStruct.Pin = JTAGx->msgTDO.msgGPIOBit;
 	LL_GPIO_Init(JTAGx->msgTDO.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_1(JTAGx->msgTDO);
+	JTAG_GPIO_OUT_1(JTAGx->msgTDO);
 	//---端口未初始化了
 	JTAGx->msgInit = 0;
 	return OK_0;
@@ -240,7 +318,7 @@ UINT8_T JTAG_Init(JTAG_HandlerType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), 
 UINT8_T JTAG_RunTestlogicReset(JTAG_HandlerType* JTAGx)
 {
 	UINT8_T i = 0;
-	JTAG_GPIO_1(JTAGx->msgTMS);
+	JTAG_GPIO_OUT_1(JTAGx->msgTMS);
 	for (i = 0; i < 5; i++)
 	{
 		JTAG_TCK_PULSE(JTAGx);
@@ -264,73 +342,73 @@ UINT8_T JTAG_RunTestIdle(JTAG_HandlerType* JTAGx)
 			break;
 		case SELECT_DR_SCAN:
 			//---capture dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			break;
@@ -340,7 +418,7 @@ UINT8_T JTAG_RunTestIdle(JTAG_HandlerType* JTAGx)
 			break;
 	}
 	//---run_test_idle
-	JTAG_TMS_0(JTAGx);
+	JTAG_TMS_OUT_0(JTAGx);
 	JTAGx->msgTapState = RUN_TEST_IDLE;
 	return OK_0;
 }
@@ -362,65 +440,65 @@ UINT8_T JTAG_RunSelectDRScan(JTAG_HandlerType* JTAGx)
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			break;
@@ -428,14 +506,14 @@ UINT8_T JTAG_RunSelectDRScan(JTAG_HandlerType* JTAGx)
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);;
+			JTAG_TMS_OUT_0(JTAGx);;
 			break;
 	}
 	//---校验是否保持时钟不变
 	if (JTAGx->msgTapState != SELECT_DR_SCAN)
 	{
 		//---select_dr_scan
-		JTAG_TMS_1(JTAGx);
+		JTAG_TMS_OUT_1(JTAGx);
 	}
 	JTAGx->msgTapState = SELECT_DR_SCAN;
 	return OK_0;
@@ -454,7 +532,7 @@ UINT8_T JTAG_RunCaptureDR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			break;
@@ -462,101 +540,101 @@ UINT8_T JTAG_RunCaptureDR(JTAG_HandlerType* JTAGx)
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != CAPTURE_DR)
 	{
 		//---capture_dr
-		JTAG_TMS_0(JTAGx);
+		JTAG_TMS_OUT_0(JTAGx);
 	}
 	JTAGx->msgTapState = CAPTURE_DR;
 	return OK_0;
@@ -575,111 +653,111 @@ UINT8_T JTAG_RunShiftDR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_DR:
 			break;
 		case SHIFT_DR:
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 	}
 	JTAGx->msgTapState = SHIFT_DR;
@@ -699,13 +777,13 @@ UINT8_T JTAG_RunExit1DR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_DR:
 			break;
@@ -715,99 +793,99 @@ UINT8_T JTAG_RunExit1DR(JTAG_HandlerType* JTAGx)
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != EXIT1_DR)
 	{
 		//---exit1_dr
-		JTAG_TMS_1(JTAGx);
+		JTAG_TMS_OUT_1(JTAGx);
 	}
 	JTAGx->msgTapState = EXIT1_DR;
 	return OK_0;
@@ -826,31 +904,31 @@ UINT8_T JTAG_RunPauseDR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			break;
@@ -858,131 +936,131 @@ UINT8_T JTAG_RunPauseDR(JTAG_HandlerType* JTAGx)
 			break;
 		case EXIT2_DR:
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != PAUSE_DR)
 	{
 		//---pause_dr
-		JTAG_TMS_0(JTAGx);
+		JTAG_TMS_OUT_0(JTAGx);
 	}
 	JTAGx->msgTapState = PAUSE_DR;
 	return OK_0;
@@ -1001,43 +1079,43 @@ UINT8_T JTAG_RunExit2DR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case PAUSE_DR:
@@ -1046,141 +1124,141 @@ UINT8_T JTAG_RunExit2DR(JTAG_HandlerType* JTAGx)
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_GPIO_1(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_1(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---capture_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_GPIO_0(JTAGx->msgTMS);
+			JTAG_GPIO_OUT_0(JTAGx->msgTMS);
 			JTAG_TCK_PULSE(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState!=EXIT2_DR)
 	{
 		//---exit2_dr
-		JTAG_TMS_1(JTAGx);
+		JTAG_TMS_OUT_1(JTAGx);
 	}
 	JTAGx->msgTapState = EXIT2_DR;
 	return OK_0;
@@ -1199,31 +1277,31 @@ UINT8_T JTAG_RunUpdateDR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			break;
@@ -1231,99 +1309,99 @@ UINT8_T JTAG_RunUpdateDR(JTAG_HandlerType* JTAGx)
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != UPDATE_DR)
 	{
 		//---update_dr
-		JTAG_TMS_1(JTAGx);
+		JTAG_TMS_OUT_1(JTAGx);
 	}
 	JTAGx->msgTapState = UPDATE_DR;
 	return OK_0;
@@ -1346,29 +1424,29 @@ UINT8_T JTAG_RunSelectIRScan(JTAG_HandlerType* JTAGx)
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			break;
@@ -1376,29 +1454,29 @@ UINT8_T JTAG_RunSelectIRScan(JTAG_HandlerType* JTAGx)
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			break;
@@ -1406,16 +1484,16 @@ UINT8_T JTAG_RunSelectIRScan(JTAG_HandlerType* JTAGx)
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 	}
 	//---select_dr_scan
-	JTAG_TMS_1(JTAGx);
+	JTAG_TMS_OUT_1(JTAGx);
 	//---校验是否保持时钟不变
 	if (JTAGx->msgTapState != SELECT_IR_SCAN)
 	{
 		//---select_ir_scan
-		JTAG_TMS_1(JTAGx);
+		JTAG_TMS_OUT_1(JTAGx);
 	}
 	JTAGx->msgTapState = SELECT_IR_SCAN;
 	return OK_0;
@@ -1434,65 +1512,65 @@ UINT8_T JTAG_RunCaptureIR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			break;
@@ -1500,61 +1578,61 @@ UINT8_T JTAG_RunCaptureIR(JTAG_HandlerType* JTAGx)
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---update_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != CAPTURE_IR)
 	{
 		//---capture_ir
-		JTAG_TMS_0(JTAGx);
+		JTAG_TMS_OUT_0(JTAGx);
 	}
 	JTAGx->msgTapState = CAPTURE_IR;
 	return OK_0;
@@ -1573,125 +1651,125 @@ UINT8_T JTAG_RunShiftIR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			break;
 		case SHIFT_IR:
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---pasuse_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 	}
 	JTAGx->msgTapState = SHIFT_IR;
@@ -1711,85 +1789,85 @@ UINT8_T JTAG_RunExit1IR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			break;
@@ -1799,39 +1877,39 @@ UINT8_T JTAG_RunExit1IR(JTAG_HandlerType* JTAGx)
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT2_IR:
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != EXIT1_IR)
 	{
 		//---exit1_ir
-		JTAG_TMS_1(JTAGx);
+		JTAG_TMS_OUT_1(JTAGx);
 	}
 	JTAGx->msgTapState = EXIT1_IR;
 	return OK_0;
@@ -1850,131 +1928,131 @@ UINT8_T JTAG_RunPauseIR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			break;
@@ -1982,41 +2060,41 @@ UINT8_T JTAG_RunPauseIR(JTAG_HandlerType* JTAGx)
 			break;
 		case EXIT2_IR:
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---shift_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 	}
 	//---pause_ir
-	JTAG_TMS_0(JTAGx);
+	JTAG_TMS_OUT_0(JTAGx);
 	JTAGx->msgTapState = PAUSE_IR;
 	return OK_0;
 }
@@ -2034,177 +2112,177 @@ UINT8_T JTAG_RunExit2IR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case EXIT1_IR:
 			//---pasuse_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			break;
 		case UPDATE_IR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 		case TEST_LOGIC_RESET:
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---pause_dr
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != EXIT2_IR)
 	{
 		//---exit2_ir
-		JTAG_TMS_1(JTAGx);
+		JTAG_TMS_OUT_1(JTAGx);
 	}
 	JTAGx->msgTapState = EXIT2_IR;
 	return OK_0;
@@ -2223,117 +2301,117 @@ UINT8_T JTAG_RunUpdateIR(JTAG_HandlerType* JTAGx)
 	{
 		case RUN_TEST_IDLE:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_DR_SCAN:
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_DR:
 			//---exit1_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case PAUSE_DR:
 			//---exit2_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_DR:
 			//---update_dr
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case UPDATE_DR:
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SELECT_IR_SCAN:
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case CAPTURE_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case SHIFT_IR:
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT1_IR:
 			break;
 		case PAUSE_IR:
 			//---exit2_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 		case EXIT2_IR:
 			break;
@@ -2343,21 +2421,21 @@ UINT8_T JTAG_RunUpdateIR(JTAG_HandlerType* JTAGx)
 		default:
 			JTAG_RunTestlogicReset(JTAGx);
 			//---run_test_idle
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---select_dr_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---select_ir_scan
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			//---capture_ir
-			JTAG_TMS_0(JTAGx);
+			JTAG_TMS_OUT_0(JTAGx);
 			//---exit1_ir
-			JTAG_TMS_1(JTAGx);
+			JTAG_TMS_OUT_1(JTAGx);
 			break;
 	}
 	if (JTAGx->msgTapState != UPDATE_IR)
 	{
 		//---update_ir
-		JTAG_TMS_1(JTAGx);
+		JTAG_TMS_OUT_1(JTAGx);
 	}
 	JTAGx->msgTapState = UPDATE_IR;
 	return OK_0;
@@ -2382,7 +2460,7 @@ UINT8_T JTAG_ShiftIR_BIT(JTAG_HandlerType* JTAGx, UINT8_T irCmd, UINT8_T bitCoun
 		//---时钟脉冲
 		JTAG_TCK_PULSE(JTAGx);
 		//---发送数据
-		((irCmd&0x01)!=0)? JTAG_GPIO_1(JTAGx->msgTDI): JTAG_GPIO_0(JTAGx->msgTDI);
+		((irCmd&0x01)!=0)? JTAG_GPIO_OUT_1(JTAGx->msgTDI): JTAG_GPIO_OUT_0(JTAGx->msgTDI);
 		//---移位数据
 		irCmd >>= 1;
 		//---读取结果
@@ -2418,7 +2496,7 @@ UINT32_T JTAG_ShiftDR_BIT(JTAG_HandlerType* JTAGx, UINT32_T drCmd, UINT8_T bitCo
 		//---时钟脉冲
 		JTAG_TCK_PULSE(JTAGx);
 		//---发送数据
-		((drCmd&0x01)!=0)? JTAG_GPIO_1(JTAGx->msgTDI): JTAG_GPIO_0(JTAGx->msgTDI);
+		((drCmd&0x01)!=0)? JTAG_GPIO_OUT_1(JTAGx->msgTDI): JTAG_GPIO_OUT_0(JTAGx->msgTDI);
 		//---移位数据
 		drCmd >>= 1;
 		//---读取结果

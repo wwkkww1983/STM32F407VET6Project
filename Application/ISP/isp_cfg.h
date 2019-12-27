@@ -10,6 +10,7 @@ extern "C" {
 	#include "systick_task.h"
 	#include "delay_task.h"
 	#include "my_malloc.h"
+	#include "hw_cfg.h"
 	
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===编程可选择的时钟
@@ -45,6 +46,8 @@ extern "C" {
 	#define ISP_STATE_TIME_OUT_MS				500
 	//===定义是否使用电平转换芯片，带OE控制端的
 	#define ISP_USE_lEVEL_SHIFT 			
+	//===定义使用了高压HVSET模式
+	#define ISP_USE_HV_RESET
 	
 	//===定义结构体
 	typedef struct _ISP_HandlerType				ISP_HandlerType;
@@ -73,12 +76,20 @@ extern "C" {
 #endif
 		void(*msgDelayms)(UINT32_T delay);															//---延时参数
 		SPI_HandlerType msgSPI;																		//---使用的SPI模式
+#ifdef ISP_USE_HV_RESET
+		void (*msgPortRst)(UINT8_T rstState);														//---高压模式操作RST端口的函数
+#endif
 	};
 
+	//===定义RST的状态
+	#define ISP_RST_TO_HZ						0													//---RST处于高阻状态
+	#define ISP_RST_TO_GND						1													//---RST处于接地
+	#define ISP_RST_TO_VCC						2													//---RST接工作电压
+
 	//===任务函数
-	#define ISP_TASK_ONE						pIspDevice0
-	#define ISP_TASK_TWO						0
-	#define ISP_TASK_THREE						0
+	#define ISP_TASK_ONE						pIspDevice0											//---任务1
+	#define ISP_TASK_TWO						0													//---任务2
+	#define ISP_TASK_THREE						0													//---任务3
 
 	//===外部调用接口
 	extern ISP_HandlerType						g_IspDevice0;

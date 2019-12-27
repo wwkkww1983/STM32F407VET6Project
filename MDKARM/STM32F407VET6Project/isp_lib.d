@@ -65,4 +65,4 @@ stm32f407vet6project/isp_lib.o: ..\Application\ISP\isp_lib.c \
   ..\Application\SysTick\systick_task.h \
   ..\Application\SysTick\systick_lib.h \
   ..\Application\SysTick\systick_cfg.h \
-  ..\Application\MyMalloc\my_malloc.h
+  ..\Application\MyMalloc\my_malloc.h ..\Application\HardWare\hw_cfg.h
