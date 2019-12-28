@@ -122,7 +122,7 @@ extern "C" {
 		UINT32_T			msgRecordTime;															//---记录的时间参数
 		void(*msgDelayus)(UINT32_T delay);															//---us延时参数
 		void(*msgDelayms)(UINT32_T delay);															//---ms延时参数
-		UINT32_T(*msgFuncTimeTick)(void);															//---用于超时计数
+		UINT32_T(*msgTimeTick)(void);															//---用于超时计数
 		//SPI_HandlerType msgSPI;																	//---使用的SPI模式
 	};
 

@@ -38,7 +38,7 @@ extern "C" {
 		GPIO_HandlerType	msgDAT;					//---端口
 		void(*msgDelayus)(UINT32_T delay);			//---us延时函数
 		void(*msgDelayms)(UINT32_T delay);			//---ms延时函数
-		UINT32_T(*msgFuncTimeTick)(void);			//---用于超时计数
+		UINT32_T(*msgTimeTick)(void);			//---用于超时计数
 	};
 
 	//===定义的任务函数

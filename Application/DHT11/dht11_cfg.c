@@ -119,14 +119,14 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 	//---注册滴答函数
 	if (pFuncTimerTick != NULL)
 	{
-		DHTxx->msgFuncTimeTick = pFuncTimerTick;
+		DHTxx->msgTimeTick = pFuncTimerTick;
 	}
 	else
 	{
-		DHTxx->msgFuncTimeTick = SysTickTask_GetTick;
+		DHTxx->msgTimeTick = SysTickTask_GetTick;
 	}
 	//---当前时间
-	DHTxx->msgRecordTime= DHTxx->msgFuncTimeTick();
+	DHTxx->msgRecordTime= DHTxx->msgTimeTick();
 	return OK_0;
 }
 
@@ -303,7 +303,7 @@ UINT8_T DHT11_ReadByte(DHT11_HandlerType *DHTxx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T DHT11_ReadSTATE(DHT11_HandlerType* DHTxx)
 {
-	UINT32_T nowTime = DHTxx->msgFuncTimeTick();
+	UINT32_T nowTime = DHTxx->msgTimeTick();
 	UINT32_T cnt = 0;
 	if (DHTxx->msgSTATE == DHT11_READ_ERROR)
 	{
@@ -375,6 +375,6 @@ UINT8_T DHT11_Read(DHT11_HandlerType *DHTxx)
 	//---设置当前状态为忙碌模式
 	DHTxx->msgSTATE= DHT11_READ_BUSY;
 	//---重置时间标签
-	DHTxx->msgRecordTime = DHTxx->msgFuncTimeTick();
+	DHTxx->msgRecordTime = DHTxx->msgTimeTick();
 	return OK_0;
 }

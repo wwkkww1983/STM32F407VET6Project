@@ -83,14 +83,14 @@ UINT8_T DS18B20_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(
 	//---注册滴答函数
 	if (pFuncTimerTick != NULL)
 	{
-		DS18B20x->msgFuncTimeTick = pFuncTimerTick;
+		DS18B20x->msgTimeTick = pFuncTimerTick;
 	}
 	else
 	{
-		DS18B20x->msgFuncTimeTick = SysTickTask_GetTick;
+		DS18B20x->msgTimeTick = SysTickTask_GetTick;
 	}
 	//---当前时间
-	DS18B20x->msgRecordTime = DS18B20x->msgFuncTimeTick();
+	DS18B20x->msgRecordTime = DS18B20x->msgTimeTick();
 	//---配置基本参数
 	return DS18B20_OneWire_Config(DS18B20x,pFuncDelayus);
 	//return OneWireTask_Init(&(DS18B20x->msgOneWire), pFuncDelayus);
@@ -293,7 +293,7 @@ UINT16_T DS18B20_OneWire_StartConvert(DS18B20_HandlerType* DS18B20x)
 //////////////////////////////////////////////////////////////////////////////
 UINT16_T DS18B20_OneWire_STATE(DS18B20_HandlerType* DS18B20x)
 {
-	UINT32_T nowTime = DS18B20x->msgFuncTimeTick();
+	UINT32_T nowTime = DS18B20x->msgTimeTick();
 	UINT32_T cnt = 0;
 	//---判断滴答定时是否发生溢出操作
 	if (DS18B20x->msgRecordTime > nowTime)

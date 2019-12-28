@@ -17,8 +17,12 @@ extern "C" {
 	#define	DAC_CHANNEL_SELECT_1					1
 	//===配置通道2
 	#define	DAC_CHANNEL_SELECT_2					2
-	//===配置通道3
+	//===配置全部通道
 	#define DAC_CHANNEL_SELECT_ALL					3
+	//===使能DAC的缓存器
+	#define DAC_CHANNEL_ENABLE_BUFFER				1
+	//===不使能DAC的缓存器
+	#define DAC_CHANNEL_DISABLE_BUFFER				0
 
 	//===函数定义
 	UINT8_T DAC_GPIO_Init(UINT8_T ch);
