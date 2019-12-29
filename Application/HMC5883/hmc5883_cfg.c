@@ -65,10 +65,10 @@ UINT8_T HMC5883_I2C_Init(HMC5883_HandlerType* HMC5883x, void(*pFuncDelayus)(UINT
 UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandlerType* HMC5883x)
 {
 	HMC5883x->msgI2C.msgI2Cx = NULL;
-	HMC5883x->msgI2C.msgSCL.msgGPIOPort = GPIOB;
-	HMC5883x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_6;
-	HMC5883x->msgI2C.msgSDA.msgGPIOPort = GPIOB;
-	HMC5883x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
+	HMC5883x->msgI2C.msgSCL.msgPort = GPIOB;
+	HMC5883x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
+	HMC5883x->msgI2C.msgSDA.msgPort = GPIOB;
+	HMC5883x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	HMC5883x->msgI2C.msgModelIsHW = 0;
 	HMC5883x->msgI2C.msgPluseWidth = 2;
 	HMC5883x->msgI2C.msgDelayus = NULL;

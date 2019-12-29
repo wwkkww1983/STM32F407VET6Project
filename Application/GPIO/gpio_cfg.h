@@ -133,12 +133,12 @@ extern "C" {
 	//===结构定义
 	struct _GPIO_HandlerType
 	{
-		GPIO_TypeDef	*msgGPIOPort;																//---端口
-		UINT32_T		msgGPIOBit;																	//---序号
+		GPIO_TypeDef	*msgPort;																	//---端口
+		UINT32_T		msgBit;																		//---序号
 	};
 
 	//===函数定义
-	void GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable);
+	UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable);
 	void GPIO_Init(void);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

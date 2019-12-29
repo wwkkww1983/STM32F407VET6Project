@@ -13,8 +13,8 @@ pDS18B20_HandlerType pDs18b20Device0 = &g_Ds18b20Device0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T DS18B20_OneWire_Device0_Init(DS18B20_HandlerType *DS18B20x)
 {
-	DS18B20x->msgOneWire.msgDAT.msgGPIOBit = LL_GPIO_PIN_2;
-	DS18B20x->msgOneWire.msgDAT.msgGPIOPort = GPIOC;
+	DS18B20x->msgOneWire.msgDAT.msgBit = LL_GPIO_PIN_2;
+	DS18B20x->msgOneWire.msgDAT.msgPort = GPIOC;
 	DS18B20x->msgTempBit=3;
 	DS18B20x->msgIntervalTime=800;
 	DS18B20x->msgTempBitValX10000=625;

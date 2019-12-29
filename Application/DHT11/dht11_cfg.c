@@ -14,8 +14,8 @@ pDHT11_HandlerType pDht11Device0 = &g_Dht11Device0;
 UINT8_T DHT11_Device0_Init(DHT11_HandlerType *DHTxx)
 {
 	DHTxx->msgSTATE=DHT11_READ_OK;
-	DHTxx->msgDAT.msgGPIOBit = LL_GPIO_PIN_14;
-	DHTxx->msgDAT.msgGPIOPort = GPIOB;
+	DHTxx->msgDAT.msgBit = LL_GPIO_PIN_14;
+	DHTxx->msgDAT.msgPort = GPIOB;
 	return OK_0;
 }
 
@@ -53,10 +53,10 @@ UINT8_T DHT11_Device2_Init(DHT11_HandlerType *DHTxx)
 UINT8_T DHT11_GPIO_Init(DHT11_HandlerType *DHTxx)
 {
 	//---使能端口时钟
-	GPIOTask_Clock(DHTxx->msgDAT.msgGPIOPort, 1);
+	GPIOTask_Clock(DHTxx->msgDAT.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化
-	GPIO_InitStruct.Pin = DHTxx->msgDAT.msgGPIOBit;													//---对应的GPIO的引脚
+	GPIO_InitStruct.Pin = DHTxx->msgDAT.msgBit;													//---对应的GPIO的引脚
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;														//---配置状态为输出模式
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;												//---GPIO的速度
 	GPIO_InitStruct.OutputType =LL_GPIO_OUTPUT_OPENDRAIN;											//---输出模式---开漏输出
@@ -65,8 +65,8 @@ UINT8_T DHT11_GPIO_Init(DHT11_HandlerType *DHTxx)
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;														//---端口复用模式
 #endif
 	//---初始化端口
-	LL_GPIO_Init(DHTxx->msgDAT.msgGPIOPort, &GPIO_InitStruct);
-	GPIO_OUT_1(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
+	LL_GPIO_Init(DHTxx->msgDAT.msgPort, &GPIO_InitStruct);
+	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
 	return 0;
 }
 
@@ -139,8 +139,8 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T DHT11_DeInit(DHT11_HandlerType *DHTxx)
 {
-	LL_GPIO_DeInit(DHTxx->msgDAT.msgGPIOPort);
-	GPIO_OUT_1(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
+	LL_GPIO_DeInit(DHTxx->msgDAT.msgPort);
+	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
 	DHTxx->msgSTATE = DHT11_READ_ERROR;
 	return OK_0;
 }
@@ -155,14 +155,14 @@ UINT8_T DHT11_DeInit(DHT11_HandlerType *DHTxx)
 UINT8_T DHT11_RESET(DHT11_HandlerType *DHTxx)
 {
 	//---释放总线
-	GPIO_OUT_1(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
+	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
 	//---主机拉高2us
 	DHTxx->msgDelayus(2);
-	GPIO_OUT_0(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
+	GPIO_OUT_0(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
 	//---触发开始,总线拉低要大于18ms
 	DHTxx->msgDelayms(20);
 	//---释放总线
-	GPIO_OUT_1(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
+	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
 	//主机拉高20~40us;等待DHT11的低电平响应信号
 	DHTxx->msgDelayus(30);
 	return OK_0;
@@ -179,7 +179,7 @@ UINT8_T DHT11_Check(DHT11_HandlerType *DHTxx)
 {
 	UINT8_T count = 0;
 	//---DHT11如果响应的话会拉低总线40~80us
-	while (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) != 0)
+	while (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) != 0)
 	{
 		DHTxx->msgDelayus(1);
 		count++;
@@ -194,7 +194,7 @@ UINT8_T DHT11_Check(DHT11_HandlerType *DHTxx)
 	}
 	count = 0;
 	//---DHT11高电平数据准备信号再次拉高40~80us
-	while (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) == 0)
+	while (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) == 0)
 	{
 		DHTxx->msgDelayus(1);
 		count++;
@@ -241,7 +241,7 @@ UINT8_T DHT11_ReadBit(DHT11_HandlerType *DHTxx)
 {
 	UINT8_T count = 0;
 	//---等待变为低电平---高电平保持的时间约为50us
-	while (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) != 0)
+	while (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) != 0)
 	{
 		DHTxx->msgDelayus(1);
 		count++;
@@ -254,7 +254,7 @@ UINT8_T DHT11_ReadBit(DHT11_HandlerType *DHTxx)
 	//---读取高电平等待一下
 	DHTxx->msgDelayus(10);
 	//---等待变高电平---低电平保持的时间约为20us
-	while (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) == 0)
+	while (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) == 0)
 	{
 		DHTxx->msgDelayus(1);
 
@@ -268,7 +268,7 @@ UINT8_T DHT11_ReadBit(DHT11_HandlerType *DHTxx)
 	//---等待40us;数据为0的信号时间为26-28us，1则为70us
 	DHTxx->msgDelayus(50);
 	//---读取状态
-	if (GPIO_GET_STATE(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit) != 0)
+	if (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) != 0)
 	{
 		return 1;
 	}
@@ -358,7 +358,7 @@ UINT8_T DHT11_Read(DHT11_HandlerType *DHTxx)
 		temp[i] = DHT11_ReadByte(DHTxx);
 	}
 	//---释放总线
-	GPIO_OUT_1(DHTxx->msgDAT.msgGPIOPort, DHTxx->msgDAT.msgGPIOBit);
+	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
 	//---数据校验
 	if ((temp[0] + temp[1] + temp[2] + temp[3]) != temp[4])
 	{

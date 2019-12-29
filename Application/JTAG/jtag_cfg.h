@@ -21,9 +21,9 @@ extern "C" {
 	#define JTAG_USE_HV_RESET
 
 	//===JTAG的GPIO的操作定义
-	#define	JTAG_GPIO_STATE(tp)					GPIO_GET_STATE(tp.msgGPIOPort,tp.msgGPIOBit)
-	#define	JTAG_GPIO_OUT_1(tp)					GPIO_OUT_1(tp.msgGPIOPort,tp.msgGPIOBit)
-	#define	JTAG_GPIO_OUT_0(tp)					GPIO_OUT_0(tp.msgGPIOPort,tp.msgGPIOBit)
+	#define	JTAG_GPIO_STATE(tp)					GPIO_GET_STATE(tp.msgPort,tp.msgBit)
+	#define	JTAG_GPIO_OUT_1(tp)					GPIO_OUT_1(tp.msgPort,tp.msgBit)
+	#define	JTAG_GPIO_OUT_0(tp)					GPIO_OUT_0(tp.msgPort,tp.msgBit)
 	//===TCK的脉冲宽度
 	#define JTAG_TCK_PULSE(tck)					(	JTAG_GPIO_OUT_1(tck->msgTCK),\
 													DELAY_NOP_COUNT(4),\

@@ -257,6 +257,7 @@
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_dma2d.h" />
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_exti.h" />
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_gpio.h" />
+    <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_i2c.h" />
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_iwdg.h" />
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_pwr.h" />
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_rcc.h" />

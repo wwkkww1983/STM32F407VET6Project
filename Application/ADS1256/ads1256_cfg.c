@@ -16,30 +16,26 @@ UINT8_T(*ADS1256_SPI_SEND_CMD)(ADS1256_HandlerType *, UINT8_T, UINT8_T *);
 void ADS1256_SPI_Device0_Init(ADS1256_HandlerType *ADS1256x)
 {
 	//---DRDY
-	ADS1256x->msgDRDY.msgGPIOPort = GPIOA;
-	ADS1256x->msgDRDY.msgGPIOBit = LL_GPIO_PIN_3;
-	
+	ADS1256x->msgDRDY.msgPort = GPIOA;
+	ADS1256x->msgDRDY.msgBit = LL_GPIO_PIN_3;	
 	//---GPIO时钟使能
-	if (ADS1256x->msgDRDY.msgGPIOPort!=NULL)
+	if (ADS1256x->msgDRDY.msgPort!=NULL)
 	{
-		GPIOTask_Clock(ADS1256x->msgDRDY.msgGPIOPort, 1);
+		GPIOTask_Clock(ADS1256x->msgDRDY.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	}
-
 	//---复位信号
-	ADS1256x->msgHWRST.msgGPIOPort = NULL;
-	ADS1256x->msgHWRST.msgGPIOBit = LL_GPIO_PIN_0;
+	ADS1256x->msgHWRST.msgPort = NULL;
+	ADS1256x->msgHWRST.msgBit = LL_GPIO_PIN_0;
 
 	//---GPIO时钟使能
-	if (ADS1256x->msgHWRST.msgGPIOPort!=NULL)
+	if (ADS1256x->msgHWRST.msgPort!=NULL)
 	{
-		GPIOTask_Clock(ADS1256x->msgHWRST.msgGPIOPort, 1);
+		GPIOTask_Clock(ADS1256x->msgHWRST.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	}
-
 	//---GPIO的配置
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
 	//---GPIO的初始化
-	GPIO_InitStruct.Pin = ADS1256x->msgDRDY.msgGPIOBit;			//---对应的GPIO的引脚
+	GPIO_InitStruct.Pin = ADS1256x->msgDRDY.msgBit;			//---对应的GPIO的引脚
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;					//---配置状态为输出模式
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;			//---GPIO的速度
 	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;		//---输出模式---推挽输出
@@ -47,51 +43,41 @@ void ADS1256_SPI_Device0_Init(ADS1256_HandlerType *ADS1256x)
 #ifndef USE_MCU_STM32F1
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_0; //---端口复用模式
 #endif
-
 	//---初始化DRDY
-	LL_GPIO_Init(ADS1256x->msgDRDY.msgGPIOPort, &GPIO_InitStruct);
-	GPIO_OUT_1(ADS1256x->msgDRDY.msgGPIOPort, ADS1256x->msgDRDY.msgGPIOBit);
+	LL_GPIO_Init(ADS1256x->msgDRDY.msgPort, &GPIO_InitStruct);
+	GPIO_OUT_1(ADS1256x->msgDRDY.msgPort, ADS1256x->msgDRDY.msgBit);
 
 	//---初始化RST
-	if (ADS1256x->msgHWRST.msgGPIOPort != NULL)
+	if (ADS1256x->msgHWRST.msgPort != NULL)
 	{
-		GPIO_InitStruct.Pin = ADS1256x->msgHWRST.msgGPIOBit;
+		GPIO_InitStruct.Pin = ADS1256x->msgHWRST.msgBit;
 		GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-		LL_GPIO_Init(ADS1256x->msgHWRST.msgGPIOPort, &GPIO_InitStruct);
-		GPIO_OUT_1(ADS1256x->msgHWRST.msgGPIOPort, ADS1256x->msgHWRST.msgGPIOBit);
+		LL_GPIO_Init(ADS1256x->msgHWRST.msgPort, &GPIO_InitStruct);
+		GPIO_OUT_1(ADS1256x->msgHWRST.msgPort, ADS1256x->msgHWRST.msgBit);
 	}
-
 	//---CS
-	ADS1256x->msgSPI.msgCS.msgGPIOPort = GPIOA;
-	ADS1256x->msgSPI.msgCS.msgGPIOBit = LL_GPIO_PIN_4;
-
+	ADS1256x->msgSPI.msgCS.msgPort = GPIOA;
+	ADS1256x->msgSPI.msgCS.msgBit = LL_GPIO_PIN_4;
 	//---SCK
-	ADS1256x->msgSPI.msgSCK.msgGPIOPort = GPIOA;
-	ADS1256x->msgSPI.msgSCK.msgGPIOBit = LL_GPIO_PIN_5;
-
+	ADS1256x->msgSPI.msgSCK.msgPort = GPIOA;
+	ADS1256x->msgSPI.msgSCK.msgBit = LL_GPIO_PIN_5;
 	//---MISO
-	ADS1256x->msgSPI.msgMISO.msgGPIOPort = GPIOA;
-	ADS1256x->msgSPI.msgMISO.msgGPIOBit = LL_GPIO_PIN_6;
-
+	ADS1256x->msgSPI.msgMISO.msgPort = GPIOA;
+	ADS1256x->msgSPI.msgMISO.msgBit = LL_GPIO_PIN_6;
 	//---MOSI
-	ADS1256x->msgSPI.msgMOSI.msgGPIOPort = GPIOA;
-	ADS1256x->msgSPI.msgMOSI.msgGPIOBit = LL_GPIO_PIN_7;
-
+	ADS1256x->msgSPI.msgMOSI.msgPort = GPIOA;
+	ADS1256x->msgSPI.msgMOSI.msgBit = LL_GPIO_PIN_7;
 	//---复用模式
 #ifndef USE_MCU_STM32F1
-
 	//---端口复用模式
 	ADS1256x->msgSPI.msgGPIOAlternate = LL_GPIO_AF_5;
 #endif
-
 	//---SPI序号
 	ADS1256x->msgSPI.msgSPIx = SPI1;
 #ifndef USE_MCU_STM32F1
-
 	//---SPI的协议
 	ADS1256x->msgSPI.msgStandard = LL_SPI_PROTOCOL_MOTOROLA;
 #endif
-
 	UINT8_T i = 0;
 	for (i=0;i< ADS1256_CHANNEL_MAX;i++)
 	{
@@ -114,7 +100,6 @@ void ADS1256_SPI_Device0_Init(ADS1256_HandlerType *ADS1256x)
 		ADS1256x->msgCalcError[i] = 0;
 
 	}
-
 	//---增益配置
 	ADS1256x->msgGain = ADS1256_ADCON_GAIN_1;
 	//---设备的ID信息
@@ -129,7 +114,6 @@ void ADS1256_SPI_Device0_Init(ADS1256_HandlerType *ADS1256x)
 	ADS1256x->msgSPI.msgCPOL = 0;
 	//---数据采样在第一个时钟边沿
 	ADS1256x->msgSPI.msgCPOH = 1;
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -184,7 +168,7 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 	{
 		//---CLK空闲时为低电平 (CLK空闲是只能是低电平)
 		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
-		GPIO_OUT_0(ADS1256x->msgSPI.msgSCK.msgGPIOPort, ADS1256x->msgSPI.msgSCK.msgGPIOBit);
+		GPIO_OUT_0(ADS1256x->msgSPI.msgSCK.msgPort, ADS1256x->msgSPI.msgSCK.msgBit);
 	}
 	else
 	{
@@ -236,11 +220,11 @@ UINT8_T ADS1256_SPI_SW_Init(ADS1256_HandlerType *ADS1256x)
 	//---时钟线的极性
 	if (ADS1256x->msgSPI.msgCPOL == 0)
 	{
-		GPIO_OUT_0(ADS1256x->msgSPI.msgSCK.msgGPIOPort, ADS1256x->msgSPI.msgSCK.msgGPIOBit);
+		GPIO_OUT_0(ADS1256x->msgSPI.msgSCK.msgPort, ADS1256x->msgSPI.msgSCK.msgBit);
 	}
 	else
 	{
-		GPIO_OUT_1(ADS1256x->msgSPI.msgSCK.msgGPIOPort, ADS1256x->msgSPI.msgSCK.msgGPIOBit);
+		GPIO_OUT_1(ADS1256x->msgSPI.msgSCK.msgPort, ADS1256x->msgSPI.msgSCK.msgBit);
 	}
 
 	//---ADS1256的SPI的最高时钟为输入时钟的四分之一，因此SPI的时钟不能过快，否则容易通讯失败
@@ -387,7 +371,7 @@ UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandlerType *ADS1256x)
 	}
 
 	//---解析GPIO是否存在
-	if (ADS1256x->msgDRDY.msgGPIOPort == NULL)
+	if (ADS1256x->msgDRDY.msgPort == NULL)
 	{
 		return ERROR_5;
 	}
@@ -395,7 +379,7 @@ UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandlerType *ADS1256x)
 	//---读取操作完成，检查高电平
 	while (1)
 	{
-		if (GPIO_GET_STATE(ADS1256x->msgDRDY.msgGPIOPort, ADS1256x->msgDRDY.msgGPIOBit) != 0)
+		if (GPIO_GET_STATE(ADS1256x->msgDRDY.msgPort, ADS1256x->msgDRDY.msgBit) != 0)
 		{
 			break;
 		}
@@ -435,7 +419,7 @@ UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandlerType *ADS1256x)
 	//---读取操作完成，检查低电平
 	while (1)
 	{
-		if (GPIO_GET_STATE(ADS1256x->msgDRDY.msgGPIOPort, ADS1256x->msgDRDY.msgGPIOBit) == 0)
+		if (GPIO_GET_STATE(ADS1256x->msgDRDY.msgPort, ADS1256x->msgDRDY.msgBit) == 0)
 		{
 			break;
 		}
@@ -515,10 +499,10 @@ UINT8_T ADS1256_SPI_WriteReg(ADS1256_HandlerType *ADS1256x, UINT8_T regID, UINT8
 	//---校验准备信号
 	if (_return == OK_0)
 	{
-		if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
+		if (ADS1256x->msgSPI.msgCS.msgPort != NULL)
 		{
 			//---使能写操作
-			GPIO_OUT_0(ADS1256x->msgSPI.msgCS.msgGPIOPort, ADS1256x->msgSPI.msgCS.msgGPIOBit);
+			GPIO_OUT_0(ADS1256x->msgSPI.msgCS.msgPort, ADS1256x->msgSPI.msgCS.msgBit);
 		}
 		//---写寄存器的命令, 并发送寄存器地址
 		_return=ADS1256_SPI_SEND_CMD(ADS1256x, ADS1256_CMD_WREG | regID, NULL);
@@ -529,10 +513,10 @@ UINT8_T ADS1256_SPI_WriteReg(ADS1256_HandlerType *ADS1256x, UINT8_T regID, UINT8
 		//---发送寄存器值
 		_return|=ADS1256_SPI_SEND_CMD(ADS1256x, regVal, NULL);
 	}
-	if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS1256x->msgSPI.msgCS.msgPort != NULL)
 	{
 		//---不使能通讯，放在最外层，避免发生通讯一直使能
-		GPIO_OUT_1(ADS1256x->msgSPI.msgCS.msgGPIOPort, ADS1256x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_1(ADS1256x->msgSPI.msgCS.msgPort, ADS1256x->msgSPI.msgCS.msgBit);
 	}
 	return _return;
 }
@@ -552,10 +536,10 @@ UINT8_T ADS1256_SPI_ReadReg(ADS1256_HandlerType *ADS1256x, UINT8_T regAddr, UINT
 	//---校验准备信号
 	if (_return == OK_0)
 	{
-		if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
+		if (ADS1256x->msgSPI.msgCS.msgPort != NULL)
 		{
 			//---使能写操作
-			GPIO_OUT_0(ADS1256x->msgSPI.msgCS.msgGPIOPort, ADS1256x->msgSPI.msgCS.msgGPIOBit);
+			GPIO_OUT_0(ADS1256x->msgSPI.msgCS.msgPort, ADS1256x->msgSPI.msgCS.msgBit);
 		}
 		//---写寄存器的命令, 并发送寄存器地址
 		_return=ADS1256_SPI_SEND_CMD( ADS1256x, ADS1256_CMD_RREG | ( regAddr & 0x0F ), NULL );
@@ -568,10 +552,10 @@ UINT8_T ADS1256_SPI_ReadReg(ADS1256_HandlerType *ADS1256x, UINT8_T regAddr, UINT
 		//---读寄存器值
 		_return|=ADS1256_SPI_SEND_CMD( ADS1256x, 0xFF, pRVal );
 	}
-	if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS1256x->msgSPI.msgCS.msgPort != NULL)
 	{
 		//---不使能通讯，放在最外层，避免发生通讯一直使能
-		GPIO_OUT_1(ADS1256x->msgSPI.msgCS.msgGPIOPort, ADS1256x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_1(ADS1256x->msgSPI.msgCS.msgPort, ADS1256x->msgSPI.msgCS.msgBit);
 	}
 	return _return;
 }
@@ -591,18 +575,18 @@ UINT8_T ADS1256_SPI_WriteCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd)
 	//---校验准备信号
 	if (_return == OK_0)
 	{
-		if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
+		if (ADS1256x->msgSPI.msgCS.msgPort != NULL)
 		{
 			//---使能写操作
-			GPIO_OUT_0(ADS1256x->msgSPI.msgCS.msgGPIOPort, ADS1256x->msgSPI.msgCS.msgGPIOBit);
+			GPIO_OUT_0(ADS1256x->msgSPI.msgCS.msgPort, ADS1256x->msgSPI.msgCS.msgBit);
 		}
 		//---发送命令
 		_return=ADS1256_SPI_SEND_CMD( ADS1256x, cmd, NULL );
 	}
-	if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS1256x->msgSPI.msgCS.msgPort != NULL)
 	{
 		//---不使能通讯，放在最外层，避免发生通讯一直使能
-		GPIO_OUT_1(ADS1256x->msgSPI.msgCS.msgGPIOPort, ADS1256x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_1(ADS1256x->msgSPI.msgCS.msgPort, ADS1256x->msgSPI.msgCS.msgBit);
 	}
 	return _return;
 }
@@ -617,11 +601,11 @@ UINT8_T ADS1256_SPI_WriteCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd)
 UINT8_T ADS1256_SPI_HardReset(ADS1256_HandlerType *ADS1256x)
 {
 	UINT8_T _return = OK_0, dRate = 0;
-	if (ADS1256x->msgHWRST.msgGPIOPort != NULL)
+	if (ADS1256x->msgHWRST.msgPort != NULL)
 	{
-		GPIO_OUT_0( ADS1256x->msgHWRST.msgGPIOPort, ADS1256x->msgHWRST.msgGPIOBit );
+		GPIO_OUT_0( ADS1256x->msgHWRST.msgPort, ADS1256x->msgHWRST.msgBit );
 		ADS1256x->msgDelayms( 1 );
-		GPIO_OUT_1( ADS1256x->msgHWRST.msgGPIOPort, ADS1256x->msgHWRST.msgGPIOBit );
+		GPIO_OUT_1( ADS1256x->msgHWRST.msgPort, ADS1256x->msgHWRST.msgBit );
 		ADS1256x->msgDelayms( 1 );
 
 		//---读取默认的转换速率，默认值是0xF0
@@ -683,7 +667,7 @@ UINT8_T ADS1256_SPI_SoftReset(ADS1256_HandlerType *ADS1256x)
 UINT8_T ADS1256_SPI_Reset(ADS1256_HandlerType* ADS1256x)
 {
 	UINT8_T _return = OK_0;
-	if (ADS1256x->msgHWRST.msgGPIOPort != NULL)
+	if (ADS1256x->msgHWRST.msgPort != NULL)
 	{
 		_return = ADS1256_SPI_HardReset(ADS1256x);
 	}
@@ -1539,10 +1523,10 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 		{
 			ADS1256x->msgDelayms(0x100- ADS1256x->msgDRate);
 		}
-		if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
+		if (ADS1256x->msgSPI.msgCS.msgPort != NULL)
 		{
 			//---使能写操作
-			GPIO_OUT_0(ADS1256x->msgSPI.msgCS.msgGPIOPort, ADS1256x->msgSPI.msgCS.msgGPIOBit);
+			GPIO_OUT_0(ADS1256x->msgSPI.msgCS.msgPort, ADS1256x->msgSPI.msgCS.msgBit);
 		}
 		//---检查读操作是否准备完成
 		//_return=ADS1256_SPI_WaitDRDY(ADS1256x);
@@ -1594,10 +1578,10 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 		{
 			_return = ERROR_2;
 		}
-		if (ADS1256x->msgSPI.msgCS.msgGPIOPort != NULL)
+		if (ADS1256x->msgSPI.msgCS.msgPort != NULL)
 		{
 			//---不使能通讯，放在最外层，避免发生通讯一直使能
-			GPIO_OUT_1(ADS1256x->msgSPI.msgCS.msgGPIOPort, ADS1256x->msgSPI.msgCS.msgGPIOBit);
+			GPIO_OUT_1(ADS1256x->msgSPI.msgCS.msgPort, ADS1256x->msgSPI.msgCS.msgBit);
 		}
 	}
 	return _return;

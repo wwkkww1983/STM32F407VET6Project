@@ -10,9 +10,9 @@
 void HardWare_Init(void)
 {
 	//---使能GPIO的时钟
-	GPIOTask_Clock(RST_HEN_PORT, 1);
-	GPIOTask_Clock(RST_LEN_PORT, 1);
-	GPIOTask_Clock(RST_NEN_PORT, 1);
+	GPIOTask_Clock(RST_HEN_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(RST_LEN_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(RST_NEN_PORT, PERIPHERAL_CLOCK_ENABLE);
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;														//---配置状态为输出模式

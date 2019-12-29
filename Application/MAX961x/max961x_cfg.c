@@ -61,10 +61,10 @@ UINT8_T MAX961X_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT3
 UINT8_T MAX961X_I2C_Device0_Init(MAX961X_HandlerType* MAX961x)
 {
 	MAX961x->msgI2C.msgI2Cx = NULL;
-	MAX961x->msgI2C.msgSCL.msgGPIOPort = GPIOB;
-	MAX961x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_6;
-	MAX961x->msgI2C.msgSDA.msgGPIOPort = GPIOB;
-	MAX961x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
+	MAX961x->msgI2C.msgSCL.msgPort = GPIOB;
+	MAX961x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
+	MAX961x->msgI2C.msgSDA.msgPort = GPIOB;
+	MAX961x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	MAX961x->msgI2C.msgModelIsHW = 0;
 	MAX961x->msgI2C.msgPluseWidth = 2;
 	MAX961x->msgI2C.msgDelayus = NULL;

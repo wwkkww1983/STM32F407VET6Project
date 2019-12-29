@@ -36,10 +36,12 @@ extern "C" {
 		UINT16_T			msgDataCount;															//---数据收发的个数
 		UINT16_T			msgPluseWidth;															//---脉冲宽度，软件模拟使用
 		UINT32_T			msgClockSpeed;															//---硬件SPI的时钟速度
+	#ifndef USE_MCU_STM32F1
 		UINT32_T			msgGPIOAlternate;														//---GPIO的复用模式
+	#endif
 		UINT32_T			msgStandard;															//---使用的SPI协议
 		void(*msgDelayus)(UINT32_T delay);															//---延时参数
-		UINT32_T(*msgTimeTick)(void);															//---用于超时计数
+		UINT32_T(*msgTimeTick)(void);																//---用于超时计数
 	};
 
 	//===函数定义

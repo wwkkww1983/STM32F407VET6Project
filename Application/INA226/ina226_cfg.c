@@ -63,10 +63,10 @@ UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_
 UINT8_T INA226_I2C_Device0_Init(INA226_HandlerType* INA226x)
 {
 	INA226x->msgI2C.msgI2Cx = NULL;
-	INA226x->msgI2C.msgSCL.msgGPIOPort = GPIOB;
-	INA226x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_6;
-	INA226x->msgI2C.msgSDA.msgGPIOPort = GPIOB;
-	INA226x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
+	INA226x->msgI2C.msgSCL.msgPort = GPIOB;
+	INA226x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
+	INA226x->msgI2C.msgSDA.msgPort = GPIOB;
+	INA226x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	INA226x->msgI2C.msgModelIsHW = 0;
 	INA226x->msgI2C.msgPluseWidth = 2;
 	INA226x->msgI2C.msgDelayus = NULL;

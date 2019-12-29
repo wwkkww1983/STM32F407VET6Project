@@ -867,6 +867,9 @@
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_gpio.h">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClInclude>
+    <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_i2c.h">
+      <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
+    </ClInclude>
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_iwdg.h">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClInclude>

@@ -59,10 +59,10 @@ UINT8_T PCF8563_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT
 UINT8_T PCF8563_I2C_Device0_Init(PCF8563_HandlerType *PCF8563x)
 {
 	PCF8563x->msgI2C.msgI2Cx = NULL;
-	PCF8563x->msgI2C.msgSCL.msgGPIOPort = GPIOB;
-	PCF8563x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_6;
-	PCF8563x->msgI2C.msgSDA.msgGPIOPort = GPIOB;
-	PCF8563x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
+	PCF8563x->msgI2C.msgSCL.msgPort = GPIOB;
+	PCF8563x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
+	PCF8563x->msgI2C.msgSDA.msgPort = GPIOB;
+	PCF8563x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	PCF8563x->msgI2C.msgModelIsHW = 0;
 	PCF8563x->msgI2C.msgPluseWidth = 0;
 	PCF8563x->msgI2C.msgDelayus = NULL;

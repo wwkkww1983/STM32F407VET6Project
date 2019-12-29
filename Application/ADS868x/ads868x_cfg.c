@@ -18,15 +18,13 @@ UINT8_T(*ADS868X_SPI_SEND_ARRAY)(ADS868X_HandlerType*, UINT8_T*, UINT8_T*,UINT16
 //////////////////////////////////////////////////////////////////////////////
 void ADS868X_SPI_Device0_Init(ADS868X_HandlerType *ADS868x)
 {
-
 	//---复位信号
-	ADS868x->msgHWRST.msgGPIOPort = NULL;
-	ADS868x->msgHWRST.msgGPIOBit = LL_GPIO_PIN_0;
-
+	ADS868x->msgHWRST.msgPort = NULL;
+	ADS868x->msgHWRST.msgBit = LL_GPIO_PIN_0;
 	//---GPIO时钟使能
-	if (ADS868x->msgHWRST.msgGPIOPort != NULL)
+	if (ADS868x->msgHWRST.msgPort != NULL)
 	{
-		GPIOTask_Clock(ADS868x->msgHWRST.msgGPIOPort, 1);
+		GPIOTask_Clock(ADS868x->msgHWRST.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	}
 
 	//---SPI1接口
@@ -42,39 +40,32 @@ void ADS868X_SPI_Device0_Init(ADS868X_HandlerType *ADS868x)
 	//---PB15------ > SPI2_MOSI
 
 	//---CS
-	ADS868x->msgSPI.msgCS.msgGPIOPort = GPIOA;
-	ADS868x->msgSPI.msgCS.msgGPIOBit = LL_GPIO_PIN_4;
-
+	ADS868x->msgSPI.msgCS.msgPort = GPIOA;
+	ADS868x->msgSPI.msgCS.msgBit = LL_GPIO_PIN_4;
 	//---SCK
-	ADS868x->msgSPI.msgSCK.msgGPIOPort = GPIOA;
-	ADS868x->msgSPI.msgSCK.msgGPIOBit = LL_GPIO_PIN_5;
-
+	ADS868x->msgSPI.msgSCK.msgPort = GPIOA;
+	ADS868x->msgSPI.msgSCK.msgBit = LL_GPIO_PIN_5;
 	//---MISO  SD0
-	ADS868x->msgSPI.msgMISO.msgGPIOPort = GPIOA;
-	ADS868x->msgSPI.msgMISO.msgGPIOBit = LL_GPIO_PIN_6;
-
+	ADS868x->msgSPI.msgMISO.msgPort = GPIOA;
+	ADS868x->msgSPI.msgMISO.msgBit = LL_GPIO_PIN_6;
 	//---MOSI SDI
-	ADS868x->msgSPI.msgMOSI.msgGPIOPort = GPIOA;
-	ADS868x->msgSPI.msgMOSI.msgGPIOBit = LL_GPIO_PIN_7;
-
+	ADS868x->msgSPI.msgMOSI.msgPort = GPIOA;
+	ADS868x->msgSPI.msgMOSI.msgBit = LL_GPIO_PIN_7;
 	//---GPIO的配置
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
 	//---GPIO的初始化
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;					//---配置状态为输出模式
-	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;		//---GPIO的速度
-	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;		//---输出模式---推挽输出
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;						//---上拉使能
-
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;														//---配置状态为输出模式
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;											//---GPIO的速度
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;											//---输出模式---推挽输出
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;															//---上拉使能
 	//---初始化RST
-	if (ADS868x->msgHWRST.msgGPIOPort != NULL)
+	if (ADS868x->msgHWRST.msgPort != NULL)
 	{
-		GPIO_InitStruct.Pin = ADS868x->msgHWRST.msgGPIOBit;
+		GPIO_InitStruct.Pin = ADS868x->msgHWRST.msgBit;
 		GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-		LL_GPIO_Init(ADS868x->msgHWRST.msgGPIOPort, &GPIO_InitStruct);
-		GPIO_OUT_1(ADS868x->msgHWRST.msgGPIOPort, ADS868x->msgHWRST.msgGPIOBit);
+		LL_GPIO_Init(ADS868x->msgHWRST.msgPort, &GPIO_InitStruct);
+		GPIO_OUT_1(ADS868x->msgHWRST.msgPort, ADS868x->msgHWRST.msgBit);
 	}
-
 	//---复用模式
 	#ifndef USE_MCU_STM32F1
 		//---端口复用模式
@@ -86,7 +77,6 @@ void ADS868X_SPI_Device0_Init(ADS868X_HandlerType *ADS868x)
 		//---SPI的协议
 		ADS868x->msgSPI.msgStandard = LL_SPI_PROTOCOL_MOTOROLA;
 	#endif
-
 	UINT8_T i = 0;
 	//---参考电压配置
 	ADS868x->msgREFPowerUV = ADS868X_REF_POWER_UV;
@@ -160,7 +150,7 @@ UINT8_T ADS868X_SPI_HW_Init(ADS868X_HandlerType *ADS868x)
 	{
 		//---CLK空闲时为低电平 (CLK空闲是只能是低电平)
 		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
-		GPIO_OUT_0(ADS868x->msgSPI.msgSCK.msgGPIOPort, ADS868x->msgSPI.msgSCK.msgGPIOBit);
+		GPIO_OUT_0(ADS868x->msgSPI.msgSCK.msgPort, ADS868x->msgSPI.msgSCK.msgBit);
 	}
 	else
 	{
@@ -203,11 +193,11 @@ UINT8_T ADS868X_SPI_SW_Init(ADS868X_HandlerType *ADS868x)
 	//---时钟线的极性
 	if (ADS868x->msgSPI.msgCPOL == 0)
 	{
-		GPIO_OUT_0(ADS868x->msgSPI.msgSCK.msgGPIOPort, ADS868x->msgSPI.msgSCK.msgGPIOBit);
+		GPIO_OUT_0(ADS868x->msgSPI.msgSCK.msgPort, ADS868x->msgSPI.msgSCK.msgBit);
 	}
 	else
 	{
-		GPIO_OUT_1(ADS868x->msgSPI.msgSCK.msgGPIOPort, ADS868x->msgSPI.msgSCK.msgGPIOBit);
+		GPIO_OUT_1(ADS868x->msgSPI.msgSCK.msgPort, ADS868x->msgSPI.msgSCK.msgBit);
 	}
 
 	return OK_0;
@@ -386,14 +376,14 @@ UINT8_T ADS868X_SPI_WriteCommandReg(ADS868X_HandlerType *ADS868x, UINT32_T cmd)
 	UINT8_T wTemp[2] = { 0 };
 	wTemp[0] = (UINT8_T)((cmd >> 8)&0xFF);
 	wTemp[1] = (UINT8_T)(cmd & 0xFF);
-	if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 	{
-		GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 	}
 	_return = ADS868X_SPI_SEND_ARRAY(ADS868x, wTemp, NULL, 2);
-	if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 	{
-		GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 	}
 	return _return;
 }
@@ -411,14 +401,14 @@ UINT8_T ADS868X_SPI_WriteProgramReg(ADS868X_HandlerType *ADS868x, UINT8_T addr, 
 	UINT8_T wTemp[2] = { 0 };
 	wTemp[0] = (addr << 1) | 0x01;
 	wTemp[1] = val;
-	if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 	{
-		GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 	}
 	_return = ADS868X_SPI_SEND_ARRAY(ADS868x, wTemp, NULL, 2);
-	if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 	{
-		GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 	}
 	return _return;
 }
@@ -436,14 +426,14 @@ UINT8_T ADS868X_SPI_ReadProgramReg(ADS868X_HandlerType *ADS868x, UINT8_T addr, U
 	UINT8_T wTemp[3] = { 0 };
 	UINT8_T rTemp[3] = { 0 };
 	wTemp[0] = (addr << 1) & 0xFE;
-	if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 	{
-		GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 	}
 	_return = ADS868X_SPI_SEND_ARRAY(ADS868x, wTemp, rTemp, 3);
-	if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 	{
-		GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 	}
 
 	//---数据拷贝
@@ -551,11 +541,11 @@ UINT8_T ADS868X_SPI_PWRDN(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T  ADS868X_SPI_HardReset(ADS868X_HandlerType *ADS868x)
 {
-	if (ADS868x->msgHWRST.msgGPIOPort!=NULL)
+	if (ADS868x->msgHWRST.msgPort!=NULL)
 	{
-		GPIO_OUT_0(ADS868x->msgHWRST.msgGPIOPort, ADS868x->msgHWRST.msgGPIOBit);
+		GPIO_OUT_0(ADS868x->msgHWRST.msgPort, ADS868x->msgHWRST.msgBit);
 		ADS868x->msgDelayms(1);
-		GPIO_OUT_1(ADS868x->msgHWRST.msgGPIOPort, ADS868x->msgHWRST.msgGPIOBit);
+		GPIO_OUT_1(ADS868x->msgHWRST.msgPort, ADS868x->msgHWRST.msgBit);
 		ADS868x->msgDelayms(1);
 	}
 	return OK_0;
@@ -593,7 +583,7 @@ UINT8_T  ADS868X_SPI_SoftReset(ADS868X_HandlerType *ADS868x,UINT8_T isAutoInit)
 UINT8_T ADS868X_SPI_Reset(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit)
 {
 	UINT8_T _return = OK_0;
-	if (ADS868x->msgHWRST.msgGPIOPort != NULL)
+	if (ADS868x->msgHWRST.msgPort != NULL)
 	{
 		_return = ADS868X_SPI_HardReset(ADS868x);
 	}
@@ -1298,15 +1288,15 @@ UINT8_T ADS868X_SPI_GetAutoRSTResult(ADS868X_HandlerType *ADS868x, UINT8_T chNum
 		{
 			adcWTemp[3] = i;
 			//---准备读取数据
-			if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+			if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 			{
-				GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+				GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 			}
 			_return=ADS868X_SPI_SEND_ARRAY(ADS868x, adcWTemp, adcRTemp, 4);
 			//---结束数据的读取
-			if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+			if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 			{
-				GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+				GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 			}
 			//---保存读取的数据
 			ADS868x->msgChannelNowADCResult[i] = adcRTemp[2];
@@ -1483,16 +1473,16 @@ UINT8_T  ADS868X_SPI_GetManualChannelResult(ADS868X_HandlerType* ADS868x, UINT16
 	//---设置手动扫描通道
 	_return = ADS868X_SPI_ManualChannel(ADS868x, manualChannel,0);
 	//---准备读取设置的扫描通道的值
-	if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 	{
-		GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_0(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 	}
 	//---读取ADC采样的结果
 	_return = ADS868X_SPI_SEND_ARRAY(ADS868x, adcWTemp, adcRTemp, 4);
 	//---结束读取设置的扫描通道的值
-	if (ADS868x->msgSPI.msgCS.msgGPIOPort != NULL)
+	if (ADS868x->msgSPI.msgCS.msgPort != NULL)
 	{
-		GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgGPIOPort, ADS868x->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_1(ADS868x->msgSPI.msgCS.msgPort, ADS868x->msgSPI.msgCS.msgBit);
 	}
 	//---通道的转换
 	adcChannel = (UINT8_T)(manualChannel >> 10) & 0x0F;

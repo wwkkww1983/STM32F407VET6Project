@@ -57,10 +57,10 @@ UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T de
 UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandlerType *SHT2x)
 {
 	SHT2x->msgI2C.msgI2Cx = NULL;
-	SHT2x->msgI2C.msgSCL.msgGPIOPort = GPIOB;
-	SHT2x->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_6;
-	SHT2x->msgI2C.msgSDA.msgGPIOPort = GPIOB;
-	SHT2x->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_7;
+	SHT2x->msgI2C.msgSCL.msgPort = GPIOB;
+	SHT2x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
+	SHT2x->msgI2C.msgSDA.msgPort = GPIOB;
+	SHT2x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	SHT2x->msgI2C.msgModelIsHW = 0;
 	SHT2x->msgI2C.msgPluseWidth = 0;
 	SHT2x->msgI2C.msgDelayus = NULL;
@@ -568,7 +568,7 @@ UINT8_T SHT2X_I2C_ReadHM(SHT2X_HandlerType *SHT2x, UINT16_T *pVal, UINT8_T cmd)
 		goto GoToExit;
 	}
 	//---等待从机释放SCL数据线
-	while (GPIO_GET_STATE(SHT2x->msgI2C.msgSCL.msgGPIOPort, SHT2x->msgI2C.msgSCL.msgGPIOBit) ==
+	while (GPIO_GET_STATE(SHT2x->msgI2C.msgSCL.msgPort, SHT2x->msgI2C.msgSCL.msgBit) ==
 		0)
 	{
 		timeout++;
