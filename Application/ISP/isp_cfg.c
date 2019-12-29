@@ -198,17 +198,17 @@ UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 	ISPx->msgSPI.msgMOSI.msgPort = GPIOC;
 	ISPx->msgSPI.msgMOSI.msgBit = LL_GPIO_PIN_3;
 #else
-	ISPx->msgSPI.msgCS.msgGPIOPort = GPIOB;
-	ISPx->msgSPI.msgCS.msgGPIOBit = LL_GPIO_PIN_12;
+	ISPx->msgSPI.msgCS.msgPort = GPIOB;
+	ISPx->msgSPI.msgCS.msgBit = LL_GPIO_PIN_12;
 	//---SCK
-	ISPx->msgSPI.msgSCK.msgGPIOPort = GPIOB;
-	ISPx->msgSPI.msgSCK.msgGPIOBit = LL_GPIO_PIN_13;
+	ISPx->msgSPI.msgSCK.msgPort = GPIOB;
+	ISPx->msgSPI.msgSCK.msgBit = LL_GPIO_PIN_13;
 	//---MISO
-	ISPx->msgSPI.msgMISO.msgGPIOPort = GPIOB;
-	ISPx->msgSPI.msgMISO.msgGPIOBit = LL_GPIO_PIN_14;
+	ISPx->msgSPI.msgMISO.msgPort = GPIOB;
+	ISPx->msgSPI.msgMISO.msgBit = LL_GPIO_PIN_14;
 	//---MOSI
-	ISPx->msgSPI.msgMOSI.msgGPIOPort = GPIOB;
-	ISPx->msgSPI.msgMOSI.msgGPIOBit = LL_GPIO_PIN_15;
+	ISPx->msgSPI.msgMOSI.msgPort = GPIOB;
+	ISPx->msgSPI.msgMOSI.msgBit = LL_GPIO_PIN_15;
 #endif	
 	//---复用模式
 #ifndef USE_MCU_STM32F1
@@ -604,7 +604,7 @@ UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx)
 #ifdef ISP_USE_HV_RESET
 	ISPx->msgPortRst(ISP_RST_TO_GND);
 #else
-	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
 #endif
 	//---打开电源
 	//POWER_DUT_ON;
@@ -613,19 +613,19 @@ UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx)
 #ifdef ISP_USE_HV_RESET
 	ISPx->msgPortRst(ISP_RST_TO_GND);
 #else
-	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
 #endif
 	ISPx->msgDelayms(1);
 #ifdef ISP_USE_HV_RESET
 	ISPx->msgPortRst(ISP_RST_TO_VCC);
 #else
-	GPIO_OUT_1(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+	GPIO_OUT_1(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
 #endif
 	ISPx->msgDelayms(1);
 #ifdef ISP_USE_HV_RESET
 	ISPx->msgPortRst(ISP_RST_TO_GND);
 #else
-	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
 #endif
 	ISPx->msgDelayms(1);
 	//---解除64K的限制
@@ -689,7 +689,7 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 #ifdef ISP_USE_HV_RESET
 		ISPx->msgPortRst(ISP_RST_TO_VCC);
 #else
-		GPIO_OUT_1(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_1(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
 #endif
 		ISPx->msgDelayms(1);
 		//---清零时钟线和片选端
@@ -697,7 +697,7 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 #ifdef ISP_USE_HV_RESET
 		ISPx->msgPortRst(ISP_RST_TO_GND);
 #else
-		GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_0(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
 #endif
 		ISPx->msgDelayms(1);
 	}

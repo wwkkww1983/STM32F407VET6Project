@@ -75,22 +75,22 @@ UINT8_T JTAG_Device0_Init(JTAG_HandlerType* JTAGx)
 	//---TDO->PD2---device->host
 	JTAGx->msgTDO.msgPort = GPIOA;
 	JTAGx->msgTDO.msgBit = LL_GPIO_PIN_2;
-#elif
+#else
 	//---TCK->PB3---host->device
-	JTAGx->msgTCK.msgGPIOPort = GPIOB;
-	JTAGx->msgTCK.msgGPIOBit = LL_GPIO_PIN_3;
+	JTAGx->msgTCK.msgPort = GPIOB;
+	JTAGx->msgTCK.msgBit = LL_GPIO_PIN_3;
 	//---TMS->PC5---host->device
-	JTAGx->msgTMS.msgGPIOPort = GPIOC;
-	JTAGx->msgTMS.msgGPIOBit = LL_GPIO_PIN_5;
+	JTAGx->msgTMS.msgPort = GPIOC;
+	JTAGx->msgTMS.msgBit = LL_GPIO_PIN_5;
 	//---RST->PC4---host->device
-	JTAGx->msgRST.msgGPIOPort = GPIOC;
-	JTAGx->msgRST.msgGPIOBit = LL_GPIO_PIN_4;
+	JTAGx->msgRST.msgPort = GPIOC;
+	JTAGx->msgRST.msgBit = LL_GPIO_PIN_4;
 	//---TDI->PA7---host->device
-	JTAGx->msgTDI.msgGPIOPort = GPIOA;
-	JTAGx->msgTDI.msgGPIOBit = LL_GPIO_PIN_7;
+	JTAGx->msgTDI.msgPort = GPIOA;
+	JTAGx->msgTDI.msgBit = LL_GPIO_PIN_7;
 	//---TDO->PA6---device->host
-	JTAGx->msgTDO.msgGPIOPort = GPIOA;
-	JTAGx->msgTDO.msgGPIOBit = LL_GPIO_PIN_6;
+	JTAGx->msgTDO.msgPort = GPIOA;
+	JTAGx->msgTDO.msgBit = LL_GPIO_PIN_6;
 #endif
 	//---OE使用的端口
 #ifdef JTAG_USE_lEVEL_SHIFT
@@ -100,8 +100,8 @@ UINT8_T JTAG_Device0_Init(JTAG_HandlerType* JTAGx)
 	JTAGx->msgOE.msgBit = LL_GPIO_PIN_11;
 #else
 	 //---OE->PD13---控制电平装换的使能
-	JTAGx->msgOE.msgGPIOPort = GPIOD;
-	JTAGx->msgOE.msgGPIOBit = LL_GPIO_PIN_13;
+	JTAGx->msgOE.msgPort = GPIOD;
+	JTAGx->msgOE.msgBit = LL_GPIO_PIN_13;
 #endif
 #endif
 	JTAGx->msgPluseWidth = 0;
@@ -174,10 +174,10 @@ UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 	JTAG_GPIO_OUT_1(JTAGx->msgTMS);
 #ifndef JTAG_USE_HV_RESET
 	//---使能端口时钟
-	GPIOTask_Clock(JTAGx->msgRST.msgGPIOPort, 1);
+	GPIOTask_Clock(JTAGx->msgRST.msgPort, 1);
 	//---RST---输出为高
-	GPIO_InitStruct.Pin = JTAGx->msgRST.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgRST.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgRST.msgBit;
+	LL_GPIO_Init(JTAGx->msgRST.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgRST);
 #endif
 #ifdef JTAG_USE_lEVEL_SHIFT
@@ -232,8 +232,8 @@ UINT8_T JTAG_GPIO_DeInit(JTAG_HandlerType* JTAGx)
 	JTAGx->msgPortRst(JTAG_RST_TO_HZ);
 #else
 	//---RST---输入上拉
-	GPIO_InitStruct.Pin = JTAGx->msgRST.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgRST.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgRST.msgBit;
+	LL_GPIO_Init(JTAGx->msgRST.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgRST);
 #endif
 #ifdef JTAG_USE_lEVEL_SHIFT
