@@ -169,7 +169,6 @@ UINT8_T AT24CXX_I2C_DeviceType(AT24CXX_HandlerType *AT24CXXx)
 		GPIO_OUT_1(AT24CXXx->msgWP.msgPort, AT24CXXx->msgWP.msgBit);
 	}
 #endif
-
 	AT24CXXx->msgI2C.msgI2Cx = NULL;
 	AT24CXXx->msgI2C.msgSCL.msgPort = GPIOB;
 	AT24CXXx->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;

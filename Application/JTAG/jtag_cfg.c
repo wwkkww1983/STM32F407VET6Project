@@ -16,15 +16,15 @@ void JTAG_Device0_RST(UINT8_T rstState)
 {
 	if (rstState == JTAG_RST_TO_GND)
 	{
-		RST_TO_GND;
+		RST_PORT_TO_GND;
 	}
 	else if (rstState == JTAG_RST_TO_VCC)
 	{
-		RST_TO_VCC;
+		RST_PORT_TO_VCC;
 	}
 	else
 	{
-		RST_TO_HZ;
+		RST_PORT_TO_HZ;
 	}
 }
 
@@ -2661,7 +2661,7 @@ UINT8_T JTAG_EnterProg(JTAG_HandlerType* JTAGx)
 UINT8_T JTAG_ExitProg(JTAG_HandlerType* JTAGx)
 {
 	//---清除Eeprom页编程模式
-	JTAGx->msgEepromIsPageMode = 0;
+	JTAGx->msgEepromPageMode = 0;
 	//---清除数据缓存区的序号
 	JTAGx->msgPageWordIndex = 0;
 	//---编程状态为空闲模式
@@ -3777,6 +3777,6 @@ UINT8_T JTAG_SetConfigInfo(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
 	JTAGx->msgEerpomPerPageByteSize = *(pVal++);
 	JTAGx->msgEerpomPerPageByteSize = (JTAGx->msgEerpomPerPageByteSize << 8) + *(pVal++);
 	//---Eeprom是否支持页编程模式
-	JTAGx->msgEepromIsPageMode = *(pVal++);
+	JTAGx->msgEepromPageMode = *(pVal++);
 	return OK_0;
 }

@@ -625,7 +625,7 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx)
 	GPIO_OUT_1(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
 
 	//---开启I2C外设时钟
-	I2C_Clock(I2Cx->msgI2Cx, PERIPHERAL_CLOCK_ENABLE);
+	I2C_Clock(I2Cx, PERIPHERAL_CLOCK_ENABLE);
 	//---复位I2C
 	LL_I2C_DeInit(I2Cx->msgI2Cx);
 	//---初始化I2C
@@ -674,7 +674,7 @@ UINT8_T I2C_MHW_START(I2C_HandlerType* I2Cx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T I2C_MHW_STOP(I2C_HandlerType* I2Cx)
 {
-	
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -686,7 +686,7 @@ UINT8_T I2C_MHW_STOP(I2C_HandlerType* I2Cx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T I2C_MHW_SendByte(I2C_HandlerType* I2Cx, UINT8_T val)
 {
-	
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -698,7 +698,7 @@ UINT8_T I2C_MHW_SendByte(I2C_HandlerType* I2Cx, UINT8_T val)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T I2C_MHW_ReadByte(I2C_HandlerType* I2Cx)
 {
-
+	return OK_0;
 }
 
 

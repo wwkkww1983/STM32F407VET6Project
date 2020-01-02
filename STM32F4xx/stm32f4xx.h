@@ -247,8 +247,12 @@ typedef enum
   */
 
 #if defined (USE_HAL_DRIVER)
- #include "stm32f4xx_hal.h"
+    #include "stm32f4xx_hal.h"
 #endif /* USE_HAL_DRIVER */
+
+#if defined (USE_FULL_LL_DRIVER)
+    #include "stm32f4xx_ll.h"
+#endif
 
 #ifdef __cplusplus
 }
