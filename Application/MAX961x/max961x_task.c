@@ -7,9 +7,9 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961XTask_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C)
+UINT8_T MAX961XTask_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
-	return MAX961XLib_I2C_Init(MAX961x, pFuncDelayus, isHWI2C);
+	return MAX961XLib_I2C_Init(MAX961x, pFuncDelayus, pFuncTimerTick, isHWI2C);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

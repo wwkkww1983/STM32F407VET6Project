@@ -6,9 +6,9 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563Lib_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C)
+UINT8_T PCF8563Lib_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
-	return PCF8563_I2C_Init(PCF8563x, pFuncDelayus, isHWI2C);
+	return PCF8563_I2C_Init(PCF8563x, pFuncDelayus,pFuncTimerTick, isHWI2C);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

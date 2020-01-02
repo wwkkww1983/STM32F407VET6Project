@@ -18,7 +18,7 @@ UINT8_T AHT10_I2C_Device0_Init(AHT10_HandlerType* AHT10x)
 	AHT10x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	AHT10x->msgI2C.msgSDA.msgPort = GPIOB;
 	AHT10x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
-	AHT10x->msgI2C.msgModelIsHW = 0;
+	AHT10x->msgI2C.msgHwModel = 0;
 	AHT10x->msgI2C.msgPluseWidth = 0;
 	AHT10x->msgI2C.msgDelayus = NULL;
 	AHT10x->msgI2C.msgAddr = AHT10_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
@@ -62,7 +62,7 @@ UINT8_T AHT10_I2C_Device2_Init(AHT10_HandlerType* AHT10x)
 UINT8_T AHT10_I2C_DeInit(AHT10_HandlerType* AHT10x)
 {
 	//---注销I2C设备
-	if (AHT10x->msgI2C.msgModelIsHW == 1)
+	if (AHT10x->msgI2C.msgHwModel == 1)
 	{
 		return ERROR_1;
 	}
@@ -103,14 +103,14 @@ UINT8_T AHT10_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T d
 	if (isHWI2C)
 	{
 		//---初始化硬件I2C
-		_return = I2CTask_MHW_Init(&(AHT10x->msgI2C));
-		AHT10x->msgI2C.msgModelIsHW = 1;
+		_return = I2CTask_MHW_Init(&(AHT10x->msgI2C),pFuncTimerTick);
+		AHT10x->msgI2C.msgHwModel = 1;
 	}
 	else
 	{
 		//---初始化软件模拟I2C
-		_return = I2CTask_MSW_Init(&(AHT10x->msgI2C), pFuncDelayus);
-		AHT10x->msgI2C.msgModelIsHW = 0;
+		_return = I2CTask_MSW_Init(&(AHT10x->msgI2C), pFuncDelayus,pFuncTimerTick);
+		AHT10x->msgI2C.msgHwModel = 0;
 	}
 	//---延时等待40ms
 	if (pFuncDelayms!=NULL)
@@ -121,19 +121,10 @@ UINT8_T AHT10_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T d
 	{
 		DelayTask_ms(40);
 	}
-	//---注册滴答函数
-	if (pFuncTimerTick != NULL)
-	{
-		AHT10x->msgTimeTick = pFuncTimerTick;
-	}
-	else
-	{
-		AHT10x->msgTimeTick = SysTickTask_GetTick;
-	}
 	//---配置设备
 	_return = AHT10_I2C_Config(AHT10x);
 	//---当前时间
-	AHT10x->msgRecordTime = AHT10x->msgTimeTick();
+	AHT10x->msgRecordTime = AHT10x->msgI2C.msgTimeTick();
 	return _return;
 }
 
@@ -198,7 +189,7 @@ UINT8_T AHT10_HWI2C_WriteBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T 
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T AHT10_I2C_WriteBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
-	if (AHT10x->msgI2C.msgModelIsHW == 0)
+	if (AHT10x->msgI2C.msgHwModel == 0)
 	{
 		//---软件模拟I2C
 		return AHT10_SWI2C_WriteBulk(AHT10x,pVal, length);
@@ -271,7 +262,7 @@ UINT8_T AHT10_HWI2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T l
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T AHT10_I2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
-	if (AHT10x->msgI2C.msgModelIsHW == 0)
+	if (AHT10x->msgI2C.msgHwModel == 0)
 	{
 		//---软件模拟I2C
 		return AHT10_SWI2C_ReadBulk(AHT10x, pVal, length);
@@ -315,7 +306,7 @@ UINT8_T AHT10_I2C_StartMeasure(AHT10_HandlerType* AHT10x)
 	//---发送测量命令
 	UINT8_T _return=AHT10_I2C_WriteBulk(AHT10x, tempCMD, 3);
 	//---获取时间街拍
-	AHT10x->msgRecordTime=AHT10x->msgTimeTick();
+	AHT10x->msgRecordTime= AHT10x->msgI2C.msgTimeTick();
 	return _return;
 }
 
@@ -329,7 +320,7 @@ UINT8_T AHT10_I2C_StartMeasure(AHT10_HandlerType* AHT10x)
 UINT8_T AHT10_I2C_STATE(AHT10_HandlerType* AHT10x)
 {	
 	//---当前时间节点
-	UINT32_T nowTime = AHT10x->msgTimeTick();
+	UINT32_T nowTime = AHT10x->msgI2C.msgTimeTick();
 	UINT32_T cnt = 0;
 	//---判断滴答定时是否发生溢出操作
 	if (AHT10x->msgRecordTime > nowTime)

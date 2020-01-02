@@ -11,7 +11,7 @@ pSHT2X_HandlerType pSht2xDevice0 = &g_Sht2xDevice0;
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C)
+UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---指定设备的初始化
@@ -35,14 +35,14 @@ UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T de
 	if (isHWI2C)
 	{
 		//---初始化硬件I2C
-		_return = I2CTask_MHW_Init(&(SHT2x->msgI2C));
-		SHT2x->msgI2C.msgModelIsHW = 1;
+		_return = I2CTask_MHW_Init(&(SHT2x->msgI2C),pFuncTimerTick);
+		SHT2x->msgI2C.msgHwModel = 1;
 	}
 	else
 	{
 		//---初始化软件模拟I2C
-		_return = I2CTask_MSW_Init(&(SHT2x->msgI2C), pFuncDelayus);
-		SHT2x->msgI2C.msgModelIsHW = 0;
+		_return = I2CTask_MSW_Init(&(SHT2x->msgI2C), pFuncDelayus,pFuncTimerTick);
+		SHT2x->msgI2C.msgHwModel = 0;
 	}
 	return _return;
 }
@@ -61,7 +61,7 @@ UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandlerType *SHT2x)
 	SHT2x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	SHT2x->msgI2C.msgSDA.msgPort = GPIOB;
 	SHT2x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
-	SHT2x->msgI2C.msgModelIsHW = 0;
+	SHT2x->msgI2C.msgHwModel = 0;
 	SHT2x->msgI2C.msgPluseWidth = 0;
 	SHT2x->msgI2C.msgDelayus = NULL;
 	SHT2x->msgI2C.msgAddr = SHT2X_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
@@ -103,7 +103,7 @@ UINT8_T SHT2X_I2C_Device2_Init(SHT2X_HandlerType *SHT2x)
 UINT8_T SHT2X_I2C_DeInit(SHT2X_HandlerType *SHT2x)
 {
 	//---注销I2C设备
-	if (SHT2x->msgI2C.msgModelIsHW == 1)
+	if (SHT2x->msgI2C.msgHwModel == 1)
 	{
 		return ERROR_1;
 	}
@@ -162,7 +162,7 @@ UINT8_T SHT2X_HWI2C_WriteCmd(SHT2X_HandlerType *SHT2x, UINT8_T cmd)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SHT2X_I2C_WriteCmd(SHT2X_HandlerType *SHT2x, UINT8_T cmd)
 {
-	if (SHT2x->msgI2C.msgModelIsHW == 0)
+	if (SHT2x->msgI2C.msgHwModel == 0)
 	{
 		return SHT2X_SWI2C_WriteCmd(SHT2x, cmd);
 	}
@@ -321,7 +321,7 @@ UINT8_T SHT2X_HWI2C_GetSerialNumber(SHT2X_HandlerType *SHT2x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SHT2X_I2C_GetSerialNumber(SHT2X_HandlerType *SHT2x)
 {
-	if (SHT2x->msgI2C.msgModelIsHW == 0)
+	if (SHT2x->msgI2C.msgHwModel == 0)
 	{
 		return SHT2X_SWI2C_GetSerialNumber(SHT2x);
 	}

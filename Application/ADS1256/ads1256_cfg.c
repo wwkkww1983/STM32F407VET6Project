@@ -266,13 +266,13 @@ UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT
 	//---判断初始化的方式
 	if (isHW != 0)
 	{
-		ADS1256x->msgSPI.msgModelIsHW = 1;
+		ADS1256x->msgSPI.msgHwModel = 1;
 		ADS1256_SPI_HW_Init(ADS1256x);
 		ADS1256_SPI_SEND_CMD = ADS1256_SPI_HW_SendCmd;
 	}
 	else
 	{
-		ADS1256x->msgSPI.msgModelIsHW = 0;
+		ADS1256x->msgSPI.msgHwModel = 0;
 		ADS1256_SPI_SW_Init(ADS1256x);
 		ADS1256_SPI_SEND_CMD = ADS1256_SPI_SW_SendCmd;
 	}
@@ -323,7 +323,7 @@ UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS1256_SPI_AutoInit(ADS1256_HandlerType* ADS1256x)
 {
-	if (ADS1256x->msgSPI.msgModelIsHW != 0)
+	if (ADS1256x->msgSPI.msgHwModel != 0)
 	{
 		//---软件初始化
 		ADS1256_SPI_HW_Init(ADS1256x);

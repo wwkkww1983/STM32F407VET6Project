@@ -7,9 +7,9 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XLib_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C)
+UINT8_T SHT2XLib_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
-	return SHT2X_I2C_Init(SHT2x, pFuncDelayus, isHWI2C);
+	return SHT2X_I2C_Init(SHT2x, pFuncDelayus,pFuncTimerTick, isHWI2C);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

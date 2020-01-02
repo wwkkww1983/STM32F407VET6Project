@@ -7,7 +7,7 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "max961x_cfg.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-	UINT8_T MAX961XLib_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);
+	UINT8_T MAX961XLib_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
 	UINT8_T MAX961XLib_I2C_CheckDevice(MAX961X_HandlerType* MAX961x);
 	UINT8_T MAX961XLib_I2C_GetRSVoltage(MAX961X_HandlerType* MAX961x);
 	UINT8_T MAX961XLib_I2C_GetRSCurrent(MAX961X_HandlerType* MAX961x, UINT8_T currentGain);

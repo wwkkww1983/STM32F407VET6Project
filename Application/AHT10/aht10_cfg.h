@@ -28,12 +28,11 @@ extern "C" {
 	//===SHT2X的数据结构体
 	struct _AHT10_HandlerType
 	{
-		INT32_T				msgTemp;															//---放大100倍的温度值
-		INT32_T				msgHumi;															//---放大100倍的湿度值
-		UINT16_T			msgIntervalTime;														//---轮询时间间隔,单位是ms
-		UINT32_T			msgRecordTime;															//---记录的时间参数
-		I2C_HandlerType		msgI2C;																	//---使用的I2C
-		UINT32_T(*msgTimeTick)(void);																//---时间节拍
+		INT32_T				msgTemp;																																				//---放大100倍的温度值
+		INT32_T				msgHumi;																																				//---放大100倍的湿度值
+		UINT16_T			msgIntervalTime;																																		//---轮询时间间隔,单位是ms
+		UINT32_T			msgRecordTime;																																			//---记录的时间参数
+		I2C_HandlerType		msgI2C;																																					//---使用的I2C
 	};
 
 	//===定义的任务函数

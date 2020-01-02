@@ -150,9 +150,9 @@ void Sys_Init(void)
 	//---ISP的初始化
 	ISPTask_Init(pIspDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
 	//---WM8510
-	WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, 0);
+	WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---SI5351A
-	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, 0);
+	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---指示灯的初始化
 	//LEDTask_Init();	
 	//---DAC的初始化

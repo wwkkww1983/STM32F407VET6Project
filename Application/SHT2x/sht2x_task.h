@@ -8,7 +8,7 @@ extern "C" {
 	#include "sht2x_lib.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===º¯Êý¶¨Òå
-	UINT8_T SHT2XTask_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);
+	UINT8_T SHT2XTask_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
 	UINT8_T SHT2XTask_I2C_DeInit(SHT2X_HandlerType *SHT2x);
 	UINT8_T SHT2XTask_I2C_SoftReset(SHT2X_HandlerType *SHT2x);
 	UINT8_T SHT2XTask_I2C_GetSerialNumber(SHT2X_HandlerType *SHT2x);

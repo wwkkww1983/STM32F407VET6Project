@@ -283,14 +283,14 @@ UINT8_T ADS868X_SPI_Init(ADS868X_HandlerType *ADS868x, void(*pFuncDelayus)(UINT3
 	//---判断初始化的方式
 	if (isHW != 0)
 	{
-		ADS868x->msgSPI.msgModelIsHW = 1;
+		ADS868x->msgSPI.msgHwModel = 1;
 		ADS868X_SPI_HW_Init(ADS868x);
 		ADS868X_SPI_SEND_CMD = ADS868X_SPI_HW_SendCmd;
 		ADS868X_SPI_SEND_ARRAY = ADS868X_SPI_HW_SendArray;
 	}
 	else
 	{
-		ADS868x->msgSPI.msgModelIsHW = 0;
+		ADS868x->msgSPI.msgHwModel = 0;
 		ADS868X_SPI_SW_Init(ADS868x);
 		ADS868X_SPI_SEND_CMD = ADS868X_SPI_SW_SendCmd;
 		ADS868X_SPI_SEND_ARRAY = ADS868X_SPI_SW_SendArray;
@@ -337,7 +337,7 @@ UINT8_T ADS868X_SPI_Init(ADS868X_HandlerType *ADS868x, void(*pFuncDelayus)(UINT3
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS868X_SPI_AutoInit(ADS868X_HandlerType* ADS868x)
 {
-	if (ADS868x->msgSPI.msgModelIsHW != 0)
+	if (ADS868x->msgSPI.msgHwModel != 0)
 	{
 		//---软件初始化
 		ADS868X_SPI_HW_Init(ADS868x);

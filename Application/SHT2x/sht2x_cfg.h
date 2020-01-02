@@ -62,10 +62,10 @@ extern "C" {
 	//===SHT2X的数据结构体
 	struct _SHT2X_HandlerType
 	{
-		UINT8_T msgSerialNumber[8 + 4 + 2];															//---设备序列号
-		INT16_T msgTempX100;																		//---放大100倍的温度值
-		INT16_T msgHumiX100;																		//---放大100倍的湿度值
-		I2C_HandlerType msgI2C;																		//---使用的I2C
+		UINT8_T msgSerialNumber[8 + 4 + 2];																																			//---设备序列号
+		INT16_T msgTempX100;																																						//---放大100倍的温度值
+		INT16_T msgHumiX100;																																						//---放大100倍的湿度值
+		I2C_HandlerType msgI2C;																																						//---使用的I2C
 	};
 
 	//===定义的任务函数
@@ -78,7 +78,7 @@ extern "C" {
 	extern pSHT2X_HandlerType							pSht2xDevice0;
 
 	//===函数定义
-	UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);
+	UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
 	UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandlerType *SHT2x);
 	UINT8_T SHT2X_I2C_Device1_Init(SHT2X_HandlerType *SHT2x);
 	UINT8_T SHT2X_I2C_Device2_Init(SHT2X_HandlerType *SHT2x);
