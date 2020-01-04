@@ -156,7 +156,7 @@ void Sys_Init(void)
 	//---指示灯的初始化
 	//LEDTask_Init();	
 	//---DAC的初始化
-	DACTask_Init(3,1);
+	DACTask_Init(DAC_CHANNEL_SELECT_ALL, DAC_CHANNEL_ENABLE_BUFFER);
 	//---初始化LM317做的可调电源
 	LM317Task_Init(0,3300);
 	LM317_POWER_ON;
