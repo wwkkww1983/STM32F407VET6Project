@@ -138,7 +138,7 @@ void Sys_Init(void)
 	//---硬件RTC的初始化
 	//SysRTCTask_HardRTCInit(pSysHWRTC,0,0);
 	//---软件RTC的初始化
-	SysRTC_SoftRTCInit(pSysSoftRTC,0,0);
+	SysRTCTask_SoftRTCInit(pSysSoftRTC,0,0);
 	//---GPIO初始化
 	GPIOTask_Init();    
 	//---滴答定时器初始化
@@ -147,6 +147,8 @@ void Sys_Init(void)
 	RandomTask_Init(0);
 	//---CRC校验初始化
 	CRCTask_Init();
+	//---定时器初始化
+	TimerTask_Init();
 	//---ISP的初始化
 	ISPTask_Init(pIspDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
 	//---WM8510
@@ -154,17 +156,14 @@ void Sys_Init(void)
 	//---SI5351A
 	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---指示灯的初始化
-	//LEDTask_Init();	
+	LEDTask_Init();	
 	//---DAC的初始化
 	DACTask_Init(DAC_CHANNEL_SELECT_ALL, DAC_CHANNEL_ENABLE_BUFFER);
+	//---数据总线的初始化
+	DataBus_Init();
 	//---初始化LM317做的可调电源
-	LM317Task_Init(0,3300);
+	LM317Task_Init(0,5000);
 	LM317_POWER_ON;
-	JTAG_Init(pJtagDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick);
-	JTAG_EnterProg(pJtagDevice0);
-	JTAG_ReadIDChip(pJtagDevice0,NULL);
-	JTAG_ReadChipID(pJtagDevice0, NULL);
-	JTAG_ExitProg(pJtagDevice0);
 	//---ADC初始化
 	ADCTask_ADC_Init();
 	ADCTask_ADCTask_START(ADC1);
@@ -183,15 +182,47 @@ void Sys_Init(void)
 //////////////////////////////////////////////////////////////////////////////
 int main(void)
 {
+	UINT8_T _return=0;
+	UINT16_T i=0;
+	
 	//---系统初始化函数
 	Sys_Init();
+	//---读取校准字
+	_return = DataBus_Read();
+	if (_return==0xFF)
+	{
+		LM317_POWER_OFF;
+		DelayTask_ms(5);
+		LM317_POWER_ON;
+	}
 	//---主循环
 	while (1)
 	{		
+		for ( i = 0; i < 256; i++)
+		{
+			//---发送脉冲信号
+			GPIO_OUT_0(TRIG_PULSE_PORT, TRIG_PULSE_BIT);
+			DelayTask_ms(1);
+			GPIO_OUT_1(TRIG_PULSE_PORT, TRIG_PULSE_BIT);
+			DelayTask_ms(1);
+			//---延时100ms，读取频率值
+			DelayTask_ms(100);
+			//---读取校准字
+			_return = DataBus_Read();
+			//---获取时钟频率
+			TimerTask_CalcFreq_Task(0);
+			USART_Printf(pUsart1,"OSCCAL;%d;FREQ;%f;\r\n",_return, pCalcFreq->msgFreqKHz[0]);
+		}
+		if (i>0xFF)
+		{
+			while (1);
+		}
 		//---模拟RTC处理
 		SysRTCTask_SoftRTCTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---任务管理函数
-		Task_Manage();
+		//Task_Manage();
+		//---频率测试函数
+		USARTTask_DebugFreqTask(pUsart1,NULL);
 		//---喂狗
 		WDT_RESET();
 	}

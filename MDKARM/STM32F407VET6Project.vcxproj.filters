@@ -49,6 +49,9 @@
     <Filter Include="Application\DS18B20">
       <UniqueIdentifier>{EC91B3E6-58F3-90F4-E160-D7A64DC1C7B3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\DataBus">
+      <UniqueIdentifier>{ECB82E0C-581A-0C1A-E187-52CC4DE842D9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\Decode">
       <UniqueIdentifier>{CC5CCCBA-B840-8D10-21A1-87630DA47792}</UniqueIdentifier>
     </Filter>
@@ -61,11 +64,17 @@
     <Filter Include="Application\ENC28J60">
       <UniqueIdentifier>{18A80F52-0437-991B-AD55-AD1699C3A9C1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\ESP8266">
+      <UniqueIdentifier>{C682DE35-32E4-BB43-BB51-02F627B2F202}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\EXIT">
       <UniqueIdentifier>{62E45CF1-4EDD-7B43-770F-61C863675B4F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Encode">
       <UniqueIdentifier>{F661C4BD-E245-8513-4BA6-7F6637A96F95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\FIFO">
+      <UniqueIdentifier>{8C305DF1-7829-7C43-A15B-61C88DB35B4F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\FLASH">
       <UniqueIdentifier>{B6D2041D-22E9-02B3-6B60-8ED4D7B5D33A}</UniqueIdentifier>
@@ -198,6 +207,15 @@
     </Filter>
     <Filter Include="Application\USART">
       <UniqueIdentifier>{D718181E-432F-16B4-8CA6-A1D5F8FBE63B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\USB">
+      <UniqueIdentifier>{B2DD296C-1E69-9730-277A-1A259384F330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\USB\USB">
+      <UniqueIdentifier>{0BA18004-7702-5E12-0070-A4C46CD094D1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\USB\USBHid">
+      <UniqueIdentifier>{6049D00C-4C43-F95E-35B0-8F6F21495FCB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\W25Qxx">
       <UniqueIdentifier>{A7C869E3-93AC-2A39-FC0C-258CE80F15BB}</UniqueIdentifier>
@@ -369,6 +387,9 @@
     <ClInclude Include="..\Application\DS18B20\ds18b20_task.h">
       <Filter>Application\DS18B20</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\DataBus\data_bus.h">
+      <Filter>Application\DataBus</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\Decode\decode_cfg.h">
       <Filter>Application\Decode</Filter>
     </ClInclude>
@@ -405,6 +426,15 @@
     <ClInclude Include="..\Application\ENC28J60\enc28j60_task.h">
       <Filter>Application\ENC28J60</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\ESP8266\esp8266_cfg.h">
+      <Filter>Application\ESP8266</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ESP8266\esp8266_lib.h">
+      <Filter>Application\ESP8266</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\ESP8266\esp8266_task.h">
+      <Filter>Application\ESP8266</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\EXIT\exit_cfg.h">
       <Filter>Application\EXIT</Filter>
     </ClInclude>
@@ -422,6 +452,12 @@
     </ClInclude>
     <ClInclude Include="..\Application\Encode\encode_task.h">
       <Filter>Application\Encode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\FIFO\fifo.h">
+      <Filter>Application\FIFO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\FIFO\queue_fifo.h">
+      <Filter>Application\FIFO</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\FLASH\flash_cfg.h">
       <Filter>Application\FLASH</Filter>
@@ -786,6 +822,24 @@
     <ClInclude Include="..\Application\USART\usart_task.h">
       <Filter>Application\USART</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\USB\USB\usb_cfg.h">
+      <Filter>Application\USB\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USB\usb_lib.h">
+      <Filter>Application\USB\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USB\usb_task.h">
+      <Filter>Application\USB\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USBHid\usbhid_cfg.h">
+      <Filter>Application\USB\USBHid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USBHid\usbhid_lib.h">
+      <Filter>Application\USB\USBHid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USBHid\usbhid_task.h">
+      <Filter>Application\USB\USBHid</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\W25Qxx\w25qxx_cfg.h">
       <Filter>Application\W25Qxx</Filter>
     </ClInclude>
@@ -1058,6 +1112,9 @@
     <ClCompile Include="..\Application\DS18B20\ds18b20_task.c">
       <Filter>Application\DS18B20</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\DataBus\data_bus.c">
+      <Filter>Application\DataBus</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\Decode\decode_cfg.c">
       <Filter>Application\Decode</Filter>
     </ClCompile>
@@ -1094,6 +1151,15 @@
     <ClCompile Include="..\Application\ENC28J60\enc28j60_task.c">
       <Filter>Application\ENC28J60</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\ESP8266\esp8266_cfg.c">
+      <Filter>Application\ESP8266</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ESP8266\esp8266_lib.c">
+      <Filter>Application\ESP8266</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\ESP8266\esp8266_task.c">
+      <Filter>Application\ESP8266</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\EXIT\exit_cfg.c">
       <Filter>Application\EXIT</Filter>
     </ClCompile>
@@ -1111,6 +1177,12 @@
     </ClCompile>
     <ClCompile Include="..\Application\Encode\encode_task.c">
       <Filter>Application\Encode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\FIFO\fifo.c">
+      <Filter>Application\FIFO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\FIFO\queue_fifo.c">
+      <Filter>Application\FIFO</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\FLASH\flash_cfg.c">
       <Filter>Application\FLASH</Filter>
@@ -1474,6 +1546,24 @@
     </ClCompile>
     <ClCompile Include="..\Application\USART\usart_task.c">
       <Filter>Application\USART</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USB\usb_cfg.c">
+      <Filter>Application\USB\USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USB\usb_lib.c">
+      <Filter>Application\USB\USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USB\usb_task.c">
+      <Filter>Application\USB\USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USBHid\usbhid_cfg.c">
+      <Filter>Application\USB\USBHid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USBHid\usbhid_lib.c">
+      <Filter>Application\USB\USBHid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USBHid\usbhid_task.c">
+      <Filter>Application\USB\USBHid</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\W25Qxx\w25qxx_cfg.c">
       <Filter>Application\W25Qxx</Filter>

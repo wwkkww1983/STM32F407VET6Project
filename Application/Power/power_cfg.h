@@ -104,7 +104,7 @@ extern "C" {
 	void Power_Init(void);
 	void Power_DeInit(void);
     
-	#define LM317_USE_HV_RESET
+	//#define LM317_USE_HV_RESET
 
 	#ifdef LM317_USE_HV_RESET
 		//===LM317Ê¹ÄÜ¶Ë¿Ú

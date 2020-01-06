@@ -90,8 +90,13 @@ UINT8_T WM8510_I2C_Device0_Init(WM8510_HandlerType *WM8510x)
 	WM8510x->msgI2C.msgAddr = WM8510_WADDR;
 	WM8510x->msgI2C.msgClockSpeed = 0;
 	#ifdef WM8510_USE_lEVEL_SHIFT
-		WM8510x->msgOE.msgPort=GPIOB;
-		WM8510x->msgOE.msgBit=LL_GPIO_PIN_5;
+		#ifdef WM8510_USE_HV_RESET
+			WM8510x->msgOE.msgPort=GPIOB;
+			WM8510x->msgOE.msgBit=LL_GPIO_PIN_5;
+		#else
+			WM8510x->msgOE.msgPort = GPIOB;
+			WM8510x->msgOE.msgBit = LL_GPIO_PIN_4;
+		#endif
 		//---GPIO的结构体
 		LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 		GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;														//---配置状态为输出模式

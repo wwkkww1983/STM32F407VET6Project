@@ -35,8 +35,8 @@ void Timer_CalcFreqMode_Init(void)
 #endif
 	LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 #ifdef CALC_FREQ_lEVEL_SHIFT
-	pCalcFreq->msgOE[0].msgPort=GPIOD;
-	pCalcFreq->msgOE[0].msgBit= LL_GPIO_PIN_7;
+	pCalcFreq->msgOE[0].msgPort=GPIOC;
+	pCalcFreq->msgOE[0].msgBit= LL_GPIO_PIN_8;
 	//---使能端口时钟
 	GPIO_Clock(pCalcFreq->msgOE[0].msgPort, 1);
 	GPIO_InitStruct.Pin = pCalcFreq->msgOE[0].msgBit;
@@ -65,8 +65,8 @@ void Timer_CalcFreqMode_Init(void)
 #endif
 	LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 #ifdef CALC_FREQ_lEVEL_SHIFT
-	pCalcFreq->msgOE[1].msgPort = GPIOD;
-	pCalcFreq->msgOE[1].msgBit = LL_GPIO_PIN_7;
+	pCalcFreq->msgOE[1].msgPort = GPIOC;
+	pCalcFreq->msgOE[1].msgBit = LL_GPIO_PIN_8;
 	//---使能端口时钟
 	GPIO_Clock(pCalcFreq->msgOE[1].msgPort, 1);
 	GPIO_InitStruct.Pin = pCalcFreq->msgOE[1].msgBit;
@@ -77,42 +77,6 @@ void Timer_CalcFreqMode_Init(void)
 	LL_GPIO_Init(pCalcFreq->msgOE[1].msgPort, &GPIO_InitStruct);
 	GPIO_OUT_1(pCalcFreq->msgOE[1].msgPort, pCalcFreq->msgOE[1].msgBit);
 #endif
-	/*
-	//---计数器的时钟的预分频
-	TIM_InitStruct.Prescaler = 0;
-	//---向上计数
-	TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
-	//---自动装载值，自动装载值为空时，计数器不工作
-	TIM_InitStruct.Autoreload = 0xFFFFFF;
-	//---定时器时钟分频数
-	TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
-	//---初始化定时器
-	LL_TIM_Init(TIM3, &TIM_InitStruct);
-	//---是能自动装载
-	LL_TIM_EnableARRPreload(TIM3);
-	//---设置触发输入通道
-	LL_TIM_SetTriggerInput(TIM3, LL_TIM_TS_TI2FP2);
-	//---激活输入通道
-	LL_TIM_IC_SetActiveInput(TIM3, LL_TIM_CHANNEL_CH2, LL_TIM_ACTIVEINPUT_DIRECTTI);
-	//---设置适合时钟源
-	LL_TIM_SetClockSource(TIM3, LL_TIM_CLOCKSOURCE_EXT_MODE1);
-	//---禁用捕获/比较通道
-	LL_TIM_CC_DisableChannel(TIM3, LL_TIM_CHANNEL_CH2);
-	//---设置通道的滤波时间
-	LL_TIM_IC_SetFilter(TIM3, LL_TIM_CHANNEL_CH2, LL_TIM_IC_FILTER_FDIV1);
-	//---通道2的上升沿触发
-	LL_TIM_IC_SetPolarity(TIM3, LL_TIM_CHANNEL_CH2, LL_TIM_IC_POLARITY_RISING);
-	//---禁用触发中断（TIE）
-	LL_TIM_DisableIT_TRIG(TIM3);
-	//---禁用DMA触发中断（TIE）
-	LL_TIM_DisableDMAReq_TRIG(TIM3);
-	//---主模式选择复位
-	LL_TIM_SetTriggerOutput(TIM3, LL_TIM_TRGO_RESET);
-	//---不使能主从模式
-	LL_TIM_DisableMasterSlaveMode(TIM3);
-	//---使能计数器
-	//LL_TIM_EnableCounter(TIM5);
-	*/
 	Timer_CalcFreqMode_DeInit();
 }
 
@@ -223,6 +187,7 @@ void Timer_CalcFreq_Init(void)
 		LL_TIM_SetCounter(TIM3, 0);
 		//---使能计数器
 		LL_TIM_EnableCounter(TIM3);
+		nCount = 0;
 	}
 	//---读取初始值
 	else if (pCalcFreq->msgStep[pCalcFreq->msgChannel] == 1)
@@ -289,7 +254,7 @@ void Timer_CalcFreq_Init(void)
 void Timer_CalcFreq_Task(UINT8_T ch)
 {
 #ifdef CALC_FREQ_lEVEL_SHIFT
-	GPIO_OUT_0(pCalcFreq->msgOE[ch].msgPort, pCalcFreq->msgOE[0].msgBit);
+	GPIO_OUT_0(pCalcFreq->msgOE[ch].msgPort, pCalcFreq->msgOE[ch].msgBit);
 #endif
 	//---初始化使用的定时器
 	Timer_CalcFreqMode_PreInit(ch);	
@@ -338,14 +303,8 @@ void Timer_CalcFreq_Task(UINT8_T ch)
 	}
 	else
 	{
-		pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] *= 0.099983;
+		pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] *=0.099983;
 	}
-	/*
-	//---恢复滴答定时器的任务
-	SysTickTask_FuncTick(pCalcFreq->msgFuncTask);
-	//---注销任务句柄
-	pCalcFreq->msgFuncTask = NULL;
-	*/
 	//---退出操作
 GoToExit:
 	//---注销任务函数

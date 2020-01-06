@@ -20,19 +20,19 @@ extern "C" {
 	//===计算频率的数据结构体
 	struct  _CalcFreq_HandlerType
 	{
-		VLTUINT8_T  msgChannel;																		//---操作通道
-		VLTUINT8_T  msgStep[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];								//---操作步序
-		float		msgFreqMHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];							//---MHz频率
-		float		msgFreqKHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];							//---KHz频率
-		//void(*msgFuncTask)(void);																	//---操作任务
+		VLTUINT8_T  msgChannel;																																						//---操作通道
+		VLTUINT8_T  msgStep[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];																												//---操作步序
+		float		msgFreqMHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];																											//---MHz频率
+		float		msgFreqKHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];																											//---KHz频率
+		//void(*msgFuncTask)(void);																																					//---操作任务
 		#ifdef CALC_FREQ_lEVEL_SHIFT
-		GPIO_HandlerType	msgOE[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];							//---OE控制端口
+			GPIO_HandlerType	msgOE[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];																										//---OE控制端口
 		#endif
 	};
 
 	//===外部调用接口
-	extern CalcFreq_HandlerType g_CalcFreq;
-	extern pCalcFreq_HandlerType pCalcFreq;
+	extern CalcFreq_HandlerType 	g_CalcFreq;
+	extern pCalcFreq_HandlerType 	pCalcFreq;
 
 	//===函数定义
 	void Timer_CalcFreqMode_DeInit(void);

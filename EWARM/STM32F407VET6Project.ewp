@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.42.1.23869</state>
+                    <state>8.40.1.21529</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -116,7 +116,7 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-                    <version>28</version>
+                    <version>27</version>
                     <state>39</state>
                 </option>
                 <option>
@@ -133,7 +133,7 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-                    <version>28</version>
+                    <version>27</version>
                     <state>39</state>
                 </option>
                 <option>
@@ -156,7 +156,7 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-                    <version>28</version>
+                    <version>27</version>
                     <state>39</state>
                 </option>
                 <option>
@@ -215,7 +215,7 @@
             <name>ICCARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>36</version>
+                <version>35</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -425,13 +425,15 @@
                     <state>$PROJ_DIR$\..\Application\SMBUS</state>
                     <state>$PROJ_DIR$\..\Application\LIN</state>
                     <state>$PROJ_DIR$\..\Application\INA226</state>
-					<state>$PROJ_DIR$\..\Application\EXIT</state>
                     <state>$PROJ_DIR$\..\Application\SI5351A</state>
                     <state>$PROJ_DIR$\..\Application\TaskManage</state>
                     <state>$PROJ_DIR$\..\Application\HVPP</state>
                     <state>$PROJ_DIR$\..\Application\HVSP</state>
                     <state>$PROJ_DIR$\..\Application\JTAG</state>
                     <state>$PROJ_DIR$\..\Application\AHT10</state>
+                    <state>$PROJ_DIR$\..\Application\DataBus</state>
+                    <state>$PROJ_DIR$\..\Application\HardWare</state>
+                    <state>$PROJ_DIR$\..\Application\MCO</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -548,10 +550,6 @@
                 <option>
                     <name>OICompilerExtraOption</name>
                     <state>1</state>
-                </option>
-                <option>
-                    <name>CCStackProtection</name>
-                    <state>0</state>
                 </option>
             </data>
         </settings>
@@ -1384,6 +1382,15 @@
             </file>
         </group>
         <group>
+            <name>DataBus</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DataBus\data_bus.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DataBus\data_bus.h</name>
+            </file>
+        </group>
+        <group>
             <name>Decode</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\Decode\decode_cfg.c</name>
@@ -1531,27 +1538,6 @@
             </file>
         </group>
         <group>
-            <name>EXIT</name>
-            <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.h</name>
-            </file>
-        </group>
-        <group>
             <name>FLASH</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\FLASH\flash_cfg.c</name>
@@ -1591,6 +1577,15 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\GPIO\gpio_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>HardWare</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HardWare\hw_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HardWare\hw_cfg.h</name>
             </file>
         </group>
         <group>
@@ -1894,6 +1889,15 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\MAX961x\max961x_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>MCO</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MCO\mco_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MCO\mco_cfg.h</name>
             </file>
         </group>
         <group>

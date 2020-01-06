@@ -8,6 +8,9 @@ extern "C" {
 	//===头文件定义
 	#include "usart_lib.h"
 	#include "timer_task.h"
+	#include "power_task.h"
+	#include "data_bus.h"
+	#include "delay_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===外部调用接口
@@ -52,7 +55,7 @@ extern "C" {
 	void	 USARTTask_Write_DMA_IRQTask(USART_HandlerType* USARTx);
 	UINT8_T  USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *));
 	UINT8_T  USARTTask_DebugPollFuncTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(UINT8_T*, UINT8_T*));
-
+	UINT8_T  USARTTask_DebugFreqTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(UINT8_T*, UINT8_T*));
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -53,6 +53,9 @@ extern "C" {
 	#include "w25qxx_task.h"
 	#include "wm8510_task.h"
 	#include "wwdg_task.h"
+
+	#include "data_bus.h"
+
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

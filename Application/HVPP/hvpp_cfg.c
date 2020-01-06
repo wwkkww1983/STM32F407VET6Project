@@ -683,7 +683,7 @@ UINT8_T HVPP_EraseChip(HVPP_HandlerType* HVPPx)
 	//---使能命令加载
 	HVPP_ENABLE_CMD_LOAD;
 	//---加载芯片擦除命令
-	HVPP_DATABUS_WRITE(HVPPx, HVPP_CMD_CHIP_ERASE);
+	HVPP_DATABUS_WRITE(HVPPx,HVPP_CMD_CHIP_ERASE);
 	//---给XTAL一个正脉冲用于加载命令
 	HVPP_XTAL_PULSE(HVPPx);
 	//---校验是不是快速模式
@@ -706,7 +706,7 @@ UINT8_T HVPP_EraseChip(HVPP_HandlerType* HVPPx)
 	}	
 	//---释放状态,为空闲模式
 	//HVPP_XA_LOAD_IDLE;
-	return OK_0;
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -900,7 +900,7 @@ UINT8_T HVPP_ReadChipRom(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T addr, U
 		//---使能命令加载
 		HVPP_ENABLE_CMD_LOAD;
 		//---加载读取熔丝位命令
-		HVPP_DATABUS_WRITE(HVPPx, HVPP_CMD_READ_ID_AND_CALIBRATION);
+		HVPP_DATABUS_WRITE(HVPPx,HVPP_CMD_READ_ID_AND_CALIBRATION);
 		//---给XTAL一个正脉冲用于加载命令
 		HVPP_XTAL_PULSE(HVPPx);
 	}

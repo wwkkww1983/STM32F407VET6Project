@@ -66,4 +66,4 @@ stm32f407vet6project/wm8510_task.o: ..\Application\WM8510\wm8510_task.c \
   ..\Application\SysTick\systick_cfg.h ..\Application\I2C\i2c_task.h \
   ..\Application\I2C\i2c_lib.h ..\Application\I2C\i2c_cfg.h \
   ..\Application\Delay\delay_task.h ..\Application\Delay\delay_lib.h \
-  ..\Application\Delay\delay_cfg.h
+  ..\Application\Delay\delay_cfg.h ..\Application\HardWare\hw_cfg.h

@@ -497,7 +497,7 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 				{
 					//---获取时钟频率
 					TimerTask_CalcFreq_Task(0);
-
+					//---计算频率
 					freqVal = (UINT32_T)(pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] * 100);
 				}
 
@@ -509,6 +509,76 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 8));
 				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal ));
 
+				USARTTask_FillMode_WriteSTART(USARTx, 0);
+			}
+			else
+			{
+				//---发生CRC校验错误
+				USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
+			}
+			return USARTTask_Read_Init(USARTx);
+		}
+		return USARTTask_TimeOVFTask(USARTx);
+	}
+	return ERROR_2;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：频率测试函数
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USARTTask_DebugFreqTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(UINT8_T*, UINT8_T*))
+{
+	//UINT16_T length = 0;
+	UINT32_T freqVal = 0;
+	UINT8_T _return=0;
+	if (USARTx != NULL)
+	{
+		//---判断接收是否完成
+		if (USARTTask_GetReadState(USARTx) == 1)
+		{
+			//---CRC的校验
+			if ((USARTTask_CRCTask_Read(USARTx) == OK_0) && (USARTTask_DeviceID(USARTx) == OK_0))
+			{
+				if (USARTx->msgRxdHandler.pMsgVal[USART1_CMD_INDEX] == 0xA4)
+				{
+					//---是否重新上电
+					if (USARTx->msgRxdHandler.pMsgVal[USART1_CMD_INDEX + 1] != 0)
+					{
+						LM317_POWER_OFF;
+						freqVal= USARTx->msgRxdHandler.pMsgVal[USART1_CMD_INDEX + 2];
+						freqVal = (freqVal<<8)+USARTx->msgRxdHandler.pMsgVal[USART1_CMD_INDEX + 3];
+						//---初始化LM317做的可调电源
+						LM317Task_Init(0, freqVal);
+						LM317_POWER_ON;
+					}
+					//---发送脉冲信号
+					GPIO_OUT_0(TRIG_PULSE_PORT, TRIG_PULSE_BIT);
+					DelayTask_us(500);
+					GPIO_OUT_1(TRIG_PULSE_PORT, TRIG_PULSE_BIT);
+					DelayTask_us(500);
+					//---延时100ms，读取频率值
+					DelayTask_ms(100);
+					//---读取校准字
+					_return=DataBus_Read();
+					//---获取时钟频率
+					TimerTask_CalcFreq_Task(0);
+					//---计算频率
+					freqVal = (UINT32_T)(pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] * 100);
+				}
+				//USARTTask_FillMode_AddByte(USARTx, 0xA4);
+				USARTTask_FillMode_Init(USARTx, 0);
+				USARTTask_FillMode_AddByte(USARTx, 0x00);
+				//---读取校准字
+				USARTTask_FillMode_AddByte(USARTx, _return);
+				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 24));
+				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 16));
+				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 8));
+				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal));
+				//---启动数据发送
 				USARTTask_FillMode_WriteSTART(USARTx, 0);
 			}
 			else

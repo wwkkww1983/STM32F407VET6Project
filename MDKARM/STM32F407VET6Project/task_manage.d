@@ -92,22 +92,23 @@ stm32f407vet6project/task_manage.o: \
   ..\Application\RFASK\rfask_task.h ..\Application\RFASK\rfask_lib.h \
   ..\Application\RFASK\rfask_cfg.h ..\Application\WM8510\wm8510_task.h \
   ..\Application\WM8510\wm8510_lib.h ..\Application\WM8510\wm8510_cfg.h \
-  ..\Application\USART\usart_task.h ..\Application\USART\usart_lib.h \
-  ..\Application\USART\usart_cfg.h ..\Application\Power\power_task.h \
-  ..\Application\Power\power_lib.h ..\Application\Power\power_cfg.h \
+  ..\Application\HardWare\hw_cfg.h ..\Application\USART\usart_task.h \
+  ..\Application\USART\usart_lib.h ..\Application\USART\usart_cfg.h \
+  ..\Application\Power\power_task.h ..\Application\Power\power_lib.h \
+  ..\Application\Power\power_cfg.h ..\Application\DataBus\data_bus.h \
   ..\Application\LED\led_task.h ..\Application\LED\led_lib.h \
   ..\Application\LED\led_cfg.h ..\Application\Key\key_task.h \
   ..\Application\Key\key_lib.h ..\Application\Key\key_cfg.h \
   ..\Application\RFASK\rfask_eeprom.h \
   ..\Application\Encode\encode_task.h ..\Application\Encode\encode_lib.h \
-  ..\Application\Encode\encode_cfg.h ..\Application\HardWare\hw_cfg.h \
-  ..\Application\HVPP\hvpp_task.h ..\Application\HVSP\hvsp_task.h \
-  ..\Application\IAP\iap_task.h ..\Application\IAP\iap_lib.h \
-  ..\Application\IAP\iap_cfg.h ..\Application\INA226\ina226_cfg.h \
-  ..\Application\ISP\isp_task.h ..\Application\ISP\isp_lib.h \
-  ..\Application\ISP\isp_cfg.h ..\Application\ADC\adc_Task.h \
-  ..\Application\JTAG\jtag_task.h ..\Application\JTAG\jtag_lib.h \
-  ..\Application\JTAG\jtag_cfg.h ..\Application\LCD1602\lcd1602_task.h \
+  ..\Application\Encode\encode_cfg.h ..\Application\HVPP\hvpp_task.h \
+  ..\Application\HVSP\hvsp_task.h ..\Application\IAP\iap_task.h \
+  ..\Application\IAP\iap_lib.h ..\Application\IAP\iap_cfg.h \
+  ..\Application\INA226\ina226_cfg.h ..\Application\ISP\isp_task.h \
+  ..\Application\ISP\isp_lib.h ..\Application\ISP\isp_cfg.h \
+  ..\Application\ADC\adc_Task.h ..\Application\JTAG\jtag_task.h \
+  ..\Application\JTAG\jtag_lib.h ..\Application\JTAG\jtag_cfg.h \
+  ..\Application\LCD1602\lcd1602_task.h \
   ..\Application\LCD1602\lcd1602_lib.h \
   ..\Application\LCD1602\lcd1602_cfg.h ..\Application\MCO\mco_cfg.h \
   ..\Application\MAX961x\max961x_task.h \

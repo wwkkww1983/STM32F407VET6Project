@@ -16,18 +16,20 @@ UINT8_T(*ISP_SEND_CMD)(ISP_HandlerType *, UINT8_T, UINT8_T, UINT8_T, UINT8_T);
 //////////////////////////////////////////////////////////////////////////////
 void ISP_Device0_RST(UINT8_T rstState)
 {
-	if (rstState == ISP_RST_TO_GND)
-	{
-		RST_PORT_TO_GND;
-	}
-	else if (rstState == ISP_RST_TO_VCC)
-	{
-		RST_PORT_TO_VCC;
-	}
-	else
-	{
-		RST_PORT_TO_HZ;
-	}
+	#ifdef ISP_USE_HV_RESET
+		if (rstState == ISP_RST_TO_GND)
+		{
+			RST_PORT_TO_GND;
+		}
+		else if (rstState == ISP_RST_TO_VCC)
+		{
+			RST_PORT_TO_VCC;
+		}
+		else
+		{
+			RST_PORT_TO_HZ;
+		}
+	#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -338,7 +340,7 @@ UINT8_T ISP_DeInit(ISP_HandlerType *ISPx)
 {
 	SPITask_DeInit(&(ISPx->msgSPI),1);
 	ISPx->msgInit = 0;
-	//---处理高压端口信息
+	//---处理RST端口信息
 #ifdef ISP_USE_HV_RESET
 	ISPx->msgPortRst(ISP_RST_TO_HZ);
 #endif
@@ -605,7 +607,7 @@ UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx)
 #ifdef ISP_USE_HV_RESET
 	ISPx->msgPortRst(ISP_RST_TO_GND);
 #else
-	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+	GPIO_OUT_0(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
 #endif
 	//---打开电源
 	//POWER_DUT_ON;
@@ -690,10 +692,10 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 #ifdef ISP_USE_HV_RESET
 		ISPx->msgPortRst(ISP_RST_TO_VCC);
 #else
-		GPIO_OUT_1(ISPx->msgSPI.msgCS.msgGPIOPort, ISPx->msgSPI.msgCS.msgGPIOBit);
+		GPIO_OUT_1(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
 #endif
 		ISPx->msgDelayms(1);
-		//---清零时钟线和片选端
+		//---清零RST信号
 		//GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgPort, ISPx->msgSPI.msgSCK.msgBit);
 #ifdef ISP_USE_HV_RESET
 		ISPx->msgPortRst(ISP_RST_TO_GND);
@@ -767,7 +769,6 @@ void ISP_WatchTask(ISP_HandlerType* ISPx)
 		{
 			cnt = nowTime - ISPx->msgRecordTime;
 		}
-		//if (cnt > ISP_STATE_TIME_OUT_MS)
 		//---检查是否发生超时事件
 		if (cnt>ISPx->msgIntervalTime)
 		{

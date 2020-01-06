@@ -15,11 +15,7 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===定义JTAG状态保持的时间状态
 	#define JTAG_STATE_TIME_OUT_MS				500
-	//===定义是否使用电平转换芯片，带OE控制端的
-	#define JTAG_USE_lEVEL_SHIFT 	
-	//===定义使用了高压HVSET模式
-	#define JTAG_USE_HV_RESET
-
+	
 	//===JTAG的GPIO的操作定义
 	#define	JTAG_GPIO_STATE(tp)					GPIO_GET_STATE(tp.msgPort,tp.msgBit)
 	#define	JTAG_GPIO_OUT_1(tp)					GPIO_OUT_1(tp.msgPort,tp.msgBit)

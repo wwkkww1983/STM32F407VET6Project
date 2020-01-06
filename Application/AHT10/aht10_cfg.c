@@ -368,15 +368,15 @@ UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x)
 		//---计算温度值
 		//AHT10x->msgTemp = ((tempVal[3] & 0x0F) << 16) | (tempVal[4] << 8) | tempVal[5];
 		AHT10x->msgTemp = (tempVal[3] & 0x0F);
-		AHT10x->msgTemp=(AHT10x->msgTemp<<8)+ tempVal[4];
+		AHT10x->msgTemp =(AHT10x->msgTemp<<8)+ tempVal[4];
 		AHT10x->msgTemp = (AHT10x->msgTemp << 8) + tempVal[5];
-		AHT10x->msgTemp = (((200.0 * (float)AHT10x->msgTemp) / 1048576.0) - 50.0) * 100.0;
+		AHT10x->msgTemp = (INT32_T)((((200.0 * (float)AHT10x->msgTemp) / 1048576.0) - 50.0) * 100.0);
 		//---计算湿度值
 		//AHT10x->msgHumi = ((tempVal[1] << 16) | (tempVal[2] << 8) | tempVal[3]) >> 4;
 		AHT10x->msgHumi = tempVal[1];
 		AHT10x->msgHumi =(AHT10x->msgHumi<<8)+ tempVal[2];
 		AHT10x->msgHumi = (AHT10x->msgHumi << 8) + (tempVal[3]>>4);
-		AHT10x->msgHumi = (float)AHT10x->msgHumi * 10000.0 / 1048576.0;
+		AHT10x->msgHumi = (INT32_T)((float)AHT10x->msgHumi * 10000.0 / 1048576.0);
 	}
 	//---启动下次测量装换装换
 	AHT10_I2C_StartMeasure(AHT10x);
