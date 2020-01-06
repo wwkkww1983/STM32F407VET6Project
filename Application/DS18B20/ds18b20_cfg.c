@@ -333,7 +333,7 @@ UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 		return ERROR_1;
 	}
 	//---读取数据之前首先设置为数据无效，避免其他设备使用
-	DS18B20x->msgIsPositive = 0;
+	DS18B20x->msgPositive = 0;
 	//---延时等待
 	DS18B20x->msgDelayms(1);
 	//---初始化温度传感器---总线复位
@@ -352,19 +352,19 @@ UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 	if ((tempH & 0x80) == 0)
 	{
 		//---读取的温度是正值
-		DS18B20x->msgIsPositive = 2;
+		DS18B20x->msgPositive = 2;
 	}
 	else
 	{
 		//===读取的温度是负值
-		DS18B20x->msgIsPositive = 1;
+		DS18B20x->msgPositive = 1;
 	}
 	//---读取的温度值
 	tempH = _return;
 	//---保留有效位数据
 	tempH &= 0x0FFF;
 	//---获取温度值对应的16进制的数据
-	if (DS18B20x->msgIsPositive == 2)
+	if (DS18B20x->msgPositive == 2)
 	{
 		DS18B20x->msgTempX10000 = tempH;
 	}
@@ -429,19 +429,19 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id
 	if ((temH & 0x80) == 0)
 	{
 		//---读取的温度是正值
-		DS18B20x->msgIsPositive = 0;
+		DS18B20x->msgPositive = 0;
 	}
 	else
 	{
 		//===读取的温度是负值
-		DS18B20x->msgIsPositive = 1;
+		DS18B20x->msgPositive = 1;
 	}
 	//---读取的温度值
 	temH = _return;
 	//---保留有效位数据
 	temH &= 0x0FFF;
 	//---获取温度值对应的16进制的数据
-	if (DS18B20x->msgIsPositive == 0)
+	if (DS18B20x->msgPositive == 0)
 	{
 		DS18B20x->msgTempX10000 = temH;
 	}

@@ -176,7 +176,7 @@ extern "C" {
 		VLTUINT8_T  msgChannelPWRDN;											//---通道掉电模式
 		VLTUINT8_T  msgFeature;													//---特性设置参数
 		VLTUINT8_T  msgChannelMode[ADS868X_CHANNEL_MAX];						//---输入装换模式,0---未选中使能；1---选中使能
-		VLTUINT8_T	msgIsPositive[ADS868X_CHANNEL_MAX];							//---0---无数据，1---是负数，2---是正值
+		VLTUINT8_T	msgPositive[ADS868X_CHANNEL_MAX];							//---0---无数据，1---是负数，2---是正值
 		VLTUINT8_T  msgChannelRangeIsPositive[ADS868X_CHANNEL_MAX];				//---0---是正负量程，1---是正量程
 		VLTUINT8_T  msgChannelRange[ADS868X_CHANNEL_MAX];						//---AD通道的量程参考
 		volatile float    msgADCKP[ADS868X_CHANNEL_MAX];						//---ADC采样的比例系数

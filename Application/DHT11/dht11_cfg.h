@@ -24,31 +24,30 @@ extern "C" {
 	#define DHT11_READ_INTERVAL_MS					2000
 	//===定义结构体
 	typedef struct _DHT11_HandlerType DHT11_HandlerType;
-
 	//===定义指针结构体
 	typedef struct _DHT11_HandlerType *pDHT11_HandlerType;
-
 	//===结构体定义
 	struct _DHT11_HandlerType
 	{
-		UINT8_T				msgSTATE;				//---读取状态
-		UINT32_T			msgTempX1000;			//---温度
-		UINT32_T			msgHumiX1000;			//---湿度
-		UINT32_T			msgRecordTime;			//---记录的时间参数
-		GPIO_HandlerType	msgDAT;					//---端口
-		void(*msgDelayus)(UINT32_T delay);			//---us延时函数
-		void(*msgDelayms)(UINT32_T delay);			//---ms延时函数
-		UINT32_T(*msgTimeTick)(void);			//---用于超时计数
+		UINT8_T				msgPositive;																																			//---0---无数据，1---是负数，2---是正值
+		UINT8_T				msgSTATE;																																				//---读取状态
+		UINT32_T			msgTempX1000;																																			//---温度
+		UINT32_T			msgHumiX1000;																																			//---湿度
+		UINT32_T			msgRecordTime;																																			//---记录的时间参数
+		GPIO_HandlerType	msgDAT;																																					//---端口
+		void(*msgDelayus)(UINT32_T delay);																																			//---us延时函数
+		void(*msgDelayms)(UINT32_T delay);																																			//---ms延时函数
+		UINT32_T(*msgTimeTick)(void);																																				//---用于超时计数
 	};
 
 	//===定义的任务函数
-	#define DHT11_TASK_ONE					pDht11Device0
-	#define DHT11_TASK_TWO					0
-	#define DHT11_TASK_THREE				0
+	#define DHT11_TASK_ONE							pDht11Device0
+	#define DHT11_TASK_TWO							0
+	#define DHT11_TASK_THREE						0
 
 //===外部调用接口
-	extern DHT11_HandlerType				g_Dht11Device0;
-	extern pDHT11_HandlerType				pDht11Device0
+	extern DHT11_HandlerType						g_Dht11Device0;
+	extern pDHT11_HandlerType						pDht11Device0
 	;
 
 	//===函数定义

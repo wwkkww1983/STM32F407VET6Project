@@ -70,4 +70,4 @@ stm32f407vet6project/usart_task.o: ..\Application\USART\usart_task.c \
   ..\Application\DAC\dac_task.h ..\Application\DAC\dac_lib.h \
   ..\Application\DAC\dac_cfg.h ..\Application\Delay\delay_task.h \
   ..\Application\Delay\delay_lib.h ..\Application\Delay\delay_cfg.h \
-  ..\Application\DataBus\data_bus.h
+  ..\Application\HardWare\hw_cfg.h ..\Application\DataBus\data_bus.h

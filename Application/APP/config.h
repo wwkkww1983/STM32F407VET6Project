@@ -12,6 +12,7 @@ extern "C" {
 	#include "ads868x_task.h"
 	#include "ads869x_task.h"
 	#include "at24cxx_task.h"
+	#include "aht10_task.h"
 	#include "bkp_task.h"
 	#include "crc_task.h"
 	#include "css_task.h"

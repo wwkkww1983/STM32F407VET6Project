@@ -371,7 +371,17 @@ UINT8_T DHT11_Read(DHT11_HandlerType *DHTxx)
 	//---温度整数部分
 	DHTxx->msgTempX1000 = temp[2];
 	//---温度小数部分
-	DHTxx->msgTempX1000 = (DHTxx->msgTempX1000 * 1000) + temp[3];
+	if ((temp[3]&0x80)!=0)
+	{
+		//---温度数据是负数
+		DHTxx->msgPositive=1;
+	}
+	else
+	{
+		//---温度数据是正数
+		DHTxx->msgPositive = 2;
+	}
+	DHTxx->msgTempX1000 = (DHTxx->msgTempX1000 * 1000) + (temp[3]&0x7F);
 	//---设置当前状态为忙碌模式
 	DHTxx->msgSTATE= DHT11_READ_BUSY;
 	//---重置时间标签

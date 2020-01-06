@@ -82,7 +82,7 @@ void ADS1256_SPI_Device0_Init(ADS1256_HandlerType *ADS1256x)
 	for (i=0;i< ADS1256_CHANNEL_MAX;i++)
 	{
 		ADS1256x->msgChannelMode[i] = 0;
-		ADS1256x->msgIsPositive[i] = 0;
+		ADS1256x->msgPositive[i] = 0;
 		ADS1256x->msgChannelNowPowerResult[i] = 0;
 		ADS1256x->msgChannelOldPowerResult[i] = 0;
 		ADS1256x->msgChannelADCResult[i] = 0;
@@ -1557,19 +1557,19 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 
 			//---设置数据为无数据
 			//ADS1256x->msgIsPositive[ch] = 0;
-			ADS1256x->msgIsPositive[ADS1256x->msgOldChannel] = 0;
+			ADS1256x->msgPositive[ADS1256x->msgOldChannel] = 0;
 			//---判断最高位是否为1，如果为1则是负数，为0则是正数
 			if (ADS1256x->msgChannelADCResult[ADS1256x->msgOldChannel] > 0x7FFFFF)
 			{
 				//---装换数据为无符号数
 				ADS1256x->msgChannelADCResult[ADS1256x->msgOldChannel] = 0x1000000 - ADS1256x->msgChannelADCResult[ADS1256x->msgOldChannel];
 				//---数据是负数
-				ADS1256x->msgIsPositive[ADS1256x->msgOldChannel] = 1;
+				ADS1256x->msgPositive[ADS1256x->msgOldChannel] = 1;
 			}
 			else
 			{
 				//---数据是正数
-				ADS1256x->msgIsPositive[ADS1256x->msgOldChannel] = 2;
+				ADS1256x->msgPositive[ADS1256x->msgOldChannel] = 2;
 			}
 			//---计算通道的电压值
 			ADS1256_SPI_CalcChannelPowerResult(ADS1256x, ADS1256x->msgOldChannel);
@@ -1642,7 +1642,7 @@ UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandlerType* ADS1256x, UINT8_
 	}
 
 	calcPower = refPoweruV;
-	if ((ADS1256x->msgIsPositive[ch]!=0)&&(ADS1256x->msgChannelMode[0]!=0))
+	if ((ADS1256x->msgPositive[ch]!=0)&&(ADS1256x->msgChannelMode[0]!=0))
 	{
 		calcPower *= (ADS1256x->msgChannelADCResult[ch]|0x0F);
 		calcPower /= 0x7FFFFF;
@@ -2248,7 +2248,7 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 			}
 			if (ADS1256x->msgChannelNowPowerResult[ch]<1000)
 			{
-				if (ADS1256x->msgIsPositive[ch]==0x01)
+				if (ADS1256x->msgPositive[ch]==0x01)
 				{
 					ADS1256x->msgChannelNowPowerResult[ch] = ABS_SUB(1000, ADS1256x->msgChannelNowPowerResult[ch]);
 				}
@@ -2259,9 +2259,9 @@ UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T
 			}
 			if (ADS1256x->msgChannelNowPowerResult[ch]<2000)
 			{
-				if (ADS1256x->msgIsPositive[ch] == 0x01)
+				if (ADS1256x->msgPositive[ch] == 0x01)
 				{
-					ADS1256x->msgIsPositive[ch] = 0x02;
+					ADS1256x->msgPositive[ch] = 0x02;
 				}
 				else
 				{

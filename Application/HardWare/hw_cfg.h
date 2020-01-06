@@ -21,6 +21,9 @@ extern "C" {
 	#define JTAG_USE_lEVEL_SHIFT 																																					//---定义是否使用电平转换芯片，带OE控制端的
 	//#define JTAG_USE_HV_RESET																																						//---定义使用了高压HVSET模式
 
+	//===DUT电源的控制宏定义参数
+	//#define LM317_USE_HV_RESET
+	
 	//===RESET的高压控制端H端口
 	#define RST_HEN_PORT						GPIOB
 	#define RST_HEN_BIT							LL_GPIO_PIN_2

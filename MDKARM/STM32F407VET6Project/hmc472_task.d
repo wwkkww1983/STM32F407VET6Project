@@ -71,7 +71,7 @@ stm32f407vet6project/hmc472_task.o: ..\Application\HMC472\hmc472_task.c \
   ..\Application\Power\power_task.h ..\Application\Power\power_lib.h \
   ..\Application\Power\power_cfg.h ..\Application\DAC\dac_task.h \
   ..\Application\DAC\dac_lib.h ..\Application\DAC\dac_cfg.h \
-  ..\Application\DataBus\data_bus.h \
+  ..\Application\HardWare\hw_cfg.h ..\Application\DataBus\data_bus.h \
   ..\Application\AT24Cxx\at24cxx_task.h \
   ..\Application\AT24Cxx\at24cxx_lib.h \
   ..\Application\AT24Cxx\at24cxx_cfg.h ..\Application\I2C\i2c_task.h \
@@ -83,9 +83,9 @@ stm32f407vet6project/hmc472_task.o: ..\Application\HMC472\hmc472_task.c \
   ..\Application\RFASKHW\rfaskhw_cfg.h ..\Application\RFASK\rfask_task.h \
   ..\Application\RFASK\rfask_lib.h ..\Application\RFASK\rfask_cfg.h \
   ..\Application\WM8510\wm8510_task.h ..\Application\WM8510\wm8510_lib.h \
-  ..\Application\WM8510\wm8510_cfg.h ..\Application\HardWare\hw_cfg.h \
-  ..\Application\ADC\adc_task.h ..\Application\ADC\adc_lib.h \
-  ..\Application\ADC\adc_cfg.h ..\Application\LED\led_task.h \
-  ..\Application\LED\led_lib.h ..\Application\LED\led_cfg.h \
-  ..\Application\Decode\decode_task.h ..\Application\Decode\decode_lib.h \
-  ..\Application\Decode\decode_cfg.h ..\Application\RFASK\rfask_eeprom.h
+  ..\Application\WM8510\wm8510_cfg.h ..\Application\ADC\adc_task.h \
+  ..\Application\ADC\adc_lib.h ..\Application\ADC\adc_cfg.h \
+  ..\Application\LED\led_task.h ..\Application\LED\led_lib.h \
+  ..\Application\LED\led_cfg.h ..\Application\Decode\decode_task.h \
+  ..\Application\Decode\decode_lib.h ..\Application\Decode\decode_cfg.h \
+  ..\Application\RFASK\rfask_eeprom.h

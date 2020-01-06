@@ -83,7 +83,7 @@ void ADS868X_SPI_Device0_Init(ADS868X_HandlerType *ADS868x)
 	for (i = 0; i < ADS868X_CHANNEL_MAX; i++)
 	{
 		ADS868x->msgChannelRange[i] = 0;
-		ADS868x->msgIsPositive[i] = 0;
+		ADS868x->msgPositive[i] = 0;
 		ADS868x->msgChannelNowADCResult[i] = 0;
 		ADS868x->msgChannelOldADCResult[i] = 0;
 		ADS868x->msgChannelPowerResult[i] = 0;
@@ -1161,7 +1161,7 @@ UINT8_T ADS868X_SPI_ChannelRange(ADS868X_HandlerType* ADS868x, UINT8_T chIndex)
 UINT8_T ADS868X_SPI_CalcChannelPower(ADS868X_HandlerType* ADS868x, UINT8_T chIndex,UINT8_T isCalcDelta)
 {
 	//---设置无数据
-	ADS868x->msgIsPositive[chIndex] = 0;
+	ADS868x->msgPositive[chIndex] = 0;
 	UINT32_T adcDelta = 0;
 	UINT64_T calcPower = 0;
 	//---判断是否需要计算差值
@@ -1214,18 +1214,18 @@ UINT8_T ADS868X_SPI_CalcChannelPower(ADS868X_HandlerType* ADS868x, UINT8_T chInd
 	{
 		if (((ADS868x->msgChannelNowADCResult[chIndex] & (1<< (ADS868X_ADC_SAMPLE_BITS-1)))) != 0)
 		{
-			ADS868x->msgIsPositive[chIndex] = 2;
+			ADS868x->msgPositive[chIndex] = 2;
 			ADS868x->msgChannelPowerResult[chIndex] = (UINT32_T)((calcPower - ADS868x->msgChannelRangeFullUVX1000[chIndex]) / 1000);
 		}
 		else
 		{
-			ADS868x->msgIsPositive[chIndex] = 1;
+			ADS868x->msgPositive[chIndex] = 1;
 			ADS868x->msgChannelPowerResult[chIndex] = (UINT32_T)((ADS868x->msgChannelRangeFullUVX1000[chIndex] - calcPower) / 1000);
 		}
 	}
 	else
 	{
-		ADS868x->msgIsPositive[chIndex] = 2;
+		ADS868x->msgPositive[chIndex] = 2;
 		ADS868x->msgChannelPowerResult[chIndex] = (UINT32_T)(calcPower / 1000);
 	}
 	//---误差消除计算
@@ -1235,7 +1235,7 @@ UINT8_T ADS868X_SPI_CalcChannelPower(ADS868X_HandlerType* ADS868x, UINT8_T chInd
 		adcPower *= ADS868x->msgADCKP[chIndex];
 		if (adcPower< ADS868x->msgADCDelta[chIndex])
 		{
-			ADS868x->msgIsPositive[chIndex] = 1;
+			ADS868x->msgPositive[chIndex] = 1;
 			adcPower = (ADS868x->msgADCDelta[chIndex] - adcPower);
 		}
 		else

@@ -183,7 +183,7 @@ extern "C" {
 		UINT8_T msgCalcError[ADS1256_CHANNEL_MAX];									//---是否需要校准偏差 0===不叫准，1---校准
 		UINT8_T msgNowChannel;														//---当前转换的通道
 		UINT8_T msgOldChannel;														//---上一次转换的通道
-		UINT8_T	msgIsPositive[ADS1256_CHANNEL_MAX];									//---0---无数据，1---是负数，2---是正值
+		UINT8_T	msgPositive[ADS1256_CHANNEL_MAX];									//---0---无数据，1---是负数，2---是正值
 		UINT8_T msgChannelMode[ADS1256_CHANNEL_MAX];								//---输入装换模式,0---无配置；1---单端模式；2---差分模式
 		UINT16_T msgChannelPowerError[ADS1256_CHANNEL_MAX];							//---通道的基础误差
 		UINT16_T msgChannelPowerX1Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差

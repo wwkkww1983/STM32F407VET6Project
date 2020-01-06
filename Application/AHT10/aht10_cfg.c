@@ -1,8 +1,8 @@
 #include "aht10_cfg.h"
 
 //===全局变量定义
-AHT10_HandlerType		g_Aht10Device0;
-pAHT10_HandlerType		pAht10Device0;
+AHT10_HandlerType		g_Aht10Device0={0};
+pAHT10_HandlerType		pAht10Device0=&g_Aht10Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -23,8 +23,8 @@ UINT8_T AHT10_I2C_Device0_Init(AHT10_HandlerType* AHT10x)
 	AHT10x->msgI2C.msgDelayus = NULL;
 	AHT10x->msgI2C.msgAddr = AHT10_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
 	AHT10x->msgI2C.msgClockSpeed = 10;
-	//---每次读取的间隔时间,76ms
-	AHT10x->msgIntervalTime=76;
+	//---每次读取的间隔时间,76ms，建议采集周期是760ms
+	AHT10x->msgIntervalTime=76*10;
 	return OK_0;
 }
 
@@ -367,16 +367,27 @@ UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x)
 	{
 		//---计算温度值
 		//AHT10x->msgTemp = ((tempVal[3] & 0x0F) << 16) | (tempVal[4] << 8) | tempVal[5];
-		AHT10x->msgTemp = (tempVal[3] & 0x0F);
-		AHT10x->msgTemp =(AHT10x->msgTemp<<8)+ tempVal[4];
-		AHT10x->msgTemp = (AHT10x->msgTemp << 8) + tempVal[5];
-		AHT10x->msgTemp = (INT32_T)((((200.0 * (float)AHT10x->msgTemp) / 1048576.0) - 50.0) * 100.0);
+		AHT10x->msgTempX100 = (tempVal[3] & 0x0F);
+		AHT10x->msgTempX100 =(AHT10x->msgTempX100<<8)+ tempVal[4];
+		AHT10x->msgTempX100 = (AHT10x->msgTempX100 << 8) + tempVal[5];
+		//---校验温度是不是负值
+		if (AHT10x->msgTempX100>0x40000)
+		{
+			//---温度数据是正数
+			AHT10x->msgPositive = 2;
+		}
+		else
+		{
+			//---温度数据是负数
+			AHT10x->msgPositive = 1;
+		}
+		AHT10x->msgTempX100 = (INT32_T)((((200.0 * (float)AHT10x->msgTempX100) / 1048576.0) - 50.0) * 100.0);
 		//---计算湿度值
 		//AHT10x->msgHumi = ((tempVal[1] << 16) | (tempVal[2] << 8) | tempVal[3]) >> 4;
-		AHT10x->msgHumi = tempVal[1];
-		AHT10x->msgHumi =(AHT10x->msgHumi<<8)+ tempVal[2];
-		AHT10x->msgHumi = (AHT10x->msgHumi << 8) + (tempVal[3]>>4);
-		AHT10x->msgHumi = (INT32_T)((float)AHT10x->msgHumi * 10000.0 / 1048576.0);
+		AHT10x->msgHumiX10000 = tempVal[1];
+		AHT10x->msgHumiX10000 =(AHT10x->msgHumiX10000<<8)+ tempVal[2];
+		AHT10x->msgHumiX10000 = (AHT10x->msgHumiX10000 << 8) + (tempVal[3]>>4);
+		AHT10x->msgHumiX10000 = (INT32_T)((float)AHT10x->msgHumiX10000 * 10000.0 / 1048576.0);
 	}
 	//---启动下次测量装换装换
 	AHT10_I2C_StartMeasure(AHT10x);

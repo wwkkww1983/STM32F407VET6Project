@@ -71,7 +71,7 @@ stm32f407vet6project/encode_task.o: ..\Application\Encode\encode_task.c \
   ..\Application\DAC\dac_task.h ..\Application\DAC\dac_lib.h \
   ..\Application\DAC\dac_cfg.h ..\Application\Delay\delay_task.h \
   ..\Application\Delay\delay_lib.h ..\Application\Delay\delay_cfg.h \
-  ..\Application\DataBus\data_bus.h \
+  ..\Application\HardWare\hw_cfg.h ..\Application\DataBus\data_bus.h \
   ..\Application\AT24Cxx\at24cxx_task.h \
   ..\Application\AT24Cxx\at24cxx_lib.h \
   ..\Application\AT24Cxx\at24cxx_cfg.h ..\Application\I2C\i2c_task.h \
