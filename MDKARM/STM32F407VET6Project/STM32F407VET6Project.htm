@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F407VET6Project\STM32F407VET6Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F407VET6Project\STM32F407VET6Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6130100: Last Updated: Mon Jan  6 20:21:09 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6130100: Last Updated: Mon Jan  6 20:42:17 2020
 <BR><P>
 <H3>Maximum Stack Usage =        656 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -874,9 +874,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CRCLib_Enable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_CRCTask_Write
+<BR>[Called By]<UL><LI><a href="#[24d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Init
+<LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_CRCTask_Write
 <LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_CRCTask_Read
-<LI><a href="#[24d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Init
 </UL>
 
 <P><STRONG><a name="[c4]"></a>CRCTask_Init</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, crc_task.o(.text.CRCTask_Init))
@@ -1147,10 +1147,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sys_Init
 </UL>
 
-<P><STRONG><a name="[f4]"></a>DataBus_Read</STRONG> (Thumb, 240 bytes, Stack size 16 bytes, data_bus.o(.text.DataBus_Read))
-<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = DataBus_Read &rArr; LL_GPIO_ReadInputPort
+<P><STRONG><a name="[f4]"></a>DataBus_Read</STRONG> (Thumb, 242 bytes, Stack size 16 bytes, data_bus.o(.text.DataBus_Read))
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = DataBus_Read &rArr; GPIO_ReadInputPort &rArr; LL_GPIO_ReadInputPort
 </UL>
-<BR>[Calls]<UL><LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ReadInputPort
+<BR>[Calls]<UL><LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputPort
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[259]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_DebugFreqTask
@@ -1226,8 +1226,8 @@ Global Symbols
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickTask_1msIncTick
 <LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DelayN_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DelayN_us
-<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DelayLib_ms
+<BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DelayLib_ms
+<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DelayN_us
 </UL>
 
 <P><STRONG><a name="[ff]"></a>Delay_nop</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, delay_cfg.o(.text.Delay_nop))
@@ -1269,7 +1269,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_GPIO_Init
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DataBus_Init
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAC_GPIO_Init
-<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_Init
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_Init
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ISP_Init
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LEDWork_Init
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LM317_Init
@@ -1306,21 +1306,32 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOLib_Init
 </UL>
 
+<P><STRONG><a name="[f5]"></a>GPIO_ReadInputPort</STRONG> (Thumb, 220 bytes, Stack size 32 bytes, gpio_cfg.o(.text.GPIO_ReadInputPort))
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = GPIO_ReadInputPort &rArr; LL_GPIO_ReadInputPort
+</UL>
+<BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ReadInputPort
+</UL>
+<BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DataBus_Read
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_STOP
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_START
+<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
+</UL>
+
 <P><STRONG><a name="[f3]"></a>GPIO_ResetOutputPins</STRONG> (Thumb, 204 bytes, Stack size 24 bytes, gpio_cfg.o(.text.GPIO_ResetOutputPins))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = GPIO_ResetOutputPins &rArr; LL_GPIO_ResetOutputPins &rArr; LL_GPIO_ResetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPins
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
+<BR>[Calls]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPins
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[259]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_DebugFreqTask
 <LI><a href="#[1e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sys_Init
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DataBus_Init
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendByte
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendByte
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendBit
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_STOP
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_START
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_STOP
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_START
+<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LEDWork_Init
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LM317_Init
 <LI><a href="#[204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer_CalcFreq_Task
@@ -1330,18 +1341,18 @@ Global Symbols
 <P><STRONG><a name="[f2]"></a>GPIO_SetOutputPin</STRONG> (Thumb, 204 bytes, Stack size 24 bytes, gpio_cfg.o(.text.GPIO_SetOutputPin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPins
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPin
+<BR>[Calls]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPins
+<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[259]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTTask_DebugFreqTask
 <LI><a href="#[1e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sys_Init
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DataBus_Init
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendBit
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_STOP
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_START
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
-<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_Init
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_STOP
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_START
+<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_Init
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ISP_Init
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LM317_Init
 <LI><a href="#[204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer_CalcFreq_Task
@@ -1350,11 +1361,11 @@ Global Symbols
 <LI><a href="#[2a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_I2C_Device0_Init
 </UL>
 
-<P><STRONG><a name="[10f]"></a>GPIO_TogglePin</STRONG> (Thumb, 204 bytes, Stack size 24 bytes, gpio_cfg.o(.text.GPIO_TogglePin))
+<P><STRONG><a name="[110]"></a>GPIO_TogglePin</STRONG> (Thumb, 204 bytes, Stack size 24 bytes, gpio_cfg.o(.text.GPIO_TogglePin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = GPIO_TogglePin &rArr; LL_GPIO_TogglePins &rArr; LL_GPIO_TogglePin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_TogglePins
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_TogglePin
+<BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_TogglePins
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_TogglePin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LEDWork_Task
 </UL>
@@ -1365,71 +1376,71 @@ Global Symbols
 <P><STRONG><a name="[59]"></a>HASH_RNG_IRQHandler</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, stm32f4xx_it.o(.text.HASH_RNG_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = HASH_RNG_IRQHandler &rArr; RandomTask_IRQTask &rArr; RandomLib_IRQTask &rArr; Random_IRQTask &rArr; LL_RNG_ReadRandData32
 </UL>
-<BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RandomTask_IRQTask
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RandomTask_IRQTask
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
 <P><STRONG><a name="[2]"></a>HardFault_Handler</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, stm32f4xx_it.o(.text.HardFault_Handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = HardFault_Handler &rArr; HardFault_IRQTask &rArr; HardFault_Msg
 </UL>
-<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_IRQTask
+<BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_IRQTask
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[113]"></a>HardFault_IRQTask</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32_cfg.o(.text.HardFault_IRQTask))
+<P><STRONG><a name="[114]"></a>HardFault_IRQTask</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32_cfg.o(.text.HardFault_IRQTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = HardFault_IRQTask &rArr; HardFault_Msg
 </UL>
-<BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_Msg
+<BR>[Calls]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_Msg
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_Handler
 </UL>
 
-<P><STRONG><a name="[114]"></a>HardFault_Msg</STRONG> (Thumb, 84 bytes, Stack size 4 bytes, stm32_cfg.o(.text.HardFault_Msg))
+<P><STRONG><a name="[115]"></a>HardFault_Msg</STRONG> (Thumb, 84 bytes, Stack size 4 bytes, stm32_cfg.o(.text.HardFault_Msg))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = HardFault_Msg
 </UL>
-<BR>[Called By]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_IRQTask
+<BR>[Called By]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_IRQTask
 </UL>
 
-<P><STRONG><a name="[115]"></a>I2CLib_MSW_Init</STRONG> (Thumb, 24 bytes, Stack size 24 bytes, i2c_lib.o(.text.I2CLib_MSW_Init))
+<P><STRONG><a name="[116]"></a>I2CLib_MSW_Init</STRONG> (Thumb, 24 bytes, Stack size 24 bytes, i2c_lib.o(.text.I2CLib_MSW_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = I2CLib_MSW_Init &rArr; I2C_MSW_Init &rArr; GPIOTask_Clock &rArr; GPIOLib_Clock &rArr; GPIO_Clock &rArr; LL_AHB1_GRP1_EnableClock
 </UL>
-<BR>[Calls]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_Init
+<BR>[Calls]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_Init
+<BR>[Called By]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_Init
 </UL>
 
-<P><STRONG><a name="[117]"></a>I2CLib_MSW_ReadACK</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, i2c_lib.o(.text.I2CLib_MSW_ReadACK))
+<P><STRONG><a name="[118]"></a>I2CLib_MSW_ReadACK</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, i2c_lib.o(.text.I2CLib_MSW_ReadACK))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = I2CLib_MSW_ReadACK &rArr; I2C_MSW_ReadACK &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
+<BR>[Calls]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
 </UL>
-<BR>[Called By]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_ReadACK
+<BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_ReadACK
 </UL>
 
-<P><STRONG><a name="[119]"></a>I2CLib_MSW_START</STRONG> (Thumb, 76 bytes, Stack size 24 bytes, i2c_lib.o(.text.I2CLib_MSW_START))
+<P><STRONG><a name="[11a]"></a>I2CLib_MSW_START</STRONG> (Thumb, 76 bytes, Stack size 24 bytes, i2c_lib.o(.text.I2CLib_MSW_START))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = I2CLib_MSW_START &rArr; I2C_MSW_SendByte &rArr; I2C_MSW_SendBit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendByte
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_START
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
+<BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendByte
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_START
+<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
 </UL>
-<BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_START
-</UL>
-
-<P><STRONG><a name="[11c]"></a>I2CLib_MSW_STOP</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, i2c_lib.o(.text.I2CLib_MSW_STOP))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = I2CLib_MSW_STOP &rArr; I2C_MSW_STOP &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
-</UL>
-<BR>[Calls]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_STOP
-</UL>
-<BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_STOP
+<BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_START
 </UL>
 
-<P><STRONG><a name="[11e]"></a>I2CLib_MSW_SendByte</STRONG> (Thumb, 28 bytes, Stack size 24 bytes, i2c_lib.o(.text.I2CLib_MSW_SendByte))
+<P><STRONG><a name="[11d]"></a>I2CLib_MSW_STOP</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, i2c_lib.o(.text.I2CLib_MSW_STOP))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = I2CLib_MSW_STOP &rArr; I2C_MSW_STOP &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
+</UL>
+<BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_STOP
+</UL>
+<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_STOP
+</UL>
+
+<P><STRONG><a name="[11f]"></a>I2CLib_MSW_SendByte</STRONG> (Thumb, 28 bytes, Stack size 24 bytes, i2c_lib.o(.text.I2CLib_MSW_SendByte))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = I2CLib_MSW_SendByte &rArr; I2C_MSW_SendByte &rArr; I2C_MSW_SendBit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendByte
+<BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendByte
 </UL>
-<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_SendByte
+<BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_SendByte
 </UL>
 
 <P><STRONG><a name="[2aa]"></a>I2CTask_MHW_Init</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, i2c_task.o(.text.I2CTask_MHW_Init))
@@ -1438,85 +1449,85 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_I2C_Init
 </UL>
 
-<P><STRONG><a name="[11f]"></a>I2CTask_MSW_Init</STRONG> (Thumb, 24 bytes, Stack size 24 bytes, i2c_task.o(.text.I2CTask_MSW_Init))
+<P><STRONG><a name="[120]"></a>I2CTask_MSW_Init</STRONG> (Thumb, 24 bytes, Stack size 24 bytes, i2c_task.o(.text.I2CTask_MSW_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = I2CTask_MSW_Init &rArr; I2CLib_MSW_Init &rArr; I2C_MSW_Init &rArr; GPIOTask_Clock &rArr; GPIOLib_Clock &rArr; GPIO_Clock &rArr; LL_AHB1_GRP1_EnableClock
 </UL>
-<BR>[Calls]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_Init
+<BR>[Calls]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_I2C_Init
 </UL>
 
-<P><STRONG><a name="[120]"></a>I2CTask_MSW_ReadACK</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, i2c_task.o(.text.I2CTask_MSW_ReadACK))
+<P><STRONG><a name="[121]"></a>I2CTask_MSW_ReadACK</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, i2c_task.o(.text.I2CTask_MSW_ReadACK))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = I2CTask_MSW_ReadACK &rArr; I2CLib_MSW_ReadACK &rArr; I2C_MSW_ReadACK &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_ReadACK
+<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_ReadACK
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_SWI2C_WriteReg
 </UL>
 
-<P><STRONG><a name="[121]"></a>I2CTask_MSW_START</STRONG> (Thumb, 28 bytes, Stack size 24 bytes, i2c_task.o(.text.I2CTask_MSW_START))
+<P><STRONG><a name="[122]"></a>I2CTask_MSW_START</STRONG> (Thumb, 28 bytes, Stack size 24 bytes, i2c_task.o(.text.I2CTask_MSW_START))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = I2CTask_MSW_START &rArr; I2CLib_MSW_START &rArr; I2C_MSW_SendByte &rArr; I2C_MSW_SendBit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_START
+<BR>[Calls]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_START
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_SWI2C_WriteReg
 </UL>
 
-<P><STRONG><a name="[122]"></a>I2CTask_MSW_STOP</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, i2c_task.o(.text.I2CTask_MSW_STOP))
-<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = I2CTask_MSW_STOP &rArr; I2CLib_MSW_STOP &rArr; I2C_MSW_STOP &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
+<P><STRONG><a name="[123]"></a>I2CTask_MSW_STOP</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, i2c_task.o(.text.I2CTask_MSW_STOP))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = I2CTask_MSW_STOP &rArr; I2CLib_MSW_STOP &rArr; I2C_MSW_STOP &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_STOP
+<BR>[Calls]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_STOP
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_SWI2C_WriteReg
 </UL>
 
-<P><STRONG><a name="[123]"></a>I2CTask_MSW_SendByte</STRONG> (Thumb, 28 bytes, Stack size 24 bytes, i2c_task.o(.text.I2CTask_MSW_SendByte))
+<P><STRONG><a name="[124]"></a>I2CTask_MSW_SendByte</STRONG> (Thumb, 28 bytes, Stack size 24 bytes, i2c_task.o(.text.I2CTask_MSW_SendByte))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = I2CTask_MSW_SendByte &rArr; I2CLib_MSW_SendByte &rArr; I2C_MSW_SendByte &rArr; I2C_MSW_SendBit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_SendByte
+<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_SendByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_SWI2C_WriteReg
 </UL>
 
-<P><STRONG><a name="[116]"></a>I2C_MSW_Init</STRONG> (Thumb, 198 bytes, Stack size 72 bytes, i2c_cfg.o(.text.I2C_MSW_Init))
+<P><STRONG><a name="[117]"></a>I2C_MSW_Init</STRONG> (Thumb, 198 bytes, Stack size 72 bytes, i2c_cfg.o(.text.I2C_MSW_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = I2C_MSW_Init &rArr; GPIOTask_Clock &rArr; GPIOLib_Clock &rArr; GPIO_Clock &rArr; LL_AHB1_GRP1_EnableClock
 </UL>
 <BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_Init
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetOutputPin
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOTask_Clock
 </UL>
-<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_Init
+<BR>[Called By]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_Init
 </UL>
 
-<P><STRONG><a name="[118]"></a>I2C_MSW_ReadACK</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, i2c_cfg.o(.text.I2C_MSW_ReadACK))
+<P><STRONG><a name="[119]"></a>I2C_MSW_ReadACK</STRONG> (Thumb, 114 bytes, Stack size 32 bytes, i2c_cfg.o(.text.I2C_MSW_ReadACK))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = I2C_MSW_ReadACK &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetOutputPin
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetOutputPins
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ReadInputPort
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputPort
 </UL>
-<BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_START
-<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_ReadACK
+<BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_START
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_ReadACK
 </UL>
 
-<P><STRONG><a name="[11a]"></a>I2C_MSW_START</STRONG> (Thumb, 134 bytes, Stack size 32 bytes, i2c_cfg.o(.text.I2C_MSW_START))
+<P><STRONG><a name="[11b]"></a>I2C_MSW_START</STRONG> (Thumb, 136 bytes, Stack size 32 bytes, i2c_cfg.o(.text.I2C_MSW_START))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = I2C_MSW_START &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetOutputPin
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetOutputPins
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ReadInputPort
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputPort
 </UL>
-<BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_START
+<BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_START
 </UL>
 
-<P><STRONG><a name="[11d]"></a>I2C_MSW_STOP</STRONG> (Thumb, 118 bytes, Stack size 24 bytes, i2c_cfg.o(.text.I2C_MSW_STOP))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = I2C_MSW_STOP &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
+<P><STRONG><a name="[11e]"></a>I2C_MSW_STOP</STRONG> (Thumb, 120 bytes, Stack size 32 bytes, i2c_cfg.o(.text.I2C_MSW_STOP))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = I2C_MSW_STOP &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetOutputPin
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetOutputPins
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ReadInputPort
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputPort
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_STOP
+<BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_STOP
 </UL>
 
 <P><STRONG><a name="[125]"></a>I2C_MSW_SendBit</STRONG> (Thumb, 120 bytes, Stack size 32 bytes, i2c_cfg.o(.text.I2C_MSW_SendBit))
@@ -1526,17 +1537,17 @@ Global Symbols
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetOutputPins
 <LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_nop
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendByte
+<BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendByte
 </UL>
 
-<P><STRONG><a name="[11b]"></a>I2C_MSW_SendByte</STRONG> (Thumb, 92 bytes, Stack size 24 bytes, i2c_cfg.o(.text.I2C_MSW_SendByte))
+<P><STRONG><a name="[11c]"></a>I2C_MSW_SendByte</STRONG> (Thumb, 92 bytes, Stack size 24 bytes, i2c_cfg.o(.text.I2C_MSW_SendByte))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = I2C_MSW_SendByte &rArr; I2C_MSW_SendBit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetOutputPins
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_SendBit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_SendByte
-<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_START
+<BR>[Called By]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_SendByte
+<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CLib_MSW_START
 </UL>
 
 <P><STRONG><a name="[126]"></a>ISPLib_Init</STRONG> (Thumb, 28 bytes, Stack size 24 bytes, isp_lib.o(.text.ISPLib_Init))
@@ -1646,7 +1657,7 @@ Global Symbols
 <P><STRONG><a name="[61]"></a>LEDWork_Task</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, led_cfg.o(.text.LEDWork_Task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = LEDWork_Task &rArr; GPIO_TogglePin &rArr; LL_GPIO_TogglePins &rArr; LL_GPIO_TogglePin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_TogglePin
+<BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_TogglePin
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> led_cfg.o(.text.LEDWork_Init)
 </UL>
@@ -1804,7 +1815,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_GPIO_Init
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DataBus_Init
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAC_GPIO_Init
-<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_Init
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_Init
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ISP_Init
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LEDWork_Init
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LM317_Init
@@ -1813,7 +1824,7 @@ Global Symbols
 <LI><a href="#[2a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_I2C_Device0_Init
 </UL>
 
-<P><STRONG><a name="[10c]"></a>LL_GPIO_ResetOutputPins</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, stm32_cfg.o(.text.LL_GPIO_ResetOutputPins))
+<P><STRONG><a name="[10d]"></a>LL_GPIO_ResetOutputPins</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, stm32_cfg.o(.text.LL_GPIO_ResetOutputPins))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = LL_GPIO_ResetOutputPins &rArr; LL_GPIO_ResetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[175]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
@@ -1821,7 +1832,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetOutputPins
 </UL>
 
-<P><STRONG><a name="[10e]"></a>LL_GPIO_SetOutputPins</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, stm32_cfg.o(.text.LL_GPIO_SetOutputPins))
+<P><STRONG><a name="[10f]"></a>LL_GPIO_SetOutputPins</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, stm32_cfg.o(.text.LL_GPIO_SetOutputPins))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[176]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPin
@@ -1829,12 +1840,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetOutputPin
 </UL>
 
-<P><STRONG><a name="[111]"></a>LL_GPIO_TogglePins</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, stm32_cfg.o(.text.LL_GPIO_TogglePins))
+<P><STRONG><a name="[112]"></a>LL_GPIO_TogglePins</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, stm32_cfg.o(.text.LL_GPIO_TogglePins))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = LL_GPIO_TogglePins &rArr; LL_GPIO_TogglePin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_TogglePin
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_TogglePin
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_TogglePin
 </UL>
 
 <P><STRONG><a name="[178]"></a>LL_RCC_GetSystemClocksFreq</STRONG> (Thumb, 54 bytes, Stack size 16 bytes, stm32f4xx_ll_rcc.o(.text.LL_RCC_GetSystemClocksFreq))
@@ -2075,7 +2086,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Random_IRQTask
 </UL>
-<BR>[Called By]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RandomTask_IRQTask
+<BR>[Called By]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RandomTask_IRQTask
 </UL>
 
 <P><STRONG><a name="[1ae]"></a>RandomLib_Init</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, random_lib.o(.text.RandomLib_Init))
@@ -2086,7 +2097,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RandomTask_Init
 </UL>
 
-<P><STRONG><a name="[112]"></a>RandomTask_IRQTask</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, random_task.o(.text.RandomTask_IRQTask))
+<P><STRONG><a name="[113]"></a>RandomTask_IRQTask</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, random_task.o(.text.RandomTask_IRQTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = RandomTask_IRQTask &rArr; RandomLib_IRQTask &rArr; Random_IRQTask &rArr; LL_RNG_ReadRandData32
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RandomLib_IRQTask
@@ -3030,10 +3041,10 @@ Global Symbols
 <P><STRONG><a name="[244]"></a>USART_FillMode_AddByte</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, usart_cfg.o(.text.USART_FillMode_AddByte))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = USART_FillMode_AddByte
 </UL>
-<BR>[Called By]<UL><LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_FillMode_WriteSTART
+<BR>[Called By]<UL><LI><a href="#[243]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_FillMode_AddByte
+<LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_FillMode_WriteSTART
 <LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_FillMode_Init
 <LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_CRCTask_Write
-<LI><a href="#[243]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_FillMode_AddByte
 </UL>
 
 <P><STRONG><a name="[246]"></a>USART_FillMode_Init</STRONG> (Thumb, 218 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_FillMode_Init))
@@ -3200,8 +3211,8 @@ Global Symbols
 <P><STRONG><a name="[22b]"></a>USART_ParamInit</STRONG> (Thumb, 86 bytes, Stack size 28 bytes, usart_cfg.o(.text.USART_ParamInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = USART_ParamInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_ConfigInit
-<LI><a href="#[24f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ParamInit
+<BR>[Called By]<UL><LI><a href="#[24f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_ParamInit
+<LI><a href="#[228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_ConfigInit
 </UL>
 
 <P><STRONG><a name="[239]"></a>USART_Printf</STRONG> (Thumb, 134 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_Printf))
@@ -3276,9 +3287,9 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[29f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Read_DMA_RESTART
 <LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_485GPIOInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[255]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_TimeOVFTask
+<BR>[Called By]<UL><LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Read_Init
+<LI><a href="#[255]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_TimeOVFTask
 <LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DMA_IDLETask
-<LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Read_Init
 </UL>
 
 <P><STRONG><a name="[29a]"></a>USART_StructInit</STRONG> (Thumb, 240 bytes, Stack size 4 bytes, usart_cfg.o(.text.USART_StructInit))
@@ -3391,7 +3402,7 @@ Global Symbols
 <P><STRONG><a name="[2a5]"></a>WM8510_I2C_Init</STRONG> (Thumb, 214 bytes, Stack size 32 bytes, wm8510_cfg.o(.text.WM8510_I2C_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 272<LI>Call Chain = WM8510_I2C_Init &rArr; WM8510_I2C_START &rArr; WM8510_I2C_SendCMD &rArr; WM8510_SWI2C_WriteReg &rArr; I2CTask_MSW_SendByte &rArr; I2CLib_MSW_SendByte &rArr; I2C_MSW_SendByte &rArr; I2C_MSW_SendBit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_Init
+<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_Init
 <LI><a href="#[2aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MHW_Init
 <LI><a href="#[2ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_I2C_START
 <LI><a href="#[2a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_I2C_ParamsInit
@@ -3428,10 +3439,10 @@ Global Symbols
 <P><STRONG><a name="[2ad]"></a>WM8510_SWI2C_WriteReg</STRONG> (Thumb, 170 bytes, Stack size 32 bytes, wm8510_cfg.o(.text.WM8510_SWI2C_WriteReg))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = WM8510_SWI2C_WriteReg &rArr; I2CTask_MSW_SendByte &rArr; I2CLib_MSW_SendByte &rArr; I2C_MSW_SendByte &rArr; I2C_MSW_SendBit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
-<BR>[Calls]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_SendByte
-<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_STOP
-<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_START
-<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_ReadACK
+<BR>[Calls]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_SendByte
+<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_STOP
+<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_START
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_ReadACK
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WM8510_I2C_SendCMD
 </UL>
@@ -3745,19 +3756,19 @@ Local Symbols
 <P><STRONG><a name="[175]"></a>LL_GPIO_ResetOutputPin</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, stm32_cfg.o(.text.LL_GPIO_ResetOutputPin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_GPIO_ResetOutputPin
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPins
+<BR>[Called By]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPins
 </UL>
 
 <P><STRONG><a name="[176]"></a>LL_GPIO_SetOutputPin</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, stm32_cfg.o(.text.LL_GPIO_SetOutputPin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_GPIO_SetOutputPin
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPins
+<BR>[Called By]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPins
 </UL>
 
 <P><STRONG><a name="[177]"></a>LL_GPIO_TogglePin</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, stm32_cfg.o(.text.LL_GPIO_TogglePin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_GPIO_TogglePin
 </UL>
-<BR>[Called By]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_TogglePins
+<BR>[Called By]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_TogglePins
 </UL>
 
 <P><STRONG><a name="[eb]"></a>LL_DMA_IsActiveFlag_TC0</STRONG> (Thumb, 16 bytes, Stack size 4 bytes, stm32f4xx_it.o(.text.LL_DMA_IsActiveFlag_TC0))
@@ -4453,30 +4464,28 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 
-<P><STRONG><a name="[10b]"></a>LL_GPIO_ResetOutputPin</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, gpio_cfg.o(.text.LL_GPIO_ResetOutputPin))
+<P><STRONG><a name="[10b]"></a>LL_GPIO_ReadInputPort</STRONG> (Thumb, 12 bytes, Stack size 4 bytes, gpio_cfg.o(.text.LL_GPIO_ReadInputPort))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = LL_GPIO_ReadInputPort
+</UL>
+<BR>[Called By]<UL><LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputPort
+</UL>
+
+<P><STRONG><a name="[10c]"></a>LL_GPIO_ResetOutputPin</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, gpio_cfg.o(.text.LL_GPIO_ResetOutputPin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_GPIO_ResetOutputPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetOutputPins
 </UL>
 
-<P><STRONG><a name="[10d]"></a>LL_GPIO_SetOutputPin</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, gpio_cfg.o(.text.LL_GPIO_SetOutputPin))
+<P><STRONG><a name="[10e]"></a>LL_GPIO_SetOutputPin</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, gpio_cfg.o(.text.LL_GPIO_SetOutputPin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_GPIO_SetOutputPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetOutputPin
 </UL>
 
-<P><STRONG><a name="[110]"></a>LL_GPIO_TogglePin</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, gpio_cfg.o(.text.LL_GPIO_TogglePin))
+<P><STRONG><a name="[111]"></a>LL_GPIO_TogglePin</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, gpio_cfg.o(.text.LL_GPIO_TogglePin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LL_GPIO_TogglePin
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_TogglePin
-</UL>
-
-<P><STRONG><a name="[124]"></a>LL_GPIO_ReadInputPort</STRONG> (Thumb, 12 bytes, Stack size 4 bytes, i2c_cfg.o(.text.LL_GPIO_ReadInputPort))
-<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = LL_GPIO_ReadInputPort
-</UL>
-<BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_STOP
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_START
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MSW_ReadACK
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_TogglePin
 </UL>
 
 <P><STRONG><a name="[12e]"></a>LL_IWDG_ReloadCounter</STRONG> (Thumb, 16 bytes, Stack size 4 bytes, iwdg_cfg.o(.text.LL_IWDG_ReloadCounter))
@@ -5134,12 +5143,6 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[233]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Write_DMA_Init
 <LI><a href="#[232]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Read_DMA_Init
 <LI><a href="#[22f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
-</UL>
-
-<P><STRONG><a name="[f5]"></a>LL_GPIO_ReadInputPort</STRONG> (Thumb, 12 bytes, Stack size 4 bytes, data_bus.o(.text.LL_GPIO_ReadInputPort))
-<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = LL_GPIO_ReadInputPort
-</UL>
-<BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DataBus_Read
 </UL>
 
 <P><STRONG><a name="[2b2]"></a>_fp_digits</STRONG> (Thumb, 366 bytes, Stack size 64 bytes, printfa.o(i._fp_digits), UNUSED)
