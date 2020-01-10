@@ -18,7 +18,7 @@ UINT8_T AHT10_I2C_Device0_Init(AHT10_HandlerType* AHT10x)
 	AHT10x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	AHT10x->msgI2C.msgSDA.msgPort = GPIOB;
 	AHT10x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
-	AHT10x->msgI2C.msgHwModel = 0;
+	AHT10x->msgI2C.msgHwMode = 0;
 	AHT10x->msgI2C.msgPluseWidth = 0;
 	AHT10x->msgI2C.msgDelayus = NULL;
 	AHT10x->msgI2C.msgAddr = AHT10_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
@@ -62,7 +62,7 @@ UINT8_T AHT10_I2C_Device2_Init(AHT10_HandlerType* AHT10x)
 UINT8_T AHT10_I2C_DeInit(AHT10_HandlerType* AHT10x)
 {
 	//---注销I2C设备
-	if (AHT10x->msgI2C.msgHwModel == 1)
+	if (AHT10x->msgI2C.msgHwMode == 1)
 	{
 		return ERROR_1;
 	}
@@ -104,13 +104,13 @@ UINT8_T AHT10_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T d
 	{
 		//---初始化硬件I2C
 		_return = I2CTask_MHW_Init(&(AHT10x->msgI2C),pFuncTimerTick);
-		AHT10x->msgI2C.msgHwModel = 1;
+		AHT10x->msgI2C.msgHwMode = 1;
 	}
 	else
 	{
 		//---初始化软件模拟I2C
 		_return = I2CTask_MSW_Init(&(AHT10x->msgI2C), pFuncDelayus,pFuncTimerTick);
-		AHT10x->msgI2C.msgHwModel = 0;
+		AHT10x->msgI2C.msgHwMode = 0;
 	}
 	//---延时等待40ms
 	if (pFuncDelayms!=NULL)
@@ -189,7 +189,7 @@ UINT8_T AHT10_HWI2C_WriteBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T 
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T AHT10_I2C_WriteBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
-	if (AHT10x->msgI2C.msgHwModel == 0)
+	if (AHT10x->msgI2C.msgHwMode == 0)
 	{
 		//---软件模拟I2C
 		return AHT10_SWI2C_WriteBulk(AHT10x,pVal, length);
@@ -262,7 +262,7 @@ UINT8_T AHT10_HWI2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T l
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T AHT10_I2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
-	if (AHT10x->msgI2C.msgHwModel == 0)
+	if (AHT10x->msgI2C.msgHwMode == 0)
 	{
 		//---软件模拟I2C
 		return AHT10_SWI2C_ReadBulk(AHT10x, pVal, length);
@@ -374,7 +374,7 @@ UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x)
 		if (AHT10x->msgTempX100>0x40000)
 		{
 			//---温度数据是正数
-			AHT10x->msgPositive = 2;
+			AHT10x->msgPositive = 0;
 		}
 		else
 		{
@@ -394,3 +394,40 @@ UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x)
 	//---返回结果
 	return ((_return==OK_0)?OK_0:(_return+ERROR_1));
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：获取温度
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+float AHT10_I2C_GetTemp(AHT10_HandlerType* AHT10x)
+{
+	float tempVal = AHT10x->msgTempX100;
+	//---转换温度对应实际的温度值
+	tempVal /= 100.0;
+	//---校验是不是正数
+	if (AHT10x->msgPositive == 1)
+	{
+		tempVal *= (-1.0);
+	}
+	return tempVal;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：获取湿度
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+float AHT10_I2C_GetHumi(AHT10_HandlerType* AHT10x)
+{
+	float tempVal = AHT10x->msgHumiX10000;
+	//---转换温度对应实际的温度值
+	tempVal /= 10000.0;
+	return tempVal;
+}
+

@@ -2821,7 +2821,7 @@ UINT8_T JTAG_AddWatch(JTAG_HandlerType* JTAGx)
 			_return = ERROR_1;
 		}
 	}
-	return OK_0;
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

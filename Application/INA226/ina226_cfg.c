@@ -39,14 +39,14 @@ UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_
 		//---初始化硬件I2C
 		_return = I2CTask_MHW_Init(&(INA226x->msgI2C),pFuncTimerTick);
 		//---设置为硬件模式
-		INA226x->msgI2C.msgHwModel = 1;
+		INA226x->msgI2C.msgHwMode = 1;
 	}
 	else
 	{
 		//---初始化软件模拟I2C
 		_return = I2CTask_MSW_Init(&(INA226x->msgI2C), pFuncDelayus,pFuncTimerTick);
 		//---设置为软件件模式
-		INA226x->msgI2C.msgHwModel = 0;
+		INA226x->msgI2C.msgHwMode = 0;
 	}
 	//---配置初始化
 	_return = INA226_ConfigInit(INA226x);
@@ -67,7 +67,7 @@ UINT8_T INA226_I2C_Device0_Init(INA226_HandlerType* INA226x)
 	INA226x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	INA226x->msgI2C.msgSDA.msgPort = GPIOB;
 	INA226x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
-	INA226x->msgI2C.msgHwModel = 0;
+	INA226x->msgI2C.msgHwMode = 0;
 	INA226x->msgI2C.msgPluseWidth = 2;
 	INA226x->msgI2C.msgDelayus = NULL;
 	INA226x->msgI2C.msgAddr = 0x80;
@@ -175,7 +175,7 @@ UINT8_T INA226_HWI2C_WriteReg(INA226_HandlerType* INA226x, UINT8_T addr, UINT16_
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T INA226_I2C_WriteReg(INA226_HandlerType* INA226x, UINT8_T addr, UINT16_T val)
 {
-	if (INA226x->msgI2C.msgHwModel == 1)
+	if (INA226x->msgI2C.msgHwMode == 1)
 	{
 		return INA226_HWI2C_WriteReg(INA226x, addr, val);
 	}
@@ -259,7 +259,7 @@ UINT8_T INA226_HWI2C_ReadReg(INA226_HandlerType* INA226x, UINT8_T addr, UINT16_T
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T INA226_I2C_ReadReg(INA226_HandlerType* INA226x, UINT8_T addr, UINT16_T* pVal)
 {
-	if (INA226x->msgI2C.msgHwModel == 1)
+	if (INA226x->msgI2C.msgHwMode == 1)
 	{
 		return INA226_HWI2C_ReadReg(INA226x, addr, pVal);
 	}

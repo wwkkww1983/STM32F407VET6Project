@@ -232,6 +232,7 @@
 "stm32f407vet6project\fifo.o"
 "stm32f407vet6project\queue_fifo.o"
 "stm32f407vet6project\data_bus.o"
+"stm32f407vet6project\cjson.o"
 --library_type=microlib --strict --scatter "STM32F407VET6Project\STM32F407VET6Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -242,7 +242,7 @@ UINT8_T DS18B20_OneWire_WriteTempBit(DS18B20_HandlerType* DS18B20x, UINT8_T temp
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_ReadID(DS18B20_HandlerType *DS18B20x, UINT8_T *id)
+UINT8_T DS18B20_OneWire_ReadID(DS18B20_HandlerType *DS18B20x, UINT8_T *pId)
 {
 	UINT8_T i;
 	//---总线复位
@@ -255,7 +255,7 @@ UINT8_T DS18B20_OneWire_ReadID(DS18B20_HandlerType *DS18B20x, UINT8_T *id)
 	//---读取设备的ID信息
 	for (i = 0; i < 8; i++)
 	{
-		id[i] = DS18B20_OneWire_ReadByte(DS18B20x);
+		pId[i] = DS18B20_OneWire_ReadByte(DS18B20x);
 	}
 
 	//----总线复位
@@ -389,7 +389,7 @@ UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id)
+UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *pId)
 {
 	UINT16_T _return = 0, temH = 0;
 	UINT8_T temL = 0, i = 0;
@@ -401,7 +401,7 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id
 	//---写入ROM的ID
 	for (i = 0; i < 8; i++)
 	{
-		DS18B20_OneWire_WriteByte(DS18B20x, id[i]);
+		DS18B20_OneWire_WriteByte(DS18B20x, pId[i]);
 	}
 	//---启动转换
 	DS18B20_OneWire_WriteByte(DS18B20x, 0x44);
@@ -414,7 +414,7 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id
 	//---写入ROM的ID
 	for (i = 0; i < 8; i++)
 	{
-		DS18B20_OneWire_WriteByte(DS18B20x, id[i]);
+		DS18B20_OneWire_WriteByte(DS18B20x, pId[i]);
 	}
 	//---读取温度
 	DS18B20_OneWire_WriteByte(DS18B20x, 0xBE);
@@ -424,7 +424,6 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id
 	temH = DS18B20_OneWire_ReadByte(DS18B20x);
 	//---获取温度码值
 	_return = (temH << 8) | temL;
-
 	//---判断温度是正值还是负值
 	if ((temH & 0x80) == 0)
 	{
@@ -481,4 +480,24 @@ UINT8_T DS18B20_OneWire_Config(DS18B20_HandlerType* DS18B20x,void(*pFuncDelayus)
 	}
 	//---启动装换
 	return DS18B20_OneWire_StartConvert(DS18B20x);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+float DS18B20_OneWire_GetTemp(DS18B20_HandlerType* DS18B20x)
+{
+	float tempVal=DS18B20x->msgTempX10000;
+	//---转换温度对应实际的温度值
+	tempVal/=10000.0;
+	//---校验是不是正数
+	if (DS18B20x->msgPositive==1)
+	{
+		tempVal*=(-1.0);
+	}
+	return tempVal;
 }

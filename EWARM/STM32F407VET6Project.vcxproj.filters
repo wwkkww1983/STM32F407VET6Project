@@ -19,6 +19,9 @@
     <Filter Include="Application\ADS869x">
       <UniqueIdentifier>{7F892EDF-EBEA-0BED-7458-529FE0B842AC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\AHT10">
+      <UniqueIdentifier>{0673A81C-7289-A6B2-BB00-32D42756773A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\APP">
       <UniqueIdentifier>{4988296C-B513-9730-BE24-1A252A2FF330}</UniqueIdentifier>
     </Filter>
@@ -46,6 +49,9 @@
     <Filter Include="Application\DS18B20">
       <UniqueIdentifier>{EC91B3E6-58F3-90F4-E160-D7A64DC1C7B3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\DataBus">
+      <UniqueIdentifier>{ECB82E0C-581A-0C1A-E187-52CC4DE842D9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\Decode">
       <UniqueIdentifier>{CC5CCCBA-B840-8D10-21A1-87630DA47792}</UniqueIdentifier>
     </Filter>
@@ -67,6 +73,15 @@
     <Filter Include="Application\HMC830">
       <UniqueIdentifier>{9B365CC2-871A-1D18-F07A-176BDC7D079A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\HVPP">
+      <UniqueIdentifier>{E6815EF1-D27A-7D43-FBAC-62C8E7045D4F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\HVSP">
+      <UniqueIdentifier>{49825EF1-357B-7D43-5EAD-62C84A055D4F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\HardWare">
+      <UniqueIdentifier>{5651A43E-42E0-2D08-EBFE-4103D76C3EAE}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\I2C">
       <UniqueIdentifier>{66A6296C-D231-9730-DB42-1A25474DF330}</UniqueIdentifier>
     </Filter>
@@ -81,6 +96,9 @@
     </Filter>
     <Filter Include="Application\IWDG">
       <UniqueIdentifier>{F3105FF1-DF09-7E43-083C-63C8F4935D4F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\JTAG">
+      <UniqueIdentifier>{2E905FF1-1A89-7E43-43BB-63C82F135E4F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\KalmanFilter">
       <UniqueIdentifier>{82B79D00-6EDC-EC80-9727-D21083ABEB9E}</UniqueIdentifier>
@@ -99,6 +117,9 @@
     </Filter>
     <Filter Include="Application\MAX961x">
       <UniqueIdentifier>{86EE4474-F24F-2282-7BBD-6834E71D5941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\MCO">
+      <UniqueIdentifier>{A7B9296C-1345-9730-1C56-1A258860F330}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\ModBusMaster">
       <UniqueIdentifier>{FED72902-EAFC-7882-1348-5E12FFCB77A0}</UniqueIdentifier>
@@ -159,6 +180,9 @@
     </Filter>
     <Filter Include="Application\SysTick">
       <UniqueIdentifier>{7281BBC6-DEE2-98D4-6750-DF86D3B0CF93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\TaskManage">
+      <UniqueIdentifier>{647F4099-5079-69EB-39E6-FFFB257FCF57}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Timer">
       <UniqueIdentifier>{69CE121E-D5E4-10B4-1E5C-9CD58AB1E13B}</UniqueIdentifier>
@@ -249,6 +273,15 @@
     <ClInclude Include="..\Application\ADS869x\ads869x_task.h">
       <Filter>Application\ADS869x</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\AHT10\aht10_cfg.h">
+      <Filter>Application\AHT10</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AHT10\aht10_lib.h">
+      <Filter>Application\AHT10</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AHT10\aht10_task.h">
+      <Filter>Application\AHT10</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\APP\config.h">
       <Filter>Application\APP</Filter>
     </ClInclude>
@@ -327,6 +360,9 @@
     <ClInclude Include="..\Application\DS18B20\ds18b20_task.h">
       <Filter>Application\DS18B20</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\DataBus\data_bus.h">
+      <Filter>Application\DataBus</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\Decode\decode_cfg.h">
       <Filter>Application\Decode</Filter>
     </ClInclude>
@@ -390,6 +426,27 @@
     <ClInclude Include="..\Application\HMC830\hmc830_task.h">
       <Filter>Application\HMC830</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\HVPP\hvpp_cfg.h">
+      <Filter>Application\HVPP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVPP\hvpp_lib.h">
+      <Filter>Application\HVPP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVPP\hvpp_task.h">
+      <Filter>Application\HVPP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVSP\hvsp_cfg.h">
+      <Filter>Application\HVSP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVSP\hvsp_lib.h">
+      <Filter>Application\HVSP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HVSP\hvsp_task.h">
+      <Filter>Application\HVSP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HardWare\hw_cfg.h">
+      <Filter>Application\HardWare</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\I2C\i2c_cfg.h">
       <Filter>Application\I2C</Filter>
     </ClInclude>
@@ -434,6 +491,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\IWDG\iwdg_task.h">
       <Filter>Application\IWDG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\JTAG\jtag_cfg.h">
+      <Filter>Application\JTAG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\JTAG\jtag_lib.h">
+      <Filter>Application\JTAG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\JTAG\jtag_task.h">
+      <Filter>Application\JTAG</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\KalmanFilter\kalman_filter.h">
       <Filter>Application\KalmanFilter</Filter>
@@ -482,6 +548,9 @@
     </ClInclude>
     <ClInclude Include="..\Application\MAX961x\max961x_task.h">
       <Filter>Application\MAX961x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MCO\mco_cfg.h">
+      <Filter>Application\MCO</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_cfg.h">
       <Filter>Application\ModBusMaster</Filter>
@@ -653,6 +722,9 @@
     </ClInclude>
     <ClInclude Include="..\Application\SysTick\systick_task.h">
       <Filter>Application\SysTick</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\TaskManage\task_manage.h">
+      <Filter>Application\TaskManage</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\Timer\timer_cfg.h">
       <Filter>Application\Timer</Filter>
@@ -860,6 +932,15 @@
     <ClCompile Include="..\Application\ADS869x\ads869x_task.c">
       <Filter>Application\ADS869x</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\AHT10\aht10_cfg.c">
+      <Filter>Application\AHT10</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AHT10\aht10_lib.c">
+      <Filter>Application\AHT10</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AHT10\aht10_task.c">
+      <Filter>Application\AHT10</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\APP\main.c">
       <Filter>Application\APP</Filter>
     </ClCompile>
@@ -935,6 +1016,9 @@
     <ClCompile Include="..\Application\DS18B20\ds18b20_task.c">
       <Filter>Application\DS18B20</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\DataBus\data_bus.c">
+      <Filter>Application\DataBus</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\Decode\decode_cfg.c">
       <Filter>Application\Decode</Filter>
     </ClCompile>
@@ -998,6 +1082,27 @@
     <ClCompile Include="..\Application\HMC830\hmc830_task.c">
       <Filter>Application\HMC830</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\HVPP\hvpp_cfg.c">
+      <Filter>Application\HVPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVPP\hvpp_lib.c">
+      <Filter>Application\HVPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVPP\hvpp_task.c">
+      <Filter>Application\HVPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVSP\hvsp_cfg.c">
+      <Filter>Application\HVSP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVSP\hvsp_lib.c">
+      <Filter>Application\HVSP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HVSP\hvsp_task.c">
+      <Filter>Application\HVSP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HardWare\hw_cfg.c">
+      <Filter>Application\HardWare</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\I2C\i2c_cfg.c">
       <Filter>Application\I2C</Filter>
     </ClCompile>
@@ -1042,6 +1147,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\IWDG\iwdg_task.c">
       <Filter>Application\IWDG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\JTAG\jtag_cfg.c">
+      <Filter>Application\JTAG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\JTAG\jtag_lib.c">
+      <Filter>Application\JTAG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\JTAG\jtag_task.c">
+      <Filter>Application\JTAG</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\KalmanFilter\kalman_filter.c">
       <Filter>Application\KalmanFilter</Filter>
@@ -1090,6 +1204,9 @@
     </ClCompile>
     <ClCompile Include="..\Application\MAX961x\max961x_task.c">
       <Filter>Application\MAX961x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MCO\mco_cfg.c">
+      <Filter>Application\MCO</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_cfg.c">
       <Filter>Application\ModBusMaster</Filter>
@@ -1261,6 +1378,9 @@
     </ClCompile>
     <ClCompile Include="..\Application\SysTick\systick_task.c">
       <Filter>Application\SysTick</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\TaskManage\task_manage.c">
+      <Filter>Application\TaskManage</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\Timer\timer_cfg.c">
       <Filter>Application\Timer</Filter>

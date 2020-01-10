@@ -56,7 +56,7 @@ UINT8_T DHT11_GPIO_Init(DHT11_HandlerType *DHTxx)
 	GPIOTask_Clock(DHTxx->msgDAT.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化
-	GPIO_InitStruct.Pin = DHTxx->msgDAT.msgBit;													//---对应的GPIO的引脚
+	GPIO_InitStruct.Pin = DHTxx->msgDAT.msgBit;														//---对应的GPIO的引脚
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;														//---配置状态为输出模式
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;												//---GPIO的速度
 	GPIO_InitStruct.OutputType =LL_GPIO_OUTPUT_OPENDRAIN;											//---输出模式---开漏输出
@@ -333,58 +333,78 @@ UINT8_T DHT11_ReadSTATE(DHT11_HandlerType* DHTxx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_Read(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_ReadTemp(DHT11_HandlerType *DHT11x)
 {
 	UINT8_T temp[5] = { 0 };
 	UINT8_T i = 0;
 	//---获取当前的状态
-	if (DHT11_ReadSTATE(DHTxx)!=OK_0)
+	if (DHT11_ReadSTATE(DHT11x)!=OK_0)
 	{
 		return ERROR_1;
 	}
 	//---判断数据是否可读
-	if (DHTxx->msgSTATE==DHT11_READ_OK)
+	if (DHT11x->msgSTATE==DHT11_READ_OK)
 	{
 		return ERROR_2;
 	}
 	//---启动数据的读取并检查设备是否存在
-	if (DHT11_START(DHTxx) != OK_0)
+	if (DHT11_START(DHT11x) != OK_0)
 	{
 		return ERROR_3;
 	}
 	//---读取数据
 	for (i = 0; i < 5; i++)
 	{
-		temp[i] = DHT11_ReadByte(DHTxx);
+		temp[i] = DHT11_ReadByte(DHT11x);
 	}
 	//---释放总线
-	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
+	GPIO_OUT_1(DHT11x->msgDAT.msgPort, DHT11x->msgDAT.msgBit);
 	//---数据校验
 	if ((temp[0] + temp[1] + temp[2] + temp[3]) != temp[4])
 	{
 		return ERROR_4;
 	}
 	//---湿度整数部分
-	DHTxx->msgHumiX1000 = temp[0];
+	DHT11x->msgHumiX1000 = temp[0];
 	//---湿度小数部分
-	DHTxx->msgHumiX1000 = (DHTxx->msgHumiX1000 * 1000) + temp[1];
+	DHT11x->msgHumiX1000 = (DHT11x->msgHumiX1000 * 1000) + temp[1];
 	//---温度整数部分
-	DHTxx->msgTempX1000 = temp[2];
+	DHT11x->msgTempX1000 = temp[2];
 	//---温度小数部分
 	if ((temp[3]&0x80)!=0)
 	{
 		//---温度数据是负数
-		DHTxx->msgPositive=1;
+		DHT11x->msgPositive=1;
 	}
 	else
 	{
 		//---温度数据是正数
-		DHTxx->msgPositive = 2;
+		DHT11x->msgPositive =0;
 	}
-	DHTxx->msgTempX1000 = (DHTxx->msgTempX1000 * 1000) + (temp[3]&0x7F);
+	DHT11x->msgTempX1000 = (DHT11x->msgTempX1000 * 1000) + (temp[3]&0x7F);
 	//---设置当前状态为忙碌模式
-	DHTxx->msgSTATE= DHT11_READ_BUSY;
+	DHT11x->msgSTATE= DHT11_READ_BUSY;
 	//---重置时间标签
-	DHTxx->msgRecordTime = DHTxx->msgTimeTick();
+	DHT11x->msgRecordTime = DHT11x->msgTimeTick();
 	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+float DHT11_GetTemp(DHT11_HandlerType* DHT11x)
+{
+	float tempVal = DHT11x->msgTempX1000;
+	//---转换温度对应实际的温度值
+	tempVal /= 1000.0;
+	//---校验是不是正数
+	if (DHT11x->msgPositive == 1)
+	{
+		tempVal *= (-1.0);
+	}
+	return tempVal;
 }

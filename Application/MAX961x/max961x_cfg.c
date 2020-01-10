@@ -39,14 +39,14 @@ UINT8_T MAX961X_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT3
 		//---初始化硬件I2C
 		_return = I2CTask_MHW_Init(&(MAX961x->msgI2C), pFuncTimerTick);
 		//---设置为硬件模式
-		MAX961x->msgI2C.msgHwModel = 1;
+		MAX961x->msgI2C.msgHwMode = 1;
 	}
 	else
 	{
 		//---初始化软件模拟I2C
 		_return = I2CTask_MSW_Init(&(MAX961x->msgI2C), pFuncDelayus, pFuncTimerTick);
 		//---设置为软件件模式
-		MAX961x->msgI2C.msgHwModel = 0;
+		MAX961x->msgI2C.msgHwMode = 0;
 	}
 	return _return;
 }
@@ -65,7 +65,7 @@ UINT8_T MAX961X_I2C_Device0_Init(MAX961X_HandlerType* MAX961x)
 	MAX961x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	MAX961x->msgI2C.msgSDA.msgPort = GPIOB;
 	MAX961x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
-	MAX961x->msgI2C.msgHwModel = 0;
+	MAX961x->msgI2C.msgHwMode = 0;
 	MAX961x->msgI2C.msgPluseWidth = 2;
 	MAX961x->msgI2C.msgDelayus = NULL;
 	MAX961x->msgI2C.msgAddr = MAX961X_WADDR;
@@ -236,7 +236,7 @@ UINT8_T MAX961X_HWI2C_BurstWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, 
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T MAX961X_I2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
 {
-	if (MAX961x->msgI2C.msgHwModel == 1)
+	if (MAX961x->msgI2C.msgHwMode == 1)
 	{
 		return MAX961X_HWI2C_SingleWriteReg(MAX961x, addr, val);
 	}
@@ -255,7 +255,7 @@ UINT8_T MAX961X_I2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, U
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T MAX961X_I2C_BurstWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
-	if (MAX961x->msgI2C.msgHwModel == 1)
+	if (MAX961x->msgI2C.msgHwMode == 1)
 	{
 		return MAX961X_HWI2C_BurstWriteReg(MAX961x, addr, length, pVal);
 	}
@@ -410,7 +410,7 @@ UINT8_T MAX961X_HWI2C_BurstReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, U
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T MAX961X_I2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal)
 {
-	if (MAX961x->msgI2C.msgHwModel==1)
+	if (MAX961x->msgI2C.msgHwMode==1)
 	{
 		return MAX961X_HWI2C_SingleReadReg(MAX961x, addr, pVal);
 	}
@@ -429,7 +429,7 @@ UINT8_T MAX961X_I2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UI
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T MAX961X_I2C_BurstReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
-	if (MAX961x->msgI2C.msgHwModel == 1)
+	if (MAX961x->msgI2C.msgHwMode == 1)
 	{
 		return MAX961X_HWI2C_BurstReadReg(MAX961x, addr,length, pVal);
 	}

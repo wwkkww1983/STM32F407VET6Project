@@ -229,6 +229,9 @@
     <Filter Include="Application\WWDG">
       <UniqueIdentifier>{41BE66F1-2DB7-8543-56E9-6AC84241654F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\cJSON">
+      <UniqueIdentifier>{A5CC101F-11E3-0EB5-5A5A-9AD6C6AFDF3C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Complier">
       <UniqueIdentifier>{A062D8B7-8C2F-33C3-B548-216BA1746851}</UniqueIdentifier>
     </Filter>
@@ -875,6 +878,9 @@
     </ClInclude>
     <ClInclude Include="..\Application\WWDG\wwdg_task.h">
       <Filter>Application\WWDG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\cJSON\cJSON.h">
+      <Filter>Application\cJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\Complier\complier_cfg.h">
       <Filter>Complier</Filter>
@@ -1600,6 +1606,9 @@
     </ClCompile>
     <ClCompile Include="..\Application\WWDG\wwdg_task.c">
       <Filter>Application\WWDG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\cJSON\cJSON.c">
+      <Filter>Application\cJSON</Filter>
     </ClCompile>
     <ClCompile Include="..\Complier\complier_cfg.c">
       <Filter>Complier</Filter>

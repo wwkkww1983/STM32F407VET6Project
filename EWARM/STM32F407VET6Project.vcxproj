@@ -39,7 +39,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>USE_FULL_LL_DRIVER;USE_HAL_DRIVER;HSE_VALUE=8000000UL;STM32F407xx;__TARGET_FPU_VFP;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING;ARM_MATH_CM4;__IASMARM__;__FPU_USED;_IAR_;__ICCARM__;_Pragma(x)=;__interrupt=;__packed=__attribute__((__packed__));__weak=__attribute__((weak));%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\STARTUP\EWARM;..\Complier;..\Doc;..\STM32F4xx;..\Application\AD5593;..\Application\ADC;..\Application\ADS868x;..\Application\ADS869x;..\Application\APP;..\Application\AT24Cxx;..\Application\CRC;..\Application\DAC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\EEPROM;..\Application\Encode;..\Application\FLASH;..\Application\GPIO;..\Application\HMC830;..\Application\I2C;..\Application\IAP;..\Application\ISP;..\Application\IWDG;..\Application\Key;..\Application\LED;..\Application\LCD1602;..\Application\OneWire;..\Application\PCF8563;..\Application\Power;..\Application\Random;..\Application\RFASK;..\Application\SPI;..\Application\SysTick;..\Application\Timer;..\Application\USART;..\Application\WM8510;..\Application\NRF2401;..\Application\OLED;..\Application\WWDG;..\Application\SHT2x;..\Application\BKP;..\Application\CSS;..\Application\Decode;..\Application\W25Qxx;..\Application\DS1302;..\Application\RFASKHW;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\PVD;..\Application\RTC;..\Application\MyMalloc;..\Application\HMC472;..\Application\KalmanFilter;..\Application\ModBusMaster;..\Application\ModBusSlave;..\Application\MAX961x;..\Application\SMBUS;..\Application\LIN;..\Application\INA226;..\Application\SI5351A;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\STARTUP\EWARM;..\Complier;..\Doc;..\STM32F4xx;..\Application\AD5593;..\Application\ADC;..\Application\ADS868x;..\Application\ADS869x;..\Application\APP;..\Application\AT24Cxx;..\Application\CRC;..\Application\DAC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\EEPROM;..\Application\Encode;..\Application\FLASH;..\Application\GPIO;..\Application\HMC830;..\Application\I2C;..\Application\IAP;..\Application\ISP;..\Application\IWDG;..\Application\Key;..\Application\LED;..\Application\LCD1602;..\Application\OneWire;..\Application\PCF8563;..\Application\Power;..\Application\Random;..\Application\RFASK;..\Application\SPI;..\Application\SysTick;..\Application\Timer;..\Application\USART;..\Application\WM8510;..\Application\NRF2401;..\Application\OLED;..\Application\WWDG;..\Application\SHT2x;..\Application\BKP;..\Application\CSS;..\Application\Decode;..\Application\W25Qxx;..\Application\DS1302;..\Application\RFASKHW;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\PVD;..\Application\RTC;..\Application\MyMalloc;..\Application\HMC472;..\Application\KalmanFilter;..\Application\ModBusMaster;..\Application\ModBusSlave;..\Application\MAX961x;..\Application\SMBUS;..\Application\LIN;..\Application\INA226;..\Application\SI5351A;..\Application\TaskManage;..\Application\HVPP;..\Application\HVSP;..\Application\JTAG;..\Application\AHT10;..\Application\DataBus;..\Application\HardWare;..\Application\MCO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -62,6 +62,9 @@
     <ClInclude Include="..\Application\ADS869x\ADS869X_cfg.h" />
     <ClInclude Include="..\Application\ADS869x\ADS869X_lib.h" />
     <ClInclude Include="..\Application\ADS869x\ads869x_task.h" />
+    <ClInclude Include="..\Application\AHT10\aht10_cfg.h" />
+    <ClInclude Include="..\Application\AHT10\aht10_lib.h" />
+    <ClInclude Include="..\Application\AHT10\aht10_task.h" />
     <ClInclude Include="..\Application\APP\config.h" />
     <ClInclude Include="..\Application\APP\main.h" />
     <ClInclude Include="..\Application\AT24Cxx\at24cxx_cfg.h" />
@@ -88,6 +91,7 @@
     <ClInclude Include="..\Application\DS18B20\ds18b20_cfg.h" />
     <ClInclude Include="..\Application\DS18B20\ds18b20_lib.h" />
     <ClInclude Include="..\Application\DS18B20\ds18b20_task.h" />
+    <ClInclude Include="..\Application\DataBus\data_bus.h" />
     <ClInclude Include="..\Application\Decode\decode_cfg.h" />
     <ClInclude Include="..\Application\Decode\decode_lib.h" />
     <ClInclude Include="..\Application\Decode\decode_task.h" />
@@ -109,6 +113,13 @@
     <ClInclude Include="..\Application\HMC830\hmc830_cfg.h" />
     <ClInclude Include="..\Application\HMC830\hmc830_lib.h" />
     <ClInclude Include="..\Application\HMC830\hmc830_task.h" />
+    <ClInclude Include="..\Application\HVPP\hvpp_cfg.h" />
+    <ClInclude Include="..\Application\HVPP\hvpp_lib.h" />
+    <ClInclude Include="..\Application\HVPP\hvpp_task.h" />
+    <ClInclude Include="..\Application\HVSP\hvsp_cfg.h" />
+    <ClInclude Include="..\Application\HVSP\hvsp_lib.h" />
+    <ClInclude Include="..\Application\HVSP\hvsp_task.h" />
+    <ClInclude Include="..\Application\HardWare\hw_cfg.h" />
     <ClInclude Include="..\Application\I2C\i2c_cfg.h" />
     <ClInclude Include="..\Application\I2C\i2c_lib.h" />
     <ClInclude Include="..\Application\I2C\i2c_task.h" />
@@ -124,6 +135,9 @@
     <ClInclude Include="..\Application\IWDG\iwdg_cfg.h" />
     <ClInclude Include="..\Application\IWDG\iwdg_lib.h" />
     <ClInclude Include="..\Application\IWDG\iwdg_task.h" />
+    <ClInclude Include="..\Application\JTAG\jtag_cfg.h" />
+    <ClInclude Include="..\Application\JTAG\jtag_lib.h" />
+    <ClInclude Include="..\Application\JTAG\jtag_task.h" />
     <ClInclude Include="..\Application\KalmanFilter\kalman_filter.h" />
     <ClInclude Include="..\Application\Key\key_cfg.h" />
     <ClInclude Include="..\Application\Key\key_lib.h" />
@@ -140,6 +154,7 @@
     <ClInclude Include="..\Application\MAX961x\max961x_cfg.h" />
     <ClInclude Include="..\Application\MAX961x\max961x_lib.h" />
     <ClInclude Include="..\Application\MAX961x\max961x_task.h" />
+    <ClInclude Include="..\Application\MCO\mco_cfg.h" />
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_cfg.h" />
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_lib.h" />
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_task.h" />
@@ -197,6 +212,7 @@
     <ClInclude Include="..\Application\SysTick\systick_cfg.h" />
     <ClInclude Include="..\Application\SysTick\systick_lib.h" />
     <ClInclude Include="..\Application\SysTick\systick_task.h" />
+    <ClInclude Include="..\Application\TaskManage\task_manage.h" />
     <ClInclude Include="..\Application\Timer\timer_cfg.h" />
     <ClInclude Include="..\Application\Timer\timer_lib.h" />
     <ClInclude Include="..\Application\Timer\timer_task.h" />
@@ -267,6 +283,9 @@
     <ClCompile Include="..\Application\ADS869x\ads869x_cfg.c" />
     <ClCompile Include="..\Application\ADS869x\ads869x_lib.c" />
     <ClCompile Include="..\Application\ADS869x\ads869x_task.c" />
+    <ClCompile Include="..\Application\AHT10\aht10_cfg.c" />
+    <ClCompile Include="..\Application\AHT10\aht10_lib.c" />
+    <ClCompile Include="..\Application\AHT10\aht10_task.c" />
     <ClCompile Include="..\Application\APP\main.c" />
     <ClCompile Include="..\Application\AT24Cxx\at24cxx_cfg.c" />
     <ClCompile Include="..\Application\AT24Cxx\at24cxx_lib.c" />
@@ -292,6 +311,7 @@
     <ClCompile Include="..\Application\DS18B20\ds18b20_cfg.c" />
     <ClCompile Include="..\Application\DS18B20\ds18b20_lib.c" />
     <ClCompile Include="..\Application\DS18B20\ds18b20_task.c" />
+    <ClCompile Include="..\Application\DataBus\data_bus.c" />
     <ClCompile Include="..\Application\Decode\decode_cfg.c" />
     <ClCompile Include="..\Application\Decode\decode_lib.c" />
     <ClCompile Include="..\Application\Decode\decode_task.c" />
@@ -313,6 +333,13 @@
     <ClCompile Include="..\Application\HMC830\hmc830_cfg.c" />
     <ClCompile Include="..\Application\HMC830\hmc830_lib.c" />
     <ClCompile Include="..\Application\HMC830\hmc830_task.c" />
+    <ClCompile Include="..\Application\HVPP\hvpp_cfg.c" />
+    <ClCompile Include="..\Application\HVPP\hvpp_lib.c" />
+    <ClCompile Include="..\Application\HVPP\hvpp_task.c" />
+    <ClCompile Include="..\Application\HVSP\hvsp_cfg.c" />
+    <ClCompile Include="..\Application\HVSP\hvsp_lib.c" />
+    <ClCompile Include="..\Application\HVSP\hvsp_task.c" />
+    <ClCompile Include="..\Application\HardWare\hw_cfg.c" />
     <ClCompile Include="..\Application\I2C\i2c_cfg.c" />
     <ClCompile Include="..\Application\I2C\i2c_lib.c" />
     <ClCompile Include="..\Application\I2C\i2c_task.c" />
@@ -328,6 +355,9 @@
     <ClCompile Include="..\Application\IWDG\iwdg_cfg.c" />
     <ClCompile Include="..\Application\IWDG\iwdg_lib.c" />
     <ClCompile Include="..\Application\IWDG\iwdg_task.c" />
+    <ClCompile Include="..\Application\JTAG\jtag_cfg.c" />
+    <ClCompile Include="..\Application\JTAG\jtag_lib.c" />
+    <ClCompile Include="..\Application\JTAG\jtag_task.c" />
     <ClCompile Include="..\Application\KalmanFilter\kalman_filter.c" />
     <ClCompile Include="..\Application\Key\key_cfg.c" />
     <ClCompile Include="..\Application\Key\key_lib.c" />
@@ -344,6 +374,7 @@
     <ClCompile Include="..\Application\MAX961x\max961x_cfg.c" />
     <ClCompile Include="..\Application\MAX961x\max961x_lib.c" />
     <ClCompile Include="..\Application\MAX961x\max961x_task.c" />
+    <ClCompile Include="..\Application\MCO\mco_cfg.c" />
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_cfg.c" />
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_lib.c" />
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_task.c" />
@@ -401,6 +432,7 @@
     <ClCompile Include="..\Application\SysTick\systick_cfg.c" />
     <ClCompile Include="..\Application\SysTick\systick_lib.c" />
     <ClCompile Include="..\Application\SysTick\systick_task.c" />
+    <ClCompile Include="..\Application\TaskManage\task_manage.c" />
     <ClCompile Include="..\Application\Timer\timer_cfg.c" />
     <ClCompile Include="..\Application\Timer\timer_lib.c" />
     <ClCompile Include="..\Application\Timer\timer_task.c" />

@@ -35,7 +35,7 @@ UINT8_T USART_StructInit(USART_HandlerType*  USARTx)
 	USARTx->msgUSART = NULL;
 
 	//---接收缓存区
-	USARTx->msgRxdHandler.msgIsDMA = 1;
+	USARTx->msgRxdHandler.msgDMAMode = 1;
 	USARTx->msgRxdHandler.msgCheckSum = 0;
 	USARTx->msgRxdHandler.msgCRCFlag = 0;
 	USARTx->msgRxdHandler.msgStep = 0;
@@ -53,7 +53,7 @@ UINT8_T USART_StructInit(USART_HandlerType*  USARTx)
 	USARTx->msgRxdHandler.pMsgVal = NULL;
 
 	//---发送缓存区
-	USARTx->msgTxdHandler.msgIsDMA = 1;
+	USARTx->msgTxdHandler.msgDMAMode = 1;
 	USARTx->msgTxdHandler.msgCheckSum = 0;
 	USARTx->msgTxdHandler.msgCRCFlag = 0;
 	USARTx->msgTxdHandler.msgStep = 0;
@@ -115,12 +115,12 @@ UINT8_T USART_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal,
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：串口的发送端口的初始化
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USART_GPIOInit(USART_HandlerType*  USARTx, UINT8_T isInput)
+UINT8_T  USART_TXGPIOInit(USART_HandlerType*  USARTx, UINT8_T isInput)
 {
 #ifdef USART_INIT_GPIO
 	if (USARTx->msgTxPort != NULL)
@@ -140,7 +140,7 @@ UINT8_T  USART_GPIOInit(USART_HandlerType*  USARTx, UINT8_T isInput)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：485方向控制端口的初始化
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -352,7 +352,7 @@ UINT8_T  USART_TimeOVFTask(USART_HandlerType*USARTx, UINT8_T isRx)
 {
 	UINT8_T _return = OK_0;
 	//---校验是不是DMA接收模式
-	if (USARTx->msgRxdHandler.msgIsDMA==0)
+	if (USARTx->msgRxdHandler.msgDMAMode==0)
 	{
 		//---判断是接收还是发送
 		if (isRx != 0)
@@ -370,7 +370,7 @@ UINT8_T  USART_TimeOVFTask(USART_HandlerType*USARTx, UINT8_T isRx)
 				if ((_return != OK_0))
 				{
 					//---打印超时的串口信息
-					USART_Printf(USARTx, "=>>接收串口%d发生超时错误!<<=\r\n", (USARTx->msgIndex - 1));
+					USART_Printf(USARTx, "=>>SP%d:Receive Mode Timeout Error!<<=\r\n", (USARTx->msgIndex - 1));
 					//---复位接收数据缓存区
 					USART_Read_Init(USARTx);
 				}
@@ -390,8 +390,7 @@ UINT8_T  USART_TimeOVFTask(USART_HandlerType*USARTx, UINT8_T isRx)
 				if ((_return != OK_0) && (USARTx->msgTxdHandler.msgRecordTime != 0))
 				{
 					//---打印超时的串口信息
-					USART_Printf(USARTx, "=>>发送串口%d发生超时错误!<<=\r\n", (USARTx->msgIndex - 1));
-
+					USART_Printf(USARTx, "=>>SP%d:Send Mode Timeout Error!<<=\r\n", (USARTx->msgIndex - 1));
 					//---复位发送数据缓存区
 					USART_Write_Init(USARTx);
 				}
@@ -639,7 +638,7 @@ UINT8_T USART_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal)
 	//---设置485为发送模式
 	USART_485GPIOInit(USARTx, USART_485_TX_ENABLE);
 	//---切换发送端口为输出模式
-	USART_GPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
 	//---关闭中断
 	CLI();
 	while (*pVal != '\0')
@@ -652,7 +651,7 @@ UINT8_T USART_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal)
 	//---设置485为接收模式
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---切换发送端口为输入模式
-	USART_GPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
 	return OK_0;
 }
 
@@ -804,7 +803,7 @@ UINT8_T USART_RealTime_AddByte(USART_HandlerType*USARTx, UINT8_T val)
 			//---设置485为发送模式
 			USART_485GPIOInit(USARTx, USART_485_TX_ENABLE);
 			//---切换发送端口为输出模式
-			USART_GPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
+			USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
 			//---使能发送空中断
 			LL_USART_EnableIT_TXE(USARTx->msgUSART);
 		}
@@ -1229,7 +1228,7 @@ UINT8_T USART_CRCTask_Write(USART_HandlerType*USARTx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：填充模式启动发送，这里适合填充之后中断发送和DMA模式（DMA模式是数据填充完成之后，才能启动发送的）
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -1276,15 +1275,18 @@ UINT8_T  USART_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
 	//---设置485为发送模式
 	USART_485GPIOInit(USARTx, USART_485_TX_ENABLE);
 	//---切换发送端口为输出模式
-	USART_GPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
 	//---校验是不是DMA模式
-	if (USARTx->msgTxdHandler.msgIsDMA==0)
+	if (USARTx->msgTxdHandler.msgDMAMode==0)
 	{
 		//---发送数据寄存器空中断使能
 		LL_USART_EnableIT_TXE(USARTx->msgUSART);
 	}
 	else
 	{
+		//---设置数据地址
+		USART_Write_DMA_SetMemoryAddress(USARTx, (USARTx->msgTxdHandler.pMsgVal));
+		//---启动DMA发送
 		USART_Write_DMA_RESTART(USARTx);
 	}
 	return OK_0;
@@ -1407,7 +1409,7 @@ UINT8_T  USART_Read_Init(USART_HandlerType*  USARTx)
 	//---清零超时标志
 	USARTx->msgRxdHandler.msgOverFlow = 0;
 	//---校验是不是DMA模式
-	if(USARTx->msgRxdHandler.msgIsDMA!=0)
+	if(USARTx->msgRxdHandler.msgDMAMode!=0)
 	{
 		USART_Read_DMA_RESTART(USARTx);
 	}
@@ -1442,7 +1444,7 @@ UINT8_T USART_Write_Init(USART_HandlerType*  USARTx)
 	//---设置485为接收模式
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---数据发送完成，切换端口为输入模式
-	USART_GPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
 	return OK_0;
 }
 
@@ -1494,10 +1496,15 @@ void USART_PrintfSuspend(USART_HandlerType* USARTx)
 		}
 		LL_USART_ClearFlag_TC(USARTx->msgUSART);
 	}
+	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
+	while ((USARTx->msgTxdHandler.msgTaskState == USART_BUSY) || (USARTx->msgTxdHandler.msgTaskState == USART_PRINTF))
+	{
+		WDT_RESET();
+	}
 	//---定义485为发送模式
 	USART_485GPIOInit(USARTx, USART_485_TX_ENABLE);
 	//---切换发送端口为输出模式
-	USART_GPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
 #endif
 }
 
@@ -1514,7 +1521,7 @@ void USART_PrintfResume(USART_HandlerType* USARTx)
 	//---定义485为接收模式
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---数据发送完成，切换端口为输入模式
-	USART_GPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
 #endif
 }
 
@@ -1529,27 +1536,50 @@ void USART_PrintfResume(USART_HandlerType* USARTx)
 void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 {
 #ifdef USE_USART_PRINTF
-	//---挂起操作
-	USART_PrintfSuspend(USARTx);
-	//---计算数据
-	UINT16_T length = 0; 
-	va_list arg_ptr;
-	va_start(arg_ptr, fmt);
-	//---用于向字符串中打印数据、数据格式用户自定义;返回参数是最终生成字符串的长度
-	length = (UINT16_T)vsnprintf(g_PrintfBuffer, USART_PRINTF_SIZE, fmt, arg_ptr);
-	va_end(arg_ptr);
-	//---判断数据
-	if (length> USART_PRINTF_SIZE)
+	//---校验串口是否已经初始化过
+	if (USARTx->msgUSART!=NULL)
 	{
-		length = USART_PRINTF_SIZE;
+		//---挂起操作
+		USART_PrintfSuspend(USARTx);
+		//---计算数据
+		UINT16_T length = 0;
+		va_list arg_ptr;
+		va_start(arg_ptr, fmt);
+		//---用于向字符串中打印数据、数据格式用户自定义;返回参数是最终生成字符串的长度
+		length = (UINT16_T)vsnprintf(g_PrintfBuffer, USART_PRINTF_SIZE, fmt, arg_ptr);
+		va_end(arg_ptr);
+		//---判断数据
+		if (length > USART_PRINTF_SIZE)
+		{
+			length = USART_PRINTF_SIZE;
+		}
+		//---校验是不是DMA模式
+		if (USARTx->msgTxdHandler.msgDMAMode!=0)
+		{
+			//--->>>DMA发送模式
+			USARTx->msgTxdHandler.msgCount = length;
+			//---设置数据地址
+			USART_Write_DMA_SetMemoryAddress(USARTx, (UINT8_T *)g_PrintfBuffer);
+			//---清除标识
+			LL_DMA_ClearFlag(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream);
+			//---启动DMA发送
+			USART_Write_DMA_RESTART(USARTx);
+		}
+		else
+		{
+			//--->>>中断发送模式
+			//---要发送数据的个数
+			USARTx->msgPrintfCount = length;
+			//---使用的发送完成中断，这里需要首先发送一次数据
+			USARTx->msgPrintfIndex = 1;
+			//---工作在使用PRINTF模式
+			USARTx->msgTxdHandler.msgTaskState = USART_PRINTF;
+			//---发送完成,发送数据发送完成中断不使能
+			LL_USART_EnableIT_TC(USARTx->msgUSART);
+			//---发送8Bit的数据
+			LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[0]);
+		}
 	}
-	USARTx->msgPrintfCount = length;
-	USARTx->msgPrintfIndex = 1;
-	USARTx->msgTxdHandler.msgTaskState = USART_PRINTF;
-	//---发送完成,发送数据发送完成中断不使能
-	LL_USART_EnableIT_TC(USARTx->msgUSART);
-	//---发送8Bit的数据
-	LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[0]);	
 #endif	
 }
 
@@ -2044,7 +2074,7 @@ UINT8_T USART1_ConfigInit(USART_HandlerType* USARTx)
 	//---定义485为接收模式--推完输出模式，配置为接收模式
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---设置TX端口为输入模式
-	USART_GPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
 	return OK_0;
 }
 
@@ -2059,7 +2089,7 @@ UINT8_T USART1_Init(USART_HandlerType*USARTx)
 {
 	USART1_ConfigInit(USARTx);
 	//---校验接收是不是DMA传输
-	if (USARTx->msgRxdHandler.msgIsDMA==0)
+	if (USARTx->msgRxdHandler.msgDMAMode==0)
 	{
 		//---使能接收中断
 		LL_USART_EnableIT_RXNE(USART1);
@@ -2072,7 +2102,7 @@ UINT8_T USART1_Init(USART_HandlerType*USARTx)
 		USART1_Read_DMA_Init(USARTx);
 	}
 	//---校验发送是不是DMA传输方式
-	if (USARTx->msgTxdHandler.msgIsDMA != 0)
+	if (USARTx->msgTxdHandler.msgDMAMode != 0)
 	{
 		USART1_Write_DMA_Init(USARTx);
 	}
@@ -2083,7 +2113,8 @@ UINT8_T USART1_Init(USART_HandlerType*USARTx)
 	//---使能串口
 	LL_USART_Enable(USART1);	
 	//---打印初始化信息
-	USART_Printf(USARTx, "=>>串口1的初始化<<=\r\n");
+	//USART_Printf(USARTx, "=>>串口1的初始化<<=\r\n");
+	USART_Printf(USARTx, "=>>Init SP1<<=\r\n");
 	return OK_0;
 }
 
@@ -2331,8 +2362,8 @@ UINT8_T USART1_Write_DMA_Init(USART_HandlerType* USARTx)
 	//---DMA通道
 	DMA_InitTypeDef.Channel = LL_DMA_CHANNEL_4;
 #endif
-	//---数据大小
-	DMA_InitTypeDef.NbData = USARTx->msgTxdHandler.msgSize;
+	//---数据大小,如果是首次发送，这里的参数只能写0，否则容易发生数据不完整，可能只发送了接个字节就停止发送
+	DMA_InitTypeDef.NbData = 0;//USARTx->msgTxdHandler.msgSize;
 	//---方向从存储器到外设
 	DMA_InitTypeDef.Direction = LL_DMA_DIRECTION_MEMORY_TO_PERIPH;
 #ifndef USE_MCU_STM32F1
@@ -2425,20 +2456,36 @@ UINT16_T USART_Read_DMA_STOP(USART_HandlerType* USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_Read_DMA_RESTART(USART_HandlerType* USARTx)
 {
-	//---配置DMA的数据
-#ifdef USE_MCU_STM32F1
 	//---设置DMA读取数据的大小
-	LL_DMA_SetDataLength(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream, USARTx->msgRxHandler.msgSize);
+	LL_DMA_SetDataLength(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream, USARTx->msgRxdHandler.msgSize);
+	//---使能DMA
+#ifdef USE_MCU_STM32F1
 	//---使能DMA
 	LL_DMA_EnableChannel(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
 #else
-	//---设置DMA读取数据的大小
-	LL_DMA_SetDataLength(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream, USARTx->msgRxdHandler.msgSize);
 	//---使能DMA
 	LL_DMA_EnableStream(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream);
 #endif
 	return OK_0;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：设置DMA发送模式下，数据存储的地址
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART_Write_DMA_SetMemoryAddress(USART_HandlerType* USARTx,UINT8_T *pVal)
+{
+	#ifdef USE_MCU_STM32F1
+		
+	#else
+		LL_DMA_SetMemoryAddress(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream,(UINT32_T)pVal);
+	#endif
+	return OK_0;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -2515,6 +2562,7 @@ UINT8_T USART_DMA_IDLETask(USART_HandlerType* USARTx)
 		if (length == dataLength)
 		{
 			USARTx->msgRxdHandler.msgTaskState = USART_OK;
+			USARTx->msgRxdHandler.msgCount=dataLength;
 		}
 		else
 		{

@@ -18,6 +18,8 @@ extern "C" {
 	UINT8_T SHT2XLib_I2C_ReadHumiPoll(SHT2X_HandlerType *SHT2x);
 	UINT8_T SHT2XLib_I2C_ReadTempHM(SHT2X_HandlerType *SHT2x);
 	UINT8_T SHT2XLib_I2C_ReadHumiHM(SHT2X_HandlerType *SHT2x);
+	float SHT2XLib_I2C_GetTemp(SHT2X_HandlerType* SHT2x);
+	float SHT2XLib_I2C_GetHumi(SHT2X_HandlerType* SHT2x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -14,8 +14,8 @@ UINT8_T USART1_TX_BUFFER[USART1_RX_MAX_SIZE] = { 0 };
 UINT8_T  USARTTask_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void))
 {
 	UINT8_T _return = OK_0;
-	_return = USARTLib_Init(USARTx, rxSize, pRxVal, rxCRCFlag, txSize, pTxVal, txCRCFlag, pTimerTick);
 	_return = USARTLib_ParamInit(USARTx, USART1_DEVICE_ID, USART1_ID_INDEX, USART1_CMD_INDEX, USART1_DATA1_INDEX, USART1_DATA2_INDEX);
+	_return = USARTLib_Init(USARTx, rxSize, pRxVal, rxCRCFlag, txSize, pTxVal, txCRCFlag, pTimerTick);
 	return _return;
 }
 
@@ -414,6 +414,8 @@ void USARTTask_Write_DMA_IRQTask(USART_HandlerType* USARTx)
 	USARTLib_Write_DMA_IRQTask(USARTx);
 }
 
+UINT16_T usartDebugCount=0;
+
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：
@@ -432,9 +434,6 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 			//---CRC的校验
 			if ((USARTTask_CRCTask_Read(USARTx) == OK_0) && (USARTTask_DeviceID(USARTx) == OK_0))
 			{
-				//---数据发送报头
-				USARTTask_RealTime_AddByte(USARTx, USARTx->msgTxID);
-
 				//---数据接收完成
 				if (pFuncTask != NULL)
 				{
@@ -442,30 +441,17 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 				}
 				else
 				{
-					//USARTTask_FillMode_AddData(USARTx, USARTx->msgRxHandler.pMsgVal, length);
-					//USARTTask_RealTime_AddByteSize(USARTx, USARTx->msgRxHandler.msgCount);
-					USARTTask_RealTime_AddSize(USARTx, USARTx->msgRxdHandler.msgIndexW);
-					for (length = USART1_ID_INDEX; length < USARTx->msgRxdHandler.msgCount; length++)
-					{
-						USARTTask_RealTime_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[length]);
-					}
-
-					//---是否需要增加换行符
-					if (USARTx->msgTxdHandler.msgAddNewLine==1)
-					{
-						USARTTask_RealTime_AddByte(USARTx, 0x0D);
-						USARTTask_RealTime_AddByte(USARTx, 0x0A);
-					}
-					
+					USARTTask_FillMode_AddData(USARTx, USARTx->msgRxdHandler.pMsgVal, USARTx->msgRxdHandler.msgCount);
+					//---启动数据发送
+					USARTTask_FillMode_WriteSTART(USARTx, 0);
+					usartDebugCount++;
+					USART_Printf(pUsart1, "TEST Count:%d\r\n", usartDebugCount);
 				}
-
-				//---判断是否发送CRC
-				USARTTask_RealTime_AddCRC(USARTx);
 			}
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, (void*)"=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
+				USART_Printf(USARTx, (void*)"=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			return USARTTask_Read_Init(USARTx);
 		}
@@ -514,7 +500,7 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
+				USART_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			return USARTTask_Read_Init(USARTx);
 		}
@@ -584,7 +570,7 @@ UINT8_T USARTTask_DebugFreqTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(U
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
+				USART_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			return USARTTask_Read_Init(USARTx);
 		}

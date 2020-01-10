@@ -38,13 +38,13 @@ UINT8_T PCF8563_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT
 	{
 		//---初始化硬件I2C
 		_return = I2CTask_MHW_Init(&(PCF8563x->msgI2C),pFuncTimerTick);
-		PCF8563x->msgI2C.msgHwModel = 1;
+		PCF8563x->msgI2C.msgHwMode = 1;
 	}
 	else
 	{
 		//---初始化软件模拟I2C
 		_return = I2CTask_MSW_Init(&(PCF8563x->msgI2C), pFuncDelayus,pFuncTimerTick);
-		PCF8563x->msgI2C.msgHwModel = 0;
+		PCF8563x->msgI2C.msgHwMode = 0;
 	}
 	return _return;
 }
@@ -63,7 +63,7 @@ UINT8_T PCF8563_I2C_Device0_Init(PCF8563_HandlerType *PCF8563x)
 	PCF8563x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	PCF8563x->msgI2C.msgSDA.msgPort = GPIOB;
 	PCF8563x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
-	PCF8563x->msgI2C.msgHwModel = 0;
+	PCF8563x->msgI2C.msgHwMode = 0;
 	PCF8563x->msgI2C.msgPluseWidth = 0;
 	PCF8563x->msgI2C.msgDelayus = NULL;
 	PCF8563x->msgI2C.msgAddr = 0xA2;//PCF8563_WRITE_ADDR;
@@ -105,7 +105,7 @@ UINT8_T PCF8563_I2C_Device2_Init(PCF8563_HandlerType *PCF8563x)
 UINT8_T PCF8563_I2C_DeInit(PCF8563_HandlerType *PCF8563x)
 {
 	//---注销I2C设备
-	if (PCF8563x->msgI2C.msgHwModel == 1)
+	if (PCF8563x->msgI2C.msgHwMode == 1)
 	{
 		return ERROR_1;
 	}
@@ -180,7 +180,7 @@ UINT8_T PCF8563_HWI2C_WriteReg(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T PCF8563_I2C_WriteReg(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T val)
 {
-	if (PCF8563x->msgI2C.msgHwModel == 0)
+	if (PCF8563x->msgI2C.msgHwMode == 0)
 	{
 		return PCF8563_SWI2C_WriteReg(PCF8563x, reg, val);
 	}
@@ -275,7 +275,7 @@ UINT8_T PCF8563_HWI2C_ReadReg(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T PCF8563_I2C_ReadReg(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T *pVal, UINT16_T length)
 {
-	if (PCF8563x->msgI2C.msgHwModel == 0)
+	if (PCF8563x->msgI2C.msgHwMode == 0)
 	{
 		return PCF8563_SWI2C_ReadReg(PCF8563x, reg, pVal, length);
 	}

@@ -13,6 +13,7 @@ extern "C" {
 	UINT8_T DS18B20Task_OneWire_ReadDeviceID(DS18B20_HandlerType *DS18B20x, UINT8_T *id);
 	UINT16_T DS18B20Task_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x);
 	UINT16_T DS18B20Task_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id);
+	float DS18B20Task_OneWire_GetTemp(DS18B20_HandlerType* DS18B20x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

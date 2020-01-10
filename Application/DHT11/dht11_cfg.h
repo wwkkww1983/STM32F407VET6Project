@@ -29,7 +29,7 @@ extern "C" {
 	//===结构体定义
 	struct _DHT11_HandlerType
 	{
-		UINT8_T				msgPositive;																																			//---0---无数据，1---是负数，2---是正值
+		UINT8_T				msgPositive;																																			//---0---是正值，1---是负数
 		UINT8_T				msgSTATE;																																				//---读取状态
 		UINT32_T			msgTempX1000;																																			//---温度
 		UINT32_T			msgHumiX1000;																																			//---湿度
@@ -56,7 +56,8 @@ extern "C" {
 	UINT8_T DHT11_Device1_Init(DHT11_HandlerType *DHT11x);
 	UINT8_T DHT11_Device2_Init(DHT11_HandlerType *DHT11x);
 	UINT8_T DHT11_DeInit(DHT11_HandlerType *DHT11x);
-	UINT8_T DHT11_Read(DHT11_HandlerType *DHT11x);
+	UINT8_T DHT11_ReadTemp(DHT11_HandlerType *DHT11x);
+	float DHT11_GetTemp(DHT11_HandlerType* DHT11xx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

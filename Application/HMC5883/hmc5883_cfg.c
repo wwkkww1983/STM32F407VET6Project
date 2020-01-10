@@ -19,7 +19,7 @@ UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandlerType* HMC5883x)
 	HMC5883x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	HMC5883x->msgI2C.msgSDA.msgPort = GPIOB;
 	HMC5883x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
-	HMC5883x->msgI2C.msgHwModel = 0;
+	HMC5883x->msgI2C.msgHwMode = 0;
 	HMC5883x->msgI2C.msgPluseWidth = 2;
 	HMC5883x->msgI2C.msgDelayus = NULL;
 	HMC5883x->msgI2C.msgAddr = HMC5883_WADDR;
@@ -84,14 +84,14 @@ UINT8_T HMC5883_I2C_Init(HMC5883_HandlerType* HMC5883x, void(*pFuncDelayus)(UINT
 		//---初始化硬件I2C
 		_return = I2CTask_MHW_Init(&(HMC5883x->msgI2C),pFuncTimerTick);
 		//---设置为硬件模式
-		HMC5883x->msgI2C.msgHwModel = 1;
+		HMC5883x->msgI2C.msgHwMode = 1;
 	}
 	else
 	{
 		//---初始化软件模拟I2C
 		_return = I2CTask_MSW_Init(&(HMC5883x->msgI2C), pFuncDelayus,pFuncTimerTick);
 		//---设置为软件件模式
-		HMC5883x->msgI2C.msgHwModel = 0;
+		HMC5883x->msgI2C.msgHwMode = 0;
 	}
 	if (pFuncDelayms!=NULL)
 	{
@@ -174,7 +174,7 @@ UINT8_T HMC5883_HWI2C_WriteRegSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T HMC5883_I2C_WriteRegSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T val)
 {
-	if (HMC5883x->msgI2C.msgHwModel != 0)
+	if (HMC5883x->msgI2C.msgHwMode != 0)
 	{
 		return HMC5883_HWI2C_WriteRegSingle(HMC5883x, addr, val);
 	}
@@ -251,7 +251,7 @@ UINT8_T HMC5883_HWI2C_ReadRegSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr,
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T HMC5883_I2C_ReadRegSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T* pVal)
 {
-	if (HMC5883x->msgI2C.msgHwModel!=0)
+	if (HMC5883x->msgI2C.msgHwMode!=0)
 	{
 		return HMC5883_HWI2C_ReadRegSingle(HMC5883x, addr, pVal);
 	}
@@ -354,7 +354,7 @@ UINT8_T HMC5883_HWI2C_ReadRegBulk(HMC5883_HandlerType* HMC5883x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T HMC5883_I2C_ReadRegBulk(HMC5883_HandlerType* HMC5883x)
 {
-	if (HMC5883x->msgI2C.msgHwModel == 1)
+	if (HMC5883x->msgI2C.msgHwMode == 1)
 	{
 		return HMC5883_HWI2C_ReadRegBulk(HMC5883x);
 	}

@@ -94,11 +94,11 @@ extern "C" {
 		GPIO_HandlerType	msgTDO;																																					//---TDO使用的端口
 		GPIO_HandlerType	msgTCK;																																					//---TCK使用的端口
 		GPIO_HandlerType	msgTMS;																																					//---TMS使用的端口
-#ifdef JTAG_USE_HV_RESET
+	#ifdef JTAG_USE_HV_RESET
 		void (*msgPortRst)(UINT8_T rstState);																																		//---高压模式操作RST端口的函数
-#else
+	#else
 		GPIO_HandlerType	msgRST;																																					//---RST使用的端口,硬件复位端口
-#endif
+	#endif
 		
 	#ifdef JTAG_USE_lEVEL_SHIFT
 		GPIO_HandlerType	msgOE;																																					//---OE使用的端口，用于控制电平装换的开关

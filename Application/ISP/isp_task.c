@@ -1020,7 +1020,7 @@ UINT8_T ISPTask_USARTCmd_ParentTask(ISP_HandlerType* ISPx, USART_HandlerType* US
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
+				USART_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			return USARTTask_Read_Init(USARTx);
 		}
