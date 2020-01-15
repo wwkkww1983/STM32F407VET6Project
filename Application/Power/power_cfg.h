@@ -159,7 +159,7 @@ extern "C" {
 	//===定义LM317最小输出的电压值
 	#define LM317_MIN_POWER_MV					(1450)//(1440)//---默认最小值
 	//===损失的电压
-	#define LM317_LOST_POWER_MV					200
+	#define LM317_LOST_POWER_MV					300
 
 	//===函数定义
 	UINT8_T LM317_Init(UINT8_T isPowerON, UINT32_T volMV);

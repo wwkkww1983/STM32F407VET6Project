@@ -338,15 +338,26 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISP_DeInit(ISP_HandlerType *ISPx)
 {
-	SPITask_DeInit(&(ISPx->msgSPI),1);
-	ISPx->msgInit = 0;
 	//---处理RST端口信息
 #ifdef ISP_USE_HV_RESET
-	ISPx->msgPortRst(ISP_RST_TO_HZ);
+	//---先拉到电源
+	ISPx->msgPortRst(ISP_RST_TO_VCC);
 #endif
+	//---释放端口
+#ifdef ISP_USE_HV_RESET
+	SPITask_DeInit(&(ISPx->msgSPI),0);
+#else
+	SPITask_DeInit(&(ISPx->msgSPI),1);
+#endif
+	ISPx->msgInit = 0;
 	//---处理电平转换芯片
 #ifdef ISP_USE_lEVEL_SHIFT
 	GPIO_OUT_1(ISPx->msgOE.msgPort, ISPx->msgOE.msgBit);
+#endif
+	//---处理RST端口信息
+#ifdef ISP_USE_HV_RESET
+	//---释放RST端口
+	ISPx->msgPortRst(ISP_RST_TO_HZ);
 #endif
 	return OK_0;
 }
@@ -489,6 +500,10 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 			ISPx->msgSPI.msgClockSpeed = LL_SPI_BAUDRATEPRESCALER_DIV256;
 			break;
 	}
+	//---在端口有效前进行定义
+#ifdef ISP_USE_lEVEL_SHIFT
+	GPIO_OUT_0(ISPx->msgOE.msgPort, ISPx->msgOE.msgBit);
+#endif
 	if (ISPx->msgSPI.msgHwMode == 1)
 	{
 		//---第一次需要初始化端口，或则从模拟方式切换到硬件方式，也需要重新初始化一下端口
@@ -600,8 +615,13 @@ UINT8_T ISP_HW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx)
 {
+#ifdef ISP_USE_lEVEL_SHIFT
+	GPIO_OUT_0(ISPx->msgOE.msgPort, ISPx->msgOE.msgBit);
+#endif
 	//---设置端口CS端口为输出模式
+#ifndef ISP_USE_HV_RESET
 	GPIO_SET_WRITE(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
+#endif
 	//---首先拉低时钟线
 	GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgPort, ISPx->msgSPI.msgSCK.msgBit);
 #ifdef ISP_USE_HV_RESET
@@ -688,29 +708,33 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 		//---设置时钟
 		ISP_SetClock(ISPx, ISPx->msgSetClok);
 		//---置位时钟线和片选端
-		//GPIO_OUT_1(ISPx->msgSPI.msgSCK.msgGPIOPort, ISPx->msgSPI.msgSCK.msgGPIOBit);
-#ifdef ISP_USE_HV_RESET
-		ISPx->msgPortRst(ISP_RST_TO_VCC);
-#else
-		GPIO_OUT_1(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
-#endif
+		GPIO_OUT_1(ISPx->msgSPI.msgSCK.msgPort, ISPx->msgSPI.msgSCK.msgBit);
+		#ifdef ISP_USE_HV_RESET
+			ISPx->msgPortRst(ISP_RST_TO_VCC);
+		#else
+			GPIO_OUT_1(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
+		#endif
 		ISPx->msgDelayms(1);
 		//---清零RST信号
-		//GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgPort, ISPx->msgSPI.msgSCK.msgBit);
-#ifdef ISP_USE_HV_RESET
-		ISPx->msgPortRst(ISP_RST_TO_GND);
-#else
-		GPIO_OUT_0(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
-#endif
+		GPIO_OUT_0(ISPx->msgSPI.msgSCK.msgPort, ISPx->msgSPI.msgSCK.msgBit);
+		#ifdef ISP_USE_HV_RESET
+			ISPx->msgPortRst(ISP_RST_TO_GND);
+		#else
+			GPIO_OUT_0(ISPx->msgSPI.msgCS.msgPort, ISPx->msgSPI.msgCS.msgBit);
+		#endif
 		ISPx->msgDelayms(1);
 	}
-	//---设置RST端口未HZ状态，避免高压倒灌
+	//---设置RST端口到电源，避免其他信号的进入
 #ifdef ISP_USE_HV_RESET
-	ISPx->msgPortRst(ISP_RST_TO_HZ);
+	ISPx->msgPortRst(ISP_RST_TO_VCC);
 #endif 
 #ifdef ISP_USE_lEVEL_SHIFT
 	GPIO_OUT_1(ISPx->msgOE.msgPort, ISPx->msgOE.msgBit);
 #endif
+	//---设置RST端口未HZ状态，避免高压倒灌
+#ifdef ISP_USE_HV_RESET
+	ISPx->msgPortRst(ISP_RST_TO_HZ);
+#endif 
 	return ERROR_1;
 }
 
@@ -935,11 +959,7 @@ UINT8_T ISP_ReadReady(ISP_HandlerType *ISPx)
 	UINT32_T nowTime = 0;
 	UINT32_T oldTime = 0;
 	UINT64_T cnt = 0;
-	if (ISPx->msgSPI.msgTimeTick != NULL)
-	{
-		//nowTime = ISPx->msgSPI.msgFuncTick();
-		oldTime = ISPx->msgSPI.msgTimeTick();
-	}
+	oldTime = ((ISPx->msgSPI.msgTimeTick != NULL)?ISPx->msgSPI.msgTimeTick():0);
 	//---查询忙标志位
 	while (1)
 	{

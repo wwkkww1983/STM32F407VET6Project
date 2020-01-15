@@ -186,10 +186,8 @@ UINT8_T ADS868X_SPI_HW_Init(ADS868X_HandlerType *ADS868x)
 UINT8_T ADS868X_SPI_SW_Init(ADS868X_HandlerType *ADS868x)
 {
 	SPITask_DeInit(&(ADS868x->msgSPI),1);
-
 	//---硬件端口的配置---软件实现
 	SPITask_MSW_GPIO_Init(&(ADS868x->msgSPI));
-
 	//---时钟线的极性
 	if (ADS868x->msgSPI.msgCPOL == 0)
 	{
@@ -279,7 +277,6 @@ UINT8_T ADS868X_SPI_Init(ADS868X_HandlerType *ADS868x, void(*pFuncDelayus)(UINT3
 	{
 		return ERROR_1;
 	}
-
 	//---判断初始化的方式
 	if (isHW != 0)
 	{
@@ -295,7 +292,6 @@ UINT8_T ADS868X_SPI_Init(ADS868X_HandlerType *ADS868x, void(*pFuncDelayus)(UINT3
 		ADS868X_SPI_SEND_CMD = ADS868X_SPI_SW_SendCmd;
 		ADS868X_SPI_SEND_ARRAY = ADS868X_SPI_SW_SendArray;
 	}
-
 	//---注册ms延时时间
 	if (pFuncDelayms != NULL)
 	{
@@ -305,7 +301,6 @@ UINT8_T ADS868X_SPI_Init(ADS868X_HandlerType *ADS868x, void(*pFuncDelayus)(UINT3
 	{
 		ADS868x->msgDelayms = DelayTask_ms;
 	}
-
 	//---注册us延时函数
 	if (pFuncDelayus != NULL)
 	{
@@ -797,7 +792,6 @@ UINT8_T ADS868X_SPI_ReadAUTOSEQEN(ADS868X_HandlerType* ADS868x, UINT8_T *pAutoSe
 			_return = ERROR_2;
 		}
 	}
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
@@ -826,7 +820,6 @@ UINT8_T ADS868X_SPI_WriteChannelPWRDN(ADS868X_HandlerType* ADS868x, UINT8_T ch,U
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 }
 
@@ -857,12 +850,10 @@ UINT8_T ADS868X_SPI_ReadChannelPWRDN(ADS868X_HandlerType* ADS868x, UINT8_T *pPWR
 			_return = ERROR_2;
 		}
 	}
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 }
 
@@ -886,7 +877,6 @@ UINT8_T ADS868X_SPI_WriteFeature(ADS868X_HandlerType* ADS868x, UINT8_T feature,U
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 }
 
@@ -917,12 +907,10 @@ UINT8_T ADS868X_SPI_ReadFeature(ADS868X_HandlerType* ADS868x, UINT8_T *pFeature,
 			_return = ERROR_2;
 		}
 	}
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 }
 
@@ -973,7 +961,6 @@ UINT8_T ADS868X_SPI_WriteChannelRange(ADS868X_HandlerType* ADS868x, UINT8_T chRe
 		default:
 			return ERROR_1;
 	}
-
 	//---每个通道的量程的配置
 	ADS868X_SPI_ChannelRange(ADS868x, ch);
 	//---设置通道的量程
@@ -987,7 +974,6 @@ UINT8_T ADS868X_SPI_WriteChannelRange(ADS868X_HandlerType* ADS868x, UINT8_T chRe
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 
 }
@@ -1055,7 +1041,6 @@ UINT8_T ADS868X_SPI_ReadChannelRange(ADS868X_HandlerType* ADS868x, UINT8_T chReg
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 }
 
@@ -1261,12 +1246,10 @@ UINT8_T ADS868X_SPI_GetAutoRSTResult(ADS868X_HandlerType *ADS868x, UINT8_T chNum
 	UINT8_T adcWTemp[4] = { 0 };
 	UINT8_T _return = 0;
 	UINT8_T rstMode = ADS868x->msgAutoSeqEn;
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoInit(ADS868x);
 	}
-
 	//---判断设备是否初始化成功
 	if (ADS868x->msgReadyOK == 1)
 	{
@@ -1276,10 +1259,8 @@ UINT8_T ADS868X_SPI_GetAutoRSTResult(ADS868X_HandlerType *ADS868x, UINT8_T chNum
 			goto GoToExit;
 		}
 	}
-
 	//---进入自动扫描模式
 	_return =ADS868X_SPI_AUTORST(ADS868x,0);
-
 	//---扫描通道的结果
 	for (i = 0; i < chNum; i++)
 	{
@@ -1368,12 +1349,10 @@ UINT8_T ADS868X_SPI_GetAutoRSTNSampleResult(ADS868X_HandlerType* ADS868x, UINT8_
 			rstMode >>= 1;
 		}
 	}
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 }
 
@@ -1396,7 +1375,6 @@ UINT8_T ADS868X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS868X_HandlerType* ADS
 	{
 		ADS868X_SPI_AutoInit(ADS868x);
 	}
-
 	//---卡尔曼结构
 	KalmanOneFilter_HandlerType kalmanFilterX;
 	//---获取采样结果
@@ -1455,12 +1433,10 @@ UINT8_T  ADS868X_SPI_GetManualChannelResult(ADS868X_HandlerType* ADS868x, UINT16
 	UINT8_T adcRTemp[4] = { 0 };
 	UINT8_T adcWTemp[4] = { 0 };
 	UINT8_T adcChannel = 0;
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoInit(ADS868x);
 	}
-
 	//---判断设备是否初始化成功
 	if (ADS868x->msgReadyOK==1)
 	{
@@ -1496,12 +1472,10 @@ UINT8_T  ADS868X_SPI_GetManualChannelResult(ADS868X_HandlerType* ADS868x, UINT16
 		ADS868X_SPI_CalcChannelPower(ADS868x, adcChannel,0);
 	}
 GoToExit:
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 }
 
@@ -1520,12 +1494,10 @@ UINT8_T ADS868X_SPI_GetManualChannelNSampleResult(ADS868X_HandlerType* ADS868x, 
 	UINT16_T adcSampleTemp[ADS868X_N_SAMPLE_COUNT] = { 0 };
 	//---获取ADC采样通道的序号
 	UINT8_T adcChannelIndex = (UINT8_T)(manualChannel >> 10) & 0x0F;
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoInit(ADS868x);
 	}
-
 	//---获取采样结果
 	for ( i = 0; i < ADS868X_N_SAMPLE_COUNT; i++)
 	{
@@ -1545,7 +1517,6 @@ UINT8_T ADS868X_SPI_GetManualChannelNSampleResult(ADS868X_HandlerType* ADS868x, 
 		//---计算采样的电压值
 		ADS868X_SPI_CalcChannelPower(ADS868x, adcChannelIndex,1);
 	}
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
@@ -1569,12 +1540,10 @@ UINT8_T ADS868X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS868X_HandlerTyp
 	UINT8_T adcChannelIndex = (UINT8_T)(manualChannel >> 10) & 0x0F;
 	//---卡尔曼结构
 	KalmanOneFilter_HandlerType kalmanFilterX;
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoInit(ADS868x);
 	}
-
 	//---获取采样结果
 	for (i = 0; i < ADS868X_N_SAMPLE_COUNT; i++)
 	{
@@ -1596,12 +1565,10 @@ UINT8_T ADS868X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS868X_HandlerTyp
 		//---计算采样的电压值
 		ADS868X_SPI_CalcChannelPower(ADS868x, adcChannelIndex, 1);
 	}
-
 	if (isAutoInit != 0)
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 }
 
@@ -1625,7 +1592,6 @@ UINT8_T ADS868X_SPI_CalibrationChannelErr(ADS868X_HandlerType* ADS868x)
 				////---1号板参数
 				//ADS868x->msgADCKP[i] = 1.013216;
 				//ADS868x->msgADCDelta[i] = 27130;
-
 				//---2号板参数
 				ADS868x->msgADCKP[i] = 1.013216;
 				ADS868x->msgADCDelta[i] = 26430;
@@ -1635,7 +1601,6 @@ UINT8_T ADS868X_SPI_CalibrationChannelErr(ADS868X_HandlerType* ADS868x)
 				////---1号板参数
 				//ADS868x->msgADCKP[i] = 1.0129;
 				//ADS868x->msgADCDelta[i] = 25870;
-
 				//---2号板参数
 				ADS868x->msgADCKP[i] = 1.0129;
 				ADS868x->msgADCDelta[i] = 27070;
@@ -1659,17 +1624,14 @@ UINT8_T ADS868X_SPI_ConfigInit(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit)
 	UINT8_T _return = OK_0;
 	UINT8_T tempBuffer[3] = { 0 };
 	UINT8_T i = 0;
-
 	if (isAutoInit!=0)
 	{
 		ADS868X_SPI_AutoInit(ADS868x);
 	}
-
 	if (ADS868x->msgInitRetryCount==0)
 	{
 		ADS868x->msgInitRetryCount = 1;
 	}
-
 	//---循环多次初始化设备
 	for (i=0;i< ADS868x->msgInitRetryCount;i++)
 	{
@@ -1693,12 +1655,10 @@ UINT8_T ADS868X_SPI_ConfigInit(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit)
 			}
 		}
 	}
-
 	//---设置扫描方式
 	_return = ADS868X_SPI_WriteAUTOSEQEN(ADS868x, 0xF0,0);
 	//---读取设置的值
 	_return = ADS868X_SPI_ReadProgramReg(ADS868x, ADS868X_PROG_REG_AUTO_SEQ_EN, tempBuffer);
-
 	//---判断校验
 	if (ADS868x->msgAutoSeqEn != tempBuffer[1])
 	{
@@ -1715,11 +1675,9 @@ UINT8_T ADS868X_SPI_ConfigInit(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit)
 		ADS868X_SPI_AUTORST(ADS868x,0);
 	}
 	ADS868X_SPI_CalibrationChannelErr(ADS868x);
-
     if (isAutoInit!=0)
 	{
 		ADS868X_SPI_AutoDeInit(ADS868x);
 	}
-
 	return _return;
 }

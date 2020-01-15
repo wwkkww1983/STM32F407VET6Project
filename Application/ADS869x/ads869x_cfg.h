@@ -161,10 +161,8 @@ extern "C" {
 	
 	//===定义结构体
 	typedef struct _ADS869X_HandlerType			ADS869X_HandlerType;
-
 	//===定义指针结构体
 	typedef	struct _ADS869X_HandlerType			* pADS869X_HandlerType;
-
 	//===定义结构体
 	struct _ADS869X_HandlerType
 	{
@@ -189,17 +187,17 @@ extern "C" {
 		VLTUINT32_T msgChannelPowerResult[ADS869X_CHANNEL_MAX];					//---AD通道的采样的电压结果
 		SPI_HandlerType		msgSPI;												//---使用的SPI模式
 		GPIO_HandlerType	msgHWRST;											//---硬件复位信号
-		void(*msgDelayms)(UINT32_T delay);									//---延时参数
+		void(*msgDelayms)(UINT32_T delay);										//---延时参数
 	};
 
 	//===任务函数
-	#define ADS869X_TASK_ONE		pADS869XDevice0
-	#define ADS869X_TASK_TWO		0
-	#define ADS869X_TASK_THREE		0
+	#define ADS869X_TASK_ONE							pADS869XDevice0
+	#define ADS869X_TASK_TWO							0
+	#define ADS869X_TASK_THREE							0
 	
 	//===外部调用接口
-	extern ADS869X_HandlerType		 g_ADS869XDevice0;
-	extern pADS869X_HandlerType		 pADS869XDevice0;
+	extern ADS869X_HandlerType							g_ADS869XDevice0;
+	extern pADS869X_HandlerType							pADS869XDevice0;
 
 	//===函数定义
 	UINT8_T ADS869X_SPI_Init(ADS869X_HandlerType* ADS869x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);

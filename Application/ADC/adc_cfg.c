@@ -777,3 +777,20 @@ UINT16_T ADC_GetChipPower(void)
 	tempPower<<=1;
 	return (UINT16_T)(tempPower/4096);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：获取通道的电压值
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT16_T ADC_GetHVPower(void)
+{
+	UINT32_T tempPower = pABChannelADC->msgAChannelVal;
+	//---将结果装换为电压值
+	tempPower -= 6;
+	tempPower *= 3260;
+	tempPower=(tempPower*9)/50;
+	return (UINT16_T)(tempPower / 4096);
+}

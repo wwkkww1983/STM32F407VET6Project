@@ -34,9 +34,16 @@ void Timer_CalcFreqMode_Init(void)
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_2;														//---端口复用模式
 #endif
 	LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-#ifdef CALC_FREQ_lEVEL_SHIFT
-	pCalcFreq->msgOE[0].msgPort=GPIOC;
-	pCalcFreq->msgOE[0].msgBit= LL_GPIO_PIN_8;
+#ifdef CALC_FREQ_USE_lEVEL_SHIFT
+	#ifdef STM32_USE_F407VGT6
+		pCalcFreq->msgOE[0].msgPort=GPIOD;
+		pCalcFreq->msgOE[0].msgBit= LL_GPIO_PIN_7;
+	#elif defined(STM32_USE_F407VET6)
+		pCalcFreq->msgOE[0].msgPort = GPIOC;
+		pCalcFreq->msgOE[0].msgBit = LL_GPIO_PIN_8;
+	#else	
+		#error "暂时不支持的型号，请确认型号!"
+	#endif
 	//---使能端口时钟
 	GPIO_Clock(pCalcFreq->msgOE[0].msgPort, 1);
 	GPIO_InitStruct.Pin = pCalcFreq->msgOE[0].msgBit;
@@ -64,9 +71,16 @@ void Timer_CalcFreqMode_Init(void)
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_2;														//---端口复用模式
 #endif
 	LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-#ifdef CALC_FREQ_lEVEL_SHIFT
-	pCalcFreq->msgOE[1].msgPort = GPIOC;
-	pCalcFreq->msgOE[1].msgBit = LL_GPIO_PIN_8;
+#ifdef CALC_FREQ_USE_lEVEL_SHIFT
+	#ifdef STM32_USE_F407VGT6
+		pCalcFreq->msgOE[1].msgPort = GPIOD;
+		pCalcFreq->msgOE[1].msgBit = LL_GPIO_PIN_7;
+	#elif defined(STM32_USE_F407VET6)
+		pCalcFreq->msgOE[1].msgPort = GPIOC;
+		pCalcFreq->msgOE[1].msgBit = LL_GPIO_PIN_8;
+	#else	
+		#error "暂时不支持的型号，请确认型号!"
+	#endif
 	//---使能端口时钟
 	GPIO_Clock(pCalcFreq->msgOE[1].msgPort, 1);
 	GPIO_InitStruct.Pin = pCalcFreq->msgOE[1].msgBit;
@@ -253,7 +267,7 @@ void Timer_CalcFreq_Init(void)
 //////////////////////////////////////////////////////////////////////////////
 void Timer_CalcFreq_Task(UINT8_T ch)
 {
-#ifdef CALC_FREQ_lEVEL_SHIFT
+#ifdef CALC_FREQ_USE_lEVEL_SHIFT
 	GPIO_OUT_0(pCalcFreq->msgOE[ch].msgPort, pCalcFreq->msgOE[ch].msgBit);
 #endif
 	//---初始化使用的定时器
@@ -303,7 +317,7 @@ void Timer_CalcFreq_Task(UINT8_T ch)
 	}
 	else
 	{
-		pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] *=0.099983;
+		pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] *=0.1; //0.099983;
 	}
 	//---退出操作
 GoToExit:
@@ -315,7 +329,7 @@ GoToExit:
 	pCalcFreq->msgFreqMHz[pCalcFreq->msgChannel] = (float)(pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel]) / 1000.0;
 	//---销毁定时器的配置
 	Timer_CalcFreqMode_DeInit();
-#ifdef CALC_FREQ_lEVEL_SHIFT
+#ifdef CALC_FREQ_USE_lEVEL_SHIFT
 	GPIO_OUT_1(pCalcFreq->msgOE[ch].msgPort, pCalcFreq->msgOE[0].msgBit);
 #endif
 }

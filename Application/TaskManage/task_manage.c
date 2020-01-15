@@ -89,7 +89,7 @@ UINT8_T Task_Manage_Step()
 UINT8_T Task_Manage(void)
 {
 	//---判断接收是否完成
-	if (USARTTask_GetReadState(pUsart1) == 1)
+	if (USARTTask_GetState(&(pUsart1->msgRxdHandler)) == 1)
 	{
 		//---CRC的校验和设备ID校验
 		if ((USARTTask_CRCTask_Read(pUsart1) == OK_0) && (USARTTask_DeviceID(pUsart1) == OK_0))
@@ -118,5 +118,5 @@ UINT8_T Task_Manage(void)
 		}
 		return USARTTask_Read_Init(pUsart1);
 	}
-	return USARTTask_TimeOVFTask(pUsart1);
+	return USARTTask_TimeTask_OverFlow(pUsart1);
 }

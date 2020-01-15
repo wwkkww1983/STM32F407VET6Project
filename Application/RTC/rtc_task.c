@@ -215,3 +215,15 @@ UINT8_T SysRTCTask_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond, UINT8_
 {
 	return SysRTCLib_RTCTask(RTCx, rtcSecond, isHW);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：根据软件编译时间计算当前系统时钟,并设置系统复位的时间
+//////输入参数: watchaMode---0-不监控，1-实时监控，2-刷新监控
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void SysRTCTask_RTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays,UINT8_T watchaMode,UINT8_T isHW)
+{
+	(isHW==0)?SysRTCLib_SoftRTCInit(RTCx,spanDays, watchaMode):SysRTCLib_HardRTCInit(RTCx,spanDays, watchaMode);
+}

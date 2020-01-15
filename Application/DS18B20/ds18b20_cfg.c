@@ -338,7 +338,7 @@ UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 	DS18B20x->msgDelayms(1);
 	//---初始化温度传感器---总线复位
 	DS18B20_OneWire_START(DS18B20x);
-	//---忽略地址
+	//---跳过地址
 	DS18B20_OneWire_WriteByte(DS18B20x, 0xCC);
 	//---读取温度
 	DS18B20_OneWire_WriteByte(DS18B20x, 0xBE);

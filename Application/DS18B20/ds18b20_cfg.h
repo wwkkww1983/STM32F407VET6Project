@@ -10,11 +10,16 @@ extern "C" {
 	#include "one_wire_task.h"
 	#include "systick_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
+	#define DS18B20_READ_ROM						0x33
+	#define DS18B20_SKIP_ROM						0xCC
+	#define DS18B20_MATCH_ROM						0x55
+	#define DS18B20_SEARCH_ROM						0xF0
+	#define DS18B20_OVERDRIVE_SKIP_ROM				0x3C
+	#define DS18B20_OVERDRIVE_MATCH_ROM				0x69
 	//===定义结构体
 	typedef struct _DS18B20_HandlerType				DS18B20_HandlerType;
 	//===定义指针结构
 	typedef struct _DS18B20_HandlerType				*pDS18B20_HandlerType;
-
 	//===结构定义
 	struct _DS18B20_HandlerType
 	{

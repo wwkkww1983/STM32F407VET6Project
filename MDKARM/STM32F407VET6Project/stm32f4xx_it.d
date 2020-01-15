@@ -66,11 +66,11 @@ stm32f407vet6project/stm32f4xx_it.o: ..\STM32F4xx\stm32f4xx_it.c \
   ..\Application\CRC\crc_task.h ..\Application\CRC\crc_lib.h \
   ..\Application\CRC\crc_cfg.h ..\Application\Timer\timer_task.h \
   ..\Application\Timer\timer_lib.h ..\Application\Timer\timer_cfg.h \
-  ..\Application\Power\power_task.h ..\Application\Power\power_lib.h \
-  ..\Application\Power\power_cfg.h ..\Application\DAC\dac_task.h \
-  ..\Application\DAC\dac_lib.h ..\Application\DAC\dac_cfg.h \
-  ..\Application\Delay\delay_task.h ..\Application\Delay\delay_lib.h \
-  ..\Application\Delay\delay_cfg.h ..\Application\HardWare\hw_cfg.h \
+  ..\Application\HardWare\hw_cfg.h ..\Application\Power\power_task.h \
+  ..\Application\Power\power_lib.h ..\Application\Power\power_cfg.h \
+  ..\Application\DAC\dac_task.h ..\Application\DAC\dac_lib.h \
+  ..\Application\DAC\dac_cfg.h ..\Application\Delay\delay_task.h \
+  ..\Application\Delay\delay_lib.h ..\Application\Delay\delay_cfg.h \
   ..\Application\DataBus\data_bus.h ..\Application\Random\random_task.h \
   ..\Application\Random\random_lib.h ..\Application\Random\random_cfg.h \
   ..\Application\ADC\adc_task.h ..\Application\ADC\adc_lib.h \

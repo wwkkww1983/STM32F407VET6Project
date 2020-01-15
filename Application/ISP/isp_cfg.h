@@ -34,7 +34,7 @@ extern "C" {
 	#define ISP_SCK_PRE_2						18																																	//---42M/2
 	
 	//===默认编程时钟
-	#define ISP_SCK_DEFAULT_CLOCK				ISP_SCK_PRE_16
+	#define ISP_SCK_DEFAULT_CLOCK				ISP_SCK_PRE_64
 	//===编程最大色时钟
 	#define ISP_SCK_MAX_CLOCK					ISP_SCK_PRE_32
 	//===编程时钟最大改变的次数

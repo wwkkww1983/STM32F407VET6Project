@@ -138,7 +138,8 @@ void Sys_Init(void)
 	//---硬件RTC的初始化
 	//SysRTCTask_HardRTCInit(pSysHWRTC,0,0);
 	//---软件RTC的初始化
-	SysRTCTask_SoftRTCInit(pSysSoftRTC,0,0);
+	//SysRTCTask_SoftRTCInit(pSysSoftRTC,0,0);
+	SysRTCTask_RTCInit(pSysSoftRTC, 0,0,0);
 	//---GPIO初始化
 	GPIOTask_Init();    
 	//---滴答定时器初始化
@@ -152,23 +153,26 @@ void Sys_Init(void)
 	//---串口的初始化
 	USARTTask_Init(pUsart1, USART1_RX_MAX_SIZE, USART1_RX_BUFFER, USART_CRC_NONE, USART1_TX_MAX_SIZE, USART1_TX_BUFFER, USART_CRC_NONE, SysTickTask_GetTick);
 	//---ISP的初始化
-	//ISPTask_Init(pIspDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
+	ISPTask_Init(pIspDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
+	//---JTAG的初始化
+	JTAG_Init(pJtagDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick);
 	//---WM8510
-	//WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, SysTickTask_GetTick, 0);
+	WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---SI5351A
 	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---指示灯的初始化
 	LEDTask_Init();	
 	//---DAC的初始化
-	//DACTask_Init(DAC_CHANNEL_SELECT_ALL, DAC_CHANNEL_ENABLE_BUFFER);
+	DACTask_Init(DAC_CHANNEL_SELECT_ALL, DAC_CHANNEL_ENABLE_BUFFER);
 	//---数据总线的初始化
 	//DataBus_Init();
 	//---初始化LM317做的可调电源
-	//LM317Task_Init(0,5000);
-	//LM317_POWER_ON;
+	LM317Task_Init(0,3000);
+	LM317_POWER_ON;
+	
 	//---ADC初始化
-	//ADCTask_ADC_Init();
-	//ADCTask_ADCTask_START(ADC1);
+	ADCTask_ADC_Init();
+	ADCTask_ADCTask_START(ADC1);
 	//---开启看门狗
 	//IWDGTask_Init(pIWDG);
 }
@@ -215,11 +219,11 @@ int main(void)
 		//---模拟RTC处理
 		SysRTCTask_SoftRTCTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---任务管理函数
-		//Task_Manage();
+		Task_Manage();
 		//---频率测试函数
 		//USARTTask_DebugFreqTask(pUsart1,NULL);
 		//---逻辑测试
-		USARTTask_FuncTask(pUsart1,NULL);
+		//USARTTask_FuncTask(pUsart1,NULL);
 		//---喂狗
 		WDT_RESET();
 	}

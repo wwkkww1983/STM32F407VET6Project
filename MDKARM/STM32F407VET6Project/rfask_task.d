@@ -66,10 +66,10 @@ stm32f407vet6project/rfask_task.o: ..\Application\RFASK\rfask_task.c \
   ..\Application\SysTick\systick_cfg.h \
   ..\Application\RFASKHW\rfaskhw_cfg.h ..\Application\Timer\timer_task.h \
   ..\Application\Timer\timer_lib.h ..\Application\Timer\timer_cfg.h \
-  ..\Application\WM8510\wm8510_task.h ..\Application\WM8510\wm8510_lib.h \
-  ..\Application\WM8510\wm8510_cfg.h ..\Application\I2C\i2c_task.h \
-  ..\Application\I2C\i2c_lib.h ..\Application\I2C\i2c_cfg.h \
-  ..\Application\HardWare\hw_cfg.h ..\Application\USART\usart_task.h \
+  ..\Application\HardWare\hw_cfg.h ..\Application\WM8510\wm8510_task.h \
+  ..\Application\WM8510\wm8510_lib.h ..\Application\WM8510\wm8510_cfg.h \
+  ..\Application\I2C\i2c_task.h ..\Application\I2C\i2c_lib.h \
+  ..\Application\I2C\i2c_cfg.h ..\Application\USART\usart_task.h \
   ..\Application\USART\usart_lib.h ..\Application\USART\usart_cfg.h \
   ..\Application\CRC\crc_task.h ..\Application\CRC\crc_lib.h \
   ..\Application\CRC\crc_cfg.h ..\Application\Power\power_task.h \

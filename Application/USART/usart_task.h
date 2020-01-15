@@ -9,7 +9,9 @@ extern "C" {
 	#include "usart_lib.h"
 	#include "timer_task.h"
 	#include "power_task.h"
-	#include "data_bus.h"
+	#ifdef STM32_USE_F407VET6
+		#include "data_bus.h"
+	#endif
 	#include "delay_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	
@@ -24,11 +26,9 @@ extern "C" {
 	UINT8_T  USARTTask_DeInit(USART_HandlerType*  USARTx);
 	UINT8_T  USARTTask_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index);
 	UINT8_T  USARTTask_Read_Init(USART_HandlerType*  USARTx);
-	UINT8_T  USARTTask_GetReadState(USART_HandlerType* USARTx);
-	UINT8_T  USARTTask_ClearReadState(USART_HandlerType* USARTx);
-	UINT8_T  USARTTask_GetWriteState(USART_HandlerType* USARTx);
-	UINT8_T  USARTTask_ClearWriteState(USART_HandlerType* USARTx);
-	UINT8_T  USARTTask_TimeOVFTask(USART_HandlerType*USARTx);
+	UINT8_T  USARTTask_ClearState(USART_HandlerDef* USARTDefx);
+	UINT8_T  USARTTask_GetState(USART_HandlerDef* USARTDefx);
+	UINT8_T  USARTTask_TimeTask_OverFlow(USART_HandlerType*USARTx);
 	UINT8_T  USARTTask_ITRead_8BitsTask(USART_HandlerType*USARTx, UINT8_T val);
 	UINT8_T  USARTTask_ITRead_16BitsTask(USART_HandlerType*USARTx, UINT8_T val);
 	UINT8_T  USARTTask_ITRead_Task(USART_HandlerType*USARTx, UINT8_T val);

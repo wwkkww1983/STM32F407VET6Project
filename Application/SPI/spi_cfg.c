@@ -11,10 +11,8 @@ UINT8_T SPI_MHW_PollMode_Init(SPI_HandlerType *SPIx, LL_SPI_InitTypeDef SPI_Init
 {
 	//---恢复当前配置为初始值
 	LL_SPI_DeInit(SPIx->msgSPIx);
-
 	//---使能SPI的时钟线
 	SPI_Clock(SPIx, 1);
-
 	//---SPI初始化
 	LL_SPI_Init(SPIx->msgSPIx, &(SPI_InitStruct));
 	#ifndef USE_MCU_STM32F1
@@ -388,10 +386,7 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, U
 	//---收发完成标志位
 	UINT8_T _return = 2;
 	//---获取当前时间节拍
-	if (SPIx->msgTimeTick != NULL)
-	{
-		oldTime = SPIx->msgTimeTick();
-	}
+	oldTime = ((SPIx->msgTimeTick != NULL)?SPIx->msgTimeTick():0);
 	//---切换工作状态为工作模式
 	SPIx->msgState = 1;
 	//---数据收发
@@ -477,10 +472,7 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandlerType *SPIx, UINT8_T *pWVal,
 	//---收发完成标志位
 	UINT8_T txAllowed = 1;
 	//---获取当前时间节拍
-	if (SPIx->msgTimeTick != NULL)
-	{
-		oldTime = SPIx->msgTimeTick();
-	}
+	oldTime = ((SPIx->msgTimeTick != NULL) ? SPIx->msgTimeTick() : 0);
 	nowTime = 0;
 	//---切换工作状态为工作模式
 	SPIx->msgState=1;
@@ -561,14 +553,6 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandlerType *SPIx, UINT8_T *pWVal,
 UINT8_T SPI_MSW_WriteBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal)
 {
 	//---发送1bit的数据
-	/*if ((wVal & 0x80) == 0x00)
-	{
-		GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}
-	else
-	{
-		GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}*/
 	((wVal & 0x80) != 0x00) ? GPIO_OUT_1(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit) : GPIO_OUT_0(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit);
 	return OK_0;
 }
@@ -585,10 +569,6 @@ UINT8_T SPI_MSW_ReadBitMSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 	//---读取1bit的数据
 	if (pRVal != NULL)
 	{
-		/*if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
-		{
-			*pRVal |= 1;
-		}*/
 		*pRVal |= ((GPIO_GET_STATE(SPIx->msgMISO.msgPort, SPIx->msgMISO.msgBit) != 0) ? 1 : 0);
 	}
 	return OK_0;
@@ -604,22 +584,10 @@ UINT8_T SPI_MSW_ReadBitMSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 UINT8_T SPI_MSW_BitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	//---发送1bit的数据
-	/*if ((wVal & 0x80) == 0x00)
-	{
-		GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}
-	else
-	{
-		GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}*/
 	((wVal & 0x80) != 0x00) ? GPIO_OUT_1(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit) : GPIO_OUT_0(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit);
 	//---读取1bit的数据
 	if (pRVal != NULL)
 	{
-		/*if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
-		{
-			*pRVal |= 1;
-		}*/
 		*pRVal |=((GPIO_GET_STATE(SPIx->msgMISO.msgPort, SPIx->msgMISO.msgBit) != 0)?1:0);
 	}
 	return OK_0;
@@ -668,14 +636,6 @@ UINT8_T SPI_MSW_WriteAndReadBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 UINT8_T SPI_MSW_WriteBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal)
 {
 	//---发送1bit的数据
-	/*if ((wVal & 0x01) == 0x00)
-	{
-		GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}
-	else
-	{
-		GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}*/
 	((wVal & 0x01) != 0x00) ? GPIO_OUT_1(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit) : GPIO_OUT_0(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit);
 	return OK_0;
 }
@@ -692,10 +652,6 @@ UINT8_T SPI_MSW_ReadBitLSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 	//---读取1bit的数据
 	if (pRVal != NULL)
 	{
-	/*	if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
-		{
-			*pRVal |= 0x80;
-		}*/
 		*pRVal |= ((GPIO_GET_STATE(SPIx->msgMISO.msgPort, SPIx->msgMISO.msgBit) != 0) ? 0x80 : 0);
 	}
 	return OK_0;
@@ -711,22 +667,10 @@ UINT8_T SPI_MSW_ReadBitLSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 UINT8_T SPI_MSW_BitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	//---发送1bit的数据
-	/*if ((wVal & 0x01) == 0x00)
-	{
-		GPIO_OUT_0(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}
-	else
-	{
-		GPIO_OUT_1(SPIx->msgMOSI.msgGPIOPort, SPIx->msgMOSI.msgGPIOBit);
-	}*/
 	((wVal&0x01)!=0x00)? GPIO_OUT_1(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit): GPIO_OUT_0(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit);
 	//---读取1bit的数据
 	if (pRVal != NULL)
 	{
-		/*if (GPIO_GET_STATE(SPIx->msgMISO.msgGPIOPort, SPIx->msgMISO.msgGPIOBit) != 0)
-		{
-			*pRVal |= 0x80;
-		}*/
 		*pRVal |= ((GPIO_GET_STATE(SPIx->msgMISO.msgPort, SPIx->msgMISO.msgBit) != 0) ? 0x80 : 0);
 	}
 	return OK_0;

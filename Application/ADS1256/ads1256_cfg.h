@@ -18,7 +18,7 @@ extern "C" {
 	//---CLK----------SPI_CLK(必须) PA5
 	//---DIN----------SPI_MOSI(必须) PA7
 	//---DOUT---------SPI_MISO(必须) PA6
-	//---自动量产切换一次之后，耗时113ms
+	//---自动量程切换一次之后，耗时113ms
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===退出睡眠模式
 	#define ADS1256_CMD_WAKEUP							0x00
@@ -170,10 +170,8 @@ extern "C" {
 
 	//===定义结构体
 	typedef struct _ADS1256_HandlerType					ADS1256_HandlerType;
-
 	//===定义指针结构体
 	typedef	struct _ADS1256_HandlerType					*pADS1256_HandlerType;
-
 	//===定义结构体
 	struct _ADS1256_HandlerType
 	{
@@ -204,17 +202,17 @@ extern "C" {
 		GPIO_HandlerType	msgDRDY;												//---准备好信号
 		GPIO_HandlerType	msgHWRST;												//---硬件复位信号
 		SPI_HandlerType		msgSPI;													//---使用的SPI模式
-		void(*msgDelayms)(UINT32_T delay);										//---延时参数
+		void(*msgDelayms)(UINT32_T delay);											//---延时参数
 	};
 
 	//===任务函数
-	#define ADS1256_TASK_ONE		pADS1256Device0
-	#define ADS1256_TASK_TWO		0
-	#define ADS1256_TASK_THREE		0
+	#define ADS1256_TASK_ONE							pADS1256Device0
+	#define ADS1256_TASK_TWO							0
+	#define ADS1256_TASK_THREE							0
 	
 	//===外部调用接口
-	extern ADS1256_HandlerType  	g_ADS1256Device0;
-	extern pADS1256_HandlerType 	pADS1256Device0;
+	extern ADS1256_HandlerType  						g_ADS1256Device0;
+	extern pADS1256_HandlerType 						pADS1256Device0;
 
 	//===函数定义
 	UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);

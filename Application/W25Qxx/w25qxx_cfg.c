@@ -614,10 +614,7 @@ UINT8_T W25QXX_SPI_WaitBusy(W25QXX_HandlerType *W25Qx,UINT32_T timeOut, UINT8_T 
 	UINT32_T oldTime = 0;
 	UINT64_T cnt = 0;
 	//---获取当前时间节拍
-	if (W25Qx->msgSPI.msgTimeTick != NULL)
-	{
-		oldTime = W25Qx->msgSPI.msgTimeTick();
-	}
+	oldTime =((W25Qx->msgSPI.msgTimeTick != NULL)? W25Qx->msgSPI.msgTimeTick():0);
 	//---等待BUSY位清空
 	while ((_return & 0x01) == 0x01)
 	{

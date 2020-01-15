@@ -151,18 +151,14 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 {
 	//---注销当前的所有配置
 	SPITask_DeInit(&(ADS1256x->msgSPI),1);
-
 	//---硬件端口的配置---硬件实现
 	SPITask_MHW_GPIO_Init(&(ADS1256x->msgSPI));
-
 	//---硬件SPI的初始化
 	LL_SPI_InitTypeDef SPI_InitStruct = {0};
-
 	//---SPI的模式配置
 	SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
 	SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;						//---主机模式
 	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;				//---8位数据
-
 	//---时钟极性的设置
 	if (ADS1256x->msgSPI.msgCPOL == 0)
 	{
@@ -175,7 +171,6 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 		//---CLK空闲时为高电平 (CLK空闲是只能是低电平)
 		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_HIGH;
 	}
-
 	//---数据采样的时钟边沿位置
 	if (ADS1256x->msgSPI.msgCPOH == 0)
 	{
@@ -184,14 +179,12 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 	else
 	{
 		SPI_InitStruct.ClockPhase = LL_SPI_PHASE_2EDGE;
-	}
-	
+	}	
 	SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;							//---软件控制
 	SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV256;		//---系统时钟256分频
 	SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;						//---高位在前
 	SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;	//---硬件CRC不使能
 	SPI_InitStruct.CRCPoly = 7;
-
 	//---ADS1256的SPI的最高时钟为输入时钟的四分之一，因此SPI的时钟不能过快，否则容易通讯失败
 	if (SPI_InitStruct.BaudRate< LL_SPI_BAUDRATEPRESCALER_DIV256)
 	{
@@ -199,7 +192,6 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 	}
 	//---初始化查询方式的SPI
 	SPITask_MHW_PollMode_Init(&(ADS1256x->msgSPI), SPI_InitStruct);
-
 	return OK_0;
 }
 
@@ -362,20 +354,13 @@ UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandlerType *ADS1256x)
 	UINT32_T nowTime = 0;
 	UINT32_T oldTime = 0;
 	UINT64_T cnt = 0;
-
 	//---获取当前时间节拍
-	if (ADS1256x->msgSPI.msgTimeTick != NULL)
-	{
-		//nowTime = W25QXXx->msgSPI.msgFuncTick();
-		oldTime = ADS1256x->msgSPI.msgTimeTick();
-	}
-
+	oldTime =((ADS1256x->msgSPI.msgTimeTick != NULL)?ADS1256x->msgSPI.msgTimeTick():0);
 	//---解析GPIO是否存在
 	if (ADS1256x->msgDRDY.msgPort == NULL)
 	{
 		return ERROR_5;
 	}
-
 	//---读取操作完成，检查高电平
 	while (1)
 	{
@@ -415,7 +400,6 @@ UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandlerType *ADS1256x)
 			}
 		}
 	}
-
 	//---读取操作完成，检查低电平
 	while (1)
 	{

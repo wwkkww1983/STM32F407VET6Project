@@ -8,11 +8,10 @@ extern "C" {
 	#include "complier_lib.h"
 	#include "gpio_task.h"
 	#include "systick_task.h"
+	#include "hw_cfg.h"
 
 	//===定义使用的外部计数模式的通道数
 	#define	CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM			2
-	//===定义是否使用电平转换芯片，带OE控制端的
-	#define CALC_FREQ_lEVEL_SHIFT
 	//===结构体定义
 	typedef struct _CalcFreq_HandlerType					CalcFreq_HandlerType;
 	//===指针结构体定义
@@ -24,8 +23,7 @@ extern "C" {
 		VLTUINT8_T  msgStep[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];																												//---操作步序
 		float		msgFreqMHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];																											//---MHz频率
 		float		msgFreqKHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];																											//---KHz频率
-		//void(*msgFuncTask)(void);																																					//---操作任务
-		#ifdef CALC_FREQ_lEVEL_SHIFT
+		#ifdef CALC_FREQ_USE_lEVEL_SHIFT
 			GPIO_HandlerType	msgOE[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];																										//---OE控制端口
 		#endif
 	};

@@ -75,7 +75,7 @@ UINT8_T JTAG_Device0_Init(JTAG_HandlerType* JTAGx)
 	JTAGx->msgTDI.msgPort = GPIOD;
 	JTAGx->msgTDI.msgBit = LL_GPIO_PIN_3;
 	//---TDO->PD2---device->host
-	JTAGx->msgTDO.msgPort = GPIOA;
+	JTAGx->msgTDO.msgPort = GPIOD;
 	JTAGx->msgTDO.msgBit = LL_GPIO_PIN_2;
 #else
 	//---TCK->PB3---host->device
@@ -174,7 +174,12 @@ UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 	GPIO_InitStruct.Pin = JTAGx->msgTMS.msgBit;
 	LL_GPIO_Init(JTAGx->msgTMS.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgTMS);
-#ifndef JTAG_USE_HV_RESET
+
+	//---RST的配置
+#ifdef JTAG_USE_HV_RESET
+	//---RST---输出为高
+	JTAGx->msgPortRst(JTAG_RST_TO_VCC);
+#else
 	//---使能端口时钟
 	GPIOTask_Clock(JTAGx->msgRST.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	//---RST---输出为高
@@ -207,6 +212,13 @@ UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T JTAG_GPIO_DeInit(JTAG_HandlerType* JTAGx)
 {
+	//---RST端口配置
+#ifdef JTAG_USE_HV_RESET
+	//---拉到电源
+	JTAGx->msgPortRst(JTAG_RST_TO_VCC);
+#else
+	JTAG_GPIO_OUT_1(JTAGx->msgRST);
+#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;														//---配置状态为输入模式
@@ -216,6 +228,7 @@ UINT8_T JTAG_GPIO_DeInit(JTAG_HandlerType* JTAGx)
 #ifndef USE_MCU_STM32F1
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;														//---端口复用模式
 #endif
+
 	//---TDI---输入上拉
 	GPIO_InitStruct.Pin = JTAGx->msgTDI.msgBit;
 	LL_GPIO_Init(JTAGx->msgTDI.msgPort, &GPIO_InitStruct);
@@ -228,9 +241,18 @@ UINT8_T JTAG_GPIO_DeInit(JTAG_HandlerType* JTAGx)
 	GPIO_InitStruct.Pin = JTAGx->msgTMS.msgBit;
 	LL_GPIO_Init(JTAGx->msgTMS.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgTMS);
+	//---TDO---输入上拉
+	GPIO_InitStruct.Pin = JTAGx->msgTDO.msgBit;
+	LL_GPIO_Init(JTAGx->msgTDO.msgPort, &GPIO_InitStruct);
+	JTAG_GPIO_OUT_1(JTAGx->msgTDO);
+
+#ifdef JTAG_USE_lEVEL_SHIFT
+	//---OE---输出为低，低有效
+	JTAG_GPIO_OUT_1(JTAGx->msgOE);
+#endif
 	//---RST端口配置
 #ifdef JTAG_USE_HV_RESET
-	//---设置为高阻态
+	//---释放RST端口，设置为高阻态
 	JTAGx->msgPortRst(JTAG_RST_TO_HZ);
 #else
 	//---RST---输入上拉
@@ -238,14 +260,6 @@ UINT8_T JTAG_GPIO_DeInit(JTAG_HandlerType* JTAGx)
 	LL_GPIO_Init(JTAGx->msgRST.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgRST);
 #endif
-#ifdef JTAG_USE_lEVEL_SHIFT
-	//---OE---输出为低，低有效
-	JTAG_GPIO_OUT_0(JTAGx->msgOE);
-#endif
-	//---TDO---输入上拉
-	GPIO_InitStruct.Pin = JTAGx->msgTDO.msgBit;
-	LL_GPIO_Init(JTAGx->msgTDO.msgPort, &GPIO_InitStruct);
-	JTAG_GPIO_OUT_1(JTAGx->msgTDO);
 	//---端口未初始化了
 	JTAGx->msgInit = 0;
 	return OK_0;
@@ -2634,13 +2648,23 @@ UINT8_T JTAG_TAPExit(JTAG_HandlerType* JTAGx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T JTAG_EnterProg(JTAG_HandlerType* JTAGx)
 {
+	UINT8_T _return=OK_0;
 	if (JTAGx->msgInit == 0)
 	{
 		//---初始化端口
 		JTAG_GPIO_Init(JTAGx);
 	}
+	else
+	{
+	#ifdef JTAG_USE_lEVEL_SHIFT
+		//---OE---输出为低，低有效
+		JTAG_GPIO_OUT_1(JTAGx->msgOE);
+	#endif
+	}
+	//---清理当前状态，保证编程模式能够进入
 	JTAG_TAPClear(JTAGx);
-	UINT8_T _return = JTAG_TAPPreEnter(JTAGx);
+	//---准备进入编程模式
+	_return = JTAG_TAPPreEnter(JTAGx);
 	//---校验进入结果
 	if (_return == OK_0)
 	{
@@ -2866,11 +2890,7 @@ UINT8_T JTAG_WaitPollChipComplete(JTAG_HandlerType* JTAGx, UINT16_T cmd)
 	UINT32_T nowTime = 0;
 	UINT32_T oldTime = 0;
 	UINT64_T cnt = 0;
-	if (JTAGx->msgTimeTick != NULL)
-	{
-		//nowTime = JTAGx->msgSPI.msgFuncTick();
-		oldTime = JTAGx->msgTimeTick();
-	}
+	oldTime=((JTAGx->msgTimeTick != NULL)? JTAGx->msgTimeTick():0);
 	while (1)
 	{
 		tempID = JTAG_ShiftDR_BIT(JTAGx, cmd, 15, 0);

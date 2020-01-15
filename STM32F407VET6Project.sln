@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STM32F407VET6Project", "EWARM\STM32F407VET6Project.vcxproj", "{5BDC3446-476B-BE0F-F089-D20ADCF7CEB5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STM32F407VET6Project", "MDKARM\STM32F407VET6Project.vcxproj", "{5BDC3446-476B-BE0F-F089-D20ADCF7CEB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

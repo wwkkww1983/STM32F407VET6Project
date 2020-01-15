@@ -19,6 +19,9 @@
     <Filter Include="Application\ADS869x">
       <UniqueIdentifier>{7F892EDF-EBEA-0BED-7458-529FE0B842AC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\AES">
+      <UniqueIdentifier>{E186296C-4D12-9730-5623-1A25C22DF330}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\AHT10">
       <UniqueIdentifier>{0673A81C-7289-A6B2-BB00-32D42756773A}</UniqueIdentifier>
     </Filter>
@@ -302,6 +305,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\ADS869x\ads869x_task.h">
       <Filter>Application\ADS869x</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AES\aes_cfg.h">
+      <Filter>Application\AES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AES\aes_lib.h">
+      <Filter>Application\AES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AES\aes_task.h">
+      <Filter>Application\AES</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\AHT10\aht10_cfg.h">
       <Filter>Application\AHT10</Filter>
@@ -1033,6 +1045,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\ADS869x\ads869x_task.c">
       <Filter>Application\ADS869x</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AES\aes_cfg.c">
+      <Filter>Application\AES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AES\aes_lib.c">
+      <Filter>Application\AES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AES\aes_task.c">
+      <Filter>Application\AES</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\AHT10\aht10_cfg.c">
       <Filter>Application\AHT10</Filter>

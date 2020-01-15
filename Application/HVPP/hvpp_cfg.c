@@ -500,7 +500,7 @@ UINT8_T HVPP_ProgModeEnter(HVPP_HandlerType* HVPPx,UINT8_T pagel,UINT8_T xa1,UIN
 	//---掉电，自供电的时候进行电源断电，否则为释放电源控制状态
 	((HVPPx->msgSelfPower == 0) ? HVPP_DUT_POWER_OFF : HVPP_DUT_POWER_HZ);
 	HVPPx->msgDelayms(1);
-	//---切换数据宗先方向
+	//---切换数据总线方向
 	HVPP_DATA_BUS_DIR_TO_DEVICE;
 	//---数据总线设置为写模式
 	HVPP_DATA_BUS_WRITE;
