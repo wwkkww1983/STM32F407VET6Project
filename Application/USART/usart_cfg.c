@@ -2389,7 +2389,7 @@ UINT8_T USART_Write_DMA_RESTART(USART_HandlerType* USARTx)
 	//---使能DMA
 	LL_DMA_EnableStream(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream);
 #endif
-	//---处于DMA发送过程
+	//---设置为DMA状态
 	USARTx->msgTxdHandler.msgState= USART_DMA;
 	return OK_0;
 }

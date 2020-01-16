@@ -24,7 +24,10 @@ UINT8_T AHT10_I2C_Device0_Init(AHT10_HandlerType* AHT10x)
 	AHT10x->msgI2C.msgAddr = AHT10_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
 	AHT10x->msgI2C.msgClockSpeed = 10;
 	//---每次读取的间隔时间,76ms，建议采集周期是760ms
-	AHT10x->msgIntervalTime=76*10;
+	AHT10x->msgIntervalTime=76*2;
+	//---设定温度初始值是室温25摄氏度
+	AHT10x->msgTempX100=25*100;
+	AHT10x->msgHumiX10000=(50*10000);
 	return OK_0;
 }
 

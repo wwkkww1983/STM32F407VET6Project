@@ -102,10 +102,7 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\Key\key_task.h ..\Application\Key\key_lib.h \
   ..\Application\Key\key_cfg.h ..\Application\RFASK\rfask_eeprom.h \
   ..\Application\Encode\encode_task.h ..\Application\Encode\encode_lib.h \
-  ..\Application\Encode\encode_cfg.h \
-  ..\Application\HMC5883\hmc5883_task.h \
-  ..\Application\HMC5883\hmc5883_lib.h \
-  ..\Application\HMC5883\hmc5883_cfg.h ..\Application\HVPP\hvpp_task.h \
+  ..\Application\Encode\encode_cfg.h ..\Application\HVPP\hvpp_task.h \
   ..\Application\HVSP\hvsp_task.h ..\Application\IAP\iap_task.h \
   ..\Application\IAP\iap_lib.h ..\Application\IAP\iap_cfg.h \
   ..\Application\INA226\ina226_cfg.h ..\Application\ISP\isp_task.h \
