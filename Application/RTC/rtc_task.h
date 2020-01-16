@@ -9,7 +9,7 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===º¯Êý¶¨Òå
-	void SysRTCTask_SoftRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode);
+	UINT8_T SysRTCTask_SoftRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode);
 	void SysRTCTask_SoftCalcRTCTask(SYS_RTC_HandlerType*RTCx, UINT32_T rtcSecond);
 	UINT8_T SysRTCTask_CalcWeekDay(RTC_HandlerType*RTCx);
 	UINT8_T SysRTCTask_RealTimeWatch(SYS_RTC_HandlerType* RTCx);
@@ -27,8 +27,8 @@ extern "C" {
 	UINT8_T SysRTCTask_HardRTCGetCentury(SYS_RTC_HandlerType* RTCx);
 	UINT8_T SysRTCTask_HardRTCGetRTC(SYS_RTC_HandlerType* RTCx);
 	UINT8_T SysRTCTask_HardRTCTask(SYS_RTC_HandlerType* RTCx);
-	UINT8_T SysRTCTask_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond, UINT8_T isHW);
-	void SysRTCTask_RTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays,UINT8_T watchaMode,UINT8_T isHW);
+	UINT8_T SysRTCTask_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond);
+	UINT8_T SysRTCTask_RTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays,UINT8_T watchaMode,UINT8_T isHW);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

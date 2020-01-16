@@ -16,18 +16,19 @@ extern "C" {
 	//===定义软件RTC时钟
 	struct _SYS_RTC_HandlerType
 	{
-		RTC_HandlerType msgRTC;					//---使用的RTC
-		VLTUINT16_T     msgWatchSpanDays;		//---监控多少天发生变化
-		VLTUINT8_T		msgDay;					//---当前月的天数
-		VLTUINT8_T		msgMonth;				//---当前月
-		VLTUINT8_T      msgWatchMode;			//---是否取消监控，0---取消监控，1---实时监控，2---刷新监控
+		RTC_HandlerType msgRTC;																		//---使用的RTC
+		UINT16_T     msgWatchSpanDays;																//---监控多少天发生变化
+		UINT8_T		 msgDay;																		//---当前月的天数
+		UINT8_T		 msgMonth;																		//---当前月
+		UINT8_T      msgWatchMode;																	//---是否取消监控，0---取消监控，1---实时监控，2---刷新监控
+		UINT8_T      msgHwMode;																		//---工作模式，默认是软件模拟---0，硬件模式---1
 	};
 
 	//===外部调用接口
-	extern  SYS_RTC_HandlerType						g_SysSoftRTC;
+	extern  SYS_RTC_HandlerType					g_SysSoftRTC;
 	extern  pSYS_RTC_HandlerType					pSysSoftRTC;
 
-	extern  SYS_RTC_HandlerType						g_SysHWRTC;
+	extern  SYS_RTC_HandlerType					g_SysHWRTC;
 	extern  pSYS_RTC_HandlerType					pSysHWRTC;
 
 	//===函数定义
@@ -48,7 +49,7 @@ extern "C" {
 	UINT8_T SysRTC_HardRTCGetCentury(SYS_RTC_HandlerType* RTCx);
 	UINT8_T SysRTC_HardRTCGetRTC(SYS_RTC_HandlerType* RTCx);
 	UINT8_T SysRTC_HardRTCTask(SYS_RTC_HandlerType* RTCx);
-	UINT8_T SysRTC_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond, UINT8_T isHW);
+	UINT8_T SysRTC_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

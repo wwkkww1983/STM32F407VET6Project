@@ -31,6 +31,9 @@
     <Filter Include="Application\BKP">
       <UniqueIdentifier>{E58B296C-5117-9730-5A28-1A25C632F330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\CAN">
+      <UniqueIdentifier>{DA8E296C-461A-9730-4F2B-1A25BB35F330}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\CRC">
       <UniqueIdentifier>{0091296C-6C1C-9730-752D-1A25E137F330}</UniqueIdentifier>
     </Filter>
@@ -69,6 +72,9 @@
     </Filter>
     <Filter Include="Application\GPIO">
       <UniqueIdentifier>{17DB5DF1-03D4-7C43-2C06-62C8185E5C4F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\HMC5883">
+      <UniqueIdentifier>{587BE10D-C4DC-BE1B-4D4A-05CEB9AAF5DA}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\HMC830">
       <UniqueIdentifier>{9B365CC2-871A-1D18-F07A-176BDC7D079A}</UniqueIdentifier>
@@ -306,6 +312,9 @@
     <ClInclude Include="..\Application\BKP\bkp_task.h">
       <Filter>Application\BKP</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\CAN\can_cfg.h">
+      <Filter>Application\CAN</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\CRC\crc_cfg.h">
       <Filter>Application\CRC</Filter>
     </ClInclude>
@@ -416,6 +425,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\GPIO\gpio_task.h">
       <Filter>Application\GPIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HMC5883\hmc5883_cfg.h">
+      <Filter>Application\HMC5883</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HMC5883\hmc5883_lib.h">
+      <Filter>Application\HMC5883</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\HMC5883\hmc5883_task.h">
+      <Filter>Application\HMC5883</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\HMC830\hmc830_cfg.h">
       <Filter>Application\HMC830</Filter>
@@ -962,6 +980,9 @@
     <ClCompile Include="..\Application\BKP\bkp_task.c">
       <Filter>Application\BKP</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\CAN\can_cfg.c">
+      <Filter>Application\CAN</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\CRC\crc_cfg.c">
       <Filter>Application\CRC</Filter>
     </ClCompile>
@@ -1072,6 +1093,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\GPIO\gpio_task.c">
       <Filter>Application\GPIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HMC5883\hmc5883_cfg.c">
+      <Filter>Application\HMC5883</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HMC5883\hmc5883_lib.c">
+      <Filter>Application\HMC5883</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\HMC5883\hmc5883_task.c">
+      <Filter>Application\HMC5883</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\HMC830\hmc830_cfg.c">
       <Filter>Application\HMC830</Filter>

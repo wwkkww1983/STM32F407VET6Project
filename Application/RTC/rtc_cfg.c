@@ -158,6 +158,9 @@ void SysRTC_SoftRTCInit(SYS_RTC_HandlerType* RTCx,UINT16_T spanDays, UINT8_T wat
 	RTCx->msgDay = RTCx->msgRTC.day;
 	//---当前的月数
 	RTCx->msgMonth = RTCx->msgRTC.month;
+	//---软件RTC
+	RTCx->msgHwMode = 0;
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -572,6 +575,8 @@ UINT8_T SysRTC_HardRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T
 	RTCx->msgDay = RTCx->msgRTC.day;
 	//---当前的月数
 	RTCx->msgMonth = RTCx->msgRTC.month;
+	//---硬件RTC
+	RTCx->msgHwMode =1;
 	return _return;
 }
 
@@ -734,9 +739,9 @@ UINT8_T SysRTC_HardRTCTask(SYS_RTC_HandlerType* RTCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTC_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond, UINT8_T isHW)
+UINT8_T SysRTC_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond)
 {
-	if (isHW!=0)
+	if (RTCx->msgHwMode !=0)
 	{
 		//---获取硬件实时时钟
 		SysRTC_HardRTCGetRTC(RTCx);

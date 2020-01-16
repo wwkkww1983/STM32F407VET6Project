@@ -434,6 +434,8 @@
                     <state>$PROJ_DIR$\..\Application\DataBus</state>
                     <state>$PROJ_DIR$\..\Application\HardWare</state>
                     <state>$PROJ_DIR$\..\Application\MCO</state>
+                    <state>$PROJ_DIR$\..\Application\HMC5883</state>
+                    <state>$PROJ_DIR$\..\Application\CAN</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1319,6 +1321,15 @@
             </file>
         </group>
         <group>
+            <name>CAN</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\CAN\can_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\CAN\can_cfg.h</name>
+            </file>
+        </group>
+        <group>
             <name>CRC</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\CRC\crc_cfg.c</name>
@@ -1586,6 +1597,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\HardWare\hw_cfg.h</name>
+            </file>
+        </group>
+        <group>
+            <name>HMC5883</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_task.h</name>
             </file>
         </group>
         <group>

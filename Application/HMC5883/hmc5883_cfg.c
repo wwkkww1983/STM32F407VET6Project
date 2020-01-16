@@ -398,8 +398,8 @@ UINT8_T HMC5883_ReadRawData(HMC5883_HandlerType* HMC5883x)
 //////////////////////////////////////////////////////////////////////////////
 void HMC5883_CalibrateMag(HMC5883_HandlerType* HMC5883x)
 {
-	int x, y, z; //triple axis data
-	int xMax, xMin, yMax, yMin, zMax, zMin;
+	int x=0, y=0, z=0; //triple axis data
+	int xMax=0, xMin=0, yMax=0, yMin=0, zMax=0, zMin=0;
 	//---∂¡»°÷µ
 	HMC5883_I2C_ReadRegBulk(HMC5883x);
 	xMax = xMin = x;

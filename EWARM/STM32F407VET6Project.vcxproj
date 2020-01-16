@@ -39,7 +39,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>USE_FULL_LL_DRIVER;USE_HAL_DRIVER;HSE_VALUE=8000000UL;STM32F407xx;__TARGET_FPU_VFP;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING;ARM_MATH_CM4;__IASMARM__;__FPU_USED;_IAR_;__ICCARM__;_Pragma(x)=;__interrupt=;__packed=__attribute__((__packed__));__weak=__attribute__((weak));%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\STARTUP\EWARM;..\Complier;..\Doc;..\STM32F4xx;..\Application\AD5593;..\Application\ADC;..\Application\ADS868x;..\Application\ADS869x;..\Application\APP;..\Application\AT24Cxx;..\Application\CRC;..\Application\DAC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\EEPROM;..\Application\Encode;..\Application\FLASH;..\Application\GPIO;..\Application\HMC830;..\Application\I2C;..\Application\IAP;..\Application\ISP;..\Application\IWDG;..\Application\Key;..\Application\LED;..\Application\LCD1602;..\Application\OneWire;..\Application\PCF8563;..\Application\Power;..\Application\Random;..\Application\RFASK;..\Application\SPI;..\Application\SysTick;..\Application\Timer;..\Application\USART;..\Application\WM8510;..\Application\NRF2401;..\Application\OLED;..\Application\WWDG;..\Application\SHT2x;..\Application\BKP;..\Application\CSS;..\Application\Decode;..\Application\W25Qxx;..\Application\DS1302;..\Application\RFASKHW;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\PVD;..\Application\RTC;..\Application\MyMalloc;..\Application\HMC472;..\Application\KalmanFilter;..\Application\ModBusMaster;..\Application\ModBusSlave;..\Application\MAX961x;..\Application\SMBUS;..\Application\LIN;..\Application\INA226;..\Application\SI5351A;..\Application\TaskManage;..\Application\HVPP;..\Application\HVSP;..\Application\JTAG;..\Application\AHT10;..\Application\DataBus;..\Application\HardWare;..\Application\MCO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\STARTUP\EWARM;..\Complier;..\Doc;..\STM32F4xx;..\Application\AD5593;..\Application\ADC;..\Application\ADS868x;..\Application\ADS869x;..\Application\APP;..\Application\AT24Cxx;..\Application\CRC;..\Application\DAC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\EEPROM;..\Application\Encode;..\Application\FLASH;..\Application\GPIO;..\Application\HMC830;..\Application\I2C;..\Application\IAP;..\Application\ISP;..\Application\IWDG;..\Application\Key;..\Application\LED;..\Application\LCD1602;..\Application\OneWire;..\Application\PCF8563;..\Application\Power;..\Application\Random;..\Application\RFASK;..\Application\SPI;..\Application\SysTick;..\Application\Timer;..\Application\USART;..\Application\WM8510;..\Application\NRF2401;..\Application\OLED;..\Application\WWDG;..\Application\SHT2x;..\Application\BKP;..\Application\CSS;..\Application\Decode;..\Application\W25Qxx;..\Application\DS1302;..\Application\RFASKHW;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\PVD;..\Application\RTC;..\Application\MyMalloc;..\Application\HMC472;..\Application\KalmanFilter;..\Application\ModBusMaster;..\Application\ModBusSlave;..\Application\MAX961x;..\Application\SMBUS;..\Application\LIN;..\Application\INA226;..\Application\SI5351A;..\Application\TaskManage;..\Application\HVPP;..\Application\HVSP;..\Application\JTAG;..\Application\AHT10;..\Application\DataBus;..\Application\HardWare;..\Application\MCO;..\Application\HMC5883;..\Application\CAN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -73,6 +73,7 @@
     <ClInclude Include="..\Application\BKP\bkp_cfg.h" />
     <ClInclude Include="..\Application\BKP\bkp_lib.h" />
     <ClInclude Include="..\Application\BKP\bkp_task.h" />
+    <ClInclude Include="..\Application\CAN\can_cfg.h" />
     <ClInclude Include="..\Application\CRC\crc_cfg.h" />
     <ClInclude Include="..\Application\CRC\crc_lib.h" />
     <ClInclude Include="..\Application\CRC\crc_task.h" />
@@ -110,6 +111,9 @@
     <ClInclude Include="..\Application\GPIO\gpio_cfg.h" />
     <ClInclude Include="..\Application\GPIO\gpio_lib.h" />
     <ClInclude Include="..\Application\GPIO\gpio_task.h" />
+    <ClInclude Include="..\Application\HMC5883\hmc5883_cfg.h" />
+    <ClInclude Include="..\Application\HMC5883\hmc5883_lib.h" />
+    <ClInclude Include="..\Application\HMC5883\hmc5883_task.h" />
     <ClInclude Include="..\Application\HMC830\hmc830_cfg.h" />
     <ClInclude Include="..\Application\HMC830\hmc830_lib.h" />
     <ClInclude Include="..\Application\HMC830\hmc830_task.h" />
@@ -293,6 +297,7 @@
     <ClCompile Include="..\Application\BKP\bkp_cfg.c" />
     <ClCompile Include="..\Application\BKP\bkp_lib.c" />
     <ClCompile Include="..\Application\BKP\bkp_task.c" />
+    <ClCompile Include="..\Application\CAN\can_cfg.c" />
     <ClCompile Include="..\Application\CRC\crc_cfg.c" />
     <ClCompile Include="..\Application\CRC\crc_lib.c" />
     <ClCompile Include="..\Application\CRC\crc_task.c" />
@@ -330,6 +335,9 @@
     <ClCompile Include="..\Application\GPIO\gpio_cfg.c" />
     <ClCompile Include="..\Application\GPIO\gpio_lib.c" />
     <ClCompile Include="..\Application\GPIO\gpio_task.c" />
+    <ClCompile Include="..\Application\HMC5883\hmc5883_cfg.c" />
+    <ClCompile Include="..\Application\HMC5883\hmc5883_lib.c" />
+    <ClCompile Include="..\Application\HMC5883\hmc5883_task.c" />
     <ClCompile Include="..\Application\HMC830\hmc830_cfg.c" />
     <ClCompile Include="..\Application\HMC830\hmc830_lib.c" />
     <ClCompile Include="..\Application\HMC830\hmc830_task.c" />

@@ -34,6 +34,9 @@
     <Filter Include="Application\BKP">
       <UniqueIdentifier>{E58B296C-5117-9730-5A28-1A25C632F330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\CAN">
+      <UniqueIdentifier>{DA8E296C-461A-9730-4F2B-1A25BB35F330}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\CRC">
       <UniqueIdentifier>{0091296C-6C1C-9730-752D-1A25E137F330}</UniqueIdentifier>
     </Filter>
@@ -347,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="..\Application\BKP\bkp_task.h">
       <Filter>Application\BKP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\CAN\can_cfg.h">
+      <Filter>Application\CAN</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\CRC\crc_cfg.h">
       <Filter>Application\CRC</Filter>
@@ -1084,6 +1090,9 @@
     </ClCompile>
     <ClCompile Include="..\Application\BKP\bkp_task.c">
       <Filter>Application\BKP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\CAN\can_cfg.c">
+      <Filter>Application\CAN</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\CRC\crc_cfg.c">
       <Filter>Application\CRC</Filter>
