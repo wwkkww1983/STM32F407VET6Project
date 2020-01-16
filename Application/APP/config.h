@@ -21,6 +21,7 @@ extern "C" {
 	#include "delay_task.h"
 	#include "encode_task.h"
 	#include "gpio_task.h"
+	#include "hmc5883_task.h"
 	#include "hw_cfg.h"
 	#include "hvpp_task.h"
 	#include "hvsp_task.h"

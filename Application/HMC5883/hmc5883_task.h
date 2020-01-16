@@ -13,6 +13,8 @@ extern "C" {
 	UINT8_T HMC5883Task_I2C_SingleReadReg(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T* pVal);
 	UINT8_T HMC5883Task_I2C_BurstReadReg(HMC5883_HandlerType* HMC5883x);
 	UINT8_T HMC5883Task_ConfigInit(HMC5883_HandlerType* HMC5883x);
+	UINT8_T HMC5883Task_ReadRawData(HMC5883_HandlerType* HMC5883x);
+	void	HMC5883Task_CalibrateMag(HMC5883_HandlerType* HMC5883x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -828,8 +828,8 @@ UINT8_T USART_RealTime_AddCRC(USART_HandlerType*USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_FillMode_Init(USART_HandlerType*USARTx,UINT8_T isChildCmd)
 {
-	//---等待传输完成
-	while ((USARTx->msgTxdHandler.msgState == USART_BUSY)||(USARTx->msgTxdHandler.msgState==USART_PRINTF))
+	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
+	while ((USARTx->msgTxdHandler.msgState == USART_BUSY) || (USARTx->msgTxdHandler.msgState == USART_PRINTF) || (USARTx->msgTxdHandler.msgState == USART_DMA))
 	{
 		WDT_RESET();
 	}
@@ -1136,8 +1136,8 @@ UINT8_T USART_CRCTask_Write(USART_HandlerType*USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T  USART_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
 {
-	//---等待传输完成
-	while ((USARTx->msgTxdHandler.msgState == USART_BUSY)||(USARTx->msgTxdHandler.msgState==USART_PRINTF))
+	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
+	while ((USARTx->msgTxdHandler.msgState == USART_BUSY) || (USARTx->msgTxdHandler.msgState == USART_PRINTF) || (USARTx->msgTxdHandler.msgState == USART_DMA))
 	{
 		WDT_RESET();
 	}
@@ -1335,6 +1335,11 @@ UINT8_T USART_DeviceID(USART_HandlerType*USARTx)
 void USART_PrintfSuspend(USART_HandlerType* USARTx)
 {
 #ifdef USE_USART_PRINTF
+	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
+	while ((USARTx->msgTxdHandler.msgState == USART_BUSY) || (USARTx->msgTxdHandler.msgState == USART_PRINTF)||(USARTx->msgTxdHandler.msgState == USART_DMA))
+	{
+		WDT_RESET();
+	}
 	//---检查发送寄存器空中断是否使能
 	if (LL_USART_IsEnabledIT_TXE(USARTx->msgUSART))
 	{
@@ -1353,11 +1358,6 @@ void USART_PrintfSuspend(USART_HandlerType* USARTx)
 			WDT_RESET();
 		}
 		LL_USART_ClearFlag_TC(USARTx->msgUSART);
-	}
-	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
-	while ((USARTx->msgTxdHandler.msgState == USART_BUSY) || (USARTx->msgTxdHandler.msgState == USART_PRINTF))
-	{
-		WDT_RESET();
 	}
 	//---定义485为发送模式
 	USART_485GPIOInit(USARTx, USART_485_TX_ENABLE);
@@ -2389,6 +2389,8 @@ UINT8_T USART_Write_DMA_RESTART(USART_HandlerType* USARTx)
 	//---使能DMA
 	LL_DMA_EnableStream(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream);
 #endif
+	//---处于DMA发送过程
+	USARTx->msgTxdHandler.msgState= USART_DMA;
 	return OK_0;
 }
 

@@ -423,11 +423,11 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 	{
 		case ISP_SCK_KHZ_0_5:
 			ISPx->msgSPI.msgHwMode  = 0;
-			ISPx->msgSPI.msgPluseWidth = 1000;
+			ISPx->msgSPI.msgPluseWidth = 10000;
 			break;
 		case ISP_SCK_KHZ_1:
 			ISPx->msgSPI.msgHwMode  = 0;
-			ISPx->msgSPI.msgPluseWidth = 500;
+			ISPx->msgSPI.msgPluseWidth = 15000;
 			break;
 		case ISP_SCK_KHZ_2:
 			ISPx->msgSPI.msgHwMode  = 0;
@@ -690,7 +690,7 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 		if (ISPx->msgAutoClock==0)
 		{
 			//---自动降速处理
-			if (ISPx->msgSetClok >ISP_SCK_KHZ_2)
+			if (ISPx->msgSetClok >ISP_SCK_KHZ_0_5)
 			{
 				//---降速处理
 				ISPx->msgSetClok -= 1;
@@ -698,7 +698,7 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 			else
 			{
 				//---限制最低时速
-				ISPx->msgSetClok = ISP_SCK_KHZ_2;
+				ISPx->msgSetClok = ISP_SCK_KHZ_0_5;
 			}
 		}
 		else

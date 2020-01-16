@@ -547,14 +547,12 @@ UINT8_T SysRTC_HardRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T
 		}
 		//---配置RTC时间寄存器
 		LL_RTC_TIME_Init(RTC, LL_RTC_FORMAT_BCD, &RTC_TimeStruct);
-
 		//---定义当前日期
 		RTCx->msgRTC.century=21;
 		RTCx->msgRTC.year=19;
 		RTCx->msgRTC.month=10;
 		RTCx->msgRTC.day=30;
 		RTCx->msgRTC.week=7;
-
 		//---设置年月日星期,将十进制转换成BCD编码
 		RTC_DateStruct.Year		= DecToBcd(RTCx->msgRTC.year);
 		RTC_DateStruct.WeekDay	= DecToBcd(RTCx->msgRTC.week);
@@ -574,7 +572,6 @@ UINT8_T SysRTC_HardRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T
 	RTCx->msgDay = RTCx->msgRTC.day;
 	//---当前的月数
 	RTCx->msgMonth = RTCx->msgRTC.month;
-
 	return _return;
 }
 
