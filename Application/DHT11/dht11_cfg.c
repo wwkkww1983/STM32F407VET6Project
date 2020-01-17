@@ -16,6 +16,10 @@ UINT8_T DHT11_Device0_Init(DHT11_HandlerType *DHTxx)
 	DHTxx->msgSTATE=DHT11_READ_OK;
 	DHTxx->msgDAT.msgBit = LL_GPIO_PIN_14;
 	DHTxx->msgDAT.msgPort = GPIOB;
+	//---室温25摄氏度
+	DHTxx->msgTempX1000=25000;
+	//---湿度百分之五十
+	DHTxx->msgHumiX1000=50000;
 	return OK_0;
 }
 
@@ -333,7 +337,7 @@ UINT8_T DHT11_ReadSTATE(DHT11_HandlerType* DHTxx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_ReadTemp(DHT11_HandlerType *DHT11x)
+UINT8_T DHT11_ReadTempHumi(DHT11_HandlerType *DHT11x)
 {
 	UINT8_T temp[5] = { 0 };
 	UINT8_T i = 0;
@@ -391,7 +395,7 @@ UINT8_T DHT11_ReadTemp(DHT11_HandlerType *DHT11x)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：获取温度值
 //////输入参数:
 //////输出参数:
 //////说		明：
@@ -399,6 +403,26 @@ UINT8_T DHT11_ReadTemp(DHT11_HandlerType *DHT11x)
 float DHT11_GetTemp(DHT11_HandlerType* DHT11x)
 {
 	float tempVal = DHT11x->msgTempX1000;
+	//---转换温度对应实际的温度值
+	tempVal /= 1000.0;
+	//---校验是不是正数
+	if (DHT11x->msgPositive == 1)
+	{
+		tempVal *= (-1.0);
+	}
+	return tempVal;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：获取湿度值
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+float DHT11_GetHumi(DHT11_HandlerType* DHT11x)
+{
+	float tempVal = DHT11x->msgHumiX1000;
 	//---转换温度对应实际的温度值
 	tempVal /= 1000.0;
 	//---校验是不是正数

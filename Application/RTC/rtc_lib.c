@@ -215,3 +215,15 @@ UINT8_T SysRTCLib_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond)
 {
 	return SysRTC_RTCTask(RTCx, rtcSecond);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T SysRTCLib_RTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode, UINT8_T isHW)
+{
+	return SysRTC_RTCInit(RTCx, spanDays, watchaMode,isHW);
+}

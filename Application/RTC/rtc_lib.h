@@ -27,6 +27,7 @@ extern "C" {
 	UINT8_T SysRTCLib_HardRTCGetRTC(SYS_RTC_HandlerType* RTCx);
 	UINT8_T SysRTCLib_HardRTCTask(SYS_RTC_HandlerType* RTCx);
 	UINT8_T SysRTCLib_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond);
+	UINT8_T SysRTCLib_RTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode, UINT8_T isHW);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -3223,6 +3223,61 @@
               <FileType>5</FileType>
               <FilePath>..\Application\CAN\can_cfg.h</FilePath>
             </File>
+            <File>
+              <FileName>can_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\CAN\can_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\CAN\can_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>can_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\CAN\can_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\CAN\can_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/MPU6050</GroupName>
+          <Files>
+            <File>
+              <FileName>mpu6050_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_task.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

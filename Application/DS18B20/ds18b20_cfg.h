@@ -24,13 +24,13 @@ extern "C" {
 	struct _DS18B20_HandlerType
 	{
 		UINT8_T					msgPositive;																																		//---0---是正值，1---是负数
-		UINT8_T					msgTempBit;																																			//---0---9Bit,1---10Bit,2---11Bit,3---12Bit
-		UINT8_T					msgTempTH;																																			//---温度上限，7Bit数据，高位为0，代表正值
-		UINT8_T					msgTempTL;																																			//---温度下限，7Bit数据，高位为0，代表正值
+		UINT8_T					msgTempBits;																																		//---0---9Bit,1---10Bit,2---11Bit,3---12Bit
+		UINT8_T					msgTHTemp;																																			//---温度上限，7Bit数据，高位为0，代表正值
+		UINT8_T					msgTLTemp;																																			//---温度下限，7Bit数据，高位为0，代表正值
 		UINT16_T				msgTempX100;																																		//---温度的值，放大100倍的值
 		UINT32_T				msgTempX10000;																																		//---温度的值，放大1000倍的值
 		UINT16_T				msgIntervalTime;																																	//---轮询时间间隔,单位是ms
-		UINT16_T				msgTempBitValX10000;																																//---文段分辨率每Bit代表的温度的值
+		UINT16_T				msgBitTempX10000;																																	//---温度分辨率每Bit代表的温度的值
 		UINT32_T				msgRecordTime;																																		//---记录的时间参数
 		OneWire_HandlerType		msgOneWire;																																			//---一线通信
 		void(*msgDelayms)(UINT32_T delay);																																			//---ms延时函数
@@ -56,7 +56,7 @@ extern "C" {
 	UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x);
 	UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T * pId);
 	UINT8_T  DS18B20_OneWire_Config(DS18B20_HandlerType* DS18B20x, void(*pFuncDelayus)(UINT32_T delay));
-	float DS18B20_OneWire_GetTemp(DS18B20_HandlerType* DS18B20x);
+	float	 DS18B20_OneWire_GetTemp(DS18B20_HandlerType* DS18B20x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

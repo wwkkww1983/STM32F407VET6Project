@@ -741,17 +741,44 @@ UINT8_T SysRTC_HardRTCTask(SYS_RTC_HandlerType* RTCx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysRTC_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond)
 {
-	if (RTCx->msgHwMode !=0)
+	if ((RTCx->msgHwMode !=0)||(RTCx->msgHwMode==3))
 	{
 		//---获取硬件实时时钟
 		SysRTC_HardRTCGetRTC(RTCx);
 	}
-	else
+	if((RTCx->msgHwMode == 0)||(RTCx->msgHwMode==3))
 	{
 		//---获取软件实时时钟
 		SysRTC_SoftCalcRTCTask(RTCx, rtcSecond);
 	}
 	//---监控模式
 	return SysRTC_WatchTask(RTCx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：初始化实时时钟
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T SysRTC_RTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode, UINT8_T isHW)
+{
+	UINT8_T _return =OK_0;
+	if ((isHW != 0) || (isHW == 3))
+	{
+		//---硬件实时时钟,初始化
+		_return = SysRTC_HardRTCInit(RTCx,spanDays,watchaMode);
+	}
+	if ((isHW == 0) || (isHW == 3))
+	{
+		//---软件实时时钟,初始化
+		SysRTC_SoftRTCInit(RTCx, spanDays, watchaMode);
+	}
+	if (isHW==3)
+	{
+		RTCx->msgHwMode = 3;
+	}
+	return _return;
 }
 

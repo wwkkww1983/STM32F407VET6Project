@@ -145,6 +145,9 @@
     <Filter Include="Application\MCO">
       <UniqueIdentifier>{A7B9296C-1345-9730-1C56-1A258860F330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\MPU6050">
+      <UniqueIdentifier>{05480A97-71A9-E7A4-FA16-2E5766771E64}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\ModBusMaster">
       <UniqueIdentifier>{FED72902-EAFC-7882-1348-5E12FFCB77A0}</UniqueIdentifier>
     </Filter>
@@ -352,6 +355,12 @@
       <Filter>Application\BKP</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\CAN\can_cfg.h">
+      <Filter>Application\CAN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\CAN\can_lib.h">
+      <Filter>Application\CAN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\CAN\can_task.h">
       <Filter>Application\CAN</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\CRC\crc_cfg.h">
@@ -650,6 +659,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\MCO\mco_cfg.h">
       <Filter>Application\MCO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MPU6050\mpu6050_cfg.h">
+      <Filter>Application\MPU6050</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MPU6050\mpu6050_lib.h">
+      <Filter>Application\MPU6050</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MPU6050\mpu6050_task.h">
+      <Filter>Application\MPU6050</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_cfg.h">
       <Filter>Application\ModBusMaster</Filter>
@@ -1094,6 +1112,12 @@
     <ClCompile Include="..\Application\CAN\can_cfg.c">
       <Filter>Application\CAN</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\CAN\can_lib.c">
+      <Filter>Application\CAN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\CAN\can_task.c">
+      <Filter>Application\CAN</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\CRC\crc_cfg.c">
       <Filter>Application\CRC</Filter>
     </ClCompile>
@@ -1390,6 +1414,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\MCO\mco_cfg.c">
       <Filter>Application\MCO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MPU6050\mpu6050_cfg.c">
+      <Filter>Application\MPU6050</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MPU6050\mpu6050_lib.c">
+      <Filter>Application\MPU6050</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MPU6050\mpu6050_task.c">
+      <Filter>Application\MPU6050</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_cfg.c">
       <Filter>Application\ModBusMaster</Filter>

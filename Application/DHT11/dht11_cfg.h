@@ -56,8 +56,9 @@ extern "C" {
 	UINT8_T DHT11_Device1_Init(DHT11_HandlerType *DHT11x);
 	UINT8_T DHT11_Device2_Init(DHT11_HandlerType *DHT11x);
 	UINT8_T DHT11_DeInit(DHT11_HandlerType *DHT11x);
-	UINT8_T DHT11_ReadTemp(DHT11_HandlerType *DHT11x);
+	UINT8_T DHT11_ReadTempHumi(DHT11_HandlerType *DHT11x);
 	float DHT11_GetTemp(DHT11_HandlerType* DHT11xx);
+	float DHT11_GetHumi(DHT11_HandlerType* DHT11x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -31,9 +31,9 @@ UINT8_T DHT11Lib_DeInit(DHT11_HandlerType *DHT11x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11Lib_ReadTemp(DHT11_HandlerType *DHT11x)
+UINT8_T DHT11Lib_ReadTempHumi(DHT11_HandlerType *DHT11x)
 {
-	return DHT11_ReadTemp(DHT11x);
+	return DHT11_ReadTempHumi(DHT11x);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -46,4 +46,16 @@ UINT8_T DHT11Lib_ReadTemp(DHT11_HandlerType *DHT11x)
 float DHT11Lib_GetTemp(DHT11_HandlerType* DHT11x)
 {
 	return DHT11_GetTemp(DHT11x);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+float DHT11Lib_GetHumi(DHT11_HandlerType* DHT11x)
+{
+	return DHT11_GetHumi(DHT11x);
 }

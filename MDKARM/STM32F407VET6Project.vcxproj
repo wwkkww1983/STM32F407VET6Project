@@ -77,6 +77,8 @@
     <ClInclude Include="..\Application\BKP\bkp_lib.h" />
     <ClInclude Include="..\Application\BKP\bkp_task.h" />
     <ClInclude Include="..\Application\CAN\can_cfg.h" />
+    <ClInclude Include="..\Application\CAN\can_lib.h" />
+    <ClInclude Include="..\Application\CAN\can_task.h" />
     <ClInclude Include="..\Application\CRC\crc_cfg.h" />
     <ClInclude Include="..\Application\CRC\crc_lib.h" />
     <ClInclude Include="..\Application\CRC\crc_task.h" />
@@ -176,6 +178,9 @@
     <ClInclude Include="..\Application\MAX961x\max961x_lib.h" />
     <ClInclude Include="..\Application\MAX961x\max961x_task.h" />
     <ClInclude Include="..\Application\MCO\mco_cfg.h" />
+    <ClInclude Include="..\Application\MPU6050\mpu6050_cfg.h" />
+    <ClInclude Include="..\Application\MPU6050\mpu6050_lib.h" />
+    <ClInclude Include="..\Application\MPU6050\mpu6050_task.h" />
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_cfg.h" />
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_lib.h" />
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_task.h" />
@@ -325,6 +330,8 @@
     <ClCompile Include="..\Application\BKP\bkp_lib.c" />
     <ClCompile Include="..\Application\BKP\bkp_task.c" />
     <ClCompile Include="..\Application\CAN\can_cfg.c" />
+    <ClCompile Include="..\Application\CAN\can_lib.c" />
+    <ClCompile Include="..\Application\CAN\can_task.c" />
     <ClCompile Include="..\Application\CRC\crc_cfg.c" />
     <ClCompile Include="..\Application\CRC\crc_lib.c" />
     <ClCompile Include="..\Application\CRC\crc_task.c" />
@@ -424,6 +431,9 @@
     <ClCompile Include="..\Application\MAX961x\max961x_lib.c" />
     <ClCompile Include="..\Application\MAX961x\max961x_task.c" />
     <ClCompile Include="..\Application\MCO\mco_cfg.c" />
+    <ClCompile Include="..\Application\MPU6050\mpu6050_cfg.c" />
+    <ClCompile Include="..\Application\MPU6050\mpu6050_lib.c" />
+    <ClCompile Include="..\Application\MPU6050\mpu6050_task.c" />
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_cfg.c" />
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_lib.c" />
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_task.c" />

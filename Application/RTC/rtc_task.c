@@ -225,5 +225,5 @@ UINT8_T SysRTCTask_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysRTCTask_RTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays,UINT8_T watchaMode,UINT8_T isHW)
 {
-	return((isHW==0)?(SysRTCLib_SoftRTCInit(RTCx,spanDays, watchaMode)):(SysRTCLib_HardRTCInit(RTCx,spanDays, watchaMode)));
+	return SysRTCLib_RTCInit(RTCx, spanDays, watchaMode, isHW);
 }

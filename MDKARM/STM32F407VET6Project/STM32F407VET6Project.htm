@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F407VET6Project\STM32F407VET6Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F407VET6Project\STM32F407VET6Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6130100: Last Updated: Thu Jan 16 15:17:05 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6130100: Last Updated: Fri Jan 17 10:03:47 2020
 <BR><P>
 <H3>Maximum Stack Usage =       1160 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -428,10 +428,10 @@ Global Symbols
 <P><STRONG><a name="[76]"></a>__aeabi_dadd</STRONG> (Thumb, 322 bytes, Stack size 48 bytes, dadd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
-<BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
-<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
+<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CalcAvgWordFromIndex
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
@@ -521,9 +521,9 @@ Global Symbols
 <P><STRONG><a name="[78]"></a>_double_epilogue</STRONG> (Thumb, 156 bytes, Stack size 32 bytes, depilogue.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = _double_epilogue &rArr; _double_round
 </UL>
-<BR>[Calls]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
@@ -1161,10 +1161,10 @@ Global Symbols
 <P><STRONG><a name="[7]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(.text.DebugMon_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[2e6]"></a>DecToBcd</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, complier_lib.o(.text.DecToBcd))
+<P><STRONG><a name="[2e5]"></a>DecToBcd</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, complier_lib.o(.text.DecToBcd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = DecToBcd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
 <P><STRONG><a name="[f9]"></a>DelayLib_ms</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, delay_lib.o(.text.DelayLib_ms))
@@ -1221,8 +1221,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DelayNLib_us
 </UL>
-<BR>[Address Reference Count : 4]<UL><LI> main.o(.text.Sys_Init)
-<LI> i2c_cfg.o(.text.I2C_MSW_Init)
+<BR>[Address Reference Count : 4]<UL><LI> i2c_cfg.o(.text.I2C_MSW_Init)
+<LI> main.o(.text.Sys_Init)
 <LI> isp_cfg.o(.text.ISP_Init)
 <LI> jtag_cfg.o(.text.JTAG_Init)
 </UL>
@@ -3943,7 +3943,7 @@ Global Symbols
 <LI><a href="#[260]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_DisableInitMode
 <LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_DATE_Config
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
 <P><STRONG><a name="[25e]"></a>LL_RTC_EnterInitMode</STRONG> (Thumb, 130 bytes, Stack size 32 bytes, stm32f4xx_ll_rtc.o(.text.LL_RTC_EnterInitMode))
@@ -3969,7 +3969,7 @@ Global Symbols
 <LI><a href="#[25d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_DisableWriteProtection
 <LI><a href="#[260]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_DisableInitMode
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
 <P><STRONG><a name="[26b]"></a>LL_RTC_TIME_Init</STRONG> (Thumb, 288 bytes, Stack size 56 bytes, stm32f4xx_ll_rtc.o(.text.LL_RTC_TIME_Init))
@@ -3984,7 +3984,7 @@ Global Symbols
 <LI><a href="#[25d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_DisableWriteProtection
 <LI><a href="#[260]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_DisableInitMode
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
 <P><STRONG><a name="[262]"></a>LL_RTC_WaitForSynchro</STRONG> (Thumb, 218 bytes, Stack size 32 bytes, stm32f4xx_ll_rtc.o(.text.LL_RTC_WaitForSynchro))
@@ -4584,43 +4584,34 @@ Global Symbols
 <P><STRONG><a name="[6]"></a>SVC_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(.text.SVC_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[2d7]"></a>SysRTCLib_HardRTCInit</STRONG> (Thumb, 42 bytes, Stack size 24 bytes, rtc_lib.o(.text.SysRTCLib_HardRTCInit))
-<BR><BR>[Stack]<UL><LI>Max Depth = 188<LI>Call Chain = SysRTCLib_HardRTCInit &rArr; SysRTC_HardRTCInit &rArr; LL_RTC_TIME_Init &rArr; LL_RTC_WaitForSynchro &rArr; LL_RTC_IsActiveFlag_RS
+<P><STRONG><a name="[2d7]"></a>SysRTCLib_RTCInit</STRONG> (Thumb, 56 bytes, Stack size 32 bytes, rtc_lib.o(.text.SysRTCLib_RTCInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 220<LI>Call Chain = SysRTCLib_RTCInit &rArr; SysRTC_RTCInit &rArr; SysRTC_HardRTCInit &rArr; LL_RTC_TIME_Init &rArr; LL_RTC_WaitForSynchro &rArr; LL_RTC_IsActiveFlag_RS
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<BR>[Calls]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_RTCInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCTask_RTCInit
-</UL>
-
-<P><STRONG><a name="[2d9]"></a>SysRTCLib_SoftRTCInit</STRONG> (Thumb, 42 bytes, Stack size 24 bytes, rtc_lib.o(.text.SysRTCLib_SoftRTCInit))
-<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = SysRTCLib_SoftRTCInit &rArr; SysRTC_SoftRTCInit &rArr; SysRTC_CalcWeekDay
-</UL>
-<BR>[Calls]<UL><LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCInit
-</UL>
-<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCTask_RTCInit
+<BR>[Called By]<UL><LI><a href="#[2db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCTask_RTCInit
 </UL>
 
-<P><STRONG><a name="[2db]"></a>SysRTCLib_SoftRTCTask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, rtc_lib.o(.text.SysRTCLib_SoftRTCTask))
+<P><STRONG><a name="[2d9]"></a>SysRTCLib_SoftRTCTask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, rtc_lib.o(.text.SysRTCLib_SoftRTCTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = SysRTCLib_SoftRTCTask &rArr; SysRTC_SoftRTCTask &rArr; SysRTC_WatchTask &rArr; SysRTC_RealTimeWatch
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCTask
+<BR>[Calls]<UL><LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCTask
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCTask_SoftRTCTask
+<BR>[Called By]<UL><LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCTask_SoftRTCTask
 </UL>
 
-<P><STRONG><a name="[2dd]"></a>SysRTCTask_RTCInit</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, rtc_task.o(.text.SysRTCTask_RTCInit))
-<BR><BR>[Stack]<UL><LI>Max Depth = 204<LI>Call Chain = SysRTCTask_RTCInit &rArr; SysRTCLib_HardRTCInit &rArr; SysRTC_HardRTCInit &rArr; LL_RTC_TIME_Init &rArr; LL_RTC_WaitForSynchro &rArr; LL_RTC_IsActiveFlag_RS
+<P><STRONG><a name="[2db]"></a>SysRTCTask_RTCInit</STRONG> (Thumb, 56 bytes, Stack size 32 bytes, rtc_task.o(.text.SysRTCTask_RTCInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 252<LI>Call Chain = SysRTCTask_RTCInit &rArr; SysRTCLib_RTCInit &rArr; SysRTC_RTCInit &rArr; SysRTC_HardRTCInit &rArr; LL_RTC_TIME_Init &rArr; LL_RTC_WaitForSynchro &rArr; LL_RTC_IsActiveFlag_RS
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_SoftRTCInit
-<LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_HardRTCInit
+<BR>[Calls]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_RTCInit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[307]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sys_Init
 </UL>
 
-<P><STRONG><a name="[2de]"></a>SysRTCTask_SoftRTCTask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, rtc_task.o(.text.SysRTCTask_SoftRTCTask))
+<P><STRONG><a name="[2dc]"></a>SysRTCTask_SoftRTCTask</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, rtc_task.o(.text.SysRTCTask_SoftRTCTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = SysRTCTask_SoftRTCTask &rArr; SysRTCLib_SoftRTCTask &rArr; SysRTC_SoftRTCTask &rArr; SysRTC_WatchTask &rArr; SysRTC_RealTimeWatch
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_SoftRTCTask
+<BR>[Calls]<UL><LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_SoftRTCTask
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -4628,29 +4619,38 @@ Global Symbols
 <P><STRONG><a name="[2ea]"></a>SysRTC_CalcWeekDay</STRONG> (Thumb, 272 bytes, Stack size 28 bytes, rtc_cfg.o(.text.SysRTC_CalcWeekDay))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = SysRTC_CalcWeekDay
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCInit
+<BR>[Called By]<UL><LI><a href="#[2e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCInit
 </UL>
 
-<P><STRONG><a name="[2d8]"></a>SysRTC_HardRTCInit</STRONG> (Thumb, 404 bytes, Stack size 72 bytes, rtc_cfg.o(.text.SysRTC_HardRTCInit))
+<P><STRONG><a name="[2dd]"></a>SysRTC_HardRTCInit</STRONG> (Thumb, 410 bytes, Stack size 72 bytes, rtc_cfg.o(.text.SysRTC_HardRTCInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 164<LI>Call Chain = SysRTC_HardRTCInit &rArr; LL_RTC_TIME_Init &rArr; LL_RTC_WaitForSynchro &rArr; LL_RTC_IsActiveFlag_RS
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecToBcd
+<BR>[Calls]<UL><LI><a href="#[2e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecToBcd
 <LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_TIME_Init
 <LI><a href="#[267]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_Init
 <LI><a href="#[25c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_DATE_Init
-<LI><a href="#[2e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_BAK_SetRegister
-<LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_BAK_GetRegister
-<LI><a href="#[2e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_SetRTCClockSource
-<LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_ReleaseBackupDomainReset
-<LI><a href="#[2e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_LSE_IsReady
-<LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_LSE_Enable
-<LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_ForceBackupDomainReset
-<LI><a href="#[2e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_EnableRTC
+<LI><a href="#[2e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_BAK_SetRegister
+<LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RTC_BAK_GetRegister
+<LI><a href="#[2e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_SetRTCClockSource
+<LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_ReleaseBackupDomainReset
+<LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_LSE_IsReady
+<LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_LSE_Enable
+<LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_ForceBackupDomainReset
+<LI><a href="#[2e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_RCC_EnableRTC
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_HardRTCInit
+<BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_RTCInit
 </UL>
 
-<P><STRONG><a name="[2e8]"></a>SysRTC_RealTimeWatch</STRONG> (Thumb, 142 bytes, Stack size 16 bytes, rtc_cfg.o(.text.SysRTC_RealTimeWatch))
+<P><STRONG><a name="[2d8]"></a>SysRTC_RTCInit</STRONG> (Thumb, 132 bytes, Stack size 24 bytes, rtc_cfg.o(.text.SysRTC_RTCInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 188<LI>Call Chain = SysRTC_RTCInit &rArr; SysRTC_HardRTCInit &rArr; LL_RTC_TIME_Init &rArr; LL_RTC_WaitForSynchro &rArr; LL_RTC_IsActiveFlag_RS
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<LI><a href="#[2e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCInit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_RTCInit
+</UL>
+
+<P><STRONG><a name="[2e8]"></a>SysRTC_RealTimeWatch</STRONG> (Thumb, 140 bytes, Stack size 16 bytes, rtc_cfg.o(.text.SysRTC_RealTimeWatch))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = SysRTC_RealTimeWatch
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_irq_disable
@@ -4668,24 +4668,24 @@ Global Symbols
 <P><STRONG><a name="[2eb]"></a>SysRTC_SoftCalcRTCTask</STRONG> (Thumb, 492 bytes, Stack size 20 bytes, rtc_cfg.o(.text.SysRTC_SoftCalcRTCTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = SysRTC_SoftCalcRTCTask
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCTask
+<BR>[Called By]<UL><LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCTask
 </UL>
 
-<P><STRONG><a name="[2da]"></a>SysRTC_SoftRTCInit</STRONG> (Thumb, 228 bytes, Stack size 32 bytes, rtc_cfg.o(.text.SysRTC_SoftRTCInit))
+<P><STRONG><a name="[2e7]"></a>SysRTC_SoftRTCInit</STRONG> (Thumb, 234 bytes, Stack size 32 bytes, rtc_cfg.o(.text.SysRTC_SoftRTCInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = SysRTC_SoftRTCInit &rArr; SysRTC_CalcWeekDay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_CalcWeekDay
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_SoftRTCInit
+<BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_RTCInit
 </UL>
 
-<P><STRONG><a name="[2dc]"></a>SysRTC_SoftRTCTask</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, rtc_cfg.o(.text.SysRTC_SoftRTCTask))
+<P><STRONG><a name="[2da]"></a>SysRTC_SoftRTCTask</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, rtc_cfg.o(.text.SysRTC_SoftRTCTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = SysRTC_SoftRTCTask &rArr; SysRTC_WatchTask &rArr; SysRTC_RealTimeWatch
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_WatchTask
 <LI><a href="#[2eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftCalcRTCTask
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_SoftRTCTask
+<BR>[Called By]<UL><LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCLib_SoftRTCTask
 </UL>
 
 <P><STRONG><a name="[2ec]"></a>SysRTC_WatchTask</STRONG> (Thumb, 50 bytes, Stack size 16 bytes, rtc_cfg.o(.text.SysRTC_WatchTask))
@@ -4694,7 +4694,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[2ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_RefreshWatch
 <LI><a href="#[2e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_RealTimeWatch
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCTask
+<BR>[Called By]<UL><LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_SoftRTCTask
 </UL>
 
 <P><STRONG><a name="[2ee]"></a>SysTickLib_1msIncTick</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, systick_lib.o(.text.SysTickLib_1msIncTick))
@@ -4785,8 +4785,8 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
-<BR>[Address Reference Count : 4]<UL><LI> main.o(.text.Sys_Init)
-<LI> i2c_cfg.o(.text.I2C_MSW_Init)
+<BR>[Address Reference Count : 4]<UL><LI> i2c_cfg.o(.text.I2C_MSW_Init)
+<LI> main.o(.text.Sys_Init)
 <LI> isp_cfg.o(.text.ISP_Init)
 <LI> jtag_cfg.o(.text.JTAG_Init)
 </UL>
@@ -4905,8 +4905,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickLib_Init
 </UL>
 
-<P><STRONG><a name="[307]"></a>Sys_Init</STRONG> (Thumb, 312 bytes, Stack size 80 bytes, main.o(.text.Sys_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 584<LI>Call Chain = Sys_Init &rArr; USARTTask_Init &rArr; USARTLib_Init &rArr; USART_Init &rArr; USART1_Init &rArr; USART1_ConfigInit &rArr; LL_USART_Init &rArr; LL_USART_SetBaudRate &rArr; __aeabi_uldivmod
+<P><STRONG><a name="[307]"></a>Sys_Init</STRONG> (Thumb, 314 bytes, Stack size 88 bytes, main.o(.text.Sys_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 592<LI>Call Chain = Sys_Init &rArr; USARTTask_Init &rArr; USARTLib_Init &rArr; USART_Init &rArr; USART1_Init &rArr; USART1_ConfigInit &rArr; LL_USART_Init &rArr; LL_USART_SetBaudRate &rArr; __aeabi_uldivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADCTask_ADCTask_START
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetOutputPin
@@ -4918,7 +4918,7 @@ Global Symbols
 <LI><a href="#[309]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerTask_Init
 <LI><a href="#[308]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[2fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickTask_Init
-<LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCTask_RTCInit
+<LI><a href="#[2db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCTask_RTCInit
 <LI><a href="#[2a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RandomTask_Init
 <LI><a href="#[28d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MyMemInit
@@ -5468,7 +5468,7 @@ Global Symbols
 <LI><a href="#[356]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_FillMode_AddByte
 </UL>
 
-<P><STRONG><a name="[359]"></a>USART_FillMode_Init</STRONG> (Thumb, 218 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_FillMode_Init))
+<P><STRONG><a name="[359]"></a>USART_FillMode_Init</STRONG> (Thumb, 234 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_FillMode_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = USART_FillMode_Init &rArr; IWDGTask_Reset &rArr; IWDGLib_Reset &rArr; IWDG_Reset &rArr; LL_IWDG_ReloadCounter
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IWDGTask_Reset
@@ -5483,7 +5483,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[35a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_FillMode_SetResultFlag
 </UL>
 
-<P><STRONG><a name="[35d]"></a>USART_FillMode_WriteSTART</STRONG> (Thumb, 290 bytes, Stack size 40 bytes, usart_cfg.o(.text.USART_FillMode_WriteSTART))
+<P><STRONG><a name="[35d]"></a>USART_FillMode_WriteSTART</STRONG> (Thumb, 306 bytes, Stack size 40 bytes, usart_cfg.o(.text.USART_FillMode_WriteSTART))
 <BR><BR>[Stack]<UL><LI>Max Depth = 188<LI>Call Chain = USART_FillMode_WriteSTART &rArr; USART_CRCTask_Write &rArr; CRCTask_CRC32 &rArr; CRCLib_CRC32 &rArr; CRC_CRC32_CRC &rArr; CRC_CRC32_HWCRC &rArr; CRC_CRC32_HWReSet &rArr; LL_CRC_ResetCRCCalculationUnit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IWDGTask_Reset
@@ -5654,7 +5654,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[399]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITPrintf_TCTask
 </UL>
 
-<P><STRONG><a name="[3a8]"></a>USART_PrintfSuspend</STRONG> (Thumb, 198 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_PrintfSuspend))
+<P><STRONG><a name="[3a8]"></a>USART_PrintfSuspend</STRONG> (Thumb, 214 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_PrintfSuspend))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = USART_PrintfSuspend &rArr; USART_485GPIOInit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IWDGTask_Reset
@@ -5761,7 +5761,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[36a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USARTLib_Write_DMA_IRQTask
 </UL>
 
-<P><STRONG><a name="[379]"></a>USART_Write_DMA_RESTART</STRONG> (Thumb, 48 bytes, Stack size 24 bytes, usart_cfg.o(.text.USART_Write_DMA_RESTART))
+<P><STRONG><a name="[379]"></a>USART_Write_DMA_RESTART</STRONG> (Thumb, 56 bytes, Stack size 24 bytes, usart_cfg.o(.text.USART_Write_DMA_RESTART))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = USART_Write_DMA_RESTART &rArr; LL_DMA_SetDataLength
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_DMA_SetDataLength
@@ -5914,7 +5914,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickTask_GetTick
 <LI><a href="#[323]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Task_Manage
 <LI><a href="#[307]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sys_Init
-<LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCTask_SoftRTCTask
+<LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTCTask_SoftRTCTask
 <LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IWDGTask_Reset
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
@@ -7129,42 +7129,42 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[2a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Random_Init
 </UL>
 
-<P><STRONG><a name="[2e5]"></a>LL_RCC_EnableRTC</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_EnableRTC))
-<BR><BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<P><STRONG><a name="[2e4]"></a>LL_RCC_EnableRTC</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_EnableRTC))
+<BR><BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
-<P><STRONG><a name="[2e0]"></a>LL_RCC_ForceBackupDomainReset</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_ForceBackupDomainReset))
-<BR><BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<P><STRONG><a name="[2df]"></a>LL_RCC_ForceBackupDomainReset</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_ForceBackupDomainReset))
+<BR><BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
-<P><STRONG><a name="[2e2]"></a>LL_RCC_LSE_Enable</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_LSE_Enable))
-<BR><BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<P><STRONG><a name="[2e1]"></a>LL_RCC_LSE_Enable</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_LSE_Enable))
+<BR><BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
-<P><STRONG><a name="[2e3]"></a>LL_RCC_LSE_IsReady</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_LSE_IsReady))
-<BR><BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<P><STRONG><a name="[2e2]"></a>LL_RCC_LSE_IsReady</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_LSE_IsReady))
+<BR><BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
-<P><STRONG><a name="[2e1]"></a>LL_RCC_ReleaseBackupDomainReset</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_ReleaseBackupDomainReset))
-<BR><BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<P><STRONG><a name="[2e0]"></a>LL_RCC_ReleaseBackupDomainReset</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rtc_cfg.o(.text.LL_RCC_ReleaseBackupDomainReset))
+<BR><BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
-<P><STRONG><a name="[2e4]"></a>LL_RCC_SetRTCClockSource</STRONG> (Thumb, 28 bytes, Stack size 4 bytes, rtc_cfg.o(.text.LL_RCC_SetRTCClockSource))
+<P><STRONG><a name="[2e3]"></a>LL_RCC_SetRTCClockSource</STRONG> (Thumb, 28 bytes, Stack size 4 bytes, rtc_cfg.o(.text.LL_RCC_SetRTCClockSource))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = LL_RCC_SetRTCClockSource
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
-<P><STRONG><a name="[2df]"></a>LL_RTC_BAK_GetRegister</STRONG> (Thumb, 34 bytes, Stack size 12 bytes, rtc_cfg.o(.text.LL_RTC_BAK_GetRegister))
+<P><STRONG><a name="[2de]"></a>LL_RTC_BAK_GetRegister</STRONG> (Thumb, 34 bytes, Stack size 12 bytes, rtc_cfg.o(.text.LL_RTC_BAK_GetRegister))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = LL_RTC_BAK_GetRegister
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
-<P><STRONG><a name="[2e7]"></a>LL_RTC_BAK_SetRegister</STRONG> (Thumb, 38 bytes, Stack size 16 bytes, rtc_cfg.o(.text.LL_RTC_BAK_SetRegister))
+<P><STRONG><a name="[2e6]"></a>LL_RTC_BAK_SetRegister</STRONG> (Thumb, 38 bytes, Stack size 16 bytes, rtc_cfg.o(.text.LL_RTC_BAK_SetRegister))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LL_RTC_BAK_SetRegister
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
+<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysRTC_HardRTCInit
 </UL>
 
 <P><STRONG><a name="[2e9]"></a>__NVIC_SystemReset</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, rtc_cfg.o(.text.__NVIC_SystemReset))
@@ -7728,11 +7728,11 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[3be]"></a>_printf_core</STRONG> (Thumb, 1744 bytes, Stack size 136 bytes, printfa.o(i._printf_core), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[3c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
-<LI><a href="#[3c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding
+<BR><BR>[Calls]<UL><LI><a href="#[3c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding
 <LI><a href="#[3c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding
 <LI><a href="#[3bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[3c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0vsnprintf
 </UL>
