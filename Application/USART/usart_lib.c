@@ -351,9 +351,21 @@ UINT8_T USARTLib_CRCTask_Write(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTLib_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
+UINT8_T USARTLib_FillMode_WriteByteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
 {
-	return USART_FillMode_WriteSTART(USARTx, isNeedID);
+	return USART_FillMode_WriteByteSTART(USARTx, isNeedID);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T  USARTLib_FillMode_WriteArraySTART(USART_HandlerType* USARTx, UINT8_T* pArrayVal, UINT16_T length)
+{
+	return USART_FillMode_WriteArraySTART(USARTx,pArrayVal,length);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -118,6 +118,9 @@ stm32f407vet6project/task_manage.o: \
   ..\Application\MAX961x\max961x_task.h \
   ..\Application\MAX961x\max961x_lib.h \
   ..\Application\MAX961x\max961x_cfg.h \
+  ..\Application\MPU6050\mpu6050_task.h \
+  ..\Application\MPU6050\mpu6050_lib.h \
+  ..\Application\MPU6050\mpu6050_cfg.h \
   ..\Application\NRF2401\nrf2401_task.h \
   ..\Application\NRF2401\nrf2401_lib.h \
   ..\Application\NRF2401\nrf2401_cfg.h ..\Application\OLED\oled_task.h \

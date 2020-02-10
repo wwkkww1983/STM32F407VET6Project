@@ -112,7 +112,7 @@ extern "C" {
 		UINT16_T			msgPageWordIndex;																																		//---缓存区的序号
 		UINT16_T			msgPluseWidth;																																			//---非编程状态下TCK的脉冲宽度
 		UINT16_T			msgIntervalTime;																																		//---轮询时间间隔,单位是ms
-		UINT32_T			msgRecordTime;																																			//---记录的时间参数
+		UINT32_T			msgRecordTick;																																			//---记录的时间参数
 		void(*msgDelayus)(UINT32_T delay);																																			//---us延时参数
 		void(*msgDelayms)(UINT32_T delay);																																			//---ms延时参数
 		UINT32_T(*msgTimeTick)(void);																																				//---用于超时计数

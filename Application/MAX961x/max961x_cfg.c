@@ -234,7 +234,7 @@ UINT8_T MAX961X_HWI2C_BurstWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
+UINT8_T MAX961X_I2C_WriteSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
 {
 	if (MAX961x->msgI2C.msgHwMode == 1)
 	{
@@ -253,7 +253,7 @@ UINT8_T MAX961X_I2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_BurstWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
+UINT8_T MAX961X_I2C_WriteBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
 	if (MAX961x->msgI2C.msgHwMode == 1)
 	{
@@ -408,7 +408,7 @@ UINT8_T MAX961X_HWI2C_BurstReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T MAX961X_I2C_ReadSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal)
 {
 	if (MAX961x->msgI2C.msgHwMode==1)
 	{
@@ -427,7 +427,7 @@ UINT8_T MAX961X_I2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_BurstReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
+UINT8_T MAX961X_I2C_ReadBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
 	if (MAX961x->msgI2C.msgHwMode == 1)
 	{
@@ -449,7 +449,7 @@ UINT8_T MAX961X_I2C_BurstReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UIN
 UINT8_T MAX961X_I2C_CheckDevice(MAX961X_HandlerType* MAX961x)
 {
 	UINT8_T _return = 0;
-	MAX961X_I2C_SingleReadReg(MAX961x, MAX961X_REG_TEMP_DATA_MSB_ADDR, &_return);
+	MAX961X_I2C_ReadSingle(MAX961x, MAX961X_REG_TEMP_DATA_MSB_ADDR, &_return);
 	if (_return==0x80)
 	{
 		MAX961x->msgID=_return;
@@ -469,16 +469,16 @@ UINT8_T MAX961X_I2C_CheckDevice(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_GetRSVoltage(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_ReadRSVoltage(MAX961X_HandlerType* MAX961x)
 {
 	UINT8_T _return = OK_0 ;
 	UINT8_T adcTemp[2] = {0};
 	//---准备读取 输入电压
-	_return = MAX961X_I2C_SingleWriteReg(MAX961x, MAX961X_REG_CONTROL_REG1, MAX961X_READ_CHANNEL_INPUT_VOLTAGE);
+	_return = MAX961X_I2C_WriteSingle(MAX961x, MAX961X_REG_CONTROL_REG1, MAX961X_READ_CHANNEL_INPUT_VOLTAGE);
 	if (_return==OK_0)
 	{
 		//---读取输入电压的值
-		_return = MAX961X_I2C_BurstReadReg(MAX961x, MAX961X_REG_RS_DATA_MSB_ADDR, 2, adcTemp);
+		_return = MAX961X_I2C_ReadBulk(MAX961x, MAX961X_REG_RS_DATA_MSB_ADDR, 2, adcTemp);
 		//---计算采集的数据量
 		MAX961x->msgRSVoltagemV = adcTemp[0];
 		MAX961x->msgRSVoltagemV =(MAX961x->msgRSVoltagemV*256)+ adcTemp[1];
@@ -496,19 +496,19 @@ UINT8_T MAX961X_I2C_GetRSVoltage(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_GetRSCurrent(MAX961X_HandlerType* MAX961x,UINT8_T currentGain)
+UINT8_T MAX961X_I2C_ReadRSCurrent(MAX961X_HandlerType* MAX961x,UINT8_T currentGain)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T gain = 1;
 	UINT8_T adcTemp[2] = { 0 };
 	currentGain &= 0x03;
 	//---准备读取负载电流
-	_return = MAX961X_I2C_SingleWriteReg(MAX961x, MAX961X_REG_CONTROL_REG1, currentGain);
+	_return = MAX961X_I2C_WriteSingle(MAX961x, MAX961X_REG_CONTROL_REG1, currentGain);
 	if (_return == OK_0)
 	{
 		gain <<= currentGain;
 		//---读取输入电压的值
-		_return = MAX961X_I2C_BurstReadReg(MAX961x, MAX961X_REG_CSA_DATA_MSB_ADDR, 2, adcTemp);
+		_return = MAX961X_I2C_ReadBulk(MAX961x, MAX961X_REG_CSA_DATA_MSB_ADDR, 2, adcTemp);
 		//---计算采集的数据量
 		MAX961x->msgRSCurrentmA = adcTemp[0];
 		MAX961x->msgRSCurrentmA = (MAX961x->msgRSCurrentmA*256) + adcTemp[1];
@@ -531,16 +531,16 @@ UINT8_T MAX961X_I2C_GetRSCurrent(MAX961X_HandlerType* MAX961x,UINT8_T currentGai
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_GetOutVoltage(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_ReadOutVoltage(MAX961X_HandlerType* MAX961x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T adcTemp[2] = { 0 };
 	//---准备读取 输入电压
-	_return = MAX961X_I2C_SingleWriteReg(MAX961x, MAX961X_REG_CONTROL_REG1, MAX961X_READ_CHANNEL_OUTPUT_VOLTAGE);
+	_return = MAX961X_I2C_WriteSingle(MAX961x, MAX961X_REG_CONTROL_REG1, MAX961X_READ_CHANNEL_OUTPUT_VOLTAGE);
 	if (_return == OK_0)
 	{
 		//---读取OUT端的输出电压的值
-		_return = MAX961X_I2C_BurstReadReg(MAX961x, MAX961X_REG_OUT_DATA_MSB_ADDR, 2, adcTemp);
+		_return = MAX961X_I2C_ReadBulk(MAX961x, MAX961X_REG_OUT_DATA_MSB_ADDR, 2, adcTemp);
 		//---计算采集的数据量,数据格式是左对齐，低四位无效
 		MAX961x->msgOutputVoltagemV = adcTemp[0];
 		MAX961x->msgOutputVoltagemV = (MAX961x->msgOutputVoltagemV*256) + adcTemp[1];
@@ -558,16 +558,16 @@ UINT8_T MAX961X_I2C_GetOutVoltage(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_GetSetVoltage(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_ReadSetVoltage(MAX961X_HandlerType* MAX961x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T adcTemp[2] = { 0 };
 	//---准备读取 输入电压
-	_return = MAX961X_I2C_SingleWriteReg(MAX961x, MAX961X_REG_CONTROL_REG1, MAX961X_READ_CHANNEL_SET_VOLTAGE);
+	_return = MAX961X_I2C_WriteSingle(MAX961x, MAX961X_REG_CONTROL_REG1, MAX961X_READ_CHANNEL_SET_VOLTAGE);
 	if (_return == OK_0)
 	{
 		//---读取SET端的输出电压的值
-		_return = MAX961X_I2C_BurstReadReg(MAX961x, MAX961X_REG_SET_DATA_MSB_ADDR, 2, adcTemp);
+		_return = MAX961X_I2C_ReadBulk(MAX961x, MAX961X_REG_SET_DATA_MSB_ADDR, 2, adcTemp);
 		//---计算采集的数据量
 		MAX961x->msgSetVoltagemV = adcTemp[0];
 		MAX961x->msgSetVoltagemV = (MAX961x->msgSetVoltagemV*256) + adcTemp[1];
@@ -585,16 +585,16 @@ UINT8_T MAX961X_I2C_GetSetVoltage(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_GetTemperature(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_ReadTemp(MAX961X_HandlerType* MAX961x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T adcTemp[2] = { 0 };
 	//---准备读取 内部温度
-	_return = MAX961X_I2C_SingleWriteReg(MAX961x, MAX961X_REG_CONTROL_REG1, MAX961X_READ_CHANNEL_TEMPERATURE);
+	_return = MAX961X_I2C_WriteSingle(MAX961x, MAX961X_REG_CONTROL_REG1, MAX961X_READ_CHANNEL_TEMPERATURE);
 	if (_return == OK_0)
 	{
 		//---读取内部温度
-		_return = MAX961X_I2C_BurstReadReg(MAX961x, MAX961X_REG_TEMP_DATA_MSB_ADDR, 2, adcTemp);
+		_return = MAX961X_I2C_ReadBulk(MAX961x, MAX961X_REG_TEMP_DATA_MSB_ADDR, 2, adcTemp);
 		//---计算采集的数据量
 		MAX961x->msgTemperatureC = adcTemp[0];
 		MAX961x->msgTemperatureC = (MAX961x->msgTemperatureC*256) + adcTemp[1];
@@ -619,13 +619,13 @@ UINT8_T MAX961X_I2C_GetTemperature(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_GetAll(MAX961X_HandlerType* MAX961x, UINT8_T currentGain)
+UINT8_T MAX961X_I2C_ReadAll(MAX961X_HandlerType* MAX961x, UINT8_T currentGain)
 {
 	UINT8_T _return = OK_0;
-	_return = MAX961X_I2C_GetRSVoltage( MAX961x);
-	_return|= MAX961X_I2C_GetRSCurrent( MAX961x,  currentGain);
-	_return|= MAX961X_I2C_GetOutVoltage( MAX961x);
-	_return|= MAX961X_I2C_GetSetVoltage( MAX961x);
-	_return|=MAX961X_I2C_GetTemperature( MAX961x);
+	_return = MAX961X_I2C_ReadRSVoltage( MAX961x);
+	_return|= MAX961X_I2C_ReadRSCurrent( MAX961x,  currentGain);
+	_return|= MAX961X_I2C_ReadOutVoltage( MAX961x);
+	_return|= MAX961X_I2C_ReadSetVoltage( MAX961x);
+	_return|=MAX961X_I2C_ReadTemp( MAX961x);
 	return _return;
 }

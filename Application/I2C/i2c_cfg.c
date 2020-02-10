@@ -16,7 +16,6 @@ UINT8_T I2C_MSW_Init(I2C_HandlerType *I2Cx, void(*pFuncDelayus)(UINT32_T delay),
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化
-	//GPIO_InitStruct.Pin = I2Cx->msgSclBit;						//---对应的GPIO的引脚
 	GPIO_InitStruct.Pin = I2Cx->msgSCL.msgBit;					//---对应的GPIO的引脚
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;						//---配置状态为输出模式
 	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;				//---GPIO的速度---低速设备
@@ -32,23 +31,10 @@ UINT8_T I2C_MSW_Init(I2C_HandlerType *I2Cx, void(*pFuncDelayus)(UINT32_T delay),
 	GPIO_InitStruct.Pin = I2Cx->msgSDA.msgBit;
 	LL_GPIO_Init(I2Cx->msgSDA.msgPort, &GPIO_InitStruct);
 	GPIO_OUT_1(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
-	//---注册延时函数
-	if (pFuncDelayus != NULL)
-	{
-		I2Cx->msgDelayus = pFuncDelayus;
-	}
-	else
-	{
-		I2Cx->msgDelayus = DelayTask_us;
-	}
-	if (pFuncTimerTick!=NULL)
-	{
-		I2Cx->msgTimeTick= pFuncTimerTick;
-	}
-	else
-	{
-		I2Cx->msgTimeTick = SysTickTask_GetTick;
-	}
+	//---us延时函数
+	I2Cx->msgDelayus = ((pFuncDelayus != NULL) ? pFuncDelayus : DelayTask_us);
+	//---注册滴答函数
+	I2Cx->msgTimeTick = ((pFuncTimerTick != NULL) ? pFuncTimerTick : SysTickTask_GetTick);
 	return OK_0;
 }
 
@@ -264,7 +250,7 @@ UINT8_T I2C_MSW_SendBit(I2C_HandlerType *I2Cx, UINT8_T bitVal)
 	//---一个时钟脉冲
 	GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);	
 	I2Cx->msgDelayus(I2Cx->msgPluseWidth);
-	DELAY_NOP_COUNT(2);
+	//DELAY_NOP_COUNT(2);
 	GPIO_OUT_0(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);	
 	I2Cx->msgDelayus(I2Cx->msgPluseWidth);
 	return OK_0;
@@ -374,7 +360,7 @@ UINT8_T I2C_MSW_ReadBit(I2C_HandlerType *I2Cx)
 	//---时钟正脉冲
 	GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
 	I2Cx->msgDelayus(I2Cx->msgPluseWidth);
-	DELAY_NOP_COUNT(4);
+	//DELAY_NOP_COUNT(4);
 	//---读取数据位
 	_return= ((GPIO_GET_STATE(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit) != 0x00) ? 1 : 0);
 	//---时钟负脉冲
@@ -607,7 +593,7 @@ UINT8_T I2C_Clock(I2C_HandlerType* I2Cx, UINT8_T isEnable)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, UINT32_T(*pFuncTimerTick)(void))
 {
 	//---使能GPIO的时钟
 	GPIOTask_Clock(I2Cx->msgSCL.msgPort, PERIPHERAL_CLOCK_ENABLE);
@@ -615,14 +601,13 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx)
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化
-	//GPIO_InitStruct.Pin = I2Cx->msgSclBit;														//---对应的GPIO的引脚
-	GPIO_InitStruct.Pin = I2Cx->msgSCL.msgBit;														//---对应的GPIO的引脚
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;													//---配置状态为输出模式
-	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;												//---GPIO的速度---低速设备
-	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;											//---输出模式---开漏输出
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;															//---上拉
+	GPIO_InitStruct.Pin = I2Cx->msgSCL.msgBit;																			//---对应的GPIO的引脚
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;																		//---配置状态为输出模式
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;																	//---GPIO的速度---低速设备
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;																//---输出模式---开漏输出
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;																				//---上拉
 #ifndef USE_MCU_STM32F1
-	GPIO_InitStruct.Alternate = I2Cx->msgGPIOAlternate;												//---端口复用模式
+	GPIO_InitStruct.Alternate = I2Cx->msgGPIOAlternate;																	//---端口复用模式
 #endif
 	//---SCL的初始化
 	LL_GPIO_Init(I2Cx->msgSCL.msgPort, &GPIO_InitStruct);
@@ -638,18 +623,97 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx)
 	LL_I2C_DeInit(I2Cx->msgI2Cx);
 	//---初始化I2C
 	LL_I2C_InitTypeDef I2C_InitStruct={0};
-	I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;												//---工作模式
-	I2C_InitStruct.ClockSpeed = 100000;																//---SCL时钟频率
-	I2C_InitStruct.DutyCycle = LL_I2C_DUTYCYCLE_2;													//---时钟占空比
-	I2C_InitStruct.OwnAddress1 = 0;																	//---自身的I2C设备地址
-	I2C_InitStruct.TypeAcknowledge = LL_I2C_ACK;													//---使能或者关闭相应(默认一般开启)
-	I2C_InitStruct.OwnAddrSize = LL_I2C_OWNADDRESS1_7BIT;											//---指定地址的长度，7Bit或者10BIt
+	I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;																	//---工作模式
+	I2C_InitStruct.ClockSpeed = I2Cx->msgClockSpeed;																	//---SCL时钟频率
+	I2C_InitStruct.DutyCycle = LL_I2C_DUTYCYCLE_2;																		//---时钟占空比
+	I2C_InitStruct.OwnAddress1 = 0;																						//---自身的I2C设备地址
+	I2C_InitStruct.TypeAcknowledge = LL_I2C_ACK;																		//---使能或者关闭相应(默认一般开启)
+	I2C_InitStruct.OwnAddrSize = LL_I2C_OWNADDRESS1_7BIT;																//---指定地址的长度，7Bit或者10BIt
 	LL_I2C_Init(I2Cx->msgI2Cx, &I2C_InitStruct);
 	//---第二个地址
 	LL_I2C_SetOwnAddress2(I2Cx->msgI2Cx, 0);
 	//---使能I2C
 	LL_I2C_Enable(I2Cx->msgI2Cx);
+	//---注册滴答函数
+	I2Cx->msgTimeTick = ((pFuncTimerTick != NULL) ? pFuncTimerTick : SysTickTask_GetTick);
 	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T I2C_MHW_DeInit(I2C_HandlerType* I2Cx)
+{
+	//---复位I2C
+	LL_I2C_DeInit(I2Cx->msgI2Cx);
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：轮训方式，等待校验标志
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T I2C_MHW_PollMode_WaitFlag(I2C_HandlerType* I2Cx,UINT32_T (*pFuncActiveFlag)(I2C_TypeDef* I2Cx), FlagStatus flagStatus)
+{
+	UINT8_T _return = OK_0;
+	//---获取当前时间节拍
+	UINT32_T nowTime = 0;
+	UINT32_T oldTime = 0;
+	UINT32_T cnt = 0;
+	//---获取当前时间节拍
+	oldTime = ((I2Cx->msgTimeTick != NULL) ? I2Cx->msgTimeTick() : 0);
+	//---检查超时
+	while (1)
+	{
+		//if (LL_I2C_IsActiveFlag_BUSY(I2Cx->msgI2Cx) == RESET)
+		if (pFuncActiveFlag(I2Cx->msgI2Cx) == flagStatus)
+		{
+			break;
+		}
+		//---超时判断
+		if (I2Cx->msgTimeTick != NULL)
+		{
+			//---当前时间
+			nowTime = I2Cx->msgTimeTick();
+			//---判断滴答定时是否发生溢出操作
+			if (nowTime < oldTime)
+			{
+				cnt = (0xFFFFFFFF - oldTime + nowTime);
+			}
+			else
+			{
+				cnt = nowTime - oldTime;
+			}
+			//---判断是否超时
+			if (cnt > 100)
+			{
+				//---发送发生超时错误
+				_return = ERROR_1;
+			}
+		}
+		else
+		{
+			nowTime++;
+			if (nowTime > 100000)
+			{
+				//---发送发生超时错误
+				_return = ERROR_2;
+			}
+		}
+		//---退出循环
+		if (_return != OK_0)
+		{
+			break;
+		}
+	}
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -659,17 +723,32 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_START(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_PollMode_START(I2C_HandlerType* I2Cx)
 {
-	/* 1.保证I2C外设不在使用中. */
-	while (LL_I2C_IsActiveFlag_BUSY(I2Cx->msgI2Cx))
+	//---保证I2C外设不在使用中
+	UINT8_T _return = I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_BUSY,RESET);
+	//---校验外设结果
+	if (_return == OK_0)
 	{
+		//---发送START信号 */
+		LL_I2C_GenerateStartCondition(I2Cx->msgI2Cx);
+		//---验证起始位是否发送
+		_return=I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_SB, SET);
 	}
-	/* 2.发送START信号 */
-	LL_I2C_GenerateStartCondition(I2Cx->msgI2Cx);
-	while (!LL_I2C_IsActiveFlag_SB(I2Cx->msgI2Cx))
-	{
-	}
+	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：发送停止信号
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T I2C_MHW_PollMode_STOP(I2C_HandlerType* I2Cx)
+{
+	//---传送结束条件
+	LL_I2C_GenerateStopCondition(I2Cx->msgI2Cx);
 	return OK_0;
 }
 
@@ -680,11 +759,37 @@ UINT8_T I2C_MHW_START(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_STOP(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_PollMode_ADDR(I2C_HandlerType* I2Cx,UINT8_T isWrite)
 {
-	return OK_0;
+	UINT8_T _return = OK_0;
+	//---发送设备地址
+	LL_I2C_TransmitData8(I2Cx->msgI2Cx, (isWrite==1)?(I2Cx->msgAddr&0xFE):(I2Cx->msgAddr |0x01));
+	//---验证验证地址发送完成
+	_return = I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_ADDR, SET);
+	//---清楚标志位
+	LL_I2C_ClearFlag_ADDR(I2Cx->msgI2Cx);
+	return _return;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T I2C_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK)
+{
+	if (isNACK)
+	{
+		LL_I2C_AcknowledgeNextData(I2Cx->msgI2Cx, LL_I2C_NACK);;
+	}
+	else
+	{
+		LL_I2C_AcknowledgeNextData(I2Cx->msgI2Cx, LL_I2C_ACK);;
+	}
+	return OK_0;
+}
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：发送数据
@@ -692,9 +797,24 @@ UINT8_T I2C_MHW_STOP(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_SendByte(I2C_HandlerType* I2Cx, UINT8_T val)
+UINT8_T I2C_MHW_PollMode_SendByte(I2C_HandlerType* I2Cx, UINT8_T val,UINT8_T isBTF)
 {
-	return OK_0;
+	//---地址位已经置位,通常TXE也会完成,为了谨慎,再查一下
+	UINT8_T _return= I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_TXE, SET);
+	//---校验地址置位
+	if (_return==OK_0)
+	{
+		//---发送数据
+		LL_I2C_TransmitData8(I2Cx->msgI2Cx, val);
+		//---校验发送寄存器空
+		_return = I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_TXE, SET);
+		//---校验数据传输完成
+		if ((_return==OK_0)&&(isBTF!=0))
+		{
+			_return = I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_BTF, SET);
+		}
+	}	
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -704,96 +824,17 @@ UINT8_T I2C_MHW_SendByte(I2C_HandlerType* I2Cx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_ReadByte(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_PollMode_ReadByte(I2C_HandlerType* I2Cx)
 {
-	return OK_0;
+	//---校验接收寄存器不为空
+	UINT8_T _return= I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_RXNE, SET);
+	//---校验读取
+	if (_return==OK_0)
+	{
+		//---数据已读取
+		_return= LL_I2C_ReceiveData8(I2C1);
+	}
+	return _return;
 }
-
-
-void I2C_HW_Write(uint8_t Addr, uint8_t Reg, uint8_t Value)
-{
-	/* 1.保证I2C外设不在使用中. */
-	while (LL_I2C_IsActiveFlag_BUSY(I2C1))
-	{
-	}
-	/* 2.发送START信号 */
-	LL_I2C_GenerateStartCondition(I2C1);
-	while (!LL_I2C_IsActiveFlag_SB(I2C1))
-	{
-	}
-	/* 2.写器件地址 */
-	LL_I2C_TransmitData8(I2C1, Addr);
-	while (!LL_I2C_IsActiveFlag_ADDR(I2C1))
-	{
-	}
-	LL_I2C_ClearFlag_ADDR(I2C1);
-	/* 3.地址位已经置位,通常TXE也会完成,为了谨慎,再查一下. */
-	while (!LL_I2C_IsActiveFlag_TXE(I2C1))
-	{
-	}
-	/* 4.发送器件寄存器地址. */
-	LL_I2C_TransmitData8(I2C1, Reg);
-	while (!LL_I2C_IsActiveFlag_TXE(I2C1))
-	{
-	}
-	/* 5.写入寄存器内容 */
-	LL_I2C_TransmitData8(I2C1, Value);
-	while (!LL_I2C_IsActiveFlag_BTF(I2C1))
-	{
-	}
-	/* 6.传送结束条件. */
-	LL_I2C_GenerateStopCondition(I2C1);
-}
-uint8_t I2C_HW_Read(uint8_t Addr, uint8_t Reg)
-{
-	uint8_t Value = 0x00;
-	/* 1.保证I2C外设不在使用中. */
-	while (LL_I2C_IsActiveFlag_BUSY(I2C1))
-	{
-	}
-	/* 2.发送START信号 */
-	LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
-	LL_I2C_GenerateStartCondition(I2C1);
-	while (!LL_I2C_IsActiveFlag_SB(I2C1))
-	{
-	}
-	/* 2.写器件地址 */
-	LL_I2C_TransmitData8(I2C1, Addr);
-	while (!LL_I2C_IsActiveFlag_ADDR(I2C1))
-	{
-	}
-	LL_I2C_ClearFlag_ADDR(I2C1);
-	/* 3.地址位已经置位,通常TXE也会完成,为了谨慎,再查一下. */
-	while (!LL_I2C_IsActiveFlag_TXE(I2C1))
-	{
-	}
-	/* 4.发送器件寄存器地址. */
-	LL_I2C_TransmitData8(I2C1, Reg);
-	while (!LL_I2C_IsActiveFlag_TXE(I2C1))
-	{
-	}
-	/* 5.提供RESTART信号. */
-	LL_I2C_GenerateStopCondition(I2C1);
-	LL_I2C_GenerateStartCondition(I2C1);
-	while (!LL_I2C_IsActiveFlag_SB(I2C1))
-	{
-	}
-	/* 6.重新发送地址,并附带读标记. */
-	LL_I2C_TransmitData8(I2C1, Addr | 0x01);
-	while (!LL_I2C_IsActiveFlag_ADDR(I2C1))
-	{
-	}
-	/* 7.标记读完就STOP. */
-	LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_NACK);
-	LL_I2C_ClearFlag_ADDR(I2C1);
-	LL_I2C_GenerateStopCondition(I2C1);
-	while (!LL_I2C_IsActiveFlag_RXNE(I2C1))
-	{
-	}
-	/* 8.数据已读取. */
-	Value = LL_I2C_ReceiveData8(I2C1);
-	return Value;
-}
-
 //////////////////////////////////////////////////////////////////////////////
 //<<<===硬件I2C主机---结束

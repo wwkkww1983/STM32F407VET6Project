@@ -130,7 +130,7 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 		DHTxx->msgTimeTick = SysTickTask_GetTick;
 	}
 	//---当前时间
-	DHTxx->msgRecordTime= DHTxx->msgTimeTick();
+	DHTxx->msgRecordTick= DHTxx->msgTimeTick();
 	return OK_0;
 }
 
@@ -315,13 +315,13 @@ UINT8_T DHT11_ReadSTATE(DHT11_HandlerType* DHTxx)
 	}
 	//===计算时间间隔
 	//---判断滴答定时是否发生溢出操作
-	if (DHTxx->msgRecordTime > nowTime)
+	if (DHTxx->msgRecordTick > nowTime)
 	{
-		cnt = (0xFFFFFFFF - nowTime + DHTxx->msgRecordTime);
+		cnt = (0xFFFFFFFF - nowTime + DHTxx->msgRecordTick);
 	}
 	else
 	{
-		cnt = nowTime-DHTxx->msgRecordTime;
+		cnt = nowTime-DHTxx->msgRecordTick;
 	}
 	if (cnt>DHT11_READ_INTERVAL_MS)
 	{
@@ -389,7 +389,7 @@ UINT8_T DHT11_ReadTempHumi(DHT11_HandlerType *DHT11x)
 	//---设置当前状态为忙碌模式
 	DHT11x->msgSTATE= DHT11_READ_BUSY;
 	//---重置时间标签
-	DHT11x->msgRecordTime = DHT11x->msgTimeTick();
+	DHT11x->msgRecordTick = DHT11x->msgTimeTick();
 	return OK_0;
 }
 

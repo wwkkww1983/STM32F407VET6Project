@@ -326,7 +326,7 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 	}
 #endif
 	//---当前时间戳
-	ISPx->msgRecordTime=ISPx->msgSPI.msgTimeTick();
+	ISPx->msgRecordTick=ISPx->msgSPI.msgTimeTick();
 	return OK_0;
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -423,11 +423,11 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 	{
 		case ISP_SCK_KHZ_0_5:
 			ISPx->msgSPI.msgHwMode  = 0;
-			ISPx->msgSPI.msgPluseWidth = 10000;
+			ISPx->msgSPI.msgPluseWidth = 1000;
 			break;
 		case ISP_SCK_KHZ_1:
 			ISPx->msgSPI.msgHwMode  = 0;
-			ISPx->msgSPI.msgPluseWidth = 15000;
+			ISPx->msgSPI.msgPluseWidth = 500;
 			break;
 		case ISP_SCK_KHZ_2:
 			ISPx->msgSPI.msgHwMode  = 0;
@@ -698,7 +698,7 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 			else
 			{
 				//---限制最低时速
-				ISPx->msgSetClok = ISP_SCK_KHZ_0_5;
+				ISPx->msgSetClok = ISP_SCK_KHZ_1;
 			}
 		}
 		else
@@ -785,13 +785,13 @@ void ISP_WatchTask(ISP_HandlerType* ISPx)
 		//---获取当前时间节拍
 		nowTime= ISPx->msgSPI.msgTimeTick();
 		//---计算时间间隔
-		if (ISPx->msgRecordTime > nowTime)
+		if (ISPx->msgRecordTick > nowTime)
 		{
-			cnt = (0xFFFFFFFF - ISPx->msgRecordTime + nowTime);
+			cnt = (0xFFFFFFFF - ISPx->msgRecordTick + nowTime);
 		}
 		else
 		{
-			cnt = nowTime - ISPx->msgRecordTime;
+			cnt = nowTime - ISPx->msgRecordTick;
 		}
 		//---检查是否发生超时事件
 		if (cnt>ISPx->msgIntervalTime)
@@ -913,7 +913,7 @@ UINT8_T ISP_RefreshWatch(ISP_HandlerType* ISPx)
 	//---配置轮训间隔为最大值，单位是ms
 	ISPx->msgIntervalTime = ISP_STATE_TIME_OUT_MS;
 	//---刷新纪录时间
-	ISPx->msgRecordTime = ISPx->msgSPI.msgTimeTick();
+	ISPx->msgRecordTick = ISPx->msgSPI.msgTimeTick();
 	return OK_0;
 }
 
@@ -929,7 +929,7 @@ UINT8_T ISP_SetIntervalTime(ISP_HandlerType* ISPx,UINT16_T intervalTime)
 	//---配置轮训间隔时间，单位是ms
 	ISPx->msgIntervalTime= intervalTime;
 	//---刷新纪录时间
-	ISPx->msgRecordTime = ISPx->msgSPI.msgTimeTick();
+	ISPx->msgRecordTick = ISPx->msgSPI.msgTimeTick();
 	return OK_0;
 }
 

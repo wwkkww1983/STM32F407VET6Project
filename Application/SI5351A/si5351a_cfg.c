@@ -704,7 +704,7 @@ UINT8_T SI5351A_I2C_Init(SI5351A_HandlerType* SI5351Ax, void(*pFuncDelayus)(UINT
 		_return = I2CTask_MSW_Init(&(SI5351Ax->msgI2C), pFuncDelayus,pFuncTimerTick);
 		SI5351Ax->msgI2C.msgHwMode = 0;
 	}
-	_return = SI5351A_I2C_START(SI5351Ax);
+	_return = SI5351A_I2C_ConfigInit(SI5351Ax);
 	return _return;
 }
 
@@ -735,10 +735,10 @@ UINT8_T SI5351A_I2C_DeInit(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_START(SI5351A_HandlerType* SI5351Ax)
+UINT8_T SI5351A_I2C_ConfigInit(SI5351A_HandlerType* SI5351Ax)
 {
 	//---读取ID信息
-	UINT8_T _return = SI5351A_ReadID(SI5351Ax);
+	UINT8_T _return = SI5351A_I2C_ReadChipID(SI5351Ax);
 	if (_return==OK_0)
 	{
 		UINT8_T temp[8]={0x80,0x80,0x80,0x00,0x00,0x00,0x00,0x00};
@@ -747,7 +747,7 @@ UINT8_T SI5351A_I2C_START(SI5351A_HandlerType* SI5351Ax)
 		//---各通道进入PWR模式
 		SI5351A_I2C_WriteBulk(SI5351Ax, SI5351A_REG_CLK0_ADDR,temp,3);
 		//---设置驱动能力
-		SI5351A_SetClockChannelIDRV(SI5351Ax,0, SI5351A_CLK_IDRV_2mA);
+		SI5351A_I2C_SetClockChannelIDRV(SI5351Ax,0, SI5351A_CLK_IDRV_2mA);
 		//---变量归零处理
 		memset(temp, 0x00, 8);
 		SI5351A_I2C_WriteBulk(SI5351Ax, SI5351A_REG_SSC_EN_ADDR,temp,8);
@@ -765,7 +765,7 @@ UINT8_T SI5351A_I2C_START(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_PLLRST(SI5351A_HandlerType* SI5351Ax, UINT8_T pllIndex)
+UINT8_T SI5351A_I2C_PLLRST(SI5351A_HandlerType* SI5351Ax, UINT8_T pllIndex)
 {
 	if (pllIndex == SI5351A_PLL_RST_B)
 	{
@@ -784,7 +784,7 @@ UINT8_T SI5351A_PLLRST(SI5351A_HandlerType* SI5351Ax, UINT8_T pllIndex)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_ReadID(SI5351A_HandlerType* SI5351Ax)
+UINT8_T SI5351A_I2C_ReadChipID(SI5351A_HandlerType* SI5351Ax)
 {
 	UINT8_T temp=0;
 	UINT8_T  _return= SI5351A_I2C_ReadSingle(SI5351Ax, SI5351A_REG_CRYSTAL_LOAD_ADDR, &temp);
@@ -810,7 +810,7 @@ UINT8_T SI5351A_ReadID(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SetFreqHz(SI5351A_HandlerType* SI5351Ax,UINT8_T clkChannel, UINT64_T freq)
+UINT8_T SI5351A_I2C_SetFreqHz(SI5351A_HandlerType* SI5351Ax,UINT8_T clkChannel, UINT64_T freq)
 {
 	return SI5351A_CalcConfig(SI5351Ax, clkChannel,freq);
 }
@@ -822,7 +822,7 @@ UINT8_T SI5351A_SetFreqHz(SI5351A_HandlerType* SI5351Ax,UINT8_T clkChannel, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz)
+UINT8_T SI5351A_I2C_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz)
 {
 	UINT64_T freq= (UINT64_T)freqKHz*1000;
 	return SI5351A_CalcConfig(SI5351Ax, clkChannel, freq);
@@ -835,7 +835,7 @@ UINT8_T SI5351A_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, fl
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz)
+UINT8_T SI5351A_I2C_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz)
 {
 	UINT64_T freq = (UINT64_T)freqMHz * 1000000;
 	return SI5351A_CalcConfig(SI5351Ax, clkChannel, freq);
@@ -848,7 +848,7 @@ UINT8_T SI5351A_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, fl
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SetClockChannelIDRV(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv)
+UINT8_T SI5351A_I2C_SetClockChannelIDRV(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv)
 {
 	clkChannel=((clkChannel>(SI5351A_CLKOUT_CHANNEL_SIZE-1))?(SI5351A_CLKOUT_CHANNEL_SIZE-1):clkChannel);
 	SI5351Ax->msgClockCTRL[clkChannel]&=0xFC;

@@ -287,14 +287,26 @@ UINT8_T USARTTask_CRCTask_Write(USART_HandlerType*USARTx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：字节模式发送
 //////输入参数:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
+UINT8_T USARTTask_FillMode_WriteByteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
 {
-	return USARTLib_FillMode_WriteSTART(USARTx, isNeedID);
+	return USARTLib_FillMode_WriteByteSTART(USARTx, isNeedID);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：数据模式发送数据
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T  USARTTask_FillMode_WriteArraySTART(USART_HandlerType* USARTx, UINT8_T* pArrayVal, UINT16_T length)
+{
+	return USARTLib_FillMode_WriteArraySTART(USARTx, pArrayVal, length);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -420,7 +432,7 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 				{
 					USARTTask_FillMode_AddData(USARTx, USARTx->msgRxdHandler.pMsgVal, USARTx->msgRxdHandler.msgCount);
 					//---启动数据发送
-					USARTTask_FillMode_WriteSTART(USARTx, 0);
+					USARTTask_FillMode_WriteByteSTART(USARTx, 0);
 					usartDebugCount++;
 					USART_Printf(pUsart1, "TEST Count:%d\r\n", usartDebugCount);
 				}
@@ -472,7 +484,7 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 8));
 				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal ));
 
-				USARTTask_FillMode_WriteSTART(USARTx, 0);
+				USARTTask_FillMode_WriteByteSTART(USARTx, 0);
 			}
 			else
 			{
@@ -544,7 +556,7 @@ UINT8_T USARTTask_DebugFreqTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(U
 				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 8));
 				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal));
 				//---启动数据发送
-				USARTTask_FillMode_WriteSTART(USARTx, 0);
+				USARTTask_FillMode_WriteByteSTART(USARTx, 0);
 			}
 			else
 			{

@@ -36,6 +36,7 @@ extern "C" {
 	#include "led_task.h"
 	#include "mco_cfg.h"
 	#include "max961x_task.h"
+	#include "mpu6050_task.h"
 	#include "my_malloc.h"
 	#include "nrf2401_task.h"
 	#include "oled_task.h"

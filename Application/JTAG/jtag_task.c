@@ -790,7 +790,7 @@ UINT8_T JTAGTask_USARTCmd_ParentTask(JTAG_HandlerType* JTAGx, USART_HandlerType*
 				//---处理任务
 				JTAGTask_USARTCmd_ChildTask(JTAGx, USARTx, isChildCmd);
 				//---启动数据发送
-				USARTTask_FillMode_WriteSTART(USARTx, 0);
+				USARTTask_FillMode_WriteByteSTART(USARTx, 0);
 			}
 			else
 			{
@@ -825,7 +825,7 @@ UINT8_T JTAGTask_USARTCmd_ParentTask_New(JTAG_HandlerType* JTAGx, USART_HandlerT
 		USARTTask_FillMode_AddByte(USARTx, 0x0A);
 	}
 	//---启动数据发送
-	USARTTask_FillMode_WriteSTART(USARTx, 0);
+	USARTTask_FillMode_WriteByteSTART(USARTx, 0);
 	return _return;
 }
 

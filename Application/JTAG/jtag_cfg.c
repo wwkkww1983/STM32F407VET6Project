@@ -2716,13 +2716,13 @@ void JTAG_WatchTask(JTAG_HandlerType* JTAGx)
 		//---获取当前时间节拍
 		nowTime = JTAGx->msgTimeTick();
 		//---计算时间间隔
-		if (JTAGx->msgRecordTime > nowTime)
+		if (JTAGx->msgRecordTick > nowTime)
 		{
-			cnt = (0xFFFFFFFF - JTAGx->msgRecordTime + nowTime);
+			cnt = (0xFFFFFFFF - JTAGx->msgRecordTick + nowTime);
 		}
 		else
 		{
-			cnt = nowTime - JTAGx->msgRecordTime;
+			cnt = nowTime - JTAGx->msgRecordTick;
 		}
 		//---检查是否发生超时事件
 		if (cnt > JTAGx->msgIntervalTime)
@@ -2809,7 +2809,7 @@ UINT8_T JTAG_RefreshWatch(JTAG_HandlerType* JTAGx)
 	//---配置轮训间隔为最大值，单位是ms
 	JTAGx->msgIntervalTime = JTAG_STATE_TIME_OUT_MS;
 	//---刷新纪录时间
-	JTAGx->msgRecordTime = JTAGx->msgTimeTick();
+	JTAGx->msgRecordTick = JTAGx->msgTimeTick();
 	return OK_0;
 }
 
@@ -2860,7 +2860,7 @@ UINT8_T JTAG_SetIntervalTime(JTAG_HandlerType* JTAGx, UINT16_T intervalTime)
 	//---配置轮训间隔时间，单位是ms
 	JTAGx->msgIntervalTime = intervalTime;
 	//---刷新纪录时间
-	JTAGx->msgRecordTime = JTAGx->msgTimeTick();
+	JTAGx->msgRecordTick = JTAGx->msgTimeTick();
 	return OK_0;
 }
 

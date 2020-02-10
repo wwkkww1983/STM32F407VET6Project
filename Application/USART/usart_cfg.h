@@ -9,40 +9,40 @@ extern "C" {
 	#include "gpio_task.h"
 	#include "crc_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-	typedef struct _USART_HandlerType						USART_HandlerType;
-	typedef struct _USART_HandlerType						* pUSART_HandlerType;
+	typedef struct _USART_HandlerType			USART_HandlerType;
+	typedef struct _USART_HandlerType			* pUSART_HandlerType;
 	//===数据结构体
-	typedef struct _USART_HandlerDef						USART_HandlerDef;
-	typedef struct _USART_HandlerDef						*pUSART_HandlerDef;
+	typedef struct _USART_HandlerDef			USART_HandlerDef;
+	typedef struct _USART_HandlerDef			*pUSART_HandlerDef;
 	//===接收数据结构体
-	typedef struct _USART_HandlerDef						USART_RXDHandlerType;
-	typedef struct _USART_HandlerDef						*pUSART_RXDHandlerType;
+	typedef struct _USART_HandlerDef			USART_RXDHandlerType;
+	typedef struct _USART_HandlerDef			*pUSART_RXDHandlerType;
 	//===发送数据结构体
-	typedef struct _USART_HandlerDef						USART_TXDHandlerType;
-	typedef struct _USART_HandlerDef						*pUSART_TXDHandlerType;
+	typedef struct _USART_HandlerDef			USART_TXDHandlerType;
+	typedef struct _USART_HandlerDef			*pUSART_TXDHandlerType;
 
 	//===串口数据结构体定义
 	struct _USART_HandlerDef
 	{
-		UINT8_T									msgDMAMode;																															//---是否是DMA模式，0---非DMA模式，1---DMA模式
-		VLTUINT8_T								msgCheckSum;																														//---校验和
-		VLTUINT8_T								msgCRCFlag;																															//---校验标志位  0 ---无校验，1 ---校验和，2---CRC8校验，3---CRC16校验，4---CRC32校验
-		VLTUINT8_T								msgState;																															//---判断任务是否结束 0---未结束，1---结束
-		VLTUINT8_T								msgStep;																															//---步序
-		VLTUINT8_T								msgAddNewLine;																														//---是否需要换行符(\r\n)
-		VLTUINT16_T								msgWIndex;																															//---写序号
-		VLTUINT16_T								msgRIndex;																															//---读序号
-		VLTUINT16_T								msgCount;																															//---读写数据的长度
-		VLTUINT16_T								msgFlagIndex;																														//---执行结果的标识号，在数据缓存区的位置信息
-		VLTUINT16_T								msgMaxSize;																															//---数据缓存区的大小
-		VLTUINT8_T								msgOverFlow;																														//---超时标志位
-		VLTUINT32_T								msgRecordTime;																														//---超时时间开始至
-		//VLTUINT32_T								msgEndTime;																														//---超时时间结束值
-		VLTUINT32_T								msgMaxTime;																															//---超时时间
-		UINT8_T									*pMsgVal;																															//---缓存区(需要提前定义好数据的缓存区)
-		DMA_TypeDef								*msgDMA;																															//---DMA号
-		UINT32_T								msgDMAChannelOrStream;																												//---DMA通道号或者流信息
-		UINT32_T(*msgTimeTick)(void);																																				//---用于超时计数
+		UINT8_T									msgDMAMode;																//---是否是DMA模式，0---非DMA模式，1---DMA模式
+		VLTUINT8_T								msgCheckSum;															//---校验和
+		VLTUINT8_T								msgCRCFlag;																//---校验标志位  0 ---无校验，1 ---校验和，2---CRC8校验，3---CRC16校验，4---CRC32校验
+		VLTUINT8_T								msgState;																//---判断任务是否结束 0---未结束，1---结束
+		VLTUINT8_T								msgStep;																//---步序
+		VLTUINT8_T								msgAddNewLine;															//---是否需要换行符(\r\n)
+		VLTUINT16_T								msgWIndex;																//---写序号
+		VLTUINT16_T								msgRIndex;																//---读序号
+		VLTUINT16_T								msgCount;																//---读写数据的长度
+		VLTUINT16_T								msgFlagIndex;															//---执行结果的标识号，在数据缓存区的位置信息
+		VLTUINT16_T								msgMaxSize;																//---数据缓存区的大小
+		VLTUINT8_T								msgOverFlow;															//---超时标志位
+		VLTUINT32_T								msgRecordTick;															//---超时时间节拍
+		VLTUINT32_T								msgRecordTime;															//---超时时间记录时间
+		VLTUINT32_T								msgMaxTime;																//---超时时间
+		UINT8_T									*pMsgVal;																//---缓存区(需要提前定义好数据的缓存区)
+		DMA_TypeDef								*msgDMA;																//---DMA号
+		UINT32_T								msgDMAChannelOrStream;													//---DMA通道号或者流信息
+		UINT32_T(*msgTimeTick)(void);																					//---用于超时计数
 	};
 
 	//===传输过程中判断判断是否需要初始化GPIO
@@ -50,22 +50,22 @@ extern "C" {
 	//===串口数据定义
 	struct _USART_HandlerType
 	{
-		UINT16_T								msgPCount;																															//---打印发送总数
-		UINT16_T								msgPIndex;																															//---打印发送序号
-		UINT8_T									msgIndex;																															//---USART端口的索引号
-		UINT8_T									msgRxdID;																															//---接收报头
-		UINT8_T									msgTxdID;																															//---发送报头
-		UINT8_T									msgID;																																//---设备ID
-		UINT8_T									msgIDIndex;																															//---设备ID在数组中的位置
-		UINT8_T									msgCmdIndex;																														//---命令在数组中的位置
-		UINT8_T									msgDataOneIndex;																													//---数据1在数组中的位置
-		UINT8_T									msgDataTwoIndex;																													//---数据2在数组中的位置
-		UINT8_T									msgIndexOffset;																														//---索引的偏移量
-		GPIO_HandlerType						msgTxPort;																															//---USART的GPIO端口号
-		GPIO_HandlerType						msg485Port;																															//---485的使能GPIO端口
-		USART_TypeDef							*msgUSART;																															//---USART端口
-		USART_TXDHandlerType					msgTxdHandler;																														//---发送函数
-		USART_RXDHandlerType					msgRxdHandler;																														//---接收函数
+		UINT16_T								msgPCount;																//---打印发送总数
+		UINT16_T								msgPIndex;																//---打印发送序号
+		UINT8_T									msgIndex;																//---USART端口的索引号
+		UINT8_T									msgRxdID;																//---接收报头
+		UINT8_T									msgTxdID;																//---发送报头
+		UINT8_T									msgID;																	//---设备ID
+		UINT8_T									msgIDIndex;																//---设备ID在数组中的位置
+		UINT8_T									msgCmdIndex;															//---命令在数组中的位置
+		UINT8_T									msgDataOneIndex;														//---数据1在数组中的位置
+		UINT8_T									msgDataTwoIndex;														//---数据2在数组中的位置
+		UINT8_T									msgIndexOffset;															//---索引的偏移量
+		GPIO_HandlerType						msgTxPort;																//---USART的GPIO端口号
+		GPIO_HandlerType						msg485Port;																//---485的使能GPIO端口
+		USART_TypeDef							*msgUSART;																//---USART端口
+		USART_TXDHandlerType					msgTxdHandler;															//---发送函数
+		USART_RXDHandlerType					msgRxdHandler;															//---接收函数
 	};
 
 	//===是否重映射printf函数
@@ -103,18 +103,18 @@ extern "C" {
 		#define USART_CRC_CRC32						USART_CRC_NONE
 	#endif	
 	//===发送端口的配置
-	#define USART_TXGPIO_SET_INPUT					0																																//---轮训地址时候，发送端口需要切换为输入
-	#define USART_TXGPIO_SET_OUTPUT					1																																//---轮训地址时候，发送端口需要切换为输出
+	#define USART_TXGPIO_SET_INPUT					0																	//---轮训地址时候，发送端口需要切换为输入
+	#define USART_TXGPIO_SET_OUTPUT					1																	//---轮训地址时候，发送端口需要切换为输出
 	//===485数据端口的控制使能
-	#define USART_485_RX_ENABLE						0																																//---485模式下处于数据接收
-	#define USART_485_TX_ENABLE						1																																//---485模式下处于数据发送
+	#define USART_485_RX_ENABLE						0																	//---485模式下处于数据接收
+	#define USART_485_TX_ENABLE						1																	//---485模式下处于数据发送
 	//===串口的状态
-	#define USART_BUSY								0																																//---串口忙碌状态
-	#define USART_OK								1																																//---串口空闲状态	
-	#define USART_ERROR								2																																//---串口错误状态
-	#define USART_PRINTF							3																																//---使用Printf传输数据中
-	#define USART_DMA								4																																//---串口DMA状态
-	#define USART_IT_IDLE							5																																//---串口中断空闲状态
+	#define USART_BUSY								0																	//---串口忙碌状态
+	#define USART_OK								1																	//---串口空闲状态	
+	#define USART_ERROR								2																	//---串口错误状态
+	#define USART_PRINTF							3																	//---使用Printf传输数据中
+	#define USART_DMA								4																	//---串口DMA状态
+	#define USART_IT_IDLE							5																	//---串口中断空闲状态
 
 	//===定义的任务函数
 	#define USART_TASK_ONE							pUsart1
@@ -189,10 +189,6 @@ extern "C" {
 	UINT8_T  USART_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void));
 	UINT8_T  USART_TXGPIOInit(USART_HandlerType*  USARTx, UINT8_T isInput);
 	UINT8_T  USART_485GPIOInit(USART_HandlerType*  USARTx, UINT8_T isEnable);
-	UINT8_T  USART_EnableCRC_RX(USART_HandlerType*USARTx, UINT8_T crcFlag);
-	UINT8_T  USART_GetCRC_RX(USART_HandlerType*USARTx);
-	UINT8_T  USART_EnableCRC_TX(USART_HandlerType*USARTx, UINT8_T crcFlag);
-	UINT8_T  USART_GetCRC_TX(USART_HandlerType*USARTx);
 	UINT8_T  USART_SetCRC(USART_HandlerDef* USARTDefx, UINT8_T crcFlag);
 	UINT8_T  USART_GetCRC(USART_HandlerDef* USARTDefx);
 	UINT8_T  USART_TimeTick_Init(USART_HandlerDef* USARTDefx);
@@ -220,7 +216,8 @@ extern "C" {
 	UINT8_T  USART_FillMode_AddIndexW(USART_HandlerType* USARTx, UINT16_T val);
 	UINT8_T  USART_CRCTask_Read(USART_HandlerType*USARTx);
 	UINT8_T  USART_CRCTask_Write(USART_HandlerType*USARTx);
-	UINT8_T  USART_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID);
+	UINT8_T  USART_FillMode_WriteByteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID);
+	UINT8_T  USART_FillMode_WriteArraySTART(USART_HandlerType* USARTx, UINT8_T* pArrayVal, UINT16_T length);
 	UINT8_T  USART_GetState(USART_HandlerDef* USARTDefx);
 	UINT8_T  USART_ClearState(USART_HandlerDef* USARTDefx);
 	UINT8_T  USART_Read_Init(USART_HandlerType*  USARTx);

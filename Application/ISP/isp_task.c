@@ -1009,7 +1009,7 @@ UINT8_T ISPTask_USARTCmd_ParentTask(ISP_HandlerType* ISPx, USART_HandlerType* US
 				//---处理任务
 				ISPTask_USARTCmd_ChildTask(ISPx, USARTx, isChildCmd);
 				//---启动数据发送
-				USARTTask_FillMode_WriteSTART(USARTx, 0);
+				USARTTask_FillMode_WriteByteSTART(USARTx, 0);
 			}
 			else
 			{
@@ -1044,7 +1044,7 @@ UINT8_T ISPTask_USARTCmd_ParentTask_New(ISP_HandlerType* ISPx, USART_HandlerType
 		USARTTask_FillMode_AddByte(USARTx, 0x0A);
 	}
 	//---启动数据发送
-	USARTTask_FillMode_WriteSTART(USARTx, 0);
+	USARTTask_FillMode_WriteByteSTART(USARTx, 0);
 	return _return;
 }
 ///////////////////////////////////////////////////////////////////////////////

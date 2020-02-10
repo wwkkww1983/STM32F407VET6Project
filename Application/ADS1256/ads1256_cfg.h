@@ -175,34 +175,34 @@ extern "C" {
 	//===定义结构体
 	struct _ADS1256_HandlerType
 	{
-		UINT8_T msgReady;															//---设备是否准备就绪，0---工作正常；1---工作异常
-		UINT8_T msgChipID;															//---设备的ID信息
-		UINT8_T	msgGain;															//---增益设置
-		UINT8_T msgCalcError[ADS1256_CHANNEL_MAX];									//---是否需要校准偏差 0===不叫准，1---校准
-		UINT8_T msgNowChannel;														//---当前转换的通道
-		UINT8_T msgOldChannel;														//---上一次转换的通道
-		UINT8_T	msgPositive[ADS1256_CHANNEL_MAX];									//---0---无数据，1---是负数，2---是正值
-		UINT8_T msgChannelMode[ADS1256_CHANNEL_MAX];								//---输入装换模式,0---无配置；1---单端模式；2---差分模式
-		UINT16_T msgChannelPowerError[ADS1256_CHANNEL_MAX];							//---通道的基础误差
-		UINT16_T msgChannelPowerX1Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX2Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX4Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX8Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX16Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX32Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX64Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT32_T msgChannelNowPowerResult[ADS1256_CHANNEL_MAX];						//---当前ADC计算的电压结果
-		UINT32_T msgChannelOldPowerResult[ADS1256_CHANNEL_MAX];						//---上一次ADC计算的电压结果
-		UINT32_T msgChannelADCResult[ADS1256_CHANNEL_MAX];							//---ADC转换结果
-		UINT8_T msgWaitms;															//---等待时间,单位是ms
-		UINT8_T msgSleepMode;														//---休眠模式，0---不休眠，1---休眠模式
-		UINT8_T msgDRate;															//---数据转换的速率，默认是0xF0
-		UINT8_T msgBufferON;														//---是否开启缓存区，0---不开启，1---开启
-		UINT32_T msgRecordTime;														//---当前的时间
-		GPIO_HandlerType	msgDRDY;												//---准备好信号
-		GPIO_HandlerType	msgHWRST;												//---硬件复位信号
-		SPI_HandlerType		msgSPI;													//---使用的SPI模式
-		void(*msgDelayms)(UINT32_T delay);											//---延时参数
+		UINT8_T msgReady;																								//---设备是否准备就绪，0---工作正常；1---工作异常
+		UINT8_T msgChipID;																								//---设备的ID信息
+		UINT8_T	msgGain;																								//---增益设置
+		UINT8_T msgCalcError[ADS1256_CHANNEL_MAX];																		//---是否需要校准偏差 0===不叫准，1---校准
+		UINT8_T msgNowChannel;																							//---当前转换的通道
+		UINT8_T msgOldChannel;																							//---上一次转换的通道
+		UINT8_T	msgPositive[ADS1256_CHANNEL_MAX];																		//---0---无数据，1---是负数，2---是正值
+		UINT8_T msgChannelMode[ADS1256_CHANNEL_MAX];																	//---输入装换模式,0---无配置；1---单端模式；2---差分模式
+		UINT16_T msgChannelPowerError[ADS1256_CHANNEL_MAX];																//---通道的基础误差
+		UINT16_T msgChannelPowerX1Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX2Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX4Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX8Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX16Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX32Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX64Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT32_T msgChannelNowPowerResult[ADS1256_CHANNEL_MAX];															//---当前ADC计算的电压结果
+		UINT32_T msgChannelOldPowerResult[ADS1256_CHANNEL_MAX];															//---上一次ADC计算的电压结果
+		UINT32_T msgChannelADCResult[ADS1256_CHANNEL_MAX];																//---ADC转换结果
+		UINT8_T msgWaitms;																								//---等待时间,单位是ms
+		UINT8_T msgSleepMode;																							//---休眠模式，0---不休眠，1---休眠模式
+		UINT8_T msgDRate;																								//---数据转换的速率，默认是0xF0
+		UINT8_T msgBufferON;																							//---是否开启缓存区，0---不开启，1---开启
+		UINT32_T msgRecordTick;																							//---当前的时间
+		GPIO_HandlerType	msgDRDY;																					//---准备好信号
+		GPIO_HandlerType	msgHWRST;																					//---硬件复位信号
+		SPI_HandlerType		msgSPI;																						//---使用的SPI模式
+		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 
 	//===任务函数

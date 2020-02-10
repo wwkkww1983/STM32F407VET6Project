@@ -31,9 +31,9 @@ UINT8_T MAX961XLib_I2C_CheckDevice(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961XLib_I2C_GetRSVoltage(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961XLib_I2C_ReadRSVoltage(MAX961X_HandlerType* MAX961x)
 {
-	return MAX961X_I2C_GetRSVoltage(MAX961x);
+	return MAX961X_I2C_ReadRSVoltage(MAX961x);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -43,9 +43,9 @@ UINT8_T MAX961XLib_I2C_GetRSVoltage(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961XLib_I2C_GetRSCurrent(MAX961X_HandlerType* MAX961x, UINT8_T currentGain)
+UINT8_T MAX961XLib_I2C_ReadRSCurrent(MAX961X_HandlerType* MAX961x, UINT8_T currentGain)
 {
-	return MAX961X_I2C_GetRSCurrent(MAX961x,currentGain);
+	return MAX961X_I2C_ReadRSCurrent(MAX961x,currentGain);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -55,9 +55,9 @@ UINT8_T MAX961XLib_I2C_GetRSCurrent(MAX961X_HandlerType* MAX961x, UINT8_T curren
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961XLib_I2C_GetOutVoltage(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961XLib_I2C_ReadOutVoltage(MAX961X_HandlerType* MAX961x)
 {
-	return MAX961X_I2C_GetOutVoltage(MAX961x);
+	return MAX961X_I2C_ReadOutVoltage(MAX961x);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -67,9 +67,9 @@ UINT8_T MAX961XLib_I2C_GetOutVoltage(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961XLib_I2C_GetSetVoltage(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961XLib_I2C_ReadSetVoltage(MAX961X_HandlerType* MAX961x)
 {
-	return MAX961X_I2C_GetSetVoltage(MAX961x);
+	return MAX961X_I2C_ReadSetVoltage(MAX961x);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -79,9 +79,9 @@ UINT8_T MAX961XLib_I2C_GetSetVoltage(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961XLib_I2C_GetTemperature(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961XLib_I2C_ReadTemp(MAX961X_HandlerType* MAX961x)
 {
-	return MAX961X_I2C_GetTemperature(MAX961x);
+	return MAX961X_I2C_ReadTemp(MAX961x);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -91,7 +91,7 @@ UINT8_T MAX961XLib_I2C_GetTemperature(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961XLib_I2C_GetAll(MAX961X_HandlerType* MAX961x, UINT8_T currentGain)
+UINT8_T MAX961XLib_I2C_ReadAll(MAX961X_HandlerType* MAX961x, UINT8_T currentGain)
 {
-	return MAX961X_I2C_GetAll(MAX961x, currentGain);
+	return MAX961X_I2C_ReadAll(MAX961x, currentGain);
 }

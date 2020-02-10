@@ -31,9 +31,9 @@ UINT8_T SI5351ATask_I2C_DeInit(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351ATask_SetFreqHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq)
+UINT8_T SI5351ATask_I2C_SetFreqHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq)
 {
-	return SI5351ALib_SetFreqHz(SI5351Ax, clkChannel, freq);
+	return SI5351ALib_I2C_SetFreqHz(SI5351Ax, clkChannel, freq);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -43,9 +43,9 @@ UINT8_T SI5351ATask_SetFreqHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel,
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351ATask_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz)
+UINT8_T SI5351ATask_I2C_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz)
 {
-	return SI5351ALib_SetFreqKHz(SI5351Ax, clkChannel, freqKHz);
+	return SI5351ALib_I2C_SetFreqKHz(SI5351Ax, clkChannel, freqKHz);
 }
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -54,7 +54,7 @@ UINT8_T SI5351ATask_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351ATask_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz)
+UINT8_T SI5351ATask_I2C_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz)
 {
-	return SI5351ALib_SetFreqMHz(SI5351Ax, clkChannel, freqMHz);
+	return SI5351ALib_I2C_SetFreqMHz(SI5351Ax, clkChannel, freqMHz);
 }

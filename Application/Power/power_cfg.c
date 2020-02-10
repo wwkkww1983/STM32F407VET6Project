@@ -88,6 +88,8 @@ void Power_DeInit(void)
 	DPSD_POWER_HZ;
 }
 
+//===LM317输出电压的偏移
+UINT16_T g_Lm317LostPower= LM317_LOST_POWER_MV;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：

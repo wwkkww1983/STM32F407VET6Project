@@ -33,7 +33,7 @@ extern "C" {
 		UINT8_T				msgSTATE;																																				//---读取状态
 		UINT32_T			msgTempX1000;																																			//---温度
 		UINT32_T			msgHumiX1000;																																			//---湿度
-		UINT32_T			msgRecordTime;																																			//---记录的时间参数
+		UINT32_T			msgRecordTick;																																			//---记录的时间参数
 		GPIO_HandlerType	msgDAT;																																					//---端口
 		void(*msgDelayus)(UINT32_T delay);																																			//---us延时函数
 		void(*msgDelayms)(UINT32_T delay);																																			//---ms延时函数

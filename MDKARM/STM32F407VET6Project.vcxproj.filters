@@ -34,6 +34,9 @@
     <Filter Include="Application\BKP">
       <UniqueIdentifier>{E58B296C-5117-9730-5A28-1A25C632F330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\BMP180">
+      <UniqueIdentifier>{A04664B4-8C2A-250A-F58A-1F5DE18D0F8C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\CAN">
       <UniqueIdentifier>{DA8E296C-461A-9730-4F2B-1A25BB35F330}</UniqueIdentifier>
     </Filter>
@@ -159,6 +162,9 @@
     </Filter>
     <Filter Include="Application\NRF2401">
       <UniqueIdentifier>{55459DE7-C1A6-7AF5-4A14-C1A7B674B1B4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\NTC">
+      <UniqueIdentifier>{0DC0296C-794B-9730-825C-1A25EE66F330}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\OLED">
       <UniqueIdentifier>{8C2C62F1-7825-8143-A157-66C88DAF604F}</UniqueIdentifier>
@@ -353,6 +359,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\BKP\bkp_task.h">
       <Filter>Application\BKP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\BMP180\bmp180_cfg.h">
+      <Filter>Application\BMP180</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\BMP180\bmp180_lib.h">
+      <Filter>Application\BMP180</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\BMP180\bmp180_task.h">
+      <Filter>Application\BMP180</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\CAN\can_cfg.h">
       <Filter>Application\CAN</Filter>
@@ -698,6 +713,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\NRF2401\nrf2401_task.h">
       <Filter>Application\NRF2401</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\NTC\ntc_cfg.h">
+      <Filter>Application\NTC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\NTC\ntc_lib.h">
+      <Filter>Application\NTC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\NTC\ntc_task.h">
+      <Filter>Application\NTC</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\OLED\oled_cfg.h">
       <Filter>Application\OLED</Filter>
@@ -1109,6 +1133,15 @@
     <ClCompile Include="..\Application\BKP\bkp_task.c">
       <Filter>Application\BKP</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\BMP180\bmp180_cfg.c">
+      <Filter>Application\BMP180</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\BMP180\bmp180_lib.c">
+      <Filter>Application\BMP180</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\BMP180\bmp180_task.c">
+      <Filter>Application\BMP180</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\CAN\can_cfg.c">
       <Filter>Application\CAN</Filter>
     </ClCompile>
@@ -1453,6 +1486,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\NRF2401\nrf2401_task.c">
       <Filter>Application\NRF2401</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\NTC\ntc_cfg.c">
+      <Filter>Application\NTC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\NTC\ntc_lib.c">
+      <Filter>Application\NTC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\NTC\ntc_task.c">
+      <Filter>Application\NTC</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\OLED\oled_cfg.c">
       <Filter>Application\OLED</Filter>

@@ -20,18 +20,18 @@ extern "C" {
 	//===结构定义
 	struct _I2C_HandlerType
 	{
-		GPIO_HandlerType	msgSCL;																																					//---SCL
-		GPIO_HandlerType	msgSDA;																																					//---SDA
-		UINT8_T				msgHwMode;																																				//---工作模式，默认是软件模拟---0，硬件模式---1
-		UINT16_T			msgPluseWidth;																																			//---脉冲宽度，软件模拟使用
-		UINT16_T			msgAddr;																																				//---设备的地址
-		UINT32_T			msgClockSpeed;																																			//---硬件I2C的时钟速度
-		void(*msgDelayus)(UINT32_T delay);																																			//---延时参数
+		GPIO_HandlerType	msgSCL;																						//---SCL
+		GPIO_HandlerType	msgSDA;																						//---SDA
+		UINT8_T				msgHwMode;																					//---工作模式，默认是软件模拟---0，硬件模式---1
+		UINT16_T			msgPluseWidth;																				//---脉冲宽度，软件模拟使用
+		UINT16_T			msgAddr;																					//---设备的地址
+		UINT32_T			msgClockSpeed;																				//---硬件I2C的时钟速度
+		void(*msgDelayus)(UINT32_T delay);																				//---延时参数
 	#ifndef USE_MCU_STM32F1
-		UINT32_T			msgGPIOAlternate;																																		//---端口复用模式
+		UINT32_T			msgGPIOAlternate;																			//---端口复用模式
 	#endif
-		UINT32_T(*msgTimeTick)(void);																																				//---用于超时计数
-		I2C_TypeDef* msgI2Cx;																																						//---使用的I2C接口
+		UINT32_T(*msgTimeTick)(void);																					//---用于超时计数
+		I2C_TypeDef* msgI2Cx;																							//---使用的I2C接口
 	};
 
 	//===函数定义
@@ -51,7 +51,14 @@ extern "C" {
 	UINT8_T I2C_MSW_ReadBits(I2C_HandlerType *I2Cx, UINT8_T *pVal, UINT8_T bitNum);
 	UINT8_T I2C_MSW_CheckDevice(I2C_HandlerType *I2Cx);
 	UINT8_T I2C_MSW_SendCMD(I2C_HandlerType *I2Cx, UINT8_T cmd, UINT8_T isStart, UINT8_T isStop);
-
+	UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, UINT32_T(*pFuncTimerTick)(void));
+	UINT8_T I2C_MHW_DeInit(I2C_HandlerType* I2Cx);
+	UINT8_T I2C_MHW_PollMode_START(I2C_HandlerType* I2Cx);
+	UINT8_T I2C_MHW_PollMode_STOP(I2C_HandlerType* I2Cx);
+	UINT8_T I2C_MHW_PollMode_ADDR(I2C_HandlerType* I2Cx, UINT8_T isWrite);
+	UINT8_T I2C_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK);
+	UINT8_T I2C_MHW_PollMode_SendByte(I2C_HandlerType* I2Cx, UINT8_T val, UINT8_T isBTF);
+	UINT8_T I2C_MHW_PollMode_ReadByte(I2C_HandlerType* I2Cx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

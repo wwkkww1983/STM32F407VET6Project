@@ -396,13 +396,13 @@ void HVPP_WatchTask(HVPP_HandlerType* HVPPx)
 		//---获取当前时间节拍
 		nowTime = HVPPx->msgTimeTick();
 		//---计算时间间隔
-		if (HVPPx->msgRecordTime > nowTime)
+		if (HVPPx->msgRecordTick > nowTime)
 		{
-			cnt = (0xFFFFFFFF - HVPPx->msgRecordTime + nowTime);
+			cnt = (0xFFFFFFFF - HVPPx->msgRecordTick + nowTime);
 		}
 		else
 		{
-			cnt = nowTime - HVPPx->msgRecordTime;
+			cnt = nowTime - HVPPx->msgRecordTick;
 		}
 		//if (cnt > ISP_STATE_TIME_OUT_MS)
 		//---检查是否发生超时事件
@@ -454,7 +454,7 @@ UINT8_T HVPP_RefreshWatch(HVPP_HandlerType* HVPPx)
 	//---配置轮训间隔为最大值，单位是ms
 	HVPPx->msgIntervalTime = HVPP_STATE_TIME_OUT_MS;
 	//---刷新纪录时间
-	HVPPx->msgRecordTime = HVPPx->msgTimeTick();
+	HVPPx->msgRecordTick = HVPPx->msgTimeTick();
 	return OK_0;
 }
 
@@ -470,7 +470,7 @@ UINT8_T HVPP_SetIntervalTime(HVPP_HandlerType* HVPPx, UINT16_T intervalTime)
 	//---配置轮训间隔时间，单位是ms
 	HVPPx->msgIntervalTime = intervalTime;
 	//---刷新纪录时间
-	HVPPx->msgRecordTime = HVPPx->msgTimeTick();
+	HVPPx->msgRecordTick = HVPPx->msgTimeTick();
 	return OK_0;
 }
 

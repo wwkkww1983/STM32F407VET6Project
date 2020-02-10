@@ -45,7 +45,8 @@ UINT8_T USART_StructInit(USART_HandlerType*  USARTx)
 	USARTx->msgRxdHandler.msgMaxSize = 0;
 	USARTx->msgRxdHandler.msgState = USART_BUSY;
 	USARTx->msgRxdHandler.msgOverFlow = 0;
-	USARTx->msgRxdHandler.msgRecordTime = 0;
+	USARTx->msgRxdHandler.msgRecordTick = 0;
+	USARTx->msgRxdHandler.msgRecordTime=0;
 	USARTx->msgRxdHandler.msgMaxTime = 0;
 	USARTx->msgRxdHandler.pMsgVal = NULL;
 	//---计数器
@@ -64,6 +65,7 @@ UINT8_T USART_StructInit(USART_HandlerType*  USARTx)
 	USARTx->msgTxdHandler.msgMaxSize = 0;
 	USARTx->msgTxdHandler.msgState = USART_OK;
 	USARTx->msgTxdHandler.msgOverFlow = 0;
+	USARTx->msgTxdHandler.msgRecordTick = 0;
 	USARTx->msgTxdHandler.msgRecordTime = 0;
 	USARTx->msgTxdHandler.msgMaxTime = 0;
 	USARTx->msgTxdHandler.pMsgVal = NULL;
@@ -194,7 +196,7 @@ UINT8_T  USART_GetCRC(USART_HandlerDef* USARTDefx)
 UINT8_T USART_TimeTick_Init(USART_HandlerDef* USARTDefx)
 {
 	//---时间节点
-	USARTDefx->msgRecordTime = ((USARTDefx->msgTimeTick != NULL)?(USARTDefx->msgTimeTick()):0);
+	USARTDefx->msgRecordTick = ((USARTDefx->msgTimeTick != NULL)?(USARTDefx->msgTimeTick()):0);
 	return OK_0;
 }
 
@@ -210,7 +212,7 @@ UINT8_T USART_TimeTick_DeInit(USART_HandlerDef* USARTDefx)
 	//---清零溢出标志位
 	USARTDefx->msgOverFlow = 0;
 	//---清零当前时钟
-	USARTDefx->msgRecordTime = 0;
+	USARTDefx->msgRecordTick = 0;
 	return OK_0;
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -226,10 +228,10 @@ UINT8_T USART_TimeTick_OverFlow(USART_HandlerDef* USARTDefx)
 	//---获取当前时间
 	temp = ((USARTDefx->msgTimeTick != NULL) ? (USARTDefx->msgTimeTick()+2) : 0);
 	//---判断是否发生超时错误
-	if (temp > USARTDefx->msgRecordTime)
+	if (temp > USARTDefx->msgRecordTick)
 	{
 		//---计时器未发生溢出操作
-		if ((temp - USARTDefx->msgRecordTime) > USARTDefx->msgMaxTime)
+		if ((temp - USARTDefx->msgRecordTick) > USARTDefx->msgMaxTime)
 		{
 			USARTDefx->msgOverFlow = 1;
 			return ERROR_1;
@@ -238,7 +240,7 @@ UINT8_T USART_TimeTick_OverFlow(USART_HandlerDef* USARTDefx)
 	else 
 	{
 		//---计时器发生溢出操作
-		if ((0xFFFFFFFF - USARTDefx->msgRecordTime + temp) > USARTDefx->msgMaxTime)
+		if ((0xFFFFFFFF - USARTDefx->msgRecordTick + temp) > USARTDefx->msgMaxTime)
 		{
 			USARTDefx->msgOverFlow = 1;
 			return ERROR_1;
@@ -260,9 +262,9 @@ UINT8_T  USART_TimeTask_OverFlow(USART_HandlerType*USARTx, UINT8_T isRx)
 	//---判断是接收还是发送并校验是不是DMA接收模式
 	if ((isRx != 0) && (USARTx->msgRxdHandler.msgDMAMode == 0))
 	{
-		if ((USARTx->msgRxdHandler.msgRecordTime != 0) && (USARTx->msgRxdHandler.msgMaxTime != 0))
+		if ((USARTx->msgRxdHandler.msgRecordTick != 0) && (USARTx->msgRxdHandler.msgMaxTime != 0))
 		{
-			if (USARTx->msgRxdHandler.msgRecordTime == 0)
+			if (USARTx->msgRxdHandler.msgRecordTick == 0)
 			{
 				return OK_0;
 			}
@@ -270,7 +272,7 @@ UINT8_T  USART_TimeTask_OverFlow(USART_HandlerType*USARTx, UINT8_T isRx)
 			_return = USART_TimeTick_OverFlow(&(USARTx->msgRxdHandler));
 			//---超时条件判断，发现某些状态下当前记录的时间值在改写为零的时候，时间记录点没有发生同步更新
 			//if ((_return != OK_0))
-			if ((_return != OK_0) && (USARTx->msgRxdHandler.msgRecordTime != 0))
+			if ((_return != OK_0) && (USARTx->msgRxdHandler.msgRecordTick != 0))
 			{
 				//---打印超时的串口信息
 				USART_Printf(USARTx, "=>>SP%d:Receive Mode Timeout Error!<<=\r\n", (USARTx->msgIndex - 1));
@@ -281,16 +283,16 @@ UINT8_T  USART_TimeTask_OverFlow(USART_HandlerType*USARTx, UINT8_T isRx)
 	}
 	else if(USARTx->msgTxdHandler.msgDMAMode == 0)
 	{
-		if ((USARTx->msgTxdHandler.msgRecordTime != 0) && (USARTx->msgTxdHandler.msgMaxTime != 0))
+		if ((USARTx->msgTxdHandler.msgRecordTick != 0) && (USARTx->msgTxdHandler.msgMaxTime != 0))
 		{
-			if (USARTx->msgTxdHandler.msgRecordTime == 0)
+			if (USARTx->msgTxdHandler.msgRecordTick == 0)
 			{
 				return OK_0;
 			}
 			//---获取超时值
 			_return = USART_TimeTick_OverFlow(&(USARTx->msgTxdHandler));
 			//---超时条件判断，发现某些状态下当前记录的时间值在改写为零的时候，时间记录点没有发生同步更新
-			if ((_return != OK_0) && (USARTx->msgTxdHandler.msgRecordTime != 0))
+			if ((_return != OK_0) && (USARTx->msgTxdHandler.msgRecordTick != 0))
 			{
 				//---打印超时的串口信息
 				USART_Printf(USARTx, "=>>SP%d:Send Mode Timeout Error!<<=\r\n", (USARTx->msgIndex - 1));
@@ -378,6 +380,8 @@ UINT8_T  USART_ITRead_8BitsTask(USART_HandlerType*USARTx, UINT8_T val)
 				USARTx->msgRxdHandler.msgState = USART_OK;
 				//---清零超时计数器
 				//USART_TimeTick_DeInit(USARTx, 1);
+				//---记录接收完成的时间
+				USARTx->msgRxdHandler.msgRecordTime = ((USARTx->msgRxdHandler.msgTimeTick != NULL) ? (USARTx->msgRxdHandler.msgTimeTick()) : 0);
 			}
 			break;
 		case 3:
@@ -476,6 +480,8 @@ UINT8_T  USART_ITRead_16BitsTask(USART_HandlerType*USARTx, UINT8_T val)
 				USARTx->msgRxdHandler.msgState = USART_OK;
 				//---清零超时计数器
 				//USART_TimeTick_DeInit(USARTx, 1);
+				//---记录接收完成的时间
+				USARTx->msgRxdHandler.msgRecordTime = ((USARTx->msgRxdHandler.msgTimeTick != NULL) ? (USARTx->msgRxdHandler.msgTimeTick()) : 0);
 			}
 			break;
 		case 4:
@@ -1134,7 +1140,7 @@ UINT8_T USART_CRCTask_Write(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USART_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
+UINT8_T  USART_FillMode_WriteByteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
 {
 	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
 	while ((USARTx->msgTxdHandler.msgState == USART_BUSY) || (USARTx->msgTxdHandler.msgState == USART_PRINTF) || (USARTx->msgTxdHandler.msgState == USART_DMA))
@@ -1190,6 +1196,59 @@ UINT8_T  USART_FillMode_WriteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
 		//---启动DMA发送
 		USART_Write_DMA_RESTART(USARTx);
 	}
+	//---复位超时计数器
+	USART_TimeTick_Init(&(USARTx->msgTxdHandler));
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：填充模式启动发送，这里适合填充之后中断发送和DMA模式（DMA模式是数据填充完成之后，才能启动发送的）
+//////输入参数: 发送指定长度的数组信息，默认给定的数据是需要的数据，内部没有对数据进行处理
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T  USART_FillMode_WriteArraySTART(USART_HandlerType* USARTx, UINT8_T *pArrayVal,UINT16_T length)
+{
+	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
+	while ((USARTx->msgTxdHandler.msgState == USART_BUSY) || (USARTx->msgTxdHandler.msgState == USART_PRINTF) || (USARTx->msgTxdHandler.msgState == USART_DMA))
+	{
+		WDT_RESET();
+	}
+	//---设置发送状态为忙碌状态
+	USARTx->msgTxdHandler.msgState = USART_BUSY;
+	//---拷贝数据长度
+	memcpy(USARTx->msgTxdHandler.pMsgVal, pArrayVal, length);
+	//---要写入数据的个数
+	USARTx->msgTxdHandler.msgWIndex = length;
+	//---发送CRC处理
+	USART_CRCTask_Write(USARTx);
+	//---判断是否增加换行符
+	if ((USARTx->msgTxdHandler.msgAddNewLine == 1))
+	{
+		USART_FillMode_AddByte(USARTx, 0x0D);
+		USART_FillMode_AddByte(USARTx, 0x0A);
+	}
+	USARTx->msgTxdHandler.msgCount = USARTx->msgTxdHandler.msgWIndex;
+	//---设置485为发送模式
+	USART_485GPIOInit(USARTx, USART_485_TX_ENABLE);
+	//---切换发送端口为输出模式
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
+	//---校验是不是DMA模式
+	if (USARTx->msgTxdHandler.msgDMAMode == 0)
+	{
+		//---发送数据寄存器空中断使能
+		LL_USART_EnableIT_TXE(USARTx->msgUSART);
+	}
+	else
+	{
+		//---设置数据地址
+		USART_Write_DMA_SetMemoryAddress(USARTx, (USARTx->msgTxdHandler.pMsgVal));
+		//---启动DMA发送
+		USART_Write_DMA_RESTART(USARTx);
+	}
+	//---复位超时计数器
+	USART_TimeTick_Init(&(USARTx->msgTxdHandler));
 	return OK_0;
 }
 
@@ -1265,7 +1324,7 @@ UINT8_T  USART_Read_Init(USART_HandlerType*  USARTx)
 	//---清零接收完成标志
 	USARTx->msgRxdHandler.msgState = USART_BUSY;
 	//---清零超时计数
-	USARTx->msgRxdHandler.msgRecordTime = 0;
+	USARTx->msgRxdHandler.msgRecordTick = 0;
 	//---清零超时标志
 	USARTx->msgRxdHandler.msgOverFlow = 0;
 	//---校验是不是DMA模式
@@ -1294,7 +1353,7 @@ UINT8_T USART_Write_Init(USART_HandlerType*  USARTx)
 	//---清零发送数据个数
 	USARTx->msgTxdHandler.msgCount = 0;
 	//---清零超时计数
-	USARTx->msgTxdHandler.msgRecordTime = 0;
+	USARTx->msgTxdHandler.msgRecordTick = 0;
 	//---清零超时标志
 	USARTx->msgTxdHandler.msgOverFlow = 0;
 	//---操作步序归零
@@ -1303,6 +1362,8 @@ UINT8_T USART_Write_Init(USART_HandlerType*  USARTx)
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---数据发送完成，切换端口为输入模式
 	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+	//---记录发送完成的时间
+	USARTx->msgTxdHandler.msgRecordTime = ((USARTx->msgTxdHandler.msgTimeTick != NULL) ? (USARTx->msgTxdHandler.msgTimeTick()) : 0);
 	return OK_0;
 }
 
@@ -1338,27 +1399,28 @@ void USART_PrintfSuspend(USART_HandlerType* USARTx)
 	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
 	while ((USARTx->msgTxdHandler.msgState == USART_BUSY) || (USARTx->msgTxdHandler.msgState == USART_PRINTF)||(USARTx->msgTxdHandler.msgState == USART_DMA))
 	{
+		//--->>>是不是对这里进行超时异常处理，超过国定时间，还没有发送完成，那么进行强制发送完成标识，清零状态
 		WDT_RESET();
 	}
-	//---检查发送寄存器空中断是否使能
-	if (LL_USART_IsEnabledIT_TXE(USARTx->msgUSART))
-	{
-		//---等待发送完成
-		while (LL_USART_IsActiveFlag_TXE(USARTx->msgUSART) != RESET)
-		{
-			WDT_RESET();
-		}
-	}
-	//---检查发送完成中断
-	if (LL_USART_IsEnabledIT_TC(USARTx->msgUSART))
-	{
-		//---等待发送完成
-		while ((LL_USART_IsActiveFlag_TC(USARTx->msgUSART) != RESET) && (USARTx->msgTxdHandler.msgStep == 0))
-		{
-			WDT_RESET();
-		}
-		LL_USART_ClearFlag_TC(USARTx->msgUSART);
-	}
+	////---检查发送寄存器空中断是否使能
+	//if (LL_USART_IsEnabledIT_TXE(USARTx->msgUSART))
+	//{
+	//	//---等待发送完成
+	//	while (LL_USART_IsActiveFlag_TXE(USARTx->msgUSART) != RESET)
+	//	{
+	//		WDT_RESET();
+	//	}
+	//}
+	////---检查发送完成中断
+	//if (LL_USART_IsEnabledIT_TC(USARTx->msgUSART))
+	//{
+	//	//---等待发送完成
+	//	while ((LL_USART_IsActiveFlag_TC(USARTx->msgUSART) != RESET) && (USARTx->msgTxdHandler.msgStep == 0))
+	//	{
+	//		WDT_RESET();
+	//	}
+	//	LL_USART_ClearFlag_TC(USARTx->msgUSART);
+	//}
 	//---定义485为发送模式
 	USART_485GPIOInit(USARTx, USART_485_TX_ENABLE);
 	//---切换发送端口为输出模式
@@ -1380,6 +1442,8 @@ void USART_PrintfResume(USART_HandlerType* USARTx)
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---数据发送完成，切换端口为输入模式
 	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+	//---记录发送完成的时间
+	USARTx->msgTxdHandler.msgRecordTime = ((USARTx->msgTxdHandler.msgTimeTick != NULL) ? (USARTx->msgTxdHandler.msgTimeTick()) : 0);
 #endif
 }
 
@@ -1396,7 +1460,7 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 	//---校验串口是否已经初始化过
 	if (USARTx->msgUSART!=NULL)
 	{
-		//---挂起操作
+		//---挂起操作，等待上一次的发送完成
 		USART_PrintfSuspend(USARTx);
 		//---计算数据
 		UINT16_T length = 0;
@@ -1434,6 +1498,8 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 			//---发送8Bit的数据
 			LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[0]);
 		}
+		//---复位超时计数器
+		USART_TimeTick_Init(&(USARTx->msgTxdHandler));
 	}
 #endif	
 }
@@ -1454,6 +1520,7 @@ UINT8_T  USART_ITPrintf_TCTask(USART_HandlerType* USARTx)
 		LL_USART_DisableIT_TC(USARTx->msgUSART);
 		//---恢复操作
 		USART_PrintfResume(USARTx);
+		//---标识发送完成
 		USARTx->msgTxdHandler.msgState = USART_OK;
 	}
 	else
@@ -1468,7 +1535,7 @@ UINT8_T  USART_ITPrintf_TCTask(USART_HandlerType* USARTx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
+//////功		能：中断发送完成函数
 //////输入参数:
 //////输出参数:
 //////说		明：

@@ -148,31 +148,43 @@ void Sys_Init(void)
 	RandomTask_Init(0);
 	//---CRC校验初始化
 	CRCTask_Init();
-	//---定时器初始化
-	TimerTask_Init();
 	//---串口的初始化
 	USARTTask_Init(pUsart1, USART1_RX_MAX_SIZE, USART1_RX_BUFFER, USART_CRC_NONE, USART1_TX_MAX_SIZE, USART1_TX_BUFFER, USART_CRC_NONE, SysTickTask_GetTick);
+	//---硬件初始化
+	//HardWare_Init();
+	//---初始化MCO的输出时钟
+	//MCO1_Init();
+	//---定时器初始化
+	TimerTask_Init();
+	//---HMC5883的初始化
+	//HMC5883Task_I2C_Init(pHmc5883Device0, DelayTask_us,DelayTask_ms, SysTickTask_GetTick, 0);
+	//---AHT10的初始化
+	//AHT10Task_I2C_Init(pAht10Device0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick, 0);
+	//---初始化MPU6050
+	MPU6050Task_I2C_Init(pMpu6050Device0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick, 1);
+	//UINT8_T tempID = 0;
+	//MPU6050Task_I2C_ReadChipID(pMpu6050Device0,&tempID);
 	//---ISP的初始化
-	ISPTask_Init(pIspDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
+	//ISPTask_Init(pIspDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
 	//---JTAG的初始化
-	JTAG_Init(pJtagDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick);
+	//JTAGTask_Init(pJtagDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick);
 	//---WM8510
-	WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, SysTickTask_GetTick, 0);
+	//WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---SI5351A
 	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---指示灯的初始化
-	LEDTask_Init();	
+	//LEDTask_Init();	
 	//---DAC的初始化
-	DACTask_Init(DAC_CHANNEL_SELECT_ALL, DAC_CHANNEL_ENABLE_BUFFER);
+	//DACTask_Init(DAC_CHANNEL_SELECT_ALL, DAC_CHANNEL_ENABLE_BUFFER);
 	//---数据总线的初始化
 	//DataBus_Init();
 	//---初始化LM317做的可调电源
-	LM317Task_Init(0,3000);
-	LM317_POWER_ON;
-	
+	//LM317Task_Init(0,3000);
+	//LM317_POWER_ON;
+	//HMC5883Task_CalibrateMag(pHmc5883Device0);
 	//---ADC初始化
-	ADCTask_ADC_Init();
-	ADCTask_ADCTask_START(ADC1);
+	//ADCTask_ADC_Init();
+	//ADCTask_ADCTask_START(ADC1);
 	//---开启看门狗
 	//IWDGTask_Init(pIWDG);
 }
@@ -216,10 +228,21 @@ int main(void)
 		//USART_Printf(pUsart1, "TEST Count:%d\r\n", i);
 		//i++;
 		//DelayTask_ms(300);
+		//HMC5883Task_ReadRawData(pHmc5883Device0);
+		//USART_Printf(pUsart1, "X=%d\r\nY=%d\r\nZ=%d\r\nangle=%f\r\n",pHmc5883Device0->msgX,pHmc5883Device0->msgY,pHmc5883Device0->msgZ,pHmc5883Device0->msgAngle);
+		////i++;
+		//AHT10Task_I2C_ReadTempHumi(pAht10Device0);
+		//USART_Printf(pUsart1, "Temp=%f\r\nHumi=%f\r\n", AHT10Task_I2C_GetTemp(pAht10Device0),AHT10Task_I2C_GetHumi(pAht10Device0));
+		//DelayTask_ms(300);	
+		USART_Printf(pUsart1,"OK:%d\r\n",MPU6050Task_I2C_ReadAccelTempGyro(pMpu6050Device0));
+		USART_Printf(pUsart1,"accel  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgAccel.xAccel, pMpu6050Device0->msgAccel.yAccel, pMpu6050Device0->msgAccel.zAccel);
+		USART_Printf(pUsart1,"gyro  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgGyro.xGyro, pMpu6050Device0->msgGyro.yGyro, pMpu6050Device0->msgGyro.zGyro);
+		USART_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTempX100);
+		DelayTask_ms(300);
 		//---模拟RTC处理
-		SysRTCTask_SoftRTCTask(pSysSoftRTC, SysTickTask_GetTick());
+		SysRTCTask_RTCTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---任务管理函数
-		Task_Manage();
+		//Task_Manage();
 		//---频率测试函数
 		//USARTTask_DebugFreqTask(pUsart1,NULL);
 		//---逻辑测试

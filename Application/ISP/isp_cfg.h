@@ -36,7 +36,7 @@ extern "C" {
 	//===默认编程时钟
 	#define ISP_SCK_DEFAULT_CLOCK				ISP_SCK_PRE_64
 	//===编程最大色时钟
-	#define ISP_SCK_MAX_CLOCK					ISP_SCK_PRE_32
+	#define ISP_SCK_MAX_CLOCK					ISP_SCK_PRE_64
 	//===编程时钟最大改变的次数
 	#define ISP_SCK_AUTO_MAX_COUNT				18	
 	//===编程缓存区的大小
@@ -65,7 +65,7 @@ extern "C" {
 		UINT8_T		msgWriteByte[ISP_COMM_MAX_SIZE];																																//---发送数据
 		UINT8_T		msgReadByte[ISP_COMM_MAX_SIZE];																																	//---读取数据
 		UINT16_T	msgIntervalTime;																																				//---轮询时间间隔,单位是ms
-		UINT32_T	msgRecordTime;																																					//---记录的时间参数
+		UINT32_T	msgRecordTick;																																					//---记录的时间参数
 #ifdef ISP_USE_lEVEL_SHIFT
 		GPIO_HandlerType msgOE;																																						//---电平转换使能控制端，0---使能；1---不使能
 #endif

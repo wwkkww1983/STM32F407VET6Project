@@ -1,4 +1,4 @@
-#ifndef ESP8266_CFG_H_
+Ôªø#ifndef ESP8266_CFG_H_
 #define ESP8266_CFG_H_
 //////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
@@ -6,60 +6,72 @@ extern "C" {
 #endif
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "complier_lib.h"
+	#include "systick_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-	//===AT∑µªÿ√¸¡Ó
-	const char ESP8266_AT_RESPONSE_OK[]			= "OK\r\n";
-	const char ESP8266_AT_RESPONSE_ERROR[]		= "ERROR\r\n";
-	const char ESP8266_AT_RESPONSE_FAIL[]		= "FAIL";
-	const char ESP8266_AT_RESPONSE_READY[]		= "READY!";
-	const char ESP8266_AT_RESPONSE_RECEIVED[]	= "+IPD,";
+	
+	//===Ê∂àÊÅØÂè™ÊòØ
+	typedef enum
+	{
+		ESP8266_SUCCESS = 0,																							//---ÊàêÂäü
+		ESP8266_BUSY,																									//---ÂøôÁ¢åÁä∂ÊÄÅ
+		ESP8266_ERROR_ERR ,																								//---ÈîôËØØ
+		ESP8266_ERROR_FAIL,																								//---Â§±Ë¥•
+		ESP8266_ERROR_READY ,																							//---ÂáÜÂ§á
+		ESP8266_ERROR_BUSY ,																							//---ÂøôÁ¢å
+		ESP8266_ERROR_UNKNOWN ,																							//---‰∏çÊòØË¢´
+		ESP8266_ERROR_TIMEOUT ,																							//---Ë∂ÖÊó∂
+		ESP8266_ERROR_CMD ,																								//---ATÂëΩ‰ª§ÈîôËØØ
+	}ESP8266_MESSAGE;
 
-	//===ATª˘±æ÷∏¡Ó
-	const char ESP8266_AT_CMD_TEST[]			= "";																																//---≤‚ ‘√¸¡Ó
-	const char ESP8266_AT_CMD_RESET[]			= "+RST";																															//---ƒ£øÈ÷ÿ∆Ù
-	const char ESP8266_AT_CMD_VERSION[]			= "+GMR";																															//---≤Èø¥πÃº˛∞Ê±æ
-	const char ESP8266_AT_CMD_DEEP_SLEEP[]		= "+GSLP";																															//---Ω¯»ÎDepSleepÀØ√ﬂƒ£ Ω
-	const char ESP8266_AT_CMD_DEEP_SLEEP[]		= "+SLEEP";																															//---…Ë÷√–›√ﬂƒ£ Ω
-	const char ESP8266_AT_CMD_ECHO_OPEN[]		= "E1";																																//---¥Úø™ªÿœ‘
-	const char ESP8266_AT_CMD_ECHO_CLOSE[]		= "E0";																																//---πÿ±’ªÿœ‘
-	const char ESP8266_AT_CMD_RESTORE[]			= "+RESTORE";																														//---ª÷∏¥≥ˆ≥ß…Ë÷√
-	const char ESP8266_AT_CMD_UART[]			= "+UART";																															//---…Ë÷√¥Æø⁄ƒ£ Ω
+	//===Â∑•‰ΩúÊ®°Âºè
+	typedef enum
+	{
+		ESP8266_STA = 1,																								//---StationÊ®°Âºè
+		ESP8266_AP = 2,																									//---APÊ®°Âºè
+		ESP8266_STA_AP = 3																								//---AP+StationÊ®°Âºè
+	}ESP8266_MODE;
+	
+	//===ÂëΩ‰ª§Ê®°Âºè
+	typedef enum
+	{
+		ESP8266_CMD_QUERY=0,																							//---Êü•ËØ¢ÂëΩ‰ª§
+		ESP8266_CMD_SETUP,																								//---ËÆæÁΩÆÂëΩ‰ª§
+		ESP8266_CMD_EXECUTE																								//---ÊâßË°åÂëΩ‰ª§
+	}ESP8266_CMD_TYPE;
 
-	//===WIFIπ¶ƒ‹√¸¡Ó
-	const char ESP8266_AT_WIFI_MODE[]			= "+CWMODE";																														//---…Ë÷√ƒ£ Ω
-	const char ESP8266_AT_WIFI_CONNECT_AP[]		= "+CWJAP";																															//---º”»Î»»µ„
-	const char ESP8266_AT_WIFI_LIST_AP[]		= "+CWLAP";																															//---≤˙ø¥µ±«∞µƒŒﬁœﬂ¬∑”…∆˜¡–±Ì
-	const char ESP8266_AT_WIFI_DISCONNECT[]		= "+CWQAP";																															//---ÕÀ≥ˆ»»µ„
-	const char ESP8266_AT_WIFI_AP_CONFIG[]		= "+CWSAP";																															//---
-	const char ESP8266_AT_WIFI_STATION_IP[]		= "+CWLIF"; // List station IP's connected to softAP
-	const char ESP8266_AT_WIFI_DHCP_EN[]		= "+CWDHCP"; // Enable/disable DHCP
-	const char ESP8266_AT_WIFI_AUTO_CONNECT[]	= "+CWAUTOCONN"; // Connect to AP automatically
-	const char ESP8266_AT_WIFI_SET_STA_MAC[]	= "+CIPSTAMAC"; // Set MAC address of station
-	const char ESP8266_AT_WIFI_GET_STA_MAC[]	= "+CIPSTAMAC"; // Get MAC address of station
-	const char ESP8266_AT_WIFI_SET_AP_MAC[]		= "+CIPAPMAC"; // Set MAC address of softAP
-	const char ESP8266_AT_WIFI_SET_STA_IP[]		= "+CIPSTA"; // Set IP address of ESP8266 station
-	const char ESP8266_AT_WIFI_SET_AP_IP[]		= "+CIPAP"; // Set IP address of ESP8266 softAP
+	//===WIFIÁÉ≠ÁÇπÂä†ÂØÜÊñπÂºè
+	typedef enum
+	{
+		ESP8266_OPEN=0,
+		ESP8266_WPA_PSK,
+		ESP8266_WPA2_PSK,
+		ESP8266_WPA_WPA2_PSK
+	}ESP8266_WIFI_ENCRYPTION;
+	
+	typedef enum
+	{
+		ESP8266_GOTIP = 2,																								//---Ëé∑ÂèñIP
+		ESP8266_CONNECTED = 3,																							//---ËøûÊé•Áä∂ÊÄÅ
+		ESP8266_DISCONNECTED = 4,																						//---Êú™ËøûÊé•Áä∂ÊÄÅ
+		ESP8266_NOWIFI = 5,																								//---Ê≤°ÊúâWIFI
+	}ESP8266_STATUS;
 
-	/////////////////////
-	// TCP/IP Commands //
-	/////////////////////
-	const char ESP8266_TCP_STATUS[] = "+CIPSTATUS"; // Get connection status
-	const char ESP8266_TCP_CONNECT[] = "+CIPSTART"; // Establish TCP connection or register UDP port
-	const char ESP8266_TCP_SEND[] = "+CIPSEND"; // Send Data
-	const char ESP8266_TCP_CLOSE[] = "+CIPCLOSE"; // Close TCP/UDP connection
-	const char ESP8266_GET_LOCAL_IP[] = "+CIFSR"; // Get local IP address
-	const char ESP8266_TCP_MULTIPLE[] = "+CIPMUX"; // Set multiple connections mode
-	const char ESP8266_SERVER_CONFIG[] = "+CIPSERVER"; // Configure as server
-	const char ESP8266_TRANSMISSION_MODE[] = "+CIPMODE"; // Set transmission mode
-	//!const char ESP8266_SET_SERVER_TIMEOUT[] = "+CIPSTO"; // Set timeout when ESP8266 runs as TCP server
-	const char ESP8266_PING[] = "+PING"; // Function PING
+	//===ËøûÊé•Áä∂ÊÄÅ
+	typedef enum
+	{
+		ESP8266_TCP=0,																									//---TCPÊ®°Âºè
+		ESP8266_UDP,																									//---UDPÊ®°Âºè
+		ESP8266_UNKNOWN																									//---‰∏çËØÜÂà´Ê®°Âºè
+	}ESP8266_CONNECTION_TYPE;
+	
+	//===ÁΩëÁªúËøûÊé•Ê®°Âºè
+	typedef enum
+	{
+		ESP8266_CLIENT=0,																								//---ÂÆ¢Êà∑Á´Ø
+		ESP8266_SERVER																									//---ÊúçÂä°Á´Ø
+	}esp8266_NET_TYPE;
 
-	//////////////////////////
-	// Custom GPIO Commands //
-	//////////////////////////
-	const char ESP8266_PINMODE[] = "+PINMODE"; // Set GPIO mode (input/output)
-	const char ESP8266_PINWRITE[] = "+PINWRITE"; // Write GPIO (high/low)
-	const char ESP8266_PINREAD[] = "+PINREAD"; // Read GPIO digital value
+	#define ESP8266_BUFFER_MAX_SIZE						1024															//---ÂÆö‰πâÁºìÂ≠òÂå∫ÁöÑÂ§ßÂ∞è
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

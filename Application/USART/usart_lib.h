@@ -31,7 +31,8 @@ extern "C" {
 	UINT8_T  USARTLib_FillMode_AddData(USART_HandlerType*USARTx, UINT8_T *pVal, UINT16_T length);
 	UINT8_T	 USARTLib_FillMode_SetResultFlag(USART_HandlerType* USARTx, UINT8_T val);
 	UINT8_T  USARTLib_FillMode_AddIndexW(USART_HandlerType* USARTx, UINT16_T val);
-	UINT8_T  USARTLib_FillMode_WriteSTART(USART_HandlerType* USARTx, UINT8_T isNeedID);
+	UINT8_T  USARTLib_FillMode_WriteByteSTART(USART_HandlerType* USARTx, UINT8_T isNeedID);
+	UINT8_T  USARTLib_FillMode_WriteArraySTART(USART_HandlerType* USARTx, UINT8_T* pArrayVal, UINT16_T length);
 	UINT8_T  USARTLib_CRCTask_Read(USART_HandlerType*USARTx);
 	UINT8_T  USARTLib_CRCTask_Write(USART_HandlerType*USARTx);
 	UINT8_T  USARTLib_PollMode_WriteByte(USART_HandlerType*USARTx, UINT8_T  val);

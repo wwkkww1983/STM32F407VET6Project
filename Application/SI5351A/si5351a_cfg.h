@@ -125,13 +125,13 @@ extern "C" {
 	UINT8_T SI5351A_I2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
 	UINT8_T SI5351A_I2C_Init(SI5351A_HandlerType* SI5351Ax, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
 	UINT8_T SI5351A_I2C_DeInit(SI5351A_HandlerType* SI5351Ax);
-	UINT8_T SI5351A_I2C_START(SI5351A_HandlerType* SI5351Ax);
-	UINT8_T SI5351A_PLLRST(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel);
-	UINT8_T SI5351A_ReadID(SI5351A_HandlerType* SI5351Ax);
-	UINT8_T SI5351A_SetFreqHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq);
-	UINT8_T SI5351A_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz);
-	UINT8_T SI5351A_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz);
-	UINT8_T SI5351A_SetClockChannelIDRV(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv);
+	UINT8_T SI5351A_I2C_ConfigInit(SI5351A_HandlerType* SI5351Ax);
+	UINT8_T SI5351A_I2C_PLLRST(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel);
+	UINT8_T SI5351A_I2C_ReadChipID(SI5351A_HandlerType* SI5351Ax);
+	UINT8_T SI5351A_I2C_SetFreqHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq);
+	UINT8_T SI5351A_I2C_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz);
+	UINT8_T SI5351A_I2C_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz);
+	UINT8_T SI5351A_I2C_SetClockChannelIDRV(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

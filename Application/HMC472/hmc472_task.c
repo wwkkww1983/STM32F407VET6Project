@@ -405,7 +405,7 @@ UINT8_T HMC472Task_USART_MenuTask( USART_HandlerType*USARTx )
 		if (_return==OK_0)
 		{
 			//---Æô¶¯·¢ËÍ
-			USARTTask_FillMode_WriteSTART(USARTx, 1);
+			USARTTask_FillMode_WriteByteSTART(USARTx, 1);
 		}
 	}
 	else

@@ -31,7 +31,7 @@ extern "C" {
 		UINT32_T				msgTempX10000;																																		//---温度的值，放大1000倍的值
 		UINT16_T				msgIntervalTime;																																	//---轮询时间间隔,单位是ms
 		UINT16_T				msgBitTempX10000;																																	//---温度分辨率每Bit代表的温度的值
-		UINT32_T				msgRecordTime;																																		//---记录的时间参数
+		UINT32_T				msgRecordTick;																																		//---记录的时间参数
 		OneWire_HandlerType		msgOneWire;																																			//---一线通信
 		void(*msgDelayms)(UINT32_T delay);																																			//---ms延时函数
 		UINT32_T(*msgTimeTick)(void);																																				//---时间节拍

@@ -85,17 +85,17 @@ extern "C" {
 	UINT8_T MAX961X_I2C_Device1_Init(MAX961X_HandlerType* MAX961x);
 	UINT8_T MAX961X_I2C_Device2_Init(MAX961X_HandlerType* MAX961x);
 	UINT8_T MAX961X_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T MAX961X_I2C_SingleWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val);
-	UINT8_T MAX961X_I2C_BurstWriteReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal);
-	UINT8_T MAX961X_I2C_SingleReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal);
-	UINT8_T MAX961X_I2C_BurstReadReg(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal);
+	UINT8_T MAX961X_I2C_WriteSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val);
+	UINT8_T MAX961X_I2C_WriteBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal);
+	UINT8_T MAX961X_I2C_ReadSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal);
+	UINT8_T MAX961X_I2C_ReadBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal);
 	UINT8_T MAX961X_I2C_CheckDevice(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_GetRSVoltage(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_GetRSCurrent(MAX961X_HandlerType* MAX961x, UINT8_T currentGain);
-	UINT8_T MAX961X_I2C_GetOutVoltage(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_GetSetVoltage(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_GetTemperature(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_GetAll(MAX961X_HandlerType* MAX961x, UINT8_T currentGain);
+	UINT8_T MAX961X_I2C_ReadRSVoltage(MAX961X_HandlerType* MAX961x);
+	UINT8_T MAX961X_I2C_ReadRSCurrent(MAX961X_HandlerType* MAX961x, UINT8_T currentGain);
+	UINT8_T MAX961X_I2C_ReadOutVoltage(MAX961X_HandlerType* MAX961x);
+	UINT8_T MAX961X_I2C_ReadSetVoltage(MAX961X_HandlerType* MAX961x);
+	UINT8_T MAX961X_I2C_ReadTemp(MAX961X_HandlerType* MAX961x);
+	UINT8_T MAX961X_I2C_ReadAll(MAX961X_HandlerType* MAX961x, UINT8_T currentGain);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

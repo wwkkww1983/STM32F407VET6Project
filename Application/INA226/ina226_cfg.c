@@ -49,7 +49,7 @@ UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_
 		INA226x->msgI2C.msgHwMode = 0;
 	}
 	//---配置初始化
-	_return = INA226_ConfigInit(INA226x);
+	_return = INA226_I2C_ConfigInit(INA226x);
 	return _return;
 }
 
@@ -276,7 +276,7 @@ UINT8_T INA226_I2C_ReadReg(INA226_HandlerType* INA226x, UINT8_T addr, UINT16_T* 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetDieID(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadDieID(INA226_HandlerType* INA226x)
 {
 	UINT16_T deviceID = 0;
 	UINT8_T _return = INA226_I2C_ReadReg(INA226x, DIE_ID_REG, &deviceID);
@@ -297,7 +297,7 @@ UINT8_T INA226_GetDieID(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetManuID(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadManuID(INA226_HandlerType* INA226x)
 {
 	UINT16_T deviceID = 0;
 	UINT8_T _return = INA226_I2C_ReadReg(INA226x, MANUFACTURER_ID_REG, &deviceID);
@@ -318,7 +318,7 @@ UINT8_T INA226_GetManuID(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetCFGReg(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadCFGReg(INA226_HandlerType* INA226x)
 {
 	return INA226_I2C_ReadReg(INA226x, CONFIGURATION_REG, &(INA226x->msgCFGReg));
 }
@@ -330,7 +330,7 @@ UINT8_T INA226_GetCFGReg(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_SetCFGReg(INA226_HandlerType* INA226x, UINT16_T val)
+UINT8_T INA226_I2C_WriteCFGReg(INA226_HandlerType* INA226x, UINT16_T val)
 {
 	INA226x->msgCFGReg = val;
 	return INA226_I2C_WriteReg(INA226x, CONFIGURATION_REG, INA226x->msgCFGReg);
@@ -343,10 +343,10 @@ UINT8_T INA226_SetCFGReg(INA226_HandlerType* INA226x, UINT16_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_Reset(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_Reset(INA226_HandlerType* INA226x)
 {
 	INA226x->msgCFGReg = 0x4000;
-	return INA226_SetCFGReg(INA226x,0xC000);
+	return INA226_I2C_WriteCFGReg(INA226x,0xC000);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -356,7 +356,7 @@ UINT8_T INA226_Reset(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetCalibReg(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadCalibReg(INA226_HandlerType* INA226x)
 {
 	return INA226_I2C_ReadReg(INA226x, CALIBRATION_REG, &(INA226x->msgCalibReg));
 }
@@ -368,7 +368,7 @@ UINT8_T INA226_GetCalibReg(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_SetCalibReg(INA226_HandlerType* INA226x,UINT16_T val)
+UINT8_T INA226_I2C_WriteCalibReg(INA226_HandlerType* INA226x,UINT16_T val)
 {
 	INA226x->msgCalibReg = val;
 	return INA226_I2C_WriteReg(INA226x, CALIBRATION_REG, INA226x->msgCalibReg);
@@ -381,7 +381,7 @@ UINT8_T INA226_SetCalibReg(INA226_HandlerType* INA226x,UINT16_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetMaskReg(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadMaskReg(INA226_HandlerType* INA226x)
 {
 	return INA226_I2C_ReadReg(INA226x, MASK_ENABLE_REG, &(INA226x->msgMaskReg));
 }
@@ -393,7 +393,7 @@ UINT8_T INA226_GetMaskReg(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_SetMaskReg(INA226_HandlerType* INA226x, UINT16_T val)
+UINT8_T INA226_I2C_WriteMaskReg(INA226_HandlerType* INA226x, UINT16_T val)
 {
 	INA226x->msgMaskReg=val;
 	return INA226_I2C_WriteReg(INA226x, MASK_ENABLE_REG, INA226x->msgMaskReg);
@@ -406,7 +406,7 @@ UINT8_T INA226_SetMaskReg(INA226_HandlerType* INA226x, UINT16_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_ClearConversionReadyFlag(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ClearConversionReadyFlag(INA226_HandlerType* INA226x)
 {
 	return INA226_I2C_ReadReg(INA226x, MASK_ENABLE_REG, &(INA226x->msgMaskReg));
 }
@@ -418,7 +418,7 @@ UINT8_T INA226_ClearConversionReadyFlag(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetShuntReg(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadShuntReg(INA226_HandlerType* INA226x)
 {
 	return INA226_I2C_ReadReg(INA226x, SHUNT_VOLTAGE_REG, &(INA226x->msgShuntReg));
 }
@@ -430,7 +430,7 @@ UINT8_T INA226_GetShuntReg(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetCurrentReg(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadCurrentReg(INA226_HandlerType* INA226x)
 {
 	return INA226_I2C_ReadReg(INA226x, CURRENT_REG, &(INA226x->msgCurrentReg));
 }
@@ -442,7 +442,7 @@ UINT8_T INA226_GetCurrentReg(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetBusVReg(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadBusVReg(INA226_HandlerType* INA226x)
 {
 	return INA226_I2C_ReadReg(INA226x, BUS_VOLTAGE_REG, &(INA226x->msgBusVReg));
 }
@@ -454,7 +454,7 @@ UINT8_T INA226_GetBusVReg(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetPowerReg(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadPowerReg(INA226_HandlerType* INA226x)
 {
 	return INA226_I2C_ReadReg(INA226x, POWER_REG, &(INA226x->msgPowerReg));
 }
@@ -466,9 +466,9 @@ UINT8_T INA226_GetPowerReg(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetBusVoltage(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_GetBusVoltage(INA226_HandlerType* INA226x)
 {
-	UINT8_T _return = INA226_GetBusVReg(INA226x);
+	UINT8_T _return = INA226_I2C_ReadBusVReg(INA226x);
 	INA226x->msgBusmV = 0.0f;
 	if (_return==OK_0)
 	{
@@ -485,9 +485,9 @@ UINT8_T INA226_GetBusVoltage(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetShuntVoltage(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadShuntVoltage(INA226_HandlerType* INA226x)
 {
-	UINT8_T _return = INA226_GetShuntReg(INA226x);
+	UINT8_T _return = INA226_I2C_ReadShuntReg(INA226x);
 	INA226x->msgShuntuV = 0.0f;
 	if (_return == OK_0)
 	{
@@ -511,9 +511,9 @@ UINT8_T INA226_GetShuntVoltage(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetShuntCurrent(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ReadShuntCurrent(INA226_HandlerType* INA226x)
 {
-	UINT8_T _return = INA226_GetCurrentReg(INA226x);
+	UINT8_T _return = INA226_I2C_ReadCurrentReg(INA226x);
 	INA226x->msgShuntuA = 0.0f;
 	if (_return == OK_0)
 	{
@@ -537,7 +537,7 @@ UINT8_T INA226_GetShuntCurrent(INA226_HandlerType* INA226x)
 			}
 			else
 			{
-				_return = INA226_GetShuntVoltage(INA226x);
+				_return = INA226_I2C_ReadShuntVoltage(INA226x);
 				if (_return == OK_0)
 				{
 					if ((INA226x->msgShuntReg & 0x8000) != 0)
@@ -553,7 +553,7 @@ UINT8_T INA226_GetShuntCurrent(INA226_HandlerType* INA226x)
 		}
 		else
 		{
-			_return = INA226_GetShuntVoltage(INA226x);
+			_return = INA226_I2C_ReadShuntVoltage(INA226x);
 			if (_return == OK_0)
 			{
 				if ((INA226x->msgShuntReg & 0x8000) != 0)
@@ -578,13 +578,13 @@ UINT8_T INA226_GetShuntCurrent(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_GetPower(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_GetPower(INA226_HandlerType* INA226x)
 {
-	UINT8_T _return = INA226_GetShuntVoltage(INA226x);
+	UINT8_T _return = INA226_I2C_ReadShuntVoltage(INA226x);
 	INA226x->msgPowermW = 0.0f;
 	if (_return == OK_0)
 	{
-		_return = INA226_GetShuntCurrent(INA226x);
+		_return = INA226_I2C_ReadShuntCurrent(INA226x);
 		if (_return==OK_0)
 		{
 			INA226x->msgPowermW = INA226x->msgBusmV * INA226x->msgShuntuA / 1000000.0;
@@ -599,12 +599,12 @@ UINT8_T INA226_GetPower(INA226_HandlerType* INA226x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T INA226_ConfigInit(INA226_HandlerType* INA226x)
+UINT8_T INA226_I2C_ConfigInit(INA226_HandlerType* INA226x)
 {
 	UINT8_T _return = OK_0;
 	INA226x->msgCFGReg = 0x4000;
 	//---平局64，采集时间204us
-	_return= INA226_SetCFGReg(INA226x,	0x4000| AVERAGING_MODE_64|
+	_return= INA226_I2C_WriteCFGReg(INA226x,	0x4000| AVERAGING_MODE_64|
 										BUS_VOLTAGE_CONVERSIOM_TIME_204_US|
 										SHUNT_VOLTAGE_CONVERSIOM_TIME_204_US|
 										OPERATING_MODE_SHUNT_BUS_VOLTAGE_CONT
@@ -612,12 +612,12 @@ UINT8_T INA226_ConfigInit(INA226_HandlerType* INA226x)
 	if (_return==OK_0)
 	{
 		//---设置校准寄存器
-		_return = INA226_SetCalibReg(INA226x, INA226_RANG_CURRENT_UA_BIT_X2);
+		_return = INA226_I2C_WriteCalibReg(INA226x, INA226_RANG_CURRENT_UA_BIT_X2);
 	}
 	if (_return==OK_0)
 	{
 		//---将报警端口设置为装换完成，标志低有效，高电平无效
-		_return = INA226_SetMaskReg(INA226x, CONVERSION_READY_ENABLE);
+		_return = INA226_I2C_WriteMaskReg(INA226x, CONVERSION_READY_ENABLE);
 	}
 	return _return;
 }

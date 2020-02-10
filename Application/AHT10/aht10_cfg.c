@@ -22,7 +22,7 @@ UINT8_T AHT10_I2C_Device0_Init(AHT10_HandlerType* AHT10x)
 	AHT10x->msgI2C.msgPluseWidth = 0;
 	AHT10x->msgI2C.msgDelayus = NULL;
 	AHT10x->msgI2C.msgAddr = AHT10_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
-	AHT10x->msgI2C.msgClockSpeed = 10;
+	AHT10x->msgI2C.msgClockSpeed = 0;
 	//---每次读取的间隔时间,76ms，建议采集周期是760ms
 	AHT10x->msgIntervalTime=76*2;
 	//---设定温度初始值是室温25摄氏度
@@ -127,7 +127,7 @@ UINT8_T AHT10_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T d
 	//---配置设备
 	_return = AHT10_I2C_Config(AHT10x);
 	//---当前时间
-	AHT10x->msgRecordTime = AHT10x->msgI2C.msgTimeTick();
+	AHT10x->msgRecordTick = AHT10x->msgI2C.msgTimeTick();
 	return _return;
 }
 
@@ -309,7 +309,7 @@ UINT8_T AHT10_I2C_StartMeasure(AHT10_HandlerType* AHT10x)
 	//---发送测量命令
 	UINT8_T _return=AHT10_I2C_WriteBulk(AHT10x, tempCMD, 3);
 	//---获取时间街拍
-	AHT10x->msgRecordTime= AHT10x->msgI2C.msgTimeTick();
+	AHT10x->msgRecordTick= AHT10x->msgI2C.msgTimeTick();
 	return _return;
 }
 
@@ -326,13 +326,13 @@ UINT8_T AHT10_I2C_STATE(AHT10_HandlerType* AHT10x)
 	UINT32_T nowTime = AHT10x->msgI2C.msgTimeTick();
 	UINT32_T cnt = 0;
 	//---判断滴答定时是否发生溢出操作
-	if (AHT10x->msgRecordTime > nowTime)
+	if (AHT10x->msgRecordTick > nowTime)
 	{
-		cnt = (0xFFFFFFFF - AHT10x->msgRecordTime + nowTime);
+		cnt = (0xFFFFFFFF - AHT10x->msgRecordTick + nowTime);
 	}
 	else
 	{
-		cnt = nowTime - AHT10x->msgRecordTime;
+		cnt = nowTime - AHT10x->msgRecordTick;
 	}
 	//---校验时间间隔是否到达
 	if (cnt > AHT10x->msgIntervalTime)
