@@ -82,20 +82,7 @@ UINT8_T MPU6050_I2C_Init(MPU6050_HandlerType* MPU6050x, void(*pFuncDelayus)(UINT
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	if (isHWI2C)
-	{
-		//---初始化硬件I2C
-		_return = I2CTask_MHW_Init(&(MPU6050x->msgI2C), pFuncTimerTick);
-		//---设置为硬件模式
-		MPU6050x->msgI2C.msgHwMode = 1;
-	}
-	else
-	{
-		//---初始化软件模拟I2C
-		_return = I2CTask_MSW_Init(&(MPU6050x->msgI2C), pFuncDelayus, pFuncTimerTick);
-		//---设置为软件件模式
-		MPU6050x->msgI2C.msgHwMode = 0;
-	}
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(MPU6050x->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(MPU6050x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---ms延时函数
 	MPU6050x->msgDelayms = ((pFuncDelayms!=NULL)? pFuncDelayms: DelayTask_ms);
 	//---基本配置
@@ -201,6 +188,7 @@ UINT8_T MPU6050_I2C_WriteSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UIN
 {
 	if (MPU6050x->msgI2C.msgHwMode != 0)
 	{
+		I2CTask_MHW_CheckClock(&(MPU6050x->msgI2C));
 		return MPU6050_HWI2C_WriteSingle(MPU6050x, addr, val);
 	}
 	else
@@ -318,6 +306,8 @@ UINT8_T MPU6050_I2C_WriteBulk(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8
 {
 	if (MPU6050x->msgI2C.msgHwMode != 0)
 	{
+		I2CTask_MHW_CheckClock(&(MPU6050x->msgI2C));
+		//---硬件I2C
 		return MPU6050_HWI2C_WriteBulk(MPU6050x, addr, pVal,length);
 	}
 	else
@@ -366,6 +356,7 @@ UINT8_T MPU6050_SWI2C_ReadSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UI
 	*pVal = I2CTask_MSW_ReadByte(&(MPU6050x->msgI2C));
 	//---发送不应答信号
 	_return = I2CTask_MSW_SendACK(&(MPU6050x->msgI2C), 1);
+	//---退出入口
 GoToExit:
 	//---发送停止信号
 	I2CTask_MSW_STOP(&(MPU6050x->msgI2C));
@@ -410,6 +401,7 @@ UINT8_T MPU6050_HWI2C_ReadSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UI
 	_return = I2CTask_MHW_SendACK(&(MPU6050x->msgI2C), 1);
 	//---读取数据
 	*pVal = I2CTask_MHW_PollMode_ReadByte(&(MPU6050x->msgI2C));
+	//---退出入口
 GoToExit:
 	//---发送停止信号
 	I2CTask_MHW_PollMode_STOP(&(MPU6050x->msgI2C));
@@ -427,6 +419,7 @@ UINT8_T MPU6050_I2C_ReadSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT
 {
 	if (MPU6050x->msgI2C.msgHwMode != 0)
 	{
+		I2CTask_MHW_CheckClock(&(MPU6050x->msgI2C));
 		return MPU6050_HWI2C_ReadSingle(MPU6050x, addr, pVal);
 	}
 	else
@@ -540,6 +533,7 @@ UINT8_T MPU6050_HWI2C_ReadBulk(MPU6050_HandlerType* MPU6050x, UINT8_T addr,UINT8
 		pVal[i] = I2CTask_MHW_PollMode_ReadByte(&(MPU6050x->msgI2C));
 	}
 	_return = OK_0;
+	//---退出入口
 GoToExit:
 	//---发送停止信号
 	I2CTask_MHW_PollMode_STOP(&(MPU6050x->msgI2C));
@@ -557,6 +551,7 @@ UINT8_T MPU6050_I2C_ReadBulk(MPU6050_HandlerType* MPU6050x,UINT8_T addr, UINT8_T
 {
 	if (MPU6050x->msgI2C.msgHwMode == 1)
 	{
+		I2CTask_MHW_CheckClock(&(MPU6050x->msgI2C));
 		return  MPU6050_HWI2C_ReadBulk(MPU6050x,addr, pVal, length);
 	}
 	else

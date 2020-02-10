@@ -210,6 +210,18 @@ UINT8_T I2CTask_MHW_PollMode_STOP(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
+UINT8_T I2CTask_MHW_CheckClock(I2C_HandlerType* I2Cx)
+{
+	return I2CLib_MHW_CheckClock(I2Cx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
 UINT8_T I2CTask_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK)
 {
 	return I2CLib_MHW_SendACK(I2Cx, isNACK);
@@ -237,4 +249,16 @@ UINT8_T I2CTask_MHW_PollMode_SendByte(I2C_HandlerType* I2Cx, UINT8_T val, UINT8_
 UINT8_T I2CTask_MHW_PollMode_ReadByte(I2C_HandlerType* I2Cx)
 {
 	return I2CLib_MHW_PollMode_ReadByte(I2Cx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T I2CTask_Master_DeInit(I2C_HandlerType* I2Cx)
+{
+	return I2CLib_Master_DeInit(I2Cx);
 }

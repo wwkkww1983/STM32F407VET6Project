@@ -166,6 +166,7 @@ extern "C" {
 	UINT8_T INA226_I2C_Device1_Init(INA226_HandlerType* INA226x);
 	UINT8_T INA226_I2C_Device2_Init(INA226_HandlerType* INA226x);
 	UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T INA226_I2C_DeInit(INA226_HandlerType* INA226x);
 	UINT8_T INA226_I2C_ConfigInit(INA226_HandlerType* INA226x);
 	UINT8_T INA226_I2C_ReadDieID(INA226_HandlerType* INA226x);
 	UINT8_T INA226_I2C_ReadManuID(INA226_HandlerType* INA226x);

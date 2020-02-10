@@ -30,9 +30,11 @@ extern "C" {
 	UINT8_T I2CLib_MHW_DeInit(I2C_HandlerType* I2Cx);
 	UINT8_T I2CLib_MHW_PollMode_START(I2C_HandlerType* I2Cx, UINT8_T isWrite);
 	UINT8_T I2CLib_MHW_PollMode_STOP(I2C_HandlerType* I2Cx);
+	UINT8_T I2CLib_MHW_CheckClock(I2C_HandlerType* I2Cx);
 	UINT8_T I2CLib_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK);
 	UINT8_T I2CLib_MHW_PollMode_SendByte(I2C_HandlerType* I2Cx, UINT8_T val, UINT8_T isBTF);
 	UINT8_T I2CLib_MHW_PollMode_ReadByte(I2C_HandlerType* I2Cx);
+	UINT8_T I2CLib_Master_DeInit(I2C_HandlerType* I2Cx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

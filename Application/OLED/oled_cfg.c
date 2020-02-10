@@ -161,7 +161,6 @@ UINT8_T OLED_Device2_Init(OLED_IIC_HandlerType *OLEDx)
 UINT8_T OLED_I2C_Init(OLED_IIC_HandlerType *OLEDx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
-
 	//---指定设备的初始化
 	if ((OLEDx != NULL) && (OLEDx == OLED_TASK_ONE))
 	{
@@ -179,21 +178,8 @@ UINT8_T OLED_I2C_Init(OLED_IIC_HandlerType *OLEDx, void(*pFuncDelayus)(UINT32_T 
 	{
 		return ERROR_1;
 	}
-
 	//---判断是硬件I2C还是软件I2C
-	if (isHWI2C)
-	{
-		//---初始化硬件I2C
-		_return = I2CTask_MHW_Init(&(OLEDx->msgI2C),pFuncTimerTick);
-		OLEDx->msgI2C.msgHwMode = 1;
-	}
-	else
-	{
-		//---初始化软件模拟I2C
-		_return = I2CTask_MSW_Init(&(OLEDx->msgI2C), pFuncDelayus,pFuncTimerTick);
-		OLEDx->msgI2C.msgHwMode = 0;
-	}
-
+	(isHWI2C != 0) ? (I2CTask_MHW_Init(&(OLEDx->msgI2C), pFuncTimerTick)) : (I2CTask_MSW_Init(&(OLEDx->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---硬件初始化
 	OLED_I2C_HWInit(OLEDx);
 	return _return;
@@ -206,39 +192,33 @@ UINT8_T OLED_I2C_Init(OLED_IIC_HandlerType *OLEDx, void(*pFuncDelayus)(UINT32_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_SWI2C_WriteByte(OLED_IIC_HandlerType *OLEDx, UINT8_T adddr, UINT8_T dat)
+UINT8_T OLED_SWI2C_WriteSingle(OLED_IIC_HandlerType *OLEDx, UINT8_T addr, UINT8_T dat)
 {
 	UINT8_T _return = OK_0;
-
 	//---启动并发送地址
 	_return = I2CTask_MSW_START(&(OLEDx->msgI2C), 1);
-
-	//if (_return != OK_0)
-	//{
-	//	//---启动写数据失败
-	//	_return = ERROR_2;
-	//	goto GoToExit;
-	//}
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
 	//---发送寄存器地址
-	I2CTask_MSW_SendByte(&(OLEDx->msgI2C), adddr);
-
+	I2CTask_MSW_SendByte(&(OLEDx->msgI2C), addr);
 	//---读取ACK
 	_return = I2CTask_MSW_ReadACK(&(OLEDx->msgI2C));
-
-	//if (_return != OK_0)
-	//{
-	//	//---发送数据失败
-	//	_return = ERROR_3;
-	//	goto GoToExit;
-	//}
+	if (_return != OK_0)
+	{
+		//---发送数据失败
+		_return = ERROR_3;
+		goto GoToExit;
+	}
 	//---发送寄存器地址
 	I2CTask_MSW_SendByte(&(OLEDx->msgI2C), dat);
-
 	//---读取ACK
 	_return = I2CTask_MSW_ReadACK(&(OLEDx->msgI2C));
-
-	//GoToExit:
-
+	//---退出入口函数
+GoToExit:
 	//---发送停止信号
 	I2CTask_MSW_STOP(&(OLEDx->msgI2C));
 	return _return;
@@ -251,9 +231,38 @@ UINT8_T OLED_SWI2C_WriteByte(OLED_IIC_HandlerType *OLEDx, UINT8_T adddr, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_HWI2C_WriteByte(OLED_IIC_HandlerType *OLEDx, UINT8_T adddr, UINT8_T dat)
+UINT8_T OLED_HWI2C_WriteSingle(OLED_IIC_HandlerType *OLEDx, UINT8_T addr, UINT8_T dat)
 {
-	return OK_0;
+	UINT8_T _return = OK_0;
+	//---启动IIC并发送器件地址，写数据
+	_return = I2CTask_MHW_PollMode_START(&(OLEDx->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_1;
+		goto GoToExit;
+	}
+	//---发送寄存器地址,存储单元的地址
+	_return = I2CTask_MHW_PollMode_SendByte(&(OLEDx->msgI2C), addr, 0);
+	if (_return != OK_0)
+	{
+		//---发送数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---发送数据，内部寄存器数据
+	_return = I2CTask_MHW_PollMode_SendByte(&(OLEDx->msgI2C), dat, 1);
+	if (_return != OK_0)
+	{
+		//---发送数据错误
+		_return = ERROR_3;
+		goto GoToExit;
+	}
+	//---退出操作入口
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(OLEDx->msgI2C));
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -263,15 +272,17 @@ UINT8_T OLED_HWI2C_WriteByte(OLED_IIC_HandlerType *OLEDx, UINT8_T adddr, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_I2C_WriteByte(OLED_IIC_HandlerType *OLEDx, UINT8_T adddr, UINT8_T dat)
+UINT8_T OLED_I2C_WriteSingle(OLED_IIC_HandlerType *OLEDx, UINT8_T addr, UINT8_T dat)
 {
 	if (OLEDx->msgI2C.msgHwMode == 0)
 	{
-		return OLED_SWI2C_WriteByte(OLEDx, adddr, dat);
+		return OLED_SWI2C_WriteSingle(OLEDx, addr, dat);
 	}
 	else
 	{
-		return OLED_HWI2C_WriteByte(OLEDx, adddr, dat);
+		I2CTask_MHW_CheckClock(&(OLEDx->msgI2C));
+		//---硬件I2C
+		return OLED_HWI2C_WriteSingle(OLEDx, addr, dat);
 	}
 }
 
@@ -284,7 +295,7 @@ UINT8_T OLED_I2C_WriteByte(OLED_IIC_HandlerType *OLEDx, UINT8_T adddr, UINT8_T d
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T OLED_I2C_WriteCmd(OLED_IIC_HandlerType *OLEDx, UINT8_T cmd)
 {
-	return OLED_I2C_WriteByte(OLEDx, 0x00, cmd);
+	return OLED_I2C_WriteSingle(OLEDx, 0x00, cmd);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -296,7 +307,7 @@ UINT8_T OLED_I2C_WriteCmd(OLED_IIC_HandlerType *OLEDx, UINT8_T cmd)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T OLED_I2C_WriteData(OLED_IIC_HandlerType *OLEDx, UINT8_T cmd)
 {
-	return OLED_I2C_WriteByte(OLEDx, 0x40, cmd);
+	return OLED_I2C_WriteSingle(OLEDx, 0x40, cmd);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -310,10 +321,8 @@ void OLED_I2C_DisplayON(OLED_IIC_HandlerType *OLEDx)
 {
 	//---设置电荷泵
 	OLED_I2C_WriteCmd(OLEDx, 0x8D);
-
 	//---开启电荷泵
 	OLED_I2C_WriteCmd(OLEDx, 0x14);
-
 	//---OLED唤醒
 	OLED_I2C_WriteCmd(OLEDx, 0xAF);
 }
@@ -329,10 +338,8 @@ void OLED_I2C_DisplayOFF(OLED_IIC_HandlerType *OLEDx)
 {
 	//---设置电荷泵
 	OLED_I2C_WriteCmd(OLEDx, 0x8D);
-
 	//---关闭电荷泵
 	OLED_I2C_WriteCmd(OLEDx, 0x10);
-
 	//---OLED休眠
 	OLED_I2C_WriteCmd(OLEDx, 0xAE);
 }
@@ -352,10 +359,8 @@ void OLED_I2C_Fill(OLED_IIC_HandlerType *OLEDx, UINT8_T dat)
 	{
 		//---设置页地址（0~7）
 		OLED_I2C_WriteCmd(OLEDx, (0xB0 + i));
-
 		//---设置显示位置—列低地址
 		OLED_I2C_WriteCmd(OLEDx, 0x00);
-
 		//---设置显示位置—列高地址
 		OLED_I2C_WriteCmd(OLEDx, 0x10);
 		for (n = 0; n < OLED_MAX_COL; n++)
@@ -458,28 +463,23 @@ void OLED_I2C_DrawBMP(OLED_IIC_HandlerType *OLEDx, UINT8_T x0Pos, UINT8_T y0Pos,
 	UINT16_T j = 0;
 	UINT8_T  x = 0;
 	UINT8_T  y = 0;
-
 	//---判断地址是否超界限
 	if (x0Pos > (OLED_MAX_COL - 1))
 	{
 		x0Pos = (OLED_MAX_COL - 1);
 	}
-
 	if (y0Pos > (OLED_MAX_ROW - 1))
 	{
 		y0Pos = (OLED_MAX_ROW - 1);
 	}
-
 	if (x1Pos > (OLED_MAX_COL - 1))
 	{
 		x1Pos = (OLED_MAX_COL - 1);
 	}
-
 	if (y1Pos > (OLED_MAX_ROW - 1))
 	{
 		y1Pos = (OLED_MAX_ROW - 1);
 	}
-
 	//---判断数据位置
 	if (y1Pos % 8 == 0)
 	{
@@ -489,7 +489,6 @@ void OLED_I2C_DrawBMP(OLED_IIC_HandlerType *OLEDx, UINT8_T x0Pos, UINT8_T y0Pos,
 	{
 		y = y1Pos / 8 + 1;
 	}
-
 	for (y = y0Pos; y < y1Pos; y++)
 	{
 		//---设置坐标

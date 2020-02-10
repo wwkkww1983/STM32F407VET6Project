@@ -35,6 +35,8 @@ UINT8_T I2C_MSW_Init(I2C_HandlerType *I2Cx, void(*pFuncDelayus)(UINT32_T delay),
 	I2Cx->msgDelayus = ((pFuncDelayus != NULL) ? pFuncDelayus : DelayTask_us);
 	//---注册滴答函数
 	I2Cx->msgTimeTick = ((pFuncTimerTick != NULL) ? pFuncTimerTick : SysTickTask_GetTick);
+	//---软件模式
+	I2Cx->msgHwMode = 0;
 	return OK_0;
 }
 
@@ -629,13 +631,18 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, UINT32_T(*pFuncTimerTick)(void))
 	I2C_InitStruct.OwnAddress1 = 0;																						//---自身的I2C设备地址
 	I2C_InitStruct.TypeAcknowledge = LL_I2C_ACK;																		//---使能或者关闭相应(默认一般开启)
 	I2C_InitStruct.OwnAddrSize = LL_I2C_OWNADDRESS1_7BIT;																//---指定地址的长度，7Bit或者10BIt
+	//---初始化
 	LL_I2C_Init(I2Cx->msgI2Cx, &I2C_InitStruct);
+	//---获取时钟分频数
+	I2Cx->msgRegCCR = LL_I2C_GetClockPeriod(I2Cx->msgI2Cx);
 	//---第二个地址
 	LL_I2C_SetOwnAddress2(I2Cx->msgI2Cx, 0);
 	//---使能I2C
 	LL_I2C_Enable(I2Cx->msgI2Cx);
 	//---注册滴答函数
 	I2Cx->msgTimeTick = ((pFuncTimerTick != NULL) ? pFuncTimerTick : SysTickTask_GetTick);
+	//---硬件模式
+	I2Cx->msgHwMode = 1;
 	return OK_0;
 }
 
@@ -773,6 +780,22 @@ UINT8_T I2C_MHW_PollMode_ADDR(I2C_HandlerType* I2Cx,UINT8_T isWrite)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：时钟参数的校验校验
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T I2C_MHW_CheckClock(I2C_HandlerType* I2Cx)
+{
+	if (I2Cx->msgRegCCR != LL_I2C_GetClockPeriod(I2Cx->msgI2Cx))
+	{
+		LL_I2C_SetClockPeriod(I2Cx->msgI2Cx, I2Cx->msgRegCCR);
+	}
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：
 //////输入参数:
 //////输出参数:
@@ -795,7 +818,7 @@ UINT8_T I2C_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK)
 //////功		能：发送数据
 //////输入参数:
 //////输出参数:
-//////说		明：
+//////说		明：最后一次发送数据使用isBTF为1，用使用BTF标志位，用于验证数据传输完成
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T I2C_MHW_PollMode_SendByte(I2C_HandlerType* I2Cx, UINT8_T val,UINT8_T isBTF)
 {
@@ -832,9 +855,29 @@ UINT8_T I2C_MHW_PollMode_ReadByte(I2C_HandlerType* I2Cx)
 	if (_return==OK_0)
 	{
 		//---数据已读取
-		_return= LL_I2C_ReceiveData8(I2C1);
+		_return= LL_I2C_ReceiveData8(I2Cx->msgI2Cx);
 	}
 	return _return;
 }
 //////////////////////////////////////////////////////////////////////////////
 //<<<===硬件I2C主机---结束
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T I2C_Master_DeInit(I2C_HandlerType* I2Cx)
+{
+	//---注销I2C设备
+	if (I2Cx->msgHwMode == 1)
+	{
+		return I2C_MHW_DeInit(I2Cx);
+	}
+	else
+	{
+		return I2C_MSW_DeInit(I2Cx);
+	}
+}

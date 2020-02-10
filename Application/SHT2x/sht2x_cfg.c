@@ -4,6 +4,54 @@
 SHT2X_HandlerType g_Sht2xDevice0 = { 0 };
 pSHT2X_HandlerType pSht2xDevice0 = &g_Sht2xDevice0;
 
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandlerType* SHT2x)
+{
+	SHT2x->msgI2C.msgI2Cx = NULL;
+	SHT2x->msgI2C.msgSCL.msgPort = GPIOB;
+	SHT2x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
+	SHT2x->msgI2C.msgSDA.msgPort = GPIOB;
+	SHT2x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
+	SHT2x->msgI2C.msgHwMode = 0;
+	SHT2x->msgI2C.msgPluseWidth = 0;
+	SHT2x->msgI2C.msgDelayus = NULL;
+	SHT2x->msgI2C.msgAddr = SHT2X_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
+	SHT2x->msgI2C.msgClockSpeed = 200000;
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T SHT2X_I2C_Device1_Init(SHT2X_HandlerType* SHT2x)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T SHT2X_I2C_Device2_Init(SHT2X_HandlerType* SHT2x)
+{
+	return OK_0;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //////函	   数：
 //////功	   能：
@@ -32,65 +80,8 @@ UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T de
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	if (isHWI2C)
-	{
-		//---初始化硬件I2C
-		_return = I2CTask_MHW_Init(&(SHT2x->msgI2C),pFuncTimerTick);
-		SHT2x->msgI2C.msgHwMode = 1;
-	}
-	else
-	{
-		//---初始化软件模拟I2C
-		_return = I2CTask_MSW_Init(&(SHT2x->msgI2C), pFuncDelayus,pFuncTimerTick);
-		SHT2x->msgI2C.msgHwMode = 0;
-	}
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(SHT2x->msgI2C), pFuncTimerTick)):(_return = I2CTask_MSW_Init(&(SHT2x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	return _return;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandlerType *SHT2x)
-{
-	SHT2x->msgI2C.msgI2Cx = NULL;
-	SHT2x->msgI2C.msgSCL.msgPort = GPIOB;
-	SHT2x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
-	SHT2x->msgI2C.msgSDA.msgPort = GPIOB;
-	SHT2x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
-	SHT2x->msgI2C.msgHwMode = 0;
-	SHT2x->msgI2C.msgPluseWidth = 0;
-	SHT2x->msgI2C.msgDelayus = NULL;
-	SHT2x->msgI2C.msgAddr = SHT2X_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
-	SHT2x->msgI2C.msgClockSpeed = 0;
-	return OK_0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2X_I2C_Device1_Init(SHT2X_HandlerType *SHT2x)
-{
-	return OK_0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2X_I2C_Device2_Init(SHT2X_HandlerType *SHT2x)
-{
-	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -103,14 +94,7 @@ UINT8_T SHT2X_I2C_Device2_Init(SHT2X_HandlerType *SHT2x)
 UINT8_T SHT2X_I2C_DeInit(SHT2X_HandlerType *SHT2x)
 {
 	//---注销I2C设备
-	if (SHT2x->msgI2C.msgHwMode == 1)
-	{
-		return ERROR_1;
-	}
-	else
-	{
-		return I2CTask_MSW_DeInit(&(SHT2x->msgI2C));
-	}
+	return I2CTask_Master_DeInit(&(SHT2x->msgI2C));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -150,7 +134,28 @@ GoToExit:
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SHT2X_HWI2C_WriteCmd(SHT2X_HandlerType *SHT2x, UINT8_T cmd)
 {
-	return ERROR_1;
+	UINT8_T _return = OK_0;
+	//---启动IIC并发送器件地址，写数据
+	_return = I2CTask_MHW_PollMode_START(&(SHT2x->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_1;
+		goto GoToExit;
+	}
+	//---发送数据，内部寄存器数据
+	_return = I2CTask_MHW_PollMode_SendByte(&(SHT2x->msgI2C), cmd, 1);
+	if (_return != OK_0)
+	{
+		//---发送数据错误
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---退出操作入口
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(SHT2x->msgI2C));
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -168,6 +173,8 @@ UINT8_T SHT2X_I2C_WriteCmd(SHT2X_HandlerType *SHT2x, UINT8_T cmd)
 	}
 	else
 	{
+		I2CTask_MHW_CheckClock(&(SHT2x->msgI2C));
+		//---硬件I2C
 		return SHT2X_HWI2C_WriteCmd(SHT2x, cmd);
 	}
 }
@@ -310,7 +317,105 @@ GoToExit:
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SHT2X_HWI2C_GetSerialNumber(SHT2X_HandlerType *SHT2x)
 {
-	return ERROR_1;
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	//====Read from memory location 1
+	//---启动并发送地址
+//---启动IIC并发送器件地址，写数据
+	_return = I2CTask_MHW_PollMode_START(&(SHT2x->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---发送命令---Command for readout on-chip memory
+	_return = I2CTask_MHW_PollMode_SendByte(&(SHT2x->msgI2C), 0xFA, 0);
+	if (_return != OK_0)
+	{
+		//---发送数据失败
+		_return = ERROR_3;
+		goto GoToExit;
+	}
+	//---发送命令---on-chip memory address
+	_return = I2CTask_MHW_PollMode_SendByte(&(SHT2x->msgI2C), 0x0F, 1);
+	if (_return != OK_0)
+	{
+		//---发送数据失败
+		_return = ERROR_4;
+		goto GoToExit;
+	}
+	//---启动并发送地址
+	_return = I2CTask_MHW_PollMode_START(&(SHT2x->msgI2C), 0);
+	if (_return != OK_0)
+	{
+		//---启动度数据失败
+		_return = ERROR_5;
+		goto GoToExit;
+	}
+	//---Read SNB和Read SNBCRC
+	for (i = 0; i < 8; i++)
+	{
+		if (i == (7))
+		{
+			_return = 1;
+		}
+		//---发送应答信号
+		I2CTask_MHW_SendACK(&(SHT2x->msgI2C), _return);
+		//---读取数据
+		SHT2x->msgSerialNumber[i] = I2CTask_MHW_PollMode_ReadByte(&(SHT2x->msgI2C));
+	}
+	//===Read from memory location 1
+	//---启动并发送地址
+	_return = I2CTask_MHW_PollMode_START(&(SHT2x->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_6;
+		goto GoToExit;
+	}
+	//---发送命令---Command for readout on-chip memory
+	_return = I2CTask_MHW_PollMode_SendByte(&(SHT2x->msgI2C), 0xFC, 0);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_7;
+		goto GoToExit;
+	}
+	//---发送命令---on-chip memory address
+	_return = I2CTask_MHW_PollMode_SendByte(&(SHT2x->msgI2C), 0xC9, 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_8;
+		goto GoToExit;
+	}
+	//---启动并发送地址
+	_return = I2CTask_MHW_PollMode_START(&(SHT2x->msgI2C), 0);
+	if (_return != OK_0)
+	{
+		//---启动度数据失败
+		_return = ERROR_9;
+		goto GoToExit;
+	}
+	//---Read SNC和Read SNCCRC
+	for (i = 0; i < 6; i++)
+	{
+		if (i == (5))
+		{
+			_return = 1;
+		}
+		//---发送应答信号
+		I2CTask_MHW_SendACK(&(SHT2x->msgI2C), _return);
+		//---读取数据
+		SHT2x->msgSerialNumber[8 + i] = I2CTask_MHW_PollMode_ReadByte(&(SHT2x->msgI2C));
+	}
+	_return = OK_0;
+	//---退出入口
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(SHT2x->msgI2C));
+	return _return;
 }
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -327,6 +432,8 @@ UINT8_T SHT2X_I2C_GetSerialNumber(SHT2X_HandlerType *SHT2x)
 	}
 	else
 	{
+		I2CTask_MHW_CheckClock(&(SHT2x->msgI2C));
+		//---硬件I2C
 		return SHT2X_HWI2C_GetSerialNumber(SHT2x);
 	}
 }
@@ -370,7 +477,6 @@ UINT8_T SHT2X_I2C_ReadUserReg(SHT2X_HandlerType *SHT2x, UINT8_T *pReg)
 	//---读取数据
 	*pReg = I2CTask_MSW_ReadByte(&(SHT2x->msgI2C));
 GoToExit:
-
 	//---发送停止信号
 	I2CTask_MSW_STOP(&(SHT2x->msgI2C));
 	return _return;
@@ -409,7 +515,6 @@ UINT8_T SHT2X_I2C_WriteUserReg(SHT2X_HandlerType *SHT2x, UINT8_T reg)
 	//---读取ACK
 	_return = I2CTask_MSW_ReadACK(&(SHT2x->msgI2C));
 GoToExit:
-
 	//---发送停止信号
 	I2CTask_MSW_STOP(&(SHT2x->msgI2C));
 	return _return;

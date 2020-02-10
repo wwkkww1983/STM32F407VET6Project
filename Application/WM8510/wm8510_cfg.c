@@ -166,16 +166,7 @@ UINT8_T WM8510_I2C_Init(WM8510_HandlerType *WM8510x, void(*pFuncDelayus)(UINT32_
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	if (isHWI2C)
-	{
-		_return= I2CTask_MHW_Init(&(WM8510x->msgI2C),pFuncTimerTick);
-		WM8510x->msgI2C.msgHwMode = 1;
-	}
-	else
-	{
-		_return = I2CTask_MSW_Init(&(WM8510x->msgI2C), pFuncDelayus,pFuncTimerTick);
-		WM8510x->msgI2C.msgHwMode = 0;
-	}
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(WM8510x->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(WM8510x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	_return = WM8510_I2C_START(WM8510x);
 	return _return;
 }
@@ -217,14 +208,8 @@ UINT8_T WM8510_I2C_DeInit(WM8510_HandlerType *WM8510x)
 	GPIO_OUT_1(WM8510x->msgOE.msgPort, WM8510x->msgOE.msgBit);
 #endif
 	//---注销I2C设备
-	if (WM8510x->msgI2C.msgHwMode == 1)
-	{
-		return ERROR_1;
-	}
-	else
-	{
-		return I2CTask_MSW_DeInit(&(WM8510x->msgI2C));
-	}
+	return I2CTask_Master_DeInit(&(WM8510x->msgI2C));
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -251,10 +236,8 @@ UINT8_T WM8510_SWI2C_WriteReg(WM8510_HandlerType *WM8510x, UINT8_T *pVal, UINT8_
 	{
 		//---发送数据
 		I2CTask_MSW_SendByte(&(WM8510x->msgI2C), pVal[i]);
-
 		//---读取ACK
 		_return = I2CTask_MSW_ReadACK(&(WM8510x->msgI2C));
-
 		//---判断应答
 		if (_return)
 		{
@@ -277,7 +260,33 @@ GoToExit:
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T WM8510_HWI2C_WriteReg(WM8510_HandlerType *WM8510x, UINT8_T *pVal, UINT8_T length)
 {
-	return ERROR_1;
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	//---启动IIC并发送器件地址，写数据
+	_return = I2CTask_MHW_PollMode_START(&(WM8510x->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---发送命令
+	for (i = 0; i < length; i++)
+	{
+		//---发送数据，内部寄存器数据
+		_return = I2CTask_MHW_PollMode_SendByte(&(WM8510x->msgI2C), pVal[i], ((i == (length - 1)) ? 1 : 0));
+		if (_return != OK_0)
+		{
+			//---发送数据错误
+			_return = (ERROR_3 + i);
+			goto GoToExit;
+		}
+	}
+	//---退出操作入口
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(WM8510x->msgI2C));
+	return _return;
 }
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -295,6 +304,7 @@ UINT8_T WM8510_I2C_SendCMD(WM8510_HandlerType *WM8510x, UINT8_T *pVal)
 	}
 	else
 	{
+		I2CTask_MHW_CheckClock(&(WM8510x->msgI2C));
 		//---硬件I2C
 		return WM8510_HWI2C_WriteReg(WM8510x, pVal, 2);
 	}

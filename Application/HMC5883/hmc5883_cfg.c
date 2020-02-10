@@ -79,34 +79,25 @@ UINT8_T HMC5883_I2C_Init(HMC5883_HandlerType* HMC5883x, void(*pFuncDelayus)(UINT
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	if (isHWI2C)
-	{
-		//---初始化硬件I2C
-		_return = I2CTask_MHW_Init(&(HMC5883x->msgI2C),pFuncTimerTick);
-		//---设置为硬件模式
-		HMC5883x->msgI2C.msgHwMode = 1;
-	}
-	else
-	{
-		//---初始化软件模拟I2C
-		_return = I2CTask_MSW_Init(&(HMC5883x->msgI2C), pFuncDelayus,pFuncTimerTick);
-		//---设置为软件件模式
-		HMC5883x->msgI2C.msgHwMode = 0;
-	}
-	/*if (pFuncDelayms!=NULL)
-	{
-		HMC5883x->msgDelayms = pFuncDelayms;
-	}
-	else
-	{
-		HMC5883x->msgDelayms = DelayTask_ms;
-	}*/
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(HMC5883x->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(HMC5883x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---ms延时函数
 	HMC5883x->msgDelayms = ((pFuncDelayms != NULL) ? pFuncDelayms : DelayTask_ms);
 	//---配置初始化
 	_return = HMC5883_I2C_ConfigInit(HMC5883x);
 	//---配置初始化
 	return _return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：注销
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T HMC5883_I2C_DeInit(HMC5883_HandlerType* HMC5883x)
+{
+	return I2CTask_Master_DeInit(&(HMC5883x->msgI2C));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -178,6 +169,7 @@ UINT8_T HMC5883_I2C_WriteSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UIN
 {
 	if (HMC5883x->msgI2C.msgHwMode != 0)
 	{
+		I2CTask_MHW_CheckClock(&(HMC5883x->msgI2C));
 		return HMC5883_HWI2C_WriteSingle(HMC5883x, addr, val);
 	}
 	else
@@ -255,6 +247,7 @@ UINT8_T HMC5883_I2C_ReadSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT
 {
 	if (HMC5883x->msgI2C.msgHwMode!=0)
 	{
+		I2CTask_MHW_CheckClock(&(HMC5883x->msgI2C));
 		return HMC5883_HWI2C_ReadSingle(HMC5883x, addr, pVal);
 	}
 	else

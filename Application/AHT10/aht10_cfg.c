@@ -22,7 +22,7 @@ UINT8_T AHT10_I2C_Device0_Init(AHT10_HandlerType* AHT10x)
 	AHT10x->msgI2C.msgPluseWidth = 0;
 	AHT10x->msgI2C.msgDelayus = NULL;
 	AHT10x->msgI2C.msgAddr = AHT10_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
-	AHT10x->msgI2C.msgClockSpeed = 0;
+	AHT10x->msgI2C.msgClockSpeed = 200000;
 	//---每次读取的间隔时间,76ms，建议采集周期是760ms
 	AHT10x->msgIntervalTime=76*2;
 	//---设定温度初始值是室温25摄氏度
@@ -65,14 +65,7 @@ UINT8_T AHT10_I2C_Device2_Init(AHT10_HandlerType* AHT10x)
 UINT8_T AHT10_I2C_DeInit(AHT10_HandlerType* AHT10x)
 {
 	//---注销I2C设备
-	if (AHT10x->msgI2C.msgHwMode == 1)
-	{
-		return ERROR_1;
-	}
-	else
-	{
-		return I2CTask_MSW_DeInit(&(AHT10x->msgI2C));
-	}
+	return I2CTask_Master_DeInit(&(AHT10x->msgI2C));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -103,27 +96,9 @@ UINT8_T AHT10_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T d
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	if (isHWI2C)
-	{
-		//---初始化硬件I2C
-		_return = I2CTask_MHW_Init(&(AHT10x->msgI2C),pFuncTimerTick);
-		AHT10x->msgI2C.msgHwMode = 1;
-	}
-	else
-	{
-		//---初始化软件模拟I2C
-		_return = I2CTask_MSW_Init(&(AHT10x->msgI2C), pFuncDelayus,pFuncTimerTick);
-		AHT10x->msgI2C.msgHwMode = 0;
-	}
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(AHT10x->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(AHT10x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---延时等待40ms
-	if (pFuncDelayms!=NULL)
-	{
-		pFuncDelayms(40);
-	}
-	else
-	{
-		DelayTask_ms(40);
-	}
+	(pFuncDelayms != NULL) ? (pFuncDelayms(40)) : (DelayTask_ms(40));
 	//---配置设备
 	_return = AHT10_I2C_Config(AHT10x);
 	//---当前时间
@@ -180,7 +155,33 @@ GoToExit:
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T AHT10_HWI2C_WriteBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
-	return ERROR_1;
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	//---启动并发送写操作
+	_return = I2CTask_MSW_START(&(AHT10x->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---发送数据
+	for (i = 0; i < length; i++)
+	{
+		//---发送数据，内部寄存器数据
+		_return = I2CTask_MHW_PollMode_SendByte(&(AHT10x->msgI2C), pVal[i], ((i == (length - 1)) ? 1 : 0));
+		if (_return != OK_0)
+		{
+			//---发送数据错误
+			_return = (ERROR_3 + i);
+			goto GoToExit;
+		}
+	}
+	//---退出入口函数
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(AHT10x->msgI2C));
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -199,6 +200,7 @@ UINT8_T AHT10_I2C_WriteBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T le
 	}
 	else
 	{
+		I2CTask_MHW_CheckClock(&(AHT10x->msgI2C));
 		//---硬件I2C
 		return AHT10_HWI2C_WriteBulk(AHT10x,pVal, length);
 	}
@@ -253,7 +255,34 @@ GoToExit:
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T AHT10_HWI2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
-	return ERROR_1;
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	//---启动读取数据
+	_return = I2CTask_MHW_PollMode_START(&(AHT10x->msgI2C), 0);
+	if (_return != OK_0)
+	{
+		//---启动读数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---发送数据
+	for (i = 0; i < length; i++)
+	{
+		if (i == (length - 1))
+		{
+			_return = 1;
+		}
+		//---发送应答信号
+		I2CTask_MHW_SendACK(&(AHT10x->msgI2C), _return);
+		//---读取数据
+		pVal[i] = I2CTask_MHW_PollMode_ReadByte(&(AHT10x->msgI2C));
+	}
+	_return = OK_0;
+	//---退出入口函数
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(AHT10x->msgI2C));
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -272,6 +301,7 @@ UINT8_T AHT10_I2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T len
 	}
 	else
 	{
+		I2CTask_MHW_CheckClock(&(AHT10x->msgI2C));
 		//---硬件I2C
 		return AHT10_HWI2C_ReadBulk(AHT10x, pVal, length);
 	}

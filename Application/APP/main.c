@@ -135,10 +135,7 @@ void Sys_Init(void)
 	NVIC_Init();
 	//---自定义内存管理初始化
 	MyMemInit();
-	//---硬件RTC的初始化
-	//SysRTCTask_HardRTCInit(pSysHWRTC,0,0);
-	//---软件RTC的初始化
-	//SysRTCTask_SoftRTCInit(pSysSoftRTC,0,0);
+	//---RTC的初始化
 	SysRTCTask_RTCInit(pSysSoftRTC, 0,0,0);
 	//---GPIO初始化
 	GPIOTask_Init();    
@@ -171,7 +168,7 @@ void Sys_Init(void)
 	//---WM8510
 	//WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---SI5351A
-	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, SysTickTask_GetTick, 0);
+	//SI5351ATask_I2C_Init(pSi5351aDevice0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---指示灯的初始化
 	//LEDTask_Init();	
 	//---DAC的初始化
