@@ -456,12 +456,8 @@ UINT8_T SI5351A_SWI2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT
 	{
 		//---读取数据
 		pVal[i] = I2CTask_MSW_ReadByte(&(SI5351Ax->msgI2C));
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MSW_SendACK(&(SI5351Ax->msgI2C), _return);
+		I2CTask_MSW_SendACK(&(SI5351Ax->msgI2C), (i == (length - 1)) ? 1 : 0);
 	}
 	_return = OK_0;
 	//---退出入口函数
@@ -509,12 +505,8 @@ UINT8_T SI5351A_HWI2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT
 	//---连续读取6组数据
 	for (i = 0; i < length; i++)
 	{
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MHW_SendACK(&(SI5351Ax->msgI2C), _return);
+		I2CTask_MHW_SendACK(&(SI5351Ax->msgI2C), (i == (length - 1)) ? 1 : 0);
 		//---读取数据
 		pVal[i] = I2CTask_MHW_PollMode_ReadByte(&(SI5351Ax->msgI2C));
 	}
@@ -839,16 +831,7 @@ UINT8_T SI5351A_I2C_Init(SI5351A_HandlerType* SI5351Ax, void(*pFuncDelayus)(UINT
 	}
 
 	//---判断是硬件I2C还是软件I2C
-	if (isHWI2C)
-	{
-		_return= I2CTask_MHW_Init(&(SI5351Ax->msgI2C), pFuncTimerTick);
-		SI5351Ax->msgI2C.msgHwMode = 1;
-	}
-	else
-	{
-		_return = I2CTask_MSW_Init(&(SI5351Ax->msgI2C), pFuncDelayus,pFuncTimerTick);
-		SI5351Ax->msgI2C.msgHwMode = 0;
-	}
+	(isHWI2C!=0)?(_return= I2CTask_MHW_Init(&(SI5351Ax->msgI2C),pFuncDelayus, pFuncTimerTick)):(_return = I2CTask_MSW_Init(&(SI5351Ax->msgI2C), pFuncDelayus,pFuncTimerTick));
 	_return = SI5351A_I2C_ConfigInit(SI5351Ax);
 	return _return;
 }

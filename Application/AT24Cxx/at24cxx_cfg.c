@@ -178,7 +178,7 @@ UINT8_T AT24CXX_I2C_Init(AT24CXX_HandlerType *AT24CXXx, void(*pFuncDelayus)(UINT
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(AT24CXXx->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(AT24CXXx->msgI2C), pFuncDelayus, pFuncTimerTick));
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(AT24CXXx->msgI2C),pFuncDelayus, pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(AT24CXXx->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---毫秒延时函数的注册
 	(pFuncDelayms != NULL) ? (AT24CXXx->msgDelayms = pFuncDelayms) : (AT24CXXx->msgDelayms = DelayTask_ms);
 	return _return;
@@ -193,15 +193,6 @@ UINT8_T AT24CXX_I2C_Init(AT24CXX_HandlerType *AT24CXXx, void(*pFuncDelayus)(UINT
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T AT24CXX_I2C_DeInit(AT24CXX_HandlerType *AT24CXXx)
 {
-	////---注销I2C设备
-	//if (AT24CXXx->msgI2C.msgHwMode == 1)
-	//{
-	//	return I2CTask_MHW_DeInit(&(AT24CXXx->msgI2C));
-	//}
-	//else
-	//{
-	//	return I2CTask_MSW_DeInit(&(AT24CXXx->msgI2C));
-	//}
 	return I2CTask_Master_DeInit(&(AT24CXXx->msgI2C));
 }
 
@@ -1220,12 +1211,8 @@ UINT8_T AT24CXX_SWI2C_ReadPageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr,
 	{
 		//---读取数据
 		pVal[i] = I2CTask_MSW_ReadByte(&(AT24CXXx->msgI2C));
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MSW_SendACK(&(AT24CXXx->msgI2C), _return);
+		I2CTask_MSW_SendACK(&(AT24CXXx->msgI2C), (i == (length - 1)) ? 1 : 0);
 	}
 	_return = OK_0;
 	//---退出函数入口
@@ -1306,12 +1293,8 @@ UINT8_T AT24CXX_SWI2C_ReadData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UIN
 	{
 		//---读取数据
 		pVal[i] = I2CTask_MSW_ReadByte(&( AT24CXXx->msgI2C ));
-		if (i == ( length - 1 ))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MSW_SendACK(&( AT24CXXx->msgI2C ), _return);
+		I2CTask_MSW_SendACK(&( AT24CXXx->msgI2C ), (i == (length - 1)) ? 1 : 0);
 	}
 	_return = OK_0;
 	//---退出函数的入口
@@ -1463,12 +1446,8 @@ UINT8_T AT24CXX_HWI2C_ReadPageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr,
 	//---循环读取指定长度的数据
 	for (i = 0; i < length; i++)
 	{
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MHW_SendACK(&(AT24CXXx->msgI2C), _return);
+		I2CTask_MHW_SendACK(&(AT24CXXx->msgI2C), (i == (length - 1)) ? 1 : 0);
 		//---读取数据
 		pVal[i] = I2CTask_MHW_PollMode_ReadByte(&(AT24CXXx->msgI2C));
 	}
@@ -1545,12 +1524,8 @@ UINT8_T AT24CXX_HWI2C_ReadData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UIN
 	//---循环读取指定长度的数据
 	for (i = 0; i < length; i++)
 	{
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MHW_SendACK(&(AT24CXXx->msgI2C), _return);
+		I2CTask_MHW_SendACK(&(AT24CXXx->msgI2C), (i == (length - 1)) ? 1 : 0);
 		//---读取数据
 		pVal[i] = I2CTask_MHW_PollMode_ReadByte(&(AT24CXXx->msgI2C));
 	}
@@ -1666,9 +1641,9 @@ UINT8_T AT24CXX_I2C_EraseChip(AT24CXX_HandlerType *AT24CXXx)
 	{
 		//---按页写入数据
 		#ifndef USE_GOBAL_RAM
-			_return = AT24CXX_SWI2C_WritePageByte(AT24CXXx, addr, pAT24CxxPageByteBuffer, AT24CXXx->msgAT24CXXPageByte);
+			_return = AT24CXX_I2C_WritePageByte(AT24CXXx, addr, pAT24CxxPageByteBuffer, AT24CXXx->msgAT24CXXPageByte);
 		#else
-			_return = AT24CXX_SWI2C_WritePageByte(AT24CXXx, addr, AT24CXXx->msgPageByteBuffer, AT24CXXx->msgAT24CXXPageByte);
+			_return = AT24CXX_I2C_WritePageByte(AT24CXXx, addr, AT24CXXx->msgPageByteBuffer, AT24CXXx->msgAT24CXXPageByte);
 		#endif
 		//---地址增加
 		addr += AT24CXXx->msgAT24CXXPageByte;

@@ -26,7 +26,7 @@ UINT8_T AHT10_I2C_Device0_Init(AHT10_HandlerType* AHT10x)
 	//---每次读取的间隔时间,76ms，建议采集周期是760ms
 	AHT10x->msgIntervalTime=76*2;
 	//---设定温度初始值是室温25摄氏度
-	AHT10x->msgTempX100=25*100;
+	AHT10x->msgTemp=25*100;
 	AHT10x->msgHumiX10000=(50*10000);
 	return OK_0;
 }
@@ -96,7 +96,7 @@ UINT8_T AHT10_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T d
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(AHT10x->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(AHT10x->msgI2C), pFuncDelayus, pFuncTimerTick));
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(AHT10x->msgI2C),pFuncDelayus, pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(AHT10x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---延时等待40ms
 	(pFuncDelayms != NULL) ? (pFuncDelayms(40)) : (DelayTask_ms(40));
 	//---配置设备
@@ -230,13 +230,8 @@ UINT8_T AHT10_SWI2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T l
 	{
 		//---读取数据
 		*(pVal++) = I2CTask_MSW_ReadByte(&(AHT10x->msgI2C));
-		//---校验是否需要ACK
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MSW_SendACK(&(AHT10x->msgI2C), _return);
+		I2CTask_MSW_SendACK(&(AHT10x->msgI2C), (i == (length - 1)) ? 1 : 0);
 	}
 	_return = OK_0;
 	//---退出入口函数
@@ -268,12 +263,8 @@ UINT8_T AHT10_HWI2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T l
 	//---发送数据
 	for (i = 0; i < length; i++)
 	{
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MHW_SendACK(&(AHT10x->msgI2C), _return);
+		I2CTask_MHW_SendACK(&(AHT10x->msgI2C), (i == (length - 1)) ? 1 : 0);
 		//---读取数据
 		pVal[i] = I2CTask_MHW_PollMode_ReadByte(&(AHT10x->msgI2C));
 	}
@@ -400,11 +391,11 @@ UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x)
 	{
 		//---计算温度值
 		//AHT10x->msgTemp = ((tempVal[3] & 0x0F) << 16) | (tempVal[4] << 8) | tempVal[5];
-		AHT10x->msgTempX100 = (tempVal[3] & 0x0F);
-		AHT10x->msgTempX100 =(AHT10x->msgTempX100<<8)+ tempVal[4];
-		AHT10x->msgTempX100 = (AHT10x->msgTempX100 << 8) + tempVal[5];
+		AHT10x->msgTemp = (tempVal[3] & 0x0F);
+		AHT10x->msgTemp =(AHT10x->msgTemp<<8)+ tempVal[4];
+		AHT10x->msgTemp = (AHT10x->msgTemp << 8) + tempVal[5];
 		//---校验温度是不是负值
-		if (AHT10x->msgTempX100>0x40000)
+		if (AHT10x->msgTemp>0x40000)
 		{
 			//---温度数据是正数
 			AHT10x->msgPositive = 0;
@@ -414,7 +405,7 @@ UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x)
 			//---温度数据是负数
 			AHT10x->msgPositive = 1;
 		}
-		AHT10x->msgTempX100 = (INT32_T)((((200.0 * (float)AHT10x->msgTempX100) / 1048576.0) - 50.0) * 100.0);
+		AHT10x->msgTemp = (INT32_T)((((200.0 * (float)AHT10x->msgTemp) / 1048576.0) - 50.0) * 100.0);
 		//---计算湿度值
 		//AHT10x->msgHumi = ((tempVal[1] << 16) | (tempVal[2] << 8) | tempVal[3]) >> 4;
 		AHT10x->msgHumiX10000 = tempVal[1];
@@ -437,7 +428,7 @@ UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x)
 //////////////////////////////////////////////////////////////////////////////
 float AHT10_I2C_GetTemp(AHT10_HandlerType* AHT10x)
 {
-	float tempVal = AHT10x->msgTempX100;
+	float tempVal = AHT10x->msgTemp;
 	//---转换温度对应实际的温度值
 	tempVal /= 100.0;
 	//---校验是不是正数

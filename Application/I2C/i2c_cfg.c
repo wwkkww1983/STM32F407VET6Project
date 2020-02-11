@@ -595,7 +595,7 @@ UINT8_T I2C_Clock(I2C_HandlerType* I2Cx, UINT8_T isEnable)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, UINT32_T(*pFuncTimerTick)(void))
+UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	//---使能GPIO的时钟
 	GPIOTask_Clock(I2Cx->msgSCL.msgPort, PERIPHERAL_CLOCK_ENABLE);
@@ -623,6 +623,8 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, UINT32_T(*pFuncTimerTick)(void))
 	I2C_Clock(I2Cx, PERIPHERAL_CLOCK_ENABLE);
 	//---复位I2C
 	LL_I2C_DeInit(I2Cx->msgI2Cx);
+	//LL_I2C_EnableReset(I2Cx->msgI2Cx);
+	//LL_I2C_DisableReset(I2Cx->msgI2Cx);
 	//---初始化I2C
 	LL_I2C_InitTypeDef I2C_InitStruct={0};
 	I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;																	//---工作模式
@@ -639,6 +641,8 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, UINT32_T(*pFuncTimerTick)(void))
 	LL_I2C_SetOwnAddress2(I2Cx->msgI2Cx, 0);
 	//---使能I2C
 	LL_I2C_Enable(I2Cx->msgI2Cx);
+	//---us延时函数
+	I2Cx->msgDelayus = ((pFuncDelayus != NULL) ? pFuncDelayus : DelayTask_us);
 	//---注册滴答函数
 	I2Cx->msgTimeTick = ((pFuncTimerTick != NULL) ? pFuncTimerTick : SysTickTask_GetTick);
 	//---硬件模式
@@ -717,6 +721,8 @@ UINT8_T I2C_MHW_PollMode_WaitFlag(I2C_HandlerType* I2Cx,UINT32_T (*pFuncActiveFl
 		//---退出循环
 		if (_return != OK_0)
 		{
+			//---传送结束条件,避免状态异常，用于产生停止条件
+			LL_I2C_GenerateStopCondition(I2Cx->msgI2Cx);
 			break;
 		}
 	}
@@ -813,6 +819,56 @@ UINT8_T I2C_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK)
 	}
 	return OK_0;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T I2C_MHW_CheckBusy(I2C_HandlerType* I2Cx)
+{
+	UINT8_T _return=OK_0;
+	//---检查到忙标识
+	if(LL_I2C_IsActiveFlag_BUSY(I2Cx->msgI2Cx)!=0)
+	{
+		_return=ERROR_1;
+		UINT8_T i=0;
+		//---GPIO的结构体
+		LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
+		//---GPIO的初始化
+		GPIO_InitStruct.Pin = I2Cx->msgSCL.msgBit;																		//---对应的GPIO的引脚
+		GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;																		//---配置状态为输出模式
+		GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;																//---GPIO的速度---低速设备
+		GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;															//---输出模式---开漏输出
+		GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;																			//---上拉
+	#ifndef USE_MCU_STM32F1
+		GPIO_InitStruct.Alternate = LL_GPIO_AF_0;																		//---端口复用模式
+	#endif
+		//---SCL的初始化
+		LL_GPIO_Init(I2Cx->msgSCL.msgPort, &GPIO_InitStruct);
+		//---SCL发送9个脉冲，用于释放总线
+		for(i=0;i<10;i++)
+		{
+			GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
+			I2Cx->msgDelayus(50);
+			GPIO_OUT_0(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
+			I2Cx->msgDelayus(50);
+		}
+		//---I2C端口的复用模式
+		GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;																	//---配置状态为输出模式
+	#ifndef USE_MCU_STM32F1
+		GPIO_InitStruct.Alternate = I2Cx->msgGPIOAlternate;																//---端口复用模式
+	#endif
+		//---SCL的初始化
+		LL_GPIO_Init(I2Cx->msgSCL.msgPort, &GPIO_InitStruct);
+		GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
+	}
+	return _return;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：发送数据

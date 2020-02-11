@@ -196,8 +196,7 @@ void Sys_Init(void)
 int main(void)
 {
 	UINT8_T _return=0;
-	UINT16_T i=0;
-	
+	UINT16_T i=0;	
 	//---系统初始化函数
 	Sys_Init();
 	//---主循环
@@ -234,7 +233,7 @@ int main(void)
 		USART_Printf(pUsart1,"OK:%d\r\n",MPU6050Task_I2C_ReadAccelTempGyro(pMpu6050Device0));
 		USART_Printf(pUsart1,"accel  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgAccel.xAccel, pMpu6050Device0->msgAccel.yAccel, pMpu6050Device0->msgAccel.zAccel);
 		USART_Printf(pUsart1,"gyro  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgGyro.xGyro, pMpu6050Device0->msgGyro.yGyro, pMpu6050Device0->msgGyro.zGyro);
-		USART_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTempX100);
+		USART_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
 		DelayTask_ms(300);
 		//---模拟RTC处理
 		SysRTCTask_RTCTask(pSysSoftRTC, SysTickTask_GetTick());

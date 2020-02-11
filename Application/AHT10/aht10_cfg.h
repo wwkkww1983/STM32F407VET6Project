@@ -29,7 +29,7 @@ extern "C" {
 	struct _AHT10_HandlerType
 	{
 		UINT8_T				msgPositive;																				//---0---是正值，1---是负数
-		INT32_T				msgTempX100;																				//---放大100倍的温度值
+		INT32_T				msgTemp;																				//---放大100倍的温度值
 		INT32_T				msgHumiX10000;																				//---放大10000倍的湿度值
 		UINT16_T			msgIntervalTime;																			//---轮询时间间隔,单位是ms
 		UINT32_T			msgRecordTick;																				//---记录的时间参数

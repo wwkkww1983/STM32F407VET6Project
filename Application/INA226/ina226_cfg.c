@@ -79,7 +79,7 @@ UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(INA226x->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(INA226x->msgI2C), pFuncDelayus, pFuncTimerTick));
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(INA226x->msgI2C),pFuncDelayus, pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(INA226x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---配置初始化
 	_return = INA226_I2C_ConfigInit(INA226x);
 	return _return;
@@ -287,7 +287,7 @@ UINT8_T INA226_HWI2C_ReadSingle(INA226_HandlerType* INA226x, UINT8_T addr, UINT1
 	UINT8_T _return = OK_0;
 	UINT16_T readTemp = 0;
 	//---启动IIC并发送器件地址，写数据
-	_return = I2CTask_MSW_START(&(INA226x->msgI2C), 1);
+	_return = I2CTask_MHW_PollMode_START(&(INA226x->msgI2C), 1);
 	if (_return != OK_0)
 	{
 		//---启动写数据失败
@@ -295,9 +295,7 @@ UINT8_T INA226_HWI2C_ReadSingle(INA226_HandlerType* INA226x, UINT8_T addr, UINT1
 		goto GoToExit;
 	}
 	//---发送寄存器地址,存储单元的地址
-	I2CTask_MSW_SendByte(&(INA226x->msgI2C), addr);
-	//---读取ACK
-	_return = I2CTask_MSW_ReadACK(&(INA226x->msgI2C));
+	_return = I2CTask_MHW_PollMode_SendByte(&(INA226x->msgI2C), addr, 0);
 	if (_return != OK_0)
 	{
 		//---发送数据失败
@@ -305,27 +303,27 @@ UINT8_T INA226_HWI2C_ReadSingle(INA226_HandlerType* INA226x, UINT8_T addr, UINT1
 		goto GoToExit;
 	}
 	//---启动IIC并发送器件地址，读数据
-	_return = I2CTask_MSW_START(&(INA226x->msgI2C), 0);
+	_return = I2CTask_MHW_PollMode_START(&(INA226x->msgI2C), 0);
 	if (_return != OK_0)
 	{
 		//---启动读数据失败
 		_return = ERROR_3;
 		goto GoToExit;
 	}
-	//---读取高位数据
-	readTemp = I2CTask_MSW_ReadByte(&(INA226x->msgI2C));
 	//---发送应答信号
-	_return = I2CTask_MSW_SendACK(&(INA226x->msgI2C), 0);
+	_return = I2CTask_MHW_SendACK(&(INA226x->msgI2C), 0);
+	//---读取高位数据
+	readTemp = I2CTask_MHW_PollMode_ReadByte(&(INA226x->msgI2C));
 	readTemp <<= 8;
+	//---不发送应答信号
+	_return = I2CTask_MHW_SendACK(&(INA226x->msgI2C), 1);
 	//---读取低位数据
-	readTemp|= I2CTask_MSW_ReadByte(&(INA226x->msgI2C));
-	//---发送不应答信号
-	_return = I2CTask_MSW_SendACK(&(INA226x->msgI2C), 1);
+	readTemp |= I2CTask_MHW_PollMode_ReadByte(&(INA226x->msgI2C));
 	*pVal = readTemp;
 	//---退出入口
 GoToExit:
 	//---发送停止信号
-	I2CTask_MSW_STOP(&(INA226x->msgI2C));
+	I2CTask_MHW_PollMode_STOP(&(INA226x->msgI2C));
 	return _return;
 }
 

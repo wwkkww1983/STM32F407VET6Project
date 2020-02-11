@@ -78,7 +78,7 @@ UINT8_T MAX961X_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT3
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(MAX961x->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(MAX961x->msgI2C), pFuncDelayus, pFuncTimerTick));
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(MAX961x->msgI2C), pFuncDelayus,pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(MAX961x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	return _return;
 }
 
@@ -410,12 +410,8 @@ UINT8_T MAX961X_SWI2C_ReadBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8
 	{
 		//---读取数据
 		pVal[i] = I2CTask_MSW_ReadByte(&(MAX961x->msgI2C));
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MSW_SendACK(&(MAX961x->msgI2C), _return);
+		I2CTask_MSW_SendACK(&(MAX961x->msgI2C), (i == (length - 1)) ? 1 : 0);
 	}
 	_return = OK_0;
 	//---退出入口
@@ -507,12 +503,8 @@ UINT8_T MAX961X_HWI2C_ReadBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8
 	//---连续读取6组数据
 	for (i = 0; i < length; i++)
 	{
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MHW_SendACK(&(MAX961x->msgI2C), _return);
+		I2CTask_MHW_SendACK(&(MAX961x->msgI2C), (i == (length - 1)) ? 1 : 0);
 		//---读取数据
 		pVal[i] = I2CTask_MHW_PollMode_ReadByte(&(MAX961x->msgI2C));
 	}

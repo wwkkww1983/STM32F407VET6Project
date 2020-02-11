@@ -63,7 +63,7 @@ extern "C" {
 	struct _SHT2X_HandlerType
 	{
 		UINT8_T msgSerialNumber[8 + 4 + 2];																																			//---设备序列号
-		INT16_T msgTempX100;																																						//---放大100倍的温度值
+		INT16_T msgTemp;																																						//---放大100倍的温度值
 		INT16_T msgHumiX100;																																						//---放大100倍的湿度值
 		I2C_HandlerType msgI2C;																																						//---使用的I2C
 	};

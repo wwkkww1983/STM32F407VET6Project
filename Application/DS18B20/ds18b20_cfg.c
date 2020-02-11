@@ -19,8 +19,8 @@ UINT8_T DS18B20_OneWire_Device0_Init(DS18B20_HandlerType *DS18B20x)
 	DS18B20x->msgIntervalTime=800;
 	DS18B20x->msgBitTempX10000=625;
 	//---室温25摄氏度
-	DS18B20x->msgTempX100=2500;
-	DS18B20x->msgTempX10000 = DS18B20x->msgTempX100*100;
+	DS18B20x->msgTemp=2500;
+	DS18B20x->msgTempX10000 = DS18B20x->msgTemp*100;
 	return OK_0;
 }
 
@@ -378,7 +378,7 @@ UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 	//---将十六进制数转换成温度值
 	DS18B20x->msgTempX10000 *= DS18B20x->msgBitTempX10000;//625;
 	//---获取实际温度值
-	DS18B20x->msgTempX100 = (UINT16_T)(DS18B20x->msgTempX10000 / 100);
+	DS18B20x->msgTemp = (UINT16_T)(DS18B20x->msgTempX10000 / 100);
 	//---启动下次转换
 	DS18B20_OneWire_StartConvert(DS18B20x);
 	//---返回温度码的值
@@ -454,7 +454,7 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *pI
 	//---将十六进制数转换成温度值
 	DS18B20x->msgTempX10000 *= DS18B20x->msgBitTempX10000;;
 	//---获取实际温度值
-	DS18B20x->msgTempX100 = (UINT16_T)(DS18B20x->msgTempX10000 / 100);
+	DS18B20x->msgTemp = (UINT16_T)(DS18B20x->msgTempX10000 / 100);
 	//---启动下次转换
 	DS18B20_OneWire_StartConvert(DS18B20x);
 	//---返回温度码的值

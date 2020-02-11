@@ -675,7 +675,7 @@ extern "C" {
 	struct _MPU6050_HandlerType
 	{
 		Accel_HandlerType	msgAccel;																					//---加速度
-		INT32_T				msgTempX100;																				//---放大100倍的温度值
+		INT32_T				msgTemp;																				//---放大100倍的温度值
 		Gyro_HandlerType	msgGyro;																					//---陀螺仪
 		GPIO_HandlerType	msgINT;																						//---中断引脚
 		I2C_HandlerType		msgI2C;																						//---使用的I2C

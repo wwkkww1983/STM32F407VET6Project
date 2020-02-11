@@ -80,7 +80,7 @@ UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T de
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(SHT2x->msgI2C), pFuncTimerTick)):(_return = I2CTask_MSW_Init(&(SHT2x->msgI2C), pFuncDelayus, pFuncTimerTick));
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(SHT2x->msgI2C),pFuncDelayus, pFuncTimerTick)):(_return = I2CTask_MSW_Init(&(SHT2x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	return _return;
 }
 
@@ -607,7 +607,7 @@ UINT8_T SHT2X_I2C_ReadTempPoll(SHT2X_HandlerType *SHT2x)
 	INT32_T tempX100 = temp;
 	tempX100 *= 17572;
 	tempX100 >>= 16;
-	SHT2x->msgTempX100 = (INT16_T)(tempX100 - 4685);
+	SHT2x->msgTemp = (INT16_T)(tempX100 - 4685);
 	return _return;
 }
 
@@ -722,7 +722,7 @@ UINT8_T SHT2X_I2C_ReadTempHM(SHT2X_HandlerType *SHT2x)
 	INT32_T tempX100 = temp;
 	tempX100 *= 17572;
 	tempX100 >>= 16;
-	SHT2x->msgTempX100 = (INT16_T)(tempX100 - 4685);
+	SHT2x->msgTemp = (INT16_T)(tempX100 - 4685);
 	return _return;
 }
 
@@ -755,7 +755,7 @@ UINT8_T SHT2X_I2C_ReadHumiHM(SHT2X_HandlerType *SHT2x)
 //////////////////////////////////////////////////////////////////////////////
 float SHT2X_I2C_GetTemp(SHT2X_HandlerType* SHT2x)
 {
-	float tempVal = SHT2x->msgTempX100;
+	float tempVal = SHT2x->msgTemp;
 	//---转换温度对应实际的温度值
 	tempVal /= 100.0;
 	return tempVal;

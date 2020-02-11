@@ -79,7 +79,7 @@ UINT8_T PCF8563_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(PCF8563x->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(PCF8563x->msgI2C), pFuncDelayus, pFuncTimerTick));
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(PCF8563x->msgI2C),pFuncDelayus, pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(PCF8563x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	return _return;
 }
 
@@ -351,12 +351,8 @@ UINT8_T PCF8563_SWI2C_ReadBulk(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8
 	{
 		//---读取数据
 		pVal[i] = I2CTask_MSW_ReadByte(&(PCF8563x->msgI2C));
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MSW_SendACK(&(PCF8563x->msgI2C), _return);
+		I2CTask_MSW_SendACK(&(PCF8563x->msgI2C), (i == (length - 1)) ? 1 : 0);
 	}
 	_return = OK_0;
 	//---退出入口
@@ -404,12 +400,8 @@ UINT8_T PCF8563_HWI2C_ReadBulk(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8
 	//---连续读取6组数据
 	for (i = 0; i < length; i++)
 	{
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MHW_SendACK(&(PCF8563x->msgI2C), _return);
+		I2CTask_MHW_SendACK(&(PCF8563x->msgI2C), (i == (length - 1)) ? 1 : 0);
 		//---读取数据
 		pVal[i] = I2CTask_MHW_PollMode_ReadByte(&(PCF8563x->msgI2C));
 	}

@@ -166,7 +166,7 @@ UINT8_T WM8510_I2C_Init(WM8510_HandlerType *WM8510x, void(*pFuncDelayus)(UINT32_
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(WM8510x->msgI2C), pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(WM8510x->msgI2C), pFuncDelayus, pFuncTimerTick));
+	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(WM8510x->msgI2C),pFuncDelayus, pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(WM8510x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	_return = WM8510_I2C_START(WM8510x);
 	return _return;
 }

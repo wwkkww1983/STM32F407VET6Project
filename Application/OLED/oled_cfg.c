@@ -179,7 +179,7 @@ UINT8_T OLED_I2C_Init(OLED_IIC_HandlerType *OLEDx, void(*pFuncDelayus)(UINT32_T 
 		return ERROR_1;
 	}
 	//---判断是硬件I2C还是软件I2C
-	(isHWI2C != 0) ? (I2CTask_MHW_Init(&(OLEDx->msgI2C), pFuncTimerTick)) : (I2CTask_MSW_Init(&(OLEDx->msgI2C), pFuncDelayus, pFuncTimerTick));
+	(isHWI2C != 0) ? (I2CTask_MHW_Init(&(OLEDx->msgI2C),pFuncDelayus, pFuncTimerTick)) : (I2CTask_MSW_Init(&(OLEDx->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---硬件初始化
 	OLED_I2C_HWInit(OLEDx);
 	return _return;

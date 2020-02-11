@@ -297,9 +297,9 @@ GotoExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2CLib_MHW_Init(I2C_HandlerType *I2Cx, UINT32_T(*pFuncTimerTick)(void))
+UINT8_T I2CLib_MHW_Init(I2C_HandlerType *I2Cx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
-	return I2C_MHW_Init(I2Cx,pFuncTimerTick);
+	return I2C_MHW_Init(I2Cx,pFuncDelayus,pFuncTimerTick);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -323,7 +323,7 @@ UINT8_T I2CLib_MHW_DeInit(I2C_HandlerType* I2Cx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T I2CLib_MHW_PollMode_START(I2C_HandlerType* I2Cx, UINT8_T isWrite)
 {
-	if (isWrite == 0)
+	if ((isWrite == 0)||(I2C_MHW_CheckBusy(I2Cx)!=0))
 	{	
 		//---读取之前必须产生一个停止位，用于清除状态标识，否则容易发生状态错误现象
 		I2C_MHW_PollMode_STOP(I2Cx);

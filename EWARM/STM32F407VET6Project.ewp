@@ -436,6 +436,8 @@
                     <state>$PROJ_DIR$\..\Application\MCO</state>
                     <state>$PROJ_DIR$\..\Application\HMC5883</state>
                     <state>$PROJ_DIR$\..\Application\CAN</state>
+                    <state>$PROJ_DIR$\..\Application\BMP180</state>
+                    <state>$PROJ_DIR$\..\Application\MPU6050</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -451,7 +453,7 @@
                 </option>
                 <option>
                     <name>CCOptLevel</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CCOptStrategy</name>
@@ -460,7 +462,7 @@
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CompilerMisraRules98</name>
@@ -1321,6 +1323,27 @@
             </file>
         </group>
         <group>
+            <name>BMP180</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>CAN</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\CAN\can_cfg.c</name>
@@ -1972,6 +1995,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\ModBusSlave\mobus_slave_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>MPU6050</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_task.h</name>
             </file>
         </group>
         <group>

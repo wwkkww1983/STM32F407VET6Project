@@ -162,9 +162,9 @@ UINT8_T I2CTask_MSW_Read(I2C_HandlerType *I2Cx, UINT8_T *pVal, UINT16_T length)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2CTask_MHW_Init(I2C_HandlerType *I2Cx, UINT32_T(*pFuncTimerTick)(void))
+UINT8_T I2CTask_MHW_Init(I2C_HandlerType *I2Cx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
-	return I2CLib_MHW_Init(I2Cx,pFuncTimerTick);
+	return I2CLib_MHW_Init(I2Cx,pFuncDelayus,pFuncTimerTick);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
