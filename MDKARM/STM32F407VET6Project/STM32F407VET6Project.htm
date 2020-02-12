@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F407VET6Project\STM32F407VET6Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F407VET6Project\STM32F407VET6Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6130100: Last Updated: Tue Feb 11 15:52:15 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6130100: Last Updated: Wed Feb 12 12:56:31 2020
 <BR><P>
 <H3>Maximum Stack Usage =        608 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1873,7 +1873,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[196]"></a>MPU6050_HWI2C_ReadBulk</STRONG> (Thumb, 258 bytes, Stack size 40 bytes, mpu6050_cfg.o(.text.MPU6050_HWI2C_ReadBulk))
+<P><STRONG><a name="[196]"></a>MPU6050_HWI2C_ReadBulk</STRONG> (Thumb, 248 bytes, Stack size 40 bytes, mpu6050_cfg.o(.text.MPU6050_HWI2C_ReadBulk))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = MPU6050_HWI2C_ReadBulk &rArr; I2CTask_MHW_PollMode_START &rArr; I2CLib_MHW_PollMode_START &rArr; I2C_MHW_CheckBusy &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MHW_SendACK
@@ -1897,7 +1897,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_I2C_ReadSingle
 </UL>
 
-<P><STRONG><a name="[198]"></a>MPU6050_HWI2C_WriteSingle</STRONG> (Thumb, 156 bytes, Stack size 32 bytes, mpu6050_cfg.o(.text.MPU6050_HWI2C_WriteSingle))
+<P><STRONG><a name="[198]"></a>MPU6050_HWI2C_WriteSingle</STRONG> (Thumb, 138 bytes, Stack size 32 bytes, mpu6050_cfg.o(.text.MPU6050_HWI2C_WriteSingle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = MPU6050_HWI2C_WriteSingle &rArr; I2CTask_MHW_PollMode_START &rArr; I2CLib_MHW_PollMode_START &rArr; I2C_MHW_CheckBusy &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MHW_PollMode_SendByte
@@ -2045,7 +2045,7 @@ Global Symbols
 <LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_I2C_ConfigInit
 </UL>
 
-<P><STRONG><a name="[1a5]"></a>MPU6050_SWI2C_ReadBulk</STRONG> (Thumb, 264 bytes, Stack size 40 bytes, mpu6050_cfg.o(.text.MPU6050_SWI2C_ReadBulk))
+<P><STRONG><a name="[1a5]"></a>MPU6050_SWI2C_ReadBulk</STRONG> (Thumb, 254 bytes, Stack size 40 bytes, mpu6050_cfg.o(.text.MPU6050_SWI2C_ReadBulk))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = MPU6050_SWI2C_ReadBulk &rArr; I2CTask_MSW_SendByte &rArr; I2CLib_MSW_SendByte &rArr; I2C_MSW_SendByte &rArr; I2C_MSW_SendBit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_SendByte
@@ -2071,7 +2071,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_I2C_ReadSingle
 </UL>
 
-<P><STRONG><a name="[1a8]"></a>MPU6050_SWI2C_WriteSingle</STRONG> (Thumb, 176 bytes, Stack size 40 bytes, mpu6050_cfg.o(.text.MPU6050_SWI2C_WriteSingle))
+<P><STRONG><a name="[1a8]"></a>MPU6050_SWI2C_WriteSingle</STRONG> (Thumb, 158 bytes, Stack size 40 bytes, mpu6050_cfg.o(.text.MPU6050_SWI2C_WriteSingle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = MPU6050_SWI2C_WriteSingle &rArr; I2CTask_MSW_SendByte &rArr; I2CLib_MSW_SendByte &rArr; I2C_MSW_SendByte &rArr; I2C_MSW_SendBit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CTask_MSW_SendByte

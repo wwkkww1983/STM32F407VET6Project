@@ -3070,6 +3070,10 @@
             <name>$PROJ_DIR$\..\Application\BMP180\bmp180_cfg.c</name>
             <outputs>
                 <tool>
+                    <name>ICCARM</name>
+                    <file> 799</file>
+                </tool>
+                <tool>
                     <name>BICOMP</name>
                     <file> 802</file>
                 </tool>

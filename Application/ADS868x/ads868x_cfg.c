@@ -128,81 +128,6 @@ void ADS868X_SPI_Device2_Init(ADS868X_HandlerType *ADS868x)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS868X_SPI_HW_Init(ADS868X_HandlerType *ADS868x)
-{
-	//---注销当前的所有配置
-	SPITask_DeInit(&(ADS868x->msgSPI),1);
-	//---硬件端口的配置---硬件实现
-	SPITask_MHW_GPIO_Init(&(ADS868x->msgSPI));
-	//---硬件SPI的初始化
-	LL_SPI_InitTypeDef SPI_InitStruct = {0};
-	//---SPI的模式配置
-	SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
-	SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;						//---主机模式
-	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;				//---8位数据
-	//---时钟极性的设置
-	if (ADS868x->msgSPI.msgCPOL == 0)
-	{
-		//---CLK空闲时为低电平 (CLK空闲是只能是低电平)
-		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
-		GPIO_OUT_0(ADS868x->msgSPI.msgSCK.msgPort, ADS868x->msgSPI.msgSCK.msgBit);
-	}
-	else
-	{
-		//---CLK空闲时为高电平 (CLK空闲是只能是低电平)
-		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_HIGH;
-	}
-	//---数据采样的时钟边沿位置
-	if (ADS868x->msgSPI.msgCPOH ==0)
-	{
-		SPI_InitStruct.ClockPhase = LL_SPI_PHASE_1EDGE;
-	}
-	else
-	{
-		SPI_InitStruct.ClockPhase = LL_SPI_PHASE_2EDGE;
-	}
-	SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;							//---软件控制
-	SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV2;		//---系统时钟4分频
-	SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;						//---高位在前
-	SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;	//---硬件CRC不使能
-	SPI_InitStruct.CRCPoly = 7;
-	//---初始化查询方式的SPI
-	SPITask_MHW_PollMode_Init(&(ADS868x->msgSPI), SPI_InitStruct);
-	return OK_0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS868X_SPI_SW_Init(ADS868X_HandlerType *ADS868x)
-{
-	SPITask_DeInit(&(ADS868x->msgSPI),1);
-	//---硬件端口的配置---软件实现
-	SPITask_MSW_GPIO_Init(&(ADS868x->msgSPI));
-	//---时钟线的极性
-	if (ADS868x->msgSPI.msgCPOL == 0)
-	{
-		GPIO_OUT_0(ADS868x->msgSPI.msgSCK.msgPort, ADS868x->msgSPI.msgSCK.msgBit);
-	}
-	else
-	{
-		GPIO_OUT_1(ADS868x->msgSPI.msgSCK.msgPort, ADS868x->msgSPI.msgSCK.msgBit);
-	}
-
-	return OK_0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
 //////功		能：发送字节命令
 //////输入参数:
 //////输出参数:
@@ -251,6 +176,85 @@ UINT8_T ADS868X_SPI_HW_SendArray(ADS868X_HandlerType* ADS868x, UINT8_T *pWVal, U
 	//---数据发送
 	return SPITask_MHW_PollMode_WriteAndReadData(&(ADS868x->msgSPI), pWVal, pRVal,length);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS868X_SPI_HW_Init(ADS868X_HandlerType *ADS868x)
+{
+	//---硬件端口的配置---硬件实现
+	SPITask_MHW_GPIO_Init(&(ADS868x->msgSPI));
+	//---硬件SPI的初始化
+	LL_SPI_InitTypeDef SPI_InitStruct = {0};
+	//---SPI的模式配置
+	SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
+	SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;						//---主机模式
+	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;				//---8位数据
+	//---时钟极性的设置
+	if (ADS868x->msgSPI.msgCPOL == 0)
+	{
+		//---CLK空闲时为低电平 (CLK空闲是只能是低电平)
+		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
+		GPIO_OUT_0(ADS868x->msgSPI.msgSCK.msgPort, ADS868x->msgSPI.msgSCK.msgBit);
+	}
+	else
+	{
+		//---CLK空闲时为高电平 (CLK空闲是只能是低电平)
+		SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_HIGH;
+	}
+	//---数据采样的时钟边沿位置
+	if (ADS868x->msgSPI.msgCPOH ==0)
+	{
+		SPI_InitStruct.ClockPhase = LL_SPI_PHASE_1EDGE;
+	}
+	else
+	{
+		SPI_InitStruct.ClockPhase = LL_SPI_PHASE_2EDGE;
+	}
+	SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;							//---软件控制
+	SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV2;		//---系统时钟4分频
+	SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;						//---高位在前
+	SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;	//---硬件CRC不使能
+	SPI_InitStruct.CRCPoly = 7;
+	//---初始化查询方式的SPI
+	SPITask_MHW_PollMode_Init(&(ADS868x->msgSPI), SPI_InitStruct);
+	//---命令发送函数
+	ADS868X_SPI_SEND_CMD = ADS868X_SPI_HW_SendCmd;
+	ADS868X_SPI_SEND_ARRAY = ADS868X_SPI_HW_SendArray;
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ADS868X_SPI_SW_Init(ADS868X_HandlerType *ADS868x)
+{
+	//---硬件端口的配置---软件实现
+	SPITask_MSW_GPIO_Init(&(ADS868x->msgSPI));
+	//---时钟线的极性
+	if (ADS868x->msgSPI.msgCPOL == 0)
+	{
+		GPIO_OUT_0(ADS868x->msgSPI.msgSCK.msgPort, ADS868x->msgSPI.msgSCK.msgBit);
+	}
+	else
+	{
+		GPIO_OUT_1(ADS868x->msgSPI.msgSCK.msgPort, ADS868x->msgSPI.msgSCK.msgBit);
+	}
+	//---命令发送函数
+	ADS868X_SPI_SEND_CMD = ADS868X_SPI_SW_SendCmd;
+	ADS868X_SPI_SEND_ARRAY = ADS868X_SPI_SW_SendArray;
+	return OK_0;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：
@@ -277,48 +281,14 @@ UINT8_T ADS868X_SPI_Init(ADS868X_HandlerType *ADS868x, void(*pFuncDelayus)(UINT3
 	{
 		return ERROR_1;
 	}
-	//---判断初始化的方式
-	if (isHW != 0)
-	{
-		ADS868x->msgSPI.msgHwMode = 1;
-		ADS868X_SPI_HW_Init(ADS868x);
-		ADS868X_SPI_SEND_CMD = ADS868X_SPI_HW_SendCmd;
-		ADS868X_SPI_SEND_ARRAY = ADS868X_SPI_HW_SendArray;
-	}
-	else
-	{
-		ADS868x->msgSPI.msgHwMode = 0;
-		ADS868X_SPI_SW_Init(ADS868x);
-		ADS868X_SPI_SEND_CMD = ADS868X_SPI_SW_SendCmd;
-		ADS868X_SPI_SEND_ARRAY = ADS868X_SPI_SW_SendArray;
-	}
+	//---判断硬件函数软件方式
+	(isHW != 0) ? (ADS868X_SPI_HW_Init(ADS868x)) : (ADS868X_SPI_SW_Init(ADS868x));
 	//---注册ms延时时间
-	if (pFuncDelayms != NULL)
-	{
-		ADS868x->msgDelayms = pFuncDelayms;
-	}
-	else
-	{
-		ADS868x->msgDelayms = DelayTask_ms;
-	}
+	(pFuncDelayms != NULL) ? (ADS868x->msgDelayms = pFuncDelayms) : (ADS868x->msgDelayms = DelayTask_ms);
 	//---注册us延时函数
-	if (pFuncDelayus != NULL)
-	{
-		ADS868x->msgSPI.msgDelayus = pFuncDelayus;
-	}
-	else
-	{
-		ADS868x->msgSPI.msgDelayus = DelayTask_us;
-	}
+	(pFuncDelayus != NULL) ? (ADS868x->msgSPI.msgDelayus = pFuncDelayus) : (ADS868x->msgSPI.msgDelayus = DelayTask_us);
 	//---注册滴答函数
-	if (pFuncTimerTick != NULL)
-	{
-		ADS868x->msgSPI.msgTimeTick = pFuncTimerTick;
-	}
-	else
-	{
-		ADS868x->msgSPI.msgTimeTick = SysTickTask_GetTick;
-	}
+	(pFuncTimerTick != NULL) ? (ADS868x->msgSPI.msgTimeTick = pFuncTimerTick) : (ADS868x->msgSPI.msgTimeTick = SysTickTask_GetTick);
 	//---配置ADS868X
 	return ADS868X_SPI_ConfigInit(ADS868x,0);
 }

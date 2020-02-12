@@ -473,9 +473,11 @@ UINT8_T BMP180_I2C_ReadChipId(BMP180_HandlerType* BMP180x, UINT8_T* pChipID)
 UINT8_T BMP180_I2C_ReadDefaultTemp(BMP180_HandlerType* BMP180x)
 {
 	UINT8_T _return = OK_0;
+	UINT16_T tempID = 0;
 	_return = BMP180_I2C_WriteSingle(BMP180x, BMP180_REG_ADDR_CTRL_MEAS, 0x2E);
 	BMP180x->msgDelayms(5);
-	_return = BMP180_I2C_ReadSingle(BMP180x, BMP180_REG_ADDR_OUT_MSB, &(BMP180x->msgDefaultTemp));
+	_return = BMP180_I2C_ReadSingle(BMP180x, BMP180_REG_ADDR_OUT_MSB,&tempID);
+	BMP180x->msgDefaultTemp=tempID;
 	return _return;
 }
 
@@ -489,6 +491,7 @@ UINT8_T BMP180_I2C_ReadDefaultTemp(BMP180_HandlerType* BMP180x)
 UINT8_T BMP180_I2C_ReadDefaultGasPress(BMP180_HandlerType* BMP180x)
 {
 	UINT8_T _return = OK_0;
+	UINT16_T tempID = 0;
 	_return = BMP180_I2C_WriteSingle(BMP180x, BMP180_REG_ADDR_CTRL_MEAS, 0x34|(BMP180_OSS<<6));
 	#if (BMP180_OSS==1)
 		BMP180x->msgDelayms(8);
@@ -499,7 +502,8 @@ UINT8_T BMP180_I2C_ReadDefaultGasPress(BMP180_HandlerType* BMP180x)
 	#else
 		BMP180x->msgDelayms(5);
 	#endif
-	_return = BMP180_I2C_ReadSingle(BMP180x, BMP180_REG_ADDR_OUT_MSB, &(BMP180x->msgDefaultGasPress));
+	_return = BMP180_I2C_ReadSingle(BMP180x, BMP180_REG_ADDR_OUT_MSB,&tempID);
+	BMP180x->msgDefaultGasPress=tempID;
 	return _return;
 }
 
@@ -526,7 +530,7 @@ UINT8_T BMP180_I2C_ReadTempGasPressAltitude(BMP180_HandlerType* BMP180x)
 	BMP180x->msgParam.msgX2 = ((long)BMP180x->msgParam.msgAC2) * BMP180x->msgParam.msgB6 >> 11;
 	BMP180x->msgParam.msgX3 = BMP180x->msgParam.msgX1 + BMP180x->msgParam.msgX2;
 
-	BMP180x->msgParam.msgB3 = ((((long)BMP180x->msgParam.msgAC1) * 4 + BMP180x->msgParam.msgX3)<<(BMP180_OSS) + 2) / 4;
+	BMP180x->msgParam.msgB3 = (((((long)BMP180x->msgParam.msgAC1) * 4 + BMP180x->msgParam.msgX3)<<(BMP180_OSS) )+ 2) / 4;
 	BMP180x->msgParam.msgX1 = (((long)BMP180x->msgParam.msgAC3) * BMP180x->msgParam.msgB6) >> 13;
 	BMP180x->msgParam.msgX2 = (((long)BMP180x->msgParam.msgB1) * ((BMP180x->msgParam.msgB6 * BMP180x->msgParam.msgB6) >> 12)) >> 16;
 	BMP180x->msgParam.msgX3 = ((BMP180x->msgParam.msgX1 + BMP180x->msgParam.msgX2) + 2) >> 2;
@@ -549,6 +553,8 @@ UINT8_T BMP180_I2C_ReadTempGasPressAltitude(BMP180_HandlerType* BMP180x)
 	BMP180x->msgGasPress = BMP180x->msgGasPress + ((BMP180x->msgParam.msgX1 + BMP180x->msgParam.msgX2 + 3791) >> 4);
 	//---¼ÆËãº£°Î
 	BMP180x->msgAltitude = 44330 * (1 - pow(((BMP180x->msgGasPress) / 101325.0), (1.0 / 5.255)));
+	
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -597,4 +603,6 @@ UINT8_T BMP180_I2C_Config(BMP180_HandlerType* BMP180x)
 	_return = BMP180_I2C_ReadSingle(BMP180x, BMP180_REG_ADDR_MD_H, &tempReg);
 	BMP180x->msgParam.msgMD = tempReg;
 	tempReg = 0;
+	
+	return _return;
 }

@@ -13,6 +13,7 @@ extern "C" {
 	#include "delay_task.h"
 	#include "systick_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
+	//#define USE_RESET_I2C
 	//===定义结构体
 	typedef struct _I2C_HandlerType					I2C_HandlerType;
 	//===定义指针结构体
@@ -32,7 +33,11 @@ extern "C" {
 		UINT32_T			msgGPIOAlternate;																			//---端口复用模式
 	#endif
 		UINT32_T(*msgTimeTick)(void);																					//---用于超时计数
-		I2C_TypeDef* msgI2Cx;																							//---使用的I2C接口
+		I2C_TypeDef		* msgI2Cx;																						//---使用的I2C接口
+	#ifdef  USE_RESET_I2C
+		I2C_TypeDef		msgI2CxReg;																						//---I2C寄存器的值
+	#endif 
+
 	};
 
 	//===函数定义

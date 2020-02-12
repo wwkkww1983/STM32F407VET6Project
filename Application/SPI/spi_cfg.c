@@ -45,6 +45,8 @@ void SPI_MHW_SetTransferBitOrder(SPI_HandlerType *SPIx, UINT32_T BitOrder)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 {
+	//---注销当前的所有配置
+	SPI_DeInit(SPIx, 1);
 	//---端口时钟的配置
 	GPIOTask_Clock(SPIx->msgSCK.msgPort,  PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(SPIx->msgMOSI.msgPort, PERIPHERAL_CLOCK_ENABLE);
@@ -85,6 +87,8 @@ UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 	GPIO_InitStruct.Pin = SPIx->msgMISO.msgBit;
 	LL_GPIO_Init(SPIx->msgMISO.msgPort, &GPIO_InitStruct);
 	GPIO_OUT_1(SPIx->msgMISO.msgPort, SPIx->msgMISO.msgBit);
+	//---硬件模式
+	SPIx->msgHwMode = 1;
 	return OK_0;
 }
 
@@ -97,6 +101,8 @@ UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SPI_MSW_GPIO_Init(SPI_HandlerType *SPIx)
 {
+	//---注销当前的所有配置
+	SPI_DeInit(SPIx, 1);
 	//---端口时钟的配置
 	GPIOTask_Clock(SPIx->msgSCK.msgPort,  PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(SPIx->msgMOSI.msgPort, PERIPHERAL_CLOCK_ENABLE);
@@ -131,6 +137,8 @@ UINT8_T SPI_MSW_GPIO_Init(SPI_HandlerType *SPIx)
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
 	LL_GPIO_Init(SPIx->msgMISO.msgPort, &GPIO_InitStruct);	
 	GPIO_OUT_1(SPIx->msgMISO.msgPort, SPIx->msgMISO.msgBit);
+	//---软件模拟模式
+	SPIx->msgHwMode = 0;
 	return OK_0;
 }
 

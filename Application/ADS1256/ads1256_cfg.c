@@ -149,8 +149,6 @@ void ADS1256_SPI_Device2_Init(ADS1256_HandlerType *ADS1256x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 {
-	//---注销当前的所有配置
-	SPITask_DeInit(&(ADS1256x->msgSPI),1);
 	//---硬件端口的配置---硬件实现
 	SPITask_MHW_GPIO_Init(&(ADS1256x->msgSPI));
 	//---硬件SPI的初始化
@@ -192,6 +190,8 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 	}
 	//---初始化查询方式的SPI
 	SPITask_MHW_PollMode_Init(&(ADS1256x->msgSPI), SPI_InitStruct);
+	//---命令发送函数
+	ADS1256_SPI_SEND_CMD = ADS1256_SPI_HW_SendCmd;
 	return OK_0;
 }
 
@@ -204,11 +204,8 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ADS1256_SPI_SW_Init(ADS1256_HandlerType *ADS1256x)
 {
-	SPITask_DeInit(&(ADS1256x->msgSPI),1);
-	
 	//---硬件端口的配置---软件实现
-	SPITask_MSW_GPIO_Init(&(ADS1256x->msgSPI));
-	
+	SPITask_MSW_GPIO_Init(&(ADS1256x->msgSPI));	
 	//---时钟线的极性
 	if (ADS1256x->msgSPI.msgCPOL == 0)
 	{
@@ -218,13 +215,12 @@ UINT8_T ADS1256_SPI_SW_Init(ADS1256_HandlerType *ADS1256x)
 	{
 		GPIO_OUT_1(ADS1256x->msgSPI.msgSCK.msgPort, ADS1256x->msgSPI.msgSCK.msgBit);
 	}
-
 	//---ADS1256的SPI的最高时钟为输入时钟的四分之一，因此SPI的时钟不能过快，否则容易通讯失败
 	if (ADS1256x->msgSPI.msgPluseWidth < 1)
 	{
 		ADS1256x->msgSPI.msgPluseWidth = 1;
 	}
-
+	ADS1256_SPI_SEND_CMD = ADS1256_SPI_SW_SendCmd;
 	return OK_0;
 }
 
@@ -254,49 +250,14 @@ UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT
 	{
 		return ERROR_1;
 	}
-
-	//---判断初始化的方式
-	if (isHW != 0)
-	{
-		ADS1256x->msgSPI.msgHwMode = 1;
-		ADS1256_SPI_HW_Init(ADS1256x);
-		ADS1256_SPI_SEND_CMD = ADS1256_SPI_HW_SendCmd;
-	}
-	else
-	{
-		ADS1256x->msgSPI.msgHwMode = 0;
-		ADS1256_SPI_SW_Init(ADS1256x);
-		ADS1256_SPI_SEND_CMD = ADS1256_SPI_SW_SendCmd;
-	}
-
+	//---判断硬件函数软件方式
+	(isHW != 0) ? (ADS1256_SPI_HW_Init(ADS1256x)):(ADS1256_SPI_SW_Init(ADS1256x));
 	//---注册ms延时时间
-	if (pFuncDelayms!=NULL)
-	{
-		ADS1256x->msgDelayms = pFuncDelayms;
-	}
-	else
-	{
-		ADS1256x->msgDelayms = DelayTask_ms;
-	}
-
+	(pFuncDelayms != NULL) ? (ADS1256x->msgDelayms = pFuncDelayms) : (ADS1256x->msgDelayms = DelayTask_ms);
 	//---注册us延时函数
-	if (pFuncDelayus!=NULL)
-	{
-		ADS1256x->msgSPI.msgDelayus = pFuncDelayus;
-	}
-	else
-	{
-		ADS1256x->msgSPI.msgDelayus = DelayTask_us;
-	}
+	(pFuncDelayus != NULL) ? (ADS1256x->msgSPI.msgDelayus = pFuncDelayus) : (ADS1256x->msgSPI.msgDelayus = DelayTask_us);
 	//---注册滴答函数
-	if (pFuncTimerTick != NULL)
-	{
-		ADS1256x->msgSPI.msgTimeTick = pFuncTimerTick;
-	}
-	else
-	{
-		ADS1256x->msgSPI.msgTimeTick = SysTickTask_GetTick;
-	}
+	(pFuncTimerTick != NULL) ? (ADS1256x->msgSPI.msgTimeTick = pFuncTimerTick) : (ADS1256x->msgSPI.msgTimeTick = SysTickTask_GetTick);
 	//---获取当前的系统时间
 	ADS1256x->msgRecordTick = ADS1256x->msgSPI.msgTimeTick();	
 	//---配置默认参数

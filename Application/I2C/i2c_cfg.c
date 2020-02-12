@@ -623,8 +623,10 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, void(*pFuncDelayus)(UINT32_T delay),
 	I2C_Clock(I2Cx, PERIPHERAL_CLOCK_ENABLE);
 	//---复位I2C
 	LL_I2C_DeInit(I2Cx->msgI2Cx);
-	//LL_I2C_EnableReset(I2Cx->msgI2Cx);
-	//LL_I2C_DisableReset(I2Cx->msgI2Cx);
+#ifdef  USE_RESET_I2C
+	LL_I2C_EnableReset(I2Cx->msgI2Cx);
+	LL_I2C_DisableReset(I2Cx->msgI2Cx);
+#endif
 	//---初始化I2C
 	LL_I2C_InitTypeDef I2C_InitStruct={0};
 	I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;																	//---工作模式
@@ -647,6 +649,15 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, void(*pFuncDelayus)(UINT32_T delay),
 	I2Cx->msgTimeTick = ((pFuncTimerTick != NULL) ? pFuncTimerTick : SysTickTask_GetTick);
 	//---硬件模式
 	I2Cx->msgHwMode = 1;
+#ifdef  USE_RESET_I2C
+	//---保存I2C的配置
+	I2Cx->msgI2CxReg.CR1 = I2Cx->msgI2Cx->CR1;
+	I2Cx->msgI2CxReg.CR2 = I2Cx->msgI2Cx->CR2;
+	I2Cx->msgI2CxReg.OAR1 = I2Cx->msgI2Cx->OAR1;
+	I2Cx->msgI2CxReg.OAR2 = I2Cx->msgI2Cx->OAR2;
+	I2Cx->msgI2CxReg.CCR = I2Cx->msgI2Cx->CCR;
+	I2Cx->msgI2CxReg.TRISE = I2Cx->msgI2Cx->TRISE;
+#endif
 	return OK_0;
 }
 
@@ -864,6 +875,18 @@ UINT8_T I2C_MHW_CheckBusy(I2C_HandlerType* I2Cx)
 		//---SCL的初始化
 		LL_GPIO_Init(I2Cx->msgSCL.msgPort, &GPIO_InitStruct);
 		GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
+	#ifdef  USE_RESET_I2C
+		//---复位I2C
+		LL_I2C_EnableReset(I2Cx->msgI2Cx);
+		//---清除复位
+		LL_I2C_DisableReset(I2Cx->msgI2Cx);
+		I2Cx->msgI2Cx->CR1	=I2Cx->msgI2CxReg.CR1	;
+		I2Cx->msgI2Cx->CR2  =I2Cx->msgI2CxReg.CR2	;
+		I2Cx->msgI2Cx->OAR1	=I2Cx->msgI2CxReg.OAR1	;
+		I2Cx->msgI2Cx->OAR2	=I2Cx->msgI2CxReg.OAR2	;
+		I2Cx->msgI2Cx->CCR	=I2Cx->msgI2CxReg.CCR	;
+		I2Cx->msgI2Cx->TRISE=I2Cx->msgI2CxReg.TRISE	;
+	#endif
 	}
 	return _return;
 }
