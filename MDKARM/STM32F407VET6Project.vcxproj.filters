@@ -52,6 +52,9 @@
     <Filter Include="Application\DHT11">
       <UniqueIdentifier>{8ABCDE1C-F6D2-DCB2-3F4A-68D4AB9FAD3A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\DMA">
+      <UniqueIdentifier>{9A94296C-0620-9730-0F31-1A257B3BF330}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\DS1302">
       <UniqueIdentifier>{A5326AB9-9116-2B0F-FA76-2562E6791591}</UniqueIdentifier>
     </Filter>
@@ -413,6 +416,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\DHT11\dht11_task.h">
       <Filter>Application\DHT11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\DMA\dma_cfg.h">
+      <Filter>Application\DMA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\DMA\dma_lib.h">
+      <Filter>Application\DMA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\DMA\dma_task.h">
+      <Filter>Application\DMA</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\DS1302\ds1302_cfg.h">
       <Filter>Application\DS1302</Filter>
@@ -1186,6 +1198,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\DHT11\dht11_task.c">
       <Filter>Application\DHT11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\DMA\dma_cfg.c">
+      <Filter>Application\DMA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\DMA\dma_lib.c">
+      <Filter>Application\DMA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\DMA\dma_task.c">
+      <Filter>Application\DMA</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\DS1302\ds1302_cfg.c">
       <Filter>Application\DS1302</Filter>

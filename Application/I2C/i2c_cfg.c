@@ -134,10 +134,13 @@ UINT8_T I2C_MSW_ACK(I2C_HandlerType *I2Cx)
 {
 	GPIO_OUT_0(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
 	GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
-	if (I2Cx->msgPluseWidth>0)
-	{
-		I2Cx->msgDelayus(I2Cx->msgPluseWidth);
-	}
+	////---延时等待，等待SCL被从机释放
+	//if (I2Cx->msgPluseWidth>0)
+	//{
+	//	I2Cx->msgDelayus(I2Cx->msgPluseWidth);
+	//}
+	//检查SCL被从机释放,SCL为高,代表从机释放总线
+	GPIOTask_WaitPinPort(&(I2Cx->msgSCL), 1);
 	//---清时钟线,钳住I2C总线，准备发送或接收数据
 	GPIO_OUT_0(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
 	return OK_0;
@@ -154,10 +157,13 @@ UINT8_T I2C_MSW_NACK(I2C_HandlerType *I2Cx)
 {
 	GPIO_OUT_1(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
 	GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
-	if (I2Cx->msgPluseWidth>0)
-	{
-		I2Cx->msgDelayus(I2Cx->msgPluseWidth);
-	}
+	////---延时等待，等待SCL被从机释放
+	//if (I2Cx->msgPluseWidth>0)
+	//{
+	//	I2Cx->msgDelayus(I2Cx->msgPluseWidth);
+	//}
+	//检查SCL被从机释放,SCL为高,代表从机释放总线
+	GPIOTask_WaitPinPort(&(I2Cx->msgSCL), 1);
 	//---清时钟线,钳住I2C总线，准备发送或接收数据
 	GPIO_OUT_0(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
 	return OK_0;
@@ -176,11 +182,13 @@ UINT8_T I2C_MSW_ReadACK(I2C_HandlerType *I2Cx)
 	//---读取应答信号
 	GPIO_OUT_1(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
 	GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
-	//---延时等待
-	if (I2Cx->msgPluseWidth>0)
-	{
-		I2Cx->msgDelayus(I2Cx->msgPluseWidth);
-	}
+	////---延时等待，等待SCL被从机释放
+	//if (I2Cx->msgPluseWidth > 0)
+	//{
+	//	I2Cx->msgDelayus(I2Cx->msgPluseWidth);
+	//}
+	//检查SCL被从机释放,SCL为高,代表从机释放总线
+	GPIOTask_WaitPinPort(&(I2Cx->msgSCL), 1);
 	//---读取SDA的状态信号---ACK状态下SDA为低电平
 	_return= ((GPIO_GET_STATE(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit) != 0x00) ? ERROR_1 : OK_0);
 	//---清时钟线,钳住I2C总线，准备发送或接收数据
@@ -197,27 +205,38 @@ UINT8_T I2C_MSW_ReadACK(I2C_HandlerType *I2Cx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T I2C_MSW_WaitACK(I2C_HandlerType *I2Cx)
 {
-	UINT8_T i = 0;
+	UINT8_T _return = OK_0;
 	//---读取应答信号
 	GPIO_OUT_1(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
 	GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
-	//---等待应答信号
-	for (i = 255; i > 0; i--)
-	{
-		//---读取SDA的状态
-		if (GPIO_GET_STATE(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit))
-		{
-			break;
-		}
+	////---等待应答信号
+	//UINT8_T i = 0;
+	//for (i = 255; i > 0; i--)
+	//{
+	//	//---读取SDA的状态
+	//	if (GPIO_GET_STATE(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit))
+	//	{
+	//		break;
+	//	}
+	//}
+	//if (i == 0)
+	//{
+	//	I2C_MSW_STOP(I2Cx);
+	//	return ERROR_1;
+	//}
+	////---清时钟线,钳住I2C总线，准备发送或接收数据
+	//GPIO_OUT_0(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
+	//检查SDA电平,SDA为高,代表从机发送ACK
+	_return= GPIOTask_WaitPinPort(&(I2Cx->msgSDA), 1);
+	if(_return != OK_0) 
+	{	  
+	 	I2C_MSW_STOP(I2Cx);
 	}
-	if (i == 0)
+	else
 	{
-		I2C_MSW_STOP(I2Cx);
-		return ERROR_1;
+	  	GPIO_OUT_0(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
 	}
-	//---清时钟线,钳住I2C总线，准备发送或接收数据
-	GPIO_OUT_0(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
-	return OK_0;
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -714,7 +733,7 @@ UINT8_T I2C_MHW_PollMode_WaitFlag(I2C_HandlerType* I2Cx,UINT32_T (*pFuncActiveFl
 				cnt = nowTime - oldTime;
 			}
 			//---判断是否超时
-			if (cnt > 100)
+			if (cnt > 30)
 			{
 				//---发送发生超时错误
 				_return = ERROR_1;
@@ -820,14 +839,7 @@ UINT8_T I2C_MHW_CheckClock(I2C_HandlerType* I2Cx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T I2C_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK)
 {
-	if (isNACK)
-	{
-		LL_I2C_AcknowledgeNextData(I2Cx->msgI2Cx, LL_I2C_NACK);;
-	}
-	else
-	{
-		LL_I2C_AcknowledgeNextData(I2Cx->msgI2Cx, LL_I2C_ACK);;
-	}
+	(isNACK != 0) ? (LL_I2C_AcknowledgeNextData(I2Cx->msgI2Cx, LL_I2C_NACK)) : (LL_I2C_AcknowledgeNextData(I2Cx->msgI2Cx, LL_I2C_ACK));
 	return OK_0;
 }
 
@@ -840,9 +852,11 @@ UINT8_T I2C_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T I2C_MHW_CheckBusy(I2C_HandlerType* I2Cx)
 {
-	UINT8_T _return=OK_0;
+	//---保证I2C外设不在使用中
+	UINT8_T _return = I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_BUSY, RESET);
 	//---检查到忙标识
-	if(LL_I2C_IsActiveFlag_BUSY(I2Cx->msgI2Cx)!=0)
+	//if(LL_I2C_IsActiveFlag_BUSY(I2Cx->msgI2Cx)!=0)
+	if(_return!=OK_0)
 	{
 		_return=ERROR_1;
 		UINT8_T i=0;
@@ -951,12 +965,5 @@ UINT8_T I2C_MHW_PollMode_ReadByte(I2C_HandlerType* I2Cx)
 UINT8_T I2C_Master_DeInit(I2C_HandlerType* I2Cx)
 {
 	//---注销I2C设备
-	if (I2Cx->msgHwMode == 1)
-	{
-		return I2C_MHW_DeInit(I2Cx);
-	}
-	else
-	{
-		return I2C_MSW_DeInit(I2Cx);
-	}
+	return ((I2Cx->msgHwMode != 0) ? (I2C_MHW_DeInit(I2Cx)) : (I2C_MSW_DeInit(I2Cx)));
 }

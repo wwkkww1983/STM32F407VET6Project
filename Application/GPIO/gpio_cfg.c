@@ -744,3 +744,52 @@ UINT32_T GPIO_ReadInputPort(GPIO_TypeDef* GPIOx, UINT32_T PinMask)
 	//---返回读取结果
 	return ((_return==0)?(((LL_GPIO_ReadInputPort(GPIOx) & PinMask) != 0) ? 1 : 0):((LL_GPIO_ReadInputPort(GPIOx) & PinMask)));
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：等待端口的状态
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T GPIO_WaitPinPort(GPIO_HandlerType* GPIOx,UINT8_T isHighLevel)
+{
+	//---获取当前时间节拍
+	UINT32_T nowTime = 0;
+	UINT32_T oldTime = 0;
+	UINT32_T cnt = 0;
+	//---收发完成标志位
+	UINT8_T _return = OK_0;
+	//---获取当前时间节拍
+	oldTime = SysTickTask_GetTick();
+	//---数据收发
+	while (1)
+	{
+		//---读取端口电平状态
+		if (GPIO_GET_STATE(GPIOx->msgPort, GPIOx->msgBit)==isHighLevel)
+		{
+			//---退出循环
+			break;
+		}
+		//---当前时间
+		nowTime = SysTickTask_GetTick();
+		//---判断滴答定时是否发生溢出操作
+		if (nowTime < oldTime)
+		{
+			cnt = (0xFFFFFFFF - oldTime + nowTime);
+		}
+		else
+		{
+			cnt = nowTime - oldTime;
+		}
+		//---判断是否超时
+		if (cnt > 100)
+		{
+			//---发送发生超时错误
+			_return = ERROR_1;
+			//---退出循环
+			break;
+		}
+	}
+	return _return;
+}

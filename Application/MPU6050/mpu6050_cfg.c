@@ -22,7 +22,7 @@ UINT8_T MPU6050_I2C_Device0_Init(MPU6050_HandlerType* MPU6050x)
 	MPU6050x->msgI2C.msgPluseWidth = 0;
 	MPU6050x->msgI2C.msgDelayus = NULL;
 	MPU6050x->msgI2C.msgAddr = MPU6050_WADDR;
-	MPU6050x->msgI2C.msgClockSpeed = 400000;
+	MPU6050x->msgI2C.msgClockSpeed = 200000;
 	//---GPIO复用模式
 	MPU6050x->msgI2C.msgGPIOAlternate = LL_GPIO_AF_4;
 	//---硬件I2C是I2C1

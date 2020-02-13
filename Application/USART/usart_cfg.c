@@ -4,6 +4,10 @@
 USART_HandlerType  g_Usart1 = { 0 };
 pUSART_HandlerType pUsart1 = &g_Usart1;
 
+//=== 全局变量定义
+USART_HandlerType  g_Usart3 = { 0 };
+pUSART_HandlerType pUsart3 = &g_Usart3;
+
 //===printf函数使用的缓存区
 #ifdef USE_USART_PRINTF
 	char g_PrintfBuffer[USART_PRINTF_SIZE] = { 0 };
@@ -76,6 +80,1038 @@ UINT8_T USART_StructInit(USART_HandlerType*  USARTx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：usart1的参数配置
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART1_ConfigInit(USART_HandlerType* USARTx)
+{
+	//---USART1 GPIO Configuration
+	//---PA9  ------> USART1_TX---端口复用为7
+	//---PA10 ------> USART1_RX---端口复用为7
+	//---使能端口时钟
+	GPIOTask_Clock(GPIOA, PERIPHERAL_CLOCK_ENABLE);
+	//---GPIO的结构体
+	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
+	//---模式配置
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+	//---工作速度
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+	//---复用功能的推完输出
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	//---输入上拉使能
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+	#ifdef USE_MCU_STM32F1
+	//---TX
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_9;
+	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	//---RX
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_10;
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	#else
+	//---端口号
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_9 | LL_GPIO_PIN_10;
+	//---复用功能为USART1
+	GPIO_InitStruct.Alternate = LL_GPIO_AF_7;
+	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	#endif
+	//---配置消息结构体中的信息
+	USARTx->msgTxPort.msgPort = GPIOA;
+	USARTx->msgTxPort.msgBit = LL_GPIO_PIN_9;
+	USARTx->msgUSART = USART1;
+	//---串口序号
+	USARTx->msgIndex = 1 + 1;
+	//---注销串口的初始化
+	LL_USART_DeInit(USARTx->msgUSART);
+	//---使能USART1的时钟信号
+	USART_Clock(USARTx->msgUSART, PERIPHERAL_CLOCK_ENABLE);
+	//---USART的接口结构体
+	LL_USART_InitTypeDef USART_InitStruct = { 0 };
+	//---波特率
+	USART_InitStruct.BaudRate = 115200;
+	//---数据位
+	USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
+	//---停止位
+	USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
+	//---校验位
+	USART_InitStruct.Parity = LL_USART_PARITY_NONE;
+	//---配置为收发模式
+	USART_InitStruct.TransferDirection = LL_USART_DIRECTION_TX_RX;
+	//---硬件流控制---默认为无
+	USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
+	//---过采样配置
+	#ifdef USART_CR1_OVER8
+		//---过采样次数---默认配置为16
+	USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
+	#endif
+	//---初始化串口
+	LL_USART_Init(USARTx->msgUSART, &USART_InitStruct);
+	//---串口异步模式配置
+	LL_USART_ConfigAsyncMode(USARTx->msgUSART);
+	//---校验是否接收需要超时函数
+	if (USARTx->msgRxdHandler.msgTimeTick != NULL)
+	{
+		USARTx->msgRxdHandler.msgMaxTime = 100;
+	}
+	else
+	{
+		USARTx->msgRxdHandler.msgMaxTime = 0;
+	}
+	//---校验是否发送需要超时函数
+	if (USARTx->msgTxdHandler.msgTimeTick != NULL)
+	{
+		USARTx->msgTxdHandler.msgMaxTime = 100;
+	}
+	else
+	{
+		USARTx->msgTxdHandler.msgMaxTime = 0;
+	}
+	//---配置CRC的等级
+	USARTx->msgTxdHandler.msgCRCFlag = USART_CRC_NONE;
+	//---配置报头和报尾
+	USARTx->msgRxdID = 0x55;
+	USARTx->msgTxdID = 0x5A;
+	//---命令和地址配置
+	USART_ParamInit(USARTx, USART1_DEVICE_ID, USART1_ID_INDEX, USART1_CMD_INDEX, USART1_DATA1_INDEX, USART1_DATA2_INDEX);
+	//---定义485为接收模式--推完输出模式，配置为接收模式
+	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
+	//---设置TX端口为输入模式
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：接收DMA初始化
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	//>>>---RX的DMA配置
+	//---将DMA全部寄存器重新设置为缺省值
+	#ifdef USE_MCU_STM32F1
+		//---F1对应是的DMA1的通道1对应ADC1
+	LL_DMA_DeInit(DMA1, LL_DMA_CHANNEL_1);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	#else
+	LL_DMA_DeInit(DMA2, LL_DMA_STREAM_2);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
+	USARTx->msgRxdHandler.msgDMA = DMA2;
+	USARTx->msgRxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_2;
+	#endif
+	//---DMA初始化结构体
+	LL_DMA_InitTypeDef DMA_InitTypeDef = { 0 };
+	#ifndef USE_MCU_STM32F1
+	//---DMA通道
+	DMA_InitTypeDef.Channel = LL_DMA_CHANNEL_4;
+	#endif
+	//---数据大小
+	DMA_InitTypeDef.NbData = USARTx->msgRxdHandler.msgMaxSize;
+	//---方向从外设到存储器
+	DMA_InitTypeDef.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
+	#ifndef USE_MCU_STM32F1
+	//---不用FIFO用直连模式
+	DMA_InitTypeDef.FIFOMode = LL_DMA_FIFOMODE_DISABLE;
+	//---半字两字节
+	DMA_InitTypeDef.FIFOThreshold = LL_DMA_FIFOTHRESHOLD_1_2;
+	#endif
+	//---存储器地址
+	DMA_InitTypeDef.MemoryOrM2MDstAddress = (UINT32_T)(USARTx->msgRxdHandler.pMsgVal);
+	//---半字两字节
+	DMA_InitTypeDef.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
+	//---存储器地址增加
+	DMA_InitTypeDef.MemoryOrM2MDstIncMode = LL_DMA_MEMORY_INCREMENT;
+	//---DMA正常模式
+	DMA_InitTypeDef.Mode = LL_DMA_MODE_NORMAL; //LL_DMA_MODE_CIRCULAR;
+	//---DMA外设地址
+	DMA_InitTypeDef.PeriphOrM2MSrcAddress = (UINT32_T) & (USARTx->msgUSART->DR);
+	#ifndef USE_MCU_STM32F1
+	//---无FIFO
+	DMA_InitTypeDef.PeriphBurst = LL_DMA_PBURST_SINGLE;
+	#endif
+	//---半字两字节
+	DMA_InitTypeDef.PeriphOrM2MSrcDataSize = LL_DMA_PDATAALIGN_BYTE;
+	//---外设基地址不变
+	DMA_InitTypeDef.PeriphOrM2MSrcIncMode = LL_DMA_PERIPH_NOINCREMENT;
+	//---传输通道优先级为高
+	DMA_InitTypeDef.Priority = LL_DMA_PRIORITY_HIGH;
+	//---DMA初始化
+	#ifdef USE_MCU_STM32F1
+		//---初始化DMA
+	LL_DMA_Init(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA
+	LL_DMA_EnableChannel(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	#else
+		//---初始化DMA
+	LL_DMA_Init(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA
+	LL_DMA_EnableStream(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream);
+	//---是能串口接收DMA
+	LL_USART_EnableDMAReq_RX(USARTx->msgUSART);
+	#endif
+	//---中断配置
+	#ifdef USE_MCU_STM32F1
+		//---DMA中断配置
+	NVIC_SetPriority(DMA1_Channel1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 1, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+	#else
+		//---DMA中断配置
+	NVIC_SetPriority(DMA2_Stream2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+	#endif
+	//---使能DMA传输结束中断
+	LL_DMA_EnableIT_TC(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream);
+	//<<<---RX的DMA配置结束
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：发送DMA的初始化
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART1_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	//>>>---TX的DMA配置
+	//---将DMA全部寄存器重新设置为缺省值
+	#ifdef USE_MCU_STM32F1
+		//---F1对应是的DMA1的通道1对应ADC1
+	LL_DMA_DeInit(DMA1, LL_DMA_CHANNEL_1);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	#else
+	LL_DMA_DeInit(DMA2, LL_DMA_STREAM_7);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
+	USARTx->msgTxdHandler.msgDMA = DMA2;
+	USARTx->msgTxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_7;
+	#endif
+	//---DMA初始化结构体
+	LL_DMA_InitTypeDef DMA_InitTypeDef = { 0 };
+	#ifndef USE_MCU_STM32F1
+	//---DMA通道
+	DMA_InitTypeDef.Channel = LL_DMA_CHANNEL_4;
+	#endif
+	//---数据大小,如果是首次发送，这里的参数只能写0，否则容易发生数据不完整，可能只发送了接个字节就停止发送
+	DMA_InitTypeDef.NbData = 0;//USARTx->msgTxdHandler.msgSize;
+	//---方向从存储器到外设
+	DMA_InitTypeDef.Direction = LL_DMA_DIRECTION_MEMORY_TO_PERIPH;
+	#ifndef USE_MCU_STM32F1
+	//---不用FIFO用直连模式
+	DMA_InitTypeDef.FIFOMode = LL_DMA_FIFOMODE_DISABLE;
+	//---半字两字节
+	DMA_InitTypeDef.FIFOThreshold = LL_DMA_FIFOTHRESHOLD_1_2;
+	#endif
+	//---存储器地址
+	DMA_InitTypeDef.MemoryOrM2MDstAddress = (UINT32_T)(USARTx->msgTxdHandler.pMsgVal);
+	//---半字两字节
+	DMA_InitTypeDef.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
+	//---存储器地址增加
+	DMA_InitTypeDef.MemoryOrM2MDstIncMode = LL_DMA_MEMORY_INCREMENT;
+	//---DMA正常模式
+	DMA_InitTypeDef.Mode = LL_DMA_MODE_NORMAL; //LL_DMA_MODE_CIRCULAR;
+	//---DMA外设地址
+	DMA_InitTypeDef.PeriphOrM2MSrcAddress = (UINT32_T) & (USARTx->msgUSART->DR);
+	#ifndef USE_MCU_STM32F1
+	//---无FIFO
+	DMA_InitTypeDef.PeriphBurst = LL_DMA_PBURST_SINGLE;
+	#endif
+	//---半字两字节
+	DMA_InitTypeDef.PeriphOrM2MSrcDataSize = LL_DMA_PDATAALIGN_BYTE;
+	//---外设基地址不变
+	DMA_InitTypeDef.PeriphOrM2MSrcIncMode = LL_DMA_PERIPH_NOINCREMENT;
+	//---传输通道优先级为高
+	DMA_InitTypeDef.Priority = LL_DMA_PRIORITY_HIGH;
+	//---DMA初始化
+	#ifdef USE_MCU_STM32F1
+		//---初始化DMA
+	LL_DMA_Init(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA
+	LL_DMA_EnableChannel(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
+	#else
+		//---初始化DMA
+	LL_DMA_Init(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA,注意发送状态下不能使能DMA，只有需要的时候才能打开
+	//LL_DMA_EnableStream(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
+	//---使能串口发送DMA
+	LL_USART_EnableDMAReq_TX(USARTx->msgUSART);
+	#endif
+	//---中断配置
+	#ifdef USE_MCU_STM32F1
+		//---DMA中断配置
+	NVIC_SetPriority(DMA1_Channel1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 1, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+	#else
+		//---DMA中断配置
+	NVIC_SetPriority(DMA2_Stream7_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA2_Stream7_IRQn);
+	#endif
+	//---使能DMA传输结束中断
+	LL_DMA_EnableIT_TC(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream);
+	//<<<---TX的DMA配置结束
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART1_Init(USART_HandlerType* USARTx)
+{
+	USART1_ConfigInit(USARTx);
+	//---校验接收是不是DMA传输
+	if (USARTx->msgRxdHandler.msgDMAMode == 0)
+	{
+		//---使能接收中断
+		LL_USART_EnableIT_RXNE(USART1);
+	}
+	else
+	{
+		//---使能接收空闲中断
+		LL_USART_EnableIT_IDLE(USART1);
+		//---初始化DMA设置
+		USART1_Read_DMA_Init(USARTx);
+	}
+	//---校验发送是不是DMA传输方式
+	if (USARTx->msgTxdHandler.msgDMAMode != 0)
+	{
+		USART1_Write_DMA_Init(USARTx);
+	}
+	//---USART1_IRQ中断配置---中断等级配置
+	NVIC_SetPriority(USART1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
+	//---使能中断
+	NVIC_EnableIRQ(USART1_IRQn);
+	//---使能串口
+	LL_USART_Enable(USART1);
+	//---打印初始化信息
+	//USART_Printf(USARTx, "=>>串口1的初始化<<=\r\n");
+	USART_Printf(USARTx, "=>>Init SP1<<=\r\n");
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART2_ConfigInit(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART2_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART2_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART2_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART3_ConfigInit(USART_HandlerType* USARTx)
+{
+	//---USART3 GPIO Configuration
+	//---PB10  ------> USART1_TX---端口复用为7
+	//---PB11  ------> USART1_RX---端口复用为7
+	//---使能端口时钟
+	GPIOTask_Clock(GPIOB, PERIPHERAL_CLOCK_ENABLE);
+	//---GPIO的结构体
+	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
+	//---模式配置
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+	//---工作速度
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+	//---复用功能的推完输出
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	//---输入上拉使能
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+#ifdef USE_MCU_STM32F1
+	//---TX
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_10;
+	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	//---RX
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_11;
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+#else
+	//---端口号
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_10 | LL_GPIO_PIN_11;
+	//---复用功能为USART3
+	GPIO_InitStruct.Alternate = LL_GPIO_AF_7;
+	LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+#endif
+	//---配置消息结构体中的信息
+	USARTx->msgTxPort.msgPort = GPIOB;
+	USARTx->msgTxPort.msgBit = LL_GPIO_PIN_10;
+	USARTx->msgUSART = USART3;
+	//---串口序号
+	USARTx->msgIndex = 3 + 1;
+	//---注销串口的初始化
+	LL_USART_DeInit(USARTx->msgUSART);
+	//---使能USART1的时钟信号
+	USART_Clock(USARTx->msgUSART, PERIPHERAL_CLOCK_ENABLE);
+	//---USART的接口结构体
+	LL_USART_InitTypeDef USART_InitStruct = { 0 };
+	//---波特率
+	USART_InitStruct.BaudRate = 115200;
+	//---数据位
+	USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
+	//---停止位
+	USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
+	//---校验位
+	USART_InitStruct.Parity = LL_USART_PARITY_NONE;
+	//---配置为收发模式
+	USART_InitStruct.TransferDirection = LL_USART_DIRECTION_TX_RX;
+	//---硬件流控制---默认为无
+	USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
+	//---过采样配置
+	#ifdef USART_CR1_OVER8
+		//---过采样次数---默认配置为16
+	USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
+	#endif
+	//---初始化串口
+	LL_USART_Init(USARTx->msgUSART, &USART_InitStruct);
+	//---串口异步模式配置
+	LL_USART_ConfigAsyncMode(USARTx->msgUSART);
+	//---校验是否接收需要超时函数
+	(USARTx->msgRxdHandler.msgTimeTick != NULL) ? (USARTx->msgRxdHandler.msgMaxTime = 10) : (USARTx->msgRxdHandler.msgMaxTime = 0);
+	//---校验是否发送需要超时函数
+	(USARTx->msgTxdHandler.msgTimeTick != NULL) ? (USARTx->msgTxdHandler.msgMaxTime = 100) : (USARTx->msgTxdHandler.msgMaxTime = 0);
+	//---配置CRC的等级
+	USARTx->msgTxdHandler.msgCRCFlag = USART_CRC_NONE;
+	//---配置报头和报尾
+	USARTx->msgRxdID = 0x55;
+	USARTx->msgTxdID = 0x5A;
+	//---命令和地址配置
+	//USART_ParamInit(USARTx, USART1_DEVICE_ID, USART1_ID_INDEX, USART1_CMD_INDEX, USART1_DATA1_INDEX, USART1_DATA2_INDEX);
+	//---定义485为接收模式--推完输出模式，配置为接收模式
+	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
+	//---设置TX端口为输入模式
+	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART3_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	//>>>---RX的DMA配置
+	//---将DMA全部寄存器重新设置为缺省值
+	#ifdef USE_MCU_STM32F1
+	//---F1对应是的DMA1的通道1对应ADC1
+	LL_DMA_DeInit(DMA1, LL_DMA_CHANNEL_1);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	#else
+	LL_DMA_DeInit(DMA1, LL_DMA_STREAM_1);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	USARTx->msgRxdHandler.msgDMA = DMA1;
+	USARTx->msgRxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_1;
+	#endif
+	//---DMA初始化结构体
+	LL_DMA_InitTypeDef DMA_InitTypeDef = { 0 };
+	#ifndef USE_MCU_STM32F1
+	//---DMA通道
+	DMA_InitTypeDef.Channel = LL_DMA_CHANNEL_4;
+	#endif
+	//---数据大小
+	DMA_InitTypeDef.NbData = USARTx->msgRxdHandler.msgMaxSize;
+	//---方向从外设到存储器
+	DMA_InitTypeDef.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
+	#ifndef USE_MCU_STM32F1
+	//---不用FIFO用直连模式
+	DMA_InitTypeDef.FIFOMode = LL_DMA_FIFOMODE_DISABLE;
+	//---半字两字节
+	DMA_InitTypeDef.FIFOThreshold = LL_DMA_FIFOTHRESHOLD_1_2;
+	#endif
+	//---存储器地址
+	DMA_InitTypeDef.MemoryOrM2MDstAddress = (UINT32_T)(USARTx->msgRxdHandler.pMsgVal);
+	//---半字两字节
+	DMA_InitTypeDef.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
+	//---存储器地址增加
+	DMA_InitTypeDef.MemoryOrM2MDstIncMode = LL_DMA_MEMORY_INCREMENT;
+	//---DMA正常模式
+	DMA_InitTypeDef.Mode = LL_DMA_MODE_NORMAL; //LL_DMA_MODE_CIRCULAR;
+	//---DMA外设地址
+	DMA_InitTypeDef.PeriphOrM2MSrcAddress = (UINT32_T) & (USARTx->msgUSART->DR);
+	#ifndef USE_MCU_STM32F1
+	//---无FIFO
+	DMA_InitTypeDef.PeriphBurst = LL_DMA_PBURST_SINGLE;
+	#endif
+	//---半字两字节
+	DMA_InitTypeDef.PeriphOrM2MSrcDataSize = LL_DMA_PDATAALIGN_BYTE;
+	//---外设基地址不变
+	DMA_InitTypeDef.PeriphOrM2MSrcIncMode = LL_DMA_PERIPH_NOINCREMENT;
+	//---传输通道优先级为高
+	DMA_InitTypeDef.Priority = LL_DMA_PRIORITY_HIGH;
+	//---DMA初始化
+	#ifdef USE_MCU_STM32F1
+	//---初始化DMA
+	LL_DMA_Init(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA
+	LL_DMA_EnableChannel(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
+	#else
+	//---初始化DMA
+	LL_DMA_Init(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA
+	LL_DMA_EnableStream(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream);
+	//---是能串口接收DMA
+	LL_USART_EnableDMAReq_RX(USARTx->msgUSART);
+	#endif
+	//---中断配置
+	#ifdef USE_MCU_STM32F1
+	//---DMA中断配置
+	NVIC_SetPriority(DMA1_Channel1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 1, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+	#else
+	//---DMA中断配置
+	NVIC_SetPriority(DMA1_Stream1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+	#endif
+	//---使能DMA传输结束中断
+	LL_DMA_EnableIT_TC(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream);
+	//<<<---RX的DMA配置结束
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART3_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	//>>>---TX的DMA配置
+	//---将DMA全部寄存器重新设置为缺省值
+	#ifdef USE_MCU_STM32F1
+		//---F1对应是的DMA1的通道1对应ADC1
+	LL_DMA_DeInit(DMA1, LL_DMA_CHANNEL_1);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	#else
+	LL_DMA_DeInit(DMA1, LL_DMA_STREAM_3);
+	//---DMA时钟总线配置
+	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	USARTx->msgTxdHandler.msgDMA = DMA1;
+	USARTx->msgTxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_3;
+	#endif
+	//---DMA初始化结构体
+	LL_DMA_InitTypeDef DMA_InitTypeDef = { 0 };
+	#ifndef USE_MCU_STM32F1
+	//---DMA通道
+	DMA_InitTypeDef.Channel = LL_DMA_CHANNEL_4;
+	#endif
+	//---数据大小,如果是首次发送，这里的参数只能写0，否则容易发生数据不完整，可能只发送了接个字节就停止发送
+	DMA_InitTypeDef.NbData = 0;//USARTx->msgTxdHandler.msgSize;
+	//---方向从存储器到外设
+	DMA_InitTypeDef.Direction = LL_DMA_DIRECTION_MEMORY_TO_PERIPH;
+	#ifndef USE_MCU_STM32F1
+	//---不用FIFO用直连模式
+	DMA_InitTypeDef.FIFOMode = LL_DMA_FIFOMODE_DISABLE;
+	//---半字两字节
+	DMA_InitTypeDef.FIFOThreshold = LL_DMA_FIFOTHRESHOLD_1_2;
+	#endif
+	//---存储器地址
+	DMA_InitTypeDef.MemoryOrM2MDstAddress = (UINT32_T)(USARTx->msgTxdHandler.pMsgVal);
+	//---半字两字节
+	DMA_InitTypeDef.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
+	//---存储器地址增加
+	DMA_InitTypeDef.MemoryOrM2MDstIncMode = LL_DMA_MEMORY_INCREMENT;
+	//---DMA正常模式
+	DMA_InitTypeDef.Mode = LL_DMA_MODE_NORMAL; //LL_DMA_MODE_CIRCULAR;
+	//---DMA外设地址
+	DMA_InitTypeDef.PeriphOrM2MSrcAddress = (UINT32_T) & (USARTx->msgUSART->DR);
+	#ifndef USE_MCU_STM32F1
+	//---无FIFO
+	DMA_InitTypeDef.PeriphBurst = LL_DMA_PBURST_SINGLE;
+	#endif
+	//---半字两字节
+	DMA_InitTypeDef.PeriphOrM2MSrcDataSize = LL_DMA_PDATAALIGN_BYTE;
+	//---外设基地址不变
+	DMA_InitTypeDef.PeriphOrM2MSrcIncMode = LL_DMA_PERIPH_NOINCREMENT;
+	//---传输通道优先级为高
+	DMA_InitTypeDef.Priority = LL_DMA_PRIORITY_HIGH;
+	//---DMA初始化
+	#ifdef USE_MCU_STM32F1
+	//---初始化DMA
+	LL_DMA_Init(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA
+	LL_DMA_EnableChannel(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
+	#else
+	//---初始化DMA
+	LL_DMA_Init(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
+	//---使能DMA,注意发送状态下不能使能DMA，只有需要的时候才能打开
+	//LL_DMA_EnableStream(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
+	//---使能串口发送DMA
+	LL_USART_EnableDMAReq_TX(USARTx->msgUSART);
+	#endif
+	//---中断配置
+	#ifdef USE_MCU_STM32F1
+	//---DMA中断配置
+	NVIC_SetPriority(DMA1_Channel1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 1, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+	#else
+	//---DMA中断配置
+	NVIC_SetPriority(DMA1_Stream3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
+	//---使能中断
+	NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+	#endif
+	//---使能DMA传输结束中断
+	LL_DMA_EnableIT_TC(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream);
+	//<<<---TX的DMA配置结束
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART3_Init(USART_HandlerType* USARTx)
+{
+	USART3_ConfigInit(USARTx);
+	//---校验接收是不是DMA传输
+	if (USARTx->msgRxdHandler.msgDMAMode == 0)
+	{
+		//---使能接收中断
+		LL_USART_EnableIT_RXNE(USARTx->msgUSART);
+	}
+	else
+	{
+		//---使能接收空闲中断
+		LL_USART_EnableIT_IDLE(USARTx->msgUSART);
+		//---初始化DMA设置
+		USART3_Read_DMA_Init(USARTx);
+	}
+	//---校验发送是不是DMA传输方式
+	if (USARTx->msgTxdHandler.msgDMAMode != 0)
+	{
+		USART3_Write_DMA_Init(USARTx);
+	}
+	//---USART1_IRQ中断配置---中断等级配置
+	NVIC_SetPriority(USART3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
+	//---使能中断
+	NVIC_EnableIRQ(USART3_IRQn);
+	//---使能串口
+	LL_USART_Enable(USARTx->msgUSART);
+	//---打印初始化信息
+	//USART_Printf(USARTx, "=>>串口1的初始化<<=\r\n");
+	USART_Printf(USARTx, "=>>Init SP3<<=\r\n");
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART4_ConfigInit(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART4_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART4_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART4_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART5_ConfigInit(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART5_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART5_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART5_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART6_ConfigInit(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART6_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART6_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART6_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART7_ConfigInit(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART7_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART7_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART7_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART8_ConfigInit(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART8_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART8_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART8_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART9_ConfigInit(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART9_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART9_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART9_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART10_ConfigInit(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART10_Read_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART10_Write_DMA_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART10_Init(USART_HandlerType* USARTx)
+{
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：
 //////输入参数:
 //////输出参数:
@@ -106,6 +1142,34 @@ UINT8_T USART_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal,
 	{
 		USART3_Init(USARTx);
 	}
+	else if ((USARTx != NULL) && (USARTx == USART_TASK_FOUR))
+	{
+		USART4_Init(USARTx);
+	}
+	else if ((USARTx != NULL) && (USARTx == USART_TASK_FIVE))
+	{
+		USART5_Init(USARTx);
+	}
+	else if ((USARTx != NULL) && (USARTx == USART_TASK_SIX))
+	{
+		USART6_Init(USARTx);
+	}
+	if ((USARTx != NULL) && (USARTx == USART_TASK_SEVEN))
+	{
+		USART7_Init(USARTx);
+	}
+	else if ((USARTx != NULL) && (USARTx == USART_TASK_EIGHT))
+	{
+		USART8_Init(USARTx);
+	}
+	else if ((USARTx != NULL) && (USARTx == USART_TASK_NINE))
+	{
+		USART9_Init(USARTx);
+	}
+	else if ((USARTx != NULL) && (USARTx == USART_TASK_TEN))
+	{
+		USART10_Init(USARTx);
+	}
 	else
 	{
 		return ERROR_2;
@@ -125,14 +1189,7 @@ UINT8_T  USART_TXGPIOInit(USART_HandlerType*  USARTx, UINT8_T isInput)
 #ifdef USART_INIT_GPIO
 	if (USARTx->msgTxPort.msgPort != NULL)
 	{
-		if (isInput == USART_TXGPIO_SET_OUTPUT)
-		{
-			LL_GPIO_SetPinMode(USARTx->msgTxPort.msgPort, USARTx->msgTxPort.msgBit, LL_GPIO_MODE_ALTERNATE);
-		}
-		else
-		{
-			LL_GPIO_SetPinMode(USARTx->msgTxPort.msgPort, USARTx->msgTxPort.msgBit, LL_GPIO_MODE_INPUT);
-		}
+		(isInput == USART_TXGPIO_SET_OUTPUT) ? (LL_GPIO_SetPinMode(USARTx->msgTxPort.msgPort, USARTx->msgTxPort.msgBit, LL_GPIO_MODE_ALTERNATE)) : (LL_GPIO_SetPinMode(USARTx->msgTxPort.msgPort, USARTx->msgTxPort.msgBit, LL_GPIO_MODE_INPUT));
 	}
 #endif
 	return OK_0;
@@ -149,14 +1206,7 @@ UINT8_T  USART_485GPIOInit(USART_HandlerType*  USARTx, UINT8_T isEnable)
 {
 	if (USARTx->msg485Port.msgPort != NULL)
 	{
-		if (isEnable == USART_485_TX_ENABLE)
-		{
-			GPIO_OUT_0(USARTx->msg485Port.msgPort, USARTx->msg485Port.msgBit);
-		}
-		else
-		{
-			GPIO_OUT_1(USARTx->msg485Port.msgPort, USARTx->msg485Port.msgBit);
-		}
+		(isEnable == USART_485_TX_ENABLE) ? (GPIO_OUT_0(USARTx->msg485Port.msgPort, USARTx->msg485Port.msgBit)) : (GPIO_OUT_1(USARTx->msg485Port.msgPort, USARTx->msg485Port.msgBit));
 	}
 	return OK_0;
 }
@@ -548,14 +1598,14 @@ UINT8_T USART_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal)
 	//---切换发送端口为输出模式
 	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_OUTPUT);
 	//---关闭中断
-	CLI();
+	//CLI();
 	while (*pVal != '\0')
 	{
 		USART_PollMode_WriteByte(USARTx, (UINT8_T)*pVal);
 		pVal++;
 	}
 	//---使能中断
-	SEI();
+	//SEI();
 	//---设置485为接收模式
 	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
 	//---切换发送端口为输入模式
@@ -1399,7 +2449,7 @@ void USART_PrintfSuspend(USART_HandlerType* USARTx)
 	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
 	while ((USARTx->msgTxdHandler.msgState == USART_BUSY) || (USARTx->msgTxdHandler.msgState == USART_PRINTF)||(USARTx->msgTxdHandler.msgState == USART_DMA))
 	{
-		//--->>>是不是对这里进行超时异常处理，超过国定时间，还没有发送完成，那么进行强制发送完成标识，清零状态
+		//--->>>是不是对这里进行超时异常处理，超过规定时间，还没有发送完成，那么进行强制发送完成标识，清零状态
 		WDT_RESET();
 	}
 	////---检查发送寄存器空中断是否使能
@@ -1904,174 +2954,6 @@ UINT8_T USART_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, 
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
-//////功		能：usart1的参数配置
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T USART1_ConfigInit(USART_HandlerType* USARTx)
-{
-	//---USART1 GPIO Configuration
-	//---PA9  ------> USART1_TX---端口复用为7
-	//---PA10 ------> USART1_RX---端口复用为7
-	//---使能端口时钟
-	GPIOTask_Clock(GPIOA, PERIPHERAL_CLOCK_ENABLE);
-	//---GPIO的结构体
-	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-	//---模式配置
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-	//---工作速度
-	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-	//---复用功能的推完输出
-	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-	//---输入上拉使能
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-#ifdef USE_MCU_STM32F1
-	//---TX
-	GPIO_InitStruct.Pin = LL_GPIO_PIN_9;
-	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-	//---RX
-	GPIO_InitStruct.Pin = LL_GPIO_PIN_10;
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
-	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-#else
-	//---端口号
-	GPIO_InitStruct.Pin = LL_GPIO_PIN_9 | LL_GPIO_PIN_10;
-	//---复用功能为USART1
-	GPIO_InitStruct.Alternate = LL_GPIO_AF_7;
-	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-#endif
-	//---配置消息结构体中的信息
-	USARTx->msgTxPort.msgPort = GPIOA;
-	USARTx->msgTxPort.msgBit = LL_GPIO_PIN_9;
-	USARTx->msgUSART = USART1;
-	//---串口序号
-	USARTx->msgIndex = 1 + 1;
-	//---注销串口的初始化
-	LL_USART_DeInit(USARTx->msgUSART);
-	//---使能USART1的时钟信号
-	USART_Clock(USARTx->msgUSART, 1);
-	//---USART的接口结构体
-	LL_USART_InitTypeDef USART_InitStruct = { 0 };
-	//---波特率
-	USART_InitStruct.BaudRate = 115200;
-	//---数据位
-	USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
-	//---停止位
-	USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
-	//---校验位
-	USART_InitStruct.Parity = LL_USART_PARITY_NONE;
-	//---配置为收发模式
-	USART_InitStruct.TransferDirection = LL_USART_DIRECTION_TX_RX;
-	//---硬件流控制---默认为无
-	USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
-	//---过采样配置
-#ifdef USART_CR1_OVER8
-	//---过采样次数---默认配置为16
-	USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
-#endif
-	//---初始化串口
-	LL_USART_Init(USARTx->msgUSART, &USART_InitStruct);
-	//---串口异步模式配置
-	LL_USART_ConfigAsyncMode(USARTx->msgUSART);
-	//---校验是否接收需要超时函数
-	if (USARTx->msgRxdHandler.msgTimeTick != NULL)
-	{
-		USARTx->msgRxdHandler.msgMaxTime = 100;
-	}
-	else
-	{
-		USARTx->msgRxdHandler.msgMaxTime = 0;
-	}
-	//---校验是否发送需要超时函数
-	if (USARTx->msgTxdHandler.msgTimeTick != NULL)
-	{
-		USARTx->msgTxdHandler.msgMaxTime = 100;
-	}
-	else
-	{
-		USARTx->msgTxdHandler.msgMaxTime = 0;
-	}
-	//---配置CRC的等级
-	USARTx->msgTxdHandler.msgCRCFlag = USART_CRC_NONE;
-	//---配置报头和报尾
-	USARTx->msgRxdID = 0x55;
-	USARTx->msgTxdID = 0x5A;
-	//---命令和地址配置
-	USART_ParamInit(USARTx, USART1_DEVICE_ID, USART1_ID_INDEX, USART1_CMD_INDEX, USART1_DATA1_INDEX, USART1_DATA2_INDEX);
-	//---定义485为接收模式--推完输出模式，配置为接收模式
-	USART_485GPIOInit(USARTx, USART_485_RX_ENABLE);
-	//---设置TX端口为输入模式
-	USART_TXGPIOInit(USARTx, USART_TXGPIO_SET_INPUT);
-	return OK_0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T USART1_Init(USART_HandlerType*USARTx)
-{
-	USART1_ConfigInit(USARTx);
-	//---校验接收是不是DMA传输
-	if (USARTx->msgRxdHandler.msgDMAMode==0)
-	{
-		//---使能接收中断
-		LL_USART_EnableIT_RXNE(USART1);
-	}
-	else
-	{
-		//---使能接收空闲中断
-		LL_USART_EnableIT_IDLE(USART1);
-		//---初始化DMA设置
-		USART1_Read_DMA_Init(USARTx);
-	}
-	//---校验发送是不是DMA传输方式
-	if (USARTx->msgTxdHandler.msgDMAMode != 0)
-	{
-		USART1_Write_DMA_Init(USARTx);
-	}
-	//---USART1_IRQ中断配置---中断等级配置
-	NVIC_SetPriority(USART1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
-	//---使能中断
-	NVIC_EnableIRQ(USART1_IRQn);
-	//---使能串口
-	LL_USART_Enable(USART1);	
-	//---打印初始化信息
-	//USART_Printf(USARTx, "=>>串口1的初始化<<=\r\n");
-	USART_Printf(USARTx, "=>>Init SP1<<=\r\n");
-	return OK_0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T USART2_Init(USART_HandlerType*USARTx)
-{
-	return OK_0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T USART3_Init(USART_HandlerType*USARTx)
-{
-	return OK_0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
 //////功		能：中断处理函数
 //////输入参数:
 //////输出参数:
@@ -2169,188 +3051,6 @@ void USART_IRQTask(USART_HandlerType* USARTx)
 ////////////////////////////////////////////////////////////////////////////////
 ////DMA模式配置
 ////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：接收DMA初始化
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx)
-{
-	//>>>---RX的DMA配置
-	//---将DMA全部寄存器重新设置为缺省值
-#ifdef USE_MCU_STM32F1
-	//---F1对应是的DMA1的通道1对应ADC1
-	LL_DMA_DeInit(DMA1, LL_DMA_CHANNEL_1);
-	//---DMA时钟总线配置
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
-#else
-	LL_DMA_DeInit(DMA2, LL_DMA_STREAM_2);
-	//---DMA时钟总线配置
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
-	USARTx->msgRxdHandler.msgDMA = DMA2;
-	USARTx->msgRxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_2;
-#endif
-	//---DMA初始化结构体
-	LL_DMA_InitTypeDef DMA_InitTypeDef = { 0 };
-#ifndef USE_MCU_STM32F1
-	//---DMA通道
-	DMA_InitTypeDef.Channel = LL_DMA_CHANNEL_4;
-#endif
-	//---数据大小
-	DMA_InitTypeDef.NbData = USARTx->msgRxdHandler.msgMaxSize;
-	//---方向从外设到存储器
-	DMA_InitTypeDef.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
-#ifndef USE_MCU_STM32F1
-	//---不用FIFO用直连模式
-	DMA_InitTypeDef.FIFOMode = LL_DMA_FIFOMODE_DISABLE;
-	//---半字两字节
-	DMA_InitTypeDef.FIFOThreshold = LL_DMA_FIFOTHRESHOLD_1_2;
-#endif
-	//---存储器地址
-	DMA_InitTypeDef.MemoryOrM2MDstAddress = (UINT32_T)(USARTx->msgRxdHandler.pMsgVal);
-	//---半字两字节
-	DMA_InitTypeDef.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
-	//---存储器地址增加
-	DMA_InitTypeDef.MemoryOrM2MDstIncMode = LL_DMA_MEMORY_INCREMENT;
-	//---DMA正常模式
-	DMA_InitTypeDef.Mode = LL_DMA_MODE_NORMAL; //LL_DMA_MODE_CIRCULAR;
-	//---DMA外设地址
-	DMA_InitTypeDef.PeriphOrM2MSrcAddress = (UINT32_T) & (USARTx->msgUSART->DR);
-#ifndef USE_MCU_STM32F1
-	//---无FIFO
-	DMA_InitTypeDef.PeriphBurst = LL_DMA_PBURST_SINGLE;
-#endif
-	//---半字两字节
-	DMA_InitTypeDef.PeriphOrM2MSrcDataSize = LL_DMA_PDATAALIGN_BYTE;
-	//---外设基地址不变
-	DMA_InitTypeDef.PeriphOrM2MSrcIncMode = LL_DMA_PERIPH_NOINCREMENT;
-	//---传输通道优先级为高
-	DMA_InitTypeDef.Priority = LL_DMA_PRIORITY_HIGH;
-	//---DMA初始化
-#ifdef USE_MCU_STM32F1
-	//---初始化DMA
-	LL_DMA_Init(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
-	//---使能DMA
-	LL_DMA_EnableChannel(USARTx->msgRxHandler.msgDMA, USARTx->msgRxHandler.msgDMAChannelOrStream);
-#else
-	//---初始化DMA
-	LL_DMA_Init(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
-	//---使能DMA
-	LL_DMA_EnableStream(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream);
-	//---是能串口接收DMA
-	LL_USART_EnableDMAReq_RX(USARTx->msgUSART);
-#endif
-	//---中断配置
-#ifdef USE_MCU_STM32F1
-	//---DMA中断配置
-	NVIC_SetPriority(DMA1_Channel1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 1, 0));
-	//---使能中断
-	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-#else
-	//---DMA中断配置
-	NVIC_SetPriority(DMA2_Stream2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
-	//---使能中断
-	NVIC_EnableIRQ(DMA2_Stream2_IRQn);
-#endif
-	//---使能DMA传输结束中断
-	LL_DMA_EnableIT_TC(USARTx->msgRxdHandler.msgDMA, USARTx->msgRxdHandler.msgDMAChannelOrStream);
-	//<<<---RX的DMA配置结束
-	return OK_0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：发送DMA的初始化
-//////输入参数:
-//////输出参数:
-//////说		明：
-//////////////////////////////////////////////////////////////////////////////
-UINT8_T USART1_Write_DMA_Init(USART_HandlerType* USARTx)
-{
-	//>>>---TX的DMA配置
-//---将DMA全部寄存器重新设置为缺省值
-#ifdef USE_MCU_STM32F1
-	//---F1对应是的DMA1的通道1对应ADC1
-	LL_DMA_DeInit(DMA1, LL_DMA_CHANNEL_1);
-	//---DMA时钟总线配置
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
-#else
-	LL_DMA_DeInit(DMA2, LL_DMA_STREAM_7);
-	//---DMA时钟总线配置
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
-	USARTx->msgTxdHandler.msgDMA = DMA2;
-	USARTx->msgTxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_7;
-#endif
-	//---DMA初始化结构体
-	LL_DMA_InitTypeDef DMA_InitTypeDef = { 0 };
-#ifndef USE_MCU_STM32F1
-	//---DMA通道
-	DMA_InitTypeDef.Channel = LL_DMA_CHANNEL_4;
-#endif
-	//---数据大小,如果是首次发送，这里的参数只能写0，否则容易发生数据不完整，可能只发送了接个字节就停止发送
-	DMA_InitTypeDef.NbData = 0;//USARTx->msgTxdHandler.msgSize;
-	//---方向从存储器到外设
-	DMA_InitTypeDef.Direction = LL_DMA_DIRECTION_MEMORY_TO_PERIPH;
-#ifndef USE_MCU_STM32F1
-	//---不用FIFO用直连模式
-	DMA_InitTypeDef.FIFOMode = LL_DMA_FIFOMODE_DISABLE;
-	//---半字两字节
-	DMA_InitTypeDef.FIFOThreshold = LL_DMA_FIFOTHRESHOLD_1_2;
-#endif
-	//---存储器地址
-	DMA_InitTypeDef.MemoryOrM2MDstAddress = (UINT32_T)(USARTx->msgTxdHandler.pMsgVal);
-	//---半字两字节
-	DMA_InitTypeDef.MemoryOrM2MDstDataSize = LL_DMA_MDATAALIGN_BYTE;
-	//---存储器地址增加
-	DMA_InitTypeDef.MemoryOrM2MDstIncMode = LL_DMA_MEMORY_INCREMENT;
-	//---DMA正常模式
-	DMA_InitTypeDef.Mode = LL_DMA_MODE_NORMAL; //LL_DMA_MODE_CIRCULAR;
-	//---DMA外设地址
-	DMA_InitTypeDef.PeriphOrM2MSrcAddress = (UINT32_T) & (USARTx->msgUSART->DR);
-#ifndef USE_MCU_STM32F1
-	//---无FIFO
-	DMA_InitTypeDef.PeriphBurst = LL_DMA_PBURST_SINGLE;
-#endif
-	//---半字两字节
-	DMA_InitTypeDef.PeriphOrM2MSrcDataSize = LL_DMA_PDATAALIGN_BYTE;
-	//---外设基地址不变
-	DMA_InitTypeDef.PeriphOrM2MSrcIncMode = LL_DMA_PERIPH_NOINCREMENT;
-	//---传输通道优先级为高
-	DMA_InitTypeDef.Priority = LL_DMA_PRIORITY_HIGH;
-	//---DMA初始化
-#ifdef USE_MCU_STM32F1
-	//---初始化DMA
-	LL_DMA_Init(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
-	//---使能DMA
-	LL_DMA_EnableChannel(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
-#else
-	//---初始化DMA
-	LL_DMA_Init(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream, &DMA_InitTypeDef);
-	//---使能DMA,注意发送状态下不能使能DMA，只有需要的时候才能打开
-	//LL_DMA_EnableStream(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream);
-	//---使能串口发送DMA
-	LL_USART_EnableDMAReq_TX(USARTx->msgUSART);
-#endif
-	//---中断配置
-#ifdef USE_MCU_STM32F1
-	//---DMA中断配置
-	NVIC_SetPriority(DMA1_Channel1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 1, 0));
-	//---使能中断
-	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-#else
-	//---DMA中断配置
-	NVIC_SetPriority(DMA2_Stream7_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 2, 0));
-	//---使能中断
-	NVIC_EnableIRQ(DMA2_Stream7_IRQn);
-#endif
-	//---使能DMA传输结束中断
-	LL_DMA_EnableIT_TC(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream);
-	//<<<---TX的DMA配置结束
-	return OK_0;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -2548,3 +3248,4 @@ void USART_Write_DMA_IRQTask(USART_HandlerType* USARTx)
 	//---使能发送完成中断，用于切换TXD端口为输入状态
 	LL_USART_EnableIT_TC(USARTx->msgUSART);
 }
+

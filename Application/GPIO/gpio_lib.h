@@ -11,6 +11,7 @@ extern "C" {
 	//===º¯Êý¶¨Òå
 	UINT8_T GPIOLib_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable);
 	void GPIOLib_Init(void);
+	UINT8_T GPIOLib_WaitPinPort(GPIO_HandlerType* GPIOx, UINT8_T isHighLevel);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -1293,6 +1293,27 @@
             </file>
         </group>
         <group>
+            <name>AES</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>AHT10</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\AHT10\aht10_cfg.c</name>
@@ -1395,6 +1416,15 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\CAN\can_cfg.h</name>
+            </file>
+        </group>
+        <group>
+            <name>cJSON</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\cJSON\cJSON.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\cJSON\cJSON.h</name>
             </file>
         </group>
         <group>
@@ -1533,6 +1563,27 @@
             </file>
         </group>
         <group>
+            <name>DMA</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>DS1302</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\DS1302\ds1302_cfg.c</name>
@@ -1617,6 +1668,84 @@
             </file>
         </group>
         <group>
+            <name>Encode</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>ESP8266</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>EXIT</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>FIFO</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\FIFO\fifo.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\FIFO\fifo.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\FIFO\queue_fifo.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\FIFO\queue_fifo.h</name>
+            </file>
+        </group>
+        <group>
             <name>FLASH</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\FLASH\flash_cfg.c</name>
@@ -1665,6 +1794,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\HardWare\hw_cfg.h</name>
+            </file>
+        </group>
+        <group>
+            <name>HMC472</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_task.h</name>
             </file>
         </group>
         <group>
@@ -2094,6 +2244,27 @@
             </file>
         </group>
         <group>
+            <name>NTC</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>OLED</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\OLED\oled_cfg.c</name>
@@ -2473,6 +2644,51 @@
             <file>
                 <name>$PROJ_DIR$\..\Application\USART\usart_task.h</name>
             </file>
+        </group>
+        <group>
+            <name>USB</name>
+            <group>
+                <name>USB</name>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_cfg.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_cfg.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_lib.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_lib.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_task.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_task.h</name>
+                </file>
+            </group>
+            <group>
+                <name>USBHid</name>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_cfg.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_cfg.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_lib.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_lib.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_task.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_task.h</name>
+                </file>
+            </group>
         </group>
         <group>
             <name>W25Qxx</name>

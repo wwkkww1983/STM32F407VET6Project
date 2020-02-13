@@ -117,13 +117,23 @@ extern "C" {
 	#define USART_IT_IDLE							5																	//---串口中断空闲状态
 
 	//===定义的任务函数
-	#define USART_TASK_ONE							pUsart1
-	#define USART_TASK_TWO							0
-	#define USART_TASK_THREE						0
+	#define USART_TASK_ONE							pUsart1																//---USART1的任务
+	#define USART_TASK_TWO							0																	//---USART2的任务
+	#define USART_TASK_THREE						pUsart3																	//---USART3的任务
+	#define USART_TASK_FOUR							0																	//---USART4的任务
+	#define USART_TASK_FIVE							0																	//---USART5的任务
+	#define USART_TASK_SIX							0																	//---USART6的任务
+	#define USART_TASK_SEVEN						0																	//---USART7的任务
+	#define USART_TASK_EIGHT						0																	//---USART8的任务
+	#define USART_TASK_NINE							0																	//---USART9的任务
+	#define USART_TASK_TEN							0																	//---USART10的任务
 	
 	//===外部调用接口
 	extern USART_HandlerType						g_Usart1;
 	extern pUSART_HandlerType						pUsart1;
+
+	extern USART_HandlerType						g_Usart3;
+	extern pUSART_HandlerType						pUsart3;
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////串口1的配置参数开始//////////////////////////////////////////////
