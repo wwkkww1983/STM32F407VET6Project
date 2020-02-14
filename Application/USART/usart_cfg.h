@@ -197,6 +197,7 @@ extern "C" {
 
 	//===º¯Êý¶¨Òå
 	UINT8_T  USART_StructInit(USART_HandlerType*  USARTx);
+	UINT8_T  USART_ConfigInit(USART_HandlerType* USARTx, USART_HandlerType* USARTInitx);
 	UINT8_T  USART_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void));
 	UINT8_T  USART_TXGPIOInit(USART_HandlerType*  USARTx, UINT8_T isInput);
 	UINT8_T  USART_485GPIOInit(USART_HandlerType*  USARTx, UINT8_T isEnable);

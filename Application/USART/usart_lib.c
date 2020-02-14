@@ -7,6 +7,18 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
+UINT8_T  USARTLib_ConfigInit(USART_HandlerType* USARTx, USART_HandlerType* USARTInitx)
+{
+	return USART_ConfigInit(USARTx, USARTInitx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
 UINT8_T  USARTLib_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void))
 {
 	UINT8_T _return = OK_0;

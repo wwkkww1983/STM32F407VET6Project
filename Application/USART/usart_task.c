@@ -11,6 +11,18 @@ UINT8_T USART1_TX_BUFFER[USART1_RX_MAX_SIZE] = { 0 };
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
+UINT8_T  USARTTask_ConfigInit(USART_HandlerType* USARTx, USART_HandlerType* USARTInitx)
+{
+	return USARTLib_ConfigInit(USARTx, USARTInitx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
 UINT8_T  USARTTask_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void))
 {
 	UINT8_T _return = OK_0;

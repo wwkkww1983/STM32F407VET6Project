@@ -80,6 +80,70 @@ UINT8_T USART_StructInit(USART_HandlerType*  USARTx)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：用指定的配置，初始化指定的串口
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T USART_ConfigInit(USART_HandlerType* USARTx, USART_HandlerType* USARTInitx)
+{
+	//---串口的数据处理流程
+	USARTx->msgIndex			= USARTInitx->msgIndex								;
+	USARTx->msgRxdID			= USARTInitx->msgRxdID								;
+	USARTx->msgTxdID			= USARTInitx->msgTxdID								;
+	USARTx->msgID				= USARTInitx->msgID									;
+	USARTx->msgIDIndex			= USARTInitx->msgIDIndex							;
+	USARTx->msgCmdIndex			= USARTInitx->msgCmdIndex							;
+	USARTx->msgDataOneIndex		= USARTInitx->msgDataOneIndex						;
+	USARTx->msgDataTwoIndex		= USARTInitx->msgDataTwoIndex						;
+	USARTx->msgIndexOffset		= USARTInitx->msgIndexOffset						;
+	USARTx->msgTxPort.msgPort	= USARTInitx->msgTxPort.msgPort						;
+	USARTx->msg485Port.msgPort	= USARTInitx->msg485Port.msgPort					;
+	USARTx->msgUSART			= USARTInitx->msgUSART								;
+
+	//---接收缓存区
+	USARTx->msgRxdHandler.msgDMAMode	= USARTInitx->msgRxdHandler.msgDMAMode		;
+	USARTx->msgRxdHandler.msgCheckSum	= USARTInitx->msgRxdHandler.msgCheckSum		;
+	USARTx->msgRxdHandler.msgCRCFlag	= USARTInitx->msgRxdHandler.msgCRCFlag		;
+	USARTx->msgRxdHandler.msgStep		= USARTInitx->msgRxdHandler.msgStep			;
+	USARTx->msgRxdHandler.msgAddNewLine	= USARTInitx->msgRxdHandler.msgAddNewLine	;
+	USARTx->msgRxdHandler.msgWIndex		= USARTInitx->msgRxdHandler.msgWIndex		;
+	USARTx->msgRxdHandler.msgRIndex		= USARTInitx->msgRxdHandler.msgRIndex		;
+	USARTx->msgRxdHandler.msgFlagIndex	= USARTInitx->msgRxdHandler.msgFlagIndex	;
+	USARTx->msgRxdHandler.msgCount		= USARTInitx->msgRxdHandler.msgCount		;
+	USARTx->msgRxdHandler.msgMaxSize	= USARTInitx->msgRxdHandler.msgMaxSize		;
+	USARTx->msgRxdHandler.msgState		= USARTInitx->msgRxdHandler.msgState		;
+	USARTx->msgRxdHandler.msgOverFlow	= USARTInitx->msgRxdHandler.msgOverFlow		;
+	USARTx->msgRxdHandler.msgRecordTick	= USARTInitx->msgRxdHandler.msgRecordTick	;
+	USARTx->msgRxdHandler.msgRecordTime	= USARTInitx->msgRxdHandler.msgRecordTime	;
+	USARTx->msgRxdHandler.msgMaxTime	= USARTInitx->msgRxdHandler.msgMaxTime		;
+	USARTx->msgRxdHandler.pMsgVal		= USARTInitx->msgRxdHandler.pMsgVal			;
+	//---计数器
+	USARTx->msgRxdHandler.msgTimeTick	= USARTInitx->msgRxdHandler.msgTimeTick		;
+
+	//---发送缓存区
+	USARTx->msgTxdHandler.msgDMAMode	= USARTInitx->msgTxdHandler.msgDMAMode		;
+	USARTx->msgTxdHandler.msgCheckSum	= USARTInitx->msgTxdHandler.msgCheckSum		;
+	USARTx->msgTxdHandler.msgCRCFlag	= USARTInitx->msgTxdHandler.msgCRCFlag		;
+	USARTx->msgTxdHandler.msgStep		= USARTInitx->msgTxdHandler.msgStep			;
+	USARTx->msgTxdHandler.msgAddNewLine = USARTInitx->msgTxdHandler.msgAddNewLine 	;
+	USARTx->msgTxdHandler.msgWIndex		= USARTInitx->msgTxdHandler.msgWIndex		;
+	USARTx->msgTxdHandler.msgRIndex		= USARTInitx->msgTxdHandler.msgRIndex		;
+	USARTx->msgTxdHandler.msgFlagIndex	= USARTInitx->msgTxdHandler.msgFlagIndex	;
+	USARTx->msgTxdHandler.msgCount		= USARTInitx->msgTxdHandler.msgCount		;
+	USARTx->msgTxdHandler.msgMaxSize	= USARTInitx->msgTxdHandler.msgMaxSize		;
+	USARTx->msgTxdHandler.msgState		= USARTInitx->msgTxdHandler.msgState		;
+	USARTx->msgTxdHandler.msgOverFlow	= USARTInitx->msgTxdHandler.msgOverFlow		;
+	USARTx->msgTxdHandler.msgRecordTick = USARTInitx->msgTxdHandler.msgRecordTick 	;
+	USARTx->msgTxdHandler.msgRecordTime = USARTInitx->msgTxdHandler.msgRecordTime 	;
+	USARTx->msgTxdHandler.msgMaxTime	= USARTInitx->msgTxdHandler.msgMaxTime		;
+	USARTx->msgTxdHandler.pMsgVal		= USARTInitx->msgTxdHandler.pMsgVal			;
+	//---计数器
+	USARTx->msgTxdHandler.msgTimeTick	= USARTInitx->msgTxdHandler.msgTimeTick		;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：usart1的参数配置
 //////输入参数:
 //////输出参数:
