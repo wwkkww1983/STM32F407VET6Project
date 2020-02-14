@@ -69,11 +69,21 @@ extern "C" {
 		USART_RXDHandlerType					msgRxdHandler;															//---接收函数
 	};
 
+	typedef struct _USART_PrintfType			USART_PrintfType;
+	typedef struct _USART_PrintfType			*pUSART_PrintfType;
+	//===Printf打印数据定义
+	struct _USART_PrintfType
+	{
+		UINT16_T								msgIndex;																//---发送序号
+		char									* pMsgVal;																//---缓存区(需要提前定义好数据的缓存区)
+	};
+
 	//===是否重映射printf函数
 	#define USE_USART_PRINTF	
 	//===重映射printf之后的数据缓存区
 	#ifdef USE_USART_PRINTF
-		#define USART_PRINTF_SIZE					512
+		#define USART_PRINTF_SIZE					512																	//---使用printf的时候的缓存区的大小
+		#define USART_PRINTF_IDLE_SIZE				64																	//---printf的最小保留缓存区的大小
 	#endif	
 	//===使用的校验方式
 	#define USART_CRC_NONE							0

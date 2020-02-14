@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F407VET6Project\STM32F407VET6Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F407VET6Project\STM32F407VET6Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6130100: Last Updated: Fri Feb 14 18:55:40 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6130100: Last Updated: Fri Feb 14 22:01:41 2020
 <BR><P>
 <H3>Maximum Stack Usage =        608 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3270,7 +3270,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_ConfigInit
 </UL>
 
-<P><STRONG><a name="[255]"></a>USART_Printf</STRONG> (Thumb, 202 bytes, Stack size 40 bytes, usart_cfg.o(.text.USART_Printf))
+<P><STRONG><a name="[255]"></a>USART_Printf</STRONG> (Thumb, 324 bytes, Stack size 40 bytes, usart_cfg.o(.text.USART_Printf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = USART_Printf &rArr; USART_PrintfSuspend &rArr; USART_485GPIOInit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_TransmitData8
@@ -3285,7 +3285,7 @@ Global Symbols
 <LI><a href="#[24b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_Init
 </UL>
 
-<P><STRONG><a name="[264]"></a>USART_PrintfLog</STRONG> (Thumb, 188 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_PrintfLog))
+<P><STRONG><a name="[264]"></a>USART_PrintfLog</STRONG> (Thumb, 310 bytes, Stack size 32 bytes, usart_cfg.o(.text.USART_PrintfLog))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = USART_PrintfLog &rArr; USART_PrintfSuspend &rArr; USART_485GPIOInit &rArr; GPIO_SetOutputPin &rArr; LL_GPIO_SetOutputPins &rArr; LL_GPIO_SetOutputPin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_USART_TransmitData8

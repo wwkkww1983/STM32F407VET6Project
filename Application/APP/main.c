@@ -240,7 +240,7 @@ int main(void)
 		USARTTask_Printf(pUsart1,"gyro  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgGyro.xGyro, pMpu6050Device0->msgGyro.yGyro, pMpu6050Device0->msgGyro.zGyro);
 		//USART_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
 		USARTTask_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
-		DelayTask_ms(300);
+		DelayTask_ms(500);
 		//---模拟RTC处理
 		SysRTCTask_RTCTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---任务管理函数

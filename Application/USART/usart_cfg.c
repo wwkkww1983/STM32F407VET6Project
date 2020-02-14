@@ -11,6 +11,12 @@ pUSART_HandlerType pUsart3 = &g_Usart3;
 //===printf函数使用的缓存区
 #ifdef USE_USART_PRINTF
 	char g_PrintfBuffer[USART_PRINTF_SIZE] = { 0 };
+	USART_PrintfType g_Printf = 
+	{ 
+		.msgIndex=0,
+		.pMsgVal= g_PrintfBuffer
+	};
+	pUSART_PrintfType pPrintf =&g_Printf;
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2588,15 +2594,34 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 		USART_PrintfSuspend(USARTx);
 		//---计算数据
 		UINT16_T length = 0;
-		va_list arg_ptr;
-		va_start(arg_ptr, fmt);
+		//---这里是保护缓存区的索引，后面会改变这个索引，如果不保存索引，数据的偏移会发生异常
+		UINT16_T index = pPrintf->msgIndex;
+		//---定义一个va_list型的变量,这个变量是指向参数的指针
+		va_list arg;
+		//---用va_start宏初始化变量,这个宏的第二个参数是第一个可变参数的前一个参数,是一个固定的参数
+		va_start(arg, fmt);
 		//---用于向字符串中打印数据、数据格式用户自定义;返回参数是最终生成字符串的长度
-		length = (UINT16_T)vsnprintf(g_PrintfBuffer, USART_PRINTF_SIZE, fmt, arg_ptr);
-		va_end(arg_ptr);
+		//length = (UINT16_T)vsnprintf(g_PrintfBuffer, USART_PRINTF_SIZE, fmt, arg_ptr);
+		length = (UINT16_T)vsnprintf(&(pPrintf->pMsgVal[pPrintf->msgIndex]),(USART_PRINTF_SIZE- pPrintf->msgIndex), fmt, arg);
+		//---用va_end宏结束可变参数的获取
+		va_end(arg);
 		//---判断数据
-		if (length > USART_PRINTF_SIZE)
+		if (length > (USART_PRINTF_SIZE - pPrintf->msgIndex))
 		{
-			length = USART_PRINTF_SIZE;
+			length = USART_PRINTF_SIZE - pPrintf->msgIndex; //USART_PRINTF_SIZE;
+			//---缓存区满，字符归零处理
+			pPrintf->msgIndex=0;
+			return;
+		}
+		else
+		{
+			pPrintf->msgIndex += length;
+			//---至少空闲64字节的缓存区
+			if ((USART_PRINTF_SIZE- USART_PRINTF_IDLE_SIZE)<(pPrintf->msgIndex))
+			{
+				//---缓存区满，字符归零处理
+				pPrintf->msgIndex = 0;
+			}
 		}
 		//---校验是不是DMA模式
 		if (USARTx->msgTxdHandler.msgDMAMode!=0)
@@ -2604,7 +2629,7 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 			//--->>>DMA发送模式
 			USARTx->msgTxdHandler.msgCount = length;
 			//---设置数据地址
-			USART_Write_DMA_SetMemoryAddress(USARTx, (UINT8_T *)g_PrintfBuffer);
+			USART_Write_DMA_SetMemoryAddress(USARTx, (UINT8_T*)(pPrintf->pMsgVal+index));
 			//---启动DMA发送
 			USART_Write_DMA_RESTART(USARTx);
 		}
@@ -2620,7 +2645,7 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 			//---发送完成,发送数据发送完成中断不使能
 			LL_USART_EnableIT_TC(USARTx->msgUSART);
 			//---发送8Bit的数据
-			LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[0]);
+			LL_USART_TransmitData8(USARTx->msgUSART, pPrintf->pMsgVal[index]);
 		}
 		//---复位超时计数器
 		USART_TimeTick_Init(&(USARTx->msgTxdHandler));
@@ -2645,12 +2670,33 @@ void USART_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args)
 		USART_PrintfSuspend(USARTx);
 		//---计算数据
 		UINT16_T length = 0;
+		//---这里是保护缓存区的索引，后面会改变这个索引，如果不保存索引，数据的偏移会发生异常
+		UINT16_T index = pPrintf->msgIndex;
 		//---用于向字符串中打印数据、数据格式用户自定义;返回参数是最终生成字符串的长度
-		length = (UINT16_T)vsnprintf(g_PrintfBuffer, USART_PRINTF_SIZE, fmt, args);
+		//length = (UINT16_T)vsnprintf(g_PrintfBuffer, USART_PRINTF_SIZE, fmt, args);
+		length = (UINT16_T)vsnprintf(&(pPrintf->pMsgVal[pPrintf->msgIndex]), (USART_PRINTF_SIZE - pPrintf->msgIndex), fmt, args);
+		////---判断数据
+		//if (length > USART_PRINTF_SIZE)
+		//{
+		//	length = USART_PRINTF_SIZE;
+		//}
 		//---判断数据
-		if (length > USART_PRINTF_SIZE)
+		if (length > (USART_PRINTF_SIZE - pPrintf->msgIndex))
 		{
-			length = USART_PRINTF_SIZE;
+			length = USART_PRINTF_SIZE - pPrintf->msgIndex; //USART_PRINTF_SIZE;
+			//---缓存区满，字符归零处理
+			pPrintf->msgIndex = 0;
+			return;
+		}
+		else
+		{
+			pPrintf->msgIndex += length;
+			//---至少空闲64字节的缓存区
+			if ((USART_PRINTF_SIZE - USART_PRINTF_IDLE_SIZE) < (pPrintf->msgIndex))
+			{
+				//---缓存区满，字符归零处理
+				pPrintf->msgIndex = 0;
+			}
 		}
 		//---校验是不是DMA模式
 		if (USARTx->msgTxdHandler.msgDMAMode != 0)
@@ -2658,7 +2704,9 @@ void USART_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args)
 			//--->>>DMA发送模式
 			USARTx->msgTxdHandler.msgCount = length;
 			//---设置数据地址
-			USART_Write_DMA_SetMemoryAddress(USARTx, (UINT8_T*)g_PrintfBuffer);
+			//USART_Write_DMA_SetMemoryAddress(USARTx, (UINT8_T*)g_PrintfBuffer);
+			//---设置数据地址
+			USART_Write_DMA_SetMemoryAddress(USARTx, (UINT8_T*)(pPrintf->pMsgVal + index));
 			//---启动DMA发送
 			USART_Write_DMA_RESTART(USARTx);
 		}
@@ -2674,7 +2722,8 @@ void USART_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args)
 			//---发送完成,发送数据发送完成中断不使能
 			LL_USART_EnableIT_TC(USARTx->msgUSART);
 			//---发送8Bit的数据
-			LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[0]);
+			//LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[0]);
+			LL_USART_TransmitData8(USARTx->msgUSART, pPrintf->pMsgVal[index]);
 		}
 		//---复位超时计数器
 		USART_TimeTick_Init(&(USARTx->msgTxdHandler));
