@@ -79,8 +79,8 @@
     <Filter Include="Application\ESP8266">
       <UniqueIdentifier>{C682DE35-32E4-BB43-BB51-02F627B2F202}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\EXIT">
-      <UniqueIdentifier>{62E45CF1-4EDD-7B43-770F-61C863675B4F}</UniqueIdentifier>
+    <Filter Include="Application\EXTI">
+      <UniqueIdentifier>{C2E55CF1-AEDE-7B43-D710-61C8C3685B4F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Encode">
       <UniqueIdentifier>{F661C4BD-E245-8513-4BA6-7F6637A96F95}</UniqueIdentifier>
@@ -492,14 +492,14 @@
     <ClInclude Include="..\Application\ESP8266\esp8266_task.h">
       <Filter>Application\ESP8266</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\EXIT\exit_cfg.h">
-      <Filter>Application\EXIT</Filter>
+    <ClInclude Include="..\Application\EXTI\exti_cfg.h">
+      <Filter>Application\EXTI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\EXIT\exit_lib.h">
-      <Filter>Application\EXIT</Filter>
+    <ClInclude Include="..\Application\EXTI\exti_lib.h">
+      <Filter>Application\EXTI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\EXIT\exit_task.h">
-      <Filter>Application\EXIT</Filter>
+    <ClInclude Include="..\Application\EXTI\exti_task.h">
+      <Filter>Application\EXTI</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\Encode\encode_cfg.h">
       <Filter>Application\Encode</Filter>
@@ -1274,14 +1274,14 @@
     <ClCompile Include="..\Application\ESP8266\esp8266_task.c">
       <Filter>Application\ESP8266</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\EXIT\exit_cfg.c">
-      <Filter>Application\EXIT</Filter>
+    <ClCompile Include="..\Application\EXTI\exti_cfg.c">
+      <Filter>Application\EXTI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\EXIT\exit_lib.c">
-      <Filter>Application\EXIT</Filter>
+    <ClCompile Include="..\Application\EXTI\exti_lib.c">
+      <Filter>Application\EXTI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\EXIT\exit_task.c">
-      <Filter>Application\EXIT</Filter>
+    <ClCompile Include="..\Application\EXTI\exti_task.c">
+      <Filter>Application\EXTI</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\Encode\encode_cfg.c">
       <Filter>Application\Encode</Filter>

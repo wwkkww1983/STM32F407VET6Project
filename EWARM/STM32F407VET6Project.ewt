@@ -1710,24 +1710,24 @@
             </file>
         </group>
         <group>
-            <name>EXIT</name>
+            <name>EXTI</name>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.c</name>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_cfg.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.h</name>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_cfg.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.c</name>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_lib.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.h</name>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_lib.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.c</name>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_task.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.h</name>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_task.h</name>
             </file>
         </group>
         <group>

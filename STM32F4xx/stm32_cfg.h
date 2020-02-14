@@ -225,6 +225,8 @@ extern "C" {
 		void LL_FLASH_EnableInstCache(void);
 		void LL_FLASH_DisableInstCache(void);
 	#endif
+	
+	//===自定义增加的LL库，函数
 	void LL_FLASH_Unlock(void);
 	void LL_FLASH_Lock(void);
 	void LL_FLASH_OB_Unlock(void);
@@ -261,7 +263,7 @@ extern "C" {
 	void LL_DMA_ClearFlag_DME(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
 	void LL_DMA_ClearFlag_FE(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
 	void LL_DMA_ClearFlag(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
-
+	UINT8_T LL_DMA_IsActiveIT_TC(DMA_TypeDef* DMAx, UINT32_T channelOrStream);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

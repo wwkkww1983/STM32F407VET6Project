@@ -73,7 +73,7 @@
         <LExpSel>0</LExpSel>
       </OPTXL>
       <OPTFL>
-        <tvExp>0</tvExp>
+        <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
         <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
@@ -148,7 +148,24 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F4xx_512 -FS08000000 -FL080000 -FP0($$Device:STM32F407VETx$CMSIS\Flash\STM32F4xx_512.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>399</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\STM32F4xx\stm32f4xx_it.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -298,6 +315,10 @@
         <Entry>
           <Name>System Viewer\DMA2</Name>
           <WinId>35905</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\EXTI</Name>
+          <WinId>35902</WinId>
         </Entry>
         <Entry>
           <Name>System Viewer\I2C1</Name>
@@ -1520,7 +1541,7 @@
 
   <Group>
     <GroupName>Application/APP</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -3116,7 +3137,7 @@
 
   <Group>
     <GroupName>Application/Key</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -6195,8 +6216,8 @@
   </Group>
 
   <Group>
-    <GroupName>Application/EXIT</GroupName>
-    <tvExp>0</tvExp>
+    <GroupName>Application/EXTI</GroupName>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -6207,8 +6228,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\EXIT\exit_cfg.c</PathWithFileName>
-      <FilenameWithoutPath>exit_cfg.c</FilenameWithoutPath>
+      <PathWithFileName>..\Application\EXTI\exti_cfg.c</PathWithFileName>
+      <FilenameWithoutPath>exti_cfg.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6219,8 +6240,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\EXIT\exit_cfg.h</PathWithFileName>
-      <FilenameWithoutPath>exit_cfg.h</FilenameWithoutPath>
+      <PathWithFileName>..\Application\EXTI\exti_cfg.h</PathWithFileName>
+      <FilenameWithoutPath>exti_cfg.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6231,8 +6252,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\EXIT\exit_lib.c</PathWithFileName>
-      <FilenameWithoutPath>exit_lib.c</FilenameWithoutPath>
+      <PathWithFileName>..\Application\EXTI\exti_lib.c</PathWithFileName>
+      <FilenameWithoutPath>exti_lib.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6243,8 +6264,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\EXIT\exit_lib.h</PathWithFileName>
-      <FilenameWithoutPath>exit_lib.h</FilenameWithoutPath>
+      <PathWithFileName>..\Application\EXTI\exti_lib.h</PathWithFileName>
+      <FilenameWithoutPath>exti_lib.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6255,8 +6276,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\EXIT\exit_task.c</PathWithFileName>
-      <FilenameWithoutPath>exit_task.c</FilenameWithoutPath>
+      <PathWithFileName>..\Application\EXTI\exti_task.c</PathWithFileName>
+      <FilenameWithoutPath>exti_task.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6267,8 +6288,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\EXIT\exit_task.h</PathWithFileName>
-      <FilenameWithoutPath>exit_task.h</FilenameWithoutPath>
+      <PathWithFileName>..\Application\EXTI\exti_task.h</PathWithFileName>
+      <FilenameWithoutPath>exti_task.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

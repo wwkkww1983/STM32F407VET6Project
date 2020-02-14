@@ -209,6 +209,7 @@ UINT8_T SPI_DeInit(SPI_HandlerType *SPIx, UINT8_T isInitSS)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SPI_Clock(SPI_HandlerType *SPIx, UINT8_T isEnable)
 {
+	#ifdef SPI1
 	//---Ñ¡ÔñSPI½Ó¿Ú
 	if (SPIx->msgSPIx == SPI1)
 	{
@@ -236,7 +237,9 @@ UINT8_T SPI_Clock(SPI_HandlerType *SPIx, UINT8_T isEnable)
 		}
 		return OK_0;
 	}
-	else if (SPIx->msgSPIx == SPI2)
+	#endif
+	#ifdef SPI2
+	if (SPIx->msgSPIx == SPI2)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -262,7 +265,9 @@ UINT8_T SPI_Clock(SPI_HandlerType *SPIx, UINT8_T isEnable)
 		}
 		return OK_0;
 	}
-	else if (SPIx->msgSPIx == SPI3)
+	#endif
+	#ifdef SPI3
+	if (SPIx->msgSPIx == SPI3)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -288,8 +293,9 @@ UINT8_T SPI_Clock(SPI_HandlerType *SPIx, UINT8_T isEnable)
 		}
 		return OK_0;
 	}
+	#endif
 #ifdef SPI4
-	else if (SPIx->msgSPIx == SPI4)
+	if (SPIx->msgSPIx == SPI4)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -317,7 +323,7 @@ UINT8_T SPI_Clock(SPI_HandlerType *SPIx, UINT8_T isEnable)
 	}
 #endif
 #ifdef SPI5
-	else if (SPIx->msgSPIx == SPI5)
+	if (SPIx->msgSPIx == SPI5)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -345,7 +351,7 @@ UINT8_T SPI_Clock(SPI_HandlerType *SPIx, UINT8_T isEnable)
 	}
 #endif
 #ifdef SPI6
-	else if (SPIx->msgSPIx == SPI6)
+	if (SPIx->msgSPIx == SPI6)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -372,10 +378,7 @@ UINT8_T SPI_Clock(SPI_HandlerType *SPIx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif
-	else
-	{
-		return ERROR_2;
-	}
+	return ERROR_2;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

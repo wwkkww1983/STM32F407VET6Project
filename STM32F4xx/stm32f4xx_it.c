@@ -276,7 +276,8 @@ void PVD_IRQHandler(void)
 //////////////////////////////////////////////////////////////////////////////
 void DMA2_Stream0_IRQHandler(void)
 {
-	if (LL_DMA_IsActiveFlag_TC0(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_0)))
+	//if (LL_DMA_IsActiveFlag_TC0(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_0)))
+	if (LL_DMA_IsActiveIT_TC(DMA2, LL_DMA_STREAM_0))
 	{
 		ADCTask_HandleChannelVal(pABChannelADC);
 		ADCTask_ADCTask_STOP(ADC1);
@@ -317,7 +318,8 @@ void TIM2_IRQHandler(void)
 //////////////////////////////////////////////////////////////////////////////
 void DMA2_Stream2_IRQHandler(void)
 {
-	if (LL_DMA_IsActiveFlag_TC2(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_2)))
+	//if (LL_DMA_IsActiveFlag_TC2(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_2)))
+	if (LL_DMA_IsActiveIT_TC(DMA2, LL_DMA_STREAM_2))
 	{
 		USARTTask_Read_DMA_IRQTask(pUsart1);
 	}
@@ -332,7 +334,8 @@ void DMA2_Stream2_IRQHandler(void)
 //////////////////////////////////////////////////////////////////////////////
 void DMA2_Stream7_IRQHandler(void)
 {
-	if (LL_DMA_IsActiveFlag_TC7(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_7)))
+	//if (LL_DMA_IsActiveFlag_TC7(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_7)))
+	if (LL_DMA_IsActiveIT_TC(DMA2, LL_DMA_STREAM_7))
 	{
 		USARTTask_Write_DMA_IRQTask(pUsart1);
 	}
@@ -347,7 +350,8 @@ void DMA2_Stream7_IRQHandler(void)
 //////////////////////////////////////////////////////////////////////////////
 void DMA1_Stream1_IRQHandler(void)
 {
-	if (LL_DMA_IsActiveFlag_TC1(DMA1) && (LL_DMA_IsEnabledIT_TC(DMA1, LL_DMA_STREAM_1)))
+	//if (LL_DMA_IsActiveFlag_TC1(DMA1) && (LL_DMA_IsEnabledIT_TC(DMA1, LL_DMA_STREAM_1)))
+	if (LL_DMA_IsActiveIT_TC(DMA1, LL_DMA_STREAM_1))
 	{
 		USARTTask_Read_DMA_IRQTask(pUsart3);
 	}
@@ -362,11 +366,43 @@ void DMA1_Stream1_IRQHandler(void)
 //////////////////////////////////////////////////////////////////////////////
 void DMA1_Stream3_IRQHandler(void)
 {
-	if (LL_DMA_IsActiveFlag_TC3(DMA1) && (LL_DMA_IsEnabledIT_TC(DMA1, LL_DMA_STREAM_3)))
+	//if (LL_DMA_IsActiveFlag_TC3(DMA1) && (LL_DMA_IsEnabledIT_TC(DMA1, LL_DMA_STREAM_3)))
+	if (LL_DMA_IsActiveIT_TC(DMA1, LL_DMA_STREAM_3))
 	{
 		USARTTask_Write_DMA_IRQTask(pUsart3);
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：外部中断0的初始化
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void EXTI0_IRQHandler(void)
+{
+	
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：外部中断3的初始化
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void EXTI3_IRQHandler(void)
+{
+	//if (GPIO_GET_STATE(GPIOA,LL_GPIO_PIN_0)!=0)
+	{
+		LL_EXTI_DisableIT_0_31(LL_EXTI_LINE_3);
+		USART_Printf(pUsart1, "PE3发生低电平中断\r\n");
+		LL_EXTI_EnableIT_0_31(LL_EXTI_LINE_3);
+		LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
+	}
+}
+
 
 /******************************************************************************/
 /* STM32F4xx Peripheral Interrupt Handlers                                    */

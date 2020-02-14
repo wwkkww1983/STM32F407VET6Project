@@ -8,6 +8,7 @@ extern "C" {
 	#include "complier_lib.h"
 	#include "gpio_task.h"
 	#include "crc_task.h"
+	#include "dma_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	typedef struct _USART_HandlerType			USART_HandlerType;
 	typedef struct _USART_HandlerType			* pUSART_HandlerType;

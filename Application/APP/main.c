@@ -153,6 +153,8 @@ void Sys_Init(void)
 	//MCO1_Init();
 	//---定时器初始化
 	TimerTask_Init();
+	//---外部中断初始化
+	//EXTITask_Init();
 	//---HMC5883的初始化
 	//HMC5883Task_I2C_Init(pHmc5883Device0, DelayTask_us,DelayTask_ms, SysTickTask_GetTick, 0);
 	//---AHT10的初始化

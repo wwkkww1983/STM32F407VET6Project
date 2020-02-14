@@ -20,6 +20,7 @@ extern "C" {
 	#include "decode_task.h"
 	#include "delay_task.h"
 	#include "encode_task.h"
+	#include "exti_task.h"
 	#include "gpio_task.h"
 	#include "hmc5883_task.h"
 	#include "hw_cfg.h"

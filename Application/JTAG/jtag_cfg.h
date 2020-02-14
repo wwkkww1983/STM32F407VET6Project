@@ -106,7 +106,7 @@ extern "C" {
 		UINT8_T				msgJtagCmd;																																				//---是否进入JTAG指令PROG_COMMANDS，0---位使用，1---使用
 		UINT8_T				msgState;																																				//---编程状态，0---空闲状态，1---编程状态
 		UINT8_T				msgInit;																																				//---判断是否初始化过了 0---未初始化，1---初始化
-		UINT8_T				msgEepromPageMode;																																	//---eeprom是否支持页编程模式，0---不支持，1---支持
+		UINT8_T				msgEepromPageMode;																																		//---eeprom是否支持页编程模式，0---不支持，1---支持
 		UINT16_T			msgFlashPerPageWordSize;																																//---Flash的每页字数
 		UINT16_T			msgEerpomPerPageByteSize;																																//---Eeprom的每页字节数
 		UINT16_T			msgPageWordIndex;																																		//---缓存区的序号

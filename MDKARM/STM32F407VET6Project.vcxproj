@@ -39,7 +39,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>USE_FULL_LL_DRIVER;USE_HAL_DRIVER;HSE_VALUE=8000000UL;HSE_STARTUP_TIMEOUT=100;LSE_STARTUP_TIMEOUT=5000;LSE_VALUE=32768;EXTERNAL_CLOCK_VALUE=12288000;HSI_VALUE=16000000;LSI_VALUE=32000;STM32F407xx;__TARGET_FPU_VFP;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING;ARM_MATH_CM4;__FPU_PRESENT=1;_IAR_;__ICCARM__;__CC_ARM;_Pragma(x)=;__interrupt=;__packed=__attribute__((__packed__));__weak=__attribute__((weak));%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Complier;..\Doc;..\STM32F4xx;..\STARTUP\MDKARM;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\USART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS868x;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc;..\Application\ADS869x;..\Application\DAC;..\Application\KalmanFilter;..\Application\SDIO;..\Application\W5500;..\Application\MAX961x;..\Application\SMBUS;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Application\LIN;..\Application\HMC5883;..\Application\INA226;..\Application\SI5351A;..\Application\TaskManage;..\Application\JTAG;..\Application\HVPP;..\Application\HVSP;..\Application\AHT10;..\Application\HMC472;..\Application\Encode;..\Application\EXIT;..\Application\HardWare;..\Application\MCO;..\Application\USB\USBHid;..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc;..\Middlewares\ST\STM32_USB_Device_Library\Class\CustomHID\Inc;..\Application\USB\USB;..\Application\ESP8266;..\Application\FIFO;..\Application\DataBus;..\Application\cJSON;..\Application\AES;..\Application\CAN;..\Application\BMP180;..\Application\MPU6050;..\Application\DMP;..\Application\DMA;D:\Keil_v5\ARM\RV31;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Complier;..\Doc;..\STM32F4xx;..\STARTUP\MDKARM;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\USART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS868x;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc;..\Application\ADS869x;..\Application\DAC;..\Application\KalmanFilter;..\Application\SDIO;..\Application\W5500;..\Application\MAX961x;..\Application\SMBUS;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Application\LIN;..\Application\HMC5883;..\Application\INA226;..\Application\SI5351A;..\Application\TaskManage;..\Application\JTAG;..\Application\HVPP;..\Application\HVSP;..\Application\AHT10;..\Application\HMC472;..\Application\Encode;..\Application\EXTI;..\Application\HardWare;..\Application\MCO;..\Application\USB\USBHid;..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc;..\Middlewares\ST\STM32_USB_Device_Library\Class\CustomHID\Inc;..\Application\USB\USB;..\Application\ESP8266;..\Application\FIFO;..\Application\DataBus;..\Application\cJSON;..\Application\AES;..\Application\CAN;..\Application\BMP180;..\Application\MPU6050;..\Application\DMP;..\Application\DMA;D:\Keil_v5\ARM\RV31;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -119,9 +119,9 @@
     <ClInclude Include="..\Application\ESP8266\esp8266_cfg.h" />
     <ClInclude Include="..\Application\ESP8266\esp8266_lib.h" />
     <ClInclude Include="..\Application\ESP8266\esp8266_task.h" />
-    <ClInclude Include="..\Application\EXIT\exit_cfg.h" />
-    <ClInclude Include="..\Application\EXIT\exit_lib.h" />
-    <ClInclude Include="..\Application\EXIT\exit_task.h" />
+    <ClInclude Include="..\Application\EXTI\exti_cfg.h" />
+    <ClInclude Include="..\Application\EXTI\exti_lib.h" />
+    <ClInclude Include="..\Application\EXTI\exti_task.h" />
     <ClInclude Include="..\Application\Encode\encode_cfg.h" />
     <ClInclude Include="..\Application\Encode\encode_lib.h" />
     <ClInclude Include="..\Application\Encode\encode_task.h" />
@@ -381,9 +381,9 @@
     <ClCompile Include="..\Application\ESP8266\esp8266_cfg.c" />
     <ClCompile Include="..\Application\ESP8266\esp8266_lib.c" />
     <ClCompile Include="..\Application\ESP8266\esp8266_task.c" />
-    <ClCompile Include="..\Application\EXIT\exit_cfg.c" />
-    <ClCompile Include="..\Application\EXIT\exit_lib.c" />
-    <ClCompile Include="..\Application\EXIT\exit_task.c" />
+    <ClCompile Include="..\Application\EXTI\exti_cfg.c" />
+    <ClCompile Include="..\Application\EXTI\exti_lib.c" />
+    <ClCompile Include="..\Application\EXTI\exti_task.c" />
     <ClCompile Include="..\Application\Encode\encode_cfg.c" />
     <ClCompile Include="..\Application\Encode\encode_lib.c" />
     <ClCompile Include="..\Application\Encode\encode_task.c" />

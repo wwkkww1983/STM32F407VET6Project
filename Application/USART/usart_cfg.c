@@ -201,7 +201,8 @@ UINT8_T USART1_Read_DMA_Init(USART_HandlerType* USARTx)
 	#else
 	LL_DMA_DeInit(DMA2, LL_DMA_STREAM_2);
 	//---DMA时钟总线配置
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
+	//LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
+	DMATask_Clock(DMA2, PERIPHERAL_CLOCK_ENABLE);
 	USARTx->msgRxdHandler.msgDMA = DMA2;
 	USARTx->msgRxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_2;
 	#endif
@@ -292,7 +293,8 @@ UINT8_T USART1_Write_DMA_Init(USART_HandlerType* USARTx)
 	#else
 	LL_DMA_DeInit(DMA2, LL_DMA_STREAM_7);
 	//---DMA时钟总线配置
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
+	//LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2);
+	DMATask_Clock(DMA2, PERIPHERAL_CLOCK_ENABLE);
 	USARTx->msgTxdHandler.msgDMA = DMA2;
 	USARTx->msgTxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_7;
 	#endif
@@ -561,7 +563,8 @@ UINT8_T USART3_Read_DMA_Init(USART_HandlerType* USARTx)
 	#else
 	LL_DMA_DeInit(DMA1, LL_DMA_STREAM_1);
 	//---DMA时钟总线配置
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	//LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	DMATask_Clock(DMA1, PERIPHERAL_CLOCK_ENABLE);
 	USARTx->msgRxdHandler.msgDMA = DMA1;
 	USARTx->msgRxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_1;
 	#endif
@@ -645,14 +648,15 @@ UINT8_T USART3_Write_DMA_Init(USART_HandlerType* USARTx)
 	//>>>---TX的DMA配置
 	//---将DMA全部寄存器重新设置为缺省值
 	#ifdef USE_MCU_STM32F1
-		//---F1对应是的DMA1的通道1对应ADC1
+	//---F1对应是的DMA1的通道1对应ADC1
 	LL_DMA_DeInit(DMA1, LL_DMA_CHANNEL_1);
 	//---DMA时钟总线配置
 	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
 	#else
 	LL_DMA_DeInit(DMA1, LL_DMA_STREAM_3);
 	//---DMA时钟总线配置
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	//LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
+	DMATask_Clock(DMA1, PERIPHERAL_CLOCK_ENABLE);
 	USARTx->msgTxdHandler.msgDMA = DMA1;
 	USARTx->msgTxdHandler.msgDMAChannelOrStream = LL_DMA_STREAM_3;
 	#endif
@@ -2639,6 +2643,7 @@ void USART_PrintfClockFreq(USART_HandlerType*USARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 {
+	#ifdef USART1
 	if (USARTx == USART1)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
@@ -2665,7 +2670,9 @@ UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 		}
 		return OK_0;
 	}
-	else if (USARTx == USART2)
+	#endif
+	#ifdef USART2
+	if (USARTx == USART2)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -2691,8 +2698,9 @@ UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 		}
 		return OK_0;
 	}
-#if defined(USART3)
-	else if (USARTx == USART3)
+	#endif
+#ifdef USART3
+	if (USARTx == USART3)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -2719,8 +2727,8 @@ UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif /* USART3 */
-#if defined(USART6)
-	else if (USARTx == USART6)
+#ifdef USART6
+	if (USARTx == USART6)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -2747,8 +2755,8 @@ UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif /* USART6 */
-#if defined(UART4)
-	else if (USARTx == UART4)
+#ifdef UART4
+	if (USARTx == UART4)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -2775,8 +2783,8 @@ UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif /* UART4 */
-#if defined(UART5)
-	else if (USARTx == UART5)
+#ifdef UART5
+	if (USARTx == UART5)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -2803,8 +2811,8 @@ UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif /* UART5 */
-#if defined(UART7)
-	else if (USARTx == UART7)
+#ifdef UART7
+	if (USARTx == UART7)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -2831,8 +2839,8 @@ UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif /* UART7 */
-#if defined(UART8)
-	else if (USARTx == UART8)
+#ifdef UART8
+	if (USARTx == UART8)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -2859,8 +2867,8 @@ UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif /* UART8 */
-#if defined(UART9)
-	else if (USARTx == UART9)
+#ifdef UART9
+	if (USARTx == UART9)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -2887,8 +2895,8 @@ UINT8_T USART_Clock(USART_TypeDef* USARTx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif /* UART9 */
-#if defined(UART10)
-	else if (USARTx == UART10)
+#ifdef UART10
+	if (USARTx == UART10)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -3236,7 +3244,7 @@ void USART_Write_DMA_IRQTask(USART_HandlerType* USARTx)
 #ifdef USE_MCU_STM32F1
 	//---不使能DMA
 	LL_DMA_DisableChannel(USARTx->msgTxHandler.msgDMA, USARTx->msgTxHandler.msgDMAChannelOrStream;
-	LL_DMA_ClearFlag_GI1(DMA1);
+	LL_DMA_ClearFlag_GI1(USARTx->msgTxHandler.msgDMA);
 #else
 	//---不使能DMA
 	LL_DMA_DisableStream(USARTx->msgTxdHandler.msgDMA, USARTx->msgTxdHandler.msgDMAChannelOrStream);

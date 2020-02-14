@@ -408,7 +408,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM2
-	else if (TIMx == TIM2)
+	if (TIMx == TIM2)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -436,7 +436,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM3
-	else if (TIMx == TIM3)
+	if (TIMx == TIM3)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -464,7 +464,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM4
-	else if (TIMx == TIM4)
+	if (TIMx == TIM4)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -492,7 +492,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM5
-	else if (TIMx == TIM5)
+	if (TIMx == TIM5)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -520,7 +520,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM6
-	else if (TIMx == TIM6)
+	if (TIMx == TIM6)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -548,7 +548,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM7
-	else if (TIMx == TIM7)
+	if (TIMx == TIM7)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -576,7 +576,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM8
-	else if (TIMx == TIM8)
+	if (TIMx == TIM8)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -604,7 +604,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM9
-	else if (TIMx == TIM9)
+	if (TIMx == TIM9)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -632,7 +632,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM10
-	else if (TIMx == TIM10)
+	if (TIMx == TIM10)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -660,7 +660,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM11
-	else if (TIMx == TIM11)
+	if (TIMx == TIM11)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -688,7 +688,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM12
-	else if (TIMx == TIM12)
+	if (TIMx == TIM12)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -716,7 +716,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM13
-	else if (TIMx == TIM13)
+	if (TIMx == TIM13)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -745,7 +745,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 #endif
 
 #ifdef TIM14
-	else if (TIMx == TIM14)
+	if (TIMx == TIM14)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -773,7 +773,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM15
-	else if (TIMx == TIM15)
+	if (TIMx == TIM15)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -801,7 +801,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM16
-	else if (TIMx == TIM16)
+	if (TIMx == TIM16)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -829,7 +829,7 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 	}
 #endif
 #ifdef TIM17
-	else if (TIMx == TIM17)
+	if (TIMx == TIM17)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -856,8 +856,5 @@ UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif
-	else
-	{
-		return ERROR_2;
-	}
+	return ERROR_2;
 }

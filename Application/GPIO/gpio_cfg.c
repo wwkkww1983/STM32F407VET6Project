@@ -54,7 +54,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOA
 
 #ifdef GPIOB
-	else if (GPIOx == GPIOB)
+	if (GPIOx == GPIOB)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -97,7 +97,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOB
 
 #ifdef GPIOC
-	else if (GPIOx == GPIOC)
+	if (GPIOx == GPIOC)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -140,7 +140,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOC
 
 #ifdef GPIOD
-	else if (GPIOx == GPIOD)
+	if (GPIOx == GPIOD)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -183,7 +183,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOD
 
 #ifdef GPIOE
-	else if (GPIOx == GPIOE)
+	if (GPIOx == GPIOE)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -226,7 +226,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOE
 
 #ifdef GPIOF
-	else if (GPIOx == GPIOF)
+	if (GPIOx == GPIOF)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -269,7 +269,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOF
 
 #ifdef GPIOG
-	else if (GPIOx == GPIOG)
+	if (GPIOx == GPIOG)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -312,7 +312,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOG
 
 #ifdef GPIOH
-	else if (GPIOx == GPIOH)
+	if (GPIOx == GPIOH)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -355,7 +355,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOH
 
 #ifdef GPIOI
-	else if (GPIOx == GPIOI)
+	if (GPIOx == GPIOI)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -398,7 +398,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOI
 
 #ifdef GPIOJ
-	else if (GPIOx == GPIOJ)
+	if (GPIOx == GPIOJ)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -441,7 +441,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 #endif // GPIOJ
 
 #ifdef GPIOK
-	else if (GPIOx == GPIOK)
+	if (GPIOx == GPIOK)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -482,10 +482,7 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif // GPIOK
-	else
-	{
-		return ERROR_2;
-	}
+	return ERROR_2;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

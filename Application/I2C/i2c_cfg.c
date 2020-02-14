@@ -527,6 +527,7 @@ UINT8_T I2C_MSW_SendCMD(I2C_HandlerType *I2Cx, UINT8_T cmd, UINT8_T isStart, UIN
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T I2C_Clock(I2C_HandlerType* I2Cx, UINT8_T isEnable)
 {
+	#ifdef I2C3
 	if (I2Cx->msgI2Cx == I2C1)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
@@ -551,7 +552,9 @@ UINT8_T I2C_Clock(I2C_HandlerType* I2Cx, UINT8_T isEnable)
 		}
 		return OK_0;
 	}
-	else if (I2Cx->msgI2Cx == I2C2)
+	#endif
+	#ifdef I2C2
+	if (I2Cx->msgI2Cx == I2C2)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -575,8 +578,9 @@ UINT8_T I2C_Clock(I2C_HandlerType* I2Cx, UINT8_T isEnable)
 		}
 		return OK_0;
 	}
+	#endif
 #ifdef I2C3
-	else if (I2Cx->msgI2Cx == I2C3)
+	if (I2Cx->msgI2Cx == I2C3)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -601,10 +605,7 @@ UINT8_T I2C_Clock(I2C_HandlerType* I2Cx, UINT8_T isEnable)
 		return OK_0;
 	}
 #endif
-	else
-	{
-		return ERROR_2;
-	}
+	return ERROR_2;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
