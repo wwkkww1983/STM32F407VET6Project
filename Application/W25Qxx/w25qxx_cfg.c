@@ -20,11 +20,6 @@ UINT8_T W25QXX_SPI_Device0_Init(W25QXX_HandlerType *W25Qx)
 #ifdef WM25QXX_SPI_USE_HWWP
 	W25Qx->msgWP.msgPort = GPIOC;
 	W25Qx->msgWP.msgBit = LL_GPIO_PIN_4;
-	//---初始化写保护
-	if (W25Qx->msgWP.msgPort != NULL)
-	{
-		GPIOTask_Clock(W25Qx->msgWP.msgPort, PERIPHERAL_CLOCK_ENABLE);
-	}
 #endif
 
 	//---SPI1接口
@@ -274,7 +269,9 @@ UINT8_T W25QXX_SPI_Init(W25QXX_HandlerType *W25Qx, void(*pFuncDelayus)(UINT32_T 
 	if (W25Qx->msgWP.msgPort != NULL)
 	{
 		//---使能GPIO的时钟
+		#ifndef  USE_FULL_GPIO
 		GPIOTask_Clock(W25Qx->msgWP.msgPort, PERIPHERAL_CLOCK_ENABLE);
+		#endif
 		//---GPIO的结构体
 		LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 		GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;													//---配置状态为输出模式

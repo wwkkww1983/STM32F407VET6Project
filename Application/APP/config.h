@@ -28,7 +28,7 @@ extern "C" {
 	#include "hvsp_task.h"
 	#include "i2c_task.h"
 	#include "iap_task.h"
-	#include "ina226_cfg.h"
+	#include "ina226_task.h"
 	#include "isp_task.h"
 	#include "iwdg_task.h"
     #include "jtag_task.h"

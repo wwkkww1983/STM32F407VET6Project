@@ -111,6 +111,7 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\HMC5883\hmc5883_cfg.h ..\Application\HVPP\hvpp_task.h \
   ..\Application\HVSP\hvsp_task.h ..\Application\IAP\iap_task.h \
   ..\Application\IAP\iap_lib.h ..\Application\IAP\iap_cfg.h \
+  ..\Application\INA226\ina226_task.h ..\Application\INA226\ina226_lib.h \
   ..\Application\INA226\ina226_cfg.h ..\Application\ISP\isp_task.h \
   ..\Application\ISP\isp_lib.h ..\Application\ISP\isp_cfg.h \
   ..\Application\ADC\adc_Task.h ..\Application\JTAG\jtag_task.h \

@@ -1,0 +1,1643 @@
+###############################################################################
+#
+# IAR ELF Linker V8.40.1.212/W32 for ARM                  14/Feb/2020  14:39:36
+# Copyright 2007-2019 IAR Systems AB.
+#
+#    Output file  =
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Exe\STM32F407VET6Project.out
+#    Map file     =
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\List\STM32F407VET6Project.map
+#    Command line =
+#        -f C:\Users\Harry\AppData\Local\Temp\EW56AB.tmp
+#        (E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ad5593_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ad5593_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ad5593_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\adc_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\adc_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\adc_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ads1256_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ads1256_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ads1256_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ads868x_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ads868x_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ads868x_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ads869x_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ads869x_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ads869x_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\aes_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\aes_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\aes_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\aht10_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\aht10_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\aht10_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\at24cxx_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\at24cxx_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\at24cxx_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\bkp_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\bkp_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\bkp_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\bmp180_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\bmp180_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\bmp180_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\can_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\cJSON.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\complier_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\complier_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\crc_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\crc_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\crc_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\css_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\css_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\css_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\dac_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\dac_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\dac_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\data_bus.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\decode_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\decode_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\decode_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\delay_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\delay_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\delay_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\dht11_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\dht11_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\dht11_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\dma_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\dma_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\dma_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ds1302_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ds1302_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ds1302_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ds18b20_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ds18b20_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ds18b20_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\eeprom_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\eeprom_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\eeprom_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\enc28j60_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\enc28j60_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\enc28j60_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\encode_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\encode_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\encode_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\esp8266_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\esp8266_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\esp8266_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\exti_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\exti_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\exti_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\fifo.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\flash_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\flash_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\flash_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\gpio_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\gpio_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\gpio_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hmc472_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hmc472_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hmc472_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hmc5883_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hmc5883_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hmc5883_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hmc830_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hmc830_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hmc830_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hvpp_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hvpp_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hvpp_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hvsp_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hvsp_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hvsp_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\hw_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\i2c_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\i2c_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\i2c_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\iap_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\iap_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\iap_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ina226_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ina226_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ina226_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\isp_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\isp_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\isp_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\iwdg_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\iwdg_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\iwdg_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\jtag_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\jtag_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\jtag_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\kalman_filter.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\key_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\key_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\key_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\lcd1602_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\lcd1602_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\lcd1602_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\led_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\led_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\led_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\lin_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\lin_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\lin_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\main.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\max961x_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\max961x_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\max961x_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\mco_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\mobus_slave_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\mobus_slave_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\mobus_slave_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\modbus_master_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\modbus_master_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\modbus_master_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\mpu6050_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\mpu6050_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\mpu6050_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\my_malloc.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\nrf2401_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\nrf2401_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\nrf2401_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ntc_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ntc_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\ntc_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\oled_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\oled_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\oled_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\one_wire_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\one_wire_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\one_wire_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\pcf8563_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\pcf8563_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\pcf8563_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\pid_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\pid_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\pid_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\power_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\power_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\power_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\pvd_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\pvd_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\pvd_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\queue_fifo.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\random_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\random_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\random_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\rfask_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\rfask_eeprom.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\rfask_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\rfask_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\rfaskhw_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\rtc_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\rtc_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\rtc_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\sdio_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\sdio_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\sdio_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\sht2x_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\sht2x_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\sht2x_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\si5351a_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\si5351a_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\si5351a_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\smbus_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\smbus_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\smbus_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\spi_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\spi_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\spi_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\startup_stm32f407xx.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_hal.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_hal_cortex.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_hal_gpio.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_hal_rcc.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_it.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_adc.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_crc.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_dac.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_dma.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_dma2d.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_gpio.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_i2c.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_pwr.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_rcc.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_rng.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_rtc.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_spi.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_tim.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_usart.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\stm32f4xx_ll_utils.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\system_stm32f4xx.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\systick_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\systick_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\systick_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\task_manage.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\timer_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\timer_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\timer_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\usart_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\usart_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\usart_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\usb_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\usb_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\usb_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\usbhid_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\usbhid_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\usbhid_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\w25qxx_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\w25qxx_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\w25qxx_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\w5500_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\w5500_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\w5500_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\wm8510_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\wm8510_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\wm8510_task.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\wwdg_cfg.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\wwdg_lib.o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj\wwdg_task.o
+#        --redirect _Printf=_PrintfFull --redirect _Scanf=_ScanfFull
+#        --no_out_extension -o
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Exe\STM32F407VET6Project.out
+#        --map
+#        E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\List\STM32F407VET6Project.map
+#        --config "D:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.3\arm\config\linker\ST\stm32f407xE.icf" --semihosting --entry
+#        __iar_program_start --vfe --text_out locale)
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__Heap_Handler  = DLMalloc
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The advanced heap was selected because the application calls memory
+allocation functions outside of system library functions, and there
+are calls to deallocation functions in the application.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at address 0x800'0000 { ro section .intvec };
+"P1":  place in [from 0x800'0000 to 0x807'ffff] { ro };
+define block CSTACK with size = 8K, alignment = 8 { };
+define block HEAP with size = 8K, alignment = 8 { };
+"P4":  place in [from 0x2000'0000 to 0x2001'bfff] |
+                [from 0x2001'c000 to 0x2001'ffff] {
+          rw, block CSTACK, block HEAP };
+initialize by copy { rw };
+
+No sections matched the following patterns:
+
+  ro section application_specific_ro  in "P2"
+  section .backup_sram                in "P5"
+  section .ccram                      in "P3"
+
+
+  Section            Kind         Address    Size  Object
+  -------            ----         -------    ----  ------
+"A0":                                       0x188
+  .intvec            ro code   0x800'0000   0x188  startup_stm32f407xx.o [1]
+                             - 0x800'0188   0x188
+
+"P1":                                      0x8624
+  .text              ro code   0x800'0188  0x149e  usart_cfg.o [1]
+  .text              ro code   0x800'1626    0x3a  zero_init3.o [4]
+  .text              ro code   0x800'1660    0x66  ABImemset.o [4]
+  .text              ro code   0x800'16c6    0x2e  copy_init3.o [4]
+  .text              ro code   0x800'16f4   0x194  stm32f4xx_ll_gpio.o [1]
+  .text              ro code   0x800'1888   0x440  stm32f4xx_ll_usart.o [1]
+  .text              ro code   0x800'1cc8   0x340  stm32f4xx_ll_dma.o [1]
+  .text              ro code   0x800'2008     0xa  dma_task.o [1]
+  .text              ro code   0x800'2012    0x1e  xencoding_8859_1.o [2]
+  .text              ro code   0x800'2030   0x534  gpio_cfg.o [1]
+  .text              ro code   0x800'2564     0x8  iwdg_task.o [1]
+  .text              ro code   0x800'256c    0x3c  vsnprint.o [2]
+  .text              ro code   0x800'25a8   0x46e  stm32_cfg.o [1]
+  .text              ro code   0x800'2a16    0x1a  xsnprout.o [2]
+  .text              ro code   0x800'2a30   0x230  I64DivMod.o [4]
+  .text              ro code   0x800'2c60   0x144  stm32f4xx_ll_rcc.o [1]
+  .text              ro code   0x800'2da4     0xa  dma_lib.o [1]
+  .text              ro code   0x800'2dae    0x30  systick_task.o [1]
+  .text              ro code   0x800'2dde     0x8  iwdg_lib.o [1]
+  .rodata            const     0x800'2de6     0x2  xlocale_c.o [2]
+  .text              ro code   0x800'2de8  0x10c6  xprintffull.o [2]
+  .rodata            const     0x800'3eae     0x2  xlocale_c.o [2]
+  .text              ro code   0x800'3eb0     0x2  I64DivZer.o [4]
+  .rodata            const     0x800'3eb2     0x1  xlocale_c.o [2]
+  .text              ro code   0x800'3eb4    0xe8  dma_cfg.o [1]
+  .text              ro code   0x800'3f9c    0x30  systick_lib.o [1]
+  .text              ro code   0x800'3fcc    0x1c  iwdg_cfg.o [1]
+  .text              ro code   0x800'3fe8    0x7c  xlocale_c.o [2]
+  .text              ro code   0x800'4064    0x16  strchr.o [4]
+  .text              ro code   0x800'407c    0x40  xfail_s.o [2]
+  .text              ro code   0x800'40bc    0x36  strlen.o [4]
+  .text              ro code   0x800'40f4    0x58  memchr.o [4]
+  .text              ro code   0x800'414c    0xa6  ABImemcpy.o [4]
+  .text              ro code   0x800'41f4    0x70  frexp.o [3]
+  .text              ro code   0x800'4264    0x2e  DblCmpLe.o [3]
+  .text              ro code   0x800'4294    0x2e  DblCmpGe.o [3]
+  .text              ro code   0x800'42c4   0x13a  ldexp.o [3]
+  .text              ro code   0x800'4400    0x3a  DblToS32.o [3]
+  .text              ro code   0x800'443c    0x22  S32ToDbl.o [3]
+  .text              ro code   0x800'4460    0xe2  DblSub.o [3]
+  .text              ro code   0x800'4544   0x246  DblDiv.o [3]
+  .text              ro code   0x800'478c    0x28  DblToU32.o [3]
+  .text              ro code   0x800'47b4    0x1a  U32ToDbl.o [3]
+  .text              ro code   0x800'47d0   0x1a2  DblMul.o [3]
+  .text              ro code   0x800'4972     0xa  xmbcurmax.o [2]
+  .text              ro code   0x800'497c   0x3f8  systick_cfg.o [1]
+  .text              ro code   0x800'4d74     0x6  abort.o [2]
+  .text              ro code   0x800'4d7c   0x17a  DblAdd.o [3]
+  .text              ro code   0x800'4ef8    0x14  exit.o [5]
+  .text              ro code   0x800'4f0c   0x81c  i2c_cfg.o [1]
+  .text              ro code   0x800'5728    0x12  gpio_task.o [1]
+  .text              ro code   0x800'573c   0x1b2  stm32f4xx_ll_i2c.o [1]
+  .text              ro code   0x800'58ee    0x12  gpio_lib.o [1]
+  .text              ro code   0x800'5900   0x6da  mpu6050_cfg.o [1]
+  .text              ro code   0x800'5fda    0x7e  i2c_task.o [1]
+  .text              ro code   0x800'6058    0x48  FltToDbl.o [3]
+  .text              ro code   0x800'60a0    0x68  DblToFlt.o [3]
+  .text              ro code   0x800'6108    0xd8  i2c_lib.o [1]
+  .text              ro code   0x800'61e0   0x6da  rtc_cfg.o [1]
+  .text              ro code   0x800'68bc   0x3e2  stm32f4xx_ll_rtc.o [1]
+  .text              ro code   0x800'6ca0   0x118  complier_lib.o [1]
+  .text              ro code   0x800'6db8   0x600  timer_cfg.o [1]
+  .text              ro code   0x800'73b8   0x1c0  stm32f4xx_ll_tim.o [1]
+  .text              ro code   0x800'7578   0x43c  main.o [1]
+  .text              ro code   0x800'79b4     0xc  stm32f4xx_ll_utils.o [1]
+  .text              ro code   0x800'79c0    0x64  my_malloc.o [1]
+  .text              ro code   0x800'7a24    0x16  rtc_task.o [1]
+  .text              ro code   0x800'7a3a    0x12  random_task.o [1]
+  .text              ro code   0x800'7a4c    0x10  crc_task.o [1]
+  .text              ro code   0x800'7a5c    0x3e  usart_task.o [1]
+  .text              ro code   0x800'7a9a     0x8  timer_task.o [1]
+  .text              ro code   0x800'7aa2    0x16  mpu6050_task.o [1]
+  .text              ro code   0x800'7ab8    0x10  delay_task.o [1]
+  .text              ro code   0x800'7ac8    0x16  rtc_lib.o [1]
+  .text              ro code   0x800'7ade    0x12  random_lib.o [1]
+  .text              ro code   0x800'7af0    0x10  crc_lib.o [1]
+  .text              ro code   0x800'7b00    0x64  usart_lib.o [1]
+  .text              ro code   0x800'7b64     0x8  timer_lib.o [1]
+  .text              ro code   0x800'7b6c    0x16  mpu6050_lib.o [1]
+  .text              ro code   0x800'7b82    0x10  delay_lib.o [1]
+  .text              ro code   0x800'7b94   0x1a4  random_cfg.o [1]
+  .text              ro code   0x800'7d38    0x50  crc_cfg.o [1]
+  .text              ro code   0x800'7d88    0x68  delay_cfg.o [1]
+  .text              ro code   0x800'7df0    0x2e  stm32f4xx_ll_rng.o [1]
+  .text              ro code   0x800'7e20    0x44  stm32f4xx_ll_crc.o [1]
+  .text              ro code   0x800'7e64   0x25c  adc_cfg.o [1]
+  .text              ro code   0x800'80c0   0x178  stm32f4xx_it.o [1]
+  .text              ro code   0x800'8238    0x10  css_task.o [1]
+  .text              ro code   0x800'8248     0x8  pvd_task.o [1]
+  .text              ro code   0x800'8250    0x18  adc_task.o [1]
+  .text              ro code   0x800'8268    0x10  css_lib.o [1]
+  .text              ro code   0x800'8278     0x8  pvd_lib.o [1]
+  .text              ro code   0x800'8280    0x18  adc_lib.o [1]
+  .text              ro code   0x800'8298    0xb4  css_cfg.o [1]
+  .text              ro code   0x800'834c     0x2  pvd_cfg.o [1]
+  .rodata            const     0x800'8350    0x60  main.o [1]
+  .text              ro code   0x800'83b0    0x60  system_stm32f4xx.o [1]
+  .rodata            const     0x800'8410    0x28  main.o [1]
+  .text              ro code   0x800'8438    0x28  data_init.o [4]
+  .rodata            const     0x800'8460    0x24  main.o [1]
+  .text              ro code   0x800'8484    0x22  fpinit_M.o [3]
+  .iar.init_table    const     0x800'84a8    0x24  - Linker created -
+  .text              ro code   0x800'84cc    0x1e  cmain.o [4]
+  .text              ro code   0x800'84ea     0x4  low_level_init.o [2]
+  .text              ro code   0x800'84ee     0x4  exit.o [2]
+  .text              ro code   0x800'84f4     0xa  cexit.o [4]
+  .text              ro code   0x800'8500    0x18  stm32f4xx_hal.o [1]
+  .rodata            const     0x800'8518    0x14  stm32f4xx_it.o [1]
+  .rodata            const     0x800'852c    0x14  usart_cfg.o [1]
+  .rodata            const     0x800'8540    0x14  usart_cfg.o [1]
+  .rodata            const     0x800'8554    0x10  main.o [1]
+  .rodata            const     0x800'8564    0x10  rtc_cfg.o [1]
+  .rodata            const     0x800'8574    0x10  system_stm32f4xx.o [1]
+  .text              ro code   0x800'8584    0x10  startup_stm32f407xx.o [1]
+  .rodata            const     0x800'8594     0xc  rtc_cfg.o [1]
+  .rodata            const     0x800'85a0     0xc  rtc_cfg.o [1]
+  .text              ro code   0x800'85ac     0xc  cstartup_M.o [4]
+  .rodata            const     0x800'85b8     0x8  adc_cfg.o [1]
+  .rodata            const     0x800'85c0     0x8  main.o [1]
+  .rodata            const     0x800'85c8     0x8  stm32_cfg.o [1]
+  .rodata            const     0x800'85d0     0x8  stm32f4xx_ll_dma.o [1]
+  .rodata            const     0x800'85d8     0x8  system_stm32f4xx.o [1]
+  .rodata            const     0x800'85e0     0x8  usart_cfg.o [1]
+  .text              ro code   0x800'85e8     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'85ec     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'85f0     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'85f4     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'85f8     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'85fc     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8600     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8604     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8608     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'860c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8610     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8614     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8618     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'861c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8620     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8624     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8628     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'862c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8630     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8634     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8638     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'863c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8640     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8644     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8648     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'864c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8650     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8654     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8658     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'865c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8660     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8664     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8668     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'866c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8670     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8674     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8678     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'867c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8680     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8684     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8688     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'868c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8690     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8694     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'8698     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'869c     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86a0     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86a4     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86a8     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86ac     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86b0     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86b4     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86b8     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86bc     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86c0     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86c4     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86c8     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86cc     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86d0     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86d4     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86d8     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86dc     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86e0     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86e4     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86e8     0x4  startup_stm32f407xx.o [1]
+  .text              ro code   0x800'86ec     0x4  startup_stm32f407xx.o [1]
+  .rodata            const     0x800'86f0     0x0  zero_init3.o [4]
+  .rodata            const     0x800'86f0     0x0  copy_init3.o [4]
+  Initializer bytes  const     0x800'86f0    0xbc  <for P4 s0>
+                             - 0x800'87ac  0x8624
+
+"P4", part 1 of 3:                           0xbc
+  P4 s0                       0x2000'0000    0xbc  <Init block>
+    .data            inited   0x2000'0000    0x48  xlocale_c.o [2]
+    .data            inited   0x2000'0048    0x38  xlocale_c.o [2]
+    .data            inited   0x2000'0080    0x14  my_malloc.o [1]
+    .data            inited   0x2000'0094     0x4  adc_cfg.o [1]
+    .data            inited   0x2000'0098     0x4  adc_cfg.o [1]
+    .data            inited   0x2000'009c     0x4  mpu6050_cfg.o [1]
+    .data            inited   0x2000'00a0     0x4  rtc_cfg.o [1]
+    .data            inited   0x2000'00a4     0x4  system_stm32f4xx.o [1]
+    .data            inited   0x2000'00a8     0x4  systick_cfg.o [1]
+    .data            inited   0x2000'00ac     0x4  timer_cfg.o [1]
+    .data            inited   0x2000'00b0     0x4  usart_cfg.o [1]
+    .data            inited   0x2000'00b4     0x4  usart_cfg.o [1]
+    .data            inited   0x2000'00b8     0x1  crc_cfg.o [1]
+    .data            inited   0x2000'00b9     0x1  stm32f4xx_hal.o [1]
+                            - 0x2000'00bc    0xbc
+
+"P4", part 2 of 3:                         0x2f70
+  .bss               zero     0x2000'00bc  0x2800  my_malloc.o [1]
+  .bss               zero     0x2000'28bc   0x280  my_malloc.o [1]
+  .bss               zero     0x2000'2b3c   0x200  usart_cfg.o [1]
+  .bss               zero     0x2000'2d3c    0x84  usart_cfg.o [1]
+  .bss               zero     0x2000'2dc0    0x84  usart_cfg.o [1]
+  .bss               zero     0x2000'2e44    0x74  mpu6050_cfg.o [1]
+  .bss               zero     0x2000'2eb8    0x44  usart_task.o [1]
+  .bss               zero     0x2000'2efc    0x44  usart_task.o [1]
+  .bss               zero     0x2000'2f40    0x2c  adc_cfg.o [1]
+  .bss               zero     0x2000'2f6c    0x2c  adc_cfg.o [1]
+  .bss               zero     0x2000'2f98    0x28  systick_cfg.o [1]
+  .bss               zero     0x2000'2fc0    0x24  timer_cfg.o [1]
+  .bss               zero     0x2000'2fe4    0x20  stm32_cfg.o [1]
+  .bss               zero     0x2000'3004    0x18  rtc_cfg.o [1]
+  .bss               zero     0x2000'301c     0x4  random_cfg.o [1]
+  .bss               zero     0x2000'3020     0x4  stm32f4xx_hal.o [1]
+  .bss               zero     0x2000'3024     0x4  xfail_s.o [2]
+  .bss               zero     0x2000'3028     0x1  usart_cfg.o [1]
+  .bss               zero     0x2000'3029     0x1  usart_cfg.o [1]
+                            - 0x2000'302a  0x2f6e
+
+"P4", part 3 of 3:                         0x2000
+  CSTACK                      0x2000'3030  0x2000  <Block>
+    CSTACK           uninit   0x2000'3030  0x2000  <Block tail>
+                            - 0x2000'5030  0x2000
+
+Unused ranges:
+
+         From           To      Size
+         ----           --      ----
+   0x800'87ac   0x807'ffff  0x7'7854
+  0x2000'302c  0x2000'302f       0x4
+  0x2000'5030  0x2001'bfff  0x1'6fd0
+  0x2001'c000  0x2001'ffff    0x4000
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address      Size
+          -------      ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x2f6e:
+          0x2000'00bc  0x2f6e
+
+Copy (__iar_copy_init3)
+    1 source range, total size 0xbc (101% of destination):
+           0x800'86f0    0xbc
+    1 destination range, total size 0xba:
+          0x2000'0000    0xba
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                 ro code  ro data  rw data
+    ------                 -------  -------  -------
+command line/config:
+    ------------------------------------------------
+    Total:
+
+E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj: [1]
+    adc_cfg.o                  604       16       96
+    adc_lib.o                   24
+    adc_task.o                  24
+    complier_lib.o             280
+    crc_cfg.o                   80        1        1
+    crc_lib.o                   16
+    crc_task.o                  16
+    css_cfg.o                  180
+    css_lib.o                   16
+    css_task.o                  16
+    delay_cfg.o                104
+    delay_lib.o                 16
+    delay_task.o                16
+    dma_cfg.o                  232
+    dma_lib.o                   10
+    dma_task.o                  10
+    gpio_cfg.o               1'332
+    gpio_lib.o                  18
+    gpio_task.o                 18
+    i2c_cfg.o                2'076
+    i2c_lib.o                  216
+    i2c_task.o                 126
+    iwdg_cfg.o                  28
+    iwdg_lib.o                   8
+    iwdg_task.o                  8
+    main.o                   1'084      196
+    mpu6050_cfg.o            1'754        4      120
+    mpu6050_lib.o               22
+    mpu6050_task.o              22
+    my_malloc.o                100       20   10'900
+    pvd_cfg.o                    2
+    pvd_lib.o                    8
+    pvd_task.o                   8
+    random_cfg.o               420                 4
+    random_lib.o                18
+    random_task.o               18
+    rtc_cfg.o                1'754       44       28
+    rtc_lib.o                   22
+    rtc_task.o                  22
+    startup_stm32f407xx.o      672
+    stm32_cfg.o              1'134        8       32
+    stm32f4xx_hal.o             24        1        5
+    stm32f4xx_it.o             376       20
+    stm32f4xx_ll_crc.o          68
+    stm32f4xx_ll_dma.o         832        8
+    stm32f4xx_ll_gpio.o        404
+    stm32f4xx_ll_i2c.o         434
+    stm32f4xx_ll_rcc.o         324
+    stm32f4xx_ll_rng.o          46
+    stm32f4xx_ll_rtc.o         994
+    stm32f4xx_ll_tim.o         448
+    stm32f4xx_ll_usart.o     1'088
+    stm32f4xx_ll_utils.o        12
+    system_stm32f4xx.o          96       28        4
+    systick_cfg.o            1'016        4       44
+    systick_lib.o               48
+    systick_task.o              48
+    timer_cfg.o              1'536        4       40
+    timer_lib.o                  8
+    timer_task.o                 8
+    usart_cfg.o              5'278       56      786
+    usart_lib.o                100
+    usart_task.o                62               136
+    ------------------------------------------------
+    Total:                  25'784      410   12'196
+
+dl7M_tlf.a: [2]
+    abort.o                      6
+    exit.o                       4
+    low_level_init.o             4
+    vsnprint.o                  60
+    xencoding_8859_1.o          30
+    xfail_s.o                   64                 4
+    xlocale_c.o                124      133      128
+    xmbcurmax.o                 10
+    xprintffull.o            4'294
+    xsnprout.o                  26
+    ------------------------------------------------
+    Total:                   4'622      133      132
+
+m7M_tls.a: [3]
+    DblAdd.o                   378
+    DblCmpGe.o                  46
+    DblCmpLe.o                  46
+    DblDiv.o                   582
+    DblMul.o                   418
+    DblSub.o                   226
+    DblToFlt.o                 104
+    DblToS32.o                  58
+    DblToU32.o                  40
+    FltToDbl.o                  72
+    S32ToDbl.o                  34
+    U32ToDbl.o                  26
+    fpinit_M.o                  34
+    frexp.o                    112
+    ldexp.o                    314
+    ------------------------------------------------
+    Total:                   2'490
+
+rt7M_tl.a: [4]
+    ABImemcpy.o                166
+    ABImemset.o                102
+    I64DivMod.o                560
+    I64DivZer.o                  2
+    cexit.o                     10
+    cmain.o                     30
+    copy_init3.o                46
+    cstartup_M.o                12
+    data_init.o                 40
+    memchr.o                    88
+    strchr.o                    22
+    strlen.o                    54
+    zero_init3.o                58
+    ------------------------------------------------
+    Total:                   1'190
+
+shb_l.a: [5]
+    exit.o                      20
+    ------------------------------------------------
+    Total:                      20
+
+    Gaps                        41        4
+    Linker created                       38    8'192
+----------------------------------------------------
+    Grand Total:            34'147      585   20'520
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                       Address    Size  Type      Object
+-----                       -------    ----  ----      ------
+.iar.init_table$$Base    0x800'84a8           --   Gb  - Linker created -
+.iar.init_table$$Limit   0x800'84cc           --   Gb  - Linker created -
+?main                    0x800'84cd          Code  Gb  cmain.o [4]
+ADCLib_ADCTask_START     0x800'8281     0x8  Code  Gb  adc_lib.o [1]
+ADCLib_ADCTask_STOP      0x800'8289     0x8  Code  Gb  adc_lib.o [1]
+ADCLib_HandleChannelVal
+                         0x800'8291     0x8  Code  Gb  adc_lib.o [1]
+ADCTask_ADCTask_START    0x800'8251     0x8  Code  Gb  adc_task.o [1]
+ADCTask_ADCTask_STOP     0x800'8259     0x8  Code  Gb  adc_task.o [1]
+ADCTask_HandleChannelVal
+                         0x800'8261     0x8  Code  Gb  adc_task.o [1]
+ADC_ADC1_DMA_Restart     0x800'7ee3    0x30  Code  Gb  adc_cfg.o [1]
+ADC_ADC1_DMA_Stop        0x800'7f13    0x28  Code  Gb  adc_cfg.o [1]
+ADC_ADC3_DMA_Restart     0x800'7f3b    0x2c  Code  Gb  adc_cfg.o [1]
+ADC_ADC3_DMA_Stop        0x800'7f67    0x2a  Code  Gb  adc_cfg.o [1]
+ADC_ADCTask_START        0x800'7fb7    0x54  Code  Gb  adc_cfg.o [1]
+ADC_ADCTask_STOP         0x800'800b    0x40  Code  Gb  adc_cfg.o [1]
+ADC_HandleChannelVal     0x800'804b    0x58  Code  Gb  adc_cfg.o [1]
+ADC_SoftStart            0x800'7f91    0x26  Code  Gb  adc_cfg.o [1]
+AHBPrescTable            0x800'8574    0x10  Data  Gb  system_stm32f4xx.o [1]
+APBPrescTable            0x800'85d8     0x8  Data  Gb  system_stm32f4xx.o [1]
+BcdToDec                 0x800'6ca1    0x18  Code  Gb  complier_lib.o [1]
+BusFault_Handler         0x800'810b     0x2  Code  Gb  stm32f4xx_it.o [1]
+CRCLib_Enable            0x800'7af9     0x8  Code  Gb  crc_lib.o [1]
+CRCLib_Init              0x800'7af1     0x8  Code  Gb  crc_lib.o [1]
+CRCTask_Enable           0x800'7a55     0x8  Code  Gb  crc_task.o [1]
+CRCTask_Init             0x800'7a4d     0x8  Code  Gb  crc_task.o [1]
+CRC_DeInit               0x800'7d65    0x10  Code  Gb  crc_cfg.o [1]
+CRC_Enable               0x800'7d75     0x6  Code  Gb  crc_cfg.o [1]
+CRC_Init                 0x800'7d4f    0x16  Code  Gb  crc_cfg.o [1]
+CSSLib_NMI_IRQ           0x800'8269     0x8  Code  Gb  css_lib.o [1]
+CSSLib_RCC_IRQ           0x800'8271     0x8  Code  Gb  css_lib.o [1]
+CSSTask_NMI_IRQ          0x800'8239     0x8  Code  Gb  css_task.o [1]
+CSSTask_RCC_IRQ          0x800'8241     0x8  Code  Gb  css_task.o [1]
+CSS_NMI_IRQ              0x800'8319    0x18  Code  Gb  css_cfg.o [1]
+CSS_RCC_IRQ              0x800'8331    0x1c  Code  Gb  css_cfg.o [1]
+CSTACK$$Base            0x2000'3030           --   Gb  - Linker created -
+CSTACK$$Limit           0x2000'5030           --   Gb  - Linker created -
+CacheMore                0x800'3fed    0x28  Code  Lc  xlocale_c.o [2]
+CalcAvgWordFromIndex     0x800'6d51    0x60  Code  Gb  complier_lib.o [1]
+DMA1_Stream1_IRQHandler
+                         0x800'81b9    0x18  Code  Gb  stm32f4xx_it.o [1]
+DMA1_Stream3_IRQHandler
+                         0x800'81d1    0x18  Code  Gb  stm32f4xx_it.o [1]
+DMA2_Stream0_IRQHandler
+                         0x800'815f    0x26  Code  Gb  stm32f4xx_it.o [1]
+DMA2_Stream1_IRQHandler
+                         0x800'8185     0x2  Code  Gb  stm32f4xx_it.o [1]
+DMA2_Stream2_IRQHandler
+                         0x800'8189    0x18  Code  Gb  stm32f4xx_it.o [1]
+DMA2_Stream7_IRQHandler
+                         0x800'81a1    0x18  Code  Gb  stm32f4xx_it.o [1]
+DMALib_Clock             0x800'2da5     0xa  Code  Gb  dma_lib.o [1]
+DMATask_Clock            0x800'2009     0xa  Code  Gb  dma_task.o [1]
+DMA_Clock                0x800'3ee1    0xaa  Code  Gb  dma_cfg.o [1]
+DebugMon_Handler         0x800'8111     0x2  Code  Gb  stm32f4xx_it.o [1]
+DecToBcd                 0x800'6cb9    0x24  Code  Gb  complier_lib.o [1]
+DelayLib_ms              0x800'7b83     0x8  Code  Gb  delay_lib.o [1]
+DelayNLib_us             0x800'7b8b     0x8  Code  Gb  delay_lib.o [1]
+DelayN_ms                0x800'7dd1    0x20  Code  Gb  delay_cfg.o [1]
+DelayN_us                0x800'7da9    0x28  Code  Gb  delay_cfg.o [1]
+DelayTask_ms             0x800'7ac1     0x8  Code  Gb  delay_task.o [1]
+DelayTask_us             0x800'7ab9     0x8  Code  Gb  delay_task.o [1]
+Delay_ms                 0x800'7d89    0x20  Code  Gb  delay_cfg.o [1]
+DescSortWord             0x800'6cdd    0x72  Code  Gb  complier_lib.o [1]
+EXTI0_IRQHandler         0x800'81e9     0x2  Code  Gb  stm32f4xx_it.o [1]
+EXTI3_IRQHandler         0x800'81eb    0x20  Code  Gb  stm32f4xx_it.o [1]
+GPIOLib_Init             0x800'58ef     0x8  Code  Gb  gpio_lib.o [1]
+GPIOLib_WaitPinPort      0x800'58f7     0xa  Code  Gb  gpio_lib.o [1]
+GPIOTask_Init            0x800'5729     0x8  Code  Gb  gpio_task.o [1]
+GPIOTask_WaitPinPort     0x800'5731     0xa  Code  Gb  gpio_task.o [1]
+GPIO_Clock               0x800'2097   0x2aa  Code  Gb  gpio_cfg.o [1]
+GPIO_Init                0x800'2341    0x54  Code  Gb  gpio_cfg.o [1]
+GPIO_ReadInputPort       0x800'24a1    0x7e  Code  Gb  gpio_cfg.o [1]
+GPIO_ResetOutputPins     0x800'2433    0x6e  Code  Gb  gpio_cfg.o [1]
+GPIO_SetOutputPin        0x800'23c5    0x6e  Code  Gb  gpio_cfg.o [1]
+GPIO_WaitPinPort         0x800'251f    0x46  Code  Gb  gpio_cfg.o [1]
+HAL_IncTick              0x800'8501    0x18  Code  Wk  stm32f4xx_hal.o [1]
+HASH_RNG_IRQHandler      0x800'813f     0x8  Code  Gb  stm32f4xx_it.o [1]
+HardFault_Handler        0x800'8101     0x8  Code  Gb  stm32f4xx_it.o [1]
+HardFault_IRQTask        0x800'2785    0x12  Code  Gb  stm32_cfg.o [1]
+HardFault_Msg            0x800'2745    0x36  Code  Gb  stm32_cfg.o [1]
+I2CLib_MHW_CheckClock    0x800'61bb     0x8  Code  Gb  i2c_lib.o [1]
+I2CLib_MHW_Init          0x800'6173     0x8  Code  Gb  i2c_lib.o [1]
+I2CLib_MHW_PollMode_ReadByte
+                         0x800'61d9     0x8  Code  Gb  i2c_lib.o [1]
+I2CLib_MHW_PollMode_START
+                         0x800'617b    0x38  Code  Gb  i2c_lib.o [1]
+I2CLib_MHW_PollMode_STOP
+                         0x800'61b3     0x8  Code  Gb  i2c_lib.o [1]
+I2CLib_MHW_PollMode_SendByte
+                         0x800'61cd     0xc  Code  Gb  i2c_lib.o [1]
+I2CLib_MHW_SendACK       0x800'61c3     0xa  Code  Gb  i2c_lib.o [1]
+I2CLib_MSW_Init          0x800'6109     0x8  Code  Gb  i2c_lib.o [1]
+I2CLib_MSW_ReadACK       0x800'614f     0x8  Code  Gb  i2c_lib.o [1]
+I2CLib_MSW_ReadByte      0x800'616b     0x8  Code  Gb  i2c_lib.o [1]
+I2CLib_MSW_START         0x800'6111    0x36  Code  Gb  i2c_lib.o [1]
+I2CLib_MSW_STOP          0x800'6147     0x8  Code  Gb  i2c_lib.o [1]
+I2CLib_MSW_SendACK       0x800'6157     0xa  Code  Gb  i2c_lib.o [1]
+I2CLib_MSW_SendByte      0x800'6161     0xa  Code  Gb  i2c_lib.o [1]
+I2CTask_MHW_CheckClock   0x800'6033     0x8  Code  Gb  i2c_task.o [1]
+I2CTask_MHW_Init         0x800'6019     0x8  Code  Gb  i2c_task.o [1]
+I2CTask_MHW_PollMode_ReadByte
+                         0x800'6051     0x8  Code  Gb  i2c_task.o [1]
+I2CTask_MHW_PollMode_START
+                         0x800'6021     0xa  Code  Gb  i2c_task.o [1]
+I2CTask_MHW_PollMode_STOP
+                         0x800'602b     0x8  Code  Gb  i2c_task.o [1]
+I2CTask_MHW_PollMode_SendByte
+                         0x800'6045     0xc  Code  Gb  i2c_task.o [1]
+I2CTask_MHW_SendACK      0x800'603b     0xa  Code  Gb  i2c_task.o [1]
+I2CTask_MSW_Init         0x800'5fdb     0x8  Code  Gb  i2c_task.o [1]
+I2CTask_MSW_ReadACK      0x800'5ff5     0x8  Code  Gb  i2c_task.o [1]
+I2CTask_MSW_ReadByte     0x800'6011     0x8  Code  Gb  i2c_task.o [1]
+I2CTask_MSW_START        0x800'5fe3     0xa  Code  Gb  i2c_task.o [1]
+I2CTask_MSW_STOP         0x800'5fed     0x8  Code  Gb  i2c_task.o [1]
+I2CTask_MSW_SendACK      0x800'5ffd     0xa  Code  Gb  i2c_task.o [1]
+I2CTask_MSW_SendByte     0x800'6007     0xa  Code  Gb  i2c_task.o [1]
+I2C_Clock                0x800'5295   0x108  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_CheckBusy        0x800'55bd    0xc4  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_CheckClock       0x800'5581    0x1c  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_Init             0x800'539d    0xf4  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_PollMode_ADDR    0x800'5547    0x3a  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_PollMode_ReadByte
+                         0x800'56cd    0x20  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_PollMode_START   0x800'5511    0x2a  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_PollMode_STOP    0x800'553b     0xc  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_PollMode_SendByte
+                         0x800'5681    0x4c  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_PollMode_WaitFlag
+                         0x800'5491    0x80  Code  Gb  i2c_cfg.o [1]
+I2C_MHW_SendACK          0x800'559d    0x20  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_ACK              0x800'511b    0x28  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_Init             0x800'500b    0x74  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_NACK             0x800'5143    0x28  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_ReadACK          0x800'516b    0x3e  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_ReadBit          0x800'5225    0x3a  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_ReadByte         0x800'525f    0x36  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_START            0x800'507f    0x52  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_STOP             0x800'50d1    0x4a  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_SendACK          0x800'51a9    0x14  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_SendBit          0x800'51bd    0x3a  Code  Gb  i2c_cfg.o [1]
+I2C_MSW_SendByte         0x800'51f7    0x2e  Code  Gb  i2c_cfg.o [1]
+IWDGLib_Reset            0x800'2ddf     0x8  Code  Gb  iwdg_lib.o [1]
+IWDGTask_Reset           0x800'2565     0x8  Code  Gb  iwdg_task.o [1]
+IWDG_Reset               0x800'3fd5     0xc  Code  Gb  iwdg_cfg.o [1]
+LL_ADC_ClearFlag_OVR     0x800'7e83     0x8  Code  Lc  adc_cfg.o [1]
+LL_ADC_Disable           0x800'7e6f     0xa  Code  Lc  adc_cfg.o [1]
+LL_ADC_Enable            0x800'7e65     0xa  Code  Lc  adc_cfg.o [1]
+LL_ADC_REG_StartConversionSWStart
+                         0x800'7e79     0xa  Code  Lc  adc_cfg.o [1]
+LL_AHB1_GRP1_DisableClock
+                         0x800'2049     0xe  Code  Lc  gpio_cfg.o [1]
+LL_AHB1_GRP1_EnableClock
+                         0x800'7d39    0x16  Code  Lc  crc_cfg.o [1]
+LL_AHB1_GRP1_EnableClock
+                         0x800'3eb5    0x16  Code  Lc  dma_cfg.o [1]
+LL_AHB1_GRP1_EnableClock
+                         0x800'2031    0x18  Code  Lc  gpio_cfg.o [1]
+LL_AHB1_GRP1_ForceReset
+                         0x800'3ecb     0xa  Code  Lc  dma_cfg.o [1]
+LL_AHB1_GRP1_ForceReset
+                         0x800'2057     0xc  Code  Lc  gpio_cfg.o [1]
+LL_AHB1_GRP1_ForceReset
+                         0x800'7e21     0xa  Code  Lc  stm32f4xx_ll_crc.o [1]
+LL_AHB1_GRP1_ForceReset
+                         0x800'1cc9     0xa  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_AHB1_GRP1_ReleaseReset
+                         0x800'3ed5     0xc  Code  Lc  dma_cfg.o [1]
+LL_AHB1_GRP1_ReleaseReset
+                         0x800'2063     0xe  Code  Lc  gpio_cfg.o [1]
+LL_AHB1_GRP1_ReleaseReset
+                         0x800'7e2b     0xc  Code  Lc  stm32f4xx_ll_crc.o [1]
+LL_AHB1_GRP1_ReleaseReset
+                         0x800'1cd3     0xc  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_AHB2_GRP1_EnableClock
+                         0x800'7c1b    0x16  Code  Lc  random_cfg.o [1]
+LL_AHB2_GRP1_ForceReset
+                         0x800'7df1     0xa  Code  Lc  stm32f4xx_ll_rng.o [1]
+LL_AHB2_GRP1_ReleaseReset
+                         0x800'7dfb     0xc  Code  Lc  stm32f4xx_ll_rng.o [1]
+LL_APB1_GRP1_DisableClock
+                         0x800'4f25     0xe  Code  Lc  i2c_cfg.o [1]
+LL_APB1_GRP1_DisableClock
+                         0x800'6dd1     0xe  Code  Lc  timer_cfg.o [1]
+LL_APB1_GRP1_DisableClock
+                         0x800'022f     0xe  Code  Lc  usart_cfg.o [1]
+LL_APB1_GRP1_EnableClock
+                         0x800'4f0d    0x18  Code  Lc  i2c_cfg.o [1]
+LL_APB1_GRP1_EnableClock
+                         0x800'7607    0x16  Code  Lc  main.o [1]
+LL_APB1_GRP1_EnableClock
+                         0x800'6db9    0x18  Code  Lc  timer_cfg.o [1]
+LL_APB1_GRP1_EnableClock
+                         0x800'0217    0x18  Code  Lc  usart_cfg.o [1]
+LL_APB1_GRP1_ForceReset
+                         0x800'4f33     0xc  Code  Lc  i2c_cfg.o [1]
+LL_APB1_GRP1_ForceReset
+                         0x800'573d     0xa  Code  Lc  stm32f4xx_ll_i2c.o [1]
+LL_APB1_GRP1_ForceReset
+                         0x800'73b9     0xc  Code  Lc  stm32f4xx_ll_tim.o [1]
+LL_APB1_GRP1_ForceReset
+                         0x800'1889     0xc  Code  Lc  stm32f4xx_ll_usart.o [1]
+LL_APB1_GRP1_ForceReset
+                         0x800'6ddf     0xc  Code  Lc  timer_cfg.o [1]
+LL_APB1_GRP1_ForceReset
+                         0x800'023d     0xc  Code  Lc  usart_cfg.o [1]
+LL_APB1_GRP1_ReleaseReset
+                         0x800'4f3f     0xe  Code  Lc  i2c_cfg.o [1]
+LL_APB1_GRP1_ReleaseReset
+                         0x800'5747     0xc  Code  Lc  stm32f4xx_ll_i2c.o [1]
+LL_APB1_GRP1_ReleaseReset
+                         0x800'73c5     0xe  Code  Lc  stm32f4xx_ll_tim.o [1]
+LL_APB1_GRP1_ReleaseReset
+                         0x800'1895     0xe  Code  Lc  stm32f4xx_ll_usart.o [1]
+LL_APB1_GRP1_ReleaseReset
+                         0x800'6deb     0xe  Code  Lc  timer_cfg.o [1]
+LL_APB1_GRP1_ReleaseReset
+                         0x800'0249     0xe  Code  Lc  usart_cfg.o [1]
+LL_APB2_GRP1_DisableClock
+                         0x800'6e11     0xe  Code  Lc  timer_cfg.o [1]
+LL_APB2_GRP1_DisableClock
+                         0x800'026f     0xe  Code  Lc  usart_cfg.o [1]
+LL_APB2_GRP1_EnableClock
+                         0x800'2071    0x18  Code  Lc  gpio_cfg.o [1]
+LL_APB2_GRP1_EnableClock
+                         0x800'6df9    0x18  Code  Lc  timer_cfg.o [1]
+LL_APB2_GRP1_EnableClock
+                         0x800'0257    0x18  Code  Lc  usart_cfg.o [1]
+LL_APB2_GRP1_ForceReset
+                         0x800'73d3     0xc  Code  Lc  stm32f4xx_ll_tim.o [1]
+LL_APB2_GRP1_ForceReset
+                         0x800'18a3     0xc  Code  Lc  stm32f4xx_ll_usart.o [1]
+LL_APB2_GRP1_ForceReset
+                         0x800'6e1f     0xc  Code  Lc  timer_cfg.o [1]
+LL_APB2_GRP1_ForceReset
+                         0x800'027d     0xc  Code  Lc  usart_cfg.o [1]
+LL_APB2_GRP1_ReleaseReset
+                         0x800'73df     0xe  Code  Lc  stm32f4xx_ll_tim.o [1]
+LL_APB2_GRP1_ReleaseReset
+                         0x800'18af     0xe  Code  Lc  stm32f4xx_ll_usart.o [1]
+LL_APB2_GRP1_ReleaseReset
+                         0x800'6e2b     0xe  Code  Lc  timer_cfg.o [1]
+LL_APB2_GRP1_ReleaseReset
+                         0x800'0289     0xe  Code  Lc  usart_cfg.o [1]
+LL_CRC_DeInit            0x800'7e37    0x24  Code  Gb  stm32f4xx_ll_crc.o [1]
+LL_DMA_ClearFlag         0x800'27f7   0x124  Code  Gb  stm32_cfg.o [1]
+LL_DMA_ClearFlag_DME0    0x800'26ad     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_DME1    0x800'26b3     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_DME2    0x800'26bb     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_DME3    0x800'26c3     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_DME4    0x800'26cb     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_DME5    0x800'26d1     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_DME6    0x800'26d9     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_DME7    0x800'26e1     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_FE0     0x800'26e9     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_FE1     0x800'26ef     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_FE2     0x800'26f5     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_FE3     0x800'26fd     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_FE4     0x800'2705     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_FE5     0x800'270b     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_FE6     0x800'2711     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_FE7     0x800'2719     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_HT0     0x800'25f9     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_HT1     0x800'7ed3     0x8  Code  Lc  adc_cfg.o [1]
+LL_DMA_ClearFlag_HT1     0x800'25ff     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_HT2     0x800'2607     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_HT3     0x800'260f     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_HT4     0x800'2617     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_HT5     0x800'261d     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_HT6     0x800'2625     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_HT7     0x800'262d     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TC0     0x800'2635     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TC1     0x800'7edb     0x8  Code  Lc  adc_cfg.o [1]
+LL_DMA_ClearFlag_TC1     0x800'263b     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TC2     0x800'2643     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TC3     0x800'264b     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TC4     0x800'2653     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TC5     0x800'2659     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TC6     0x800'2661     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TC7     0x800'2669     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TE0     0x800'2671     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TE1     0x800'2677     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TE2     0x800'267f     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TE3     0x800'2687     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TE4     0x800'268f     0x6  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TE5     0x800'2695     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TE6     0x800'269d     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ClearFlag_TE7     0x800'26a5     0x8  Code  Lc  stm32_cfg.o [1]
+LL_DMA_ConfigFifo        0x800'1d75    0x1c  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_DMA_ConfigTransfer    0x800'1cf3    0x1a  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_DMA_DeInit            0x800'1da5   0x18a  Code  Gb  stm32f4xx_ll_dma.o [1]
+LL_DMA_DisableStream     0x800'7ea1    0x16  Code  Lc  adc_cfg.o [1]
+LL_DMA_DisableStream     0x800'1cdf    0x14  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_DMA_DisableStream     0x800'02ad    0x16  Code  Lc  usart_cfg.o [1]
+LL_DMA_EnableIT_TC       0x800'02f9    0x16  Code  Lc  usart_cfg.o [1]
+LL_DMA_EnableStream      0x800'7e8b    0x16  Code  Lc  adc_cfg.o [1]
+LL_DMA_EnableStream      0x800'0297    0x16  Code  Lc  usart_cfg.o [1]
+LL_DMA_GetDataLength     0x800'02df     0xe  Code  Lc  usart_cfg.o [1]
+LL_DMA_Init              0x800'1f89    0x80  Code  Gb  stm32f4xx_ll_dma.o [1]
+LL_DMA_IsActiveFlag_TC0
+                         0x800'25a9     0xa  Code  Lc  stm32_cfg.o [1]
+LL_DMA_IsActiveFlag_TC1
+                         0x800'25b3     0xa  Code  Lc  stm32_cfg.o [1]
+LL_DMA_IsActiveFlag_TC2
+                         0x800'25bd     0xa  Code  Lc  stm32_cfg.o [1]
+LL_DMA_IsActiveFlag_TC3
+                         0x800'25c7     0xa  Code  Lc  stm32_cfg.o [1]
+LL_DMA_IsActiveFlag_TC4
+                         0x800'25d1     0xa  Code  Lc  stm32_cfg.o [1]
+LL_DMA_IsActiveFlag_TC5
+                         0x800'25db     0xa  Code  Lc  stm32_cfg.o [1]
+LL_DMA_IsActiveFlag_TC6
+                         0x800'25e5     0xa  Code  Lc  stm32_cfg.o [1]
+LL_DMA_IsActiveFlag_TC7
+                         0x800'25ef     0xa  Code  Lc  stm32_cfg.o [1]
+LL_DMA_IsActiveIT_TC     0x800'291b    0xfc  Code  Gb  stm32_cfg.o [1]
+LL_DMA_IsEnabledIT_TC    0x800'2721    0x10  Code  Lc  stm32_cfg.o [1]
+LL_DMA_SetChannelSelection
+                         0x800'1d27    0x1a  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_DMA_SetDataLength     0x800'7eb7    0x1c  Code  Lc  adc_cfg.o [1]
+LL_DMA_SetDataLength     0x800'1d0d    0x1a  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_DMA_SetDataLength     0x800'02c3    0x1c  Code  Lc  usart_cfg.o [1]
+LL_DMA_SetMemoryAddress
+                         0x800'1d91     0xa  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_DMA_SetMemoryAddress
+                         0x800'02ed     0xc  Code  Lc  usart_cfg.o [1]
+LL_DMA_SetMemoryBurstxfer
+                         0x800'1d41    0x1a  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_DMA_SetPeriphAddress
+                         0x800'1d9b     0xa  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_DMA_SetPeriphBurstxfer
+                         0x800'1d5b    0x1a  Code  Lc  stm32f4xx_ll_dma.o [1]
+LL_EXTI_ClearFlag_0_31   0x800'80d7     0x6  Code  Lc  stm32f4xx_it.o [1]
+LL_EXTI_DisableIT_0_31   0x800'80cb     0xc  Code  Lc  stm32f4xx_it.o [1]
+LL_EXTI_EnableIT_0_31    0x800'80c1     0xa  Code  Lc  stm32f4xx_it.o [1]
+LL_FLASH_EnableDataCache
+                         0x800'772f     0xc  Code  Lc  main.o [1]
+LL_FLASH_EnableInstCache
+                         0x800'7723     0xc  Code  Lc  main.o [1]
+LL_FLASH_EnablePrefetch
+                         0x800'7717     0xc  Code  Lc  main.o [1]
+LL_FLASH_GetLatency      0x800'770d     0xa  Code  Lc  main.o [1]
+LL_FLASH_SetLatency      0x800'76ff     0xe  Code  Lc  main.o [1]
+LL_GPIO_Init             0x800'17fd    0x8c  Code  Gb  stm32f4xx_ll_gpio.o [1]
+LL_GPIO_ReadInputPort    0x800'2089     0x4  Code  Lc  gpio_cfg.o [1]
+LL_GPIO_ResetOutputPin   0x800'2091     0x6  Code  Lc  gpio_cfg.o [1]
+LL_GPIO_ResetOutputPin   0x800'2735     0x6  Code  Lc  stm32_cfg.o [1]
+LL_GPIO_ResetOutputPins
+                         0x800'27c7    0x30  Code  Gb  stm32_cfg.o [1]
+LL_GPIO_SetAFPin_0_7     0x800'179f    0x2c  Code  Lc  stm32f4xx_ll_gpio.o [1]
+LL_GPIO_SetAFPin_8_15    0x800'17cb    0x32  Code  Lc  stm32f4xx_ll_gpio.o [1]
+LL_GPIO_SetOutputPin     0x800'208d     0x4  Code  Lc  gpio_cfg.o [1]
+LL_GPIO_SetOutputPin     0x800'2731     0x4  Code  Lc  stm32_cfg.o [1]
+LL_GPIO_SetOutputPins    0x800'2797    0x30  Code  Gb  stm32_cfg.o [1]
+LL_GPIO_SetPinMode       0x800'16f5    0x2c  Code  Lc  stm32f4xx_ll_gpio.o [1]
+LL_GPIO_SetPinMode       0x800'030f    0x2c  Code  Lc  usart_cfg.o [1]
+LL_GPIO_SetPinOutputType
+                         0x800'1721    0x26  Code  Lc  stm32f4xx_ll_gpio.o [1]
+LL_GPIO_SetPinPull       0x800'1773    0x2c  Code  Lc  stm32f4xx_ll_gpio.o [1]
+LL_GPIO_SetPinSpeed      0x800'1747    0x2c  Code  Lc  stm32f4xx_ll_gpio.o [1]
+LL_I2C_AcknowledgeNextData
+                         0x800'4fd7     0xc  Code  Lc  i2c_cfg.o [1]
+LL_I2C_AcknowledgeNextData
+                         0x800'5829     0xc  Code  Lc  stm32f4xx_ll_i2c.o [1]
+LL_I2C_ClearFlag_ADDR    0x800'4fb1    0x12  Code  Lc  i2c_cfg.o [1]
+LL_I2C_ConfigSpeed       0x800'5779    0xa4  Code  Lc  stm32f4xx_ll_i2c.o [1]
+LL_I2C_DeInit            0x800'5835    0x54  Code  Gb  stm32f4xx_ll_i2c.o [1]
+LL_I2C_Disable           0x800'575d     0xa  Code  Lc  stm32f4xx_ll_i2c.o [1]
+LL_I2C_DisableReset      0x800'4fcd     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_Enable            0x800'4f4d     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_Enable            0x800'5753     0xa  Code  Lc  stm32f4xx_ll_i2c.o [1]
+LL_I2C_EnableReset       0x800'4fc3     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_GenerateStartCondition
+                         0x800'4fe3     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_GenerateStopCondition
+                         0x800'4fed     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_GetClockPeriod    0x800'4f6f     0x8  Code  Lc  i2c_cfg.o [1]
+LL_I2C_Init              0x800'58a9    0x46  Code  Gb  stm32f4xx_ll_i2c.o [1]
+LL_I2C_IsActiveFlag_ADDR
+                         0x800'4f9d     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_IsActiveFlag_BTF
+                         0x800'4f81     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_IsActiveFlag_BUSY
+                         0x800'4fa7     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_IsActiveFlag_RXNE
+                         0x800'4f8b     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_IsActiveFlag_SB   0x800'4f95     0x8  Code  Lc  i2c_cfg.o [1]
+LL_I2C_IsActiveFlag_TXE
+                         0x800'4f77     0xa  Code  Lc  i2c_cfg.o [1]
+LL_I2C_ReceiveData8      0x800'4ff7     0x6  Code  Lc  i2c_cfg.o [1]
+LL_I2C_SetClockPeriod    0x800'4f63     0xc  Code  Lc  i2c_cfg.o [1]
+LL_I2C_SetMode           0x800'581d     0xc  Code  Lc  stm32f4xx_ll_i2c.o [1]
+LL_I2C_SetOwnAddress1    0x800'5767    0x12  Code  Lc  stm32f4xx_ll_i2c.o [1]
+LL_I2C_SetOwnAddress2    0x800'4f57     0xc  Code  Lc  i2c_cfg.o [1]
+LL_I2C_TransmitData8     0x800'4ffd     0xe  Code  Lc  i2c_cfg.o [1]
+LL_IWDG_ReloadCounter    0x800'3fcd     0x8  Code  Lc  iwdg_cfg.o [1]
+LL_InitTick              0x800'4a0b    0x1e  Code  Lc  systick_cfg.o [1]
+LL_PWR_EnableBkUpAccess
+                         0x800'7647     0xc  Code  Lc  main.o [1]
+LL_PWR_IsActiveFlag_PVDO
+                         0x800'80dd     0xc  Code  Lc  stm32f4xx_it.o [1]
+LL_PWR_SetRegulVoltageScaling
+                         0x800'7639     0xe  Code  Lc  main.o [1]
+LL_RCC_ClearFlag_HSECSS
+                         0x800'82cb     0xc  Code  Lc  css_cfg.o [1]
+LL_RCC_ClearFlag_HSERDY
+                         0x800'82bf     0xc  Code  Lc  css_cfg.o [1]
+LL_RCC_DisableIT_HSERDY
+                         0x800'82fb     0xc  Code  Lc  css_cfg.o [1]
+LL_RCC_EnableIT_HSERDY   0x800'82ef     0xc  Code  Lc  css_cfg.o [1]
+LL_RCC_EnableRTC         0x800'622b     0xe  Code  Lc  rtc_cfg.o [1]
+LL_RCC_ForceBackupDomainReset
+                         0x800'6239     0xe  Code  Lc  rtc_cfg.o [1]
+LL_RCC_GetAHBPrescaler   0x800'2c6b     0xa  Code  Lc  stm32f4xx_ll_rcc.o [1]
+LL_RCC_GetAPB1Prescaler
+                         0x800'2c75     0xa  Code  Lc  stm32f4xx_ll_rcc.o [1]
+LL_RCC_GetAPB2Prescaler
+                         0x800'2c7f     0xa  Code  Lc  stm32f4xx_ll_rcc.o [1]
+LL_RCC_GetSysClkSource   0x800'7691     0xa  Code  Lc  main.o [1]
+LL_RCC_GetSysClkSource   0x800'2c61     0xa  Code  Lc  stm32f4xx_ll_rcc.o [1]
+LL_RCC_GetSystemClocksFreq
+                         0x800'2cb1    0x24  Code  Gb  stm32f4xx_ll_rcc.o [1]
+LL_RCC_HSE_Enable        0x800'82b3     0xc  Code  Lc  css_cfg.o [1]
+LL_RCC_HSE_Enable        0x800'7653     0xc  Code  Lc  main.o [1]
+LL_RCC_HSE_IsReady       0x800'765f     0xc  Code  Lc  main.o [1]
+LL_RCC_IsActiveFlag_HSECSS
+                         0x800'82e3     0xc  Code  Lc  css_cfg.o [1]
+LL_RCC_IsActiveFlag_HSERDY
+                         0x800'82d7     0xc  Code  Lc  css_cfg.o [1]
+LL_RCC_LSE_Enable        0x800'61ff     0xe  Code  Lc  rtc_cfg.o [1]
+LL_RCC_LSE_IsReady       0x800'620d     0xe  Code  Lc  rtc_cfg.o [1]
+LL_RCC_LSI_Enable        0x800'766b     0xc  Code  Lc  main.o [1]
+LL_RCC_LSI_IsReady       0x800'7677     0xc  Code  Lc  main.o [1]
+LL_RCC_PLL_ConfigDomain_SYS
+                         0x800'76dd    0x22  Code  Lc  main.o [1]
+LL_RCC_PLL_Enable        0x800'76c5     0xc  Code  Lc  main.o [1]
+LL_RCC_PLL_GetDivider    0x800'2ca7     0xa  Code  Lc  stm32f4xx_ll_rcc.o [1]
+LL_RCC_PLL_GetMainSource
+                         0x800'2c89     0xa  Code  Lc  stm32f4xx_ll_rcc.o [1]
+LL_RCC_PLL_GetN          0x800'2c93     0xa  Code  Lc  stm32f4xx_ll_rcc.o [1]
+LL_RCC_PLL_GetP          0x800'2c9d     0xa  Code  Lc  stm32f4xx_ll_rcc.o [1]
+LL_RCC_PLL_IsReady       0x800'76d1     0xc  Code  Lc  main.o [1]
+LL_RCC_ReleaseBackupDomainReset
+                         0x800'6247     0xe  Code  Lc  rtc_cfg.o [1]
+LL_RCC_SetAHBPrescaler   0x800'769b     0xe  Code  Lc  main.o [1]
+LL_RCC_SetAPB1Prescaler
+                         0x800'76a9     0xe  Code  Lc  main.o [1]
+LL_RCC_SetAPB2Prescaler
+                         0x800'76b7     0xe  Code  Lc  main.o [1]
+LL_RCC_SetRTCClockSource
+                         0x800'621b    0x10  Code  Lc  rtc_cfg.o [1]
+LL_RCC_SetSysClkSource   0x800'7683     0xe  Code  Lc  main.o [1]
+LL_RNG_ClearFlag_CEIS    0x800'7c61     0x8  Code  Lc  random_cfg.o [1]
+LL_RNG_ClearFlag_SEIS    0x800'7c69     0x8  Code  Lc  random_cfg.o [1]
+LL_RNG_DeInit            0x800'7e0d    0x12  Code  Gb  stm32f4xx_ll_rng.o [1]
+LL_RNG_Disable           0x800'7c3b     0xa  Code  Lc  random_cfg.o [1]
+LL_RNG_Enable            0x800'7c31     0xa  Code  Lc  random_cfg.o [1]
+LL_RNG_EnableIT          0x800'7c71     0xa  Code  Lc  random_cfg.o [1]
+LL_RNG_IsActiveFlag_CEIS
+                         0x800'7c4d     0xa  Code  Lc  random_cfg.o [1]
+LL_RNG_IsActiveFlag_DRDY
+                         0x800'7c45     0x8  Code  Lc  random_cfg.o [1]
+LL_RNG_IsActiveFlag_SEIS
+                         0x800'7c57     0xa  Code  Lc  random_cfg.o [1]
+LL_RNG_ReadRandData32    0x800'7c7b     0x4  Code  Lc  random_cfg.o [1]
+LL_RTC_BAK_GetRegister   0x800'6299     0xc  Code  Lc  rtc_cfg.o [1]
+LL_RTC_BAK_SetRegister   0x800'628d     0xc  Code  Lc  rtc_cfg.o [1]
+LL_RTC_ClearFlag_RS      0x800'69bd     0xe  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_DATE_Config       0x800'6965    0x44  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_DATE_GetDay       0x800'6285     0x8  Code  Lc  rtc_cfg.o [1]
+LL_RTC_DATE_GetMonth     0x800'627d     0x8  Code  Lc  rtc_cfg.o [1]
+LL_RTC_DATE_GetWeekDay   0x800'6275     0x8  Code  Lc  rtc_cfg.o [1]
+LL_RTC_DATE_GetYear      0x800'626d     0x8  Code  Lc  rtc_cfg.o [1]
+LL_RTC_DATE_Init         0x800'6ae5    0xcc  Code  Gb  stm32f4xx_ll_rtc.o [1]
+LL_RTC_DisableInitMode   0x800'68e7     0x8  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_DisableWriteProtection
+                         0x800'6919     0xa  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_EnableInitMode    0x800'68df     0x8  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_EnableWriteProtection
+                         0x800'6913     0x6  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_EnterInitMode     0x800'6bc5    0x56  Code  Gb  stm32f4xx_ll_rtc.o [1]
+LL_RTC_GetHourFormat     0x800'68d7     0x8  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_Init              0x800'69cb    0x44  Code  Gb  stm32f4xx_ll_rtc.o [1]
+LL_RTC_IsActiveFlag_INIT
+                         0x800'69a9     0xa  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_IsActiveFlag_RS   0x800'69b3     0xa  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_IsShadowRegBypassEnabled
+                         0x800'68ef     0xa  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_SetAsynchPrescaler
+                         0x800'68f9     0xe  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_SetHourFormat     0x800'68cb     0xc  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_SetSynchPrescaler
+                         0x800'6907     0xc  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_TIME_Config       0x800'6923    0x42  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_RTC_TIME_GetHour      0x800'6255     0x8  Code  Lc  rtc_cfg.o [1]
+LL_RTC_TIME_GetMinute    0x800'625d     0x8  Code  Lc  rtc_cfg.o [1]
+LL_RTC_TIME_GetSecond    0x800'6265     0x8  Code  Lc  rtc_cfg.o [1]
+LL_RTC_TIME_Init         0x800'6a0f    0xd6  Code  Gb  stm32f4xx_ll_rtc.o [1]
+LL_RTC_WaitForSynchro    0x800'6c1b    0x84  Code  Gb  stm32f4xx_ll_rtc.o [1]
+LL_SYSTICK_IsActiveCounterFlag
+                         0x800'68bd     0xe  Code  Lc  stm32f4xx_ll_rtc.o [1]
+LL_SYSTICK_SetClkSource
+                         0x800'761d    0x1c  Code  Lc  main.o [1]
+LL_SetSystemCoreClock    0x800'79b5     0x6  Code  Gb  stm32f4xx_ll_utils.o [1]
+LL_TIM_DeInit            0x800'73ed   0x14e  Code  Gb  stm32f4xx_ll_tim.o [1]
+LL_USART_ClearFlag_FE    0x800'03cb    0x12  Code  Lc  usart_cfg.o [1]
+LL_USART_ClearFlag_IDLE
+                         0x800'0401    0x12  Code  Lc  usart_cfg.o [1]
+LL_USART_ClearFlag_LBD   0x800'0423     0x8  Code  Lc  usart_cfg.o [1]
+LL_USART_ClearFlag_NE    0x800'03dd    0x12  Code  Lc  usart_cfg.o [1]
+LL_USART_ClearFlag_ORE   0x800'03ef    0x12  Code  Lc  usart_cfg.o [1]
+LL_USART_ClearFlag_PE    0x800'03b9    0x12  Code  Lc  usart_cfg.o [1]
+LL_USART_ClearFlag_RXNE
+                         0x800'041b     0x8  Code  Lc  usart_cfg.o [1]
+LL_USART_ClearFlag_TC    0x800'0413     0x8  Code  Lc  usart_cfg.o [1]
+LL_USART_ClearFlag_nCTS
+                         0x800'042b     0x8  Code  Lc  usart_cfg.o [1]
+LL_USART_ConfigAsyncMode
+                         0x800'0345    0x12  Code  Lc  usart_cfg.o [1]
+LL_USART_DeInit          0x800'1b71    0x94  Code  Gb  stm32f4xx_ll_usart.o [1]
+LL_USART_DisableIT_TC    0x800'0451     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_DisableIT_TXE   0x800'045b     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_Enable          0x800'033b     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_EnableDMAReq_RX
+                         0x800'04b3     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_EnableDMAReq_TX
+                         0x800'04bd     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_EnableIT_IDLE   0x800'0433     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_EnableIT_RXNE   0x800'043d     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_EnableIT_TC     0x800'0447     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_Init            0x800'1c05    0x9e  Code  Gb  stm32f4xx_ll_usart.o [1]
+LL_USART_IsActiveFlag_FE
+                         0x800'035f     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsActiveFlag_IDLE
+                         0x800'037d     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsActiveFlag_LBD
+                         0x800'03a5     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsActiveFlag_NE
+                         0x800'0369     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsActiveFlag_ORE
+                         0x800'0373     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsActiveFlag_PE
+                         0x800'0357     0x8  Code  Lc  usart_cfg.o [1]
+LL_USART_IsActiveFlag_RXNE
+                         0x800'0387     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsActiveFlag_TC
+                         0x800'0391     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsActiveFlag_TXE
+                         0x800'039b     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsActiveFlag_nCTS
+                         0x800'03af     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsEnabled       0x800'18bd     0xa  Code  Lc  stm32f4xx_ll_usart.o [1]
+LL_USART_IsEnabledIT_CTS
+                         0x800'04a9     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsEnabledIT_ERROR
+                         0x800'04a1     0x8  Code  Lc  usart_cfg.o [1]
+LL_USART_IsEnabledIT_IDLE
+                         0x800'0465     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsEnabledIT_LBD
+                         0x800'0497     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsEnabledIT_PE
+                         0x800'048d     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsEnabledIT_RXNE
+                         0x800'046f     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsEnabledIT_TC
+                         0x800'0479     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_IsEnabledIT_TXE
+                         0x800'0483     0xa  Code  Lc  usart_cfg.o [1]
+LL_USART_ReceiveData8    0x800'04c7     0x6  Code  Lc  usart_cfg.o [1]
+LL_USART_SetBaudRate     0x800'18df   0x292  Code  Lc  stm32f4xx_ll_usart.o [1]
+LL_USART_SetHWFlowCtrl   0x800'18d3     0xc  Code  Lc  stm32f4xx_ll_usart.o [1]
+LL_USART_SetStopBitsLength
+                         0x800'18c7     0xc  Code  Lc  stm32f4xx_ll_usart.o [1]
+LL_USART_TransmitData8   0x800'04cd     0x6  Code  Lc  usart_cfg.o [1]
+LL_WWDG_ClearFlag_EWKUP
+                         0x800'80e9     0x8  Code  Lc  stm32f4xx_it.o [1]
+MPU6050Lib_I2C_Init      0x800'7b6d     0xe  Code  Gb  mpu6050_lib.o [1]
+MPU6050Lib_I2C_ReadAccelTempGyro
+                         0x800'7b7b     0x8  Code  Gb  mpu6050_lib.o [1]
+MPU6050Task_I2C_Init     0x800'7aa3     0xe  Code  Gb  mpu6050_task.o [1]
+MPU6050Task_I2C_ReadAccelTempGyro
+                         0x800'7ab1     0x8  Code  Gb  mpu6050_task.o [1]
+MPU6050_HWI2C_ReadBulk   0x800'5c6b    0x9c  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_HWI2C_ReadSingle
+                         0x800'5b27    0x6e  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_HWI2C_WriteSingle
+                         0x800'5a27    0x54  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_ConfigInit   0x800'5f71    0x6a  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_Device0_Init
+                         0x800'5901    0x3a  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_Device1_Init
+                         0x800'593b     0x4  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_Device2_Init
+                         0x800'593f     0x4  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_Init         0x800'5943    0x84  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_ReadAccelTempGyro
+                         0x800'5d51   0x128  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_ReadBulk     0x800'5d07    0x3e  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_ReadChipID   0x800'5d45     0xc  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_ReadSingle   0x800'5b95    0x34  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_WriteAccelRange
+                         0x800'5f2f    0x42  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_WriteGyroRange
+                         0x800'5eed    0x42  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_WriteLPF     0x800'5eab    0x42  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_WriteSMPRTDIV
+                         0x800'5e9d     0xe  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_I2C_WriteSingle
+                         0x800'5a7b    0x38  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_SWI2C_ReadBulk   0x800'5bc9    0xa2  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_SWI2C_ReadSingle
+                         0x800'5ab3    0x74  Code  Gb  mpu6050_cfg.o [1]
+MPU6050_SWI2C_WriteSingle
+                         0x800'59c7    0x60  Code  Gb  mpu6050_cfg.o [1]
+MemManage_Handler        0x800'8109     0x2  Code  Gb  stm32f4xx_it.o [1]
+MyMemInit                0x800'79d1    0x22  Code  Gb  my_malloc.o [1]
+MyMemset                 0x800'79c1    0x10  Code  Gb  my_malloc.o [1]
+MyMemusedRate            0x800'79f3    0x2e  Code  Gb  my_malloc.o [1]
+NMI_Handler              0x800'80f1     0x8  Code  Gb  stm32f4xx_it.o [1]
+NVIC_EncodePriority      0x800'75cb    0x3c  Code  Lc  main.o [1]
+NVIC_EncodePriority      0x800'7bdf    0x3c  Code  Lc  random_cfg.o [1]
+NVIC_EncodePriority      0x800'49cf    0x3c  Code  Lc  systick_cfg.o [1]
+NVIC_EncodePriority      0x800'01db    0x3c  Code  Lc  usart_cfg.o [1]
+NVIC_Init                0x800'77d7    0x8e  Code  Gb  main.o [1]
+PVDLib_IRQTask           0x800'8279     0x8  Code  Gb  pvd_lib.o [1]
+PVDTask_IRQTask          0x800'8249     0x8  Code  Gb  pvd_task.o [1]
+PVD_IRQHandler           0x800'8147    0x18  Code  Gb  stm32f4xx_it.o [1]
+PVD_IRQTask              0x800'834d     0x2  Code  Gb  pvd_cfg.o [1]
+PendSV_Handler           0x800'8113     0x2  Code  Gb  stm32f4xx_it.o [1]
+RCC_GetHCLKClockFreq     0x800'2cff    0x16  Code  Gb  stm32f4xx_ll_rcc.o [1]
+RCC_GetPCLK1ClockFreq    0x800'2d15    0x14  Code  Gb  stm32f4xx_ll_rcc.o [1]
+RCC_GetPCLK2ClockFreq    0x800'2d29    0x14  Code  Gb  stm32f4xx_ll_rcc.o [1]
+RCC_GetSystemClockFreq   0x800'2cd5    0x2a  Code  Gb  stm32f4xx_ll_rcc.o [1]
+RCC_IRQHandler           0x800'80f9     0x8  Code  Gb  stm32f4xx_it.o [1]
+RCC_PLL_GetFreqDomain_SYS
+                         0x800'2d3d    0x4e  Code  Gb  stm32f4xx_ll_rcc.o [1]
+RandomLib_IRQTask        0x800'7ae9     0x8  Code  Gb  random_lib.o [1]
+RandomLib_Init           0x800'7adf     0xa  Code  Gb  random_lib.o [1]
+RandomTask_IRQTask       0x800'7a45     0x8  Code  Gb  random_task.o [1]
+RandomTask_Init          0x800'7a3b     0xa  Code  Gb  random_task.o [1]
+Random_IRQTask           0x800'7cd5    0x46  Code  Gb  random_cfg.o [1]
+Random_Init              0x800'7c7f    0x56  Code  Gb  random_cfg.o [1]
+Region$$Table$$Base      0x800'84a8           --   Gb  - Linker created -
+Region$$Table$$Limit     0x800'84cc           --   Gb  - Linker created -
+STREAM_OFFSET_TAB        0x800'85b8     0x8  Data  Lc  adc_cfg.o [1]
+STREAM_OFFSET_TAB        0x800'85c8     0x8  Data  Lc  stm32_cfg.o [1]
+STREAM_OFFSET_TAB        0x800'85d0     0x8  Data  Lc  stm32f4xx_ll_dma.o [1]
+STREAM_OFFSET_TAB        0x800'85e0     0x8  Data  Lc  usart_cfg.o [1]
+SVC_Handler              0x800'810f     0x2  Code  Gb  stm32f4xx_it.o [1]
+SysRTCLib_RTCInit        0x800'7ad1     0xe  Code  Gb  rtc_lib.o [1]
+SysRTCLib_RTCTask        0x800'7ac9     0x8  Code  Gb  rtc_lib.o [1]
+SysRTCTask_RTCInit       0x800'7a2d     0xe  Code  Gb  rtc_task.o [1]
+SysRTCTask_RTCTask       0x800'7a25     0x8  Code  Gb  rtc_task.o [1]
+SysRTC_CalcWeekDay       0x800'652d    0x98  Code  Gb  rtc_cfg.o [1]
+SysRTC_HardRTCGetDate    0x800'67b3    0x42  Code  Gb  rtc_cfg.o [1]
+SysRTC_HardRTCGetRTC     0x800'6811    0x14  Code  Gb  rtc_cfg.o [1]
+SysRTC_HardRTCGetTime    0x800'677f    0x34  Code  Gb  rtc_cfg.o [1]
+SysRTC_HardRTCInit       0x800'663f   0x140  Code  Gb  rtc_cfg.o [1]
+SysRTC_RTCInit           0x800'6859    0x62  Code  Gb  rtc_cfg.o [1]
+SysRTC_RTCTask           0x800'6825    0x34  Code  Gb  rtc_cfg.o [1]
+SysRTC_RealTimeWatch     0x800'65c5    0x52  Code  Gb  rtc_cfg.o [1]
+SysRTC_RefreshWatch      0x800'6617     0xc  Code  Gb  rtc_cfg.o [1]
+SysRTC_SoftCalcRTCTask   0x800'641b   0x112  Code  Gb  rtc_cfg.o [1]
+SysRTC_SoftRTCInit       0x800'62a5   0x176  Code  Gb  rtc_cfg.o [1]
+SysRTC_WatchTask         0x800'6623    0x1c  Code  Gb  rtc_cfg.o [1]
+SysTickLib_1msIncTick    0x800'3fc5     0x8  Code  Gb  systick_lib.o [1]
+SysTickLib_DecTick       0x800'3fa5     0x8  Code  Gb  systick_lib.o [1]
+SysTickLib_GetTick       0x800'3fad     0x8  Code  Gb  systick_lib.o [1]
+SysTickLib_IRQTask       0x800'3fb5     0x8  Code  Gb  systick_lib.o [1]
+SysTickLib_Init          0x800'3f9d     0x8  Code  Gb  systick_lib.o [1]
+SysTickLib_WaitusTick    0x800'3fbd     0x8  Code  Gb  systick_lib.o [1]
+SysTickTask_1msIncTick   0x800'2dd7     0x8  Code  Gb  systick_task.o [1]
+SysTickTask_DecTick      0x800'2db7     0x8  Code  Gb  systick_task.o [1]
+SysTickTask_GetTick      0x800'2dbf     0x8  Code  Gb  systick_task.o [1]
+SysTickTask_IRQTask      0x800'2dc7     0x8  Code  Gb  systick_task.o [1]
+SysTickTask_Init         0x800'2daf     0x8  Code  Gb  systick_task.o [1]
+SysTickTask_WaitusTick   0x800'2dcf     0x8  Code  Gb  systick_task.o [1]
+SysTick_1msIncTick       0x800'4d01    0x42  Code  Gb  systick_cfg.o [1]
+SysTick_CreateTickTask   0x800'4ad9    0xbc  Code  Gb  systick_cfg.o [1]
+SysTick_DecTick          0x800'4c25    0x50  Code  Gb  systick_cfg.o [1]
+SysTick_GetTick          0x800'4c75     0x8  Code  Gb  systick_cfg.o [1]
+SysTick_Handler          0x800'8115     0x8  Code  Gb  stm32f4xx_it.o [1]
+SysTick_IRQTask          0x800'4c7d    0x3a  Code  Gb  systick_cfg.o [1]
+SysTick_PollTickTask     0x800'4b95    0x90  Code  Gb  systick_cfg.o [1]
+SysTick_Resume           0x800'4a39    0x10  Code  Gb  systick_cfg.o [1]
+SysTick_StructInit       0x800'4a49    0x3e  Code  Gb  systick_cfg.o [1]
+SysTick_Suspend          0x800'4a29    0x10  Code  Gb  systick_cfg.o [1]
+SysTick_WaitusTick       0x800'4cb7    0x4a  Code  Gb  systick_cfg.o [1]
+SysTick_msInit           0x800'4a87    0x52  Code  Gb  systick_cfg.o [1]
+Sys_Init                 0x800'7865    0x64  Code  Gb  main.o [1]
+SystemClock_Config       0x800'773b    0x9c  Code  Gb  main.o [1]
+SystemCoreClock         0x2000'00a4     0x4  Data  Gb  system_stm32f4xx.o [1]
+SystemInit               0x800'83b1    0x40  Code  Gb  system_stm32f4xx.o [1]
+TIM2_IRQHandler          0x800'8187     0x2  Code  Gb  stm32f4xx_it.o [1]
+TimerLib_Init            0x800'7b65     0x8  Code  Gb  timer_lib.o [1]
+TimerTask_Init           0x800'7a9b     0x8  Code  Gb  timer_task.o [1]
+Timer_CalcFreqMode_DeInit
+                         0x800'6f1b     0xc  Code  Gb  timer_cfg.o [1]
+Timer_CalcFreqMode_Init
+                         0x800'6e39    0xe2  Code  Gb  timer_cfg.o [1]
+Timer_Clock              0x800'6f2f   0x43c  Code  Gb  timer_cfg.o [1]
+Timer_Init               0x800'6f27     0x8  Code  Gb  timer_cfg.o [1]
+USART10_Init             0x800'0b01     0x4  Code  Gb  usart_cfg.o [1]
+USART1_ConfigInit        0x800'05b7    0xea  Code  Gb  usart_cfg.o [1]
+USART1_IRQHandler        0x800'8127     0xc  Code  Gb  stm32f4xx_it.o [1]
+USART1_Init              0x800'07f3    0x68  Code  Gb  usart_cfg.o [1]
+USART1_RX_BUFFER        0x2000'2eb8    0x44  Data  Gb  usart_task.o [1]
+USART1_Read_DMA_Init     0x800'06a1    0xae  Code  Gb  usart_cfg.o [1]
+USART1_TX_BUFFER        0x2000'2efc    0x44  Data  Gb  usart_task.o [1]
+USART1_Write_DMA_Init    0x800'074f    0xa4  Code  Gb  usart_cfg.o [1]
+USART2_Init              0x800'085b     0x4  Code  Gb  usart_cfg.o [1]
+USART3_ConfigInit        0x800'085f    0xd6  Code  Gb  usart_cfg.o [1]
+USART3_IRQHandler        0x800'8133     0xc  Code  Gb  stm32f4xx_it.o [1]
+USART3_Init              0x800'0a87    0x62  Code  Gb  usart_cfg.o [1]
+USART3_Read_DMA_Init     0x800'0935    0xae  Code  Gb  usart_cfg.o [1]
+USART3_Write_DMA_Init    0x800'09e3    0xa4  Code  Gb  usart_cfg.o [1]
+USART4_Init              0x800'0ae9     0x4  Code  Gb  usart_cfg.o [1]
+USART5_Init              0x800'0aed     0x4  Code  Gb  usart_cfg.o [1]
+USART6_Init              0x800'0af1     0x4  Code  Gb  usart_cfg.o [1]
+USART7_Init              0x800'0af5     0x4  Code  Gb  usart_cfg.o [1]
+USART8_Init              0x800'0af9     0x4  Code  Gb  usart_cfg.o [1]
+USART9_Init              0x800'0afd     0x4  Code  Gb  usart_cfg.o [1]
+USARTLib_IRQTask         0x800'7b4d     0x8  Code  Gb  usart_lib.o [1]
+USARTLib_Init            0x800'7b01    0x4c  Code  Gb  usart_lib.o [1]
+USARTLib_Read_DMA_IRQTask
+                         0x800'7b55     0x8  Code  Gb  usart_lib.o [1]
+USARTLib_Write_DMA_IRQTask
+                         0x800'7b5d     0x8  Code  Gb  usart_lib.o [1]
+USARTTask_IRQTask        0x800'7a83     0x8  Code  Gb  usart_task.o [1]
+USARTTask_Init           0x800'7a5d    0x26  Code  Gb  usart_task.o [1]
+USARTTask_Read_DMA_IRQTask
+                         0x800'7a8b     0x8  Code  Gb  usart_task.o [1]
+USARTTask_Write_DMA_IRQTask
+                         0x800'7a93     0x8  Code  Gb  usart_task.o [1]
+USART_485GPIOInit        0x800'0c1b    0x24  Code  Gb  usart_cfg.o [1]
+USART_ClearOverFlow      0x800'0ff5     0x8  Code  Gb  usart_cfg.o [1]
+USART_Clock              0x800'11d5   0x1e6  Code  Gb  usart_cfg.o [1]
+USART_DMA_IDLETask       0x800'159f    0x5a  Code  Gb  usart_cfg.o [1]
+USART_IRQTask            0x800'13d1   0x13e  Code  Gb  usart_cfg.o [1]
+USART_ITPrintf_TCTask    0x800'1165    0x38  Code  Gb  usart_cfg.o [1]
+USART_ITRead_16BitsTask
+                         0x800'0d81   0x14c  Code  Gb  usart_cfg.o [1]
+USART_ITRead_16BitsTask::tempVal
+                        0x2000'3029     0x1  Data  Lc  usart_cfg.o [1]
+USART_ITRead_8BitsTask   0x800'0c75   0x104  Code  Gb  usart_cfg.o [1]
+USART_ITRead_8BitsTask::tempVal
+                        0x2000'3028     0x1  Data  Lc  usart_cfg.o [1]
+USART_ITRead_Task        0x800'0ef5    0x1a  Code  Gb  usart_cfg.o [1]
+USART_ITWrite_TCTask     0x800'0f9f    0x56  Code  Gb  usart_cfg.o [1]
+USART_ITWrite_TXETask    0x800'0f0f    0x90  Code  Gb  usart_cfg.o [1]
+USART_IT_TCTask          0x800'11a1    0x2e  Code  Gb  usart_cfg.o [1]
+USART_Init               0x800'0b05    0xee  Code  Gb  usart_cfg.o [1]
+USART_ParamInit          0x800'13bb    0x16  Code  Gb  usart_cfg.o [1]
+USART_Printf             0x800'10e7    0x7c  Code  Gb  usart_cfg.o [1]
+USART_PrintfResume       0x800'10c1    0x26  Code  Gb  usart_cfg.o [1]
+USART_PrintfSuspend      0x800'108d    0x34  Code  Gb  usart_cfg.o [1]
+USART_Read_DMA_IRQTask   0x800'15f9    0x12  Code  Gb  usart_cfg.o [1]
+USART_Read_DMA_RESTART   0x800'1553    0x1c  Code  Gb  usart_cfg.o [1]
+USART_Read_DMA_STOP      0x800'152d    0x26  Code  Gb  usart_cfg.o [1]
+USART_Read_Init          0x800'0ffd    0x46  Code  Gb  usart_cfg.o [1]
+USART_StructInit         0x800'04d3    0xe4  Code  Gb  usart_cfg.o [1]
+USART_TXGPIOInit         0x800'0bf3    0x28  Code  Gb  usart_cfg.o [1]
+USART_TimeTick_Init      0x800'0c3f    0x18  Code  Gb  usart_cfg.o [1]
+USART_Write_DMA_IRQTask
+                         0x800'160b    0x1c  Code  Gb  usart_cfg.o [1]
+USART_Write_DMA_RESTART
+                         0x800'157f    0x20  Code  Gb  usart_cfg.o [1]
+USART_Write_DMA_SetMemoryAddress
+                         0x800'156f    0x10  Code  Gb  usart_cfg.o [1]
+USART_Write_Init         0x800'1043    0x4a  Code  Gb  usart_cfg.o [1]
+UsageFault_Handler       0x800'810d     0x2  Code  Gb  stm32f4xx_it.o [1]
+WWDG_IRQHandler          0x800'811d     0xa  Code  Gb  stm32f4xx_it.o [1]
+_Encoding_8859_1_Mbrlen
+                         0x800'2025     0x2  Code  Gb  xencoding_8859_1.o [2]
+_Encoding_8859_1_Wctomb
+                         0x800'2013    0x12  Code  Gb  xencoding_8859_1.o [2]
+_Error_Handler           0x800'2741     0x2  Code  Gb  stm32_cfg.o [1]
+_LitobFull               0x800'3cfb   0x10a  Code  Lc  xprintffull.o [2]
+_Locale_lconv           0x2000'0048    0x38  Data  Lc  xlocale_c.o [2]
+_PrintfFull              0x800'2de9   0xcc4  Code  Gb  xprintffull.o [2]
+_PutcharsFull            0x800'3e6d    0x2e  Code  Lc  xprintffull.o [2]
+_PutstrFull              0x800'3c3b    0xc0  Code  Lc  xprintffull.o [2]
+_PuttxtFull              0x800'3b2f   0x10c  Code  Lc  xprintffull.o [2]
+_SNProut                 0x800'2a17    0x1a  Code  Gb  xsnprout.o [2]
+__NVIC_EnableIRQ         0x800'7b9f    0x1c  Code  Lc  random_cfg.o [1]
+__NVIC_EnableIRQ         0x800'0195    0x1e  Code  Lc  usart_cfg.o [1]
+__NVIC_GetPriorityGrouping
+                         0x800'7597     0xc  Code  Lc  main.o [1]
+__NVIC_GetPriorityGrouping
+                         0x800'7b95     0xa  Code  Lc  random_cfg.o [1]
+__NVIC_GetPriorityGrouping
+                         0x800'499b     0xc  Code  Lc  systick_cfg.o [1]
+__NVIC_GetPriorityGrouping
+                         0x800'0189     0xc  Code  Lc  usart_cfg.o [1]
+__NVIC_SetPriority       0x800'75a3    0x28  Code  Lc  main.o [1]
+__NVIC_SetPriority       0x800'7bbb    0x24  Code  Lc  random_cfg.o [1]
+__NVIC_SetPriority       0x800'49a7    0x28  Code  Lc  systick_cfg.o [1]
+__NVIC_SetPriority       0x800'01b3    0x28  Code  Lc  usart_cfg.o [1]
+__NVIC_SetPriorityGrouping
+                         0x800'7579    0x1e  Code  Lc  main.o [1]
+__NVIC_SetPriorityGrouping
+                         0x800'497d    0x1e  Code  Lc  systick_cfg.o [1]
+__NVIC_SystemReset       0x800'8299    0x1a  Code  Lc  css_cfg.o [1]
+__NVIC_SystemReset       0x800'61e1    0x1e  Code  Lc  rtc_cfg.o [1]
+__aeabi_cdcmple          0x800'4265          Code  Gb  DblCmpLe.o [3]
+__aeabi_cdrcmple         0x800'4295          Code  Gb  DblCmpGe.o [3]
+__aeabi_d2f              0x800'60a1          Code  Gb  DblToFlt.o [3]
+__aeabi_d2iz             0x800'4401          Code  Gb  DblToS32.o [3]
+__aeabi_d2uiz            0x800'478d          Code  Gb  DblToU32.o [3]
+__aeabi_dadd             0x800'4d7d          Code  Gb  DblAdd.o [3]
+__aeabi_ddiv             0x800'4545          Code  Gb  DblDiv.o [3]
+__aeabi_dmul             0x800'47d1          Code  Gb  DblMul.o [3]
+__aeabi_dsub             0x800'4461          Code  Gb  DblSub.o [3]
+__aeabi_f2d              0x800'6059          Code  Gb  FltToDbl.o [3]
+__aeabi_i2d              0x800'443d          Code  Gb  S32ToDbl.o [3]
+__aeabi_ldiv0            0x800'3eb1          Code  Gb  I64DivZer.o [4]
+__aeabi_memcpy           0x800'414d          Code  Gb  ABImemcpy.o [4]
+__aeabi_memcpy4          0x800'416d          Code  Gb  ABImemcpy.o [4]
+__aeabi_memcpy8          0x800'416d          Code  Gb  ABImemcpy.o [4]
+__aeabi_memset           0x800'1661          Code  Gb  ABImemset.o [4]
+__aeabi_ui2d             0x800'47b5          Code  Gb  U32ToDbl.o [3]
+__aeabi_uldivmod         0x800'2a31          Code  Gb  I64DivMod.o [4]
+__cmain                  0x800'84cd          Code  Gb  cmain.o [4]
+__exit                   0x800'4ef9    0x14  Code  Gb  exit.o [5]
+__iar_Fail_s             0x800'407d    0x1c  Code  Gb  xfail_s.o [2]
+__iar_Mbcurmax           0x800'4973     0xa  Code  Gb  xmbcurmax.o [2]
+__iar_Memchr             0x800'40f5          Code  Gb  memchr.o [4]
+__iar_Memset             0x800'1661          Code  Gb  ABImemset.o [4]
+__iar_Memset_word        0x800'1669          Code  Gb  ABImemset.o [4]
+__iar_Strchr             0x800'4065          Code  Gb  strchr.o [4]
+__iar_copy_init3         0x800'16c7    0x2e  Code  Gb  copy_init3.o [4]
+__iar_dadd               0x800'4471          Code  Gb  DblSub.o [3]
+__iar_data_init3         0x800'8439    0x28  Code  Gb  data_init.o [4]
+__iar_dsub               0x800'4d8d          Code  Gb  DblAdd.o [3]
+__iar_dsubStart          0x800'4d9f          Code  Gb  DblAdd.o [3]
+__iar_frexp              0x800'4201          Code  Gb  frexp.o [3]
+__iar_frexpl             0x800'4201          Code  Gb  frexp.o [3]
+__iar_globLocale        0x2000'0000    0x48  Data  Lc  xlocale_c.o [2]
+__iar_global_Locale      0x800'3fe9     0x4  Code  Gb  xlocale_c.o [2]
+__iar_init_vfp           0x800'8485          Code  Gb  fpinit_M.o [3]
+__iar_ldexp64            0x800'42c5          Code  Gb  ldexp.o [3]
+__iar_program_start      0x800'85ad          Code  Gb  cstartup_M.o [4]
+__iar_scalbln64          0x800'42c5          Code  Gb  ldexp.o [3]
+__iar_scalbn64           0x800'42c5          Code  Gb  ldexp.o [3]
+__iar_softfp___iar_frexp64
+                         0x800'41f5          Code  Gb  frexp.o [3]
+__iar_softfp_frexp       0x800'41f5          Code  Gb  frexp.o [3]
+__iar_softfp_frexpl      0x800'41f5          Code  Gb  frexp.o [3]
+__iar_zero_init3         0x800'1627    0x3a  Code  Gb  zero_init3.o [4]
+__low_level_init         0x800'84eb     0x4  Code  Gb  low_level_init.o [2]
+__vector_table           0x800'0000          Data  Gb  startup_stm32f407xx.o [1]
+_call_main               0x800'84d9          Code  Gb  cmain.o [4]
+_exit                    0x800'84f5          Code  Gb  cexit.o [4]
+_gLocale_mblen           0x800'4051     0x4  Code  Gb  xlocale_c.o [2]
+_gLocale_mblenInt        0x800'4015    0x2c  Code  Gb  xlocale_c.o [2]
+_gLocale_wctomb          0x800'4055     0x4  Code  Gb  xlocale_c.o [2]
+_gLocale_wctombInt       0x800'404d     0x4  Code  Gb  xlocale_c.o [2]
+_irq_disable             0x800'273d     0x4  Code  Gb  stm32_cfg.o [1]
+_main                    0x800'84e7          Code  Gb  cmain.o [4]
+abort                    0x800'4d75     0x6  Code  Gb  abort.o [2]
+exit                     0x800'84ef     0x4  Code  Gb  exit.o [2]
+g_ABChannelADC          0x2000'2f40    0x2c  Data  Gb  adc_cfg.o [1]
+g_CDChannelADC          0x2000'2f6c    0x2c  Data  Gb  adc_cfg.o [1]
+g_CRCIsEnable           0x2000'00b8     0x1  Data  Gb  crc_cfg.o [1]
+g_CalcFreq              0x2000'2fc0    0x24  Data  Gb  timer_cfg.o [1]
+g_HASH_RNG_Val          0x2000'301c     0x4  Data  Gb  random_cfg.o [1]
+g_HardFaultErrMsg       0x2000'2fe4    0x20  Data  Gb  stm32_cfg.o [1]
+g_MemMap                0x2000'28bc   0x280  Data  Gb  my_malloc.o [1]
+g_MemPool               0x2000'00bc  0x2800  Data  Gb  my_malloc.o [1]
+g_MonthDaysTab           0x800'8564    0x10  Data  Gb  rtc_cfg.o [1]
+g_Mpu6050Device0        0x2000'2e44    0x74  Data  Gb  mpu6050_cfg.o [1]
+g_MyMallocDev           0x2000'0080    0x14  Data  Gb  my_malloc.o [1]
+g_PrintfBuffer          0x2000'2b3c   0x200  Data  Gb  usart_cfg.o [1]
+g_SysSoftRTC            0x2000'3004    0x18  Data  Gb  rtc_cfg.o [1]
+g_SysTick               0x2000'2f98    0x28  Data  Gb  systick_cfg.o [1]
+g_Usart1                0x2000'2d3c    0x84  Data  Gb  usart_cfg.o [1]
+g_Usart3                0x2000'2dc0    0x84  Data  Gb  usart_cfg.o [1]
+ldexp                    0x800'42c5          Code  Gb  ldexp.o [3]
+ldexpl                   0x800'42c5          Code  Gb  ldexp.o [3]
+localeconv               0x800'4059     0x4  Code  Gb  xlocale_c.o [2]
+main                     0x800'78c9    0x80  Code  Gb  main.o [1]
+memchr                   0x800'40f5          Code  Gb  memchr.o [4]
+pABChannelADC           0x2000'0094     0x4  Data  Gb  adc_cfg.o [1]
+pCDChannelADC           0x2000'0098     0x4  Data  Gb  adc_cfg.o [1]
+pCalcFreq               0x2000'00ac     0x4  Data  Gb  timer_cfg.o [1]
+pMpu6050Device0         0x2000'009c     0x4  Data  Gb  mpu6050_cfg.o [1]
+pSysSoftRTC             0x2000'00a0     0x4  Data  Gb  rtc_cfg.o [1]
+pSysTick                0x2000'00a8     0x4  Data  Gb  systick_cfg.o [1]
+pUsart1                 0x2000'00b0     0x4  Data  Gb  usart_cfg.o [1]
+pUsart3                 0x2000'00b4     0x4  Data  Gb  usart_cfg.o [1]
+scalbln                  0x800'42c5          Code  Gb  ldexp.o [3]
+scalblnl                 0x800'42c5          Code  Gb  ldexp.o [3]
+scalbn                   0x800'42c5          Code  Gb  ldexp.o [3]
+scalbnl                  0x800'42c5          Code  Gb  ldexp.o [3]
+scale                    0x800'3e05    0x46  Code  Lc  xprintffull.o [2]
+sec_hand                0x2000'3024     0x4  Data  Lc  xfail_s.o [2]
+strchr                   0x800'4065          Code  Gb  strchr.o [4]
+strlen                   0x800'40bd          Code  Gb  strlen.o [4]
+uwTick                  0x2000'3020     0x4  Data  Gb  stm32f4xx_hal.o [1]
+uwTickFreq              0x2000'00b9     0x1  Data  Gb  stm32f4xx_hal.o [1]
+vsnprintf                0x800'256d    0x3c  Code  Gb  vsnprint.o [2]
+
+
+[1] = E:\STM32Project\NewProject\STM32F407\STM32F407VET6\STM32F407VET6Project\EWARM\STM32F407VET6Project\Obj
+[2] = dl7M_tlf.a
+[3] = m7M_tls.a
+[4] = rt7M_tl.a
+[5] = shb_l.a
+
+  34'147 bytes of readonly  code memory
+     585 bytes of readonly  data memory
+  20'520 bytes of readwrite data memory
+
+Errors: none
+Warnings: none

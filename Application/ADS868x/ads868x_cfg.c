@@ -21,12 +21,13 @@ void ADS868X_SPI_Device0_Init(ADS868X_HandlerType *ADS868x)
 	//---复位信号
 	ADS868x->msgHWRST.msgPort = NULL;
 	ADS868x->msgHWRST.msgBit = LL_GPIO_PIN_0;
+	#ifndef  USE_FULL_GPIO
 	//---GPIO时钟使能
 	if (ADS868x->msgHWRST.msgPort != NULL)
 	{
 		GPIOTask_Clock(ADS868x->msgHWRST.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	}
-
+	#endif
 	//---SPI1接口
 	//---PA4------ > SPI1_NSS
 	//---PA5------ > SPI1_SCK

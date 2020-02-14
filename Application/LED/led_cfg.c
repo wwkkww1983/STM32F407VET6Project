@@ -9,7 +9,10 @@
 //////////////////////////////////////////////////////////////////////////////
 void LEDWork_Init(void)
 {
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(LED_WORK_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
+
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化

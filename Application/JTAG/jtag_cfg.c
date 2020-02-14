@@ -145,6 +145,7 @@ UINT8_T JTAG_Device2_Init(JTAG_HandlerType* JTAGx)
 UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(JTAGx->msgTDI.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(JTAGx->msgTDO.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(JTAGx->msgTMS.msgPort, PERIPHERAL_CLOCK_ENABLE);
@@ -153,6 +154,7 @@ UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 #ifdef JTAG_USE_lEVEL_SHIFT
 	GPIOTask_Clock(JTAGx->msgOE.msgPort, PERIPHERAL_CLOCK_ENABLE);
 #endif
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;														//---配置状态为输出模式
@@ -181,7 +183,9 @@ UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 	JTAGx->msgPortRst(JTAG_RST_TO_VCC);
 #else
 	//---使能端口时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(JTAGx->msgRST.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	//---RST---输出为高
 	GPIO_InitStruct.Pin = JTAGx->msgRST.msgBit;
 	LL_GPIO_Init(JTAGx->msgRST.msgPort, &GPIO_InitStruct);

@@ -38,6 +38,7 @@ extern "C" {
 	UINT8_T  USARTLib_PollMode_WriteByte(USART_HandlerType*USARTx, UINT8_T  val);
 	UINT8_T  USARTLib_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal);
 	void	 USARTLib_PrintfClockFreq(USART_HandlerType*USARTx);
+	void	 USARTLib_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args);
 	UINT8_T  USARTLib_IT_TCTask(USART_HandlerType* USARTx);
 	void	 USARTLib_IRQTask(USART_HandlerType* USARTx);
 	void	 USARTLib_Read_DMA_IRQTask(USART_HandlerType* USARTx);

@@ -87,10 +87,12 @@ UINT8_T AT24CXX_I2C_Device0_Init(AT24CXX_HandlerType* AT24CXXx)
 	AT24CXXx->msgWP.msgPort = GPIOC;
 	AT24CXXx->msgWP.msgBit = LL_GPIO_PIN_4;
 	//---初始化写保护
+	#ifndef  USE_FULL_GPIO
 	if (AT24CXXx->msgWP.msgPort != NULL)
 	{
 		GPIOTask_Clock(AT24CXXx->msgWP.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	}
+	#endif
 	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };

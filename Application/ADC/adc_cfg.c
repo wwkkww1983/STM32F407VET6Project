@@ -16,7 +16,9 @@ pADCASK_HandlerType	pCDChannelADC = &g_CDChannelADC;
 UINT8_T ADC_GPIO_Init(void)
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(GPIOC, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化----

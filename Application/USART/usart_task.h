@@ -51,7 +51,9 @@ extern "C" {
 	UINT8_T  USARTTask_PollMode_WriteByte(USART_HandlerType*USARTx, UINT8_T  val);
 	UINT8_T  USARTTask_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal);
 	UINT8_T  USARTTask_IT_TCTask(USART_HandlerType* USARTx);
-	UINT8_T	 USARTTask_DeviceID(USART_HandlerType*USARTx);
+	UINT8_T	 USARTTask_DeviceID(USART_HandlerType* USARTx);
+	void	 USARTTask_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args);
+	void	 USARTTask_Printf(USART_HandlerType* USARTx, char* fmt, ...);
 	void	 USARTTask_IRQTask(USART_HandlerType* USARTx);
 	void	 USARTTask_Read_DMA_IRQTask(USART_HandlerType* USARTx);
 	void	 USARTTask_Write_DMA_IRQTask(USART_HandlerType* USARTx);

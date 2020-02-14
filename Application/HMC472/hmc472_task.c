@@ -794,7 +794,7 @@ UINT8_T HMC472Task_USART_RFGenTask(USART_HandlerType*USARTx)
 			{
 				//---发生CRC校验错误
 				//USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
-				USART_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
+				USARTTask_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			_return= USARTTask_Read_Init(USARTx);
 			goto GotoExit;

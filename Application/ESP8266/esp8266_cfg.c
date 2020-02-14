@@ -97,7 +97,7 @@ UINT8_T g_ESP8266_TX_BUFFER[ESP8266_BUFFER_MAX_SIZE] = { 0 };															//--
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ESP8266_Init(UINT32_T(*pFuncTimerTick)(void))
 {
-	USARTTask_Init(pUsart3, ESP8266_BUFFER_MAX_SIZE, g_ESP8266_RX_BUFFER, 0, ESP8266_BUFFER_MAX_SIZE, g_ESP8266_TX_BUFFER,0, pFuncTimerTick);
+	USARTTask_Init(ESP8266_USART, ESP8266_BUFFER_MAX_SIZE, g_ESP8266_RX_BUFFER, 0, ESP8266_BUFFER_MAX_SIZE, g_ESP8266_TX_BUFFER,0, pFuncTimerTick);
 	return OK_0;
 }
 
@@ -126,3 +126,17 @@ UINT8_T ESP8266_ExitTransparentMode(void)
 	return OK_0;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：ESP8266的打印LOG信息
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void ESP8266_LOG(char* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	USARTTask_PrintfLog(ESP8266_USART, fmt, args);
+	va_end(args);
+}

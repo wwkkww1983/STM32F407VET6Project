@@ -10,6 +10,7 @@
 void Power_Init(void)
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(DPSA_CTRH_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(DPSA_CTRL_PORT, PERIPHERAL_CLOCK_ENABLE);
 
@@ -21,6 +22,7 @@ void Power_Init(void)
 
 	GPIOTask_Clock(DPSD_CTRH_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(DPSD_CTRL_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -101,8 +103,10 @@ UINT16_T g_Lm317LostPower= LM317_LOST_POWER_MV;
 UINT8_T LM317_Init(UINT8_T isPowerON,UINT32_T volMV)
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(LM317_CTRH_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(LM317_CTRL_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };

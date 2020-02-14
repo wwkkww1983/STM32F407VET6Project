@@ -397,7 +397,7 @@ void EXTI3_IRQHandler(void)
 	//if (GPIO_GET_STATE(GPIOA,LL_GPIO_PIN_0)!=0)
 	{
 		LL_EXTI_DisableIT_0_31(LL_EXTI_LINE_3);
-		USART_Printf(pUsart1, "PE3发生低电平中断\r\n");
+		USARTTask_Printf(pUsart1, "PE3发生低电平中断\r\n");
 		LL_EXTI_EnableIT_0_31(LL_EXTI_LINE_3);
 		LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
 	}

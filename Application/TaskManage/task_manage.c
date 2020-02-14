@@ -114,7 +114,7 @@ UINT8_T Task_Manage(void)
 		else
 		{
 			//---发生CRC校验错误
-			USART_Printf(pUsart1, "=>>SP%d:CRC Check Error<<=\r\n", (pUsart1->msgIndex - 1));
+			USARTTask_Printf(pUsart1, "=>>SP%d:CRC Check Error<<=\r\n", (pUsart1->msgIndex - 1));
 		}
 		return USARTTask_Read_Init(pUsart1);
 	}

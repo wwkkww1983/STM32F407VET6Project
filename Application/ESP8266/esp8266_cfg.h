@@ -73,6 +73,7 @@ extern "C" {
 	}esp8266_NET_TYPE;
 
 	#define ESP8266_BUFFER_MAX_SIZE						1024															//---定义缓存区的大小
+	#define ESP8266_USART								pUsart3															//---ESP8266使用的
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

@@ -356,6 +356,34 @@ void USARTTask_PrintfClockFreq(USART_HandlerType*USARTx)
 {
 	USARTLib_PrintfClockFreq(USARTx);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void USARTTask_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args)
+{
+	USARTLib_PrintfLog(USARTx, fmt, args);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void USARTTask_Printf(USART_HandlerType* USARTx, char* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	USARTTask_PrintfLog(USARTx, fmt, args);
+	va_end(args);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
 //////功		能：
@@ -446,13 +474,13 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 					//---启动数据发送
 					USARTTask_FillMode_WriteByteSTART(USARTx, 0);
 					usartDebugCount++;
-					USART_Printf(pUsart1, "TEST Count:%d\r\n", usartDebugCount);
+					USARTTask_Printf(pUsart1, "TEST Count:%d\r\n", usartDebugCount);
 				}
 			}
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, (void*)"=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
+				USARTTask_Printf(USARTx, (void*)"=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			return USARTTask_Read_Init(USARTx);
 		}
@@ -501,7 +529,7 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
+				USARTTask_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			return USARTTask_Read_Init(USARTx);
 		}
@@ -573,7 +601,7 @@ UINT8_T USARTTask_DebugFreqTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(U
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
+				USARTTask_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			return USARTTask_Read_Init(USARTx);
 		}

@@ -10,7 +10,9 @@
 UINT8_T OneWire_Init(OneWire_HandlerType *OneWirex, void(*pFuncDelayus)(UINT32_T delay))
 {
 	//---使能端口时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(OneWirex->msgDAT.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化
 	GPIO_InitStruct.Pin = OneWirex->msgDAT.msgBit;												//---对应的GPIO的引脚

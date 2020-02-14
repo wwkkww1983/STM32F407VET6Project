@@ -495,39 +495,39 @@ UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 void GPIO_Init(void)
 {
 	//---使能所有端口的时钟
-	#ifdef GPIOA
+	#if defined(GPIOA)&&defined(USE_FULL_GPIO)
 		GPIO_Clock(GPIOA, PERIPHERAL_CLOCK_ENABLE);
 	#endif
 	
-	#ifdef GPIOB
+	#if defined(GPIOB) && defined(USE_FULL_GPIO)
 		GPIO_Clock(GPIOB, PERIPHERAL_CLOCK_ENABLE);
 	#endif
 	
-	#ifdef GPIOC
+	#if defined(GPIOC)&&defined(USE_FULL_GPIO)
 		GPIO_Clock(GPIOC, PERIPHERAL_CLOCK_ENABLE);
 	#endif
 	
-	#ifdef GPIOD
+	#if defined(GPIOD)&&defined(USE_FULL_GPIO)
 		GPIO_Clock(GPIOD, PERIPHERAL_CLOCK_ENABLE);
 	#endif
 	
-	#ifdef GPIOE
+	#if defined(GPIOE)&&defined(USE_FULL_GPIO)
 		GPIO_Clock(GPIOE, PERIPHERAL_CLOCK_ENABLE);
 	#endif
 	
-	#ifdef GPIOF
+	#if defined(GPIOF)&&defined(USE_FULL_GPIO)
 		GPIO_Clock(GPIOF, PERIPHERAL_CLOCK_ENABLE);
 	#endif
 	
-	#ifdef GPIOG
+	#if defined(GPIOG) && defined(USE_FULL_GPIO) 
 		GPIO_Clock(GPIOG, PERIPHERAL_CLOCK_ENABLE);
 	#endif
 	
-	#ifdef GPIOH
+	#if defined(GPIOH)&&defined(USE_FULL_GPIO)
 		GPIO_Clock(GPIOH, PERIPHERAL_CLOCK_ENABLE);
 	#endif
 	
-	#ifdef GPIOI
+	#if defined(GPIOI) && defined(USE_FULL_GPIO)
 		GPIO_Clock(GPIOI, PERIPHERAL_CLOCK_ENABLE);
 	#endif
 	

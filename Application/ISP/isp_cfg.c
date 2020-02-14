@@ -309,7 +309,9 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 	if (ISPx->msgOE.msgPort != NULL)
 	{
 		//---使能GPIO的时钟
+		#ifndef  USE_FULL_GPIO
 		GPIOTask_Clock(ISPx->msgOE.msgPort, 1);
+		#endif
 		//---GPIO的结构体
 		LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 		GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;													//---配置状态为输出模式

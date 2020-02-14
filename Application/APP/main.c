@@ -232,10 +232,14 @@ int main(void)
 		//AHT10Task_I2C_ReadTempHumi(pAht10Device0);
 		//USART_Printf(pUsart1, "Temp=%f\r\nHumi=%f\r\n", AHT10Task_I2C_GetTemp(pAht10Device0),AHT10Task_I2C_GetHumi(pAht10Device0));
 		//DelayTask_ms(300);	
-		USART_Printf(pUsart1,"OK:%d\r\n",MPU6050Task_I2C_ReadAccelTempGyro(pMpu6050Device0));
-		USART_Printf(pUsart1,"accel  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgAccel.xAccel, pMpu6050Device0->msgAccel.yAccel, pMpu6050Device0->msgAccel.zAccel);
-		USART_Printf(pUsart1,"gyro  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgGyro.xGyro, pMpu6050Device0->msgGyro.yGyro, pMpu6050Device0->msgGyro.zGyro);
-		USART_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
+		//USART_Printf(pUsart1,"OK:%d\r\n",MPU6050Task_I2C_ReadAccelTempGyro(pMpu6050Device0));
+		USARTTask_Printf(pUsart1,"OK:%d\r\n",MPU6050Task_I2C_ReadAccelTempGyro(pMpu6050Device0));
+		//USART_Printf(pUsart1,"accel  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgAccel.xAccel, pMpu6050Device0->msgAccel.yAccel, pMpu6050Device0->msgAccel.zAccel);
+		USARTTask_Printf(pUsart1,"accel  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgAccel.xAccel, pMpu6050Device0->msgAccel.yAccel, pMpu6050Device0->msgAccel.zAccel);
+		//USART_Printf(pUsart1,"gyro  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgGyro.xGyro, pMpu6050Device0->msgGyro.yGyro, pMpu6050Device0->msgGyro.zGyro);
+		USARTTask_Printf(pUsart1,"gyro  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgGyro.xGyro, pMpu6050Device0->msgGyro.yGyro, pMpu6050Device0->msgGyro.zGyro);
+		//USART_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
+		USARTTask_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
 		DelayTask_ms(300);
 		//---Ä£ÄâRTC´¦Àí
 		SysRTCTask_RTCTask(pSysSoftRTC, SysTickTask_GetTick());

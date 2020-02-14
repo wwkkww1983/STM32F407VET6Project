@@ -9,10 +9,11 @@
 //////////////////////////////////////////////////////////////////////////////
 void DataBus_Init(void)
 {
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(DATA_BUS_DIR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(DATA_BUS_OE_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(DATA_BUS_PORT, PERIPHERAL_CLOCK_ENABLE);
-
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;																																		//---配置状态为输出模式

@@ -10,7 +10,9 @@
 UINT8_T EXTI_Init(void)
 {
 	//---使能端口始终
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(GPIOE, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	//---配置外部中断源
 	LL_SYSCFG_SetEXTISource(LL_SYSCFG_EXTI_PORTE, LL_SYSCFG_EXTI_LINE3);
 	LL_EXTI_InitTypeDef EXTI_InitStruct = { 0 };

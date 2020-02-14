@@ -26,9 +26,11 @@ UINT8_T DS1302_Device0_Init(DS1302_HandlerType *DS1302x)
 	DS1302x->msgDelayus = NULL;
 
 	//---使能端口时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(DS1302x->msgCS.msgPort,  PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(DS1302x->msgCLK.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(DS1302x->msgDAT.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };

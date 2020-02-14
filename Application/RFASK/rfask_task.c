@@ -1604,7 +1604,7 @@ UINT8_T RFASKTask_Task(USART_HandlerType* USARTx, RFASK_HandlerType* rfask, WM85
 		else
 		{
 			//---发生CRC校验错误
-			USART_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
+			USARTTask_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 		}
 		return USARTTask_Read_Init(USARTx);
 	}

@@ -57,7 +57,9 @@ UINT8_T DHT11_Device2_Init(DHT11_HandlerType *DHTxx)
 UINT8_T DHT11_GPIO_Init(DHT11_HandlerType *DHTxx)
 {
 	//---使能端口时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(DHTxx->msgDAT.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化
 	GPIO_InitStruct.Pin = DHTxx->msgDAT.msgBit;														//---对应的GPIO的引脚

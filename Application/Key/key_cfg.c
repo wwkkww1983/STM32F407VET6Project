@@ -522,11 +522,12 @@ void KeyButton4_PRESS_UP_Handler(void* btn)
 void Key_BINInit(void)
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(BINA_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(BINB_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(BINC_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(BIND_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
-
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;						//---配置状态为输出模式
@@ -568,10 +569,12 @@ void Key_BINInit(void)
 void Key_SOTInit(void)
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(SOTA_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(SOTB_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(SOTC_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(SOTD_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -614,10 +617,12 @@ void Key_SOTInit(void)
 void Key_EOTInit(void)
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(EOTA_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(EOTB_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(EOTC_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(EOTD_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -852,6 +857,7 @@ void Key_BINDPass(UINT8_T isPass)
 void Key_GenSelInit(void)
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(GEN_SEL0_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(GEN_SEL1_PORT, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(GEN_SEL2_PORT, PERIPHERAL_CLOCK_ENABLE);
@@ -859,6 +865,7 @@ void Key_GenSelInit(void)
 	//GPIOTask_Clock(GEN_SEL4_PORT, 1);
 	//GPIOTask_Clock(GEN_SEL5_PORT, 1);
 	//GPIOTask_Clock(GEN_SEL6_PORT, 1);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };

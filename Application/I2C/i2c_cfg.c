@@ -11,8 +11,10 @@
 UINT8_T I2C_MSW_Init(I2C_HandlerType *I2Cx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(I2Cx->msgSCL.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(I2Cx->msgSDA.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化
@@ -618,8 +620,10 @@ UINT8_T I2C_Clock(I2C_HandlerType* I2Cx, UINT8_T isEnable)
 UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	//---使能GPIO的时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(I2Cx->msgSCL.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	GPIOTask_Clock(I2Cx->msgSDA.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化

@@ -795,7 +795,7 @@ UINT8_T JTAGTask_USARTCmd_ParentTask(JTAG_HandlerType* JTAGx, USART_HandlerType*
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
+				USARTTask_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
 			}
 			return USARTTask_Read_Init(USARTx);
 		}

@@ -19,19 +19,21 @@ void ADS1256_SPI_Device0_Init(ADS1256_HandlerType *ADS1256x)
 	ADS1256x->msgDRDY.msgPort = GPIOA;
 	ADS1256x->msgDRDY.msgBit = LL_GPIO_PIN_3;	
 	//---GPIO时钟使能
-	if (ADS1256x->msgDRDY.msgPort!=NULL)
-	{
-		GPIOTask_Clock(ADS1256x->msgDRDY.msgPort, PERIPHERAL_CLOCK_ENABLE);
-	}
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(ADS1256x->msgDRDY.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	#endif 
+	
 	//---复位信号
 	ADS1256x->msgHWRST.msgPort = NULL;
 	ADS1256x->msgHWRST.msgBit = LL_GPIO_PIN_0;
 
 	//---GPIO时钟使能
+	#ifndef  USE_FULL_GPIO
 	if (ADS1256x->msgHWRST.msgPort!=NULL)
 	{
 		GPIOTask_Clock(ADS1256x->msgHWRST.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	}
+	#endif
 	//---GPIO的配置
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化

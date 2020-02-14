@@ -88,11 +88,12 @@ UINT8_T OLED_Device0_Init(OLED_IIC_HandlerType *OLEDx)
 	OLEDx->msgRST.msgPort = GPIOB;
 
 	//---端口初始化
+	#ifndef  USE_FULL_GPIO
 	if (OLEDx->msgRST.msgPort != NULL)
 	{
 		GPIOTask_Clock(OLEDx->msgRST.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	}
-
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;						//---配置状态为输出模式

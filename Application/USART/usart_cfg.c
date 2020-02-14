@@ -140,6 +140,8 @@ UINT8_T USART_ConfigInit(USART_HandlerType* USARTx, USART_HandlerType* USARTInit
 	USARTx->msgTxdHandler.pMsgVal		= USARTInitx->msgTxdHandler.pMsgVal			;
 	//---计数器
 	USARTx->msgTxdHandler.msgTimeTick	= USARTInitx->msgTxdHandler.msgTimeTick		;
+	
+	return OK_0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -155,7 +157,9 @@ UINT8_T USART1_ConfigInit(USART_HandlerType* USARTx)
 	//---PA9  ------> USART1_TX---端口复用为7
 	//---PA10 ------> USART1_RX---端口复用为7
 	//---使能端口时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(GPIOA, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---模式配置
@@ -531,7 +535,9 @@ UINT8_T USART3_ConfigInit(USART_HandlerType* USARTx)
 	//---PB10  ------> USART1_TX---端口复用为7
 	//---PB11  ------> USART1_RX---端口复用为7
 	//---使能端口时钟
+	#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(GPIOB, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---模式配置
@@ -2620,6 +2626,60 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 		USART_TimeTick_Init(&(USARTx->msgTxdHandler));
 	}
 #endif	
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：打印LOG信息
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void USART_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args)
+{
+	#ifdef USE_USART_PRINTF
+	//---校验串口是否已经初始化过
+	if (USARTx->msgUSART != NULL)
+	{
+		//---挂起操作，等待上一次的发送完成
+		USART_PrintfSuspend(USARTx);
+		//---计算数据
+		UINT16_T length = 0;
+		//---用于向字符串中打印数据、数据格式用户自定义;返回参数是最终生成字符串的长度
+		length = (UINT16_T)vsnprintf(g_PrintfBuffer, USART_PRINTF_SIZE, fmt, args);
+		//---判断数据
+		if (length > USART_PRINTF_SIZE)
+		{
+			length = USART_PRINTF_SIZE;
+		}
+		//---校验是不是DMA模式
+		if (USARTx->msgTxdHandler.msgDMAMode != 0)
+		{
+			//--->>>DMA发送模式
+			USARTx->msgTxdHandler.msgCount = length;
+			//---设置数据地址
+			USART_Write_DMA_SetMemoryAddress(USARTx, (UINT8_T*)g_PrintfBuffer);
+			//---启动DMA发送
+			USART_Write_DMA_RESTART(USARTx);
+		}
+		else
+		{
+			//--->>>中断发送模式
+			//---要发送数据的个数
+			USARTx->msgPCount = length;
+			//---使用的发送完成中断，这里需要首先发送一次数据
+			USARTx->msgPIndex = 1;
+			//---工作在使用PRINTF模式
+			USARTx->msgTxdHandler.msgState = USART_PRINTF;
+			//---发送完成,发送数据发送完成中断不使能
+			LL_USART_EnableIT_TC(USARTx->msgUSART);
+			//---发送8Bit的数据
+			LL_USART_TransmitData8(USARTx->msgUSART, g_PrintfBuffer[0]);
+		}
+		//---复位超时计数器
+		USART_TimeTick_Init(&(USARTx->msgTxdHandler));
+	}
+	#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////
