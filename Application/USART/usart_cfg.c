@@ -11,9 +11,10 @@ pUSART_HandlerType pUsart3 = &g_Usart3;
 //===printf函数使用的缓存区
 #ifdef USE_USART_PRINTF
 	char g_PrintfBuffer[USART_PRINTF_SIZE] = { 0 };
+	//---初始化printf环形缓存区
 	USART_PrintfType g_Printf = 
 	{ 
-		.msgIndex=0,
+		.msgIndex =0,
 		.pMsgVal= g_PrintfBuffer
 	};
 	pUSART_PrintfType pPrintf =&g_Printf;
@@ -2615,6 +2616,7 @@ void USART_Printf(USART_HandlerType*USARTx, char*fmt, ...)
 		}
 		else
 		{
+		  	//---数据索引偏移
 			pPrintf->msgIndex += length;
 			//---至少空闲64字节的缓存区
 			if ((USART_PRINTF_SIZE- USART_PRINTF_IDLE_SIZE)<(pPrintf->msgIndex))
@@ -2690,6 +2692,7 @@ void USART_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args)
 		}
 		else
 		{
+		  	//---数据索引偏移
 			pPrintf->msgIndex += length;
 			//---至少空闲64字节的缓存区
 			if ((USART_PRINTF_SIZE - USART_PRINTF_IDLE_SIZE) < (pPrintf->msgIndex))
