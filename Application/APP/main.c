@@ -146,7 +146,7 @@ void Sys_Init(void)
 	//---CRC校验初始化
 	CRCTask_Init();
 	//---串口的初始化
-	USARTTask_Init(pUsart1, USART1_RX_MAX_SIZE, USART1_RX_BUFFER, USART_CRC_NONE, USART1_TX_MAX_SIZE, USART1_TX_BUFFER, USART_CRC_NONE, SysTickTask_GetTick);
+	UARTTask_Init(pUart1, UART1_RX_MAX_SIZE, UART1_RX_BUFFER, UART_CRC_NONE, UART1_TX_MAX_SIZE, UART1_TX_BUFFER, UART_CRC_NONE, SysTickTask_GetTick);
 	//---硬件初始化
 	//HardWare_Init();
 	//---初始化MCO的输出时钟
@@ -233,13 +233,13 @@ int main(void)
 		//USART_Printf(pUsart1, "Temp=%f\r\nHumi=%f\r\n", AHT10Task_I2C_GetTemp(pAht10Device0),AHT10Task_I2C_GetHumi(pAht10Device0));
 		//DelayTask_ms(300);	
 		//USART_Printf(pUsart1,"OK:%d\r\n",MPU6050Task_I2C_ReadAccelTempGyro(pMpu6050Device0));
-		USARTTask_Printf(pUsart1,"OK:%d\r\n",MPU6050Task_I2C_ReadAccelTempGyro(pMpu6050Device0));
+		UARTTask_Printf(pUart1,"OK:%d\r\n",MPU6050Task_I2C_ReadAccelTempGyro(pMpu6050Device0));
 		//USART_Printf(pUsart1,"accel  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgAccel.xAccel, pMpu6050Device0->msgAccel.yAccel, pMpu6050Device0->msgAccel.zAccel);
-		USARTTask_Printf(pUsart1,"accel  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgAccel.xAccel, pMpu6050Device0->msgAccel.yAccel, pMpu6050Device0->msgAccel.zAccel);
+		UARTTask_Printf(pUart1,"accel  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgAccel.xAccel, pMpu6050Device0->msgAccel.yAccel, pMpu6050Device0->msgAccel.zAccel);
 		//USART_Printf(pUsart1,"gyro  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgGyro.xGyro, pMpu6050Device0->msgGyro.yGyro, pMpu6050Device0->msgGyro.zGyro);
-		USARTTask_Printf(pUsart1,"gyro  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgGyro.xGyro, pMpu6050Device0->msgGyro.yGyro, pMpu6050Device0->msgGyro.zGyro);
+		UARTTask_Printf(pUart1,"gyro  x = %d  ,y =  %d  ,z = %d  \r\n", pMpu6050Device0->msgGyro.xGyro, pMpu6050Device0->msgGyro.yGyro, pMpu6050Device0->msgGyro.zGyro);
 		//USART_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
-		USARTTask_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
+		UARTTask_Printf(pUart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
 		DelayTask_ms(500);
 		//---模拟RTC处理
 		SysRTCTask_RTCTask(pSysSoftRTC, SysTickTask_GetTick());

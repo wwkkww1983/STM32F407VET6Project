@@ -6,7 +6,7 @@ extern "C" {
 #endif
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include"jtag_lib.h"
-	#include "usart_task.h"
+	#include "uart_task.h"
 	#include "power_task.h"
 	#include "adc_Task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -68,23 +68,23 @@ extern "C" {
 	UINT8_T JTAGTask_SetConfigInfo(JTAG_HandlerType* JTAGx, UINT8_T* pVal);
 
 	//===带通讯端口的函数定义
-	UINT8_T JTAGTask_USARTCmd_OpenAndClose(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_EraseChip(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_ReadChipID(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_ReadChipCalibration(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_ReadChipFuseAndLock(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_WriteChipFuse(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_WriteChipFuse(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_WriteChipLock(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_ReadChipRom(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_SetProgClok(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_ReadChipFlash(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_WriteChipFlashPage(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_ReadChipEeprom(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_WriteChipEeprom(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
-	UINT8_T JTAGTask_USARTCmd_ChildTask(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx, UINT8_T isChildCmd);
-	UINT8_T JTAGTask_USARTCmd_ParentTask(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx, UINT8_T isChildCmd);
-	UINT8_T JTAGTask_USARTCmd_Task(JTAG_HandlerType* JTAGx, USART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_OpenAndClose(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_EraseChip(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_ReadChipID(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_ReadChipCalibration(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_ReadChipFuseAndLock(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_WriteChipFuse(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_WriteChipFuse(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_WriteChipLock(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_ReadChipRom(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_SetProgClok(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_ReadChipFlash(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_WriteChipFlashPage(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_ReadChipEeprom(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_WriteChipEeprom(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
+	UINT8_T JTAGTask_UARTCmd_ChildTask(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx, UINT8_T isChildCmd);
+	UINT8_T JTAGTask_UARTCmd_ParentTask(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx, UINT8_T isChildCmd);
+	UINT8_T JTAGTask_UARTCmd_Task(JTAG_HandlerType* JTAGx, UART_HandlerType* USARTx);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

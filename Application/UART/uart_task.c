@@ -1,8 +1,8 @@
-#include "usart_task.h"
+#include "uart_task.h"
 
 //===全局变量的定义
-UINT8_T USART1_RX_BUFFER[USART1_RX_MAX_SIZE] = { 0 };
-UINT8_T USART1_TX_BUFFER[USART1_RX_MAX_SIZE] = { 0 };
+UINT8_T UART1_RX_BUFFER[UART1_RX_MAX_SIZE] = { 0 };
+UINT8_T UART1_TX_BUFFER[UART1_RX_MAX_SIZE] = { 0 };
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,9 +11,9 @@ UINT8_T USART1_TX_BUFFER[USART1_RX_MAX_SIZE] = { 0 };
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_ConfigInit(USART_HandlerType* USARTx, USART_HandlerType* USARTInitx)
+UINT8_T  UARTTask_ConfigInit(UART_HandlerType* UARTx, UART_HandlerType* UARTInitx)
 {
-	return USARTLib_ConfigInit(USARTx, USARTInitx);
+	return UARTLib_ConfigInit(UARTx, UARTInitx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -23,11 +23,11 @@ UINT8_T  USARTTask_ConfigInit(USART_HandlerType* USARTx, USART_HandlerType* USAR
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void))
+UINT8_T  UARTTask_Init(UART_HandlerType*  UARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void))
 {
 	UINT8_T _return = OK_0;
-	//_return = USARTLib_ParamInit(USARTx, USART1_DEVICE_ID, USART1_ID_INDEX, USART1_CMD_INDEX, USART1_DATA1_INDEX, USART1_DATA2_INDEX);
-	_return = USARTLib_Init(USARTx, rxSize, pRxVal, rxCRCFlag, txSize, pTxVal, txCRCFlag, pTimerTick);
+	//_return = UARTLib_ParamInit(UARTx, UART1_DEVICE_ID, UART1_ID_INDEX, UART1_CMD_INDEX, UART1_DATA1_INDEX, UART1_DATA2_INDEX);
+	_return = UARTLib_Init(UARTx, rxSize, pRxVal, rxCRCFlag, txSize, pTxVal, txCRCFlag, pTimerTick);
 	return _return;
 }
 
@@ -38,9 +38,9 @@ UINT8_T  USARTTask_Init(USART_HandlerType*  USARTx, UINT16_T rxSize, UINT8_T* pR
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_DeInit(USART_HandlerType*  USARTx)
+UINT8_T  UARTTask_DeInit(UART_HandlerType*  UARTx)
 {
-	return USARTLib_DeInit(USARTx);
+	return UARTLib_DeInit(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -50,9 +50,9 @@ UINT8_T  USARTTask_DeInit(USART_HandlerType*  USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index)
+UINT8_T UARTTask_ParamInit(UART_HandlerType *UARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index)
 {
-	return USARTLib_ParamInit(USARTx, id, idIndex, cmdIndex, d1Index, d2Index);
+	return UARTLib_ParamInit(UARTx, id, idIndex, cmdIndex, d1Index, d2Index);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -62,9 +62,9 @@ UINT8_T USARTTask_ParamInit(USART_HandlerType *USARTx, UINT8_T id, UINT8_T idInd
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_Read_Init(USART_HandlerType*  USARTx)
+UINT8_T  UARTTask_Read_Init(UART_HandlerType*  UARTx)
 {
-	return USARTLib_Read_Init(USARTx);
+	return UARTLib_Read_Init(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,9 +74,9 @@ UINT8_T  USARTTask_Read_Init(USART_HandlerType*  USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_GetState(USART_HandlerDef* USARTDefx)
+UINT8_T  UARTTask_GetState(UART_HandlerDef* UARTDefx)
 {
-	return USARTLib_GetState(USARTDefx);
+	return UARTLib_GetState(UARTDefx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -86,9 +86,9 @@ UINT8_T  USARTTask_GetState(USART_HandlerDef* USARTDefx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_ClearState(USART_HandlerDef* USARTDefx)
+UINT8_T  UARTTask_ClearState(UART_HandlerDef* UARTDefx)
 {
-	return USARTLib_ClearState(USARTDefx);
+	return UARTLib_ClearState(UARTDefx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -98,12 +98,12 @@ UINT8_T  USARTTask_ClearState(USART_HandlerDef* USARTDefx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_TimeTask_OverFlow(USART_HandlerType*USARTx)
+UINT8_T  UARTTask_TimeTask_OverFlow(UART_HandlerType*UARTx)
 {
 	//---发送
-	//USARTLib_TimeTask_OverFlow(USARTx, 0);
+	//UARTLib_TimeTask_OverFlow(UARTx, 0);
 	//---接收
-	return  USARTLib_TimeTask_OverFlow(USARTx, 1);
+	return  UARTLib_TimeTask_OverFlow(UARTx, 1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -113,9 +113,9 @@ UINT8_T  USARTTask_TimeTask_OverFlow(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_ITRead_8BitsTask(USART_HandlerType*USARTx, UINT8_T val)
+UINT8_T  UARTTask_ITRead_8BitsTask(UART_HandlerType*UARTx, UINT8_T val)
 {
-	return USARTLib_ITRead_8BitsTask(USARTx, val);
+	return UARTLib_ITRead_8BitsTask(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -125,9 +125,9 @@ UINT8_T  USARTTask_ITRead_8BitsTask(USART_HandlerType*USARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_ITRead_16BitsTask(USART_HandlerType*USARTx, UINT8_T val)
+UINT8_T  UARTTask_ITRead_16BitsTask(UART_HandlerType*UARTx, UINT8_T val)
 {
-	return USARTLib_ITRead_16BitsTask(USARTx, val);
+	return UARTLib_ITRead_16BitsTask(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -137,9 +137,9 @@ UINT8_T  USARTTask_ITRead_16BitsTask(USART_HandlerType*USARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_ITRead_Task(USART_HandlerType*USARTx, UINT8_T val)
+UINT8_T  UARTTask_ITRead_Task(UART_HandlerType*UARTx, UINT8_T val)
 {
-	return USARTLib_ITRead_Task(USARTx, val);
+	return UARTLib_ITRead_Task(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -149,9 +149,9 @@ UINT8_T  USARTTask_ITRead_Task(USART_HandlerType*USARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_Write_Init(USART_HandlerType*USARTx)
+UINT8_T UARTTask_Write_Init(UART_HandlerType*UARTx)
 {
-	return USARTLib_Write_Init(USARTx);
+	return UARTLib_Write_Init(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -161,9 +161,9 @@ UINT8_T USARTTask_Write_Init(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_ITWrite_TXETask(USART_HandlerType*USARTx)
+UINT8_T  UARTTask_ITWrite_TXETask(UART_HandlerType*UARTx)
 {
-	return USARTLib_ITWrite_TXETask(USARTx);
+	return UARTLib_ITWrite_TXETask(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -173,9 +173,9 @@ UINT8_T  USARTTask_ITWrite_TXETask(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_ITWrite_TCTask(USART_HandlerType*USARTx)
+UINT8_T  UARTTask_ITWrite_TCTask(UART_HandlerType*UARTx)
 {
-	return USARTLib_ITWrite_TCTask(USARTx);
+	return UARTLib_ITWrite_TCTask(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -185,9 +185,9 @@ UINT8_T  USARTTask_ITWrite_TCTask(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_RealTime_AddByte(USART_HandlerType*USARTx, UINT8_T val)
+UINT8_T  UARTTask_RealTime_AddByte(UART_HandlerType*UARTx, UINT8_T val)
 {
-	return USARTLib_RealTime_AddByte(USARTx, val);
+	return UARTLib_RealTime_AddByte(UARTx, val);
 }
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -196,9 +196,9 @@ UINT8_T  USARTTask_RealTime_AddByte(USART_HandlerType*USARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_RealTime_AddSize(USART_HandlerType*USARTx, UINT16_T val)
+UINT8_T  UARTTask_RealTime_AddSize(UART_HandlerType*UARTx, UINT16_T val)
 {
-	return USARTLib_RealTime_AddSize(USARTx, val);
+	return UARTLib_RealTime_AddSize(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -208,9 +208,9 @@ UINT8_T  USARTTask_RealTime_AddSize(USART_HandlerType*USARTx, UINT16_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_RealTime_AddCRC(USART_HandlerType*USARTx)
+UINT8_T  UARTTask_RealTime_AddCRC(UART_HandlerType*UARTx)
 {
-	return USARTLib_RealTime_AddCRC(USARTx);
+	return UARTLib_RealTime_AddCRC(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -220,9 +220,9 @@ UINT8_T  USARTTask_RealTime_AddCRC(USART_HandlerType*USARTx)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T	 USARTTask_FillMode_Init( USART_HandlerType*USARTx, UINT8_T isChildCmd)
+UINT8_T	 UARTTask_FillMode_Init( UART_HandlerType*UARTx, UINT8_T isChildCmd)
 {
-	return USARTLib_FillMode_Init(USARTx,isChildCmd);
+	return UARTLib_FillMode_Init(UARTx,isChildCmd);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -232,9 +232,9 @@ UINT8_T	 USARTTask_FillMode_Init( USART_HandlerType*USARTx, UINT8_T isChildCmd)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_FillMode_AddByte(USART_HandlerType*USARTx, UINT8_T val)
+UINT8_T UARTTask_FillMode_AddByte(UART_HandlerType*UARTx, UINT8_T val)
 {
-	return  USARTLib_FillMode_AddByte(USARTx, val);
+	return  UARTLib_FillMode_AddByte(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -244,9 +244,9 @@ UINT8_T USARTTask_FillMode_AddByte(USART_HandlerType*USARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_FillMode_AddData(USART_HandlerType*USARTx, UINT8_T *pVal, UINT16_T length)
+UINT8_T UARTTask_FillMode_AddData(UART_HandlerType*UARTx, UINT8_T *pVal, UINT16_T length)
 {
-	return  USARTLib_FillMode_AddData(USARTx, pVal, length);
+	return  UARTLib_FillMode_AddData(UARTx, pVal, length);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -256,9 +256,9 @@ UINT8_T USARTTask_FillMode_AddData(USART_HandlerType*USARTx, UINT8_T *pVal, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T	 USARTTask_FillMode_SetResultFlag(USART_HandlerType* USARTx, UINT8_T val)
+UINT8_T	 UARTTask_FillMode_SetResultFlag(UART_HandlerType* UARTx, UINT8_T val)
 {
-	return USARTLib_FillMode_SetResultFlag(USARTx, val);
+	return UARTLib_FillMode_SetResultFlag(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -268,9 +268,9 @@ UINT8_T	 USARTTask_FillMode_SetResultFlag(USART_HandlerType* USARTx, UINT8_T val
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_FillMode_AddIndexW(USART_HandlerType* USARTx, UINT16_T val)
+UINT8_T  UARTTask_FillMode_AddIndexW(UART_HandlerType* UARTx, UINT16_T val)
 {
-	return USARTLib_FillMode_AddIndexW(USARTx, val);
+	return UARTLib_FillMode_AddIndexW(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -280,9 +280,9 @@ UINT8_T  USARTTask_FillMode_AddIndexW(USART_HandlerType* USARTx, UINT16_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_CRCTask_Read(USART_HandlerType*USARTx)
+UINT8_T  UARTTask_CRCTask_Read(UART_HandlerType*UARTx)
 {
-	return USARTLib_CRCTask_Read(USARTx);
+	return UARTLib_CRCTask_Read(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -292,9 +292,9 @@ UINT8_T  USARTTask_CRCTask_Read(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_CRCTask_Write(USART_HandlerType*USARTx)
+UINT8_T UARTTask_CRCTask_Write(UART_HandlerType*UARTx)
 {
-	return USARTLib_CRCTask_Write(USARTx);
+	return UARTLib_CRCTask_Write(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -304,9 +304,9 @@ UINT8_T USARTTask_CRCTask_Write(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_FillMode_WriteByteSTART(USART_HandlerType*USARTx, UINT8_T isNeedID)
+UINT8_T UARTTask_FillMode_WriteByteSTART(UART_HandlerType*UARTx, UINT8_T isNeedID)
 {
-	return USARTLib_FillMode_WriteByteSTART(USARTx, isNeedID);
+	return UARTLib_FillMode_WriteByteSTART(UARTx, isNeedID);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -316,9 +316,9 @@ UINT8_T USARTTask_FillMode_WriteByteSTART(USART_HandlerType*USARTx, UINT8_T isNe
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  USARTTask_FillMode_WriteArraySTART(USART_HandlerType* USARTx, UINT8_T* pArrayVal, UINT16_T length)
+UINT8_T  UARTTask_FillMode_WriteArraySTART(UART_HandlerType* UARTx, UINT8_T* pArrayVal, UINT16_T length)
 {
-	return USARTLib_FillMode_WriteArraySTART(USARTx, pArrayVal, length);
+	return UARTLib_FillMode_WriteArraySTART(UARTx, pArrayVal, length);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -328,9 +328,9 @@ UINT8_T  USARTTask_FillMode_WriteArraySTART(USART_HandlerType* USARTx, UINT8_T* 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_PollMode_WriteByte(USART_HandlerType*USARTx, UINT8_T  val)
+UINT8_T UARTTask_PollMode_WriteByte(UART_HandlerType*UARTx, UINT8_T  val)
 {
-	return USARTLib_PollMode_WriteByte(USARTx, val);
+	return UARTLib_PollMode_WriteByte(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -340,9 +340,9 @@ UINT8_T USARTTask_PollMode_WriteByte(USART_HandlerType*USARTx, UINT8_T  val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal)
+UINT8_T UARTTask_PollMode_WriteData(UART_HandlerType*UARTx, char *pVal)
 {
-	return  USARTLib_PollMode_WriteData(USARTx, pVal);
+	return  UARTLib_PollMode_WriteData(UARTx, pVal);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -352,9 +352,9 @@ UINT8_T USARTTask_PollMode_WriteData(USART_HandlerType*USARTx, char *pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void USARTTask_PrintfClockFreq(USART_HandlerType*USARTx)
+void UARTTask_PrintfClockFreq(UART_HandlerType*UARTx)
 {
-	USARTLib_PrintfClockFreq(USARTx);
+	UARTLib_PrintfClockFreq(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -364,9 +364,9 @@ void USARTTask_PrintfClockFreq(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void USARTTask_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args)
+void UARTTask_PrintfLog(UART_HandlerType* UARTx, char* fmt, va_list args)
 {
-	USARTLib_PrintfLog(USARTx, fmt, args);
+	UARTLib_PrintfLog(UARTx, fmt, args);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -376,11 +376,11 @@ void USARTTask_PrintfLog(USART_HandlerType* USARTx, char* fmt, va_list args)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void USARTTask_Printf(USART_HandlerType* USARTx, char* fmt, ...)
+void UARTTask_Printf(UART_HandlerType* UARTx, char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	USARTTask_PrintfLog(USARTx, fmt, args);
+	UARTTask_PrintfLog(UARTx, fmt, args);
 	va_end(args);
 }
 
@@ -391,9 +391,9 @@ void USARTTask_Printf(USART_HandlerType* USARTx, char* fmt, ...)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_IT_TCTask(USART_HandlerType* USARTx)
+UINT8_T UARTTask_IT_TCTask(UART_HandlerType* UARTx)
 {
-	return USARTLib_IT_TCTask(USARTx);
+	return UARTLib_IT_TCTask(UARTx);
 }
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -402,9 +402,9 @@ UINT8_T USARTTask_IT_TCTask(USART_HandlerType* USARTx)
 //////输出参数:
 //////说		明： 校验设备的ID信息
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_DeviceID(USART_HandlerType*USARTx)
+UINT8_T UARTTask_DeviceID(UART_HandlerType*UARTx)
 {
-	return USARTLib_DeviceID(USARTx);
+	return UARTLib_DeviceID(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -414,9 +414,9 @@ UINT8_T USARTTask_DeviceID(USART_HandlerType*USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void USARTTask_IRQTask(USART_HandlerType* USARTx)
+void UARTTask_IRQTask(UART_HandlerType* UARTx)
 {
-	USARTLib_IRQTask(USARTx);
+	UARTLib_IRQTask(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -426,9 +426,9 @@ void USARTTask_IRQTask(USART_HandlerType* USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void USARTTask_Read_DMA_IRQTask(USART_HandlerType* USARTx)
+void UARTTask_Read_DMA_IRQTask(UART_HandlerType* UARTx)
 {
-	USARTLib_Read_DMA_IRQTask(USARTx);
+	UARTLib_Read_DMA_IRQTask(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -438,12 +438,12 @@ void USARTTask_Read_DMA_IRQTask(USART_HandlerType* USARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void USARTTask_Write_DMA_IRQTask(USART_HandlerType* USARTx)
+void UARTTask_Write_DMA_IRQTask(UART_HandlerType* UARTx)
 {
-	USARTLib_Write_DMA_IRQTask(USARTx);
+	UARTLib_Write_DMA_IRQTask(UARTx);
 }
 
-UINT16_T usartDebugCount=0;
+UINT16_T UARTDebugCount=0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -452,39 +452,39 @@ UINT16_T usartDebugCount=0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *))
+UINT8_T UARTTask_FuncTask(UART_HandlerType*UARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *))
 {
 	UINT16_T length = 0;
-	if (USARTx != NULL)
+	if (UARTx != NULL)
 	{
 		//---判断接收是否完成
-		if (USARTTask_GetState(&(USARTx->msgRxdHandler)) == 1)
+		if (UARTTask_GetState(&(UARTx->msgRxdHandler)) == 1)
 		{
 			//---CRC的校验
-			if ((USARTTask_CRCTask_Read(USARTx) == OK_0) && (USARTTask_DeviceID(USARTx) == OK_0))
+			if ((UARTTask_CRCTask_Read(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
 			{
 				//---数据接收完成
 				if (pFuncTask != NULL)
 				{
-					pFuncTask(USARTx->msgRxdHandler.pMsgVal, USARTx->msgTxdHandler.pMsgVal);
+					pFuncTask(UARTx->msgRxdHandler.pMsgVal, UARTx->msgTxdHandler.pMsgVal);
 				}
 				else
 				{
-					USARTTask_FillMode_AddData(USARTx, USARTx->msgRxdHandler.pMsgVal, USARTx->msgRxdHandler.msgCount);
+					UARTTask_FillMode_AddData(UARTx, UARTx->msgRxdHandler.pMsgVal, UARTx->msgRxdHandler.msgCount);
 					//---启动数据发送
-					USARTTask_FillMode_WriteByteSTART(USARTx, 0);
-					usartDebugCount++;
-					USARTTask_Printf(pUsart1, "TEST Count:%d\r\n", usartDebugCount);
+					UARTTask_FillMode_WriteByteSTART(UARTx, 0);
+					UARTDebugCount++;
+					UARTTask_Printf(pUart1, "TEST Count:%d\r\n", UARTDebugCount);
 				}
 			}
 			else
 			{
 				//---发生CRC校验错误
-				USARTTask_Printf(USARTx, (void*)"=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
+				UARTTask_Printf(UARTx, (void*)"=>>SP%d:CRC Check Error<<=\r\n", (UARTx->msgIndex - 1));
 			}
-			return USARTTask_Read_Init(USARTx);
+			return UARTTask_Read_Init(UARTx);
 		}
-		return USARTTask_TimeTask_OverFlow(USARTx);
+		return UARTTask_TimeTask_OverFlow(UARTx);
 	}
 	return ERROR_2;
 }
@@ -496,19 +496,19 @@ UINT8_T USARTTask_FuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *))
+UINT8_T UARTTask_DebugPollFuncTask(UART_HandlerType*UARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *))
 {
 	//UINT16_T length = 0;
 	UINT32_T freqVal = 0;
-	if (USARTx != NULL)
+	if (UARTx != NULL)
 	{
 		//---判断接收是否完成
-		if (USARTTask_GetState(&(USARTx->msgRxdHandler)) == 1)
+		if (UARTTask_GetState(&(UARTx->msgRxdHandler)) == 1)
 		{
 			//---CRC的校验
-			if ((USARTTask_CRCTask_Read(USARTx) == OK_0) && (USARTTask_DeviceID(USARTx) == OK_0))
+			if ((UARTTask_CRCTask_Read(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
 			{
-				if (USARTx->msgRxdHandler.pMsgVal[USART1_CMD_INDEX]==0xA4)
+				if (UARTx->msgRxdHandler.pMsgVal[UART1_CMD_INDEX]==0xA4)
 				{
 					//---获取时钟频率
 					TimerTask_CalcFreq_Task(0);
@@ -516,24 +516,24 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 					freqVal = (UINT32_T)(pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] * 100);
 				}
 
-				USARTTask_FillMode_Init(USARTx,0);
-				//USARTTask_FillMode_AddByte(USARTx, 0xA4);
-				USARTTask_FillMode_AddByte(USARTx, 0x00);
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 24));
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 16));
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 8));
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal ));
+				UARTTask_FillMode_Init(UARTx,0);
+				//UARTTask_FillMode_AddByte(UARTx, 0xA4);
+				UARTTask_FillMode_AddByte(UARTx, 0x00);
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(freqVal >> 24));
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(freqVal >> 16));
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(freqVal >> 8));
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(freqVal ));
 
-				USARTTask_FillMode_WriteByteSTART(USARTx, 0);
+				UARTTask_FillMode_WriteByteSTART(UARTx, 0);
 			}
 			else
 			{
 				//---发生CRC校验错误
-				USARTTask_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
+				UARTTask_Printf(UARTx, "=>>SP%d:CRC Check Error<<=\r\n", (UARTx->msgIndex - 1));
 			}
-			return USARTTask_Read_Init(USARTx);
+			return UARTTask_Read_Init(UARTx);
 		}
-		return USARTTask_TimeTask_OverFlow(USARTx);
+		return UARTTask_TimeTask_OverFlow(UARTx);
 	}
 	return ERROR_2;
 }
@@ -545,27 +545,27 @@ UINT8_T USARTTask_DebugPollFuncTask(USART_HandlerType*USARTx, UINT8_T(*pFuncTask
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T USARTTask_DebugFreqTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(UINT8_T*, UINT8_T*))
+UINT8_T UARTTask_DebugFreqTask(UART_HandlerType* UARTx, UINT8_T(*pFuncTask)(UINT8_T*, UINT8_T*))
 {
 	//UINT16_T length = 0;
 	UINT32_T freqVal = 0;
 	UINT8_T _return=0;
-	if (USARTx != NULL)
+	if (UARTx != NULL)
 	{
 		//---判断接收是否完成
-		if (USARTTask_GetState(&(USARTx->msgRxdHandler)) == 1)
+		if (UARTTask_GetState(&(UARTx->msgRxdHandler)) == 1)
 		{
 			//---CRC的校验
-			if ((USARTTask_CRCTask_Read(USARTx) == OK_0) && (USARTTask_DeviceID(USARTx) == OK_0))
+			if ((UARTTask_CRCTask_Read(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
 			{
-				if (USARTx->msgRxdHandler.pMsgVal[USART1_CMD_INDEX] == 0xA4)
+				if (UARTx->msgRxdHandler.pMsgVal[UART1_CMD_INDEX] == 0xA4)
 				{
 					//---是否重新上电
-					if (USARTx->msgRxdHandler.pMsgVal[USART1_CMD_INDEX + 1] != 0)
+					if (UARTx->msgRxdHandler.pMsgVal[UART1_CMD_INDEX + 1] != 0)
 					{
 						LM317_POWER_OFF;
-						freqVal= USARTx->msgRxdHandler.pMsgVal[USART1_CMD_INDEX + 2];
-						freqVal = (freqVal<<8)+USARTx->msgRxdHandler.pMsgVal[USART1_CMD_INDEX + 3];
+						freqVal= UARTx->msgRxdHandler.pMsgVal[UART1_CMD_INDEX + 2];
+						freqVal = (freqVal<<8)+UARTx->msgRxdHandler.pMsgVal[UART1_CMD_INDEX + 3];
 						//---初始化LM317做的可调电源
 						LM317Task_Init(0, freqVal);
 						LM317_POWER_ON;
@@ -586,26 +586,26 @@ UINT8_T USARTTask_DebugFreqTask(USART_HandlerType* USARTx, UINT8_T(*pFuncTask)(U
 					//---计算频率
 					freqVal = (UINT32_T)(pCalcFreq->msgFreqKHz[pCalcFreq->msgChannel] * 100);
 				}
-				//USARTTask_FillMode_AddByte(USARTx, 0xA4);
-				USARTTask_FillMode_Init(USARTx, 0);
-				USARTTask_FillMode_AddByte(USARTx, 0x00);
+				//UARTTask_FillMode_AddByte(UARTx, 0xA4);
+				UARTTask_FillMode_Init(UARTx, 0);
+				UARTTask_FillMode_AddByte(UARTx, 0x00);
 				//---读取校准字
-				USARTTask_FillMode_AddByte(USARTx, _return);
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 24));
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 16));
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal >> 8));
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(freqVal));
+				UARTTask_FillMode_AddByte(UARTx, _return);
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(freqVal >> 24));
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(freqVal >> 16));
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(freqVal >> 8));
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(freqVal));
 				//---启动数据发送
-				USARTTask_FillMode_WriteByteSTART(USARTx, 0);
+				UARTTask_FillMode_WriteByteSTART(UARTx, 0);
 			}
 			else
 			{
 				//---发生CRC校验错误
-				USARTTask_Printf(USARTx, "=>>SP%d:CRC Check Error<<=\r\n", (USARTx->msgIndex - 1));
+				UARTTask_Printf(UARTx, "=>>SP%d:CRC Check Error<<=\r\n", (UARTx->msgIndex - 1));
 			}
-			return USARTTask_Read_Init(USARTx);
+			return UARTTask_Read_Init(UARTx);
 		}
-		return USARTTask_TimeTask_OverFlow(USARTx);
+		return UARTTask_TimeTask_OverFlow(UARTx);
 	}
 	return ERROR_2;
 }

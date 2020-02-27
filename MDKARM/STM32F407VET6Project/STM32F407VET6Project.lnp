@@ -154,9 +154,9 @@
 "stm32f407vet6project\timer_cfg.o"
 "stm32f407vet6project\timer_lib.o"
 "stm32f407vet6project\timer_task.o"
-"stm32f407vet6project\usart_cfg.o"
-"stm32f407vet6project\usart_lib.o"
-"stm32f407vet6project\usart_task.o"
+"stm32f407vet6project\uart_cfg.o"
+"stm32f407vet6project\uart_lib.o"
+"stm32f407vet6project\uart_task.o"
 "stm32f407vet6project\w25qxx_cfg.o"
 "stm32f407vet6project\w25qxx_lib.o"
 "stm32f407vet6project\w25qxx_task.o"
@@ -251,6 +251,7 @@
 "stm32f407vet6project\dma_cfg.o"
 "stm32f407vet6project\dma_lib.o"
 "stm32f407vet6project\dma_task.o"
+"stm32f407vet6project\lms_filter.o"
 --library_type=microlib --strict --scatter "STM32F407VET6Project\STM32F407VET6Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

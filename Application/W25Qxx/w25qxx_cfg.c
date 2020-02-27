@@ -158,14 +158,7 @@ UINT8_T W25QXX_SPI_SW_Init(W25QXX_HandlerType *W25Qx)
 	//---Ó²¼þ¶Ë¿ÚµÄÅäÖÃ---Èí¼þÊµÏÖ
 	SPITask_MSW_GPIO_Init(&(W25Qx->msgSPI));
 	//---Ê±ÖÓ¿ÕÏÐÊ±µÄ¼«ÐÔ
-	if (W25Qx->msgSPI.msgCPOL == 0)
-	{
-		GPIO_OUT_0(W25Qx->msgSPI.msgSCK.msgPort, W25Qx->msgSPI.msgSCK.msgBit);
-	}
-	else
-	{
-		GPIO_OUT_1(W25Qx->msgSPI.msgSCK.msgPort, W25Qx->msgSPI.msgSCK.msgBit);
-	}
+	(W25Qx->msgSPI.msgCPOL == 0)?(GPIO_OUT_0(W25Qx->msgSPI.msgSCK.msgPort, W25Qx->msgSPI.msgSCK.msgBit)):(GPIO_OUT_1(W25Qx->msgSPI.msgSCK.msgPort, W25Qx->msgSPI.msgSCK.msgBit));
 	return OK_0;
 }
 
@@ -226,7 +219,6 @@ UINT8_T W25QXX_SPI_Init(W25QXX_HandlerType *W25Qx, void(*pFuncDelayus)(UINT32_T 
 	{
 		W25Qx->msgSPI.msgHwMode = 1;
 		W25QXX_SPI_HW_Init(W25Qx);
-
 		//---ÃüÁî¶ÁÐ´
 		W25QXX_SEND_CMD = W25QXX_SPI_HW_SendCmd;
 	}
@@ -234,37 +226,15 @@ UINT8_T W25QXX_SPI_Init(W25QXX_HandlerType *W25Qx, void(*pFuncDelayus)(UINT32_T 
 	{
 		W25Qx->msgSPI.msgHwMode = 0;
 		W25QXX_SPI_SW_Init(W25Qx);
-
 		//---ÃüÁî¶ÁÐ´
 		W25QXX_SEND_CMD = W25QXX_SPI_SW_SendCmd;
 	}
 	//---×¢²ámsÑÓÊ±Ê±¼ä
-	if (pFuncDelayms != NULL)
-	{
-		W25Qx->msgDelayms = pFuncDelayms;
-	}
-	else
-	{
-		W25Qx->msgDelayms = DelayTask_ms;
-	}
+	(pFuncDelayms != NULL)?(W25Qx->msgDelayms = pFuncDelayms):(W25Qx->msgDelayms = DelayTask_ms);
 	//---×¢²áusÑÓÊ±º¯Êý
-	if (pFuncDelayus != NULL)
-	{
-		W25Qx->msgSPI.msgDelayus = pFuncDelayus;
-	}
-	else
-	{
-		W25Qx->msgSPI.msgDelayus = DelayTask_us;
-	}
+	(pFuncDelayus != NULL)?(W25Qx->msgSPI.msgDelayus = pFuncDelayus):(W25Qx->msgSPI.msgDelayus = DelayTask_us);
 	//---×¢²áµÎ´ðº¯Êý
-	if (pFuncTimerTick != NULL)
-	{
-		W25Qx->msgSPI.msgTimeTick = pFuncTimerTick;
-	}
-	else
-	{
-		W25Qx->msgSPI.msgTimeTick = SysTickTask_GetTick;
-	}	
+	(pFuncTimerTick != NULL)?(W25Qx->msgSPI.msgTimeTick = pFuncTimerTick):(W25Qx->msgSPI.msgTimeTick = SysTickTask_GetTick);
 #ifdef WM25QXX_SPI_USE_HWWP
 	if (W25Qx->msgWP.msgPort != NULL)
 	{

@@ -25,14 +25,7 @@ UINT8_T OneWire_Init(OneWire_HandlerType *OneWirex, void(*pFuncDelayus)(UINT32_T
 	//---端口输出高电平
 	GPIO_OUT_1(OneWirex->msgDAT.msgPort, OneWirex->msgDAT.msgBit);
 	//---延时函数
-	if (pFuncDelayus != NULL)
-	{
-		OneWirex->msgDelayus = pFuncDelayus;
-	}
-	else
-	{
-		OneWirex->msgDelayus = DelayTask_us;
-	}
+	(pFuncDelayus != NULL)?(OneWirex->msgDelayus = pFuncDelayus):(OneWirex->msgDelayus = DelayTask_us);
 	return OK_0;
 }
 

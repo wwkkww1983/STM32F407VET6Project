@@ -94,8 +94,8 @@ stm32f407vet6project/main.o: ..\Application\APP\main.c \
   ..\Application\RFASK\rfask_task.h ..\Application\RFASK\rfask_lib.h \
   ..\Application\RFASK\rfask_cfg.h ..\Application\WM8510\wm8510_task.h \
   ..\Application\WM8510\wm8510_lib.h ..\Application\WM8510\wm8510_cfg.h \
-  ..\Application\USART\usart_task.h ..\Application\USART\usart_lib.h \
-  ..\Application\USART\usart_cfg.h ..\Application\DMA\dma_task.h \
+  ..\Application\UART\uart_task.h ..\Application\UART\uart_lib.h \
+  ..\Application\UART\uart_cfg.h ..\Application\DMA\dma_task.h \
   ..\Application\DMA\dma_lib.h ..\Application\DMA\dma_cfg.h \
   ..\Application\Power\power_task.h ..\Application\Power\power_lib.h \
   ..\Application\Power\power_cfg.h ..\Application\DataBus\data_bus.h \

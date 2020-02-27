@@ -544,7 +544,7 @@
 
   <Group>
     <GroupName>Drivers/STM32F4xx_HAL_Driver</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -3120,7 +3120,7 @@
 
   <Group>
     <GroupName>Application/Key</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -4567,7 +4567,7 @@
   </Group>
 
   <Group>
-    <GroupName>Application/USART</GroupName>
+    <GroupName>Application/UART</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -4579,8 +4579,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\USART\usart_cfg.c</PathWithFileName>
-      <FilenameWithoutPath>usart_cfg.c</FilenameWithoutPath>
+      <PathWithFileName>..\Application\UART\uart_cfg.c</PathWithFileName>
+      <FilenameWithoutPath>uart_cfg.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -4591,8 +4591,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\USART\usart_cfg.h</PathWithFileName>
-      <FilenameWithoutPath>usart_cfg.h</FilenameWithoutPath>
+      <PathWithFileName>..\Application\UART\uart_cfg.h</PathWithFileName>
+      <FilenameWithoutPath>uart_cfg.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -4603,8 +4603,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\USART\usart_lib.c</PathWithFileName>
-      <FilenameWithoutPath>usart_lib.c</FilenameWithoutPath>
+      <PathWithFileName>..\Application\UART\uart_lib.c</PathWithFileName>
+      <FilenameWithoutPath>uart_lib.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -4615,8 +4615,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\USART\usart_lib.h</PathWithFileName>
-      <FilenameWithoutPath>usart_lib.h</FilenameWithoutPath>
+      <PathWithFileName>..\Application\UART\uart_lib.h</PathWithFileName>
+      <FilenameWithoutPath>uart_lib.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -4627,8 +4627,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\USART\usart_task.c</PathWithFileName>
-      <FilenameWithoutPath>usart_task.c</FilenameWithoutPath>
+      <PathWithFileName>..\Application\UART\uart_task.c</PathWithFileName>
+      <FilenameWithoutPath>uart_task.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -4639,8 +4639,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Application\USART\usart_task.h</PathWithFileName>
-      <FilenameWithoutPath>usart_task.h</FilenameWithoutPath>
+      <PathWithFileName>..\Application\UART\uart_task.h</PathWithFileName>
+      <FilenameWithoutPath>uart_task.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6200,7 +6200,7 @@
 
   <Group>
     <GroupName>Application/EXTI</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -7185,6 +7185,38 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\Application\DMA\dma_task.h</PathWithFileName>
       <FilenameWithoutPath>dma_task.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>Application/LMS</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>89</GroupNumber>
+      <FileNumber>515</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Application\LMS\lms_filter.c</PathWithFileName>
+      <FilenameWithoutPath>lms_filter.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>89</GroupNumber>
+      <FileNumber>516</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Application\LMS\lms_filter.h</PathWithFileName>
+      <FilenameWithoutPath>lms_filter.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

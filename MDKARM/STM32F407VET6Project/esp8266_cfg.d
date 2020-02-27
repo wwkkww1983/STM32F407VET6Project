@@ -59,8 +59,8 @@ stm32f407vet6project/esp8266_cfg.o: ..\Application\ESP8266\esp8266_cfg.c \
   ..\Application\IWDG\iwdg_task.h ..\Application\IWDG\iwdg_lib.h \
   ..\Application\IWDG\iwdg_cfg.h ..\Application\SysTick\systick_task.h \
   ..\Application\SysTick\systick_lib.h \
-  ..\Application\SysTick\systick_cfg.h ..\Application\USART\usart_task.h \
-  ..\Application\USART\usart_lib.h ..\Application\USART\usart_cfg.h \
+  ..\Application\SysTick\systick_cfg.h ..\Application\UART\uart_task.h \
+  ..\Application\UART\uart_lib.h ..\Application\UART\uart_cfg.h \
   ..\Application\GPIO\gpio_task.h ..\Application\GPIO\gpio_lib.h \
   ..\Application\GPIO\gpio_cfg.h ..\Application\CRC\crc_task.h \
   ..\Application\CRC\crc_lib.h ..\Application\CRC\crc_cfg.h \

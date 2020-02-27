@@ -1,6 +1,6 @@
-stm32f407vet6project/usart_lib.o: ..\Application\USART\usart_lib.c \
-  ..\Application\USART\usart_lib.h ..\Application\USART\usart_cfg.h \
-  ..\Complier\complier_lib.h ..\Complier\complier_cfg.h \
+stm32f407vet6project/uart_cfg.o: ..\Application\UART\uart_cfg.c \
+  ..\Application\UART\uart_cfg.h ..\Complier\complier_lib.h \
+  ..\Complier\complier_cfg.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \

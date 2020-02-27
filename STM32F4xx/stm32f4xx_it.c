@@ -224,7 +224,7 @@ void WWDG_IRQHandler()
 //////////////////////////////////////////////////////////////////////////////
 void USART1_IRQHandler(void)
 {
-	USARTTask_IRQTask(pUsart1);
+	UARTTask_IRQTask(pUart1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -236,7 +236,7 @@ void USART1_IRQHandler(void)
 //////////////////////////////////////////////////////////////////////////////
 void USART3_IRQHandler(void)
 {
-	USARTTask_IRQTask(pUsart3);
+	UARTTask_IRQTask(pUart3);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -321,7 +321,7 @@ void DMA2_Stream2_IRQHandler(void)
 	//if (LL_DMA_IsActiveFlag_TC2(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_2)))
 	if (LL_DMA_IsActiveIT_TC(DMA2, LL_DMA_STREAM_2))
 	{
-		USARTTask_Read_DMA_IRQTask(pUsart1);
+		UARTTask_Read_DMA_IRQTask(pUart1);
 	}
 }
 
@@ -337,7 +337,7 @@ void DMA2_Stream7_IRQHandler(void)
 	//if (LL_DMA_IsActiveFlag_TC7(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_7)))
 	if (LL_DMA_IsActiveIT_TC(DMA2, LL_DMA_STREAM_7))
 	{
-		USARTTask_Write_DMA_IRQTask(pUsart1);
+		UARTTask_Write_DMA_IRQTask(pUart1);
 	}
 }
 
@@ -353,7 +353,7 @@ void DMA1_Stream1_IRQHandler(void)
 	//if (LL_DMA_IsActiveFlag_TC1(DMA1) && (LL_DMA_IsEnabledIT_TC(DMA1, LL_DMA_STREAM_1)))
 	if (LL_DMA_IsActiveIT_TC(DMA1, LL_DMA_STREAM_1))
 	{
-		USARTTask_Read_DMA_IRQTask(pUsart3);
+		UARTTask_Read_DMA_IRQTask(pUart3);
 	}
 }
 
@@ -369,7 +369,7 @@ void DMA1_Stream3_IRQHandler(void)
 	//if (LL_DMA_IsActiveFlag_TC3(DMA1) && (LL_DMA_IsEnabledIT_TC(DMA1, LL_DMA_STREAM_3)))
 	if (LL_DMA_IsActiveIT_TC(DMA1, LL_DMA_STREAM_3))
 	{
-		USARTTask_Write_DMA_IRQTask(pUsart3);
+		UARTTask_Write_DMA_IRQTask(pUart3);
 	}
 }
 
@@ -397,7 +397,7 @@ void EXTI3_IRQHandler(void)
 	//if (GPIO_GET_STATE(GPIOA,LL_GPIO_PIN_0)!=0)
 	{
 		LL_EXTI_DisableIT_0_31(LL_EXTI_LINE_3);
-		USARTTask_Printf(pUsart1, "PE3发生低电平中断\r\n");
+		//USARTTask_Printf(pUsart1, "PE3发生低电平中断\r\n");
 		LL_EXTI_EnableIT_0_31(LL_EXTI_LINE_3);
 		LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
 	}

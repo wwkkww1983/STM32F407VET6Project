@@ -66,8 +66,8 @@ stm32f407vet6project/jtag_task.o: ..\Application\JTAG\jtag_task.c \
   ..\Application\SPI\spi_lib.h ..\Application\SPI\spi_cfg.h \
   ..\Application\Delay\delay_task.h ..\Application\Delay\delay_lib.h \
   ..\Application\Delay\delay_cfg.h ..\Application\MyMalloc\my_malloc.h \
-  ..\Application\HardWare\hw_cfg.h ..\Application\USART\usart_task.h \
-  ..\Application\USART\usart_lib.h ..\Application\USART\usart_cfg.h \
+  ..\Application\HardWare\hw_cfg.h ..\Application\UART\uart_task.h \
+  ..\Application\UART\uart_lib.h ..\Application\UART\uart_cfg.h \
   ..\Application\CRC\crc_task.h ..\Application\CRC\crc_lib.h \
   ..\Application\CRC\crc_cfg.h ..\Application\DMA\dma_task.h \
   ..\Application\DMA\dma_lib.h ..\Application\DMA\dma_cfg.h \

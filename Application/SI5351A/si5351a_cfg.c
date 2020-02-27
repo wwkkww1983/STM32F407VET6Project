@@ -829,7 +829,6 @@ UINT8_T SI5351A_I2C_Init(SI5351A_HandlerType* SI5351Ax, void(*pFuncDelayus)(UINT
 	{
 		return ERROR_1;
 	}
-
 	//---判断是硬件I2C还是软件I2C
 	(isHWI2C!=0)?(_return= I2CTask_MHW_Init(&(SI5351Ax->msgI2C),pFuncDelayus, pFuncTimerTick)):(_return = I2CTask_MSW_Init(&(SI5351Ax->msgI2C), pFuncDelayus,pFuncTimerTick));
 	_return = SI5351A_I2C_ConfigInit(SI5351Ax);

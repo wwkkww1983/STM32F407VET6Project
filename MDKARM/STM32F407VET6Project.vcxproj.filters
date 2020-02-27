@@ -145,6 +145,9 @@
     <Filter Include="Application\LIN">
       <UniqueIdentifier>{2BB6296C-9741-9730-A052-1A250C5DF330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\LMS">
+      <UniqueIdentifier>{B4B6296C-2042-9730-2953-1A25955DF330}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\MAX961x">
       <UniqueIdentifier>{86EE4474-F24F-2282-7BBD-6834E71D5941}</UniqueIdentifier>
     </Filter>
@@ -223,8 +226,8 @@
     <Filter Include="Application\Timer">
       <UniqueIdentifier>{69CE121E-D5E4-10B4-1E5C-9CD58AB1E13B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\USART">
-      <UniqueIdentifier>{D718181E-432F-16B4-8CA6-A1D5F8FBE63B}</UniqueIdentifier>
+    <Filter Include="Application\UART">
+      <UniqueIdentifier>{C44965F1-B042-8443-D974-69C8C5CC634F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\USB">
       <UniqueIdentifier>{B2DD296C-1E69-9730-277A-1A259384F330}</UniqueIdentifier>
@@ -675,6 +678,9 @@
     <ClInclude Include="..\Application\LIN\lin_task.h">
       <Filter>Application\LIN</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\LMS\lms_filter.h">
+      <Filter>Application\LMS</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\MAX961x\max961x_cfg.h">
       <Filter>Application\MAX961x</Filter>
     </ClInclude>
@@ -888,14 +894,14 @@
     <ClInclude Include="..\Application\Timer\timer_task.h">
       <Filter>Application\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\USART\usart_cfg.h">
-      <Filter>Application\USART</Filter>
+    <ClInclude Include="..\Application\UART\uart_cfg.h">
+      <Filter>Application\UART</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\USART\usart_lib.h">
-      <Filter>Application\USART</Filter>
+    <ClInclude Include="..\Application\UART\uart_lib.h">
+      <Filter>Application\UART</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\USART\usart_task.h">
-      <Filter>Application\USART</Filter>
+    <ClInclude Include="..\Application\UART\uart_task.h">
+      <Filter>Application\UART</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\USB\USB\usb_cfg.h">
       <Filter>Application\USB\USB</Filter>
@@ -1457,6 +1463,9 @@
     <ClCompile Include="..\Application\LIN\lin_task.c">
       <Filter>Application\LIN</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\LMS\lms_filter.c">
+      <Filter>Application\LMS</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\MAX961x\max961x_cfg.c">
       <Filter>Application\MAX961x</Filter>
     </ClCompile>
@@ -1670,14 +1679,14 @@
     <ClCompile Include="..\Application\Timer\timer_task.c">
       <Filter>Application\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\USART\usart_cfg.c">
-      <Filter>Application\USART</Filter>
+    <ClCompile Include="..\Application\UART\uart_cfg.c">
+      <Filter>Application\UART</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\USART\usart_lib.c">
-      <Filter>Application\USART</Filter>
+    <ClCompile Include="..\Application\UART\uart_lib.c">
+      <Filter>Application\UART</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\USART\usart_task.c">
-      <Filter>Application\USART</Filter>
+    <ClCompile Include="..\Application\UART\uart_task.c">
+      <Filter>Application\UART</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\USB\USB\usb_cfg.c">
       <Filter>Application\USB\USB</Filter>

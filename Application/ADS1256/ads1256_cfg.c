@@ -209,14 +209,7 @@ UINT8_T ADS1256_SPI_SW_Init(ADS1256_HandlerType *ADS1256x)
 	//---硬件端口的配置---软件实现
 	SPITask_MSW_GPIO_Init(&(ADS1256x->msgSPI));	
 	//---时钟线的极性
-	if (ADS1256x->msgSPI.msgCPOL == 0)
-	{
-		GPIO_OUT_0(ADS1256x->msgSPI.msgSCK.msgPort, ADS1256x->msgSPI.msgSCK.msgBit);
-	}
-	else
-	{
-		GPIO_OUT_1(ADS1256x->msgSPI.msgSCK.msgPort, ADS1256x->msgSPI.msgSCK.msgBit);
-	}
+	(ADS1256x->msgSPI.msgCPOL == 0)?(GPIO_OUT_0(ADS1256x->msgSPI.msgSCK.msgPort, ADS1256x->msgSPI.msgSCK.msgBit)):(GPIO_OUT_1(ADS1256x->msgSPI.msgSCK.msgPort, ADS1256x->msgSPI.msgSCK.msgBit));
 	//---ADS1256的SPI的最高时钟为输入时钟的四分之一，因此SPI的时钟不能过快，否则容易通讯失败
 	if (ADS1256x->msgSPI.msgPluseWidth < 1)
 	{

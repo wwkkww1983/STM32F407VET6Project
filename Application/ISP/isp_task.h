@@ -6,7 +6,7 @@ extern "C" {
 #endif
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "isp_lib.h"
-	#include "usart_task.h"
+	#include "uart_task.h"
 	#include "power_task.h"
 	#include "adc_Task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -90,23 +90,23 @@ extern "C" {
 	UINT8_T ISPTask_WriteChipPower(ISP_HandlerType* ISPx, UINT8_T* pVal);
 
 	//===带通讯端口的函数定义
-	UINT8_T ISPTask_USARTCmd_OpenAndClose(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_EraseChip(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_ReadChipID(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_ReadChipCalibration(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_ReadChipFuseAndLock(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_WriteChipLock(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_ReadChipRom(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_SetProgClok(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_ReadChipFlash(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_WriteChipFlashPage(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_ReadChipEeprom(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_WriteChipEeprom(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
-	UINT8_T ISPTask_USARTCmd_ChildTask(ISP_HandlerType* ISPx, USART_HandlerType* USARTx, UINT8_T isChildCmd);
-	UINT8_T ISPTask_USARTCmd_ParentTask(ISP_HandlerType* ISPx, USART_HandlerType* USARTx, UINT8_T isChildCmd);
-	UINT8_T ISPTask_USARTCmd_Task(ISP_HandlerType* ISPx, USART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_OpenAndClose(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_EraseChip(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_ReadChipID(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_ReadChipCalibration(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_ReadChipFuseAndLock(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_WriteChipFuse(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_WriteChipLock(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_ReadChipRom(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_SetProgClok(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_ReadChipFlash(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_WriteChipFlashPage(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_ReadChipEeprom(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_WriteChipEeprom(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
+	UINT8_T ISPTask_UARTCmd_ChildTask(ISP_HandlerType* ISPx, UART_HandlerType* USARTx, UINT8_T isChildCmd);
+	UINT8_T ISPTask_UARTCmd_ParentTask(ISP_HandlerType* ISPx, UART_HandlerType* USARTx, UINT8_T isChildCmd);
+	UINT8_T ISPTask_UARTCmd_Task(ISP_HandlerType* ISPx, UART_HandlerType* USARTx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

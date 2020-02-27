@@ -41,7 +41,7 @@ extern "C" {
 
 	/* Includes ------------------------------------------------------------------*/
 #include "systick_task.h"
-#include "usart_task.h"
+#include "uart_task.h"
 #include "random_task.h"
 #include "adc_task.h"
 #include "css_task.h"

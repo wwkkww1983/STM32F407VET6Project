@@ -503,7 +503,7 @@ UINT8_T SysRTC_HardRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T
 		{
 			
 		}
-		//---设置RTC时钟
+		//---设置RTC时钟，外部时钟源
 		LL_RCC_SetRTCClockSource(LL_RCC_RTC_CLKSOURCE_LSE);
 		//---使能RTC
 		LL_RCC_EnableRTC();

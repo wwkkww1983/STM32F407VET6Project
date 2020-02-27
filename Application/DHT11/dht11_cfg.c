@@ -105,32 +105,11 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 	//---GPIO的初始化
 	DHT11_GPIO_Init(DHTxx);
 	//---us延时
-	if (pFuncDelayus != NULL)
-	{
-		DHTxx->msgDelayus = pFuncDelayus;
-	}
-	else
-	{
-		DHTxx->msgDelayus = DelayTask_us;
-	}
+	(pFuncDelayus != NULL)?(DHTxx->msgDelayus = pFuncDelayus):(DHTxx->msgDelayus = DelayTask_us);
 	//---ms延时
-	if (pFuncDelayms != NULL)
-	{
-		DHTxx->msgDelayms = pFuncDelayms;
-	}
-	else
-	{
-		DHTxx->msgDelayms = DelayTask_ms;
-	}
+	(pFuncDelayms != NULL)?(DHTxx->msgDelayms = pFuncDelayms):(DHTxx->msgDelayms = DelayTask_ms);
 	//---注册滴答函数
-	if (pFuncTimerTick != NULL)
-	{
-		DHTxx->msgTimeTick = pFuncTimerTick;
-	}
-	else
-	{
-		DHTxx->msgTimeTick = SysTickTask_GetTick;
-	}
+	(pFuncTimerTick != NULL)?(DHTxx->msgTimeTick = pFuncTimerTick):(DHTxx->msgTimeTick = SysTickTask_GetTick);
 	//---当前时间
 	DHTxx->msgRecordTick= DHTxx->msgTimeTick();
 	return OK_0;
