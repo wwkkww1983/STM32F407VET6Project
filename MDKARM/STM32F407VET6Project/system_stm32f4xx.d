@@ -1,5 +1,7 @@
-stm32f407vet6project/system_stm32f4xx.o: ..\STM32F4xx\system_stm32f4xx.c \
-  ..\STM32F4xx\stm32f4xx.h ..\STM32F4xx\stm32f407xx.h \
+stm32f407vet6project/system_stm32f4xx.o: \
+  ..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.c \
+  ..\DriversEx\STM32F4xx\stm32f4xx.h \
+  ..\DriversEx\STM32F4xx\stm32f407xx.h \
   ..\Drivers\CMSIS\Include\core_cm4.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
   ..\Drivers\CMSIS\Include\cmsis_version.h \
@@ -7,12 +9,12 @@ stm32f407vet6project/system_stm32f4xx.o: ..\STM32F4xx\system_stm32f4xx.c \
   ..\Drivers\CMSIS\Include\cmsis_armclang.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_acle.h \
-  ..\Drivers\CMSIS\Include\mpu_armv7.h ..\STM32F4xx\system_stm32f4xx.h \
+  ..\Drivers\CMSIS\Include\mpu_armv7.h \
+  ..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h \
-  ..\STM32F4xx\stm32f4xx_hal_conf.h \
+  ..\DriversEx\STM32F4xx\stm32f4xx_hal_conf.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_def.h \
-  ..\STM32F4xx\stm32f4xx.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc_ex.h \
@@ -26,7 +28,7 @@ stm32f407vet6project/system_stm32f4xx.o: ..\STM32F4xx\system_stm32f4xx.c \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ramfunc.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h \
-  ..\STM32F4xx\stm32f4xx_ll.h \
+  ..\DriversEx\STM32F4xx\stm32f4xx_ll.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_adc.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_bus.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_cortex.h \

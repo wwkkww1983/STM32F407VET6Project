@@ -367,7 +367,7 @@
                     <state>$PROJ_DIR$\..\STARTUP\EWARM</state>
                     <state>$PROJ_DIR$\..\Complier</state>
                     <state>$PROJ_DIR$\..\Doc</state>
-                    <state>$PROJ_DIR$\..\STM32F4xx</state>
+                    <state>$PROJ_DIR$\..\DriversEx\CMSIS\STM32F4</state>
                     <state>$PROJ_DIR$/../Application/AD5593</state>
                     <state>$PROJ_DIR$/../Application/ADC</state>
                     <state>$PROJ_DIR$/../Application/ADS868x</state>
@@ -400,7 +400,7 @@
                     <state>$PROJ_DIR$/../Application/SPI</state>
                     <state>$PROJ_DIR$/../Application/SysTick</state>
                     <state>$PROJ_DIR$/../Application/Timer</state>
-                    <state>$PROJ_DIR$/../Application/USART</state>
+                    <state>$PROJ_DIR$\..\Application\UART</state>
                     <state>$PROJ_DIR$/../Application/WM8510</state>
                     <state>$PROJ_DIR$/../Application/NRF2401</state>
                     <state>$PROJ_DIR$\..\Application\OLED</state>
@@ -441,6 +441,8 @@
                     <state>$PROJ_DIR$\..\Application\MPU6050</state>
                     <state>$PROJ_DIR$\..\Application\DMA</state>
                     <state>$PROJ_DIR$\..\Application\EXTI</state>
+                    <state>$PROJ_DIR$\..\DriversEx\Complier</state>
+                    <state>$PROJ_DIR$\..\DriversEx\STM32F4xx</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2583,24 +2585,24 @@
             </file>
         </group>
         <group>
-            <name>USART</name>
+            <name>UART</name>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_cfg.c</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_cfg.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_cfg.h</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_cfg.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_lib.c</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_lib.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_lib.h</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_lib.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_task.c</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_task.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_task.h</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_task.h</name>
             </file>
         </group>
         <group>
@@ -2759,10 +2761,10 @@
         <group>
             <name>CMSIS</name>
             <file>
-                <name>$PROJ_DIR$\..\STM32F4xx\system_stm32f4xx.c</name>
+                <name>$PROJ_DIR$\..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\STM32F4xx\system_stm32f4xx.h</name>
+                <name>$PROJ_DIR$\..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.h</name>
             </file>
         </group>
         <group>
@@ -2902,6 +2904,42 @@
         </group>
     </group>
     <group>
+        <name>DriversEx</name>
+        <group>
+            <name>Complier</name>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\Complier\stm32_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\Complier\stm32_cfg.h</name>
+            </file>
+        </group>
+        <group>
+            <name>STM32F4</name>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32_assert.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f407xx.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx_hal_conf.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx_it.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx_it.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx_ll.h</name>
+            </file>
+        </group>
+    </group>
+    <group>
         <name>STARTUP</name>
         <group>
             <name>EWARM</name>
@@ -2909,35 +2947,5 @@
                 <name>$PROJ_DIR$\..\STARTUP\EWARM\STM32F4\startup_stm32f407xx.s</name>
             </file>
         </group>
-    </group>
-    <group>
-        <name>STM32F4xx</name>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32_assert.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32_cfg.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32_cfg.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f407xx.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx_hal_conf.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx_it.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx_it.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx_ll.h</name>
-        </file>
     </group>
 </project>

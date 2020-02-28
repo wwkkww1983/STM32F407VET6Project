@@ -268,14 +268,20 @@
     <Filter Include="Drivers\STM32F4xx_HAL_Driver">
       <UniqueIdentifier>{B53EBC8A-A1F9-AB36-4AB1-2481364BF6C6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DriversEx">
+      <UniqueIdentifier>{2121C3C5-8D8B-773C-D6C9-28E242735591}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DriversEx\Complier">
+      <UniqueIdentifier>{0BCE3272-F7B1-F3C7-6012-EE1A4C15DE49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DriversEx\STM32F4xx">
+      <UniqueIdentifier>{9357A2E3-FFB8-7FF1-8826-C6A3F486B6B0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="STARTUP">
       <UniqueIdentifier>{384599C1-A424-185D-AD3C-A333199B7EBE}</UniqueIdentifier>
     </Filter>
     <Filter Include="STARTUP\MDKARM">
       <UniqueIdentifier>{2358C722-0F26-BB28-F8B9-2B4FE426978D}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="STM32F4xx">
-      <UniqueIdentifier>{C87EFADD-34E9-AE54-7D27-60FAE9D08CA9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1041,29 +1047,29 @@
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_wwdg.h">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32_assert.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32_cfg.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f407xx.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f4xx.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f4xx_hal_conf.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f4xx_it.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f4xx_ll.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\system_stm32f4xx.h">
+    <ClInclude Include="..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.h">
       <Filter>Drivers\CMSIS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\Complier\stm32_cfg.h">
+      <Filter>DriversEx\Complier</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32_assert.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f407xx.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f4xx.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f4xx_hal_conf.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f4xx_it.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f4xx_ll.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1814,17 +1820,17 @@
     <ClCompile Include="..\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_utils.c">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClCompile>
+    <ClCompile Include="..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.c">
+      <Filter>Drivers\CMSIS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DriversEx\Complier\stm32_cfg.c">
+      <Filter>DriversEx\Complier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DriversEx\STM32F4xx\stm32f4xx_it.c">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClCompile>
     <ClCompile Include="..\STARTUP\MDKARM\STM32F4\startup_stm32f407xx.s">
       <Filter>STARTUP\MDKARM</Filter>
-    </ClCompile>
-    <ClCompile Include="..\STM32F4xx\stm32_cfg.c">
-      <Filter>STM32F4xx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\STM32F4xx\stm32f4xx_it.c">
-      <Filter>STM32F4xx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\STM32F4xx\system_stm32f4xx.c">
-      <Filter>Drivers\CMSIS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

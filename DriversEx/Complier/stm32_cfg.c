@@ -1,5 +1,6 @@
 #include "stm32_cfg.h"
 
+//===变量定义
 HardFault_HandlerType	g_HardFaultErrMsg = { 0 };
 pHardFault_HandlerType	pHardFaultErrMsg  = &g_HardFaultErrMsg;
 
@@ -870,73 +871,67 @@ void LL_GPIO_TogglePins(GPIO_TypeDef* GPIOx, UINT32_T PinMask)
 void LL_DMA_ClearFlag_HT(DMA_TypeDef* DMAx,UINT32_T channelOrStream )
 {
 	#ifdef USE_MCU_STM32F1
-		if (channelOrStream == LL_DMA_CHANNEL_0)
-		{
+	switch (channelOrStream)
+	{
+		case LL_DMA_CHANNEL_0:
 			LL_DMA_ClearFlag_HT0(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_1)
-		{
+			break;
+		case LL_DMA_CHANNEL_1:
 			LL_DMA_ClearFlag_HT1(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_2)
-		{
+			break;
+		case LL_DMA_CHANNEL_2:
 			LL_DMA_ClearFlag_HT2(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_3)
-		{
+			break;
+		case LL_DMA_CHANNEL_3:
 			LL_DMA_ClearFlag_HT3(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_4)
-		{
+			break;
+		case LL_DMA_CHANNEL_4:
 			LL_DMA_ClearFlag_HT4(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_5)
-		{
+			break;
+		case LL_DMA_CHANNEL_5:
 			LL_DMA_ClearFlag_HT5(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_6)
-		{
+			break;
+		case LL_DMA_CHANNEL_6:
 			LL_DMA_ClearFlag_HT6(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_7)
-		{
+			break;
+		case LL_DMA_CHANNEL_7:
 			LL_DMA_ClearFlag_HT7(DMAx);
-		}
+			break;
+		default:
+			break;
+	}
 	#elif defined(USE_MCU_STM32F4)
-		if (channelOrStream == LL_DMA_STREAM_0)
-		{
+	switch (channelOrStream)
+	{
+		case  LL_DMA_STREAM_0:
 			LL_DMA_ClearFlag_HT0(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_1)
-		{
+			break;
+		case  LL_DMA_STREAM_1:
 			LL_DMA_ClearFlag_HT1(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_2)
-		{
+			break;
+		case  LL_DMA_STREAM_2:
 			LL_DMA_ClearFlag_HT2(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_3)
-		{
+			break;
+		case  LL_DMA_STREAM_3:
 			LL_DMA_ClearFlag_HT3(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_4)
-		{
+			break;
+		case  LL_DMA_STREAM_4:
 			LL_DMA_ClearFlag_HT4(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_5)
-		{
+			break;
+		case  LL_DMA_STREAM_5:
 			LL_DMA_ClearFlag_HT5(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_6)
-		{
+			break;
+		case  LL_DMA_STREAM_6:
 			LL_DMA_ClearFlag_HT6(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_7)
-		{
+			break;
+		case  LL_DMA_STREAM_7:
 			LL_DMA_ClearFlag_HT7(DMAx);
-		}
+			break;
+		default:
+			break;
+	}
 	#else
-		#error "不支持的STM32芯片"
+	#error "不支持的STM32芯片"
 	#endif
 }
 
@@ -950,71 +945,65 @@ void LL_DMA_ClearFlag_HT(DMA_TypeDef* DMAx,UINT32_T channelOrStream )
 void LL_DMA_ClearFlag_TC(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 {
 	#ifdef USE_MCU_STM32F1
-		if (channelOrStream == LL_DMA_CHANNEL_0)
-		{
+	switch (channelOrStream)
+	{
+		case LL_DMA_CHANNEL_0:
 			LL_DMA_ClearFlag_TC0(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_1)
-		{
+			break;
+		case LL_DMA_CHANNEL_1:
 			LL_DMA_ClearFlag_TC1(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_2)
-		{
+			break;
+		case LL_DMA_CHANNEL_2:
 			LL_DMA_ClearFlag_TC2(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_3)
-		{
+			break;
+		case LL_DMA_CHANNEL_3:
 			LL_DMA_ClearFlag_TC3(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_4)
-		{
+			break;
+		case LL_DMA_CHANNEL_4:
 			LL_DMA_ClearFlag_TC4(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_5)
-		{
+			break;
+		case LL_DMA_CHANNEL_5:
 			LL_DMA_ClearFlag_TC5(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_6)
-		{
+			break;
+		case LL_DMA_CHANNEL_6:
 			LL_DMA_ClearFlag_TC6(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_7)
-		{
+			break;
+		case LL_DMA_CHANNEL_7:
 			LL_DMA_ClearFlag_TC7(DMAx);
-		}
+			break;
+		default:
+			break;
+	}
 	#elif defined(USE_MCU_STM32F4)
-		if (channelOrStream == LL_DMA_STREAM_0)
-		{
+	switch (channelOrStream)
+	{
+		case  LL_DMA_STREAM_0:
 			LL_DMA_ClearFlag_TC0(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_1)
-		{
+			break;
+		case  LL_DMA_STREAM_1:
 			LL_DMA_ClearFlag_TC1(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_2 )
-		{
+			break;
+		case  LL_DMA_STREAM_2:
 			LL_DMA_ClearFlag_TC2(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_3)
-		{
+			break;
+		case  LL_DMA_STREAM_3:
 			LL_DMA_ClearFlag_TC3(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_4)
-		{
+			break;
+		case  LL_DMA_STREAM_4:
 			LL_DMA_ClearFlag_TC4(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_5)
-		{
+			break;
+		case  LL_DMA_STREAM_5:
 			LL_DMA_ClearFlag_TC5(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_6)
-		{
+			break;
+		case  LL_DMA_STREAM_6:
 			LL_DMA_ClearFlag_TC6(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_7)
-		{
+			break;
+		case  LL_DMA_STREAM_7:
 			LL_DMA_ClearFlag_TC7(DMAx);
-		}
+			break;
+		default:
+			break;
+	}
 	#else
 		#error "不支持的STM32芯片"
 	#endif
@@ -1030,70 +1019,64 @@ void LL_DMA_ClearFlag_TC(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 void LL_DMA_ClearFlag_TE(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 {
 #ifdef USE_MCU_STM32F1
-	if (channelOrStream == LL_DMA_CHANNEL_0)
+	switch (channelOrStream)
 	{
-		LL_DMA_ClearFlag_TC0(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_1)
-	{
-		LL_DMA_ClearFlag_TC1(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_2)
-	{
-		LL_DMA_ClearFlag_TC2(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_3)
-	{
-		LL_DMA_ClearFlag_TC3(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_4)
-	{
-		LL_DMA_ClearFlag_TC4(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_5)
-	{
-		LL_DMA_ClearFlag_TC5(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_6)
-	{
-		LL_DMA_ClearFlag_TC6(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_7)
-	{
-		LL_DMA_ClearFlag_TC7(DMAx);
+		case LL_DMA_CHANNEL_0:
+			LL_DMA_ClearFlag_TC0(DMAx);
+			break;
+		case LL_DMA_CHANNEL_1:
+			LL_DMA_ClearFlag_TC1(DMAx);
+			break;
+		case LL_DMA_CHANNEL_2:
+			LL_DMA_ClearFlag_TC2(DMAx);
+			break;
+		case LL_DMA_CHANNEL_3:
+			LL_DMA_ClearFlag_TC3(DMAx);
+			break;
+		case LL_DMA_CHANNEL_4:
+			LL_DMA_ClearFlag_TC4(DMAx);
+			break;
+		case LL_DMA_CHANNEL_5:
+			LL_DMA_ClearFlag_TC5(DMAx);
+			break;
+		case LL_DMA_CHANNEL_6:
+			LL_DMA_ClearFlag_TC6(DMAx);
+			break;
+		case LL_DMA_CHANNEL_7:
+			LL_DMA_ClearFlag_TC7(DMAx);
+			break;
+		default:
+			break;
 	}
 #elif defined(USE_MCU_STM32F4)
-	if (channelOrStream == LL_DMA_STREAM_0)
+	switch (channelOrStream)
 	{
-		LL_DMA_ClearFlag_TE0(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_1)
-	{
-		LL_DMA_ClearFlag_TE1(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_2)
-	{
-		LL_DMA_ClearFlag_TE2(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_3)
-	{
-		LL_DMA_ClearFlag_TE3(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_4)
-	{
-		LL_DMA_ClearFlag_TE4(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_5)
-	{
-		LL_DMA_ClearFlag_TE5(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_6)
-	{
-		LL_DMA_ClearFlag_TE6(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_7)
-	{
-		LL_DMA_ClearFlag_TE7(DMAx);
+		case  LL_DMA_STREAM_0:
+			LL_DMA_ClearFlag_TE0(DMAx);
+			break;
+		case  LL_DMA_STREAM_1:
+			LL_DMA_ClearFlag_TE1(DMAx);
+			break;
+		case  LL_DMA_STREAM_2:
+			LL_DMA_ClearFlag_TE2(DMAx);
+			break;
+		case  LL_DMA_STREAM_3:
+			LL_DMA_ClearFlag_TE3(DMAx);
+			break;
+		case  LL_DMA_STREAM_4:
+			LL_DMA_ClearFlag_TE4(DMAx);
+			break;
+		case  LL_DMA_STREAM_5:
+			LL_DMA_ClearFlag_TE5(DMAx);
+			break;
+		case  LL_DMA_STREAM_6:
+			LL_DMA_ClearFlag_TE6(DMAx);
+			break;
+		case  LL_DMA_STREAM_7:
+			LL_DMA_ClearFlag_TE7(DMAx);
+			break;
+		default:
+			break;
 	}
 #else
 	#error "不支持的STM32芯片"
@@ -1110,70 +1093,64 @@ void LL_DMA_ClearFlag_TE(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 void LL_DMA_ClearFlag_DME(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 {
 #ifdef USE_MCU_STM32F1
-	if (channelOrStream == LL_DMA_CHANNEL_0)
+	switch (channelOrStream)
 	{
-		LL_DMA_ClearFlag_TC0(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_1)
-	{
-		LL_DMA_ClearFlag_TC1(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_2)
-	{
-		LL_DMA_ClearFlag_TC2(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_3)
-	{
-		LL_DMA_ClearFlag_TC3(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_4)
-	{
-		LL_DMA_ClearFlag_TC4(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_5)
-	{
-		LL_DMA_ClearFlag_TC5(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_6)
-	{
-		LL_DMA_ClearFlag_TC6(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_7)
-	{
-		LL_DMA_ClearFlag_TC7(DMAx);
+		case LL_DMA_CHANNEL_0:
+			LL_DMA_ClearFlag_TC0(DMAx);
+			break;
+		case LL_DMA_CHANNEL_1:
+			LL_DMA_ClearFlag_TC1(DMAx);
+			break;
+		case LL_DMA_CHANNEL_2:
+			LL_DMA_ClearFlag_TC2(DMAx);
+			break;
+		case LL_DMA_CHANNEL_3:
+			LL_DMA_ClearFlag_TC3(DMAx);
+			break;
+		case LL_DMA_CHANNEL_4:
+			LL_DMA_ClearFlag_TC4(DMAx);
+			break;
+		case LL_DMA_CHANNEL_5:
+			LL_DMA_ClearFlag_TC5(DMAx);
+			break;
+		case LL_DMA_CHANNEL_6:
+			LL_DMA_ClearFlag_TC6(DMAx);
+			break;
+		case LL_DMA_CHANNEL_7:
+			LL_DMA_ClearFlag_TC7(DMAx);
+			break;
+		default:
+			break;
 	}
 #elif defined(USE_MCU_STM32F4)
-	if (channelOrStream == LL_DMA_STREAM_0)
+	switch (channelOrStream)
 	{
-		LL_DMA_ClearFlag_DME0(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_1)
-	{
-		LL_DMA_ClearFlag_DME1(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_2)
-	{
-		LL_DMA_ClearFlag_DME2(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_3)
-	{
-		LL_DMA_ClearFlag_DME3(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_4)
-	{
-		LL_DMA_ClearFlag_DME4(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_5)
-	{
-		LL_DMA_ClearFlag_DME5(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_6)
-	{
-		LL_DMA_ClearFlag_DME6(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_7)
-	{
-		LL_DMA_ClearFlag_DME7(DMAx);
+		case  LL_DMA_STREAM_0:
+			LL_DMA_ClearFlag_DME0(DMAx);
+			break;
+		case  LL_DMA_STREAM_1:
+			LL_DMA_ClearFlag_DME1(DMAx);
+			break;
+		case  LL_DMA_STREAM_2:
+			LL_DMA_ClearFlag_DME2(DMAx);
+			break;
+		case  LL_DMA_STREAM_3:
+			LL_DMA_ClearFlag_DME3(DMAx);
+			break;
+		case  LL_DMA_STREAM_4:
+			LL_DMA_ClearFlag_DME4(DMAx);
+			break;
+		case  LL_DMA_STREAM_5:
+			LL_DMA_ClearFlag_DME5(DMAx);
+			break;
+		case  LL_DMA_STREAM_6:
+			LL_DMA_ClearFlag_DME6(DMAx);
+			break;
+		case  LL_DMA_STREAM_7:
+			LL_DMA_ClearFlag_DME7(DMAx);
+			break;
+		default:
+			break;
 	}
 #else
 	#error "不支持的STM32芯片"
@@ -1190,70 +1167,64 @@ void LL_DMA_ClearFlag_DME(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 void LL_DMA_ClearFlag_FE(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 {
 #ifdef USE_MCU_STM32F1
-	if (channelOrStream == LL_DMA_CHANNEL_0)
+	switch (channelOrStream)
 	{
-		LL_DMA_ClearFlag_TC0(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_1)
-	{
-		LL_DMA_ClearFlag_TC1(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_2)
-	{
-		LL_DMA_ClearFlag_TC2(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_3)
-	{
-		LL_DMA_ClearFlag_TC3(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_4)
-	{
-		LL_DMA_ClearFlag_TC4(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_5)
-	{
-		LL_DMA_ClearFlag_TC5(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_6)
-	{
-		LL_DMA_ClearFlag_TC6(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_7)
-	{
-		LL_DMA_ClearFlag_TC7(DMAx);
+		case LL_DMA_CHANNEL_0:
+			LL_DMA_ClearFlag_TC0(DMAx);
+			break;
+		case LL_DMA_CHANNEL_1:
+			LL_DMA_ClearFlag_TC1(DMAx);
+			break;
+		case LL_DMA_CHANNEL_2:
+			LL_DMA_ClearFlag_TC2(DMAx);
+			break;
+		case LL_DMA_CHANNEL_3:
+			LL_DMA_ClearFlag_TC3(DMAx);
+			break;
+		case LL_DMA_CHANNEL_4:
+			LL_DMA_ClearFlag_TC4(DMAx);
+			break;
+		case LL_DMA_CHANNEL_5:
+			LL_DMA_ClearFlag_TC5(DMAx);
+			break;
+		case LL_DMA_CHANNEL_6:
+			LL_DMA_ClearFlag_TC6(DMAx);
+			break;
+		case LL_DMA_CHANNEL_7:
+			LL_DMA_ClearFlag_TC7(DMAx);
+			break;
+		default:
+			break;
 	}
 #elif defined(USE_MCU_STM32F4)
-	if (channelOrStream == LL_DMA_STREAM_0)
+	switch (channelOrStream)
 	{
-		LL_DMA_ClearFlag_FE0(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_1)
-	{
-		LL_DMA_ClearFlag_FE1(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_2)
-	{
-		LL_DMA_ClearFlag_FE2(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_3)
-	{
-		LL_DMA_ClearFlag_FE3(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_4)
-	{
-		LL_DMA_ClearFlag_FE4(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_5)
-	{
-		LL_DMA_ClearFlag_FE5(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_6)
-	{
-		LL_DMA_ClearFlag_FE6(DMAx);
-	}
-	else if (channelOrStream == LL_DMA_STREAM_7)
-	{
-		LL_DMA_ClearFlag_FE7(DMAx);
+		case  LL_DMA_STREAM_0:
+			LL_DMA_ClearFlag_FE0(DMAx);
+			break;
+		case  LL_DMA_STREAM_1:
+			LL_DMA_ClearFlag_FE1(DMAx);
+			break;
+		case  LL_DMA_STREAM_2:
+			LL_DMA_ClearFlag_FE2(DMAx);
+			break;
+		case  LL_DMA_STREAM_3:
+			LL_DMA_ClearFlag_FE3(DMAx);
+			break;
+		case  LL_DMA_STREAM_4:
+			LL_DMA_ClearFlag_FE4(DMAx);
+			break;
+		case  LL_DMA_STREAM_5:
+			LL_DMA_ClearFlag_FE5(DMAx);
+			break;
+		case  LL_DMA_STREAM_6:
+			LL_DMA_ClearFlag_FE6(DMAx);
+			break;
+		case  LL_DMA_STREAM_7:
+			LL_DMA_ClearFlag_FE7(DMAx);
+			break;
+		default:
+			break;
 	}
 #else
 	#error "不支持的STM32芯片"
@@ -1270,111 +1241,113 @@ void LL_DMA_ClearFlag_FE(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 void LL_DMA_ClearFlag(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 {
 	#ifdef USE_MCU_STM32F1
-		if (channelOrStream == LL_DMA_CHANNEL_0)
-		{
+	switch (channelOrStream)
+	{
+		case LL_DMA_CHANNEL_0:
 			LL_DMA_ClearFlag_HT0(DMAx);
 			LL_DMA_ClearFlag_TC0(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_1)
-		{
+			break;
+		case LL_DMA_CHANNEL_1:
 			LL_DMA_ClearFlag_HT1(DMAx);
 			LL_DMA_ClearFlag_TC1(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_2)
-		{
+			break;
+		case LL_DMA_CHANNEL_2:
 			LL_DMA_ClearFlag_HT2(DMAx);
 			LL_DMA_ClearFlag_TC2(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_3)
-		{
+			break;
+		case LL_DMA_CHANNEL_3:
 			LL_DMA_ClearFlag_HT3(DMAx);
 			LL_DMA_ClearFlag_TC3(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_4)
-		{
+			break;
+		case LL_DMA_CHANNEL_4:
 			LL_DMA_ClearFlag_HT4(DMAx);
 			LL_DMA_ClearFlag_TC4(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_5)
-		{
+			break;
+		case LL_DMA_CHANNEL_5:
 			LL_DMA_ClearFlag_HT5(DMAx);
 			LL_DMA_ClearFlag_TC5(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_6)
-		{
+			break;
+		case LL_DMA_CHANNEL_6:
 			LL_DMA_ClearFlag_HT6(DMAx);
 			LL_DMA_ClearFlag_TC6(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_CHANNEL_7)
-		{
+			break;
+		case LL_DMA_CHANNEL_7:
 			LL_DMA_ClearFlag_HT7(DMAx);
 			LL_DMA_ClearFlag_TC7(DMAx);
-		}
+			break;
+		default:
+			break;
+	}
 	#elif defined(USE_MCU_STM32F4)
-		if (channelOrStream == LL_DMA_STREAM_0)
-		{
-			LL_DMA_ClearFlag_HT0(DMAx);
-			LL_DMA_ClearFlag_TC0(DMAx);
-			LL_DMA_ClearFlag_TE0(DMAx);
-			LL_DMA_ClearFlag_FE0(DMAx);
-			LL_DMA_ClearFlag_DME0(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_1)
-		{
-			LL_DMA_ClearFlag_HT1(DMAx);
-			LL_DMA_ClearFlag_TC1(DMAx);
-			LL_DMA_ClearFlag_TE1(DMAx);
-			LL_DMA_ClearFlag_FE1(DMAx);
-			LL_DMA_ClearFlag_DME1(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_2)
-		{
-			LL_DMA_ClearFlag_HT2(DMAx);
-			LL_DMA_ClearFlag_TC2(DMAx);
-			LL_DMA_ClearFlag_TE2(DMAx);
-			LL_DMA_ClearFlag_FE2(DMAx);
-			LL_DMA_ClearFlag_DME2(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_3)
-		{
-			LL_DMA_ClearFlag_HT3(DMAx);
-			LL_DMA_ClearFlag_TC3(DMAx);
-			LL_DMA_ClearFlag_TE3(DMAx);
-			LL_DMA_ClearFlag_FE3(DMAx);
-			LL_DMA_ClearFlag_DME3(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_4)
-		{
-			LL_DMA_ClearFlag_HT4(DMAx);
-			LL_DMA_ClearFlag_TC4(DMAx);
-			LL_DMA_ClearFlag_TE4(DMAx);
-			LL_DMA_ClearFlag_FE4(DMAx);
-			LL_DMA_ClearFlag_DME4(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_5)
-		{
-			LL_DMA_ClearFlag_HT5(DMAx);
-			LL_DMA_ClearFlag_TC5(DMAx);
-			LL_DMA_ClearFlag_TE5(DMAx);
-			LL_DMA_ClearFlag_FE5(DMAx);
-			LL_DMA_ClearFlag_DME5(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_6)
-		{
-			LL_DMA_ClearFlag_HT6(DMAx);
-			LL_DMA_ClearFlag_TC6(DMAx);
-			LL_DMA_ClearFlag_TE6(DMAx);
-			LL_DMA_ClearFlag_FE6(DMAx);
-			LL_DMA_ClearFlag_DME6(DMAx);
-		}
-		else if (channelOrStream == LL_DMA_STREAM_7)
-		{
-			LL_DMA_ClearFlag_HT7(DMAx);
-			LL_DMA_ClearFlag_TC7(DMAx);
-			LL_DMA_ClearFlag_TE7(DMAx);
-			LL_DMA_ClearFlag_FE7(DMAx);
-			LL_DMA_ClearFlag_DME7(DMAx);
-		}
+	switch (channelOrStream)
+	{
+		case LL_DMA_STREAM_0:
+			//LL_DMA_ClearFlag_HT0(DMAx);
+			//LL_DMA_ClearFlag_TC0(DMAx);
+			//LL_DMA_ClearFlag_TE0(DMAx);
+			//LL_DMA_ClearFlag_FE0(DMAx);
+			//LL_DMA_ClearFlag_DME0(DMAx);
+			WRITE_REG(DMAx->LIFCR, DMA_LIFCR_CHTIF0 | DMA_LIFCR_CTCIF0 | DMA_LIFCR_CTEIF0 | DMA_LIFCR_CFEIF0 | DMA_LIFCR_CDMEIF0);
+			break;
+		case LL_DMA_STREAM_1:
+			//LL_DMA_ClearFlag_HT1(DMAx);
+			//LL_DMA_ClearFlag_TC1(DMAx);
+			//LL_DMA_ClearFlag_TE1(DMAx);
+			//LL_DMA_ClearFlag_FE1(DMAx);
+			//LL_DMA_ClearFlag_DME1(DMAx);
+			WRITE_REG(DMAx->LIFCR, DMA_LIFCR_CHTIF1 | DMA_LIFCR_CTCIF1 | DMA_LIFCR_CTEIF1 | DMA_LIFCR_CFEIF1 | DMA_LIFCR_CDMEIF1);
+			break;
+		case LL_DMA_STREAM_2:
+			//LL_DMA_ClearFlag_HT2(DMAx);
+			//LL_DMA_ClearFlag_TC2(DMAx);
+			//LL_DMA_ClearFlag_TE2(DMAx);
+			//LL_DMA_ClearFlag_FE2(DMAx);
+			//LL_DMA_ClearFlag_DME2(DMAx);
+			WRITE_REG(DMAx->LIFCR, DMA_LIFCR_CHTIF2 | DMA_LIFCR_CTCIF2 | DMA_LIFCR_CTEIF2 | DMA_LIFCR_CFEIF2 | DMA_LIFCR_CDMEIF2);
+			break;
+		case LL_DMA_STREAM_3:
+			//LL_DMA_ClearFlag_HT3(DMAx);
+			//LL_DMA_ClearFlag_TC3(DMAx);
+			//LL_DMA_ClearFlag_TE3(DMAx);
+			//LL_DMA_ClearFlag_FE3(DMAx);
+			//LL_DMA_ClearFlag_DME3(DMAx);
+			WRITE_REG(DMAx->LIFCR, DMA_LIFCR_CHTIF3 | DMA_LIFCR_CTCIF3 | DMA_LIFCR_CTEIF3 | DMA_LIFCR_CFEIF3 | DMA_LIFCR_CDMEIF3);
+			break;
+		case LL_DMA_STREAM_4:
+			//LL_DMA_ClearFlag_HT4(DMAx);
+			//LL_DMA_ClearFlag_TC4(DMAx);
+			//LL_DMA_ClearFlag_TE4(DMAx);
+			//LL_DMA_ClearFlag_FE4(DMAx);
+			//LL_DMA_ClearFlag_DME4(DMAx);
+			WRITE_REG(DMAx->HIFCR, DMA_HIFCR_CHTIF4 | DMA_HIFCR_CTCIF4 | DMA_HIFCR_CTEIF4 | DMA_HIFCR_CFEIF4 | DMA_HIFCR_CDMEIF4);
+			break;
+		case LL_DMA_STREAM_5:
+			//LL_DMA_ClearFlag_HT5(DMAx);
+			//LL_DMA_ClearFlag_TC5(DMAx);
+			//LL_DMA_ClearFlag_TE5(DMAx);
+			//LL_DMA_ClearFlag_FE5(DMAx);
+			//LL_DMA_ClearFlag_DME5(DMAx);
+			WRITE_REG(DMAx->HIFCR, DMA_HIFCR_CHTIF5 | DMA_HIFCR_CTCIF5 | DMA_HIFCR_CTEIF5 | DMA_HIFCR_CFEIF5 | DMA_HIFCR_CDMEIF5);
+			break;
+		case LL_DMA_STREAM_6:
+			//LL_DMA_ClearFlag_HT6(DMAx);
+			//LL_DMA_ClearFlag_TC6(DMAx);
+			//LL_DMA_ClearFlag_TE6(DMAx);
+			//LL_DMA_ClearFlag_FE6(DMAx);
+			//LL_DMA_ClearFlag_DME6(DMAx);
+			WRITE_REG(DMAx->HIFCR, DMA_HIFCR_CHTIF6 | DMA_HIFCR_CTCIF6 | DMA_HIFCR_CTEIF6 | DMA_HIFCR_CFEIF6 | DMA_HIFCR_CDMEIF6);
+			break;
+		case LL_DMA_STREAM_7:
+			//LL_DMA_ClearFlag_HT7(DMAx);
+			//LL_DMA_ClearFlag_TC7(DMAx);
+			//LL_DMA_ClearFlag_TE7(DMAx);
+			//LL_DMA_ClearFlag_FE7(DMAx);
+			//LL_DMA_ClearFlag_DME7(DMAx);
+			WRITE_REG(DMAx->HIFCR, DMA_HIFCR_CHTIF7 | DMA_HIFCR_CTCIF7 | DMA_HIFCR_CTEIF7 | DMA_HIFCR_CFEIF7 | DMA_HIFCR_CDMEIF7);
+			break;
+		default:
+			break;
+	}
 	#else
 	#error "不支持的STM32芯片"
 	#endif
@@ -1391,118 +1364,112 @@ UINT8_T LL_DMA_IsActiveIT_TC(DMA_TypeDef* DMAx, UINT32_T channelOrStream)
 {
 	UINT8_T _return = OK_0;
 	#ifdef USE_MCU_STM32F1
-	if (channelOrStream == LL_DMA_CHANNEL_0)
+	switch (channelOrStream)
 	{
-		if (LL_DMA_IsActiveFlag_TC0(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_1)
-	{
-		if (LL_DMA_IsActiveFlag_TC1(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_2)
-	{
-		if (LL_DMA_IsActiveFlag_TC2(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_3)
-	{
-		if (LL_DMA_IsActiveFlag_TC3(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_4)
-	{
-		if (LL_DMA_IsActiveFlag_TC4(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_5)
-	{
-		if (LL_DMA_IsActiveFlag_TC5(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_6)
-	{
-		if (LL_DMA_IsActiveFlag_TC6(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_CHANNEL_7)
-	{
-		if (LL_DMA_IsActiveFlag_TC7(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
+		case LL_DMA_CHANNEL_0:
+			if (LL_DMA_IsActiveFlag_TC0(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_CHANNEL_1:
+			if (LL_DMA_IsActiveFlag_TC1(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_CHANNEL_2:
+			if (LL_DMA_IsActiveFlag_TC2(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_CHANNEL_3:
+			if (LL_DMA_IsActiveFlag_TC3(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_CHANNEL_4:
+			if (LL_DMA_IsActiveFlag_TC4(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_CHANNEL_5:
+			if (LL_DMA_IsActiveFlag_TC5(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_CHANNEL_6:
+			if (LL_DMA_IsActiveFlag_TC6(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_CHANNEL_7:
+			if (LL_DMA_IsActiveFlag_TC7(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		default:
+			break;
 	}
 	#elif defined(USE_MCU_STM32F4)
-	if (channelOrStream == LL_DMA_STREAM_0)
+	switch (channelOrStream)
 	{
-		if (LL_DMA_IsActiveFlag_TC0(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return=1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_STREAM_1)
-	{
-		if (LL_DMA_IsActiveFlag_TC1(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_STREAM_2)
-	{
-		if (LL_DMA_IsActiveFlag_TC2(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_STREAM_3)
-	{
-		if (LL_DMA_IsActiveFlag_TC3(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_STREAM_4)
-	{
-		if (LL_DMA_IsActiveFlag_TC4(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_STREAM_5)
-	{
-		if (LL_DMA_IsActiveFlag_TC5(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_STREAM_6)
-	{
-		if (LL_DMA_IsActiveFlag_TC6(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
-	}
-	else if (channelOrStream == LL_DMA_STREAM_7)
-	{
-		if (LL_DMA_IsActiveFlag_TC7(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
-		{
-			_return = 1;
-		}
+		case LL_DMA_STREAM_0:
+			if (LL_DMA_IsActiveFlag_TC0(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_STREAM_1:
+			if (LL_DMA_IsActiveFlag_TC1(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_STREAM_2:
+			if (LL_DMA_IsActiveFlag_TC2(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_STREAM_3:
+			if (LL_DMA_IsActiveFlag_TC3(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_STREAM_4:
+			if (LL_DMA_IsActiveFlag_TC4(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_STREAM_5:
+			if (LL_DMA_IsActiveFlag_TC5(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_STREAM_6:
+			if (LL_DMA_IsActiveFlag_TC6(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		case LL_DMA_STREAM_7:
+			if (LL_DMA_IsActiveFlag_TC7(DMAx) && (LL_DMA_IsEnabledIT_TC(DMAx, channelOrStream)))
+			{
+				_return = 1;
+			}
+			break;
+		default:
+			break;
 	}
 	#else
 	#error "不支持的STM32芯片"

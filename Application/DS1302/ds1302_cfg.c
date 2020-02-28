@@ -111,7 +111,7 @@ UINT8_T DS1302_Init(DS1302_HandlerType *DS1302x, void(*pFuncDelayus)(UINT32_T de
 		return ERROR_1;
 	}
 	//---us延时
-	(pFuncDelayus != NULL):(DS1302x->msgDelayus = pFuncDelayus)?(DS1302x->msgDelayus = DelayTask_us);
+	(pFuncDelayus != NULL)?(DS1302x->msgDelayus = pFuncDelayus):(DS1302x->msgDelayus = DelayTask_us);
 	//---退出休眠模式
 	DS1302_DisableSleepMode(DS1302x);
 	return OK_0;
