@@ -1,11 +1,11 @@
 #include "w25qxx_cfg.h"
 
 //===全局变量的定义
-W25QXX_HandlerType  g_W25qxxDevice0 = { 0 };
-pW25QXX_HandlerType pW25qxxDevice0 = &g_W25qxxDevice0;
+W25QXX_HandleType  g_W25qxxDevice0 = { 0 };
+pW25QXX_HandleType pW25qxxDevice0 = &g_W25qxxDevice0;
 
 //===统一发送函数
-UINT8_T(*W25QXX_SEND_CMD)(W25QXX_HandlerType *, UINT8_T, UINT8_T *);
+UINT8_T(*W25QXX_SEND_CMD)(W25QXX_HandleType *, UINT8_T, UINT8_T *);
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -14,7 +14,7 @@ UINT8_T(*W25QXX_SEND_CMD)(W25QXX_HandlerType *, UINT8_T, UINT8_T *);
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_Device0_Init(W25QXX_HandlerType *W25Qx)
+UINT8_T W25QXX_SPI_Device0_Init(W25QXX_HandleType *W25Qx)
 {
 	//---写保护端口的配置
 #ifdef WM25QXX_SPI_USE_HWWP
@@ -78,7 +78,7 @@ UINT8_T W25QXX_SPI_Device0_Init(W25QXX_HandlerType *W25Qx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_Device1_Init(W25QXX_HandlerType *W25Qx)
+UINT8_T W25QXX_SPI_Device1_Init(W25QXX_HandleType *W25Qx)
 {
 	return OK_0;
 }
@@ -90,7 +90,7 @@ UINT8_T W25QXX_SPI_Device1_Init(W25QXX_HandlerType *W25Qx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_Device2_Init(W25QXX_HandlerType *W25Qx)
+UINT8_T W25QXX_SPI_Device2_Init(W25QXX_HandleType *W25Qx)
 {
 	return OK_0;
 }
@@ -102,7 +102,7 @@ UINT8_T W25QXX_SPI_Device2_Init(W25QXX_HandlerType *W25Qx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_HW_Init(W25QXX_HandlerType *W25Qx)
+UINT8_T W25QXX_SPI_HW_Init(W25QXX_HandleType *W25Qx)
 {
 	//---注销当前的所有配置
 	SPITask_DeInit(&(W25Qx->msgSPI),1);
@@ -152,7 +152,7 @@ UINT8_T W25QXX_SPI_HW_Init(W25QXX_HandlerType *W25Qx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_SW_Init(W25QXX_HandlerType *W25Qx)
+UINT8_T W25QXX_SPI_SW_Init(W25QXX_HandleType *W25Qx)
 {
 	SPITask_DeInit(&(W25Qx->msgSPI),1);
 	//---硬件端口的配置---软件实现
@@ -169,7 +169,7 @@ UINT8_T W25QXX_SPI_SW_Init(W25QXX_HandlerType *W25Qx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_HW_SendCmd(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T *pRVal)
+UINT8_T W25QXX_SPI_HW_SendCmd(W25QXX_HandleType *W25Qx, UINT8_T cmd, UINT8_T *pRVal)
 {
 	//---数据发送
 	return SPITask_MHW_PollMode_WriteAndReadByte(&(W25Qx->msgSPI), cmd, pRVal);
@@ -182,7 +182,7 @@ UINT8_T W25QXX_SPI_HW_SendCmd(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T *p
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_SW_SendCmd(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T *pRVal)
+UINT8_T W25QXX_SPI_SW_SendCmd(W25QXX_HandleType *W25Qx, UINT8_T cmd, UINT8_T *pRVal)
 {
 	//---数据发送
 	return SPITask_MSW_WriteAndReadByteMSB(&(W25Qx->msgSPI), cmd, pRVal);
@@ -195,7 +195,7 @@ UINT8_T W25QXX_SPI_SW_SendCmd(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T *p
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_Init(W25QXX_HandlerType *W25Qx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW)
+UINT8_T W25QXX_SPI_Init(W25QXX_HandleType *W25Qx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW)
 {
 	//---使用的DHT11的端口
 	if ((W25Qx != NULL) && (W25Qx == W25QXX_TASK_ONE))
@@ -268,7 +268,7 @@ UINT8_T W25QXX_SPI_Init(W25QXX_HandlerType *W25Qx, void(*pFuncDelayus)(UINT32_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_AutoInit(W25QXX_HandlerType* W25Qx)
+UINT8_T W25QXX_SPI_AutoInit(W25QXX_HandleType* W25Qx)
 {
 	if (W25Qx->msgSPI.msgHwMode != 0)
 	{
@@ -290,7 +290,7 @@ UINT8_T W25QXX_SPI_AutoInit(W25QXX_HandlerType* W25Qx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_AutoDeInit(W25QXX_HandlerType* W25Qx)
+UINT8_T W25QXX_SPI_AutoDeInit(W25QXX_HandleType* W25Qx)
 {
 	//---注销当前的所有配置
 	return	SPITask_DeInit(&(W25Qx->msgSPI),0);
@@ -303,7 +303,7 @@ UINT8_T W25QXX_SPI_AutoDeInit(W25QXX_HandlerType* W25Qx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_ReadRegSR1(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+UINT8_T W25QXX_SPI_ReadRegSR1(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	//---自适应软件和硬件时序开始
@@ -331,7 +331,7 @@ UINT8_T W25QXX_SPI_ReadRegSR1(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_ReadRegSR2(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+UINT8_T W25QXX_SPI_ReadRegSR2(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	//---自适应软件和硬件时序开始
@@ -359,7 +359,7 @@ UINT8_T W25QXX_SPI_ReadRegSR2(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_WriteRegSR1(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T isAutoInit)
+void W25QXX_SPI_WriteRegSR1(W25QXX_HandleType *W25Qx, UINT8_T cmd, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -399,7 +399,7 @@ void W25QXX_SPI_WriteRegSR1(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T isAu
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_WriteRegSR2(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T isAutoInit)
+void W25QXX_SPI_WriteRegSR2(W25QXX_HandleType *W25Qx, UINT8_T cmd, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	//---自适应软件和硬件时序开始
@@ -445,7 +445,7 @@ void W25QXX_SPI_WriteRegSR2(W25QXX_HandlerType *W25Qx, UINT8_T cmd, UINT8_T isAu
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EnableWrite(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+void W25QXX_SPI_EnableWrite(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -470,7 +470,7 @@ void W25QXX_SPI_EnableWrite(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_DisableWrite(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+void W25QXX_SPI_DisableWrite(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -495,7 +495,7 @@ void W25QXX_SPI_DisableWrite(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T W25QXX_SPI_ReadID(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+UINT16_T W25QXX_SPI_ReadID(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	UINT8_T temp = 0;
 	UINT16_T  _return = 0;
@@ -566,7 +566,7 @@ UINT16_T W25QXX_SPI_ReadID(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T W25QXX_SPI_WaitBusy(W25QXX_HandlerType *W25Qx,UINT32_T timeOut, UINT8_T isAutoInit)
+UINT8_T W25QXX_SPI_WaitBusy(W25QXX_HandleType *W25Qx,UINT32_T timeOut, UINT8_T isAutoInit)
 {
 	//---读取状态寄存器
 	UINT8_T _return = 0;
@@ -631,7 +631,7 @@ UINT8_T W25QXX_SPI_WaitBusy(W25QXX_HandlerType *W25Qx,UINT32_T timeOut, UINT8_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_ReadData(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
+void W25QXX_SPI_ReadData(W25QXX_HandleType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
 {
 	UINT16_T i = 0;
 	//---自适应软件和硬件时序开始
@@ -668,7 +668,7 @@ void W25QXX_SPI_ReadData(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_ReadFast(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
+void W25QXX_SPI_ReadFast(W25QXX_HandleType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
 {
 	UINT16_T i = 0;
 	//---自适应软件和硬件时序开始
@@ -707,7 +707,7 @@ void W25QXX_SPI_ReadFast(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_WritePage(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
+void W25QXX_SPI_WritePage(W25QXX_HandleType *W25Qx, UINT32_T addr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
 {
 	UINT8_T pageIndex = 0;
 	UINT16_T i = 0;
@@ -772,7 +772,7 @@ void W25QXX_SPI_WritePage(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T *pVa
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseChip(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseChip(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -803,7 +803,7 @@ void W25QXX_SPI_EraseChip(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseSuspend(W25QXX_HandlerType* W25Qx, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseSuspend(W25QXX_HandleType* W25Qx, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -834,7 +834,7 @@ void W25QXX_SPI_EraseSuspend(W25QXX_HandlerType* W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseResume(W25QXX_HandlerType* W25Qx, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseResume(W25QXX_HandleType* W25Qx, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -865,7 +865,7 @@ void W25QXX_SPI_EraseResume(W25QXX_HandlerType* W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：扇区的地址，0到511（）
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseSector(W25QXX_HandlerType *W25Qx, UINT32_T sectorNum, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseSector(W25QXX_HandleType *W25Qx, UINT32_T sectorNum, UINT8_T isAutoInit)
 {
 	//---计算扇区地址
 	sectorNum *= W25QXX_SECTOR_BYTE_SIZE;
@@ -902,7 +902,7 @@ void W25QXX_SPI_EraseSector(W25QXX_HandlerType *W25Qx, UINT32_T sectorNum, UINT8
 //////输出参数:
 //////说		明：扇区的地址，0到511（）
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseAddrSector(W25QXX_HandlerType* W25Qx, UINT32_T sectorAddr, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseAddrSector(W25QXX_HandleType* W25Qx, UINT32_T sectorAddr, UINT8_T isAutoInit)
 {
 	//---计算扇区序号
 	sectorAddr /= W25QXX_SECTOR_BYTE_SIZE;
@@ -916,7 +916,7 @@ void W25QXX_SPI_EraseAddrSector(W25QXX_HandlerType* W25Qx, UINT32_T sectorAddr, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseBlock32KB(W25QXX_HandlerType *W25Qx, UINT32_T block32KbNum, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseBlock32KB(W25QXX_HandleType *W25Qx, UINT32_T block32KbNum, UINT8_T isAutoInit)
 {
 	//---计算32Kb大小块的地址
 	block32KbNum *= W25QXX_BLOCK_32KB_BYTE_SIZE;
@@ -953,7 +953,7 @@ void W25QXX_SPI_EraseBlock32KB(W25QXX_HandlerType *W25Qx, UINT32_T block32KbNum,
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseAddrBlock32KB(W25QXX_HandlerType* W25Qx, UINT32_T block32KbAddr, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseAddrBlock32KB(W25QXX_HandleType* W25Qx, UINT32_T block32KbAddr, UINT8_T isAutoInit)
 {
 	//---计算32Kb大小块的序号
 	block32KbAddr /= W25QXX_BLOCK_32KB_BYTE_SIZE;
@@ -967,7 +967,7 @@ void W25QXX_SPI_EraseAddrBlock32KB(W25QXX_HandlerType* W25Qx, UINT32_T block32Kb
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseBlock64KB(W25QXX_HandlerType *W25Qx, UINT32_T blockNum, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseBlock64KB(W25QXX_HandleType *W25Qx, UINT32_T blockNum, UINT8_T isAutoInit)
 {
 	//---计算64Kb大小块的地址
 	blockNum *= W25QXX_BLOCK_64KB_BYTE_SIZE;
@@ -1004,7 +1004,7 @@ void W25QXX_SPI_EraseBlock64KB(W25QXX_HandlerType *W25Qx, UINT32_T blockNum, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseAddrBlock64KB(W25QXX_HandlerType* W25Qx, UINT32_T blockAddr, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseAddrBlock64KB(W25QXX_HandleType* W25Qx, UINT32_T blockAddr, UINT8_T isAutoInit)
 {
 	//---计算64Kb大小块的序号
 	blockAddr /= W25QXX_BLOCK_64KB_BYTE_SIZE;
@@ -1018,7 +1018,7 @@ void W25QXX_SPI_EraseAddrBlock64KB(W25QXX_HandlerType* W25Qx, UINT32_T blockAddr
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_PowerDown(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+void W25QXX_SPI_PowerDown(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -1045,7 +1045,7 @@ void W25QXX_SPI_PowerDown(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_WakeUp(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+void W25QXX_SPI_WakeUp(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -1072,7 +1072,7 @@ void W25QXX_SPI_WakeUp(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_ReadUniqueIDNumber(W25QXX_HandlerType *W25Qx, UINT8_T *pVal, UINT8_T isAutoInit)
+void W25QXX_SPI_ReadUniqueIDNumber(W25QXX_HandleType *W25Qx, UINT8_T *pVal, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -1111,7 +1111,7 @@ void W25QXX_SPI_ReadUniqueIDNumber(W25QXX_HandlerType *W25Qx, UINT8_T *pVal, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_ReadJEDECID(W25QXX_HandlerType *W25Qx, UINT8_T *pVal, UINT8_T isAutoInit)
+void W25QXX_SPI_ReadJEDECID(W25QXX_HandleType *W25Qx, UINT8_T *pVal, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -1139,7 +1139,7 @@ void W25QXX_SPI_ReadJEDECID(W25QXX_HandlerType *W25Qx, UINT8_T *pVal, UINT8_T is
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EraseSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UINT8_T isAutoInit)
+void W25QXX_SPI_EraseSecurityReg(W25QXX_HandleType *W25Qx, UINT32_T regAddr, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -1174,7 +1174,7 @@ void W25QXX_SPI_EraseSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_ProgramSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
+void W25QXX_SPI_ProgramSecurityReg(W25QXX_HandleType *W25Qx, UINT32_T regAddr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
 {
 	UINT16_T i = 0;
 
@@ -1235,7 +1235,7 @@ void W25QXX_SPI_ProgramSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_ReadSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
+void W25QXX_SPI_ReadSecurityReg(W25QXX_HandleType *W25Qx, UINT32_T regAddr, UINT8_T *pVal, UINT16_T length, UINT8_T isAutoInit)
 {
 	UINT16_T i = 0;
 	//---自适应软件和硬件时序开始
@@ -1272,7 +1272,7 @@ void W25QXX_SPI_ReadSecurityReg(W25QXX_HandlerType *W25Qx, UINT32_T regAddr, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_EnableReset(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+void W25QXX_SPI_EnableReset(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -1297,7 +1297,7 @@ void W25QXX_SPI_EnableReset(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_Reset(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
+void W25QXX_SPI_Reset(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 {
 	//---自适应软件和硬件时序开始
 	if (isAutoInit)
@@ -1322,7 +1322,7 @@ void W25QXX_SPI_Reset(W25QXX_HandlerType *W25Qx, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_WriteNoCheck(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T* pVal, UINT16_T length, UINT8_T isAutoInit)
+void W25QXX_SPI_WriteNoCheck(W25QXX_HandleType *W25Qx, UINT32_T addr, UINT8_T* pVal, UINT16_T length, UINT8_T isAutoInit)
 {
 	//---不满页的字节数
 	UINT16_T byteNum = W25QXX_PAGE_BYTE_SIZE - (UINT8_T)(addr&W25QXX_PAGE_BYTE_MASK);
@@ -1378,7 +1378,7 @@ void W25QXX_SPI_WriteNoCheck(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T* 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void W25QXX_SPI_WriteAndCheck(W25QXX_HandlerType *W25Qx, UINT32_T addr, UINT8_T* pVal, UINT16_T length, UINT8_T isAutoInit)
+void W25QXX_SPI_WriteAndCheck(W25QXX_HandleType *W25Qx, UINT32_T addr, UINT8_T* pVal, UINT16_T length, UINT8_T isAutoInit)
 {
 	UINT32_T sectorAddr = 0;
 	UINT16_T sectorOffset = 0;

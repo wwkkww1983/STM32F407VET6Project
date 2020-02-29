@@ -1,8 +1,8 @@
 #include "dht11_cfg.h"
 
 //---变量定义
-DHT11_HandlerType g_Dht11Device0 = { 0 };
-pDHT11_HandlerType pDht11Device0 = &g_Dht11Device0;
+DHT11_HandleType g_Dht11Device0 = { 0 };
+pDHT11_HandleType pDht11Device0 = &g_Dht11Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,7 +11,7 @@ pDHT11_HandlerType pDht11Device0 = &g_Dht11Device0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_Device0_Init(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_Device0_Init(DHT11_HandleType *DHTxx)
 {
 	DHTxx->msgSTATE=DHT11_READ_OK;
 	DHTxx->msgDAT.msgBit = LL_GPIO_PIN_14;
@@ -30,7 +30,7 @@ UINT8_T DHT11_Device0_Init(DHT11_HandlerType *DHTxx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_Device1_Init(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_Device1_Init(DHT11_HandleType *DHTxx)
 {
 	return OK_0;
 }
@@ -42,7 +42,7 @@ UINT8_T DHT11_Device1_Init(DHT11_HandlerType *DHTxx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_Device2_Init(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_Device2_Init(DHT11_HandleType *DHTxx)
 {
 	return OK_0;
 }
@@ -54,7 +54,7 @@ UINT8_T DHT11_Device2_Init(DHT11_HandlerType *DHTxx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_GPIO_Init(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_GPIO_Init(DHT11_HandleType *DHTxx)
 {
 	//---使能端口时钟
 	#ifndef  USE_FULL_GPIO
@@ -83,7 +83,7 @@ UINT8_T DHT11_GPIO_Init(DHT11_HandlerType *DHTxx)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
+UINT8_T DHT11_Init(DHT11_HandleType *DHTxx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	//---使用的DHT11的端口
 	if ((DHTxx != NULL) && (DHTxx == DHT11_TASK_ONE))
@@ -122,7 +122,7 @@ UINT8_T DHT11_Init(DHT11_HandlerType *DHTxx, void(*pFuncDelayus)(UINT32_T delay)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_DeInit(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_DeInit(DHT11_HandleType *DHTxx)
 {
 	LL_GPIO_DeInit(DHTxx->msgDAT.msgPort);
 	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
@@ -137,7 +137,7 @@ UINT8_T DHT11_DeInit(DHT11_HandlerType *DHTxx)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_RESET(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_RESET(DHT11_HandleType *DHTxx)
 {
 	//---释放总线
 	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
@@ -160,7 +160,7 @@ UINT8_T DHT11_RESET(DHT11_HandlerType *DHTxx)
 //////输出参数:
 //////说	   明：1:不存在;0:存在
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_Check(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_Check(DHT11_HandleType *DHTxx)
 {
 	UINT8_T count = 0;
 	//---DHT11如果响应的话会拉低总线40~80us
@@ -202,7 +202,7 @@ UINT8_T DHT11_Check(DHT11_HandlerType *DHTxx)
 //////输出参数:
 //////说	   明：1:不存在;0:存在
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_START(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_START(DHT11_HandleType *DHTxx)
 {
 	//---触发传输
 	UINT8_T _return = DHT11_RESET(DHTxx);
@@ -222,7 +222,7 @@ UINT8_T DHT11_START(DHT11_HandlerType *DHTxx)
 //////说	   明：位数据“0”的格式为： 50 微秒的低电平和 26-28 微秒的高电平;
 /////////////  位数据“1”的格式为： 50 微秒的低电平加 70微秒的高电平
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_ReadBit(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_ReadBit(DHT11_HandleType *DHTxx)
 {
 	UINT8_T count = 0;
 	//---等待变为低电平---高电平保持的时间约为50us
@@ -267,7 +267,7 @@ UINT8_T DHT11_ReadBit(DHT11_HandlerType *DHTxx)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_ReadByte(DHT11_HandlerType *DHTxx)
+UINT8_T DHT11_ReadByte(DHT11_HandleType *DHTxx)
 {
 	UINT8_T i = 0, _return = 0;
 	for (i = 0; i < 8; i++)
@@ -286,7 +286,7 @@ UINT8_T DHT11_ReadByte(DHT11_HandlerType *DHTxx)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_ReadSTATE(DHT11_HandlerType* DHTxx)
+UINT8_T DHT11_ReadSTATE(DHT11_HandleType* DHTxx)
 {
 	UINT32_T nowTime = DHTxx->msgTimeTick();
 	UINT32_T cnt = 0;
@@ -318,7 +318,7 @@ UINT8_T DHT11_ReadSTATE(DHT11_HandlerType* DHTxx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11_ReadTempHumi(DHT11_HandlerType *DHT11x)
+UINT8_T DHT11_ReadTempHumi(DHT11_HandleType *DHT11x)
 {
 	UINT8_T temp[5] = { 0 };
 	UINT8_T i = 0;
@@ -381,7 +381,7 @@ UINT8_T DHT11_ReadTempHumi(DHT11_HandlerType *DHT11x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float DHT11_GetTemp(DHT11_HandlerType* DHT11x)
+float DHT11_GetTemp(DHT11_HandleType* DHT11x)
 {
 	float tempVal = DHT11x->msgTempX1000;
 	//---转换温度对应实际的温度值
@@ -401,7 +401,7 @@ float DHT11_GetTemp(DHT11_HandlerType* DHT11x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float DHT11_GetHumi(DHT11_HandlerType* DHT11x)
+float DHT11_GetHumi(DHT11_HandleType* DHT11x)
 {
 	float tempVal = DHT11x->msgHumiX1000;
 	//---转换温度对应实际的温度值

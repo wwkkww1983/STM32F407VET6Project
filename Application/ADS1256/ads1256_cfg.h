@@ -184,11 +184,11 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////	
 	//===定义结构体
-	typedef struct _ADS1256_HandlerType					ADS1256_HandlerType;
+	typedef struct _ADS1256_HandleType					ADS1256_HandleType;
 	//===定义指针结构体
-	typedef	struct _ADS1256_HandlerType					*pADS1256_HandlerType;
+	typedef	struct _ADS1256_HandleType					*pADS1256_HandleType;
 	//===定义结构体
-	struct _ADS1256_HandlerType
+	struct _ADS1256_HandleType
 	{
 		UINT8_T msgReady;																								//---设备是否准备就绪，0---工作正常；1---工作异常
 		UINT8_T msgChipID;																								//---设备的ID信息
@@ -214,9 +214,9 @@ extern "C" {
 		UINT8_T msgDRate;																								//---数据转换的速率，默认是0xF0
 		UINT8_T msgBufferON;																							//---是否开启缓存区，0---不开启，1---开启
 		UINT32_T msgRecordTick;																							//---当前的时间
-		GPIO_HandlerType	msgDRDY;																					//---准备好信号
-		GPIO_HandlerType	msgHWRST;																					//---硬件复位信号
-		SPI_HandlerType		msgSPI;																						//---使用的SPI模式
+		GPIO_HandleType	msgDRDY;																						//---准备好信号
+		GPIO_HandleType	msgHWRST;																						//---硬件复位信号
+		SPI_HandleType		msgSPI;																						//---使用的SPI模式
 		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
@@ -235,44 +235,44 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 	
 	//===外部调用接口
-	extern ADS1256_HandlerType  						g_ADS1256Device0;
-	extern pADS1256_HandlerType 						pADS1256Device0;
+	extern ADS1256_HandleType  						g_ADS1256Device0;
+	extern pADS1256_HandleType 						pADS1256Device0;
 
 	//===函数定义
-	UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);
-	UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandlerType *ADS1256x);
-	UINT8_T ADS1256_SPI_SW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal);
-	UINT8_T ADS1256_SPI_HW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal);
-	UINT8_T ADS1256_SPI_WriteReg( ADS1256_HandlerType *ADS1256x, UINT8_T regID, UINT8_T regVal );
-	UINT8_T ADS1256_SPI_ReadReg( ADS1256_HandlerType *ADS1256x, UINT8_T regAddr, UINT8_T *pRVal );
-	UINT8_T ADS1256_SPI_WriteCmd( ADS1256_HandlerType *ADS1256x, UINT8_T cmd );
-	UINT8_T ADS1256_SPI_HardReset( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_SoftReset( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_Reset(ADS1256_HandlerType* ADS1256x);
-	UINT8_T ADS1256_SPI_WAKEUP( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_SDATAC( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_ReadChipID( ADS1256_HandlerType *ADS1256x, UINT8_T *pDeviceID );
-	UINT8_T ADS1256_SPI_ReadDRate( ADS1256_HandlerType *ADS1256x, UINT8_T *pDRate );
-	UINT8_T ADS1256_SPI_SetDRate( ADS1256_HandlerType *ADS1256x, UINT8_T rate );
-	UINT8_T ADS1256_SPI_ReadGain( ADS1256_HandlerType *ADS1256x, UINT8_T *pGain );
-	UINT8_T ADS1256_SPI_SetGain( ADS1256_HandlerType *ADS1256x, UINT8_T gain );
-	UINT8_T ADS1256_SPI_SetClockOutRate( ADS1256_HandlerType *ADS1256x, UINT8_T clockRate );
-	UINT8_T ADS1256_SPI_DisableBuffer( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_EnableBuffer( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_Calibration( ADS1256_HandlerType *ADS1256x, UINT8_T calibCmdReg );
-	UINT8_T ADS1256_SPI_SelfCalibration( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_DisabledAutoCalibration( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_EnabledAutoCalibration( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_SetSingleChannal( ADS1256_HandlerType *ADS1256x, UINT8_T ch );
-	UINT8_T ADS1256_SPI_SetDifferenceChannal( ADS1256_HandlerType *ADS1256x, UINT8_T ch );
-	UINT8_T ADS1256_SPI_SetChannalMode( ADS1256_HandlerType *ADS1256x, UINT8_T ch, UINT8_T isDiff );
-	UINT8_T ADS1256_SPI_ReadChannelResult( ADS1256_HandlerType *ADS1256x, UINT8_T ch );
-	UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandlerType* ADS1256x, UINT8_T ch);
-	UINT8_T ADS1256_SPI_CalcBaseError(ADS1256_HandlerType* ADS1256x, UINT8_T ch);
-	UINT8_T ADS1256_SPI_CheckDevice(ADS1256_HandlerType *ADS1256x);
-	UINT8_T ADS1256_SPI_ConfigInit(ADS1256_HandlerType *ADS1256x);
-	UINT8_T ADS1256_SPI_AutoSelfRecovery(ADS1256_HandlerType* ADS1256x);
-	UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T ch);
+	UINT8_T ADS1256_SPI_Init(ADS1256_HandleType *ADS1256x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);
+	UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandleType *ADS1256x);
+	UINT8_T ADS1256_SPI_SW_SendCmd(ADS1256_HandleType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal);
+	UINT8_T ADS1256_SPI_HW_SendCmd(ADS1256_HandleType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal);
+	UINT8_T ADS1256_SPI_WriteReg( ADS1256_HandleType *ADS1256x, UINT8_T regID, UINT8_T regVal );
+	UINT8_T ADS1256_SPI_ReadReg( ADS1256_HandleType *ADS1256x, UINT8_T regAddr, UINT8_T *pRVal );
+	UINT8_T ADS1256_SPI_WriteCmd( ADS1256_HandleType *ADS1256x, UINT8_T cmd );
+	UINT8_T ADS1256_SPI_HardReset( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_SoftReset( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_Reset(ADS1256_HandleType* ADS1256x);
+	UINT8_T ADS1256_SPI_WAKEUP( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_SDATAC( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_ReadChipID( ADS1256_HandleType *ADS1256x, UINT8_T *pDeviceID );
+	UINT8_T ADS1256_SPI_ReadDRate( ADS1256_HandleType *ADS1256x, UINT8_T *pDRate );
+	UINT8_T ADS1256_SPI_SetDRate( ADS1256_HandleType *ADS1256x, UINT8_T rate );
+	UINT8_T ADS1256_SPI_ReadGain( ADS1256_HandleType *ADS1256x, UINT8_T *pGain );
+	UINT8_T ADS1256_SPI_SetGain( ADS1256_HandleType *ADS1256x, UINT8_T gain );
+	UINT8_T ADS1256_SPI_SetClockOutRate( ADS1256_HandleType *ADS1256x, UINT8_T clockRate );
+	UINT8_T ADS1256_SPI_DisableBuffer( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_EnableBuffer( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_Calibration( ADS1256_HandleType *ADS1256x, UINT8_T calibCmdReg );
+	UINT8_T ADS1256_SPI_SelfCalibration( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_DisabledAutoCalibration( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_EnabledAutoCalibration( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_SetSingleChannal( ADS1256_HandleType *ADS1256x, UINT8_T ch );
+	UINT8_T ADS1256_SPI_SetDifferenceChannal( ADS1256_HandleType *ADS1256x, UINT8_T ch );
+	UINT8_T ADS1256_SPI_SetChannalMode( ADS1256_HandleType *ADS1256x, UINT8_T ch, UINT8_T isDiff );
+	UINT8_T ADS1256_SPI_ReadChannelResult( ADS1256_HandleType *ADS1256x, UINT8_T ch );
+	UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandleType* ADS1256x, UINT8_T ch);
+	UINT8_T ADS1256_SPI_CalcBaseError(ADS1256_HandleType* ADS1256x, UINT8_T ch);
+	UINT8_T ADS1256_SPI_CheckDevice(ADS1256_HandleType *ADS1256x);
+	UINT8_T ADS1256_SPI_ConfigInit(ADS1256_HandleType *ADS1256x);
+	UINT8_T ADS1256_SPI_AutoSelfRecovery(ADS1256_HandleType* ADS1256x);
+	UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandleType* ADS1256x, UINT8_T ch);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

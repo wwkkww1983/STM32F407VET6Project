@@ -8,7 +8,7 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_Init(I2C_HandlerType *I2Cx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
+UINT8_T I2C_MSW_Init(I2C_HandleType *I2Cx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	//---使能GPIO的时钟
 	#ifndef  USE_FULL_GPIO
@@ -49,7 +49,7 @@ UINT8_T I2C_MSW_Init(I2C_HandlerType *I2Cx, void(*pFuncDelayus)(UINT32_T delay),
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_DeInit(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_DeInit(I2C_HandleType *I2Cx)
 {
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -79,7 +79,7 @@ UINT8_T I2C_MSW_DeInit(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_START(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_START(I2C_HandleType *I2Cx)
 {
 	//---发送起始条件的数据信号
 	GPIO_OUT_1(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
@@ -107,7 +107,7 @@ UINT8_T I2C_MSW_START(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_STOP(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_STOP(I2C_HandleType *I2Cx)
 {
 	//---发送停止条件的数据信号
 	GPIO_OUT_0(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
@@ -132,7 +132,7 @@ UINT8_T I2C_MSW_STOP(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_ACK(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_ACK(I2C_HandleType *I2Cx)
 {
 	GPIO_OUT_0(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
 	GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
@@ -155,7 +155,7 @@ UINT8_T I2C_MSW_ACK(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_NACK(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_NACK(I2C_HandleType *I2Cx)
 {
 	GPIO_OUT_1(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
 	GPIO_OUT_1(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit);
@@ -178,7 +178,7 @@ UINT8_T I2C_MSW_NACK(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_ReadACK(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_ReadACK(I2C_HandleType *I2Cx)
 {
 	UINT8_T _return = OK_0;
 	//---读取应答信号
@@ -205,7 +205,7 @@ UINT8_T I2C_MSW_ReadACK(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_WaitACK(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_WaitACK(I2C_HandleType *I2Cx)
 {
 	UINT8_T _return = OK_0;
 	//---读取应答信号
@@ -248,7 +248,7 @@ UINT8_T I2C_MSW_WaitACK(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_SendACK(I2C_HandlerType *I2Cx, UINT8_T isNACK)
+UINT8_T I2C_MSW_SendACK(I2C_HandleType *I2Cx, UINT8_T isNACK)
 {
 	if (isNACK)
 	{
@@ -267,7 +267,7 @@ UINT8_T I2C_MSW_SendACK(I2C_HandlerType *I2Cx, UINT8_T isNACK)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_SendBit(I2C_HandlerType *I2Cx, UINT8_T bitVal)
+UINT8_T I2C_MSW_SendBit(I2C_HandleType *I2Cx, UINT8_T bitVal)
 {
 	((bitVal&0x80)!=0x00)? GPIO_OUT_1(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit): GPIO_OUT_0(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit);
 	//---一个时钟脉冲
@@ -286,7 +286,7 @@ UINT8_T I2C_MSW_SendBit(I2C_HandlerType *I2Cx, UINT8_T bitVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_SendByte(I2C_HandlerType *I2Cx, UINT8_T val)
+UINT8_T I2C_MSW_SendByte(I2C_HandleType *I2Cx, UINT8_T val)
 {
 	UINT8_T i = 0;
 	//---清时钟线,钳住I2C总线，准备发送或接收数据
@@ -308,7 +308,7 @@ UINT8_T I2C_MSW_SendByte(I2C_HandlerType *I2Cx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_SendBits(I2C_HandlerType *I2Cx, UINT8_T *pVal, UINT8_T bitNum)
+UINT8_T I2C_MSW_SendBits(I2C_HandleType *I2Cx, UINT8_T *pVal, UINT8_T bitNum)
 {
 	//---计算字节个数
 	UINT8_T byteCount = (bitNum / 8);
@@ -344,7 +344,7 @@ UINT8_T I2C_MSW_SendBits(I2C_HandlerType *I2Cx, UINT8_T *pVal, UINT8_T bitNum)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_SendWord(I2C_HandlerType *I2Cx, UINT16_T val)
+UINT8_T I2C_MSW_SendWord(I2C_HandleType *I2Cx, UINT16_T val)
 {
 	UINT8_T valH = (UINT8_T)(val >> 8);
 	UINT8_T valL = (UINT8_T)(val);
@@ -377,7 +377,7 @@ UINT8_T I2C_MSW_SendWord(I2C_HandlerType *I2Cx, UINT16_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_ReadBit(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_ReadBit(I2C_HandleType *I2Cx)
 {
 	UINT8_T _return = OK_0;
 	//---时钟正脉冲
@@ -399,7 +399,7 @@ UINT8_T I2C_MSW_ReadBit(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_ReadByte(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_ReadByte(I2C_HandleType *I2Cx)
 {
 	UINT8_T i = 0;
 	UINT8_T _return = 0;
@@ -423,7 +423,7 @@ UINT8_T I2C_MSW_ReadByte(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_ReadBits(I2C_HandlerType *I2Cx, UINT8_T *pVal, UINT8_T bitNum)
+UINT8_T I2C_MSW_ReadBits(I2C_HandleType *I2Cx, UINT8_T *pVal, UINT8_T bitNum)
 {
 	//---读取字节个数
 	UINT8_T byteCount = (bitNum / 8);
@@ -461,7 +461,7 @@ UINT8_T I2C_MSW_ReadBits(I2C_HandlerType *I2Cx, UINT8_T *pVal, UINT8_T bitNum)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_CheckDevice(I2C_HandlerType *I2Cx)
+UINT8_T I2C_MSW_CheckDevice(I2C_HandleType *I2Cx)
 {
 	UINT8_T _return = OK_0;
 	if ((GPIO_GET_STATE(I2Cx->msgSCL.msgPort, I2Cx->msgSCL.msgBit)) && (GPIO_GET_STATE(I2Cx->msgSDA.msgPort, I2Cx->msgSDA.msgBit)))
@@ -489,7 +489,7 @@ UINT8_T I2C_MSW_CheckDevice(I2C_HandlerType *I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MSW_SendCMD(I2C_HandlerType *I2Cx, UINT8_T cmd, UINT8_T isStart, UINT8_T isStop)
+UINT8_T I2C_MSW_SendCMD(I2C_HandleType *I2Cx, UINT8_T cmd, UINT8_T isStart, UINT8_T isStop)
 {
 	UINT8_T _return = OK_0;
 	if (isStart)
@@ -527,7 +527,7 @@ UINT8_T I2C_MSW_SendCMD(I2C_HandlerType *I2Cx, UINT8_T cmd, UINT8_T isStart, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_Clock(I2C_HandlerType* I2Cx, UINT8_T isEnable)
+UINT8_T I2C_Clock(I2C_HandleType* I2Cx, UINT8_T isEnable)
 {
 	#ifdef I2C3
 	if (I2Cx->msgI2Cx == I2C1)
@@ -617,7 +617,7 @@ UINT8_T I2C_Clock(I2C_HandlerType* I2Cx, UINT8_T isEnable)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
+UINT8_T I2C_MHW_Init(I2C_HandleType* I2Cx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	//---使能GPIO的时钟
 	#ifndef  USE_FULL_GPIO
@@ -692,7 +692,7 @@ UINT8_T I2C_MHW_Init(I2C_HandlerType* I2Cx, void(*pFuncDelayus)(UINT32_T delay),
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_DeInit(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_DeInit(I2C_HandleType* I2Cx)
 {
 	//---复位I2C
 	LL_I2C_DeInit(I2Cx->msgI2Cx);
@@ -706,7 +706,7 @@ UINT8_T I2C_MHW_DeInit(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_PollMode_WaitFlag(I2C_HandlerType* I2Cx,UINT32_T (*pFuncActiveFlag)(I2C_TypeDef* I2Cx), FlagStatus flagStatus)
+UINT8_T I2C_MHW_PollMode_WaitFlag(I2C_HandleType* I2Cx,UINT32_T (*pFuncActiveFlag)(I2C_TypeDef* I2Cx), FlagStatus flagStatus)
 {
 	UINT8_T _return = OK_0;
 	//---获取当前时间节拍
@@ -771,7 +771,7 @@ UINT8_T I2C_MHW_PollMode_WaitFlag(I2C_HandlerType* I2Cx,UINT32_T (*pFuncActiveFl
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_PollMode_START(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_PollMode_START(I2C_HandleType* I2Cx)
 {
 	//---保证I2C外设不在使用中
 	UINT8_T _return = I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_BUSY,RESET);
@@ -793,7 +793,7 @@ UINT8_T I2C_MHW_PollMode_START(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_PollMode_STOP(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_PollMode_STOP(I2C_HandleType* I2Cx)
 {
 	//---传送结束条件
 	LL_I2C_GenerateStopCondition(I2Cx->msgI2Cx);
@@ -807,7 +807,7 @@ UINT8_T I2C_MHW_PollMode_STOP(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_PollMode_ADDR(I2C_HandlerType* I2Cx,UINT8_T isWrite)
+UINT8_T I2C_MHW_PollMode_ADDR(I2C_HandleType* I2Cx,UINT8_T isWrite)
 {
 	UINT8_T _return = OK_0;
 	//---发送设备地址
@@ -826,7 +826,7 @@ UINT8_T I2C_MHW_PollMode_ADDR(I2C_HandlerType* I2Cx,UINT8_T isWrite)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_CheckClock(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_CheckClock(I2C_HandleType* I2Cx)
 {
 	if (I2Cx->msgRegCCR != LL_I2C_GetClockPeriod(I2Cx->msgI2Cx))
 	{
@@ -842,7 +842,7 @@ UINT8_T I2C_MHW_CheckClock(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK)
+UINT8_T I2C_MHW_SendACK(I2C_HandleType* I2Cx, UINT8_T isNACK)
 {
 	(isNACK != 0) ? (LL_I2C_AcknowledgeNextData(I2Cx->msgI2Cx, LL_I2C_NACK)) : (LL_I2C_AcknowledgeNextData(I2Cx->msgI2Cx, LL_I2C_ACK));
 	return OK_0;
@@ -855,7 +855,7 @@ UINT8_T I2C_MHW_SendACK(I2C_HandlerType* I2Cx, UINT8_T isNACK)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_CheckBusy(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_CheckBusy(I2C_HandleType* I2Cx)
 {
 	//---保证I2C外设不在使用中
 	UINT8_T _return = I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_BUSY, RESET);
@@ -918,7 +918,7 @@ UINT8_T I2C_MHW_CheckBusy(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：最后一次发送数据使用isBTF为1，用使用BTF标志位，用于验证数据传输完成
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_PollMode_SendByte(I2C_HandlerType* I2Cx, UINT8_T val,UINT8_T isBTF)
+UINT8_T I2C_MHW_PollMode_SendByte(I2C_HandleType* I2Cx, UINT8_T val,UINT8_T isBTF)
 {
 	//---地址位已经置位,通常TXE也会完成,为了谨慎,再查一下
 	UINT8_T _return= I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_TXE, SET);
@@ -945,7 +945,7 @@ UINT8_T I2C_MHW_PollMode_SendByte(I2C_HandlerType* I2Cx, UINT8_T val,UINT8_T isB
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_MHW_PollMode_ReadByte(I2C_HandlerType* I2Cx)
+UINT8_T I2C_MHW_PollMode_ReadByte(I2C_HandleType* I2Cx)
 {
 	//---校验接收寄存器不为空
 	UINT8_T _return= I2C_MHW_PollMode_WaitFlag(I2Cx, LL_I2C_IsActiveFlag_RXNE, SET);
@@ -967,7 +967,7 @@ UINT8_T I2C_MHW_PollMode_ReadByte(I2C_HandlerType* I2Cx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T I2C_Master_DeInit(I2C_HandlerType* I2Cx)
+UINT8_T I2C_Master_DeInit(I2C_HandleType* I2Cx)
 {
 	//---注销I2C设备
 	return ((I2Cx->msgHwMode != 0) ? (I2C_MHW_DeInit(I2Cx)) : (I2C_MSW_DeInit(I2Cx)));

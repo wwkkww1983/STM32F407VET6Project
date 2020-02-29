@@ -1,8 +1,8 @@
 #include "hvpp_cfg.h"
 
 //===全局变量的定义
-HVPP_HandlerType  g_HvppDevice0 = { 0 };
-pHVPP_HandlerType pHvppDevice0 = &g_HvppDevice0;
+HVPP_HandleType  g_HvppDevice0 = { 0 };
+pHVPP_HandleType pHvppDevice0 = &g_HvppDevice0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,7 +11,7 @@ pHVPP_HandlerType pHvppDevice0 = &g_HvppDevice0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_DATABUS_WRITE(HVPP_HandlerType* HVPPx,UINT8_T val )
+UINT8_T HVPP_DATABUS_WRITE(HVPP_HandleType* HVPPx,UINT8_T val )
 {
 	//---校验数据总线是不是写入状态
 	if (HVPPx->msgDataBusState!=HVPP_DATA_BUS_MODE_WRITE)
@@ -45,7 +45,7 @@ UINT8_T HVPP_DATABUS_WRITE(HVPP_HandlerType* HVPPx,UINT8_T val )
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_DATABUS_READ(HVPP_HandlerType* HVPPx,UINT8_T isReadDir)
+UINT8_T HVPP_DATABUS_READ(HVPP_HandleType* HVPPx,UINT8_T isReadDir)
 {
 	UINT8_T _return=0;
 	//---校验数据总线是不是读取状态
@@ -84,7 +84,7 @@ UINT8_T HVPP_DATABUS_READ(HVPP_HandlerType* HVPPx,UINT8_T isReadDir)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_GPIO_Init(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_GPIO_Init(HVPP_HandleType* HVPPx)
 {
 	//---RST到地
 	HVPP_DUT_RST_TO_GND;
@@ -214,7 +214,7 @@ UINT8_T HVPP_GPIO_Init(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_GPIO_DeInit(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_GPIO_DeInit(HVPP_HandleType* HVPPx)
 {
 	//---切换数据总线为设备到主机
 	HVPP_DATA_BUS_DIR_TO_HOST;
@@ -277,7 +277,7 @@ UINT8_T HVPP_GPIO_DeInit(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void HVPP_XTAL_CLK(HVPP_HandlerType* HVPPx,UINT8_T clkNum)
+void HVPP_XTAL_CLK(HVPP_HandleType* HVPPx,UINT8_T clkNum)
 {
 	UINT8_T i=0;
 	//---执行端口的翻转
@@ -297,7 +297,7 @@ void HVPP_XTAL_CLK(HVPP_HandlerType* HVPPx,UINT8_T clkNum)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void HVPP_XTAL_PULSE(HVPP_HandlerType* HVPPx)
+void HVPP_XTAL_PULSE(HVPP_HandleType* HVPPx)
 {
 	HVPPx->msgDelayus(HVPPx->msgXtalPulseWidth);
 	HVPP_XTAL_OUT_1;
@@ -312,7 +312,7 @@ void HVPP_XTAL_PULSE(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_Init(HVPP_HandlerType* HVPPx,void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
+UINT8_T HVPP_Init(HVPP_HandleType* HVPPx,void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	HVPPx->msgState = 0;
 	HVPPx->msgXtalPulseWidth=5;
@@ -362,7 +362,7 @@ UINT8_T HVPP_Init(HVPP_HandlerType* HVPPx,void(*pFuncDelayus)(UINT32_T delay), v
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_DeInit(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_DeInit(HVPP_HandleType* HVPPx)
 {
 	HVPPx->msgSelfPower = 0;
 	HVPPx->msgXtalPulseWidth = 5;
@@ -389,7 +389,7 @@ void HVPP_AddWatchDevice0(void)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void HVPP_WatchTask(HVPP_HandlerType* HVPPx)
+void HVPP_WatchTask(HVPP_HandleType* HVPPx)
 {
 	UINT32_T nowTime = 0;
 	UINT32_T cnt = 0;
@@ -422,7 +422,7 @@ void HVPP_WatchTask(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_AddWatch(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_AddWatch(HVPP_HandleType* HVPPx)
 {
 	//---刷新时间
 	HVPP_RefreshWatch(HVPPx);
@@ -438,7 +438,7 @@ UINT8_T HVPP_AddWatch(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_RemoveWatch(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_RemoveWatch(HVPP_HandleType* HVPPx)
 {
 	SysTick_DeleteTickTask(HVPP_AddWatchDevice0);
 	return OK_0;
@@ -451,7 +451,7 @@ UINT8_T HVPP_RemoveWatch(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_RefreshWatch(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_RefreshWatch(HVPP_HandleType* HVPPx)
 {
 	//---配置轮训间隔为最大值，单位是ms
 	HVPPx->msgIntervalTime = HVPP_STATE_TIME_OUT_MS;
@@ -467,7 +467,7 @@ UINT8_T HVPP_RefreshWatch(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_SetIntervalTime(HVPP_HandlerType* HVPPx, UINT16_T intervalTime)
+UINT8_T HVPP_SetIntervalTime(HVPP_HandleType* HVPPx, UINT16_T intervalTime)
 {
 	//---配置轮训间隔时间，单位是ms
 	HVPPx->msgIntervalTime = intervalTime;
@@ -483,7 +483,7 @@ UINT8_T HVPP_SetIntervalTime(HVPP_HandlerType* HVPPx, UINT16_T intervalTime)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_GetIntervalTime(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_GetIntervalTime(HVPP_HandleType* HVPPx)
 {
 	return HVPPx->msgIntervalTime;
 }
@@ -495,7 +495,7 @@ UINT8_T HVPP_GetIntervalTime(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_ProgModeEnter(HVPP_HandlerType* HVPPx,UINT8_T pagel,UINT8_T xa1,UINT8_T xa0,UINT8_T bs1)
+UINT8_T HVPP_ProgModeEnter(HVPP_HandleType* HVPPx,UINT8_T pagel,UINT8_T xa1,UINT8_T xa0,UINT8_T bs1)
 {
 	//>>>---设置并行数据端口和并行数据控制端口未输入模式，且并行数据方向为设备到主机模式，之后端口处于高阻状态
 	HVPP_DUT_RST_TO_GND;
@@ -540,7 +540,7 @@ UINT8_T HVPP_ProgModeEnter(HVPP_HandlerType* HVPPx,UINT8_T pagel,UINT8_T xa1,UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_ProgModeExit(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_ProgModeExit(HVPP_HandleType* HVPPx)
 {
 	//---RST拉低到地
 	HVPP_DUT_RST_TO_GND;
@@ -571,7 +571,7 @@ UINT8_T HVPP_ProgModeExit(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_EnterProg(HVPP_HandlerType* HVPPx, UINT8_T hvProgCmd)
+UINT8_T HVPP_EnterProg(HVPP_HandleType* HVPPx, UINT8_T hvProgCmd)
 {
 	HVPPx->msgState=1;
 	//---校验命令是不是相同命令
@@ -593,7 +593,7 @@ UINT8_T HVPP_EnterProg(HVPP_HandlerType* HVPPx, UINT8_T hvProgCmd)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_ExitProg(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_ExitProg(HVPP_HandleType* HVPPx)
 {
 	HVPPx->msgState = 0;
 	HVPPx->msgHvFastMode = 0;
@@ -609,7 +609,7 @@ UINT8_T HVPP_ExitProg(HVPP_HandlerType* HVPPx)
 //////输出参数: 0---准备好，非0---未准备好，处于异常状态
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_ReadReady(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_ReadReady(HVPP_HandleType* HVPPx)
 {
 	UINT8_T _return = 0;
 	//---获取时间标签
@@ -678,7 +678,7 @@ UINT8_T HVPP_ReadReady(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_EraseChip(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_EraseChip(HVPP_HandleType* HVPPx)
 {
 	UINT8_T _return=OK_0;
 	UINT8_T i = 0;
@@ -718,7 +718,7 @@ UINT8_T HVPP_EraseChip(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_ReadChipID(HVPP_HandlerType* HVPPx, UINT8_T* pVal)
+UINT8_T HVPP_ReadChipID(HVPP_HandleType* HVPPx, UINT8_T* pVal)
 {
 	UINT8_T i=0;
 	//---使能命令加载
@@ -760,7 +760,7 @@ UINT8_T HVPP_ReadChipID(HVPP_HandlerType* HVPPx, UINT8_T* pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_ReadChipCalibration(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T length)
+UINT8_T HVPP_ReadChipCalibration(HVPP_HandleType* HVPPx, UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T i = 0;
 	//---使能命令加载
@@ -802,7 +802,7 @@ UINT8_T HVPP_ReadChipCalibration(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_ReadChipFuse(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T isNeedExternFuse)
+UINT8_T HVPP_ReadChipFuse(HVPP_HandleType* HVPPx, UINT8_T* pVal, UINT8_T isNeedExternFuse)
 {
 	//---使能命令加载
 	HVPP_ENABLE_CMD_LOAD;
@@ -854,7 +854,7 @@ UINT8_T HVPP_ReadChipFuse(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T isNeed
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_ReadChipLock(HVPP_HandlerType* HVPPx, UINT8_T* pVal)
+UINT8_T HVPP_ReadChipLock(HVPP_HandleType* HVPPx, UINT8_T* pVal)
 {
 	//---使能命令加载
 	HVPP_ENABLE_CMD_LOAD;
@@ -886,7 +886,7 @@ UINT8_T HVPP_ReadChipLock(HVPP_HandlerType* HVPPx, UINT8_T* pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_ReadChipRom(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T addr, UINT16_T length)
+UINT8_T HVPP_ReadChipRom(HVPP_HandleType* HVPPx, UINT8_T* pVal, UINT8_T addr, UINT16_T length)
 {
 	UINT8_T i = 0;
 	//---判断数据长度是否是偶数
@@ -943,7 +943,7 @@ UINT8_T HVPP_ReadChipRom(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T addr, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_EraseChipRom(HVPP_HandlerType* HVPPx)
+UINT8_T HVPP_EraseChipRom(HVPP_HandleType* HVPPx)
 {
 	return OK_0;
 }
@@ -955,7 +955,7 @@ UINT8_T HVPP_EraseChipRom(HVPP_HandlerType* HVPPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_WriteChipID(HVPP_HandlerType* HVPPx,UINT8_T* pVal)
+UINT8_T HVPP_WriteChipID(HVPP_HandleType* HVPPx,UINT8_T* pVal)
 {
 	return OK_0;
 }
@@ -967,7 +967,7 @@ UINT8_T HVPP_WriteChipID(HVPP_HandlerType* HVPPx,UINT8_T* pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_WriteChipCalibration(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T length)
+UINT8_T HVPP_WriteChipCalibration(HVPP_HandleType* HVPPx, UINT8_T* pVal, UINT8_T length)
 {
 	return OK_0;
 }
@@ -979,7 +979,7 @@ UINT8_T HVPP_WriteChipCalibration(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_WriteChipFuse(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T isNeedExternFuse)
+UINT8_T HVPP_WriteChipFuse(HVPP_HandleType* HVPPx, UINT8_T* pVal, UINT8_T isNeedExternFuse)
 {
 	return OK_0;
 }
@@ -991,7 +991,7 @@ UINT8_T HVPP_WriteChipFuse(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T isNee
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HVPP_WriteChipLock(HVPP_HandlerType* HVPPx, UINT8_T val)
+UINT8_T HVPP_WriteChipLock(HVPP_HandleType* HVPPx, UINT8_T val)
 {
 	return OK_0;
 }

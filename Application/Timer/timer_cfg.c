@@ -1,8 +1,8 @@
 #include "timer_cfg.h"
 
 //===全局变量定义
-CalcFreq_HandlerType  g_CalcFreq;
-pCalcFreq_HandlerType pCalcFreq = &g_CalcFreq;
+CalcFreq_HandleType  g_CalcFreq;
+pCalcFreq_HandleType pCalcFreq = &g_CalcFreq;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：

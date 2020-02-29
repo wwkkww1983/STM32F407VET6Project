@@ -1,10 +1,10 @@
 #include "ads1256_cfg.h"
 
 //===全局变量定义
-ADS1256_HandlerType  g_ADS1256Device0 = { 0 };
-pADS1256_HandlerType pADS1256Device0 = &g_ADS1256Device0;
+ADS1256_HandleType  g_ADS1256Device0 = { 0 };
+pADS1256_HandleType pADS1256Device0 = &g_ADS1256Device0;
 
-UINT8_T(*ADS1256_SPI_SEND_CMD)(ADS1256_HandlerType *, UINT8_T, UINT8_T *);
+UINT8_T(*ADS1256_SPI_SEND_CMD)(ADS1256_HandleType *, UINT8_T, UINT8_T *);
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -13,7 +13,7 @@ UINT8_T(*ADS1256_SPI_SEND_CMD)(ADS1256_HandlerType *, UINT8_T, UINT8_T *);
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void ADS1256_SPI_Device0_Init(ADS1256_HandlerType *ADS1256x)
+void ADS1256_SPI_Device0_Init(ADS1256_HandleType *ADS1256x)
 {
 	//---DRDY
 	ADS1256x->msgDRDY.msgPort = GPIOA;
@@ -125,7 +125,7 @@ void ADS1256_SPI_Device0_Init(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void ADS1256_SPI_Device1_Init(ADS1256_HandlerType *ADS1256x)
+void ADS1256_SPI_Device1_Init(ADS1256_HandleType *ADS1256x)
 {
 
 }
@@ -137,7 +137,7 @@ void ADS1256_SPI_Device1_Init(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void ADS1256_SPI_Device2_Init(ADS1256_HandlerType *ADS1256x)
+void ADS1256_SPI_Device2_Init(ADS1256_HandleType *ADS1256x)
 {
 
 }
@@ -149,7 +149,7 @@ void ADS1256_SPI_Device2_Init(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandleType *ADS1256x)
 {
 	//---硬件端口的配置---硬件实现
 	SPITask_MHW_GPIO_Init(&(ADS1256x->msgSPI));
@@ -204,7 +204,7 @@ UINT8_T ADS1256_SPI_HW_Init(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SW_Init(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_SW_Init(ADS1256_HandleType *ADS1256x)
 {
 	//---硬件端口的配置---软件实现
 	SPITask_MSW_GPIO_Init(&(ADS1256x->msgSPI));	
@@ -226,7 +226,7 @@ UINT8_T ADS1256_SPI_SW_Init(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW)
+UINT8_T ADS1256_SPI_Init(ADS1256_HandleType *ADS1256x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW)
 {
 	//---使用的DHT11的端口
 	if ((ADS1256x != NULL) && (ADS1256x == ADS1256_TASK_ONE))
@@ -268,7 +268,7 @@ UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_AutoInit(ADS1256_HandlerType* ADS1256x)
+UINT8_T ADS1256_SPI_AutoInit(ADS1256_HandleType* ADS1256x)
 {
 	if (ADS1256x->msgSPI.msgHwMode != 0)
 	{
@@ -290,7 +290,7 @@ UINT8_T ADS1256_SPI_AutoInit(ADS1256_HandlerType* ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_AutoDeInit(ADS1256_HandlerType* ADS1256x)
+UINT8_T ADS1256_SPI_AutoDeInit(ADS1256_HandleType* ADS1256x)
 {
 	//---注销当前的所有配置
 	return SPITask_DeInit(&(ADS1256x->msgSPI),0);
@@ -303,7 +303,7 @@ UINT8_T ADS1256_SPI_AutoDeInit(ADS1256_HandlerType* ADS1256x)
 //////输出参数: 0---成功；非0---失败
 //////说		明：检查准备好操作，检查DRDY端口从高到低的脉冲，有些状态下命令不响应的问题
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandleType *ADS1256x)
 {
 	//---获取时间标签
 	UINT32_T nowTime = 0;
@@ -404,7 +404,7 @@ UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal)
+UINT8_T ADS1256_SPI_SW_SendCmd(ADS1256_HandleType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal)
 {
 	//---数据发送
 	return SPITask_MSW_WriteAndReadByteMSB(&(ADS1256x->msgSPI), cmd, pRVal);
@@ -417,7 +417,7 @@ UINT8_T ADS1256_SPI_SW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_HW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal)
+UINT8_T ADS1256_SPI_HW_SendCmd(ADS1256_HandleType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal)
 {
 	//---数据发送
 	return SPITask_MHW_PollMode_WriteAndReadByte(&(ADS1256x->msgSPI), cmd, pRVal);
@@ -430,7 +430,7 @@ UINT8_T ADS1256_SPI_HW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_WriteReg(ADS1256_HandlerType *ADS1256x, UINT8_T regID, UINT8_T regVal)
+UINT8_T ADS1256_SPI_WriteReg(ADS1256_HandleType *ADS1256x, UINT8_T regID, UINT8_T regVal)
 {
 	UINT8_T _return = OK_0;
 	//---读取准备信号
@@ -467,7 +467,7 @@ UINT8_T ADS1256_SPI_WriteReg(ADS1256_HandlerType *ADS1256x, UINT8_T regID, UINT8
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_ReadReg(ADS1256_HandlerType *ADS1256x, UINT8_T regAddr, UINT8_T *pRVal)
+UINT8_T ADS1256_SPI_ReadReg(ADS1256_HandleType *ADS1256x, UINT8_T regAddr, UINT8_T *pRVal)
 {
 	UINT8_T _return = OK_0;
 	//---读取准备信号
@@ -506,7 +506,7 @@ UINT8_T ADS1256_SPI_ReadReg(ADS1256_HandlerType *ADS1256x, UINT8_T regAddr, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_WriteCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd)
+UINT8_T ADS1256_SPI_WriteCmd(ADS1256_HandleType *ADS1256x, UINT8_T cmd)
 {
 	UINT8_T _return = OK_0;
 	//---读取准备信号
@@ -537,7 +537,7 @@ UINT8_T ADS1256_SPI_WriteCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_HardReset(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_HardReset(ADS1256_HandleType *ADS1256x)
 {
 	UINT8_T _return = OK_0, dRate = 0;
 	if (ADS1256x->msgHWRST.msgPort != NULL)
@@ -569,7 +569,7 @@ UINT8_T ADS1256_SPI_HardReset(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：通过读取默认转换速率寄存器的值，判断是否未复位成功；复位之后，默认值是0xF0
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SoftReset(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_SoftReset(ADS1256_HandleType *ADS1256x)
 {
 	UINT8_T _return = OK_0, dRate = 0;
 	//---发送软件复位命令
@@ -603,7 +603,7 @@ UINT8_T ADS1256_SPI_SoftReset(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_Reset(ADS1256_HandlerType* ADS1256x)
+UINT8_T ADS1256_SPI_Reset(ADS1256_HandleType* ADS1256x)
 {
 	UINT8_T _return = OK_0;
 	if (ADS1256x->msgHWRST.msgPort != NULL)
@@ -624,7 +624,7 @@ UINT8_T ADS1256_SPI_Reset(ADS1256_HandlerType* ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_Standby(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_Standby(ADS1256_HandleType *ADS1256x)
 {
 	//---发送休眠模式命令
 	ADS1256x->msgSleepMode = 1;
@@ -645,7 +645,7 @@ UINT8_T ADS1256_SPI_Standby(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_WAKEUP(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_WAKEUP(ADS1256_HandleType *ADS1256x)
 {
 	//---发送唤醒命令
 	ADS1256x->msgSleepMode = 0;
@@ -666,7 +666,7 @@ UINT8_T ADS1256_SPI_WAKEUP(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SDATAC(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_SDATAC(ADS1256_HandleType *ADS1256x)
 {
 	//UINT8_T _return= ADS1256_SPI_WriteCmd(ADS1256x, ADS1256_CMD_SDATAC);
 	//if (_return == OK_0)
@@ -685,7 +685,7 @@ UINT8_T ADS1256_SPI_SDATAC(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：ADS1256的ID是3
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_ReadChipID(ADS1256_HandlerType *ADS1256x,UINT8_T *pDeviceID)
+UINT8_T ADS1256_SPI_ReadChipID(ADS1256_HandleType *ADS1256x,UINT8_T *pDeviceID)
 {
 	UINT8_T _return = OK_0;
 	_return=ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_STATUS_ADDR, pDeviceID);
@@ -706,7 +706,7 @@ UINT8_T ADS1256_SPI_ReadChipID(ADS1256_HandlerType *ADS1256x,UINT8_T *pDeviceID)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_DisableAutoCalibration(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_DisableAutoCalibration(ADS1256_HandleType *ADS1256x)
 {
 	UINT8_T statusReg = 0, _return = OK_0;
 	_return = ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_STATUS_ADDR, &statusReg);
@@ -730,7 +730,7 @@ UINT8_T ADS1256_SPI_DisableAutoCalibration(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_EnableAutoCalibration(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_EnableAutoCalibration(ADS1256_HandleType *ADS1256x)
 {
 	UINT8_T statusReg = 0, _return = OK_0;
 	_return = ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_STATUS_ADDR, &statusReg);
@@ -754,7 +754,7 @@ UINT8_T ADS1256_SPI_EnableAutoCalibration(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_DisableBuffer(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_DisableBuffer(ADS1256_HandleType *ADS1256x)
 {
 	UINT8_T statusReg = 0,_return=OK_0;
 	_return=ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_STATUS_ADDR, &statusReg);
@@ -784,7 +784,7 @@ UINT8_T ADS1256_SPI_DisableBuffer(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_EnableBuffer( ADS1256_HandlerType *ADS1256x )
+UINT8_T ADS1256_SPI_EnableBuffer( ADS1256_HandleType *ADS1256x )
 {
 	UINT8_T statusReg = 0,_return=OK_0;
 	_return=ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_STATUS_ADDR, &statusReg);
@@ -815,7 +815,7 @@ UINT8_T ADS1256_SPI_EnableBuffer( ADS1256_HandlerType *ADS1256x )
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SetSingleChannal(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
+UINT8_T ADS1256_SPI_SetSingleChannal(ADS1256_HandleType *ADS1256x, UINT8_T ch)
 {
 	UINT8_T _return = OK_0;
 	//---计算通道
@@ -853,7 +853,7 @@ UINT8_T ADS1256_SPI_SetSingleChannal(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SetDifferenceChannal(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
+UINT8_T ADS1256_SPI_SetDifferenceChannal(ADS1256_HandleType *ADS1256x, UINT8_T ch)
 {
 	UINT8_T _return = OK_0;
 	//---计算通道
@@ -934,7 +934,7 @@ UINT8_T ADS1256_SPI_SetDifferenceChannal(ADS1256_HandlerType *ADS1256x, UINT8_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SetChannalMode(ADS1256_HandlerType *ADS1256x, UINT8_T ch, UINT8_T isDiff)
+UINT8_T ADS1256_SPI_SetChannalMode(ADS1256_HandleType *ADS1256x, UINT8_T ch, UINT8_T isDiff)
 {
 	if (isDiff)
 	{
@@ -953,7 +953,7 @@ UINT8_T ADS1256_SPI_SetChannalMode(ADS1256_HandlerType *ADS1256x, UINT8_T ch, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SetClockOutRate(ADS1256_HandlerType *ADS1256x, UINT8_T clockRate)
+UINT8_T ADS1256_SPI_SetClockOutRate(ADS1256_HandleType *ADS1256x, UINT8_T clockRate)
 {
 	UINT8_T adconReg = 0, _return = OK_0;
 	_return = ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_ADCON_ADDR, &adconReg);
@@ -978,7 +978,7 @@ UINT8_T ADS1256_SPI_SetClockOutRate(ADS1256_HandlerType *ADS1256x, UINT8_T clock
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SensorDetect(ADS1256_HandlerType *ADS1256x, UINT8_T sensorDetect)
+UINT8_T ADS1256_SPI_SensorDetect(ADS1256_HandleType *ADS1256x, UINT8_T sensorDetect)
 {
 	UINT8_T adconReg = 0, _return = OK_0;
 	_return = ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_ADCON_ADDR, &adconReg);
@@ -1004,7 +1004,7 @@ UINT8_T ADS1256_SPI_SensorDetect(ADS1256_HandlerType *ADS1256x, UINT8_T sensorDe
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_ReadGain(ADS1256_HandlerType *ADS1256x, UINT8_T *pGain)
+UINT8_T ADS1256_SPI_ReadGain(ADS1256_HandleType *ADS1256x, UINT8_T *pGain)
 {
 	UINT8_T _return = OK_0;
 	_return = ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_ADCON_ADDR, pGain);
@@ -1020,7 +1020,7 @@ UINT8_T ADS1256_SPI_ReadGain(ADS1256_HandlerType *ADS1256x, UINT8_T *pGain)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SetGain(ADS1256_HandlerType *ADS1256x, UINT8_T gain)
+UINT8_T ADS1256_SPI_SetGain(ADS1256_HandleType *ADS1256x, UINT8_T gain)
 {
 	UINT8_T adconReg = 0, _return = OK_0;
 	_return = ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_ADCON_ADDR, &adconReg);
@@ -1052,7 +1052,7 @@ UINT8_T ADS1256_SPI_SetGain(ADS1256_HandlerType *ADS1256x, UINT8_T gain)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_ReadDRate(ADS1256_HandlerType *ADS1256x, UINT8_T *pDRate)
+UINT8_T ADS1256_SPI_ReadDRate(ADS1256_HandleType *ADS1256x, UINT8_T *pDRate)
 {
 	return ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_DRATE_ADDR, pDRate);
 }
@@ -1064,7 +1064,7 @@ UINT8_T ADS1256_SPI_ReadDRate(ADS1256_HandlerType *ADS1256x, UINT8_T *pDRate)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SetDRate(ADS1256_HandlerType *ADS1256x, UINT8_T rate)
+UINT8_T ADS1256_SPI_SetDRate(ADS1256_HandleType *ADS1256x, UINT8_T rate)
 {
 	UINT8_T _return = OK_0;
 	ADS1256x->msgDRate = rate;
@@ -1089,7 +1089,7 @@ UINT8_T ADS1256_SPI_SetDRate(ADS1256_HandlerType *ADS1256x, UINT8_T rate)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SetGPIOMode(ADS1256_HandlerType *ADS1256x, UINT8_T gpioMode)
+UINT8_T ADS1256_SPI_SetGPIOMode(ADS1256_HandleType *ADS1256x, UINT8_T gpioMode)
 {
 	UINT8_T gpioReg = 0, _return = OK_0;
 	_return = ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_GPIO_ADDR, &gpioReg);
@@ -1142,7 +1142,7 @@ UINT8_T ADS1256_SPI_SetGPIOMode(ADS1256_HandlerType *ADS1256x, UINT8_T gpioMode)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_ReadGPIOInputState(ADS1256_HandlerType *ADS1256x, UINT8_T gpioIndex,UINT8_T *pGPIOState)
+UINT8_T ADS1256_SPI_ReadGPIOInputState(ADS1256_HandleType *ADS1256x, UINT8_T gpioIndex,UINT8_T *pGPIOState)
 {
 	UINT8_T gpioReg = 0, _return = OK_0;
 	_return = ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_GPIO_ADDR, &gpioReg);
@@ -1177,7 +1177,7 @@ UINT8_T ADS1256_SPI_ReadGPIOInputState(ADS1256_HandlerType *ADS1256x, UINT8_T gp
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SetGPIOOutState(ADS1256_HandlerType *ADS1256x, UINT8_T gpioIndex,UINT8_T isHighLevel)
+UINT8_T ADS1256_SPI_SetGPIOOutState(ADS1256_HandleType *ADS1256x, UINT8_T gpioIndex,UINT8_T isHighLevel)
 {
 	UINT8_T gpioReg = 0, _return = OK_0;
 	_return = ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_GPIO_ADDR, &gpioReg);
@@ -1246,7 +1246,7 @@ UINT8_T ADS1256_SPI_SetGPIOOutState(ADS1256_HandlerType *ADS1256x, UINT8_T gpioI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_DisabledAutoCalibration(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_DisabledAutoCalibration(ADS1256_HandleType *ADS1256x)
 {
 	UINT8_T statusReg = 0,_return=OK_0;
 	_return=ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_STATUS_ADDR, &statusReg);
@@ -1270,7 +1270,7 @@ UINT8_T ADS1256_SPI_DisabledAutoCalibration(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_EnabledAutoCalibration(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_EnabledAutoCalibration(ADS1256_HandleType *ADS1256x)
 {
 	UINT8_T statusReg = 0,_return=OK_0;
 	_return=ADS1256_SPI_ReadReg(ADS1256x, ADS1256_REG_STATUS_ADDR, &statusReg);
@@ -1294,7 +1294,7 @@ UINT8_T ADS1256_SPI_EnabledAutoCalibration(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_Calibration(ADS1256_HandlerType *ADS1256x, UINT8_T calibCmdReg)
+UINT8_T ADS1256_SPI_Calibration(ADS1256_HandleType *ADS1256x, UINT8_T calibCmdReg)
 {
 	//---发送校准命令
 	ADS1256_SPI_WriteCmd(ADS1256x, calibCmdReg);
@@ -1309,7 +1309,7 @@ UINT8_T ADS1256_SPI_Calibration(ADS1256_HandlerType *ADS1256x, UINT8_T calibCmdR
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SelfCalibration(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_SelfCalibration(ADS1256_HandleType *ADS1256x)
 {
 	return ADS1256_SPI_Calibration(ADS1256x, ADS1256_CMD_SELFCAL);
 }
@@ -1321,7 +1321,7 @@ UINT8_T ADS1256_SPI_SelfCalibration(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_OffsetSelfCalibration(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_OffsetSelfCalibration(ADS1256_HandleType *ADS1256x)
 {
 	return ADS1256_SPI_Calibration(ADS1256x, ADS1256_CMD_SELFOCAL);
 }
@@ -1333,7 +1333,7 @@ UINT8_T ADS1256_SPI_OffsetSelfCalibration(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_GainSelfCalibration(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_GainSelfCalibration(ADS1256_HandleType *ADS1256x)
 {
 	return ADS1256_SPI_Calibration(ADS1256x, ADS1256_CMD_SELFGCAL);
 }
@@ -1345,7 +1345,7 @@ UINT8_T ADS1256_SPI_GainSelfCalibration(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SysOffsetCalibration(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_SysOffsetCalibration(ADS1256_HandleType *ADS1256x)
 {
 	return ADS1256_SPI_Calibration(ADS1256x, ADS1256_CMD_SYSOCAL);
 }
@@ -1357,7 +1357,7 @@ UINT8_T ADS1256_SPI_SysOffsetCalibration(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_SysGainCalibration(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_SysGainCalibration(ADS1256_HandleType *ADS1256x)
 {
 	return ADS1256_SPI_Calibration(ADS1256x, ADS1256_CMD_SYSGCAL);
 }
@@ -1369,7 +1369,7 @@ UINT8_T ADS1256_SPI_SysGainCalibration(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_WaitResultOK(ADS1256_HandlerType* ADS1256x,UINT8_T dRate)
+UINT8_T ADS1256_SPI_WaitResultOK(ADS1256_HandleType* ADS1256x,UINT8_T dRate)
 {
 	switch (dRate)
 	{
@@ -1433,7 +1433,7 @@ UINT8_T ADS1256_SPI_WaitResultOK(ADS1256_HandlerType* ADS1256x,UINT8_T dRate)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
+UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandleType *ADS1256x, UINT8_T ch)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T temp[3] = { 0 };
@@ -1533,7 +1533,7 @@ UINT8_T ADS1256_SPI_ReadChannelResult(ADS1256_HandlerType *ADS1256x, UINT8_T ch)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandlerType* ADS1256x, UINT8_T ch)
+UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandleType* ADS1256x, UINT8_T ch)
 {
 	UINT8_T _return = OK_0;
 	UINT32_T refPoweruV = ADS1256_GAIN_1_FULL_RANGE_UV;
@@ -1608,7 +1608,7 @@ UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandlerType* ADS1256x, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_CalcBaseError(ADS1256_HandlerType* ADS1256x,UINT8_T ch)
+UINT8_T ADS1256_SPI_CalcBaseError(ADS1256_HandleType* ADS1256x,UINT8_T ch)
 {
 	//---偏差上线
 	UINT16_T limitPowerErr = 0;
@@ -1775,7 +1775,7 @@ UINT8_T ADS1256_SPI_CalcBaseError(ADS1256_HandlerType* ADS1256x,UINT8_T ch)
 //////输出参数: 0---设备初始化正常；非0---设备初始化异常
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_CheckDevice(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_CheckDevice(ADS1256_HandleType *ADS1256x)
 {
 	UINT8_T tempDRate = 0;
 	UINT8_T _return = OK_0;
@@ -1815,7 +1815,7 @@ UINT8_T ADS1256_SPI_CheckDevice(ADS1256_HandlerType *ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_ConfigInit(ADS1256_HandlerType *ADS1256x)
+UINT8_T ADS1256_SPI_ConfigInit(ADS1256_HandleType *ADS1256x)
 {
 	UINT8_T _return = OK_0;
 	_return=ADS1256_SPI_Reset(ADS1256x);
@@ -1931,7 +1931,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_AutoCalibration(ADS1256_HandlerType* ADS1256x)
+UINT8_T ADS1256_SPI_AutoCalibration(ADS1256_HandleType* ADS1256x)
 {
 	UINT8_T _return = 0;
 	if (ADS1256x->msgSPI.msgTimeTick()==NULL)
@@ -2048,7 +2048,7 @@ UINT8_T ADS1256_SPI_AutoCalibration(ADS1256_HandlerType* ADS1256x)
 //////输出参数:
 //////说		明：ADS1256工作一段时间之后会产生异常，这里是重启和校准
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_AutoSelfRecovery(ADS1256_HandlerType* ADS1256x)
+UINT8_T ADS1256_SPI_AutoSelfRecovery(ADS1256_HandleType* ADS1256x)
 {
 	UINT8_T _return = 0;
 	//---检查设备
@@ -2075,7 +2075,7 @@ UINT8_T ADS1256_SPI_AutoSelfRecovery(ADS1256_HandlerType* ADS1256x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T ch)
+UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandleType* ADS1256x, UINT8_T ch)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T change = 0;

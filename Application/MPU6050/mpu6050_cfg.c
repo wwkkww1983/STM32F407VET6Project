@@ -1,8 +1,8 @@
 #include "mpu6050_cfg.h"
 
 //===全局变量定义
-MPU6050_HandlerType			g_Mpu6050Device0 = {0};
-pMPU6050_HandlerType		pMpu6050Device0=&g_Mpu6050Device0;
+MPU6050_HandleType			g_Mpu6050Device0 = {0};
+pMPU6050_HandleType		pMpu6050Device0=&g_Mpu6050Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,7 +11,7 @@ pMPU6050_HandlerType		pMpu6050Device0=&g_Mpu6050Device0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_Device0_Init(MPU6050_HandlerType* MPU6050x)
+UINT8_T MPU6050_I2C_Device0_Init(MPU6050_HandleType* MPU6050x)
 {
 	MPU6050x->msgI2C.msgI2Cx = NULL;
 	MPU6050x->msgI2C.msgSCL.msgPort = GPIOB;
@@ -37,7 +37,7 @@ UINT8_T MPU6050_I2C_Device0_Init(MPU6050_HandlerType* MPU6050x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_Device1_Init(MPU6050_HandlerType* MPU6050x)
+UINT8_T MPU6050_I2C_Device1_Init(MPU6050_HandleType* MPU6050x)
 {
 	return ERROR_1;
 }
@@ -49,7 +49,7 @@ UINT8_T MPU6050_I2C_Device1_Init(MPU6050_HandlerType* MPU6050x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_Device2_Init(MPU6050_HandlerType* MPU6050x)
+UINT8_T MPU6050_I2C_Device2_Init(MPU6050_HandleType* MPU6050x)
 {
 	return ERROR_1;
 }
@@ -61,7 +61,7 @@ UINT8_T MPU6050_I2C_Device2_Init(MPU6050_HandlerType* MPU6050x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_Init(MPU6050_HandlerType* MPU6050x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
+UINT8_T MPU6050_I2C_Init(MPU6050_HandleType* MPU6050x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---指定设备的初始化
@@ -97,7 +97,7 @@ UINT8_T MPU6050_I2C_Init(MPU6050_HandlerType* MPU6050x, void(*pFuncDelayus)(UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_SWI2C_WriteSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T val)
+UINT8_T MPU6050_SWI2C_WriteSingle(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -136,7 +136,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_HWI2C_WriteSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T val)
+UINT8_T MPU6050_HWI2C_WriteSingle(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -172,7 +172,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_WriteSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T val)
+UINT8_T MPU6050_I2C_WriteSingle(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T val)
 {
 	if (MPU6050x->msgI2C.msgHwMode != 0)
 	{
@@ -192,7 +192,7 @@ UINT8_T MPU6050_I2C_WriteSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_SWI2C_WriteBulk(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T *pVal,UINT8_T length)
+UINT8_T MPU6050_SWI2C_WriteBulk(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T *pVal,UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -242,7 +242,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_HWI2C_WriteBulk(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T *pVal,UINT8_T length)
+UINT8_T MPU6050_HWI2C_WriteBulk(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T *pVal,UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -290,7 +290,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_WriteBulk(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T *pVal,UINT8_T length)
+UINT8_T MPU6050_I2C_WriteBulk(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T *pVal,UINT8_T length)
 {
 	if (MPU6050x->msgI2C.msgHwMode != 0)
 	{
@@ -311,7 +311,7 @@ UINT8_T MPU6050_I2C_WriteBulk(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_SWI2C_ReadSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T MPU6050_SWI2C_ReadSingle(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -358,7 +358,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_HWI2C_ReadSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T MPU6050_HWI2C_ReadSingle(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -403,7 +403,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T MPU6050_I2C_ReadSingle(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T* pVal)
 {
 	if (MPU6050x->msgI2C.msgHwMode != 0)
 	{
@@ -423,7 +423,7 @@ UINT8_T MPU6050_I2C_ReadSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_SWI2C_ReadBulk(MPU6050_HandlerType* MPU6050x,UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T MPU6050_SWI2C_ReadBulk(MPU6050_HandleType* MPU6050x,UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
 	//UINT8_T readTemp[6] = { 0 };
 	UINT8_T _return = OK_0;
@@ -476,7 +476,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_HWI2C_ReadBulk(MPU6050_HandlerType* MPU6050x, UINT8_T addr,UINT8_T* pVal, UINT8_T length)
+UINT8_T MPU6050_HWI2C_ReadBulk(MPU6050_HandleType* MPU6050x, UINT8_T addr,UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -527,7 +527,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadBulk(MPU6050_HandlerType* MPU6050x,UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T MPU6050_I2C_ReadBulk(MPU6050_HandleType* MPU6050x,UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
 	if (MPU6050x->msgI2C.msgHwMode == 1)
 	{
@@ -547,7 +547,7 @@ UINT8_T MPU6050_I2C_ReadBulk(MPU6050_HandlerType* MPU6050x,UINT8_T addr, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadChipID(MPU6050_HandlerType* MPU6050x, UINT8_T *pChipID)
+UINT8_T MPU6050_I2C_ReadChipID(MPU6050_HandleType* MPU6050x, UINT8_T *pChipID)
 {
 	//UINT8_T _return = MPU6050_I2C_ReadSingle(MPU6050x, MPU6050_REG_ADDR_WHO_AM_I, pChipID);
 	////---校验读取结果
@@ -574,7 +574,7 @@ UINT8_T MPU6050_I2C_ReadChipID(MPU6050_HandlerType* MPU6050x, UINT8_T *pChipID)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadAccel(MPU6050_HandlerType* MPU6050x)
+UINT8_T MPU6050_I2C_ReadAccel(MPU6050_HandleType* MPU6050x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T tempAccel[6] = { 0 };
@@ -602,7 +602,7 @@ UINT8_T MPU6050_I2C_ReadAccel(MPU6050_HandlerType* MPU6050x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadTemp(MPU6050_HandlerType* MPU6050x)
+UINT8_T MPU6050_I2C_ReadTemp(MPU6050_HandleType* MPU6050x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T tempTemp[2] = { 0 };
@@ -626,7 +626,7 @@ UINT8_T MPU6050_I2C_ReadTemp(MPU6050_HandlerType* MPU6050x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadGyro(MPU6050_HandlerType* MPU6050x)
+UINT8_T MPU6050_I2C_ReadGyro(MPU6050_HandleType* MPU6050x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T tempGyro[6] = { 0 };
@@ -654,7 +654,7 @@ UINT8_T MPU6050_I2C_ReadGyro(MPU6050_HandlerType* MPU6050x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadAccelTempGyro(MPU6050_HandlerType* MPU6050x)
+UINT8_T MPU6050_I2C_ReadAccelTempGyro(MPU6050_HandleType* MPU6050x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T tempVal[14] = { 0 };
@@ -706,7 +706,7 @@ UINT8_T MPU6050_I2C_ReadAccelTempGyro(MPU6050_HandlerType* MPU6050x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_WriteSMPRTDIV(MPU6050_HandlerType* MPU6050x, UINT8_T smprtDiv)
+UINT8_T MPU6050_I2C_WriteSMPRTDIV(MPU6050_HandleType* MPU6050x, UINT8_T smprtDiv)
 {
 	return MPU6050_I2C_WriteSingle(MPU6050x, MPU6050_REG_ADDR_SMPLRT_DIV, smprtDiv);
 }
@@ -718,7 +718,7 @@ UINT8_T MPU6050_I2C_WriteSMPRTDIV(MPU6050_HandlerType* MPU6050x, UINT8_T smprtDi
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadSMPRTDIV(MPU6050_HandlerType* MPU6050x, UINT8_T *pSMPRTDIV)
+UINT8_T MPU6050_I2C_ReadSMPRTDIV(MPU6050_HandleType* MPU6050x, UINT8_T *pSMPRTDIV)
 {
 	return MPU6050_I2C_ReadSingle(MPU6050x, MPU6050_REG_ADDR_SMPLRT_DIV, pSMPRTDIV);
 }
@@ -730,7 +730,7 @@ UINT8_T MPU6050_I2C_ReadSMPRTDIV(MPU6050_HandlerType* MPU6050x, UINT8_T *pSMPRTD
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_WriteLPF(MPU6050_HandlerType* MPU6050x, UINT8_T lpf)
+UINT8_T MPU6050_I2C_WriteLPF(MPU6050_HandleType* MPU6050x, UINT8_T lpf)
 {
 	UINT8_T tempCFG = 0;
 	//---读取配置信息
@@ -753,7 +753,7 @@ UINT8_T MPU6050_I2C_WriteLPF(MPU6050_HandlerType* MPU6050x, UINT8_T lpf)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_Reset(MPU6050_HandlerType* MPU6050x)
+UINT8_T MPU6050_I2C_Reset(MPU6050_HandleType* MPU6050x)
 {
 	return MPU6050_I2C_WriteSingle(MPU6050x, MPU6050_REG_ADDR_PWR_MGMT_1, 0x80);
 }
@@ -765,7 +765,7 @@ UINT8_T MPU6050_I2C_Reset(MPU6050_HandlerType* MPU6050x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadINTSTATUS(MPU6050_HandlerType* MPU6050x, UINT8_T *pINTSTATUS)
+UINT8_T MPU6050_I2C_ReadINTSTATUS(MPU6050_HandleType* MPU6050x, UINT8_T *pINTSTATUS)
 {
 	return MPU6050_I2C_ReadSingle(MPU6050x, MPU6050_REG_ADDR_INT_STATUS, pINTSTATUS);
 }
@@ -777,7 +777,7 @@ UINT8_T MPU6050_I2C_ReadINTSTATUS(MPU6050_HandlerType* MPU6050x, UINT8_T *pINTST
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadINTENABLE(MPU6050_HandlerType* MPU6050x, UINT8_T* pINTENABLE)
+UINT8_T MPU6050_I2C_ReadINTENABLE(MPU6050_HandleType* MPU6050x, UINT8_T* pINTENABLE)
 {
 	return MPU6050_I2C_ReadSingle(MPU6050x, MPU6050_REG_ADDR_INT_ENABLE, pINTENABLE);
 }
@@ -789,7 +789,7 @@ UINT8_T MPU6050_I2C_ReadINTENABLE(MPU6050_HandlerType* MPU6050x, UINT8_T* pINTEN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_WriteINTENABLE(MPU6050_HandlerType* MPU6050x, UINT8_T intEnable)
+UINT8_T MPU6050_I2C_WriteINTENABLE(MPU6050_HandleType* MPU6050x, UINT8_T intEnable)
 {
 	UINT8_T tempCFG = 0;
 	//---读取配置信息
@@ -811,7 +811,7 @@ UINT8_T MPU6050_I2C_WriteINTENABLE(MPU6050_HandlerType* MPU6050x, UINT8_T intEna
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadINTPINCFG(MPU6050_HandlerType* MPU6050x, UINT8_T* pINTPINCFG)
+UINT8_T MPU6050_I2C_ReadINTPINCFG(MPU6050_HandleType* MPU6050x, UINT8_T* pINTPINCFG)
 {
 	return MPU6050_I2C_ReadSingle(MPU6050x, MPU6050_REG_ADDR_INT_PIN_CFG, pINTPINCFG);;
 }
@@ -823,7 +823,7 @@ UINT8_T MPU6050_I2C_ReadINTPINCFG(MPU6050_HandlerType* MPU6050x, UINT8_T* pINTPI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_WriteINTPINCFG(MPU6050_HandlerType* MPU6050x, UINT8_T intPinCfg)
+UINT8_T MPU6050_I2C_WriteINTPINCFG(MPU6050_HandleType* MPU6050x, UINT8_T intPinCfg)
 {
 	UINT8_T tempCFG = 0;
 	//---读取配置信息
@@ -845,7 +845,7 @@ UINT8_T MPU6050_I2C_WriteINTPINCFG(MPU6050_HandlerType* MPU6050x, UINT8_T intPin
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadGyroRange(MPU6050_HandlerType* MPU6050x, UINT8_T *pGyroRange)
+UINT8_T MPU6050_I2C_ReadGyroRange(MPU6050_HandleType* MPU6050x, UINT8_T *pGyroRange)
 {
 	UINT8_T _return= MPU6050_I2C_ReadSingle(MPU6050x, MPU6050_REG_ADDR_GYRO_CONFIG, pGyroRange);
 	*pGyroRange &= MPU6050_GYRO_FS_MASK;
@@ -859,7 +859,7 @@ UINT8_T MPU6050_I2C_ReadGyroRange(MPU6050_HandlerType* MPU6050x, UINT8_T *pGyroR
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_WriteGyroRange(MPU6050_HandlerType* MPU6050x, UINT8_T gyroRange)
+UINT8_T MPU6050_I2C_WriteGyroRange(MPU6050_HandleType* MPU6050x, UINT8_T gyroRange)
 {
 	UINT8_T tempCFG = 0;
 	UINT8_T _return = MPU6050_I2C_ReadSingle(MPU6050x, MPU6050_REG_ADDR_GYRO_CONFIG, &tempCFG);
@@ -880,7 +880,7 @@ UINT8_T MPU6050_I2C_WriteGyroRange(MPU6050_HandlerType* MPU6050x, UINT8_T gyroRa
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ReadAccelRange(MPU6050_HandlerType* MPU6050x, UINT8_T* pAccelRange)
+UINT8_T MPU6050_I2C_ReadAccelRange(MPU6050_HandleType* MPU6050x, UINT8_T* pAccelRange)
 {
 	UINT8_T _return = MPU6050_I2C_ReadSingle(MPU6050x, MPU6050_REG_ADDR_ACCEL_CONFIG, pAccelRange);
 	*pAccelRange &= MPU6050_ACCEL_FS_MASK;
@@ -894,7 +894,7 @@ UINT8_T MPU6050_I2C_ReadAccelRange(MPU6050_HandlerType* MPU6050x, UINT8_T* pAcce
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_WriteAccelRange(MPU6050_HandlerType* MPU6050x, UINT8_T accelRange)
+UINT8_T MPU6050_I2C_WriteAccelRange(MPU6050_HandleType* MPU6050x, UINT8_T accelRange)
 {
 	UINT8_T tempCFG = 0;
 	UINT8_T _return = MPU6050_I2C_ReadSingle(MPU6050x, MPU6050_REG_ADDR_ACCEL_CONFIG, &tempCFG);
@@ -915,7 +915,7 @@ UINT8_T MPU6050_I2C_WriteAccelRange(MPU6050_HandlerType* MPU6050x, UINT8_T accel
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MPU6050_I2C_ConfigInit(MPU6050_HandlerType* MPU6050x)
+UINT8_T MPU6050_I2C_ConfigInit(MPU6050_HandleType* MPU6050x)
 {
 	UINT8_T tempVal = 0;
 	//---读取ID信息

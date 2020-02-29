@@ -39,11 +39,11 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////	
 	//===结构体定义
-	typedef struct _HMC5883_HandlerType					HMC5883_HandlerType;
+	typedef struct _HMC5883_HandleType					HMC5883_HandleType;
 	//===指针结构体定义
-	typedef struct _HMC5883_HandlerType					*pHMC5883_HandlerType;
+	typedef struct _HMC5883_HandleType					*pHMC5883_HandleType;
 	//===HMC5883的数据结构体
-	struct _HMC5883_HandlerType
+	struct _HMC5883_HandleType
 	{
 		INT16_T				msgX;																						//---X轴方向数据
 		INT16_T				msgOffsetX;																					//---X轴偏移
@@ -52,8 +52,8 @@ extern "C" {
 		INT16_T				msgY;																						//---Y轴方向数据
 		INT16_T				msgOffsetY;																					//---Y轴偏移
 		float				msgAngle;																					//---当前角度，方位角,磁偏角
-		GPIO_HandlerType	msgDRDY;																					//---数据准备，中断引脚。内部被拉高。选项为连接，当数据位于输出寄存器上时会在低电位上停250us
-		I2C_HandlerType		msgI2C;																						//---使用的I2C
+		GPIO_HandleType	msgDRDY;																					//---数据准备，中断引脚。内部被拉高。选项为连接，当数据位于输出寄存器上时会在低电位上停250us
+		I2C_HandleType		msgI2C;																						//---使用的I2C
 		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
@@ -72,21 +72,21 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用
-	extern HMC5883_HandlerType							g_Hmc5883Device0;
-	extern pHMC5883_HandlerType							pHmc5883Device0;
+	extern HMC5883_HandleType							g_Hmc5883Device0;
+	extern pHMC5883_HandleType							pHmc5883Device0;
 
 	//===函数定义
-	UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandlerType* HMC5883x);
-	UINT8_T HMC5883_I2C_Device1_Init(HMC5883_HandlerType* HMC5883x);
-	UINT8_T HMC5883_I2C_Device2_Init(HMC5883_HandlerType* HMC5883x);
-	UINT8_T HMC5883_I2C_Init(HMC5883_HandlerType* HMC5883x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T HMC5883_I2C_DeInit(HMC5883_HandlerType* HMC5883x);
-	UINT8_T HMC5883_I2C_WriteSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T val);
-	UINT8_T HMC5883_I2C_ReadSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T* pVal);
-	UINT8_T HMC5883_I2C_ReadBulk(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
-	UINT8_T HMC5883_I2C_ConfigInit(HMC5883_HandlerType* HMC5883x);
-	UINT8_T HMC5883_I2C_ReadRawData(HMC5883_HandlerType* HMC5883x);
-	void	HMC5883_I2C_CalibrateMag(HMC5883_HandlerType* HMC5883x);
+	UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandleType* HMC5883x);
+	UINT8_T HMC5883_I2C_Device1_Init(HMC5883_HandleType* HMC5883x);
+	UINT8_T HMC5883_I2C_Device2_Init(HMC5883_HandleType* HMC5883x);
+	UINT8_T HMC5883_I2C_Init(HMC5883_HandleType* HMC5883x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T HMC5883_I2C_DeInit(HMC5883_HandleType* HMC5883x);
+	UINT8_T HMC5883_I2C_WriteSingle(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T val);
+	UINT8_T HMC5883_I2C_ReadSingle(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T* pVal);
+	UINT8_T HMC5883_I2C_ReadBulk(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
+	UINT8_T HMC5883_I2C_ConfigInit(HMC5883_HandleType* HMC5883x);
+	UINT8_T HMC5883_I2C_ReadRawData(HMC5883_HandleType* HMC5883x);
+	void	HMC5883_I2C_CalibrateMag(HMC5883_HandleType* HMC5883x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

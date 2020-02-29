@@ -145,11 +145,11 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////	
 	//===结构体定义
-	typedef struct _INA226_HandlerType					INA226_HandlerType;
+	typedef struct _INA226_HandleType					INA226_HandleType;
 	//===指针结构体定义
-	typedef struct _INA226_HandlerType					* pINA226_HandlerType;
+	typedef struct _INA226_HandleType					* pINA226_HandleType;
 	//===AT24Cxx的数据结构体
-	struct _INA226_HandlerType
+	struct _INA226_HandleType
 	{
 		UINT16_T			msgCFGReg;					//---配置寄存器
 		UINT16_T			msgMaskReg;					//---功能配置寄存器
@@ -162,8 +162,8 @@ extern "C" {
 		float				msgShuntuV;					//---采样电阻电压,单位微伏
 		float				msgShuntuA;					//---采样电阻电流，单位微安
 		float				msgPowermW;					//---负载的功耗，单位微瓦
-		GPIO_HandlerType	msgAlert;					//---报警端口的配置，INA226是开漏模式，需要外接上拉电阻
-		I2C_HandlerType		msgI2C;						//---使用的I2C
+		GPIO_HandleType	msgAlert;					//---报警端口的配置，INA226是开漏模式，需要外接上拉电阻
+		I2C_HandleType		msgI2C;						//---使用的I2C
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
@@ -182,19 +182,19 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用
-	extern INA226_HandlerType							g_Ina226Device0 ;
-	extern pINA226_HandlerType							pIna226Device0  ;
+	extern INA226_HandleType							g_Ina226Device0 ;
+	extern pINA226_HandleType							pIna226Device0  ;
 
 	//===函数定义
-	UINT8_T INA226_I2C_Device0_Init(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_Device1_Init(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_Device2_Init(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T INA226_I2C_DeInit(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_ConfigInit(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_ReadDieID(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_ReadManuID(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_GetBusVoltage(INA226_HandlerType* INA226x);
+	UINT8_T INA226_I2C_Device0_Init(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_Device1_Init(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_Device2_Init(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_Init(INA226_HandleType* INA226x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T INA226_I2C_DeInit(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_ConfigInit(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_ReadDieID(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_ReadManuID(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_GetBusVoltage(INA226_HandleType* INA226x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

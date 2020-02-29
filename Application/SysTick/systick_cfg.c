@@ -1,8 +1,8 @@
 #include "systick_cfg.h"
 
 //---变量定义
-SysTick_HandlerType		g_SysTick = { 0 };
-pSysTick_HandlerType	pSysTick = &g_SysTick;
+SysTick_HandleType		g_SysTick = { 0 };
+pSysTick_HandleType	pSysTick = &g_SysTick;
 
 #if defined (USE_HAL_DRIVER)
 	//---外部调用的Hal库延时变量
@@ -44,7 +44,7 @@ UINT8_T SysTick_Resume(void)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysTick_StructInit(SysTick_HandlerType *sysTickx)
+UINT8_T SysTick_StructInit(SysTick_HandleType *sysTickx)
 {
 	UINT8_T i = 0;
 	sysTickx->msgIncTick = 0;

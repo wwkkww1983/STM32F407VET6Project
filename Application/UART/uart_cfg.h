@@ -17,6 +17,8 @@ extern "C" {
 	#define  UART_INIT_GPIO
 	//===是否重映射printf函数
 	#define  USE_UART_PRINTF	
+	//===是否使用485模式传输数据
+	#define  USE_UART_485
 	//////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////配置参数---结束////////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -25,19 +27,19 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===数据结构体
-	typedef struct _UART_HandlerType			UART_HandlerType;
-	typedef struct _UART_HandlerType			* pUART_HandlerType;
+	typedef struct _UART_HandleType				UART_HandleType;
+	typedef struct _UART_HandleType				* pUART_HandleType;
 	//===数据结构体
-	typedef struct _UART_HandlerDef				UART_HandlerDef;
-	typedef struct _UART_HandlerDef				*pUART_HandlerDef;
+	typedef struct _UART_HandleDef				UART_HandleDef;
+	typedef struct _UART_HandleDef				*pUART_HandleDef;
 	//===接收数据结构体
-	typedef struct _UART_HandlerDef				UART_RXDHandlerType;
-	typedef struct _UART_HandlerDef				*pUART_RXDHandlerType;
+	typedef struct _UART_HandleDef				UART_RXDHandleType;
+	typedef struct _UART_HandleDef				*pUART_RXDHandleType;
 	//===发送数据结构体
-	typedef struct _UART_HandlerDef				UART_TXDHandlerType;
-	typedef struct _UART_HandlerDef				*pUART_TXDHandlerType;
+	typedef struct _UART_HandleDef				UART_TXDHandleType;
+	typedef struct _UART_HandleDef				*pUART_TXDHandleType;
 	//===串口数据结构体定义
-	struct _UART_HandlerDef
+	struct _UART_HandleDef
 	{
 		UINT8_T									msgDMAMode;																//---是否是DMA模式，0---非DMA模式，1---DMA模式
 		VLTUINT8_T								msgCheckSum;															//---校验和
@@ -54,17 +56,18 @@ extern "C" {
 		VLTUINT32_T								msgRecordTick;															//---超时时间节拍
 		VLTUINT32_T								msgRecordTime;															//---超时时间记录时间
 		VLTUINT32_T								msgMaxTime;																//---超时时间
+		VLTUINT32_T								msgMsgValBaseAddr;														//---数据缓存区的基地址，用于指针偏移的时候进行恢复
 		UINT8_T									*pMsgVal;																//---缓存区(需要提前定义好数据的缓存区)
 		DMA_TypeDef								*msgDMA;																//---DMA号
 		UINT32_T								msgDMAChannelOrStream;													//---DMA通道号或者流信息
 		UINT32_T(*msgTimeTick)(void);																					//---用于超时计数
 	};	
 	//===串口数据定义
-	struct _UART_HandlerType
+	struct _UART_HandleType
 	{
 		#ifdef USE_UART_PRINTF
-			UINT16_T							msgPCount;															//---打印发送总数
-			UINT16_T							msgPIndex;															//---打印发送序号
+			UINT16_T							msgPCount;																//---打印发送总数
+			UINT16_T							msgPIndex;																//---打印发送序号
 		#endif
 		UINT8_T									msgIndex;																//---UART端口的索引号
 		UINT8_T									msgRxdID;																//---接收报头
@@ -75,11 +78,13 @@ extern "C" {
 		UINT8_T									msgDataOneIndex;														//---数据1在数组中的位置
 		UINT8_T									msgDataTwoIndex;														//---数据2在数组中的位置
 		UINT8_T									msgIndexOffset;															//---索引的偏移量
-		GPIO_HandlerType						msgTxPort;																//---UART的GPIO端口号
-		GPIO_HandlerType						msg485Port;																//---485的使能GPIO端口
+		GPIO_HandleType							msgTxPort;																//---UART的GPIO端口号
+		#ifdef USE_UART_485
+			GPIO_HandleType						msg485Port;																//---485的使能GPIO端口
+		#endif
 		USART_TypeDef							*msgUART;																//---UART端口
-		UART_TXDHandlerType						msgTxdHandler;															//---发送函数
-		UART_RXDHandlerType						msgRxdHandler;															//---接收函数
+		UART_TXDHandleType						msgTxdHandle;															//---发送函数
+		UART_RXDHandleType						msgRxdHandle;															//---接收函数
 	};
 	//===printf数据结构体
 	typedef struct _UART_PrintfType				UART_PrintfType;
@@ -87,7 +92,8 @@ extern "C" {
 	//===Printf打印数据定义
 	struct _UART_PrintfType
 	{
-		UINT16_T								msgIndex;																//---发送索引
+		UINT16_T								msgRIndex;																//---读取索引
+		UINT16_T								msgWIndex;																//---发送索引
 		char									* pMsgVal;																//---缓存区(需要提前定义好数据的缓存区)
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
@@ -104,8 +110,7 @@ extern "C" {
 	#endif	
 	//===使用的校验方式
 	#define UART_CRC_NONE							0
-	#define UART_CRC_CHECKSUM						1
-	
+	#define UART_CRC_CHECKSUM						1	
 	//===自适应CRC校验等级
 	#ifdef USE_CRC8
 		#define UART_CRC_CRC8						2
@@ -145,26 +150,46 @@ extern "C" {
 	#define UART_IT_IDLE							5																	//---串口中断空闲状态
 
 	//===定义的任务函数
-	#define UART_TASK_ONE							pUart1																//---UART1的任务
-	#define UART_TASK_TWO							0																	//---UART2的任务
-	#define UART_TASK_THREE							pUart3																	//---UART3的任务
-	#define UART_TASK_FOUR							0																	//---UART4的任务
-	#define UART_TASK_FIVE							0																	//---UART5的任务
-	#define UART_TASK_SIX							0																	//---UART6的任务
-	#define UART_TASK_SEVEN							0																	//---UART7的任务
-	#define UART_TASK_EIGHT							0																	//---UART8的任务
-	#define UART_TASK_NINE							0																	//---UART9的任务
-	#define UART_TASK_TEN							0																	//---UART10的任务	
+	#ifdef USART1
+		#define UART_TASK_ONE						pUart1																//---UART1的任务
+	#endif
+	#ifdef USART2
+		#define UART_TASK_TWO						0																	//---UART2的任务
+	#endif
+	#ifdef USART3
+		#define UART_TASK_THREE						pUart3																//---UART3的任务
+	#endif
+	#ifdef UART4
+		#define UART_TASK_FOUR						0																	//---UART4的任务
+	#endif
+	#ifdef UART5
+		#define UART_TASK_FIVE						0																	//---UART5的任务
+	#endif
+	#ifdef USART6
+		#define UART_TASK_SIX						0																	//---UART6的任务
+	#endif
+	#ifdef UART7
+		#define UART_TASK_SEVEN						0																	//---UART7的任务
+	#endif
+	#ifdef UART8
+		#define UART_TASK_EIGHT						0																	//---UART8的任务
+	#endif
+	#ifdef UART9
+		#define UART_TASK_NINE						0																	//---UART9的任务
+	#endif
+	#ifdef UART10
+		#define UART_TASK_TEN						0																	//---UART10的任务	
+	#endif
 	//////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////配置宏定义---结束////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	//===外部调用接口
-	extern UART_HandlerType							g_Uart1;
-	extern pUART_HandlerType						pUart1;
+	extern UART_HandleType							g_Uart1;
+	extern pUART_HandleType						pUart1;
 
-	extern UART_HandlerType							g_Uart3;
-	extern pUART_HandlerType						pUart3;
+	extern UART_HandleType							g_Uart3;
+	extern pUART_HandleType						pUart3;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////串口1的配置参数开始//////////////////////////////////////////
@@ -229,68 +254,77 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	//===函数定义
-	UINT8_T  UART_StructInit(UART_HandlerType*  UARTx);
-	UINT8_T  UART_ConfigInit(UART_HandlerType* UARTx, UART_HandlerType* UARTInitx);
-	UINT8_T  UART_Init(UART_HandlerType*  UARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void));
-	UINT8_T  UART_TXGPIOInit(UART_HandlerType*  UARTx, UINT8_T isInput);
-	UINT8_T  UART_485GPIOInit(UART_HandlerType*  UARTx, UINT8_T isEnable);
-	UINT8_T  UART_SetCRC(UART_HandlerDef* UARTDefx, UINT8_T crcFlag);
-	UINT8_T  UART_GetCRC(UART_HandlerDef* UARTDefx);
-	UINT8_T  UART_TimeTick_Init(UART_HandlerDef* UARTDefx);
-	UINT8_T  UART_TimeTick_DeInit(UART_HandlerDef* UARTDefx);
-	UINT8_T  UART_TimeTick_OverFlow(UART_HandlerDef* UARTDefx);
-	UINT8_T  UART_TimeTask_OverFlow(UART_HandlerType*UARTx, UINT8_T isRx);
-	UINT8_T  UART_ITRead_8BitsTask(UART_HandlerType*UARTx, UINT8_T val);
-	UINT8_T  UART_ITRead_16BitsTask(UART_HandlerType*UARTx, UINT8_T val);
-	UINT8_T  UART_ITRead_Task(UART_HandlerType*UARTx, UINT8_T val);
-	UINT8_T  UART_GetOverFlow(UART_HandlerDef* UARTDefx);
-	UINT8_T  UART_ClearOverFlow(UART_HandlerDef* UARTDefx);
-	UINT8_T  UART_PollMode_WriteByte(UART_HandlerType*UARTx, UINT8_T  val);
-	UINT8_T  UART_PollMode_WriteData(UART_HandlerType*UARTx, char *pVal);
-	UINT8_T  UART_PollMode_ReadByte(UART_HandlerType*UARTx);
-	UINT8_T  UART_PollMode_ReadData(UART_HandlerType*UARTx, char *pVal);
-	UINT8_T  UART_ITWrite_TXETask(UART_HandlerType*UARTx);
-	UINT8_T  UART_ITWrite_TCTask(UART_HandlerType*UARTx);
-	UINT8_T  UART_RealTime_AddByte(UART_HandlerType*UARTx, UINT8_T val);
-	UINT8_T  UART_RealTime_AddSize(UART_HandlerType*UARTx, UINT16_T val);
-	UINT8_T  UART_RealTime_AddCRC(UART_HandlerType*UARTx);
-	UINT8_T  UART_FillMode_Init( UART_HandlerType*UARTx, UINT8_T isChildCmd);
-	UINT8_T  UART_FillMode_AddByte(UART_HandlerType*UARTx, UINT8_T val);
-	UINT8_T  UART_FillMode_AddData(UART_HandlerType*UARTx, UINT8_T *pVal, UINT16_T length);
-	UINT8_T	 UART_FillMode_SetResultFlag(UART_HandlerType* UARTx, UINT8_T val);
-	UINT8_T  UART_FillMode_AddIndexW(UART_HandlerType* UARTx, UINT16_T val);
-	UINT8_T  UART_CRCTask_Read(UART_HandlerType*UARTx);
-	UINT8_T  UART_CRCTask_Write(UART_HandlerType*UARTx);
-	UINT8_T  UART_FillMode_WriteByteSTART(UART_HandlerType*UARTx, UINT8_T isNeedID);
-	UINT8_T  UART_FillMode_WriteArraySTART(UART_HandlerType* UARTx, UINT8_T* pArrayVal, UINT16_T length);
-	UINT8_T  UART_GetState(UART_HandlerDef* UARTDefx);
-	UINT8_T  UART_ClearState(UART_HandlerDef* UARTDefx);
-	UINT8_T  UART_Read_Init(UART_HandlerType*  UARTx);
-	UINT8_T  UART_Write_Init(UART_HandlerType*  UARTx);
-	UINT8_T  UART_DeviceID(UART_HandlerType*UARTx);
-	void     UART_Printf(UART_HandlerType*UARTx, char*fmt, ...);
-	void	 UART_PrintfLog(UART_HandlerType* UARTx, char* fmt, va_list args);
-	UINT8_T  UART_IT_TCTask(UART_HandlerType* UARTx);
-	void	 UART_PrintfClockFreq(UART_HandlerType*UARTx);
+	UINT8_T  UART_StructInit(UART_HandleType*  UARTx);
+	UINT8_T  UART_ConfigInit(UART_HandleType* UARTx, UART_HandleType* UARTInitx);
+	UINT8_T  UART_Init(UART_HandleType*  UARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void));
+	UINT8_T  UART_TXGPIOInit(UART_HandleType*  UARTx, UINT8_T isInput);
+	UINT8_T  UART_485GPIOInit(UART_HandleType*  UARTx, UINT8_T isEnable);
+	UINT8_T  UART_SetCRC(UART_HandleDef* UARTDefx, UINT8_T crcFlag);
+	UINT8_T  UART_GetCRC(UART_HandleDef* UARTDefx);
+	UINT8_T  UART_TimeTick_Init(UART_HandleDef* UARTDefx);
+	UINT8_T  UART_TimeTick_DeInit(UART_HandleDef* UARTDefx);
+	UINT8_T  UART_TimeTick_OverFlow(UART_HandleDef* UARTDefx);
+	UINT8_T  UART_TimeTask_OverFlow(UART_HandleType*UARTx, UINT8_T isRx);
+	UINT8_T  UART_ITRead_8BitsTask(UART_HandleType*UARTx, UINT8_T val);
+	UINT8_T  UART_ITRead_16BitsTask(UART_HandleType*UARTx, UINT8_T val);
+	UINT8_T  UART_ITRead_Task(UART_HandleType*UARTx, UINT8_T val);
+	UINT8_T  UART_GetOverFlow(UART_HandleDef* UARTDefx);
+	UINT8_T  UART_ClearOverFlow(UART_HandleDef* UARTDefx);
+	UINT8_T  UART_PollMode_WriteByte(UART_HandleType*UARTx, UINT8_T  val);
+	UINT8_T  UART_PollMode_WriteData(UART_HandleType*UARTx, char *pVal);
+	UINT8_T  UART_PollMode_ReadByte(UART_HandleType*UARTx);
+	UINT8_T  UART_PollMode_ReadData(UART_HandleType*UARTx, char *pVal);
+	UINT8_T  UART_ITWrite_TXETask(UART_HandleType*UARTx);
+	UINT8_T  UART_ITWrite_TCTask(UART_HandleType*UARTx);
+	UINT8_T  UART_RealTime_AddByte(UART_HandleType*UARTx, UINT8_T val);
+	UINT8_T  UART_RealTime_AddSize(UART_HandleType*UARTx, UINT16_T val);
+	UINT8_T  UART_RealTime_AddCRC(UART_HandleType*UARTx);
+	UINT8_T  UART_FillMode_Init( UART_HandleType*UARTx, UINT8_T isChildCmd);
+	UINT8_T  UART_FillMode_AddByte(UART_HandleType*UARTx, UINT8_T val);
+	UINT8_T  UART_FillMode_AddData(UART_HandleType*UARTx, UINT8_T *pVal, UINT16_T length);
+	UINT8_T	 UART_FillMode_SetResultFlag(UART_HandleType* UARTx, UINT8_T val);
+	UINT8_T  UART_FillMode_AddIndexW(UART_HandleType* UARTx, UINT16_T val);
+	UINT8_T  UART_CRCTask_Read(UART_HandleType*UARTx);
+	UINT8_T  UART_CRCTask_Write(UART_HandleType*UARTx);
+	UINT8_T  UART_FillMode_WriteByteSTART(UART_HandleType*UARTx, UINT8_T isNeedID);
+	UINT8_T  UART_FillMode_WriteArraySTART(UART_HandleType* UARTx, UINT8_T* pArrayVal, UINT16_T length);
+	UINT8_T  UART_FillMode_WriteSTART(UART_HandleType* UARTx, UINT16_T length);
+	UINT8_T  UART_GetState(UART_HandleDef* UARTDefx);
+	UINT8_T  UART_ClearState(UART_HandleDef* UARTDefx);
+	UINT8_T  UART_Read_Init(UART_HandleType*  UARTx);
+	UINT8_T  UART_Write_Init(UART_HandleType*  UARTx);
+	UINT8_T	 UART_Write_CheckIdle(UART_HandleType* UARTx);
+	UINT8_T  UART_DeviceID(UART_HandleType*UARTx);
+	void     UART_Printf(UART_HandleType*UARTx, char*fmt, ...);
+	void	 UART_PrintfLog(UART_HandleType* UARTx, char* fmt, va_list args);
+	UINT8_T  UART_IT_TCTask(UART_HandleType* UARTx);
+	void	 UART_PrintfClockFreq(UART_HandleType*UARTx);
 	UINT8_T  UART_Clock(USART_TypeDef* UARTx, UINT8_T isEnable);
-	UINT8_T  UART_DeInit(UART_HandlerType*UARTx);
-	UINT8_T  UART_ParamInit(UART_HandlerType *UARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index);
-	UINT8_T  UART1_Init(UART_HandlerType*UARTx);
-	UINT8_T  UART2_Init(UART_HandlerType*UARTx);
-	UINT8_T  UART3_Init(UART_HandlerType*UARTx);
-	void	 UART_IRQTask(UART_HandlerType* UARTx);
+	UINT8_T  UART_DeInit(UART_HandleType*UARTx);
+	UINT8_T  UART_ParamInit(UART_HandleType *UARTx, UINT8_T id, UINT8_T idIndex, UINT8_T cmdIndex, UINT8_T d1Index, UINT8_T d2Index);
+	UINT8_T  UART1_Init(UART_HandleType*UARTx);
+	UINT8_T  UART2_Init(UART_HandleType*UARTx);
+	UINT8_T  UART3_Init(UART_HandleType*UARTx);
+	UINT8_T  UART4_Init(UART_HandleType* UARTx);
+	UINT8_T  UART5_Init(UART_HandleType* UARTx);
+	UINT8_T  UART6_Init(UART_HandleType* UARTx);
+	UINT8_T  UART7_Init(UART_HandleType* UARTx);
+	UINT8_T  UART8_Init(UART_HandleType* UARTx);
+	UINT8_T  UART9_Init(UART_HandleType* UARTx);
+	UINT8_T  UART10_Init(UART_HandleType* UARTx);
+	void	 UART_IRQTask(UART_HandleType* UARTx);
 
 	//===函数定义
-	UINT8_T	 UART1_Read_DMA_Init(UART_HandlerType* UARTx);
-	UINT8_T  UART1_Write_DMA_Init(UART_HandlerType* UARTx);
-	UINT16_T UART_Read_DMA_STOP(UART_HandlerType* UARTx);
-	UINT8_T  UART_Write_DMA_SetMemoryAddress(UART_HandlerType* UARTx, UINT8_T* pVal);
-	UINT8_T  UART_Read_DMA_RESTART(UART_HandlerType* UARTx);
-	UINT16_T UART_Write_DMA_STOP(UART_HandlerType* UARTx);
-	UINT8_T  UART_Write_DMA_RESTART(UART_HandlerType* UARTx);
-	UINT8_T  UART_DMA_IDLETask(UART_HandlerType* UARTx);
-	void	 UART_Read_DMA_IRQTask(UART_HandlerType* UARTx);
-	void	 UART_Write_DMA_IRQTask(UART_HandlerType* UARTx);
+	UINT8_T	 UART1_DMA_Read_Init(UART_HandleType* UARTx);
+	UINT8_T  UART1_DMA_Write_Init(UART_HandleType* UARTx);
+	UINT16_T UART_Read_DMA_STOP(UART_HandleType* UARTx);
+	UINT8_T  UART_Write_DMA_SetMemoryAddress(UART_HandleType* UARTx, UINT8_T* pVal);
+	UINT8_T  UART_Read_DMA_RESTART(UART_HandleType* UARTx);
+	UINT16_T UART_Write_DMA_STOP(UART_HandleType* UARTx);
+	UINT8_T  UART_Write_DMA_RESTART(UART_HandleType* UARTx);
+	UINT8_T  UART_Read_DMA_IDLETask(UART_HandleType* UARTx);
+	void	 UART_Read_DMA_IRQTask(UART_HandleType* UARTx);
+	void	 UART_Write_DMA_IRQTask(UART_HandleType* UARTx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -48,14 +48,14 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////	
 	//===结构体定义
-	typedef struct _PCF8563_HandlerType				PCF8563_HandlerType;
+	typedef struct _PCF8563_HandleType				PCF8563_HandleType;
 	//===指针结构体定义
-	typedef struct _PCF8563_HandlerType				*pPCF8563_HandlerType;
+	typedef struct _PCF8563_HandleType				*pPCF8563_HandleType;
 	//===PCF853的数据结构体
-	struct _PCF8563_HandlerType
+	struct _PCF8563_HandleType
 	{
-		RTC_HandlerType	msgRTC;						//---实时时钟
-		I2C_HandlerType msgI2C;						//---使用的I2C
+		RTC_HandleType	msgRTC;																							//---实时时钟
+		I2C_HandleType msgI2C;																							//---使用的I2C
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
@@ -73,21 +73,21 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用接口
-	extern PCF8563_HandlerType						g_Pcf8563Device0;
-	extern pPCF8563_HandlerType						pPcf8563Device0;
+	extern PCF8563_HandleType						g_Pcf8563Device0;
+	extern pPCF8563_HandleType						pPcf8563Device0;
 
 	//===函数定义
-	UINT8_T PCF8563_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T PCF8563_I2C_DeInit(PCF8563_HandlerType *PCF8563x);
-	UINT8_T PCF8563_I2C_WriteSingle(PCF8563_HandlerType* PCF8563x, UINT8_T reg, UINT8_T val);
-	UINT8_T PCF8563_I2C_ReadSingle(PCF8563_HandlerType* PCF8563x, UINT8_T reg, UINT8_T* pVal);
-	UINT8_T PCF8563_I2C_ReadBulk(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T *pVal, UINT16_T length);
-	UINT8_T PCF8563_I2C_Device0_Init(PCF8563_HandlerType *PCF8563HandlerType);
-	UINT8_T PCF8563_I2C_Device1_Init(PCF8563_HandlerType *PCF8563HandlerType);
-	UINT8_T PCF8563_I2C_Device2_Init(PCF8563_HandlerType *PCF8563HandlerType);
-	UINT8_T PCF8563_I2C_ClockOut(PCF8563_HandlerType *PCF8563HandlerType, UINT8_T preVal);
-	UINT8_T PCF8563_I2C_ReadRTC(PCF8563_HandlerType *PCF8563HandlerType);
-	UINT8_T PCF8563_I2C_WriteRTC(PCF8563_HandlerType *PCF8563HandlerType, RTC_HandlerType rtc);
+	UINT8_T PCF8563_I2C_Init(PCF8563_HandleType *PCF8563x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T PCF8563_I2C_DeInit(PCF8563_HandleType *PCF8563x);
+	UINT8_T PCF8563_I2C_WriteSingle(PCF8563_HandleType* PCF8563x, UINT8_T reg, UINT8_T val);
+	UINT8_T PCF8563_I2C_ReadSingle(PCF8563_HandleType* PCF8563x, UINT8_T reg, UINT8_T* pVal);
+	UINT8_T PCF8563_I2C_ReadBulk(PCF8563_HandleType *PCF8563x, UINT8_T reg, UINT8_T *pVal, UINT16_T length);
+	UINT8_T PCF8563_I2C_Device0_Init(PCF8563_HandleType *PCF8563HandlerType);
+	UINT8_T PCF8563_I2C_Device1_Init(PCF8563_HandleType *PCF8563HandlerType);
+	UINT8_T PCF8563_I2C_Device2_Init(PCF8563_HandleType *PCF8563HandlerType);
+	UINT8_T PCF8563_I2C_ClockOut(PCF8563_HandleType *PCF8563HandlerType, UINT8_T preVal);
+	UINT8_T PCF8563_I2C_ReadRTC(PCF8563_HandleType *PCF8563HandlerType);
+	UINT8_T PCF8563_I2C_WriteRTC(PCF8563_HandleType *PCF8563HandlerType, RTC_HandleType rtc);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -128,14 +128,14 @@ extern "C" {
 	#define GPIO_16BITS_OUT( name, val	)			( name->ODR=(val&0xFFFF) )
 	
 	//===定义结构体
-	typedef struct _GPIO_HandlerType				GPIO_HandlerType;
+	typedef struct _GPIO_HandleType					GPIO_HandleType;
 	//===定义指针结构体
-	typedef	struct _GPIO_HandlerType				*pGPIO_HandlerType;
+	typedef	struct _GPIO_HandleType					*pGPIO_HandleType;
 	//===结构定义
-	struct _GPIO_HandlerType
+	struct _GPIO_HandleType
 	{
-		GPIO_TypeDef	*msgPort;																																					//---端口
-		UINT32_T		msgBit;																																						//---序号
+		GPIO_TypeDef	*msgPort;																						//---端口
+		UINT32_T		msgBit;																							//---序号
 	};
 
 	//===函数定义
@@ -146,7 +146,7 @@ extern "C" {
 	void GPIO_ResetOutputPins(GPIO_TypeDef* GPIOx, UINT32_T PinMask);
 	void GPIO_TogglePin(GPIO_TypeDef* GPIOx, UINT32_T PinMask);
 	UINT32_T GPIO_ReadInputPort(GPIO_TypeDef* GPIOx, UINT32_T PinMask);
-	UINT8_T GPIO_WaitPinPort(GPIO_HandlerType* GPIOx, UINT8_T isHighLevel);
+	UINT8_T GPIO_WaitPinPort(GPIO_HandleType* GPIOx, UINT8_T isHighLevel);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -1,8 +1,8 @@
 #include "hmc5883_cfg.h"
 
 //===全局变量定义
-HMC5883_HandlerType		g_Hmc5883Device0 = { 0 };
-pHMC5883_HandlerType	pHmc5883Device0=&g_Hmc5883Device0;
+HMC5883_HandleType		g_Hmc5883Device0 = { 0 };
+pHMC5883_HandleType	pHmc5883Device0=&g_Hmc5883Device0;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@ pHMC5883_HandlerType	pHmc5883Device0=&g_Hmc5883Device0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandlerType* HMC5883x)
+UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandleType* HMC5883x)
 {
 	HMC5883x->msgI2C.msgI2Cx = NULL;
 	HMC5883x->msgI2C.msgSCL.msgPort = GPIOB;
@@ -34,7 +34,7 @@ UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandlerType* HMC5883x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_Device1_Init(HMC5883_HandlerType* HMC5883x)
+UINT8_T HMC5883_I2C_Device1_Init(HMC5883_HandleType* HMC5883x)
 {
 	return ERROR_1;
 }
@@ -46,7 +46,7 @@ UINT8_T HMC5883_I2C_Device1_Init(HMC5883_HandlerType* HMC5883x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_Device2_Init(HMC5883_HandlerType* HMC5883x)
+UINT8_T HMC5883_I2C_Device2_Init(HMC5883_HandleType* HMC5883x)
 {
 	return ERROR_1;
 }
@@ -58,7 +58,7 @@ UINT8_T HMC5883_I2C_Device2_Init(HMC5883_HandlerType* HMC5883x)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_Init(HMC5883_HandlerType* HMC5883x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
+UINT8_T HMC5883_I2C_Init(HMC5883_HandleType* HMC5883x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---指定设备的初始化
@@ -95,7 +95,7 @@ UINT8_T HMC5883_I2C_Init(HMC5883_HandlerType* HMC5883x, void(*pFuncDelayus)(UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_DeInit(HMC5883_HandlerType* HMC5883x)
+UINT8_T HMC5883_I2C_DeInit(HMC5883_HandleType* HMC5883x)
 {
 	return I2CTask_Master_DeInit(&(HMC5883x->msgI2C));
 }
@@ -107,7 +107,7 @@ UINT8_T HMC5883_I2C_DeInit(HMC5883_HandlerType* HMC5883x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_SWI2C_WriteSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T val)
+UINT8_T HMC5883_SWI2C_WriteSingle(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -146,7 +146,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_HWI2C_WriteSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T val)
+UINT8_T HMC5883_HWI2C_WriteSingle(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -188,7 +188,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_WriteSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T val)
+UINT8_T HMC5883_I2C_WriteSingle(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T val)
 {
 	if (HMC5883x->msgI2C.msgHwMode != 0)
 	{
@@ -208,7 +208,7 @@ UINT8_T HMC5883_I2C_WriteSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_SWI2C_ReadSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T HMC5883_SWI2C_ReadSingle(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -255,7 +255,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_HWI2C_ReadSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T HMC5883_HWI2C_ReadSingle(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -300,7 +300,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_ReadSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T HMC5883_I2C_ReadSingle(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T* pVal)
 {
 	if (HMC5883x->msgI2C.msgHwMode!=0)
 	{
@@ -321,7 +321,7 @@ UINT8_T HMC5883_I2C_ReadSingle(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_SWI2C_ReadBulk(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T *pVal,UINT8_T length)
+UINT8_T HMC5883_SWI2C_ReadBulk(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T *pVal,UINT8_T length)
 {
 	//UINT8_T readTemp[6] = { 0 };
 	UINT8_T _return = OK_0;
@@ -374,7 +374,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_HWI2C_ReadBulk(HMC5883_HandlerType* HMC5883x, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T HMC5883_HWI2C_ReadBulk(HMC5883_HandleType* HMC5883x, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -424,7 +424,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_ReadBulk(HMC5883_HandlerType* HMC5883x,UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T HMC5883_I2C_ReadBulk(HMC5883_HandleType* HMC5883x,UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
 	if (HMC5883x->msgI2C.msgHwMode != 0)
 	{
@@ -445,7 +445,7 @@ UINT8_T HMC5883_I2C_ReadBulk(HMC5883_HandlerType* HMC5883x,UINT8_T addr, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_ConfigInit(HMC5883_HandlerType* HMC5883x)
+UINT8_T HMC5883_I2C_ConfigInit(HMC5883_HandleType* HMC5883x)
 {
 	return HMC5883_I2C_WriteSingle(HMC5883x,0x02, 0x00);
 }
@@ -457,7 +457,7 @@ UINT8_T HMC5883_I2C_ConfigInit(HMC5883_HandlerType* HMC5883x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC5883_I2C_ReadRawData(HMC5883_HandlerType* HMC5883x)
+UINT8_T HMC5883_I2C_ReadRawData(HMC5883_HandleType* HMC5883x)
 {
 	UINT8_T readTemp[6] = { 0 };
 	//---读取值
@@ -502,7 +502,7 @@ UINT8_T HMC5883_I2C_ReadRawData(HMC5883_HandlerType* HMC5883x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void HMC5883_I2C_CalibrateMag(HMC5883_HandlerType* HMC5883x)
+void HMC5883_I2C_CalibrateMag(HMC5883_HandleType* HMC5883x)
 {
 	int x=0, y=0, z=0; //triple axis data
 	int xMax=0, xMin=0, yMax=0, yMin=0, zMax=0, zMin=0;

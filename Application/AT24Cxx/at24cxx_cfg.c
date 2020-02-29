@@ -1,8 +1,8 @@
 #include "at24cxx_cfg.h"
 
 //===全局变量定义
-AT24CXX_HandlerType		g_AT24cxxDevice0={0};
-pAT24CXX_HandlerType	pAT24cxxDevice0 = &g_AT24cxxDevice0;
+AT24CXX_HandleType		g_AT24cxxDevice0={0};
+pAT24CXX_HandleType	pAT24cxxDevice0 = &g_AT24cxxDevice0;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@ pAT24CXX_HandlerType	pAT24cxxDevice0 = &g_AT24cxxDevice0;
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_DeviceType(AT24CXX_HandlerType *AT24CXXx)
+UINT8_T AT24CXX_I2C_DeviceType(AT24CXX_HandleType *AT24CXXx)
 {
 	//---解析页数和字节数据
 	if (AT24CXXx->msgAT24CXXType == AT24C01)		//at24c01
@@ -79,7 +79,7 @@ UINT8_T AT24CXX_I2C_DeviceType(AT24CXX_HandlerType *AT24CXXx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_Device0_Init(AT24CXX_HandlerType* AT24CXXx)
+UINT8_T AT24CXX_I2C_Device0_Init(AT24CXX_HandleType* AT24CXXx)
 {
 	AT24CXXx->msgAT24CXXType = AT24C08;
 	//---写保护端口的配置
@@ -134,7 +134,7 @@ UINT8_T AT24CXX_I2C_Device0_Init(AT24CXX_HandlerType* AT24CXXx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_Device1_Init(AT24CXX_HandlerType* AT24CXXx)
+UINT8_T AT24CXX_I2C_Device1_Init(AT24CXX_HandleType* AT24CXXx)
 {
 	return OK_0;
 }
@@ -146,7 +146,7 @@ UINT8_T AT24CXX_I2C_Device1_Init(AT24CXX_HandlerType* AT24CXXx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_Device2_Init(AT24CXX_HandlerType* AT24CXXx)
+UINT8_T AT24CXX_I2C_Device2_Init(AT24CXX_HandleType* AT24CXXx)
 {
 	return OK_0;
 }
@@ -159,7 +159,7 @@ UINT8_T AT24CXX_I2C_Device2_Init(AT24CXX_HandlerType* AT24CXXx)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_Init(AT24CXX_HandlerType *AT24CXXx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
+UINT8_T AT24CXX_I2C_Init(AT24CXX_HandleType *AT24CXXx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---指定设备的初始化
@@ -193,7 +193,7 @@ UINT8_T AT24CXX_I2C_Init(AT24CXX_HandlerType *AT24CXXx, void(*pFuncDelayus)(UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_DeInit(AT24CXX_HandlerType *AT24CXXx)
+UINT8_T AT24CXX_I2C_DeInit(AT24CXX_HandleType *AT24CXXx)
 {
 	return I2CTask_Master_DeInit(&(AT24CXXx->msgI2C));
 }
@@ -205,7 +205,7 @@ UINT8_T AT24CXX_I2C_DeInit(AT24CXX_HandlerType *AT24CXXx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_SWI2C_WriteOneByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T val)
+UINT8_T AT24CXX_SWI2C_WriteOneByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---保存设备的地址，用于后面恢复
@@ -303,7 +303,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_SWI2C_WritePageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T pageAddr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_SWI2C_WritePageByte(AT24CXX_HandleType *AT24CXXx, UINT16_T pageAddr, UINT8_T *pVal, UINT16_T length)
 {
 	//---判断页号和页内的数据
 	if (length > AT24CXXx->msgAT24CXXPageByte)
@@ -411,7 +411,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	//---要写的页数
 	UINT16_T pageNum = 0;
@@ -612,7 +612,7 @@ UINT8_T AT24CXX_SWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_HWI2C_WriteOneByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T val)
+UINT8_T AT24CXX_HWI2C_WriteOneByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---保存设备的地址，用于后面恢复
@@ -704,7 +704,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_HWI2C_WritePageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T pageAddr, UINT8_T *pVal,UINT16_T length)
+UINT8_T AT24CXX_HWI2C_WritePageByte(AT24CXX_HandleType *AT24CXXx, UINT16_T pageAddr, UINT8_T *pVal,UINT16_T length)
 {
 	//---判断页号和页内的数据
 	if (length > AT24CXXx->msgAT24CXXPageByte)
@@ -806,7 +806,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_HWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_HWI2C_WriteData(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	//---要写的页数
 	UINT16_T pageNum = 0;
@@ -1007,7 +1007,7 @@ UINT8_T AT24CXX_HWI2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_WriteOneByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T val)
+UINT8_T AT24CXX_I2C_WriteOneByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T val)
 {
 	if (AT24CXXx->msgI2C.msgHwMode == 0)
 	{
@@ -1028,7 +1028,7 @@ UINT8_T AT24CXX_I2C_WriteOneByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_WritePageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_I2C_WritePageByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	if (AT24CXXx->msgI2C.msgHwMode == 0)
 	{
@@ -1049,7 +1049,7 @@ UINT8_T AT24CXX_I2C_WritePageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_I2C_WriteData(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	if (AT24CXXx->msgI2C.msgHwMode == 0)
 	{
@@ -1070,7 +1070,7 @@ UINT8_T AT24CXX_I2C_WriteData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_SWI2C_ReadOneByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal)
+UINT8_T AT24CXX_SWI2C_ReadOneByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal)
 {
 	UINT8_T _return = OK_0;
 	//---保存设备的地址，用于后面恢复
@@ -1145,7 +1145,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_SWI2C_ReadPageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_SWI2C_ReadPageByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	//---判断页号和页内的数据
 	if (length > AT24CXXx->msgAT24CXXPageByte)
@@ -1232,7 +1232,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_SWI2C_ReadData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_SWI2C_ReadData(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	//---保存设备的地址，用于后面恢复
@@ -1314,7 +1314,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_HWI2C_ReadOneByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal)
+UINT8_T AT24CXX_HWI2C_ReadOneByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal)
 {
 	UINT8_T _return = OK_0;
 	//---保存设备的地址，用于后面恢复
@@ -1386,7 +1386,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_HWI2C_ReadPageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_HWI2C_ReadPageByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	//---判断页号和页内的数据
 	if (length > AT24CXXx->msgAT24CXXPageByte)
@@ -1469,7 +1469,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_HWI2C_ReadData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_HWI2C_ReadData(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	//---保存设备的地址，用于后面恢复
@@ -1546,7 +1546,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_ReadOneByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal)
+UINT8_T AT24CXX_I2C_ReadOneByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal)
 {
 	if (AT24CXXx->msgI2C.msgHwMode == 0)
 	{
@@ -1567,7 +1567,7 @@ UINT8_T AT24CXX_I2C_ReadOneByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_ReadPageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_I2C_ReadPageByte(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	if (AT24CXXx->msgI2C.msgHwMode == 0)
 	{
@@ -1588,7 +1588,7 @@ UINT8_T AT24CXX_I2C_ReadPageByte(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_ReadData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
+UINT8_T AT24CXX_I2C_ReadData(AT24CXX_HandleType *AT24CXXx, UINT16_T addr, UINT8_T *pVal, UINT16_T length)
 {
 	if (AT24CXXx->msgI2C.msgHwMode == 0)
 	{
@@ -1609,7 +1609,7 @@ UINT8_T AT24CXX_I2C_ReadData(AT24CXX_HandlerType *AT24CXXx, UINT16_T addr, UINT8
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AT24CXX_I2C_EraseChip(AT24CXX_HandlerType *AT24CXXx)
+UINT8_T AT24CXX_I2C_EraseChip(AT24CXX_HandleType *AT24CXXx)
 {
 	UINT8_T _return =OK_0;
 	UINT16_T i = 0;

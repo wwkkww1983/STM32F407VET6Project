@@ -112,15 +112,15 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////	
 	//===结构体定义
-	typedef struct _SI5351A_HandlerType				SI5351A_HandlerType;
+	typedef struct _SI5351A_HandleType				SI5351A_HandleType;
 	//===指针结构体定义
-	typedef struct _SI5351A_HandlerType				*pSI5351A_HandlerType;
+	typedef struct _SI5351A_HandleType				*pSI5351A_HandleType;
 	//===定义结构
-	struct _SI5351A_HandlerType
+	struct _SI5351A_HandleType
 	{
-		UINT8_T msgClockCTRL[SI5351A_CLKOUT_CHANNEL_SIZE];																															//---CLK输出通道的配置寄存器
-		UINT8_T msgIsResetPll;																																						//---是否配置完成之后复位PLL，1---复位,0---不复位
-		I2C_HandlerType msgI2C;																																						//---使用的I2C设备
+		UINT8_T msgClockCTRL[SI5351A_CLKOUT_CHANNEL_SIZE];																//---CLK输出通道的配置寄存器
+		UINT8_T msgIsResetPll;																							//---是否配置完成之后复位PLL，1---复位,0---不复位
+		I2C_HandleType msgI2C;																							//---使用的I2C设备
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
@@ -138,23 +138,23 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用接口
-	extern SI5351A_HandlerType						g_Si5351aDevice0;
-	extern pSI5351A_HandlerType						pSi5351aDevice0;
+	extern SI5351A_HandleType						g_Si5351aDevice0;
+	extern pSI5351A_HandleType						pSi5351aDevice0;
 	
 	//===函数定义
-	UINT8_T SI5351A_I2C_WriteSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T val);
-	UINT8_T SI5351A_I2C_ReadSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal);
-	UINT8_T SI5351A_I2C_WriteBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
-	UINT8_T SI5351A_I2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
-	UINT8_T SI5351A_I2C_Init(SI5351A_HandlerType* SI5351Ax, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T SI5351A_I2C_DeInit(SI5351A_HandlerType* SI5351Ax);
-	UINT8_T SI5351A_I2C_ConfigInit(SI5351A_HandlerType* SI5351Ax);
-	UINT8_T SI5351A_I2C_PLLRST(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel);
-	UINT8_T SI5351A_I2C_ReadChipID(SI5351A_HandlerType* SI5351Ax);
-	UINT8_T SI5351A_I2C_SetFreqHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq);
-	UINT8_T SI5351A_I2C_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz);
-	UINT8_T SI5351A_I2C_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz);
-	UINT8_T SI5351A_I2C_SetClockChannelIDRV(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv);
+	UINT8_T SI5351A_I2C_WriteSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T val);
+	UINT8_T SI5351A_I2C_ReadSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal);
+	UINT8_T SI5351A_I2C_WriteBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
+	UINT8_T SI5351A_I2C_ReadBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
+	UINT8_T SI5351A_I2C_Init(SI5351A_HandleType* SI5351Ax, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T SI5351A_I2C_DeInit(SI5351A_HandleType* SI5351Ax);
+	UINT8_T SI5351A_I2C_ConfigInit(SI5351A_HandleType* SI5351Ax);
+	UINT8_T SI5351A_I2C_PLLRST(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel);
+	UINT8_T SI5351A_I2C_ReadChipID(SI5351A_HandleType* SI5351Ax);
+	UINT8_T SI5351A_I2C_SetFreqHz(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq);
+	UINT8_T SI5351A_I2C_SetFreqKHz(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, float freqKHz);
+	UINT8_T SI5351A_I2C_SetFreqMHz(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, float freqMHz);
+	UINT8_T SI5351A_I2C_SetClockChannelIDRV(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -661,32 +661,32 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////	
 	//===加速度
-	typedef struct Accel_HandlerType
+	typedef struct Accel_HandleType
 	{
 		INT16_T xAccel;																									//---X轴加速度
 		INT16_T yAccel;																									//---Y轴加速度
 		INT16_T zAccel;																									//---Z轴加速度
-	}Accel_HandlerType;	
+	}Accel_HandleType;	
 	
 	//===陀螺仪
-	typedef struct Gyro_HandlerType
+	typedef struct Gyro_HandleType
 	{
 	    INT16_T xGyro;																									//---X轴陀螺仪					
 		INT16_T yGyro;																									//---Y轴陀螺仪
 		INT16_T zGyro;																									//---Z轴陀螺仪
-	}Gyro_HandlerType;	
+	}Gyro_HandleType;	
 	//===结构体定义
-	typedef struct _MPU6050_HandlerType					MPU6050_HandlerType;
+	typedef struct _MPU6050_HandleType					MPU6050_HandleType;
 	//===指针结构体定义
-	typedef struct _MPU6050_HandlerType					*pMPU6050_HandlerType;
+	typedef struct _MPU6050_HandleType					*pMPU6050_HandleType;
 	//===HMC5883的数据结构体
-	struct _MPU6050_HandlerType
+	struct _MPU6050_HandleType
 	{
-		Accel_HandlerType	msgAccel;																					//---加速度
-		INT32_T				msgTemp;																				//---放大100倍的温度值
-		Gyro_HandlerType	msgGyro;																					//---陀螺仪
-		GPIO_HandlerType	msgINT;																						//---中断引脚
-		I2C_HandlerType		msgI2C;																						//---使用的I2C
+		Accel_HandleType	msgAccel;																					//---加速度
+		INT32_T				msgTemp;																					//---放大100倍的温度值
+		Gyro_HandleType		msgGyro;																					//---陀螺仪
+		GPIO_HandleType		msgINT;																						//---中断引脚
+		I2C_HandleType		msgI2C;																						//---使用的I2C
 		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
@@ -705,21 +705,21 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用
-	extern MPU6050_HandlerType							g_Mpu6050Device0;
-	extern pMPU6050_HandlerType							pMpu6050Device0;
+	extern MPU6050_HandleType							g_Mpu6050Device0;
+	extern pMPU6050_HandleType							pMpu6050Device0;
 
 	//===函数定义
-	UINT8_T MPU6050_I2C_Device0_Init(MPU6050_HandlerType* MPU6050x);
-	UINT8_T MPU6050_I2C_Device1_Init(MPU6050_HandlerType* MPU6050x);
-	UINT8_T MPU6050_I2C_Device2_Init(MPU6050_HandlerType* MPU6050x);
-	UINT8_T MPU6050_I2C_Init(MPU6050_HandlerType* MPU6050x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T MPU6050_I2C_WriteSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T val);
-	UINT8_T MPU6050_I2C_WriteBulk(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
-	UINT8_T MPU6050_I2C_ReadSingle(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T* pVal);
-	UINT8_T MPU6050_I2C_ReadBulk(MPU6050_HandlerType* MPU6050x, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
-	UINT8_T MPU6050_I2C_ReadChipID(MPU6050_HandlerType* MPU6050x, UINT8_T* pChipID);
-	UINT8_T MPU6050_I2C_ConfigInit(MPU6050_HandlerType* MPU6050x);
-	UINT8_T MPU6050_I2C_ReadAccelTempGyro(MPU6050_HandlerType* MPU6050x);
+	UINT8_T MPU6050_I2C_Device0_Init(MPU6050_HandleType* MPU6050x);
+	UINT8_T MPU6050_I2C_Device1_Init(MPU6050_HandleType* MPU6050x);
+	UINT8_T MPU6050_I2C_Device2_Init(MPU6050_HandleType* MPU6050x);
+	UINT8_T MPU6050_I2C_Init(MPU6050_HandleType* MPU6050x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T MPU6050_I2C_WriteSingle(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T val);
+	UINT8_T MPU6050_I2C_WriteBulk(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
+	UINT8_T MPU6050_I2C_ReadSingle(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T* pVal);
+	UINT8_T MPU6050_I2C_ReadBulk(MPU6050_HandleType* MPU6050x, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
+	UINT8_T MPU6050_I2C_ReadChipID(MPU6050_HandleType* MPU6050x, UINT8_T* pChipID);
+	UINT8_T MPU6050_I2C_ConfigInit(MPU6050_HandleType* MPU6050x);
+	UINT8_T MPU6050_I2C_ReadAccelTempGyro(MPU6050_HandleType* MPU6050x);
 
 //////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

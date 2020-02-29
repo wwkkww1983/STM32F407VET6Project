@@ -34,21 +34,21 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===定义结构体
-	typedef struct _DHT11_HandlerType DHT11_HandlerType;
+	typedef struct _DHT11_HandleType				DHT11_HandleType;
 	//===定义指针结构体
-	typedef struct _DHT11_HandlerType *pDHT11_HandlerType;
+	typedef struct _DHT11_HandleType				*pDHT11_HandleType;
 	//===结构体定义
-	struct _DHT11_HandlerType
+	struct _DHT11_HandleType
 	{
-		UINT8_T				msgPositive;																																			//---0---是正值，1---是负数
-		UINT8_T				msgSTATE;																																				//---读取状态
-		UINT32_T			msgTempX1000;																																			//---温度
-		UINT32_T			msgHumiX1000;																																			//---湿度
-		UINT32_T			msgRecordTick;																																			//---记录的时间参数
-		GPIO_HandlerType	msgDAT;																																					//---端口
-		void(*msgDelayus)(UINT32_T delay);																																			//---us延时函数
-		void(*msgDelayms)(UINT32_T delay);																																			//---ms延时函数
-		UINT32_T(*msgTimeTick)(void);																																				//---用于超时计数
+		UINT8_T				msgPositive;																				//---0---是正值，1---是负数
+		UINT8_T				msgSTATE;																					//---读取状态
+		UINT32_T			msgTempX1000;																				//---温度
+		UINT32_T			msgHumiX1000;																				//---湿度
+		UINT32_T			msgRecordTick;																				//---记录的时间参数
+		GPIO_HandleType		msgDAT;																						//---端口
+		void(*msgDelayus)(UINT32_T delay);																				//---us延时函数
+		void(*msgDelayms)(UINT32_T delay);																				//---ms延时函数
+		UINT32_T(*msgTimeTick)(void);																					//---用于超时计数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
@@ -66,19 +66,19 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用接口
-	extern DHT11_HandlerType						g_Dht11Device0;
-	extern pDHT11_HandlerType						pDht11Device0
+	extern DHT11_HandleType						g_Dht11Device0;
+	extern pDHT11_HandleType						pDht11Device0
 	;
 
 	//===函数定义
-	UINT8_T DHT11_Init(DHT11_HandlerType *DHT11x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void));
-	UINT8_T DHT11_Device0_Init(DHT11_HandlerType *DHT11x);
-	UINT8_T DHT11_Device1_Init(DHT11_HandlerType *DHT11x);
-	UINT8_T DHT11_Device2_Init(DHT11_HandlerType *DHT11x);
-	UINT8_T DHT11_DeInit(DHT11_HandlerType *DHT11x);
-	UINT8_T DHT11_ReadTempHumi(DHT11_HandlerType *DHT11x);
-	float DHT11_GetTemp(DHT11_HandlerType* DHT11xx);
-	float DHT11_GetHumi(DHT11_HandlerType* DHT11x);
+	UINT8_T DHT11_Init(DHT11_HandleType *DHT11x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void));
+	UINT8_T DHT11_Device0_Init(DHT11_HandleType *DHT11x);
+	UINT8_T DHT11_Device1_Init(DHT11_HandleType *DHT11x);
+	UINT8_T DHT11_Device2_Init(DHT11_HandleType *DHT11x);
+	UINT8_T DHT11_DeInit(DHT11_HandleType *DHT11x);
+	UINT8_T DHT11_ReadTempHumi(DHT11_HandleType *DHT11x);
+	float DHT11_GetTemp(DHT11_HandleType* DHT11xx);
+	float DHT11_GetHumi(DHT11_HandleType* DHT11x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

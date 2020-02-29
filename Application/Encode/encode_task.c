@@ -44,69 +44,69 @@ void EnCodeTask_SetChannel(UINT8_T chIndex, UINT8_T isEnCode,UINT8_T isHigh)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T EnCodeTask_UART_MenuTask(UART_HandlerType* UARTx)
+UINT8_T EnCodeTask_UART_MenuTask(UART_HandleType* UARTx)
 {
 	UINT8_T _return = OK_0;
 	//---判断主命令
-	if (UARTx->msgRxdHandler.pMsgVal[UARTx->msgCmdIndex] == CMD_ENCODE)
+	if (UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex] == CMD_ENCODE)
 	{
 		UARTTask_FillMode_Init(UARTx,0);
 		//UARTTask_FillMode_AddByte(UARTx, CMD_ENCODE);
 		//---解析命令
-		switch (UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex])
+		switch (UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex])
 		{
 			case CMD_ENCODE_CHA_OPEN	:
 				EnCodeTask_SetChannel(1, 1,0);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHA_CLOSE	:
 				EnCodeTask_SetChannel(1, 0,0);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHB_OPEN	:
 				EnCodeTask_SetChannel(2, 1,0);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHB_CLOSE	:
 				EnCodeTask_SetChannel(2, 0,0);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHC_OPEN	:
 				EnCodeTask_SetChannel(3, 1,0);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHC_CLOSE	:
 				EnCodeTask_SetChannel(3, 0,0);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHD_OPEN	:
 				EnCodeTask_SetChannel(4, 1,0);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHD_CLOSE	:
 				EnCodeTask_SetChannel(4, 0,0);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
@@ -117,28 +117,28 @@ UINT8_T EnCodeTask_UART_MenuTask(UART_HandlerType* UARTx)
 				break;
 			case CMD_ENCODE_CHA_HIGH	:
 				EnCodeTask_SetChannel(1, 1,1);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHB_HIGH	:
 				EnCodeTask_SetChannel(2, 1, 1);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHC_HIGH	:
 				EnCodeTask_SetChannel(3, 1, 1);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();
 				break;
 			case CMD_ENCODE_CHD_HIGH	:
 				EnCodeTask_SetChannel(4, 1, 1);
-				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandler.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
 				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---参数保存
 				EnCodeTask_EepromWrite();

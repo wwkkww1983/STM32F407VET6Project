@@ -31,7 +31,7 @@ void GPIOTask_Init(void)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T GPIOTask_WaitPinPort(GPIO_HandlerType* GPIOx, UINT8_T isHighLevel)
+UINT8_T GPIOTask_WaitPinPort(GPIO_HandleType* GPIOx, UINT8_T isHighLevel)
 {
 	return GPIOLib_WaitPinPort(GPIOx, isHighLevel);
 }

@@ -7,7 +7,7 @@
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWire_Init(OneWire_HandlerType *OneWirex, void(*pFuncDelayus)(UINT32_T delay))
+UINT8_T OneWire_Init(OneWire_HandleType *OneWirex, void(*pFuncDelayus)(UINT32_T delay))
 {
 	//---使能端口时钟
 	#ifndef  USE_FULL_GPIO
@@ -36,7 +36,7 @@ UINT8_T OneWire_Init(OneWire_HandlerType *OneWirex, void(*pFuncDelayus)(UINT32_T
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWire_DeInit(OneWire_HandlerType *OneWirex)
+UINT8_T OneWire_DeInit(OneWire_HandleType *OneWirex)
 {
 	LL_GPIO_DeInit(OneWirex->msgDAT.msgPort);
 	GPIO_OUT_1(OneWirex->msgDAT.msgPort, OneWirex->msgDAT.msgBit);
@@ -50,7 +50,7 @@ UINT8_T OneWire_DeInit(OneWire_HandlerType *OneWirex)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWire_START(OneWire_HandlerType *OneWirex)
+UINT8_T OneWire_START(OneWire_HandleType *OneWirex)
 {
 	UINT8_T _return = OK_0;
 	//---设置为输出且输出零
@@ -74,7 +74,7 @@ UINT8_T OneWire_START(OneWire_HandlerType *OneWirex)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWire_WriteBit(OneWire_HandlerType *OneWirex, UINT8_T bitVal)
+UINT8_T OneWire_WriteBit(OneWire_HandleType *OneWirex, UINT8_T bitVal)
 {
 	//---控制总线，强制拉低
 	GPIO_OUT_0(OneWirex->msgDAT.msgPort, OneWirex->msgDAT.msgBit);
@@ -102,7 +102,7 @@ UINT8_T OneWire_WriteBit(OneWire_HandlerType *OneWirex, UINT8_T bitVal)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWire_ReadBit(OneWire_HandlerType *OneWirex)
+UINT8_T OneWire_ReadBit(OneWire_HandleType *OneWirex)
 {
 	UINT8_T _return = 0;
 	//---控制总线,强制拉低
@@ -133,7 +133,7 @@ UINT8_T OneWire_ReadBit(OneWire_HandlerType *OneWirex)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWire_WriteByte(OneWire_HandlerType *OneWirex, UINT8_T val)
+UINT8_T OneWire_WriteByte(OneWire_HandleType *OneWirex, UINT8_T val)
 {
 	UINT8_T i = 0;
 	for (i = 0; i < 8; i++)
@@ -152,7 +152,7 @@ UINT8_T OneWire_WriteByte(OneWire_HandlerType *OneWirex, UINT8_T val)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWire_ReadByte(OneWire_HandlerType *OneWirex)
+UINT8_T OneWire_ReadByte(OneWire_HandleType *OneWirex)
 {
 	UINT8_T _return = 0, i = 0;
 	for (i = 0; i < 8; i++)

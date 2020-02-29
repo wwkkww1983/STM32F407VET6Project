@@ -7,7 +7,7 @@
 //////输出参数:
 //////说		明： SPI的主机模式的查询方式初始化
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MHW_PollMode_Init(SPI_HandlerType *SPIx, LL_SPI_InitTypeDef SPI_InitStruct)
+UINT8_T SPI_MHW_PollMode_Init(SPI_HandleType *SPIx, LL_SPI_InitTypeDef SPI_InitStruct)
 {
 	//---恢复当前配置为初始值
 	LL_SPI_DeInit(SPIx->msgSPIx);
@@ -31,7 +31,7 @@ UINT8_T SPI_MHW_PollMode_Init(SPI_HandlerType *SPIx, LL_SPI_InitTypeDef SPI_Init
 //////输出参数:
 //////说		明： 设置是高位在在前还是低位在前
 //////////////////////////////////////////////////////////////////////////////
-void SPI_MHW_SetTransferBitOrder(SPI_HandlerType *SPIx, UINT32_T BitOrder)
+void SPI_MHW_SetTransferBitOrder(SPI_HandleType *SPIx, UINT32_T BitOrder)
 {
 	LL_SPI_SetTransferBitOrder(SPIx->msgSPIx, BitOrder);
 }
@@ -43,7 +43,7 @@ void SPI_MHW_SetTransferBitOrder(SPI_HandlerType *SPIx, UINT32_T BitOrder)
 //////输出参数:
 //////说		明： 硬件SPI资源时的GPIO端口初始化
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
+UINT8_T SPI_MHW_GPIO_Init(SPI_HandleType *SPIx)
 {
 	//---注销当前的所有配置
 	SPI_DeInit(SPIx, 1);
@@ -103,7 +103,7 @@ UINT8_T SPI_MHW_GPIO_Init(SPI_HandlerType *SPIx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_GPIO_Init(SPI_HandlerType *SPIx)
+UINT8_T SPI_MSW_GPIO_Init(SPI_HandleType *SPIx)
 {
 	//---注销当前的所有配置
 	SPI_DeInit(SPIx, 1);
@@ -158,7 +158,7 @@ UINT8_T SPI_MSW_GPIO_Init(SPI_HandlerType *SPIx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *SPIx,UINT8_T isInitSS)
+UINT8_T SPI_GPIO_DeInit(SPI_HandleType *SPIx,UINT8_T isInitSS)
 {
 	//---端口的配置
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -197,7 +197,7 @@ UINT8_T SPI_GPIO_DeInit(SPI_HandlerType *SPIx,UINT8_T isInitSS)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_DeInit(SPI_HandlerType *SPIx, UINT8_T isInitSS)
+UINT8_T SPI_DeInit(SPI_HandleType *SPIx, UINT8_T isInitSS)
 {
 	if (SPIx->msgSPIx != NULL)
 	{
@@ -216,7 +216,7 @@ UINT8_T SPI_DeInit(SPI_HandlerType *SPIx, UINT8_T isInitSS)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_Clock(SPI_HandlerType *SPIx, UINT8_T isEnable)
+UINT8_T SPI_Clock(SPI_HandleType *SPIx, UINT8_T isEnable)
 {
 	#ifdef SPI1
 	//---选择SPI接口
@@ -397,7 +397,7 @@ UINT8_T SPI_Clock(SPI_HandlerType *SPIx, UINT8_T isEnable)
 //////输出参数: 0---成功，!=0---失败
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
+UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandleType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	//---获取当前时间节拍
 	UINT32_T nowTime = 0;
@@ -481,7 +481,7 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandlerType *SPIx, UINT8_T wVal, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandlerType *SPIx, UINT8_T *pWVal, UINT8_T *pRVal, UINT16_T length)
+UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandleType *SPIx, UINT8_T *pWVal, UINT8_T *pRVal, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T i = 0;
@@ -570,7 +570,7 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandlerType *SPIx, UINT8_T *pWVal,
 //////输出参数:
 //////说		明：高位在前
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_WriteBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal)
+UINT8_T SPI_MSW_WriteBitMSB(SPI_HandleType *SPIx, UINT8_T wVal)
 {
 	//---发送1bit的数据
 	((wVal & 0x80) != 0x00) ? GPIO_OUT_1(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit) : GPIO_OUT_0(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit);
@@ -584,7 +584,7 @@ UINT8_T SPI_MSW_WriteBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal)
 //////输出参数: 
 //////说		明： 高位在前
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_ReadBitMSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
+UINT8_T SPI_MSW_ReadBitMSB(SPI_HandleType *SPIx,UINT8_T *pRVal)
 {
 	//---读取1bit的数据
 	if (pRVal != NULL)
@@ -601,7 +601,7 @@ UINT8_T SPI_MSW_ReadBitMSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_BitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
+UINT8_T SPI_MSW_BitMSB(SPI_HandleType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	//---发送1bit的数据
 	((wVal & 0x80) != 0x00) ? GPIO_OUT_1(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit) : GPIO_OUT_0(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit);
@@ -620,7 +620,7 @@ UINT8_T SPI_MSW_BitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 //////输出参数: 
 //////说		明： 读写1Bit的数据，高位在前
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_WriteAndReadBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
+UINT8_T SPI_MSW_WriteAndReadBitMSB(SPI_HandleType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	//---00---11
 	if (((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 0)) || ((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 1)))
@@ -653,7 +653,7 @@ UINT8_T SPI_MSW_WriteAndReadBitMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 //////输出参数:
 //////说		明：低位在前
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_WriteBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal)
+UINT8_T SPI_MSW_WriteBitLSB(SPI_HandleType *SPIx, UINT8_T wVal)
 {
 	//---发送1bit的数据
 	((wVal & 0x01) != 0x00) ? GPIO_OUT_1(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit) : GPIO_OUT_0(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit);
@@ -667,7 +667,7 @@ UINT8_T SPI_MSW_WriteBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal)
 //////输出参数:
 //////说		明：低位在前
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_ReadBitLSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
+UINT8_T SPI_MSW_ReadBitLSB(SPI_HandleType *SPIx,UINT8_T *pRVal)
 {
 	//---读取1bit的数据
 	if (pRVal != NULL)
@@ -684,7 +684,7 @@ UINT8_T SPI_MSW_ReadBitLSB(SPI_HandlerType *SPIx,UINT8_T *pRVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_BitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
+UINT8_T SPI_MSW_BitLSB(SPI_HandleType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	//---发送1bit的数据
 	((wVal&0x01)!=0x00)? GPIO_OUT_1(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit): GPIO_OUT_0(SPIx->msgMOSI.msgPort, SPIx->msgMOSI.msgBit);
@@ -703,7 +703,7 @@ UINT8_T SPI_MSW_BitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 //////输出参数: 
 //////说		明： 读写1Bit的数据,低位在前
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_WriteAndReadBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
+UINT8_T SPI_MSW_WriteAndReadBitLSB(SPI_HandleType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	//---00---11
 	if (((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 0)) || ((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 1)))
@@ -736,7 +736,7 @@ UINT8_T SPI_MSW_WriteAndReadBitLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_SetClock(SPI_HandlerType *SPIx, UINT32_T clock)
+UINT8_T SPI_MSW_SetClock(SPI_HandleType *SPIx, UINT32_T clock)
 {
 	SPIx->msgPluseWidth = clock;
 	return OK_0;
@@ -749,7 +749,7 @@ UINT8_T SPI_MSW_SetClock(SPI_HandlerType *SPIx, UINT32_T clock)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MHW_SetClock(SPI_HandlerType *SPIx, UINT32_T clock)
+UINT8_T SPI_MHW_SetClock(SPI_HandleType *SPIx, UINT32_T clock)
 {
 	LL_SPI_SetBaudRatePrescaler(SPIx->msgSPIx, clock);
 	return OK_0;
@@ -763,7 +763,7 @@ UINT8_T SPI_MHW_SetClock(SPI_HandlerType *SPIx, UINT32_T clock)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_WriteAndReadByteMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
+UINT8_T SPI_MSW_WriteAndReadByteMSB(SPI_HandleType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	UINT8_T i = 0;
 
@@ -792,7 +792,7 @@ UINT8_T SPI_MSW_WriteAndReadByteMSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_WriteAndReadByteLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
+UINT8_T SPI_MSW_WriteAndReadByteLSB(SPI_HandleType *SPIx, UINT8_T wVal, UINT8_T *pRVal)
 {
 	UINT8_T i = 0;
 	if (pRVal != NULL)
@@ -820,7 +820,7 @@ UINT8_T SPI_MSW_WriteAndReadByteLSB(SPI_HandlerType *SPIx, UINT8_T wVal, UINT8_T
 //////输出参数:
 //////说		明：高位在前
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_WriteAndReadDataMSB(SPI_HandlerType *SPIx, UINT8_T *pWVal, UINT8_T *pRVal, UINT16_T length)
+UINT8_T SPI_MSW_WriteAndReadDataMSB(SPI_HandleType *SPIx, UINT8_T *pWVal, UINT8_T *pRVal, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T i = 0;
@@ -849,7 +849,7 @@ UINT8_T SPI_MSW_WriteAndReadDataMSB(SPI_HandlerType *SPIx, UINT8_T *pWVal, UINT8
 //////输出参数:
 //////说		明：低位在前
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SPI_MSW_WriteAndReadBDataLSB(SPI_HandlerType *SPIx, UINT8_T *pWVal, UINT8_T *pRVal, UINT16_T length)
+UINT8_T SPI_MSW_WriteAndReadBDataLSB(SPI_HandleType *SPIx, UINT8_T *pWVal, UINT8_T *pRVal, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T i = 0;
@@ -878,7 +878,7 @@ UINT8_T SPI_MSW_WriteAndReadBDataLSB(SPI_HandlerType *SPIx, UINT8_T *pWVal, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void  SPI_IRQ8BitTask(SPI_HandlerType* SPIx)
+void  SPI_IRQ8BitTask(SPI_HandleType* SPIx)
 {
 	static UINT16_T i = 0;
 	//---收发完成标志位
@@ -920,7 +920,7 @@ void  SPI_IRQ8BitTask(SPI_HandlerType* SPIx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void  SPI_IRQ16BitTask(SPI_HandlerType* SPIx)
+void  SPI_IRQ16BitTask(SPI_HandleType* SPIx)
 {
 	static UINT16_T i = 0;
 	//---收发完成标志位
@@ -962,7 +962,7 @@ void  SPI_IRQ16BitTask(SPI_HandlerType* SPIx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void  SPI_IRQTask(SPI_HandlerType* SPIx, UINT8_T is16Bit)
+void  SPI_IRQTask(SPI_HandleType* SPIx, UINT8_T is16Bit)
 {
 	if (is16Bit==0)
 	{

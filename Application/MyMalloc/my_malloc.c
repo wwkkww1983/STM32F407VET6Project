@@ -14,7 +14,7 @@ UINT16_T g_MemMap[MEM_TABLE_SIZE] = { 0 };
 //===内存总大小
 //const UINT32_T g_MemTotalSize = MEM_MAX_SIZE;
 //===内存管理控制器
-MyMalloc_HandlerType g_MyMallocDev =
+MyMalloc_HandleType g_MyMallocDev =
 {
 	MyMemInit,			//内存初始化
 	MyMemusedRate,		//内存使用率
@@ -23,7 +23,7 @@ MyMalloc_HandlerType g_MyMallocDev =
 	0,  				//内存管理未就绪
 };
 
-pMyMalloc_HandlerType	pMyMallocDev=&g_MyMallocDev;
+pMyMalloc_HandleType	pMyMallocDev=&g_MyMallocDev;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：

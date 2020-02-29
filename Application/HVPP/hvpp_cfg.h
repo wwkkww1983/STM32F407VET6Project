@@ -321,11 +321,11 @@ extern "C" {
 	#define HVPP_STATE_TIME_OUT_MS							500
 
 	//===定义结构体
-	typedef struct _HVPP_HandlerType						HVPP_HandlerType;
+	typedef struct _HVPP_HandleType						HVPP_HandleType;
 	//===定义指针结构体
-	typedef struct _HVPP_HandlerType						* pHVPP_HandlerType;
+	typedef struct _HVPP_HandleType						* pHVPP_HandleType;
 	//===结构体变量
-	struct _HVPP_HandlerType
+	struct _HVPP_HandleType
 	{
 		UINT8_T		msgState;																																						//---编程状态，0---空闲状态，1---编程状态
 		UINT8_T		msgHvFastMode;																																					//---是否使快速编程模式，0---常规模式，1---快速模式
@@ -356,33 +356,33 @@ extern "C" {
 	#define HVPP_TASK_THREE								0																															//---任务3
 
 	//===外部调用函数
-	extern HVPP_HandlerType								g_HvppDevice0;
-	extern pHVPP_HandlerType							pHvppDevice0 ;
+	extern HVPP_HandleType								g_HvppDevice0;
+	extern pHVPP_HandleType							pHvppDevice0 ;
 
 	//===函数定义
-	UINT8_T HVPP_DATABUS_WRITE(HVPP_HandlerType* HVPPx, UINT8_T val);
-	UINT8_T HVPP_DATABUS_READ(HVPP_HandlerType* HVPPx, UINT8_T isReadDir);
-	UINT8_T HVPP_GPIO_Init(HVPP_HandlerType* HVPPx);
-	UINT8_T HVPP_GPIO_DeInit(HVPP_HandlerType* HVPPx);
-	void HVPP_XTAL_CLK(HVPP_HandlerType* HVPPx, UINT8_T clkNum);
-	void HVPP_XTAL_PULSE(HVPP_HandlerType* HVPPx);
+	UINT8_T HVPP_DATABUS_WRITE(HVPP_HandleType* HVPPx, UINT8_T val);
+	UINT8_T HVPP_DATABUS_READ(HVPP_HandleType* HVPPx, UINT8_T isReadDir);
+	UINT8_T HVPP_GPIO_Init(HVPP_HandleType* HVPPx);
+	UINT8_T HVPP_GPIO_DeInit(HVPP_HandleType* HVPPx);
+	void HVPP_XTAL_CLK(HVPP_HandleType* HVPPx, UINT8_T clkNum);
+	void HVPP_XTAL_PULSE(HVPP_HandleType* HVPPx);
 	void HVPP_AddWatchDevice0(void);
-	void HVPP_WatchTask(HVPP_HandlerType* HVPPx);
-	UINT8_T HVPP_AddWatch(HVPP_HandlerType* HVPPx);
-	UINT8_T HVPP_RemoveWatch(HVPP_HandlerType* HVPPx);
-	UINT8_T HVPP_RefreshWatch(HVPP_HandlerType* HVPPx);
-	UINT8_T HVPP_SetIntervalTime(HVPP_HandlerType* HVPPx, UINT16_T intervalTime);
-	UINT8_T HVPP_GetIntervalTime(HVPP_HandlerType* HVPPx);
-	UINT8_T HVPP_Init(HVPP_HandlerType* HVPPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
-	UINT8_T HVPP_DeInit(HVPP_HandlerType* HVPPx);
-	UINT8_T HVPP_ProgModeEnter(HVPP_HandlerType* HVPPx, UINT8_T pagel, UINT8_T xa1, UINT8_T xa0, UINT8_T bs1);
-	UINT8_T HVPP_ProgModeExit(HVPP_HandlerType* HVPPx);
-	UINT8_T HVPP_EnterProg(HVPP_HandlerType* HVPPx, UINT8_T hvModeCmd);
-	UINT8_T HVPP_ExitProg(HVPP_HandlerType* HVPPx);
-	UINT8_T HVPP_ReadChipID(HVPP_HandlerType* HVPPx, UINT8_T* pVal);
-	UINT8_T HVPP_ReadChipCalibration(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T length);
-	UINT8_T HVPP_ReadChipFuse(HVPP_HandlerType* HVPPx, UINT8_T* pVal, UINT8_T isNeedExternFuse);
-	UINT8_T HVPP_ReadChipLock(HVPP_HandlerType* HVPPx, UINT8_T* pVal);
+	void HVPP_WatchTask(HVPP_HandleType* HVPPx);
+	UINT8_T HVPP_AddWatch(HVPP_HandleType* HVPPx);
+	UINT8_T HVPP_RemoveWatch(HVPP_HandleType* HVPPx);
+	UINT8_T HVPP_RefreshWatch(HVPP_HandleType* HVPPx);
+	UINT8_T HVPP_SetIntervalTime(HVPP_HandleType* HVPPx, UINT16_T intervalTime);
+	UINT8_T HVPP_GetIntervalTime(HVPP_HandleType* HVPPx);
+	UINT8_T HVPP_Init(HVPP_HandleType* HVPPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
+	UINT8_T HVPP_DeInit(HVPP_HandleType* HVPPx);
+	UINT8_T HVPP_ProgModeEnter(HVPP_HandleType* HVPPx, UINT8_T pagel, UINT8_T xa1, UINT8_T xa0, UINT8_T bs1);
+	UINT8_T HVPP_ProgModeExit(HVPP_HandleType* HVPPx);
+	UINT8_T HVPP_EnterProg(HVPP_HandleType* HVPPx, UINT8_T hvModeCmd);
+	UINT8_T HVPP_ExitProg(HVPP_HandleType* HVPPx);
+	UINT8_T HVPP_ReadChipID(HVPP_HandleType* HVPPx, UINT8_T* pVal);
+	UINT8_T HVPP_ReadChipCalibration(HVPP_HandleType* HVPPx, UINT8_T* pVal, UINT8_T length);
+	UINT8_T HVPP_ReadChipFuse(HVPP_HandleType* HVPPx, UINT8_T* pVal, UINT8_T isNeedExternFuse);
+	UINT8_T HVPP_ReadChipLock(HVPP_HandleType* HVPPx, UINT8_T* pVal);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

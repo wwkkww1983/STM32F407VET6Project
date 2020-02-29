@@ -34,11 +34,11 @@ extern "C" {
 	}KeyPressEvent;
 
 	//===定义结构体
-	typedef struct _KeyPress_HandlerType	 KeyPress_HandlerType;
+	typedef struct _KeyPress_HandleType				 KeyPress_HandleType;
 	//===定义指针结构体
-	typedef struct _KeyPress_HandlerType	*pKeyPress_HandlerType;
+	typedef struct _KeyPress_HandleType				*pKeyPress_HandleType;
 	//===按键按钮结构
-	struct _KeyPress_HandlerType
+	struct _KeyPress_HandleType
 	{
 		UINT32_T msgTick;																								//---计数
 		UINT8_T  msgRepeatCount;																						//---重复次数																						
@@ -49,7 +49,7 @@ extern "C" {
 		KeyPressEvent msgKeyPressEvent;																					//---事件类型
 		UINT8_T(*msgFuncReadPinLevel)(void);																			//---按键读取函数
 		KeyPressEventCallBack  msgCallBack[KEY_NUM_OF_EVENT];															//---按键响应事件
-		KeyPress_HandlerType  *pMsgNext;																				//---指向下一按键处理函数
+		KeyPress_HandleType  *pMsgNext;																					//---指向下一按键处理函数
 	};
 
 	//===<<MultiButton END=========================================================

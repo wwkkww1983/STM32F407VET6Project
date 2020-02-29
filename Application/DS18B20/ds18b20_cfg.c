@@ -1,8 +1,8 @@
 #include "ds18b20_cfg.h"
 
 //---变量定义
-DS18B20_HandlerType g_Ds18b20Device0 = { 0 };
-pDS18B20_HandlerType pDs18b20Device0 = &g_Ds18b20Device0;
+DS18B20_HandleType g_Ds18b20Device0 = { 0 };
+pDS18B20_HandleType pDs18b20Device0 = &g_Ds18b20Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,7 +11,7 @@ pDS18B20_HandlerType pDs18b20Device0 = &g_Ds18b20Device0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_Device0_Init(DS18B20_HandlerType *DS18B20x)
+UINT8_T DS18B20_OneWire_Device0_Init(DS18B20_HandleType *DS18B20x)
 {
 	DS18B20x->msgOneWire.msgDAT.msgBit = LL_GPIO_PIN_2;
 	DS18B20x->msgOneWire.msgDAT.msgPort = GPIOC;
@@ -31,7 +31,7 @@ UINT8_T DS18B20_OneWire_Device0_Init(DS18B20_HandlerType *DS18B20x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_Device1_Init(DS18B20_HandlerType *DS18B20x)
+UINT8_T DS18B20_OneWire_Device1_Init(DS18B20_HandleType *DS18B20x)
 {
 	return OK_0;
 }
@@ -43,7 +43,7 @@ UINT8_T DS18B20_OneWire_Device1_Init(DS18B20_HandlerType *DS18B20x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_Device2_Init(DS18B20_HandlerType *DS18B20x)
+UINT8_T DS18B20_OneWire_Device2_Init(DS18B20_HandleType *DS18B20x)
 {
 	return OK_0;
 }
@@ -55,7 +55,7 @@ UINT8_T DS18B20_OneWire_Device2_Init(DS18B20_HandlerType *DS18B20x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
+UINT8_T DS18B20_OneWire_Init(DS18B20_HandleType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	if ((DS18B20x != NULL) && (DS18B20x == DS18B20_TASK_ONE))
 	{
@@ -92,7 +92,7 @@ UINT8_T DS18B20_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_DeInit(DS18B20_HandlerType *DS18B20x)
+UINT8_T DS18B20_OneWire_DeInit(DS18B20_HandleType *DS18B20x)
 {
 	return OneWireTask_DeInit(&(DS18B20x->msgOneWire));
 }
@@ -103,7 +103,7 @@ UINT8_T DS18B20_OneWire_DeInit(DS18B20_HandlerType *DS18B20x)
 //////输出参数: 0---失败;1---表示成功
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_START(DS18B20_HandlerType *DS18B20x)
+UINT8_T DS18B20_OneWire_START(DS18B20_HandleType *DS18B20x)
 {
 	return OneWireTask_START(&(DS18B20x->msgOneWire));
 }
@@ -115,7 +115,7 @@ UINT8_T DS18B20_OneWire_START(DS18B20_HandlerType *DS18B20x)
 //////输出参数: 无
 //////说	   明：
 ///////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_WriteByte(DS18B20_HandlerType *DS18B20x, UINT8_T val)
+UINT8_T DS18B20_OneWire_WriteByte(DS18B20_HandleType *DS18B20x, UINT8_T val)
 {
 	return OneWireTask_WriteByte(&(DS18B20x->msgOneWire), val);
 }
@@ -127,7 +127,7 @@ UINT8_T DS18B20_OneWire_WriteByte(DS18B20_HandlerType *DS18B20x, UINT8_T val)
 //////输出参数: 读取的数据
 //////说	   明：
 ///////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_ReadByte(DS18B20_HandlerType *DS18B20x)
+UINT8_T DS18B20_OneWire_ReadByte(DS18B20_HandleType *DS18B20x)
 {
 	return OneWireTask_ReadByte(&(DS18B20x->msgOneWire));
 }
@@ -139,7 +139,7 @@ UINT8_T DS18B20_OneWire_ReadByte(DS18B20_HandlerType *DS18B20x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_ReadTempBit(DS18B20_HandlerType* DS18B20x,UINT8_T *pTempBit)
+UINT8_T DS18B20_OneWire_ReadTempBit(DS18B20_HandleType* DS18B20x,UINT8_T *pTempBit)
 {
 	UINT8_T tempBit[3]={0};
 	UINT8_T i=0;
@@ -175,7 +175,7 @@ UINT8_T DS18B20_OneWire_ReadTempBit(DS18B20_HandlerType* DS18B20x,UINT8_T *pTemp
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_WriteTempBit(DS18B20_HandlerType* DS18B20x, UINT8_T tempBit)
+UINT8_T DS18B20_OneWire_WriteTempBit(DS18B20_HandleType* DS18B20x, UINT8_T tempBit)
 {
 	UINT8_T i = 0;
 	//---总线复位
@@ -231,7 +231,7 @@ UINT8_T DS18B20_OneWire_WriteTempBit(DS18B20_HandlerType* DS18B20x, UINT8_T temp
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_ReadID(DS18B20_HandlerType *DS18B20x, UINT8_T *pId)
+UINT8_T DS18B20_OneWire_ReadID(DS18B20_HandleType *DS18B20x, UINT8_T *pId)
 {
 	UINT8_T i;
 	//---总线复位
@@ -259,7 +259,7 @@ UINT8_T DS18B20_OneWire_ReadID(DS18B20_HandlerType *DS18B20x, UINT8_T *pId)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T DS18B20_OneWire_StartConvert(DS18B20_HandlerType* DS18B20x)
+UINT16_T DS18B20_OneWire_StartConvert(DS18B20_HandleType* DS18B20x)
 {
 	//---总线复位
 	if (DS18B20_OneWire_START(DS18B20x) == 0)
@@ -280,7 +280,7 @@ UINT16_T DS18B20_OneWire_StartConvert(DS18B20_HandlerType* DS18B20x)
 //////输出参数: 0---可以读取；1---间隔读取时间还没有到达，不允许读取
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T DS18B20_OneWire_STATE(DS18B20_HandlerType* DS18B20x)
+UINT16_T DS18B20_OneWire_STATE(DS18B20_HandleType* DS18B20x)
 {
 	UINT32_T nowTime = DS18B20x->msgTimeTick();
 	UINT32_T cnt = 0;
@@ -310,7 +310,7 @@ UINT16_T DS18B20_OneWire_STATE(DS18B20_HandlerType* DS18B20x)
 //////输出参数: 放大100倍之后的温度的值
 //////说	   明：
 ///////////////////////////////////////////////////////////////////////////////
-UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
+UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandleType *DS18B20x)
 {
 	UINT16_T _return = 0;
 	UINT16_T tempH = 0;
@@ -378,7 +378,7 @@ UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *pId)
+UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandleType *DS18B20x, UINT8_T *pId)
 {
 	UINT16_T _return = 0, temH = 0;
 	UINT8_T temL = 0, i = 0;
@@ -455,7 +455,7 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *pI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20_OneWire_Config(DS18B20_HandlerType* DS18B20x,void(*pFuncDelayus)(UINT32_T delay))
+UINT8_T DS18B20_OneWire_Config(DS18B20_HandleType* DS18B20x,void(*pFuncDelayus)(UINT32_T delay))
 {
 	UINT8_T _return=0;
 	//---初始化一线接口的参数
@@ -478,7 +478,7 @@ UINT8_T DS18B20_OneWire_Config(DS18B20_HandlerType* DS18B20x,void(*pFuncDelayus)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float DS18B20_OneWire_GetTemp(DS18B20_HandlerType* DS18B20x)
+float DS18B20_OneWire_GetTemp(DS18B20_HandleType* DS18B20x)
 {
 	float tempVal=DS18B20x->msgTempX10000;
 	//---转换温度对应实际的温度值

@@ -24,7 +24,7 @@ extern "C" {
 	void EncodeTask_Init( void );
 	void EnCodeTask_IRQTask( void );
 	void EnCodeTask_SetChannel(UINT8_T chIndex, UINT8_T isEnCode, UINT8_T isHigh);
-	UINT8_T EnCodeTask_UART_MenuTask(UART_HandlerType* UARTx);
+	UINT8_T EnCodeTask_UART_MenuTask(UART_HandleType* UARTx);
 	UINT8_T EnCodeTask_EepromInit(void);
 	UINT8_T EnCodeTask_EepromWrite(void);
 

@@ -16,7 +16,7 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===定义WM8510的输出频率变化多少次之后执行复位操作
 	//#define USE_WM8510_RESET
-	#define WM8510_FREQ_CHANGE_MAX			3000
+	#define WM8510_FREQ_CHANGE_MAX		3000
 	//===每100KHz需要补偿15Hz
 	//===每20KHz需要补偿3Hz
 	//=== 12M时钟下最小输出频率是156KHz----单位为HZ
@@ -431,11 +431,11 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////	
 	//===结构体定义
-	typedef struct _WM8510_HandlerType			WM8510_HandlerType;
+	typedef struct _WM8510_HandleType			WM8510_HandleType;
 	//===指针结构体定义
-	typedef struct _WM8510_HandlerType			*pWM8510_HandlerType;
+	typedef struct _WM8510_HandleType			*pWM8510_HandleType;
 	//===定义结构
-	struct _WM8510_HandlerType
+	struct _WM8510_HandleType
 	{
 		UINT8_T				msgMclkDIV;																					//---mclk的分频数
 		UINT8_T				msgBclkDIV;																					//---bclk的分频数
@@ -464,9 +464,9 @@ extern "C" {
 		UINT32_T			msgFreqKHz;																					//---输出的频率KHz
 		float				msgPllRate;																					//---pll的比值
 	#ifdef WM8510_USE_lEVEL_SHIFT
-		GPIO_HandlerType	msgOE;																						//---OE使用的端口，用于控制电平装换的开关
+		GPIO_HandleType	msgOE;																						//---OE使用的端口，用于控制电平装换的开关
 	#endif
-		I2C_HandlerType msgI2C;																							//---使用的I2C设备
+		I2C_HandleType msgI2C;																							//---使用的I2C设备
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
@@ -484,28 +484,28 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用接口
-	extern WM8510_HandlerType			g_Wm8510Device0;
-	extern pWM8510_HandlerType			pWm8510Device0;
+	extern WM8510_HandleType			g_Wm8510Device0;
+	extern pWM8510_HandleType			pWm8510Device0;
 
 	//===函数定义
-	void    WM8510_I2C_ParamsInit(WM8510_HandlerType *WM8510x);
-	UINT8_T WM8510_I2C_Device0_Init(WM8510_HandlerType *WM8510x);
-	UINT8_T WM8510_I2C_Device1_Init(WM8510_HandlerType *WM8510x);
-	UINT8_T WM8510_I2C_Device2_Init(WM8510_HandlerType *WM8510x);
-	UINT8_T WM8510_I2C_Init(WM8510_HandlerType *WM8510x, void(*pFuncDelayus)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T WM8510_I2C_START(WM8510_HandlerType *WM8510x);
-	UINT8_T WM8510_I2C_DeInit(WM8510_HandlerType *WM8510x);
-	UINT8_T WM8510_SWI2C_WriteReg(WM8510_HandlerType *WM8510x, UINT8_T *pVal, UINT8_T length);
-	UINT8_T WM8510_HWI2C_WriteReg(WM8510_HandlerType *WM8510x, UINT8_T *pVal, UINT8_T length);
-	UINT8_T WM8510_I2C_SendCMD(WM8510_HandlerType *WM8510x, UINT8_T *pVal);
-	UINT8_T WM8510_I2C_SetFreqHz(WM8510_HandlerType *WM8510x, UINT32_T freq);
-	UINT8_T WM8510_I2C_SetFreqKHz(WM8510_HandlerType *WM8510x, float freq);
-	UINT8_T WM8510_I2C_SetFreqMHz(WM8510_HandlerType *WM8510x, float freq);
-	void    WM8510_I2C_Reset(WM8510_HandlerType *WM8510x);
-	UINT8_T WM8510_I2C_SetFreqHzWithAllFreqReg(WM8510_HandlerType *WM8510x, UINT32_T freq);
-	UINT8_T WM8510_CalibrateFreqKHzOutPut(WM8510_HandlerType *WM8510x);
-	UINT8_T WM8510_I2C_SetFreqHzWithAllFreqRegAndCalibrateFreqKHzOutPut(WM8510_HandlerType *WM8510x, UINT32_T freq);
-	UINT8_T WM8510_I2C_CalibrateClock(WM8510_HandlerType *WM8510x);
+	void    WM8510_I2C_ParamsInit(WM8510_HandleType *WM8510x);
+	UINT8_T WM8510_I2C_Device0_Init(WM8510_HandleType *WM8510x);
+	UINT8_T WM8510_I2C_Device1_Init(WM8510_HandleType *WM8510x);
+	UINT8_T WM8510_I2C_Device2_Init(WM8510_HandleType *WM8510x);
+	UINT8_T WM8510_I2C_Init(WM8510_HandleType *WM8510x, void(*pFuncDelayus)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T WM8510_I2C_START(WM8510_HandleType *WM8510x);
+	UINT8_T WM8510_I2C_DeInit(WM8510_HandleType *WM8510x);
+	UINT8_T WM8510_SWI2C_WriteReg(WM8510_HandleType *WM8510x, UINT8_T *pVal, UINT8_T length);
+	UINT8_T WM8510_HWI2C_WriteReg(WM8510_HandleType *WM8510x, UINT8_T *pVal, UINT8_T length);
+	UINT8_T WM8510_I2C_SendCMD(WM8510_HandleType *WM8510x, UINT8_T *pVal);
+	UINT8_T WM8510_I2C_SetFreqHz(WM8510_HandleType *WM8510x, UINT32_T freq);
+	UINT8_T WM8510_I2C_SetFreqKHz(WM8510_HandleType *WM8510x, float freq);
+	UINT8_T WM8510_I2C_SetFreqMHz(WM8510_HandleType *WM8510x, float freq);
+	void    WM8510_I2C_Reset(WM8510_HandleType *WM8510x);
+	UINT8_T WM8510_I2C_SetFreqHzWithAllFreqReg(WM8510_HandleType *WM8510x, UINT32_T freq);
+	UINT8_T WM8510_CalibrateFreqKHzOutPut(WM8510_HandleType *WM8510x);
+	UINT8_T WM8510_I2C_SetFreqHzWithAllFreqRegAndCalibrateFreqKHzOutPut(WM8510_HandleType *WM8510x, UINT32_T freq);
+	UINT8_T WM8510_I2C_CalibrateClock(WM8510_HandleType *WM8510x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

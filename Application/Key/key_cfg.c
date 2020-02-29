@@ -2,7 +2,7 @@
 
 //===>>MultiButton START=========================================================
 //===按键事件列表
-KeyPress_HandlerType * pHeadHandle = NULL;
+KeyPress_HandleType * pHeadHandle = NULL;
 
 //===用于计数
 UINT32_T(*keyButtonFuncTimeTick)(void) = NULL;
@@ -27,9 +27,9 @@ UINT32_T g_KeyLoopReadIndex = 0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_Init(KeyPress_HandlerType* handle, UINT8_T(*pPinReadLevel)(), UINT8_T pinActiveLevel)
+void KeyButton_Init(KeyPress_HandleType* handle, UINT8_T(*pPinReadLevel)(), UINT8_T pinActiveLevel)
 {
-	memset(handle, 0, sizeof(KeyPress_HandlerType));
+	memset(handle, 0, sizeof(KeyPress_HandleType));
 	handle->msgKeyPressEvent = (UINT8_T)KEY_PRESS_NONE;
 	handle->msgFuncReadPinLevel = pPinReadLevel;
 	handle->msgLevel = handle->msgFuncReadPinLevel();
@@ -43,7 +43,7 @@ void KeyButton_Init(KeyPress_HandlerType* handle, UINT8_T(*pPinReadLevel)(), UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_Attach(KeyPress_HandlerType *handle, KeyPressEvent event, KeyPressEventCallBack cb)
+void KeyButton_Attach(KeyPress_HandleType *handle, KeyPressEvent event, KeyPressEventCallBack cb)
 {
 	handle->msgCallBack[event] = cb;
 }
@@ -55,7 +55,7 @@ void KeyButton_Attach(KeyPress_HandlerType *handle, KeyPressEvent event, KeyPres
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-KeyPressEvent KeyButton_GetButtonEvent(KeyPress_HandlerType* handle)
+KeyPressEvent KeyButton_GetButtonEvent(KeyPress_HandleType* handle)
 {
 	return (KeyPressEvent)(handle->msgKeyPressEvent);
 }
@@ -67,9 +67,9 @@ KeyPressEvent KeyButton_GetButtonEvent(KeyPress_HandlerType* handle)
 //////输出参数: 0---事件启动；1---事件已经存在
 //////说	明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T KeyButton_START(KeyPress_HandlerType *btn)
+UINT8_T KeyButton_START(KeyPress_HandleType *btn)
 {
-	KeyPress_HandlerType* target = pHeadHandle;
+	KeyPress_HandleType* target = pHeadHandle;
 	while (target)
 	{
 		if (target == btn)
@@ -91,12 +91,12 @@ UINT8_T KeyButton_START(KeyPress_HandlerType *btn)
 //////输出参数:
 //////说	明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_STOP(KeyPress_HandlerType* btn)
+void KeyButton_STOP(KeyPress_HandleType* btn)
 {
-	KeyPress_HandlerType** curr;
+	KeyPress_HandleType** curr;
 	for (curr = &pHeadHandle; *curr; )
 	{
-		KeyPress_HandlerType* entry = *curr;
+		KeyPress_HandleType* entry = *curr;
 		if (entry == btn)
 		{
 			*curr = entry->pMsgNext;
@@ -115,11 +115,11 @@ void KeyButton_STOP(KeyPress_HandlerType* btn)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_CallBackHandlerEvent(KeyPress_HandlerType* handle, UINT8_T event)
+void KeyButton_CallBackHandlerEvent(KeyPress_HandleType* handle, UINT8_T event)
 {
 	if (handle->msgCallBack[event] != NULL)
 	{
-		handle->msgCallBack[event]((KeyPress_HandlerType*)handle);
+		handle->msgCallBack[event]((KeyPress_HandleType*)handle);
 	}
 }
 
@@ -130,7 +130,7 @@ void KeyButton_CallBackHandlerEvent(KeyPress_HandlerType* handle, UINT8_T event)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_HandlerEvent(KeyPress_HandlerType* handle)
+void KeyButton_HandlerEvent(KeyPress_HandleType* handle)
 {
 	UINT32_T read_gpio_level = handle->msgFuncReadPinLevel();
 
@@ -299,7 +299,7 @@ void KeyButton_HandlerEvent(KeyPress_HandlerType* handle)
 //////////////////////////////////////////////////////////////////////////////
 void KeyButton_TimeTicks()
 {
-	KeyPress_HandlerType* target;
+	KeyPress_HandleType* target;
 	for (target = pHeadHandle; target; target = target->pMsgNext)
 	{
 		KeyButton_HandlerEvent(target);
@@ -334,7 +334,7 @@ void KeyButton_PollTicks()
 {
 	UINT32_T nowTime = 0;
 	UINT32_T cnt = 0;
-	KeyPress_HandlerType* target;
+	KeyPress_HandleType* target;
 	if (keyButtonFuncTimeTick != NULL)
 	{
 		//---获取当前时间节拍

@@ -78,19 +78,19 @@ extern "C" {
 		long		msgB7;
 	}BMP180_ParamType;
 	//===结构体定义
-	typedef struct _BMP180_HandlerType					BMP180_HandlerType;
+	typedef struct _BMP180_HandleType					BMP180_HandleType;
 	//===指针结构体定义
-	typedef struct _BMP180_HandlerType					*pBMP180_HandlerType;
+	typedef struct _BMP180_HandleType					*pBMP180_HandleType;
 	//===HMC5883的数据结构体
-	struct _BMP180_HandlerType
+	struct _BMP180_HandleType
 	{
 		BMP180_ParamType	msgParam;																					//---矫正参数
 		INT32_T				msgDefaultTemp;																				//---未校正的温度值
 		INT32_T				msgDefaultGasPress;																			//---未校正的气压值
-		INT32_T				msgTemp;																				//---校正后的温度值
+		INT32_T				msgTemp;																					//---校正后的温度值
 		INT32_T				msgGasPress;																				//---校正后的气压值
 		float				msgAltitude;																				//---海拔高度
-		I2C_HandlerType		msgI2C;																						//---使用的I2C
+		I2C_HandleType		msgI2C;																						//---使用的I2C
 		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
@@ -109,8 +109,8 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用
-	extern BMP180_HandlerType							g_Bmp180Device0;
-	extern pBMP180_HandlerType							pBmp180Device0;
+	extern BMP180_HandleType							g_Bmp180Device0;
+	extern pBMP180_HandleType							pBmp180Device0;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

@@ -1,8 +1,8 @@
 #include "max961x_cfg.h"
 
 //===全局变量定义
-MAX961X_HandlerType		g_Max961xDevice0 = { 0 };
-pMAX961X_HandlerType	pMax961xDevice0 = &g_Max961xDevice0;
+MAX961X_HandleType		g_Max961xDevice0 = { 0 };
+pMAX961X_HandleType	pMax961xDevice0 = &g_Max961xDevice0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,7 +11,7 @@ pMAX961X_HandlerType	pMax961xDevice0 = &g_Max961xDevice0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_Device0_Init(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_Device0_Init(MAX961X_HandleType* MAX961x)
 {
 	MAX961x->msgI2C.msgI2Cx = NULL;
 	MAX961x->msgI2C.msgSCL.msgPort = GPIOB;
@@ -33,7 +33,7 @@ UINT8_T MAX961X_I2C_Device0_Init(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_Device1_Init(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_Device1_Init(MAX961X_HandleType* MAX961x)
 {
 	return OK_0;
 }
@@ -45,7 +45,7 @@ UINT8_T MAX961X_I2C_Device1_Init(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_Device2_Init(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_Device2_Init(MAX961X_HandleType* MAX961x)
 {
 	return OK_0;
 }
@@ -57,7 +57,7 @@ UINT8_T MAX961X_I2C_Device2_Init(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
+UINT8_T MAX961X_I2C_Init(MAX961X_HandleType* MAX961x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---指定设备的初始化
@@ -89,7 +89,7 @@ UINT8_T MAX961X_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT3
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_DeInit(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_DeInit(MAX961X_HandleType* MAX961x)
 {
 	return I2CTask_Master_DeInit(&(MAX961x->msgI2C));	
 }
@@ -101,7 +101,7 @@ UINT8_T MAX961X_I2C_DeInit(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_SWI2C_WriteSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
+UINT8_T MAX961X_SWI2C_WriteSingle(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -146,7 +146,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_SWI2C_WriteBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr,UINT8_T length, UINT8_T *pVal)
+UINT8_T MAX961X_SWI2C_WriteBulk(MAX961X_HandleType* MAX961x, UINT8_T addr,UINT8_T length, UINT8_T *pVal)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -197,7 +197,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_HWI2C_WriteSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
+UINT8_T MAX961X_HWI2C_WriteSingle(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -238,7 +238,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_HWI2C_WriteBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
+UINT8_T MAX961X_HWI2C_WriteBulk(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -286,7 +286,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_WriteSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val)
+UINT8_T MAX961X_I2C_WriteSingle(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T val)
 {
 	if (MAX961x->msgI2C.msgHwMode != 0)
 	{
@@ -307,7 +307,7 @@ UINT8_T MAX961X_I2C_WriteSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_WriteBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
+UINT8_T MAX961X_I2C_WriteBulk(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
 	if (MAX961x->msgI2C.msgHwMode == 1)
 	{
@@ -328,7 +328,7 @@ UINT8_T MAX961X_I2C_WriteBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_SWI2C_ReadSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T *pVal)
+UINT8_T MAX961X_SWI2C_ReadSingle(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T *pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -375,7 +375,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_SWI2C_ReadBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
+UINT8_T MAX961X_SWI2C_ReadBulk(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -428,7 +428,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_HWI2C_ReadSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T MAX961X_HWI2C_ReadSingle(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -472,7 +472,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_HWI2C_ReadBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
+UINT8_T MAX961X_HWI2C_ReadBulk(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -522,7 +522,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_ReadSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal)
+UINT8_T MAX961X_I2C_ReadSingle(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T* pVal)
 {
 	if (MAX961x->msgI2C.msgHwMode!=0)
 	{
@@ -543,7 +543,7 @@ UINT8_T MAX961X_I2C_ReadSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_ReadBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
+UINT8_T MAX961X_I2C_ReadBulk(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal)
 {
 	if (MAX961x->msgI2C.msgHwMode != 0)
 	{
@@ -564,7 +564,7 @@ UINT8_T MAX961X_I2C_ReadBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_CheckDevice(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_CheckDevice(MAX961X_HandleType* MAX961x)
 {
 	UINT8_T _return = 0;
 	MAX961X_I2C_ReadSingle(MAX961x, MAX961X_REG_TEMP_DATA_MSB_ADDR, &_return);
@@ -587,7 +587,7 @@ UINT8_T MAX961X_I2C_CheckDevice(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_ReadRSVoltage(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_ReadRSVoltage(MAX961X_HandleType* MAX961x)
 {
 	UINT8_T _return = OK_0 ;
 	UINT8_T adcTemp[2] = {0};
@@ -614,7 +614,7 @@ UINT8_T MAX961X_I2C_ReadRSVoltage(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_ReadRSCurrent(MAX961X_HandlerType* MAX961x,UINT8_T currentGain)
+UINT8_T MAX961X_I2C_ReadRSCurrent(MAX961X_HandleType* MAX961x,UINT8_T currentGain)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T gain = 1;
@@ -649,7 +649,7 @@ UINT8_T MAX961X_I2C_ReadRSCurrent(MAX961X_HandlerType* MAX961x,UINT8_T currentGa
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_ReadOutVoltage(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_ReadOutVoltage(MAX961X_HandleType* MAX961x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T adcTemp[2] = { 0 };
@@ -676,7 +676,7 @@ UINT8_T MAX961X_I2C_ReadOutVoltage(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_ReadSetVoltage(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_ReadSetVoltage(MAX961X_HandleType* MAX961x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T adcTemp[2] = { 0 };
@@ -703,7 +703,7 @@ UINT8_T MAX961X_I2C_ReadSetVoltage(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_ReadTemp(MAX961X_HandlerType* MAX961x)
+UINT8_T MAX961X_I2C_ReadTemp(MAX961X_HandleType* MAX961x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T adcTemp[2] = { 0 };
@@ -737,7 +737,7 @@ UINT8_T MAX961X_I2C_ReadTemp(MAX961X_HandlerType* MAX961x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T MAX961X_I2C_ReadAll(MAX961X_HandlerType* MAX961x, UINT8_T currentGain)
+UINT8_T MAX961X_I2C_ReadAll(MAX961X_HandleType* MAX961x, UINT8_T currentGain)
 {
 	UINT8_T _return = OK_0;
 	_return = MAX961X_I2C_ReadRSVoltage( MAX961x);

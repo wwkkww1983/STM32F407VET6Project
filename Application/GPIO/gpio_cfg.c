@@ -749,7 +749,7 @@ UINT32_T GPIO_ReadInputPort(GPIO_TypeDef* GPIOx, UINT32_T PinMask)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T GPIO_WaitPinPort(GPIO_HandlerType* GPIOx,UINT8_T isHighLevel)
+UINT8_T GPIO_WaitPinPort(GPIO_HandleType* GPIOx,UINT8_T isHighLevel)
 {
 	//---获取当前时间节拍
 	UINT32_T nowTime = 0;

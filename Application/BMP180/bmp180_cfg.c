@@ -1,8 +1,8 @@
 #include "bmp180_cfg.h"
 
 //===全局变量定义
-BMP180_HandlerType		g_Bmp180Device0 = { 0 };
-pBMP180_HandlerType		pBmp180Device0 = &g_Bmp180Device0;
+BMP180_HandleType		g_Bmp180Device0 = { 0 };
+pBMP180_HandleType		pBmp180Device0 = &g_Bmp180Device0;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@ pBMP180_HandlerType		pBmp180Device0 = &g_Bmp180Device0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_Device0_Init(BMP180_HandlerType* BMP180x)
+UINT8_T BMP180_I2C_Device0_Init(BMP180_HandleType* BMP180x)
 {
 	BMP180x->msgI2C.msgI2Cx = NULL;
 	BMP180x->msgI2C.msgSCL.msgPort = GPIOB;
@@ -34,7 +34,7 @@ UINT8_T BMP180_I2C_Device0_Init(BMP180_HandlerType* BMP180x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_Device1_Init(BMP180_HandlerType* BMP180x)
+UINT8_T BMP180_I2C_Device1_Init(BMP180_HandleType* BMP180x)
 {
 	return ERROR_1;
 }
@@ -46,7 +46,7 @@ UINT8_T BMP180_I2C_Device1_Init(BMP180_HandlerType* BMP180x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_Device2_Init(BMP180_HandlerType* BMP180x)
+UINT8_T BMP180_I2C_Device2_Init(BMP180_HandleType* BMP180x)
 {
 	return ERROR_1;
 }
@@ -58,7 +58,7 @@ UINT8_T BMP180_I2C_Device2_Init(BMP180_HandlerType* BMP180x)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_Init(BMP180_HandlerType* BMP180x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
+UINT8_T BMP180_I2C_Init(BMP180_HandleType* BMP180x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---指定设备的初始化
@@ -93,7 +93,7 @@ UINT8_T BMP180_I2C_Init(BMP180_HandlerType* BMP180x, void(*pFuncDelayus)(UINT32_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_DeInit(BMP180_HandlerType* BMP180x)
+UINT8_T BMP180_I2C_DeInit(BMP180_HandleType* BMP180x)
 {
 	return I2CTask_Master_DeInit(&(BMP180x->msgI2C));
 }
@@ -105,7 +105,7 @@ UINT8_T BMP180_I2C_DeInit(BMP180_HandlerType* BMP180x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_SWI2C_WriteSingle(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT8_T val)
+UINT8_T BMP180_SWI2C_WriteSingle(BMP180_HandleType* BMP180x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -144,7 +144,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_HWI2C_WriteSingle(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT8_T val)
+UINT8_T BMP180_HWI2C_WriteSingle(BMP180_HandleType* BMP180x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -186,7 +186,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_WriteSingle(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT8_T val)
+UINT8_T BMP180_I2C_WriteSingle(BMP180_HandleType* BMP180x, UINT8_T addr, UINT8_T val)
 {
 	if (BMP180x->msgI2C.msgHwMode != 0)
 	{
@@ -206,7 +206,7 @@ UINT8_T BMP180_I2C_WriteSingle(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_SWI2C_ReadSingle(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT16_T* pVal)
+UINT8_T BMP180_SWI2C_ReadSingle(BMP180_HandleType* BMP180x, UINT8_T addr, UINT16_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T readTemp = 0;
@@ -260,7 +260,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_HWI2C_ReadSingle(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT16_T* pVal)
+UINT8_T BMP180_HWI2C_ReadSingle(BMP180_HandleType* BMP180x, UINT8_T addr, UINT16_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T readTemp = 0;
@@ -312,7 +312,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_ReadSingle(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT16_T* pVal)
+UINT8_T BMP180_I2C_ReadSingle(BMP180_HandleType* BMP180x, UINT8_T addr, UINT16_T* pVal)
 {
 	if (BMP180x->msgI2C.msgHwMode != 0)
 	{
@@ -332,7 +332,7 @@ UINT8_T BMP180_I2C_ReadSingle(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT16_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_SWI2C_ReadBulk(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T BMP180_SWI2C_ReadBulk(BMP180_HandleType* BMP180x, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
 	//UINT8_T readTemp[6] = { 0 };
 	UINT8_T _return = OK_0;
@@ -385,7 +385,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_HWI2C_ReadBulk(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T BMP180_HWI2C_ReadBulk(BMP180_HandleType* BMP180x, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -435,7 +435,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_ReadBulk(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T BMP180_I2C_ReadBulk(BMP180_HandleType* BMP180x, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
 	if (BMP180x->msgI2C.msgHwMode == 1)
 	{
@@ -454,7 +454,7 @@ UINT8_T BMP180_I2C_ReadBulk(BMP180_HandlerType* BMP180x, UINT8_T addr, UINT8_T* 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_ReadChipId(BMP180_HandlerType* BMP180x, UINT8_T* pChipID)
+UINT8_T BMP180_I2C_ReadChipId(BMP180_HandleType* BMP180x, UINT8_T* pChipID)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T tempID = 0;
@@ -470,7 +470,7 @@ UINT8_T BMP180_I2C_ReadChipId(BMP180_HandlerType* BMP180x, UINT8_T* pChipID)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_ReadDefaultTemp(BMP180_HandlerType* BMP180x)
+UINT8_T BMP180_I2C_ReadDefaultTemp(BMP180_HandleType* BMP180x)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T tempID = 0;
@@ -488,7 +488,7 @@ UINT8_T BMP180_I2C_ReadDefaultTemp(BMP180_HandlerType* BMP180x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_ReadDefaultGasPress(BMP180_HandlerType* BMP180x)
+UINT8_T BMP180_I2C_ReadDefaultGasPress(BMP180_HandleType* BMP180x)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T tempID = 0;
@@ -514,7 +514,7 @@ UINT8_T BMP180_I2C_ReadDefaultGasPress(BMP180_HandlerType* BMP180x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_ReadTempGasPressAltitude(BMP180_HandlerType* BMP180x)
+UINT8_T BMP180_I2C_ReadTempGasPressAltitude(BMP180_HandleType* BMP180x)
 {
 	BMP180_I2C_ReadDefaultTemp(BMP180x);
 	BMP180_I2C_ReadDefaultGasPress(BMP180x);
@@ -564,7 +564,7 @@ UINT8_T BMP180_I2C_ReadTempGasPressAltitude(BMP180_HandlerType* BMP180x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T BMP180_I2C_Config(BMP180_HandlerType* BMP180x)
+UINT8_T BMP180_I2C_Config(BMP180_HandleType* BMP180x)
 {
 	UINT16_T tempReg = 0;
 	UINT8_T _return = 0;

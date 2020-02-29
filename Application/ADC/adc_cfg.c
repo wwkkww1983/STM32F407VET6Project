@@ -1,10 +1,10 @@
 #include "adc_cfg.h"
 
 //===全局变量的定义
-ADCASK_HandlerType	g_ABChannelADC = { 0 };
-pADCASK_HandlerType	pABChannelADC = &g_ABChannelADC;
-ADCASK_HandlerType	g_CDChannelADC = { 0 };
-pADCASK_HandlerType	pCDChannelADC = &g_CDChannelADC;
+ADCASK_HandleType	g_ABChannelADC = { 0 };
+pADCASK_HandleType	pABChannelADC = &g_ABChannelADC;
+ADCASK_HandleType	g_CDChannelADC = { 0 };
+pADCASK_HandleType	pCDChannelADC = &g_CDChannelADC;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -736,7 +736,7 @@ UINT8_T ADC_ADCTask_STOP(ADC_TypeDef *ADCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADC_HandleChannelVal(ADCASK_HandlerType *ADCASKx)
+UINT8_T ADC_HandleChannelVal(ADCASK_HandleType *ADCASKx)
 {
 	UINT8_T i = 0;
 	UINT16_T adcAChannel[ADC_CHANNEL_SIZE] = { 0 };

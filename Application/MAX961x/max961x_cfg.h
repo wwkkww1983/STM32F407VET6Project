@@ -64,11 +64,11 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////	
 	//===结构体定义
-	typedef struct _MAX961X_HandlerType					MAX961X_HandlerType;
+	typedef struct _MAX961X_HandleType					MAX961X_HandleType;
 	//===指针结构体定义
-	typedef struct _MAX961X_HandlerType					* pMAX961X_HandlerType;
+	typedef struct _MAX961X_HandleType					* pMAX961X_HandleType;
 	//===AT24Cxx的数据结构体
-	struct _MAX961X_HandlerType
+	struct _MAX961X_HandleType
 	{
 		float			msgRSVoltagemV;																					//---电压mV
 		float			msgOutputVoltagemV;																				//---电压mV
@@ -76,7 +76,7 @@ extern "C" {
 		float			msgRSCurrentmA;																					//---电流mA
 		float			msgTemperatureC;																				//---温度℃
 		UINT8_T			msgID;																							//---默认是0x80
-		I2C_HandlerType msgI2C;																							//---使用的I2C
+		I2C_HandleType msgI2C;																							//---使用的I2C
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
@@ -94,26 +94,26 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用接口
-	extern MAX961X_HandlerType							g_Max961xDevice0;
-	extern pMAX961X_HandlerType							pMax961xDevice0;
+	extern MAX961X_HandleType							g_Max961xDevice0;
+	extern pMAX961X_HandleType							pMax961xDevice0;
 
 	//===函数定义
-	UINT8_T MAX961X_I2C_Device0_Init(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_Device1_Init(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_Device2_Init(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_Init(MAX961X_HandlerType* MAX961x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T MAX961X_I2C_DeInit(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_WriteSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T val);
-	UINT8_T MAX961X_I2C_WriteBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal);
-	UINT8_T MAX961X_I2C_ReadSingle(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T* pVal);
-	UINT8_T MAX961X_I2C_ReadBulk(MAX961X_HandlerType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal);
-	UINT8_T MAX961X_I2C_CheckDevice(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_ReadRSVoltage(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_ReadRSCurrent(MAX961X_HandlerType* MAX961x, UINT8_T currentGain);
-	UINT8_T MAX961X_I2C_ReadOutVoltage(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_ReadSetVoltage(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_ReadTemp(MAX961X_HandlerType* MAX961x);
-	UINT8_T MAX961X_I2C_ReadAll(MAX961X_HandlerType* MAX961x, UINT8_T currentGain);
+	UINT8_T MAX961X_I2C_Device0_Init(MAX961X_HandleType* MAX961x);
+	UINT8_T MAX961X_I2C_Device1_Init(MAX961X_HandleType* MAX961x);
+	UINT8_T MAX961X_I2C_Device2_Init(MAX961X_HandleType* MAX961x);
+	UINT8_T MAX961X_I2C_Init(MAX961X_HandleType* MAX961x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T MAX961X_I2C_DeInit(MAX961X_HandleType* MAX961x);
+	UINT8_T MAX961X_I2C_WriteSingle(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T val);
+	UINT8_T MAX961X_I2C_WriteBulk(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal);
+	UINT8_T MAX961X_I2C_ReadSingle(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T* pVal);
+	UINT8_T MAX961X_I2C_ReadBulk(MAX961X_HandleType* MAX961x, UINT8_T addr, UINT8_T length, UINT8_T* pVal);
+	UINT8_T MAX961X_I2C_CheckDevice(MAX961X_HandleType* MAX961x);
+	UINT8_T MAX961X_I2C_ReadRSVoltage(MAX961X_HandleType* MAX961x);
+	UINT8_T MAX961X_I2C_ReadRSCurrent(MAX961X_HandleType* MAX961x, UINT8_T currentGain);
+	UINT8_T MAX961X_I2C_ReadOutVoltage(MAX961X_HandleType* MAX961x);
+	UINT8_T MAX961X_I2C_ReadSetVoltage(MAX961X_HandleType* MAX961x);
+	UINT8_T MAX961X_I2C_ReadTemp(MAX961X_HandleType* MAX961x);
+	UINT8_T MAX961X_I2C_ReadAll(MAX961X_HandleType* MAX961x, UINT8_T currentGain);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

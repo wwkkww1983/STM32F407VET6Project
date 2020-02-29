@@ -7,7 +7,7 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_SoftRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode)
+UINT8_T SysRTCLib_SoftRTCInit(SYS_RTC_HandleType* RTCx, UINT16_T spanDays, UINT8_T watchaMode)
 {
 	SysRTC_SoftRTCInit(RTCx,spanDays, watchaMode);
 	return OK_0;
@@ -19,7 +19,7 @@ UINT8_T SysRTCLib_SoftRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_CalcWeekDay(RTC_HandlerType*RTCx)
+UINT8_T SysRTCLib_CalcWeekDay(RTC_HandleType*RTCx)
 {
 	return SysRTC_CalcWeekDay(RTCx);
 }
@@ -31,7 +31,7 @@ UINT8_T SysRTCLib_CalcWeekDay(RTC_HandlerType*RTCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_RealTimeWatch(SYS_RTC_HandlerType* RTCx)
+UINT8_T SysRTCLib_RealTimeWatch(SYS_RTC_HandleType* RTCx)
 {
 	return SysRTC_RealTimeWatch(RTCx);
 }
@@ -43,7 +43,7 @@ UINT8_T SysRTCLib_RealTimeWatch(SYS_RTC_HandlerType* RTCx)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_RefreshWatch(SYS_RTC_HandlerType* RTCx)
+UINT8_T SysRTCLib_RefreshWatch(SYS_RTC_HandleType* RTCx)
 {
 	return SysRTC_RefreshWatch(RTCx);
 }
@@ -55,7 +55,7 @@ UINT8_T SysRTCLib_RefreshWatch(SYS_RTC_HandlerType* RTCx)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_SetWatchTime(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays)
+UINT8_T SysRTCLib_SetWatchTime(SYS_RTC_HandleType* RTCx, UINT16_T spanDays)
 {
 	return SysRTC_SetWatchTime(RTCx, spanDays);
 }
@@ -67,7 +67,7 @@ UINT8_T SysRTCLib_SetWatchTime(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_ClearWatch(SYS_RTC_HandlerType* RTCx)
+UINT8_T SysRTCLib_ClearWatch(SYS_RTC_HandleType* RTCx)
 {
 	return SysRTC_ClearWatch(RTCx);
 }
@@ -79,7 +79,7 @@ UINT8_T SysRTCLib_ClearWatch(SYS_RTC_HandlerType* RTCx)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_WatchTask(SYS_RTC_HandlerType* RTCx)
+UINT8_T SysRTCLib_WatchTask(SYS_RTC_HandleType* RTCx)
 {
 	return SysRTC_WatchTask(RTCx);
 }
@@ -91,7 +91,7 @@ UINT8_T SysRTCLib_WatchTask(SYS_RTC_HandlerType* RTCx)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_SoftRTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond)
+UINT8_T SysRTCLib_SoftRTCTask(SYS_RTC_HandleType* RTCx, UINT32_T rtcSecond)
 {
 	return SysRTC_SoftRTCTask( RTCx, rtcSecond);
 }
@@ -103,7 +103,7 @@ UINT8_T SysRTCLib_SoftRTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_HardRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode)
+UINT8_T SysRTCLib_HardRTCInit(SYS_RTC_HandleType* RTCx, UINT16_T spanDays, UINT8_T watchaMode)
 {
 	return SysRTC_HardRTCInit( RTCx,  spanDays,  watchaMode);
 }
@@ -115,7 +115,7 @@ UINT8_T SysRTCLib_HardRTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_HardRTCSetTime(SYS_RTC_HandlerType* RTCx, UINT8_T hour, UINT8_T minute, UINT8_T second)
+UINT8_T SysRTCLib_HardRTCSetTime(SYS_RTC_HandleType* RTCx, UINT8_T hour, UINT8_T minute, UINT8_T second)
 {
 	return SysRTC_HardRTCSetTime(RTCx,  hour,  minute,  second);
 }
@@ -127,7 +127,7 @@ UINT8_T SysRTCLib_HardRTCSetTime(SYS_RTC_HandlerType* RTCx, UINT8_T hour, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_HardRTCGetTime(SYS_RTC_HandlerType* RTCx)
+UINT8_T SysRTCLib_HardRTCGetTime(SYS_RTC_HandleType* RTCx)
 {
 	return SysRTC_HardRTCGetTime( RTCx);
 }
@@ -139,7 +139,7 @@ UINT8_T SysRTCLib_HardRTCGetTime(SYS_RTC_HandlerType* RTCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_HardRTCSetDate(SYS_RTC_HandlerType* RTCx, UINT8_T year, UINT8_T month, UINT8_T day)
+UINT8_T SysRTCLib_HardRTCSetDate(SYS_RTC_HandleType* RTCx, UINT8_T year, UINT8_T month, UINT8_T day)
 {
 	return SysRTC_HardRTCSetDate( RTCx,  year,  month,  day);
 }
@@ -151,7 +151,7 @@ UINT8_T SysRTCLib_HardRTCSetDate(SYS_RTC_HandlerType* RTCx, UINT8_T year, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_HardRTCGetDate(SYS_RTC_HandlerType* RTCx)
+UINT8_T SysRTCLib_HardRTCGetDate(SYS_RTC_HandleType* RTCx)
 {
 	return SysRTC_HardRTCGetDate( RTCx);
 }
@@ -163,7 +163,7 @@ UINT8_T SysRTCLib_HardRTCGetDate(SYS_RTC_HandlerType* RTCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_HardRTCSetCentury(SYS_RTC_HandlerType* RTCx, UINT8_T century)
+UINT8_T SysRTCLib_HardRTCSetCentury(SYS_RTC_HandleType* RTCx, UINT8_T century)
 {
 	return SysRTC_HardRTCSetCentury( RTCx,  century);
 }
@@ -175,7 +175,7 @@ UINT8_T SysRTCLib_HardRTCSetCentury(SYS_RTC_HandlerType* RTCx, UINT8_T century)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_HardRTCGetCentury(SYS_RTC_HandlerType* RTCx)
+UINT8_T SysRTCLib_HardRTCGetCentury(SYS_RTC_HandleType* RTCx)
 {
 	return SysRTC_HardRTCGetCentury( RTCx);
 }
@@ -187,7 +187,7 @@ UINT8_T SysRTCLib_HardRTCGetCentury(SYS_RTC_HandlerType* RTCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_HardRTCGetRTC(SYS_RTC_HandlerType* RTCx)
+UINT8_T SysRTCLib_HardRTCGetRTC(SYS_RTC_HandleType* RTCx)
 {
 	return SysRTC_HardRTCGetRTC(RTCx);
 }
@@ -199,7 +199,7 @@ UINT8_T SysRTCLib_HardRTCGetRTC(SYS_RTC_HandlerType* RTCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_HardRTCTask(SYS_RTC_HandlerType* RTCx)
+UINT8_T SysRTCLib_HardRTCTask(SYS_RTC_HandleType* RTCx)
 {
 	return SysRTC_HardRTCTask(RTCx);
 }
@@ -211,7 +211,7 @@ UINT8_T SysRTCLib_HardRTCTask(SYS_RTC_HandlerType* RTCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond)
+UINT8_T SysRTCLib_RTCTask(SYS_RTC_HandleType* RTCx, UINT32_T rtcSecond)
 {
 	return SysRTC_RTCTask(RTCx, rtcSecond);
 }
@@ -223,7 +223,7 @@ UINT8_T SysRTCLib_RTCTask(SYS_RTC_HandlerType* RTCx, UINT32_T rtcSecond)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SysRTCLib_RTCInit(SYS_RTC_HandlerType* RTCx, UINT16_T spanDays, UINT8_T watchaMode, UINT8_T isHW)
+UINT8_T SysRTCLib_RTCInit(SYS_RTC_HandleType* RTCx, UINT16_T spanDays, UINT8_T watchaMode, UINT8_T isHW)
 {
 	return SysRTC_RTCInit(RTCx, spanDays, watchaMode,isHW);
 }

@@ -1,8 +1,8 @@
 #include "rfask_cfg.h"
 
 //===变量定义
-RFASK_HandlerType	g_Rfask = {0};
-pRFASK_HandlerType	pRfask = &g_Rfask;
+RFASK_HandleType	g_Rfask = {0};
+pRFASK_HandleType	pRfask = &g_Rfask;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -182,7 +182,7 @@ void RFASK_YSELInit(void)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void RFASK_StructInit(RFASK_HandlerType *rfask)
+void RFASK_StructInit(RFASK_HandleType *rfask)
 {
 	//---设备类型
 	rfask->msgDeviceType =  SYN590R;//SYN5XXR;                  //1Byte
@@ -278,7 +278,7 @@ void RFASK_StructInit(RFASK_HandlerType *rfask)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void RFASK_Init(RFASK_HandlerType *rfask)
+void RFASK_Init(RFASK_HandleType *rfask)
 {
 	RFASK_StructInit(rfask);
 	RFASK_ClkInit();
@@ -292,7 +292,7 @@ void RFASK_Init(RFASK_HandlerType *rfask)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT32_T RFASK_CalcXTAL(RFASK_HandlerType *rfask, UINT32_T rfX100MHz)
+UINT32_T RFASK_CalcXTAL(RFASK_HandleType *rfask, UINT32_T rfX100MHz)
 {
 	UINT64_T _return = 0;
 	switch (rfask->msgDeviceType)
@@ -334,7 +334,7 @@ UINT32_T RFASK_CalcXTAL(RFASK_HandlerType *rfask, UINT32_T rfX100MHz)
 //////输出参数:
 //////说		明：设置设备类型
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T RFASK_SetDeviceType(RFASK_HandlerType *rfask, UINT8_T deviceType)
+UINT8_T RFASK_SetDeviceType(RFASK_HandleType *rfask, UINT8_T deviceType)
 {
 	rfask->msgDeviceType = deviceType;
 	return OK_0;
@@ -347,7 +347,7 @@ UINT8_T RFASK_SetDeviceType(RFASK_HandlerType *rfask, UINT8_T deviceType)
 //////输出参数:
 //////说		明：获取设备类型
 //////////////////////////////////////////////////////////////////////////////
-UINT32_T RFASK_GetDeviceType(RFASK_HandlerType *rfask)
+UINT32_T RFASK_GetDeviceType(RFASK_HandleType *rfask)
 {
 	return rfask->msgDeviceType;
 }
@@ -359,7 +359,7 @@ UINT32_T RFASK_GetDeviceType(RFASK_HandlerType *rfask)
 //////输出参数:
 //////说		明：获取激活的SITE
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  RFASK_ActivateSites(RFASK_HandlerType *rfask, UINT8_T activateSites)
+UINT8_T  RFASK_ActivateSites(RFASK_HandleType *rfask, UINT8_T activateSites)
 {
 	UINT8_T i = 0;
 	for (i = 0; i < FREQ_CURRENT_MAX_SITE; i++)
@@ -386,7 +386,7 @@ UINT8_T  RFASK_ActivateSites(RFASK_HandlerType *rfask, UINT8_T activateSites)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T RFASK_SetFreqCurrentPointCmd(FREQ_CURRENT_HandlerType *rfaskFreqCurrent, UINT8_T cmd)
+UINT8_T RFASK_SetFreqCurrentPointCmd(FREQ_CURRENT_HandleType *rfaskFreqCurrent, UINT8_T cmd)
 {
 	rfaskFreqCurrent->msgCMD = cmd;
 	return OK_0;

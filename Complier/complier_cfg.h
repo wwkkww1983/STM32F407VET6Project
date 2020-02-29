@@ -547,7 +547,7 @@ extern "C" {
 	}FuncSTATE;
 
 	//===结构体定义
-	typedef struct _RTC_HandlerType					RTC_HandlerType;
+	typedef struct _RTC_HandlerType					RTC_HandleType;
 	//===定义指针结构体
 	typedef struct _RTC_HandlerType					*pRTC_HandlerType;
 	//===时钟结构体的定义

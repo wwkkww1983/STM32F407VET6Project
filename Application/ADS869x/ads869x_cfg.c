@@ -1,13 +1,13 @@
 #include "ads869x_cfg.h"
 
 //===全局变量定义
-ADS869X_HandlerType   g_ADS869XDevice0 = { 0 };
-pADS869X_HandlerType  pADS869XDevice0 = &g_ADS869XDevice0;
+ADS869X_HandleType   g_ADS869XDevice0 = { 0 };
+pADS869X_HandleType  pADS869XDevice0 = &g_ADS869XDevice0;
 
 //===统一发送字节命令
-UINT8_T(*ADS869X_SPI_SEND_CMD)(ADS869X_HandlerType *, UINT8_T, UINT8_T *);
+UINT8_T(*ADS869X_SPI_SEND_CMD)(ADS869X_HandleType *, UINT8_T, UINT8_T *);
 //===统一发送数组命令
-UINT8_T(*ADS869X_SPI_SEND_ARRAY)(ADS869X_HandlerType*, UINT8_T*, UINT8_T*,UINT16_T);
+UINT8_T(*ADS869X_SPI_SEND_ARRAY)(ADS869X_HandleType*, UINT8_T*, UINT8_T*,UINT16_T);
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -16,7 +16,7 @@ UINT8_T(*ADS869X_SPI_SEND_ARRAY)(ADS869X_HandlerType*, UINT8_T*, UINT8_T*,UINT16
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void ADS869X_SPI_Device0_Init(ADS869X_HandlerType *ADS869x)
+void ADS869X_SPI_Device0_Init(ADS869X_HandleType *ADS869x)
 {
 	//---复位信号
 	ADS869x->msgHWRST.msgPort = NULL;
@@ -113,7 +113,7 @@ void ADS869X_SPI_Device0_Init(ADS869X_HandlerType *ADS869x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void ADS869X_SPI_Device1_Init(ADS869X_HandlerType *ADS869x)
+void ADS869X_SPI_Device1_Init(ADS869X_HandleType *ADS869x)
 {
 }
 
@@ -124,7 +124,7 @@ void ADS869X_SPI_Device1_Init(ADS869X_HandlerType *ADS869x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void ADS869X_SPI_Device2_Init(ADS869X_HandlerType *ADS869x)
+void ADS869X_SPI_Device2_Init(ADS869X_HandleType *ADS869x)
 {
 }
 
@@ -135,7 +135,7 @@ void ADS869X_SPI_Device2_Init(ADS869X_HandlerType *ADS869x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_SW_SendCmd(ADS869X_HandlerType *ADS869x, UINT8_T cmd, UINT8_T *pRVal)
+UINT8_T ADS869X_SPI_SW_SendCmd(ADS869X_HandleType *ADS869x, UINT8_T cmd, UINT8_T *pRVal)
 {
 	//---数据发送
 	return SPITask_MSW_WriteAndReadByteMSB(&(ADS869x->msgSPI), cmd, pRVal);
@@ -148,7 +148,7 @@ UINT8_T ADS869X_SPI_SW_SendCmd(ADS869X_HandlerType *ADS869x, UINT8_T cmd, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_SW_SendArray(ADS869X_HandlerType* ADS869x, UINT8_T* pWVal, UINT8_T* pRVal, UINT16_T length)
+UINT8_T ADS869X_SPI_SW_SendArray(ADS869X_HandleType* ADS869x, UINT8_T* pWVal, UINT8_T* pRVal, UINT16_T length)
 {
 	//---数据发送
 	return SPITask_MSW_WriteAndReadDataMSB(&(ADS869x->msgSPI), pWVal, pRVal, length);
@@ -160,7 +160,7 @@ UINT8_T ADS869X_SPI_SW_SendArray(ADS869X_HandlerType* ADS869x, UINT8_T* pWVal, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_HW_SendCmd(ADS869X_HandlerType *ADS869x, UINT8_T cmd, UINT8_T *pRVal)
+UINT8_T ADS869X_SPI_HW_SendCmd(ADS869X_HandleType *ADS869x, UINT8_T cmd, UINT8_T *pRVal)
 {
 	//---数据发送
 	return SPITask_MHW_PollMode_WriteAndReadByte(&(ADS869x->msgSPI), cmd, pRVal);
@@ -173,7 +173,7 @@ UINT8_T ADS869X_SPI_HW_SendCmd(ADS869X_HandlerType *ADS869x, UINT8_T cmd, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_HW_SendArray(ADS869X_HandlerType* ADS869x, UINT8_T *pWVal, UINT8_T* pRVal,UINT16_T length)
+UINT8_T ADS869X_SPI_HW_SendArray(ADS869X_HandleType* ADS869x, UINT8_T *pWVal, UINT8_T* pRVal,UINT16_T length)
 {
 	//---数据发送
 	return SPITask_MHW_PollMode_WriteAndReadData(&(ADS869x->msgSPI), pWVal, pRVal,length);
@@ -186,7 +186,7 @@ UINT8_T ADS869X_SPI_HW_SendArray(ADS869X_HandlerType* ADS869x, UINT8_T *pWVal, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_HW_Init(ADS869X_HandlerType *ADS869x)
+UINT8_T ADS869X_SPI_HW_Init(ADS869X_HandleType *ADS869x)
 {
 	//---硬件端口的配置---硬件实现
 	SPITask_MHW_GPIO_Init(&(ADS869x->msgSPI));
@@ -237,7 +237,7 @@ UINT8_T ADS869X_SPI_HW_Init(ADS869X_HandlerType *ADS869x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_SW_Init(ADS869X_HandlerType *ADS869x)
+UINT8_T ADS869X_SPI_SW_Init(ADS869X_HandleType *ADS869x)
 {
 	//---硬件端口的配置---软件实现
 	SPITask_MSW_GPIO_Init(&(ADS869x->msgSPI));
@@ -263,7 +263,7 @@ UINT8_T ADS869X_SPI_SW_Init(ADS869X_HandlerType *ADS869x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_Init(ADS869X_HandlerType *ADS869x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW)
+UINT8_T ADS869X_SPI_Init(ADS869X_HandleType *ADS869x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW)
 {
 	//---使用的DHT11的端口
 	if ((ADS869x != NULL) && (ADS869x == ADS869X_TASK_ONE))
@@ -301,7 +301,7 @@ UINT8_T ADS869X_SPI_Init(ADS869X_HandlerType *ADS869x, void(*pFuncDelayus)(UINT3
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_AutoInit(ADS869X_HandlerType* ADS869x)
+UINT8_T ADS869X_SPI_AutoInit(ADS869X_HandleType* ADS869x)
 {
 	if (ADS869x->msgSPI.msgHwMode != 0)
 	{
@@ -323,7 +323,7 @@ UINT8_T ADS869X_SPI_AutoInit(ADS869X_HandlerType* ADS869x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_AutoDeInit(ADS869X_HandlerType* ADS869x)
+UINT8_T ADS869X_SPI_AutoDeInit(ADS869X_HandleType* ADS869x)
 {
 	//---注销当前的所有配置
   return	SPITask_DeInit(&(ADS869x->msgSPI),0);
@@ -336,7 +336,7 @@ UINT8_T ADS869X_SPI_AutoDeInit(ADS869X_HandlerType* ADS869x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_WriteCommandReg(ADS869X_HandlerType *ADS869x, UINT32_T cmd)
+UINT8_T ADS869X_SPI_WriteCommandReg(ADS869X_HandleType *ADS869x, UINT32_T cmd)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T wTemp[2] = { 0 };
@@ -361,7 +361,7 @@ UINT8_T ADS869X_SPI_WriteCommandReg(ADS869X_HandlerType *ADS869x, UINT32_T cmd)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_WriteProgramReg(ADS869X_HandlerType *ADS869x, UINT8_T addr, UINT8_T val)
+UINT8_T ADS869X_SPI_WriteProgramReg(ADS869X_HandleType *ADS869x, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T wTemp[2] = { 0 };
@@ -386,7 +386,7 @@ UINT8_T ADS869X_SPI_WriteProgramReg(ADS869X_HandlerType *ADS869x, UINT8_T addr, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ReadProgramReg(ADS869X_HandlerType *ADS869x, UINT8_T addr, UINT8_T *pVal)
+UINT8_T ADS869X_SPI_ReadProgramReg(ADS869X_HandleType *ADS869x, UINT8_T addr, UINT8_T *pVal)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T wTemp[3] = { 0 };
@@ -416,7 +416,7 @@ UINT8_T ADS869X_SPI_ReadProgramReg(ADS869X_HandlerType *ADS869x, UINT8_T addr, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ReadCommandBack(ADS869X_HandlerType* ADS869x, UINT8_T* pVal,UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_ReadCommandBack(ADS869X_HandleType* ADS869x, UINT8_T* pVal,UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	if (isAutoInit != 0)
@@ -439,7 +439,7 @@ UINT8_T ADS869X_SPI_ReadCommandBack(ADS869X_HandlerType* ADS869x, UINT8_T* pVal,
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_NO_OP(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_NO_OP(ADS869X_HandleType* ADS869x, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	if (isAutoInit != 0)
@@ -462,7 +462,7 @@ UINT8_T ADS869X_SPI_NO_OP(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_STDBY(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_STDBY(ADS869X_HandleType* ADS869x, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	if (isAutoInit != 0)
@@ -485,7 +485,7 @@ UINT8_T ADS869X_SPI_STDBY(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：退出此模式需执行AUTO_RST或者MAN_CH_n命令，且需要等待至少20us以保证正常数据的AD转换
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_PWRDN(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_PWRDN(ADS869X_HandleType* ADS869x, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	if (isAutoInit != 0)
@@ -509,7 +509,7 @@ UINT8_T ADS869X_SPI_PWRDN(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  ADS869X_SPI_HardReset(ADS869X_HandlerType *ADS869x)
+UINT8_T  ADS869X_SPI_HardReset(ADS869X_HandleType *ADS869x)
 {
 	if (ADS869x->msgHWRST.msgPort!=NULL)
 	{
@@ -528,7 +528,7 @@ UINT8_T  ADS869X_SPI_HardReset(ADS869X_HandlerType *ADS869x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  ADS869X_SPI_SoftReset(ADS869X_HandlerType *ADS869x, UINT8_T isAutoInit)
+UINT8_T  ADS869X_SPI_SoftReset(ADS869X_HandleType *ADS869x, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	if (isAutoInit != 0)
@@ -551,7 +551,7 @@ UINT8_T  ADS869X_SPI_SoftReset(ADS869X_HandlerType *ADS869x, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_Reset(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_Reset(ADS869X_HandleType* ADS869x, UINT8_T isAutoInit)
 {
 	UINT8_T _return = OK_0;
 	if (ADS869x->msgHWRST.msgPort != NULL)
@@ -573,7 +573,7 @@ UINT8_T ADS869X_SPI_Reset(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_AUTORST(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_AUTORST(ADS869X_HandleType* ADS869x, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	if (isAutoInit != 0)
@@ -598,7 +598,7 @@ UINT8_T ADS869X_SPI_AUTORST(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
 //////输出参数:
 //////说		明：退出此模式需执行AUTO_RST或者MAN_CH_n命令，且需要等待至少20us以保证正常数据的AD转换
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ManualChannel(ADS869X_HandlerType* ADS869x,UINT16_T manualCHCmd, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_ManualChannel(ADS869X_HandleType* ADS869x,UINT16_T manualCHCmd, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	if (isAutoInit != 0)
@@ -622,7 +622,7 @@ UINT8_T ADS869X_SPI_ManualChannel(ADS869X_HandlerType* ADS869x,UINT16_T manualCH
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_WriteChipID(ADS869X_HandlerType* ADS869x, UINT8_T devid, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_WriteChipID(ADS869X_HandleType* ADS869x, UINT8_T devid, UINT8_T isAutoInit)
 {
 	devid <<= 6;
 	ADS869x->msgChipID = (devid & 0xC0) | ADS869x->msgFeature; 
@@ -648,7 +648,7 @@ UINT8_T ADS869X_SPI_WriteChipID(ADS869X_HandlerType* ADS869x, UINT8_T devid, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ReadChipID(ADS869X_HandlerType* ADS869x, UINT8_T *pDevID, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_ReadChipID(ADS869X_HandleType* ADS869x, UINT8_T *pDevID, UINT8_T isAutoInit)
 {
 	UINT8_T _return = 0;
 	if (isAutoInit != 0)
@@ -672,7 +672,7 @@ UINT8_T ADS869X_SPI_ReadChipID(ADS869X_HandlerType* ADS869x, UINT8_T *pDevID, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_CheckChipID(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_CheckChipID(ADS869X_HandleType* ADS869x, UINT8_T isAutoInit)
 {
 	UINT8_T tempChipID = 0x00;
 	UINT8_T _return = OK_0;
@@ -692,7 +692,7 @@ UINT8_T ADS869X_SPI_CheckChipID(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_DetectionDevice(ADS869X_HandlerType* ADS869x, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_DetectionDevice(ADS869X_HandleType* ADS869x, UINT8_T isAutoInit)
 {
 	UINT8_T tempAutoSeqEn[2] = { 0 };
 	UINT8_T _return = OK_0;
@@ -729,7 +729,7 @@ UINT8_T ADS869X_SPI_DetectionDevice(ADS869X_HandlerType* ADS869x, UINT8_T isAuto
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_WriteAUTOSEQEN(ADS869X_HandlerType* ADS869x, UINT8_T seq, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_WriteAUTOSEQEN(ADS869X_HandleType* ADS869x, UINT8_T seq, UINT8_T isAutoInit)
 {
 	ADS869x->msgAutoSeqEn = seq;
 	UINT8_T _return = 0;
@@ -753,7 +753,7 @@ UINT8_T ADS869X_SPI_WriteAUTOSEQEN(ADS869X_HandlerType* ADS869x, UINT8_T seq, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ReadAUTOSEQEN(ADS869X_HandlerType* ADS869x, UINT8_T *pAutoSeqEn, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_ReadAUTOSEQEN(ADS869X_HandleType* ADS869x, UINT8_T *pAutoSeqEn, UINT8_T isAutoInit)
 {
 	UINT8_T tempAutoSeqEn[2] = { 0 };
 	UINT8_T _return = 0;
@@ -789,7 +789,7 @@ UINT8_T ADS869X_SPI_ReadAUTOSEQEN(ADS869X_HandlerType* ADS869x, UINT8_T *pAutoSe
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_WriteChannelPWRDN(ADS869X_HandlerType* ADS869x, UINT8_T ch, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_WriteChannelPWRDN(ADS869X_HandleType* ADS869x, UINT8_T ch, UINT8_T isAutoInit)
 {
 	ADS869x->msgChannelPWRDN = ch; 
 	UINT8_T _return = 0;
@@ -814,7 +814,7 @@ UINT8_T ADS869X_SPI_WriteChannelPWRDN(ADS869X_HandlerType* ADS869x, UINT8_T ch, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ReadChannelPWRDN(ADS869X_HandlerType* ADS869x, UINT8_T *pPWRDN, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_ReadChannelPWRDN(ADS869X_HandleType* ADS869x, UINT8_T *pPWRDN, UINT8_T isAutoInit)
 {
 	UINT8_T tempPWRDN[2] = { 0 }; 
 	UINT8_T _return = 0;
@@ -850,7 +850,7 @@ UINT8_T ADS869X_SPI_ReadChannelPWRDN(ADS869X_HandlerType* ADS869x, UINT8_T *pPWR
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_WriteFeature(ADS869X_HandlerType* ADS869x, UINT8_T feature, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_WriteFeature(ADS869X_HandleType* ADS869x, UINT8_T feature, UINT8_T isAutoInit)
 {
 	ADS869x->msgFeature = (feature&0x3F)|ADS869x->msgChipID;
 	UINT8_T _return = 0;
@@ -874,7 +874,7 @@ UINT8_T ADS869X_SPI_WriteFeature(ADS869X_HandlerType* ADS869x, UINT8_T feature, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ReadFeature(ADS869X_HandlerType* ADS869x, UINT8_T *pFeature, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_ReadFeature(ADS869X_HandleType* ADS869x, UINT8_T *pFeature, UINT8_T isAutoInit)
 {
 	UINT8_T tempFeature[2] = { 0 };
 	UINT8_T _return = 0;
@@ -910,7 +910,7 @@ UINT8_T ADS869X_SPI_ReadFeature(ADS869X_HandlerType* ADS869x, UINT8_T *pFeature,
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_WriteChannelRange(ADS869X_HandlerType* ADS869x, UINT8_T chReg, UINT8_T range, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_WriteChannelRange(ADS869X_HandleType* ADS869x, UINT8_T chReg, UINT8_T range, UINT8_T isAutoInit)
 {
 	UINT8_T ch = ADS869X_CHANNEL_MAX;
 	switch (chReg)
@@ -977,7 +977,7 @@ UINT8_T ADS869X_SPI_WriteChannelRange(ADS869X_HandlerType* ADS869x, UINT8_T chRe
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ReadChannelRange(ADS869X_HandlerType* ADS869x, UINT8_T chReg, UINT8_T *pRange, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_ReadChannelRange(ADS869X_HandleType* ADS869x, UINT8_T chReg, UINT8_T *pRange, UINT8_T isAutoInit)
 {
 	UINT8_T ch = ADS869X_CHANNEL_MAX;
 	UINT8_T tempChannelRange[2] = { 0 };
@@ -1044,7 +1044,7 @@ UINT8_T ADS869X_SPI_ReadChannelRange(ADS869X_HandlerType* ADS869x, UINT8_T chReg
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_WriteREFPowerUV(ADS869X_HandlerType* ADS869x, UINT32_T refUV)
+UINT8_T ADS869X_SPI_WriteREFPowerUV(ADS869X_HandleType* ADS869x, UINT32_T refUV)
 {
 	ADS869x->msgREFPowerUV = refUV;
 	return OK_0;
@@ -1057,7 +1057,7 @@ UINT8_T ADS869X_SPI_WriteREFPowerUV(ADS869X_HandlerType* ADS869x, UINT32_T refUV
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT32_T ADS869X_SPI_ReadREFPowerUV(ADS869X_HandlerType* ADS869x, UINT32_T refUV)
+UINT32_T ADS869X_SPI_ReadREFPowerUV(ADS869X_HandleType* ADS869x, UINT32_T refUV)
 {
 	return ADS869x->msgREFPowerUV;
 }
@@ -1069,7 +1069,7 @@ UINT32_T ADS869X_SPI_ReadREFPowerUV(ADS869X_HandlerType* ADS869x, UINT32_T refUV
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_WriteREFPowerMV(ADS869X_HandlerType* ADS869x, UINT32_T refMV)
+UINT8_T ADS869X_SPI_WriteREFPowerMV(ADS869X_HandleType* ADS869x, UINT32_T refMV)
 {
 	ADS869x->msgREFPowerUV = refMV*1000;
 	return OK_0;
@@ -1082,7 +1082,7 @@ UINT8_T ADS869X_SPI_WriteREFPowerMV(ADS869X_HandlerType* ADS869x, UINT32_T refMV
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ChannelRange(ADS869X_HandlerType* ADS869x, UINT8_T chIndex)
+UINT8_T ADS869X_SPI_ChannelRange(ADS869X_HandleType* ADS869x, UINT8_T chIndex)
 {
 	UINT8_T _return = OK_0;
 	if (chIndex==ADS869X_CHANNEL_MAX)
@@ -1136,7 +1136,7 @@ UINT8_T ADS869X_SPI_ChannelRange(ADS869X_HandlerType* ADS869x, UINT8_T chIndex)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_CalcChannelPower(ADS869X_HandlerType* ADS869x, UINT8_T chIndex,UINT8_T isCalcDelta)
+UINT8_T ADS869X_SPI_CalcChannelPower(ADS869X_HandleType* ADS869x, UINT8_T chIndex,UINT8_T isCalcDelta)
 {
 	//---设置无数据
 	ADS869x->msgPositive[chIndex] = 0;
@@ -1232,7 +1232,7 @@ UINT8_T ADS869X_SPI_CalcChannelPower(ADS869X_HandlerType* ADS869x, UINT8_T chInd
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_GetAutoRSTResult(ADS869X_HandlerType *ADS869x, UINT8_T chNum, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_GetAutoRSTResult(ADS869X_HandleType *ADS869x, UINT8_T chNum, UINT8_T isAutoInit)
 {
 	UINT8_T i = 0;
 	UINT8_T adcRTemp[5] = { 0 };
@@ -1302,7 +1302,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_GetAutoRSTNSampleResult(ADS869X_HandlerType* ADS869x, UINT8_T chNum, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_GetAutoRSTNSampleResult(ADS869X_HandleType* ADS869x, UINT8_T chNum, UINT8_T isAutoInit)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -1367,7 +1367,7 @@ UINT8_T ADS869X_SPI_GetAutoRSTNSampleResult(ADS869X_HandlerType* ADS869x, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS869X_HandlerType* ADS869x, UINT8_T chNum, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS869X_HandleType* ADS869x, UINT8_T chNum, UINT8_T isAutoInit)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -1382,7 +1382,7 @@ UINT8_T ADS869X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS869X_HandlerType* ADS
 	}
 
 	//---卡尔曼结构
-	KalmanOneFilter_HandlerType kalmanFilterX;
+	KalmanOneFilter_HandleType kalmanFilterX;
 	//---获取采样结果
 	for (i = 0; i < ADS869X_N_SAMPLE_COUNT; i++)
 	{
@@ -1433,7 +1433,7 @@ UINT8_T ADS869X_SPI_KalmanFilterGetAutoRSTNSampleResult(ADS869X_HandlerType* ADS
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  ADS869X_SPI_GetManualChannelResult(ADS869X_HandlerType* ADS869x, UINT16_T manualChannel, UINT8_T isAutoInit)
+UINT8_T  ADS869X_SPI_GetManualChannelResult(ADS869X_HandleType* ADS869x, UINT16_T manualChannel, UINT8_T isAutoInit)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T adcRTemp[5] = { 0 };
@@ -1496,7 +1496,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_GetManualChannelNSampleResult(ADS869X_HandlerType* ADS869x, UINT16_T manualChannel, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_GetManualChannelNSampleResult(ADS869X_HandleType* ADS869x, UINT16_T manualChannel, UINT8_T isAutoInit)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -1545,7 +1545,7 @@ UINT8_T ADS869X_SPI_GetManualChannelNSampleResult(ADS869X_HandlerType* ADS869x, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS869X_HandlerType* ADS869x, UINT16_T manualChannel, UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS869X_HandleType* ADS869x, UINT16_T manualChannel, UINT8_T isAutoInit)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -1554,7 +1554,7 @@ UINT8_T ADS869X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS869X_HandlerTyp
 	//---获取ADC采样通道的序号
 	UINT8_T adcChannelIndex = (UINT8_T)(manualChannel >> 10) & 0x0F;
 	//---卡尔曼结构
-	KalmanOneFilter_HandlerType kalmanFilterX;
+	KalmanOneFilter_HandleType kalmanFilterX;
 
 	if (isAutoInit != 0)
 	{
@@ -1598,7 +1598,7 @@ UINT8_T ADS869X_SPI_KalmanFilterGetManualChannelNSampleResult(ADS869X_HandlerTyp
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_CalibrationChannelErr(ADS869X_HandlerType* ADS869x)
+UINT8_T ADS869X_SPI_CalibrationChannelErr(ADS869X_HandleType* ADS869x)
 {
 	UINT8_T i = 0;
 	UINT8_T rstMode = ADS869x->msgAutoSeqEn;
@@ -1640,7 +1640,7 @@ UINT8_T ADS869X_SPI_CalibrationChannelErr(ADS869X_HandlerType* ADS869x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADS869X_SPI_ConfigInit(ADS869X_HandlerType* ADS869x,UINT8_T isAutoInit)
+UINT8_T ADS869X_SPI_ConfigInit(ADS869X_HandleType* ADS869x,UINT8_T isAutoInit)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T tempBuffer[3] = { 0 };

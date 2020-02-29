@@ -70,8 +70,8 @@ const UINT8_T SYN_LOGO[] =
 };
 
 //===全局变量
-OLED_IIC_HandlerType		g_OLEDI2CDevice0;
-pOLED_IIC_HandlerType		pOLEDI2CDevice0 = &g_OLEDI2CDevice0;
+OLED_IIC_HandleType		g_OLEDI2CDevice0;
+pOLED_IIC_HandleType		pOLEDI2CDevice0 = &g_OLEDI2CDevice0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -80,7 +80,7 @@ pOLED_IIC_HandlerType		pOLEDI2CDevice0 = &g_OLEDI2CDevice0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_Device0_Init(OLED_IIC_HandlerType *OLEDx)
+UINT8_T OLED_Device0_Init(OLED_IIC_HandleType *OLEDx)
 {
 	//---如果为6针的IIC模式，RES端口必须接入端口控制，否者需要拉高处理
 	//---RST端口的配置
@@ -135,7 +135,7 @@ UINT8_T OLED_Device0_Init(OLED_IIC_HandlerType *OLEDx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_Device1_Init(OLED_IIC_HandlerType *OLEDx)
+UINT8_T OLED_Device1_Init(OLED_IIC_HandleType *OLEDx)
 {
 	return OK_0;
 }
@@ -147,7 +147,7 @@ UINT8_T OLED_Device1_Init(OLED_IIC_HandlerType *OLEDx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_Device2_Init(OLED_IIC_HandlerType *OLEDx)
+UINT8_T OLED_Device2_Init(OLED_IIC_HandleType *OLEDx)
 {
 	return OK_0;
 }
@@ -159,7 +159,7 @@ UINT8_T OLED_Device2_Init(OLED_IIC_HandlerType *OLEDx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_I2C_Init(OLED_IIC_HandlerType *OLEDx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
+UINT8_T OLED_I2C_Init(OLED_IIC_HandleType *OLEDx, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---指定设备的初始化
@@ -193,7 +193,7 @@ UINT8_T OLED_I2C_Init(OLED_IIC_HandlerType *OLEDx, void(*pFuncDelayus)(UINT32_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_SWI2C_WriteSingle(OLED_IIC_HandlerType *OLEDx, UINT8_T addr, UINT8_T dat)
+UINT8_T OLED_SWI2C_WriteSingle(OLED_IIC_HandleType *OLEDx, UINT8_T addr, UINT8_T dat)
 {
 	UINT8_T _return = OK_0;
 	//---启动并发送地址
@@ -232,7 +232,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_HWI2C_WriteSingle(OLED_IIC_HandlerType *OLEDx, UINT8_T addr, UINT8_T dat)
+UINT8_T OLED_HWI2C_WriteSingle(OLED_IIC_HandleType *OLEDx, UINT8_T addr, UINT8_T dat)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -273,7 +273,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_I2C_WriteSingle(OLED_IIC_HandlerType *OLEDx, UINT8_T addr, UINT8_T dat)
+UINT8_T OLED_I2C_WriteSingle(OLED_IIC_HandleType *OLEDx, UINT8_T addr, UINT8_T dat)
 {
 	if (OLEDx->msgI2C.msgHwMode == 0)
 	{
@@ -294,7 +294,7 @@ UINT8_T OLED_I2C_WriteSingle(OLED_IIC_HandlerType *OLEDx, UINT8_T addr, UINT8_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_I2C_WriteCmd(OLED_IIC_HandlerType *OLEDx, UINT8_T cmd)
+UINT8_T OLED_I2C_WriteCmd(OLED_IIC_HandleType *OLEDx, UINT8_T cmd)
 {
 	return OLED_I2C_WriteSingle(OLEDx, 0x00, cmd);
 }
@@ -306,7 +306,7 @@ UINT8_T OLED_I2C_WriteCmd(OLED_IIC_HandlerType *OLEDx, UINT8_T cmd)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OLED_I2C_WriteData(OLED_IIC_HandlerType *OLEDx, UINT8_T cmd)
+UINT8_T OLED_I2C_WriteData(OLED_IIC_HandleType *OLEDx, UINT8_T cmd)
 {
 	return OLED_I2C_WriteSingle(OLEDx, 0x40, cmd);
 }
@@ -318,7 +318,7 @@ UINT8_T OLED_I2C_WriteData(OLED_IIC_HandlerType *OLEDx, UINT8_T cmd)
 //////输出参数:
 //////说		明：开启OLED显示
 //////////////////////////////////////////////////////////////////////////////
-void OLED_I2C_DisplayON(OLED_IIC_HandlerType *OLEDx)
+void OLED_I2C_DisplayON(OLED_IIC_HandleType *OLEDx)
 {
 	//---设置电荷泵
 	OLED_I2C_WriteCmd(OLEDx, 0x8D);
@@ -335,7 +335,7 @@ void OLED_I2C_DisplayON(OLED_IIC_HandlerType *OLEDx)
 //////输出参数:
 //////说		明：关闭OLED显示
 //////////////////////////////////////////////////////////////////////////////
-void OLED_I2C_DisplayOFF(OLED_IIC_HandlerType *OLEDx)
+void OLED_I2C_DisplayOFF(OLED_IIC_HandleType *OLEDx)
 {
 	//---设置电荷泵
 	OLED_I2C_WriteCmd(OLEDx, 0x8D);
@@ -352,7 +352,7 @@ void OLED_I2C_DisplayOFF(OLED_IIC_HandlerType *OLEDx)
 //////输出参数:
 //////说		明：全屏填充
 //////////////////////////////////////////////////////////////////////////////
-void OLED_I2C_Fill(OLED_IIC_HandlerType *OLEDx, UINT8_T dat)
+void OLED_I2C_Fill(OLED_IIC_HandleType *OLEDx, UINT8_T dat)
 {
 	UINT8_T i = 0;
 	UINT8_T n = 0;
@@ -379,7 +379,7 @@ void OLED_I2C_Fill(OLED_IIC_HandlerType *OLEDx, UINT8_T dat)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void OLED_I2C_Clear(OLED_IIC_HandlerType *OLEDx)
+void OLED_I2C_Clear(OLED_IIC_HandleType *OLEDx)
 {
 	OLED_I2C_Fill(OLEDx, 0x00);
 }
@@ -391,7 +391,7 @@ void OLED_I2C_Clear(OLED_IIC_HandlerType *OLEDx)
 //////输出参数:
 //////说		明：设置起始点坐标
 //////////////////////////////////////////////////////////////////////////////
-void OLED_I2C_SetPos(OLED_IIC_HandlerType *OLEDx, UINT8_T xPos, UINT8_T yPos)
+void OLED_I2C_SetPos(OLED_IIC_HandleType *OLEDx, UINT8_T xPos, UINT8_T yPos)
 {
 	OLED_I2C_WriteCmd(OLEDx, (0xB0 + yPos));
 	OLED_I2C_WriteCmd(OLEDx, ((xPos & 0xf0) >> 4) | 0x10);
@@ -405,7 +405,7 @@ void OLED_I2C_SetPos(OLED_IIC_HandlerType *OLEDx, UINT8_T xPos, UINT8_T yPos)
 //////输出参数:
 //////说		明：OLED的硬件的初始化
 //////////////////////////////////////////////////////////////////////////////
-void OLED_I2C_HWInit(OLED_IIC_HandlerType *OLEDx)
+void OLED_I2C_HWInit(OLED_IIC_HandleType *OLEDx)
 {
 	if (OLEDx->msgRST.msgPort != NULL)
 	{
@@ -459,7 +459,7 @@ void OLED_I2C_HWInit(OLED_IIC_HandlerType *OLEDx)
 //////输出参数:
 //////说		明：功能描述：显示显示BMP图片128×64起始点坐标(x,y),x的范围0～127，y为页的范围0～7
 //////////////////////////////////////////////////////////////////////////////
-void OLED_I2C_DrawBMP(OLED_IIC_HandlerType *OLEDx, UINT8_T x0Pos, UINT8_T y0Pos, UINT8_T x1Pos, UINT8_T y1Pos, UINT8_T BMP[])
+void OLED_I2C_DrawBMP(OLED_IIC_HandleType *OLEDx, UINT8_T x0Pos, UINT8_T y0Pos, UINT8_T x1Pos, UINT8_T y1Pos, UINT8_T BMP[])
 {
 	UINT16_T j = 0;
 	UINT8_T  x = 0;

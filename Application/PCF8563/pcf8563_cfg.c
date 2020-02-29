@@ -1,8 +1,8 @@
 #include "pcf8563_cfg.h"
 
 //===变量的定义
-PCF8563_HandlerType g_Pcf8563Device0 = { 0 };
-pPCF8563_HandlerType pPcf8563Device0 = &g_Pcf8563Device0;
+PCF8563_HandleType g_Pcf8563Device0 = { 0 };
+pPCF8563_HandleType pPcf8563Device0 = &g_Pcf8563Device0;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@ pPCF8563_HandlerType pPcf8563Device0 = &g_Pcf8563Device0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_Device0_Init(PCF8563_HandlerType* PCF8563x)
+UINT8_T PCF8563_I2C_Device0_Init(PCF8563_HandleType* PCF8563x)
 {
 	PCF8563x->msgI2C.msgI2Cx = NULL;
 	PCF8563x->msgI2C.msgSCL.msgPort = GPIOB;
@@ -34,7 +34,7 @@ UINT8_T PCF8563_I2C_Device0_Init(PCF8563_HandlerType* PCF8563x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_Device1_Init(PCF8563_HandlerType* PCF8563x)
+UINT8_T PCF8563_I2C_Device1_Init(PCF8563_HandleType* PCF8563x)
 {
 	return OK_0;
 }
@@ -46,7 +46,7 @@ UINT8_T PCF8563_I2C_Device1_Init(PCF8563_HandlerType* PCF8563x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_Device2_Init(PCF8563_HandlerType* PCF8563x)
+UINT8_T PCF8563_I2C_Device2_Init(PCF8563_HandleType* PCF8563x)
 {
 	return OK_0;
 }
@@ -58,7 +58,7 @@ UINT8_T PCF8563_I2C_Device2_Init(PCF8563_HandlerType* PCF8563x)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
+UINT8_T PCF8563_I2C_Init(PCF8563_HandleType *PCF8563x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---指定设备的初始化
@@ -90,7 +90,7 @@ UINT8_T PCF8563_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_DeInit(PCF8563_HandlerType *PCF8563x)
+UINT8_T PCF8563_I2C_DeInit(PCF8563_HandleType *PCF8563x)
 {
 	//---注销I2C设备
 	return I2CTask_Master_DeInit(&(PCF8563x->msgI2C));
@@ -103,7 +103,7 @@ UINT8_T PCF8563_I2C_DeInit(PCF8563_HandlerType *PCF8563x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_SWI2C_WriteSingle(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T val)
+UINT8_T PCF8563_SWI2C_WriteSingle(PCF8563_HandleType *PCF8563x, UINT8_T reg, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动并发送地址
@@ -142,7 +142,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_HWI2C_WriteSingle(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T val)
+UINT8_T PCF8563_HWI2C_WriteSingle(PCF8563_HandleType *PCF8563x, UINT8_T reg, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -183,7 +183,7 @@ GoToExit:
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_WriteSingle(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T val)
+UINT8_T PCF8563_I2C_WriteSingle(PCF8563_HandleType *PCF8563x, UINT8_T reg, UINT8_T val)
 {
 	if (PCF8563x->msgI2C.msgHwMode == 0)
 	{
@@ -204,7 +204,7 @@ UINT8_T PCF8563_I2C_WriteSingle(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_SWI2C_ReadSingle(PCF8563_HandlerType* PCF8563x, UINT8_T reg, UINT8_T* pVal)
+UINT8_T PCF8563_SWI2C_ReadSingle(PCF8563_HandleType* PCF8563x, UINT8_T reg, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -250,7 +250,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_HWI2C_ReadSingle(PCF8563_HandlerType* PCF8563x, UINT8_T reg, UINT8_T* pVal)
+UINT8_T PCF8563_HWI2C_ReadSingle(PCF8563_HandleType* PCF8563x, UINT8_T reg, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动IIC并发送器件地址，写数据
@@ -295,7 +295,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_ReadSingle(PCF8563_HandlerType* PCF8563x, UINT8_T reg, UINT8_T* pVal)
+UINT8_T PCF8563_I2C_ReadSingle(PCF8563_HandleType* PCF8563x, UINT8_T reg, UINT8_T* pVal)
 {
 	if (PCF8563x->msgI2C.msgHwMode != 0)
 	{
@@ -315,7 +315,7 @@ UINT8_T PCF8563_I2C_ReadSingle(PCF8563_HandlerType* PCF8563x, UINT8_T reg, UINT8
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_SWI2C_ReadBulk(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T *pVal, UINT16_T length)
+UINT8_T PCF8563_SWI2C_ReadBulk(PCF8563_HandleType *PCF8563x, UINT8_T reg, UINT8_T *pVal, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T i = 0;
@@ -369,7 +369,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_HWI2C_ReadBulk(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T *pVal, UINT16_T length)
+UINT8_T PCF8563_HWI2C_ReadBulk(PCF8563_HandleType *PCF8563x, UINT8_T reg, UINT8_T *pVal, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -420,7 +420,7 @@ GoToExit:
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_ReadBulk(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T *pVal, UINT16_T length)
+UINT8_T PCF8563_I2C_ReadBulk(PCF8563_HandleType *PCF8563x, UINT8_T reg, UINT8_T *pVal, UINT16_T length)
 {
 	if (PCF8563x->msgI2C.msgHwMode == 0)
 	{
@@ -441,7 +441,7 @@ UINT8_T PCF8563_I2C_ReadBulk(PCF8563_HandlerType *PCF8563x, UINT8_T reg, UINT8_T
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_ClockOut(PCF8563_HandlerType *PCF8563x, UINT8_T preVal)
+UINT8_T PCF8563_I2C_ClockOut(PCF8563_HandleType *PCF8563x, UINT8_T preVal)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T temp = 0;
@@ -475,7 +475,7 @@ GoToExit:
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_ReadRTC(PCF8563_HandlerType *PCF8563x)
+UINT8_T PCF8563_I2C_ReadRTC(PCF8563_HandleType *PCF8563x)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T temp[7];
@@ -513,7 +513,7 @@ UINT8_T PCF8563_I2C_ReadRTC(PCF8563_HandlerType *PCF8563x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563_I2C_WriteRTC(PCF8563_HandlerType *PCF8563x, RTC_HandlerType rtc)
+UINT8_T PCF8563_I2C_WriteRTC(PCF8563_HandleType *PCF8563x, RTC_HandleType rtc)
 {
 	UINT8_T _return = OK_0;
 	//---判断数据类型是不是BCD码

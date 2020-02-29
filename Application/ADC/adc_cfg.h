@@ -29,26 +29,26 @@ extern "C" {
 	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===定义结构体
-	typedef struct _ADCASK_HandlerType			ADCASK_HandlerType;
+	typedef struct _ADCASK_HandleType			ADCASK_HandleType;
 	//===定义指针结构体
-	typedef struct _ADCASK_HandlerType			*pADCASK_HandlerType;
+	typedef struct _ADCASK_HandleType			*pADCASK_HandleType;
 	//===结构体变量
-	struct _ADCASK_HandlerType
+	struct _ADCASK_HandleType
 	{
-		UINT8_T  msgFlag;																																							//---0未转换 1 转换完成
-		UINT16_T msgAChannelVal;																																					//---通道A的值
-		UINT16_T msgBChannelVal;																																					//---通道B的值
-		UINT16_T msgADCConvVal[ADC_CHANNEL_MAX_SIZE];																																//---数据存储的缓存区
+		UINT8_T  msgFlag;																								//---0未转换 1 转换完成
+		UINT16_T msgAChannelVal;																						//---通道A的值
+		UINT16_T msgBChannelVal;																						//---通道B的值
+		UINT16_T msgADCConvVal[ADC_CHANNEL_MAX_SIZE];																	//---数据存储的缓存区
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	//===外部调用接口
-	extern ADCASK_HandlerType	g_ABChannelADC;
-	extern pADCASK_HandlerType	pABChannelADC;
-	extern ADCASK_HandlerType	g_CDChannelADC;
-	extern pADCASK_HandlerType	pCDChannelADC;
+	extern ADCASK_HandleType	g_ABChannelADC;
+	extern pADCASK_HandleType	pABChannelADC;
+	extern ADCASK_HandleType	g_CDChannelADC;
+	extern pADCASK_HandleType	pCDChannelADC;
 
 	//===函数定义
 	UINT8_T ADC_GPIO_Init(void);
@@ -69,7 +69,7 @@ extern "C" {
 	UINT8_T ADC_ADC_Init(void);
 	UINT8_T ADC_ADCTask_START(ADC_TypeDef *ADCx);
 	UINT8_T ADC_ADCTask_STOP(ADC_TypeDef *ADCx);
-	UINT8_T ADC_HandleChannelVal(ADCASK_HandlerType *ADCASKx);
+	UINT8_T ADC_HandleChannelVal(ADCASK_HandleType *ADCASKx);
 	UINT16_T ADC_GetChipPower(void);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

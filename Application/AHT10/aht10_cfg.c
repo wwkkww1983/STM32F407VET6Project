@@ -1,8 +1,8 @@
 #include "aht10_cfg.h"
 
 //===全局变量定义
-AHT10_HandlerType		g_Aht10Device0={0};
-pAHT10_HandlerType		pAht10Device0=&g_Aht10Device0;
+AHT10_HandleType		g_Aht10Device0={0};
+pAHT10_HandleType		pAht10Device0=&g_Aht10Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,7 +11,7 @@ pAHT10_HandlerType		pAht10Device0=&g_Aht10Device0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_Device0_Init(AHT10_HandlerType* AHT10x)
+UINT8_T AHT10_I2C_Device0_Init(AHT10_HandleType* AHT10x)
 {
 	AHT10x->msgI2C.msgI2Cx = NULL;
 	AHT10x->msgI2C.msgSCL.msgPort = GPIOB;
@@ -38,7 +38,7 @@ UINT8_T AHT10_I2C_Device0_Init(AHT10_HandlerType* AHT10x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_Device1_Init(AHT10_HandlerType* AHT10x)
+UINT8_T AHT10_I2C_Device1_Init(AHT10_HandleType* AHT10x)
 {
 	return OK_0;
 }
@@ -50,7 +50,7 @@ UINT8_T AHT10_I2C_Device1_Init(AHT10_HandlerType* AHT10x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_Device2_Init(AHT10_HandlerType* AHT10x)
+UINT8_T AHT10_I2C_Device2_Init(AHT10_HandleType* AHT10x)
 {
 	return OK_0;
 }
@@ -62,7 +62,7 @@ UINT8_T AHT10_I2C_Device2_Init(AHT10_HandlerType* AHT10x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_DeInit(AHT10_HandlerType* AHT10x)
+UINT8_T AHT10_I2C_DeInit(AHT10_HandleType* AHT10x)
 {
 	//---注销I2C设备
 	return I2CTask_Master_DeInit(&(AHT10x->msgI2C));
@@ -75,7 +75,7 @@ UINT8_T AHT10_I2C_DeInit(AHT10_HandlerType* AHT10x)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
+UINT8_T AHT10_I2C_Init(AHT10_HandleType* AHT10x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---指定设备的初始化
@@ -113,7 +113,7 @@ UINT8_T AHT10_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T d
 //////输出参数:
 //////说		明： 软件模拟I2C传输命令
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_SWI2C_WriteBulk(AHT10_HandlerType* AHT10x,UINT8_T* pVal, UINT8_T length)
+UINT8_T AHT10_SWI2C_WriteBulk(AHT10_HandleType* AHT10x,UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -153,7 +153,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_HWI2C_WriteBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
+UINT8_T AHT10_HWI2C_WriteBulk(AHT10_HandleType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -191,7 +191,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_WriteBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
+UINT8_T AHT10_I2C_WriteBulk(AHT10_HandleType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
 	if (AHT10x->msgI2C.msgHwMode == 0)
 	{
@@ -213,7 +213,7 @@ UINT8_T AHT10_I2C_WriteBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T le
 //////输出参数:
 //////说		明： 软件模拟I2C传输命令
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_SWI2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
+UINT8_T AHT10_SWI2C_ReadBulk(AHT10_HandleType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -248,7 +248,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_HWI2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
+UINT8_T AHT10_HWI2C_ReadBulk(AHT10_HandleType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -283,7 +283,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T length)
+UINT8_T AHT10_I2C_ReadBulk(AHT10_HandleType* AHT10x, UINT8_T* pVal, UINT8_T length)
 {
 	if (AHT10x->msgI2C.msgHwMode == 0)
 	{
@@ -305,7 +305,7 @@ UINT8_T AHT10_I2C_ReadBulk(AHT10_HandlerType* AHT10x, UINT8_T* pVal, UINT8_T len
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_Config(AHT10_HandlerType* AHT10x)
+UINT8_T AHT10_I2C_Config(AHT10_HandleType* AHT10x)
 {
 	UINT8_T tempCMD[3]={ AHT10_CMD_INIT,0x08,0x00};
 	//---发送初始化命令
@@ -324,7 +324,7 @@ UINT8_T AHT10_I2C_Config(AHT10_HandlerType* AHT10x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_StartMeasure(AHT10_HandlerType* AHT10x)
+UINT8_T AHT10_I2C_StartMeasure(AHT10_HandleType* AHT10x)
 {
 	UINT8_T tempCMD[3] = { AHT10_CMD_MEASURE,0x33,0x00 };
 	//---发送测量命令
@@ -341,7 +341,7 @@ UINT8_T AHT10_I2C_StartMeasure(AHT10_HandlerType* AHT10x)
 //////输出参数: 0---可以读取；1---间隔读取时间还没有到达，不允许读取
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_STATE(AHT10_HandlerType* AHT10x)
+UINT8_T AHT10_I2C_STATE(AHT10_HandleType* AHT10x)
 {	
 	//---当前时间节点
 	UINT32_T nowTime = AHT10x->msgI2C.msgTimeTick();
@@ -373,7 +373,7 @@ UINT8_T AHT10_I2C_STATE(AHT10_HandlerType* AHT10x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x)
+UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandleType* AHT10x)
 {
 	UINT8_T tempVal[6] = { 0x00,0x00,0x00,0x00,0x00,0x00 };
 	//---读取温度数据
@@ -426,7 +426,7 @@ UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float AHT10_I2C_GetTemp(AHT10_HandlerType* AHT10x)
+float AHT10_I2C_GetTemp(AHT10_HandleType* AHT10x)
 {
 	float tempVal = AHT10x->msgTemp;
 	//---转换温度对应实际的温度值
@@ -447,7 +447,7 @@ float AHT10_I2C_GetTemp(AHT10_HandlerType* AHT10x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float AHT10_I2C_GetHumi(AHT10_HandlerType* AHT10x)
+float AHT10_I2C_GetHumi(AHT10_HandleType* AHT10x)
 {
 	float tempVal = AHT10x->msgHumiX10000;
 	//---转换温度对应实际的温度值

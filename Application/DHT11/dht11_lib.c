@@ -7,7 +7,7 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11Lib_Init(DHT11_HandlerType *DHT11x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void))
+UINT8_T DHT11Lib_Init(DHT11_HandleType *DHT11x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay),UINT32_T(*pFuncTimerTick)(void))
 {
 	return DHT11_Init(DHT11x, pFuncDelayus, pFuncDelayms,pFuncTimerTick);
 }
@@ -19,7 +19,7 @@ UINT8_T DHT11Lib_Init(DHT11_HandlerType *DHT11x, void(*pFuncDelayus)(UINT32_T de
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11Lib_DeInit(DHT11_HandlerType *DHT11x)
+UINT8_T DHT11Lib_DeInit(DHT11_HandleType *DHT11x)
 {
 	return DHT11_DeInit(DHT11x);
 }
@@ -31,7 +31,7 @@ UINT8_T DHT11Lib_DeInit(DHT11_HandlerType *DHT11x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DHT11Lib_ReadTempHumi(DHT11_HandlerType *DHT11x)
+UINT8_T DHT11Lib_ReadTempHumi(DHT11_HandleType *DHT11x)
 {
 	return DHT11_ReadTempHumi(DHT11x);
 }
@@ -43,7 +43,7 @@ UINT8_T DHT11Lib_ReadTempHumi(DHT11_HandlerType *DHT11x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float DHT11Lib_GetTemp(DHT11_HandlerType* DHT11x)
+float DHT11Lib_GetTemp(DHT11_HandleType* DHT11x)
 {
 	return DHT11_GetTemp(DHT11x);
 }
@@ -55,7 +55,7 @@ float DHT11Lib_GetTemp(DHT11_HandlerType* DHT11x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float DHT11Lib_GetHumi(DHT11_HandlerType* DHT11x)
+float DHT11Lib_GetHumi(DHT11_HandleType* DHT11x)
 {
 	return DHT11_GetHumi(DHT11x);
 }

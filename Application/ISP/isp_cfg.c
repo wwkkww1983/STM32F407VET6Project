@@ -1,11 +1,11 @@
 #include "isp_cfg.h"
 
 //===全局变量的定义
-ISP_HandlerType  g_IspDevice0 = { 0 };
-pISP_HandlerType pIspDevice0 = &g_IspDevice0;
+ISP_HandleType  g_IspDevice0 = { 0 };
+pISP_HandleType pIspDevice0 = &g_IspDevice0;
 
 //===统一发送函数
-UINT8_T(*ISP_SEND_CMD)(ISP_HandlerType *, UINT8_T, UINT8_T, UINT8_T, UINT8_T);
+UINT8_T(*ISP_SEND_CMD)(ISP_HandleType *, UINT8_T, UINT8_T, UINT8_T, UINT8_T);
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -63,7 +63,7 @@ void ISP_Device2_RST(UINT8_T rstState)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
+UINT8_T ISP_HW_Init(ISP_HandleType *ISPx)
 {
 	//---注销当前的所有配置
 	SPITask_DeInit(&(ISPx->msgSPI),1);	
@@ -111,7 +111,7 @@ UINT8_T ISP_HW_Init(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_SW_Init(ISP_HandlerType *ISPx)
+UINT8_T ISP_SW_Init(ISP_HandleType *ISPx)
 {
 	SPITask_DeInit(&(ISPx->msgSPI),1);
 	//---硬件端口的配置---软件实现
@@ -139,7 +139,7 @@ UINT8_T ISP_SW_Init(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
+UINT8_T ISP_Device0_Init(ISP_HandleType *ISPx)
 {
 	//---设定编程状态为空闲模式
 	ISPx->msgState=0;
@@ -236,7 +236,7 @@ UINT8_T ISP_Device0_Init(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_Device1_Init(ISP_HandlerType *ISPx)
+UINT8_T ISP_Device1_Init(ISP_HandleType *ISPx)
 {
 	return OK_0;
 }
@@ -247,7 +247,7 @@ UINT8_T ISP_Device1_Init(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_Device2_Init(ISP_HandlerType *ISPx)
+UINT8_T ISP_Device2_Init(ISP_HandleType *ISPx)
 {
 	return OK_0;
 }
@@ -258,7 +258,7 @@ UINT8_T ISP_Device2_Init(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
+UINT8_T ISP_Init(ISP_HandleType *ISPx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	//---使用的DHT11的端口
 	if ((ISPx != NULL) && (ISPx == ISP_TASK_ONE))
@@ -338,7 +338,7 @@ UINT8_T ISP_Init(ISP_HandlerType *ISPx, void(*pFuncDelayus)(UINT32_T delay), voi
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_DeInit(ISP_HandlerType *ISPx)
+UINT8_T ISP_DeInit(ISP_HandleType *ISPx)
 {
 	//---处理RST端口信息
 #ifdef ISP_USE_HV_RESET
@@ -371,7 +371,7 @@ UINT8_T ISP_DeInit(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_AutoInit(ISP_HandlerType* ISPx)
+UINT8_T ISP_AutoInit(ISP_HandleType* ISPx)
 {
 	if (ISPx->msgSPI.msgHwMode != 0)
 	{
@@ -406,7 +406,7 @@ UINT8_T ISP_AutoInit(ISP_HandlerType* ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_AutoDeInit(ISP_HandlerType* ISPx)
+UINT8_T ISP_AutoDeInit(ISP_HandleType* ISPx)
 {
 	//---注销当前的所有配置
 	return	ISP_DeInit(ISPx);
@@ -419,7 +419,7 @@ UINT8_T ISP_AutoDeInit(ISP_HandlerType* ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
+UINT8_T ISP_SetClock(ISP_HandleType *ISPx, UINT8_T clok)
 {
 	switch (clok)
 	{
@@ -550,7 +550,7 @@ UINT8_T ISP_SetClock(ISP_HandlerType *ISPx, UINT8_T clok)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clock)
+UINT8_T ISP_SetProgClock(ISP_HandleType* ISPx, UINT8_T clock)
 {
 	if(((clock<ISP_SCK_AUTO_MAX_COUNT)||(clock==ISP_SCK_AUTO_MAX_COUNT))&&(clock>0))
 	{
@@ -573,7 +573,7 @@ UINT8_T ISP_SetProgClock(ISP_HandlerType* ISPx, UINT8_T clock)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_SW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4)
+UINT8_T ISP_SW_SendCmd(ISP_HandleType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4)
 {
 	//---清零发送缓存区
 	memset(ISPx->msgWriteByte, 0x00, 4);
@@ -594,7 +594,7 @@ UINT8_T ISP_SW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_HW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4)
+UINT8_T ISP_HW_SendCmd(ISP_HandleType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_T val3, UINT8_T val4)
 {
 	//---清零发送缓存区
 	memset(ISPx->msgWriteByte, 0x00, 4);
@@ -615,7 +615,7 @@ UINT8_T ISP_HW_SendCmd(ISP_HandlerType *ISPx, UINT8_T val1, UINT8_T Val2, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx)
+UINT8_T ISP_PreEnterProg(ISP_HandleType *ISPx)
 {
 #ifdef ISP_USE_lEVEL_SHIFT
 	GPIO_OUT_0(ISPx->msgOE.msgPort, ISPx->msgOE.msgBit);
@@ -665,7 +665,7 @@ UINT8_T ISP_PreEnterProg(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
+UINT8_T ISP_EnterProg(ISP_HandleType *ISPx,UINT8_T isPollReady)
 {
 	UINT8_T count = ISP_SCK_AUTO_MAX_COUNT;
 	//---设置时钟
@@ -747,7 +747,7 @@ UINT8_T ISP_EnterProg(ISP_HandlerType *ISPx,UINT8_T isPollReady)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ExitProg(ISP_HandlerType *ISPx)
+UINT8_T ISP_ExitProg(ISP_HandleType *ISPx)
 {
 	ISP_DeInit(ISPx);
 	//---自动编程时钟校验
@@ -778,7 +778,7 @@ UINT8_T ISP_ExitProg(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void ISP_WatchTask(ISP_HandlerType* ISPx)
+void ISP_WatchTask(ISP_HandleType* ISPx)
 {
 	UINT32_T nowTime = 0;
 	UINT32_T cnt = 0;
@@ -846,7 +846,7 @@ void ISP_AddWatchDevice2(void)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_AddWatch(ISP_HandlerType* ISPx)
+UINT8_T ISP_AddWatch(ISP_HandleType* ISPx)
 {
 	UINT8_T _return=OK_0;
 	if (ISPx!=NULL)
@@ -881,7 +881,7 @@ UINT8_T ISP_AddWatch(ISP_HandlerType* ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_RemoveWatch(ISP_HandlerType* ISPx)
+UINT8_T ISP_RemoveWatch(ISP_HandleType* ISPx)
 {
 	//---使用的ISP的端口
 	if ((ISPx != NULL) && (ISPx == ISP_TASK_ONE))
@@ -910,7 +910,7 @@ UINT8_T ISP_RemoveWatch(ISP_HandlerType* ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_RefreshWatch(ISP_HandlerType* ISPx)
+UINT8_T ISP_RefreshWatch(ISP_HandleType* ISPx)
 {
 	//---配置轮训间隔为最大值，单位是ms
 	ISPx->msgIntervalTime = ISP_STATE_TIME_OUT_MS;
@@ -926,7 +926,7 @@ UINT8_T ISP_RefreshWatch(ISP_HandlerType* ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_SetIntervalTime(ISP_HandlerType* ISPx,UINT16_T intervalTime)
+UINT8_T ISP_SetIntervalTime(ISP_HandleType* ISPx,UINT16_T intervalTime)
 {
 	//---配置轮训间隔时间，单位是ms
 	ISPx->msgIntervalTime= intervalTime;
@@ -942,7 +942,7 @@ UINT8_T ISP_SetIntervalTime(ISP_HandlerType* ISPx,UINT16_T intervalTime)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T ISP_GetIntervalTime(ISP_HandlerType* ISPx)
+UINT16_T ISP_GetIntervalTime(ISP_HandleType* ISPx)
 {
 	return ISPx->msgIntervalTime;
 }
@@ -954,7 +954,7 @@ UINT16_T ISP_GetIntervalTime(ISP_HandlerType* ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadReady(ISP_HandlerType *ISPx)
+UINT8_T ISP_ReadReady(ISP_HandleType *ISPx)
 {
 	UINT8_T _return = 0;
 	//---获取时间标签
@@ -1026,7 +1026,7 @@ UINT8_T ISP_ReadReady(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_EraseChip(ISP_HandlerType *ISPx)
+UINT8_T ISP_EraseChip(ISP_HandleType *ISPx)
 {
 	UINT8_T _return = 0;
 	//---发送擦除命令
@@ -1056,7 +1056,7 @@ UINT8_T ISP_EraseChip(ISP_HandlerType *ISPx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadChipID(ISP_HandlerType *ISPx, UINT8_T *pVal)
+UINT8_T ISP_ReadChipID(ISP_HandleType *ISPx, UINT8_T *pVal)
 {
 	UINT8_T _return = 0;
 	UINT8_T i = 0;
@@ -1079,7 +1079,7 @@ UINT8_T ISP_ReadChipID(ISP_HandlerType *ISPx, UINT8_T *pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadChipCalibration(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T length)
+UINT8_T ISP_ReadChipCalibration(ISP_HandleType *ISPx, UINT8_T *pVal, UINT8_T length)
 {
 	UINT8_T _return = 0;
 	UINT8_T i = 0;
@@ -1103,7 +1103,7 @@ UINT8_T ISP_ReadChipCalibration(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T le
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedExternFuse)
+UINT8_T ISP_ReadChipFuse(ISP_HandleType *ISPx, UINT8_T *pVal, UINT8_T isNeedExternFuse)
 {
 	UINT8_T _return = 0;
 	//---读取熔丝位低位
@@ -1144,7 +1144,7 @@ UINT8_T ISP_ReadChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedExt
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
+UINT8_T ISP_ReadChipLock(ISP_HandleType *ISPx, UINT8_T *pVal)
 {
 	//---读取加密位
 	UINT8_T _return = ISP_SEND_CMD(ISPx, 0x58, 0x00, 0x00, 0x00);
@@ -1161,7 +1161,7 @@ UINT8_T ISP_ReadChipLock(ISP_HandlerType *ISPx, UINT8_T *pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadChipRom(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T addr, UINT16_T length)
+UINT8_T ISP_ReadChipRom(ISP_HandleType *ISPx, UINT8_T *pVal, UINT8_T addr, UINT16_T length)
 {
 	UINT8_T _return = 0;
 	UINT8_T i = 0;
@@ -1206,7 +1206,7 @@ UINT8_T ISP_ReadChipRom(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T addr, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedExternFuse)
+UINT8_T ISP_WriteChipFuse(ISP_HandleType *ISPx, UINT8_T *pVal, UINT8_T isNeedExternFuse)
 {
 	UINT8_T _return = 0;
 	//---写入熔丝位低位
@@ -1274,7 +1274,7 @@ UINT8_T ISP_WriteChipFuse(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T isNeedEx
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T val)
+UINT8_T ISP_WriteChipLock(ISP_HandleType *ISPx, UINT8_T val)
 {
 	//---写入加密位
 	UINT8_T _return = ISP_SEND_CMD(ISPx, 0xAC, 0xE0, 0x00, val|0xC0);
@@ -1306,7 +1306,7 @@ UINT8_T ISP_WriteChipLock(ISP_HandlerType *ISPx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
+UINT8_T ISP_ReadChipEepromAddr(ISP_HandleType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T i = 0;
@@ -1338,7 +1338,7 @@ UINT8_T ISP_ReadChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hig
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length)
+UINT8_T ISP_ReadChipEepromLongAddr(ISP_HandleType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length)
 {
 	return ISP_ReadChipEepromAddr(ISPx, pVal, (UINT8_T)(addr >> 8), (UINT8_T)(addr & 0xFF), length);
 }
@@ -1353,7 +1353,7 @@ UINT8_T ISP_ReadChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
+UINT8_T ISP_WriteChipEepromAddr(ISP_HandleType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T refreshFlag=0;
@@ -1401,7 +1401,7 @@ UINT8_T ISP_WriteChipEepromAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T hi
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_UpdateChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal)
+UINT8_T ISP_UpdateChipEepromPage(ISP_HandleType* ISPx, UINT8_T* pVal)
 {
 	UINT8_T _return = 0;
 	UINT8_T i = 0;
@@ -1426,7 +1426,7 @@ UINT8_T ISP_UpdateChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_UpdateChipEepromAddr(ISP_HandlerType* ISPx,UINT8_T highAddr, UINT8_T lowAddr)
+UINT8_T ISP_UpdateChipEepromAddr(ISP_HandleType* ISPx,UINT8_T highAddr, UINT8_T lowAddr)
 {
 	UINT8_T _return = OK_0;
 	//---将数据写入存储器指定的页
@@ -1456,7 +1456,7 @@ UINT8_T ISP_UpdateChipEepromAddr(ISP_HandlerType* ISPx,UINT8_T highAddr, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_UpdateChipEepromLongAddr(ISP_HandlerType* ISPx, UINT16_T addr)
+UINT8_T ISP_UpdateChipEepromLongAddr(ISP_HandleType* ISPx, UINT16_T addr)
 {
 	return ISP_UpdateChipEepromAddr(ISPx, (UINT8_T)(addr >> 8), (UINT8_T)(addr & 0xFF));
 }
@@ -1470,7 +1470,7 @@ UINT8_T ISP_UpdateChipEepromLongAddr(ISP_HandlerType* ISPx, UINT16_T addr)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length)
+UINT8_T ISP_WriteChipEepromLongAddr(ISP_HandleType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length)
 {
 	return ISP_WriteChipEepromAddr(ISPx, pVal, (UINT8_T)(addr >> 8), (UINT8_T)(addr & 0xFF), length);
 }
@@ -1482,7 +1482,7 @@ UINT8_T ISP_WriteChipEepromLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
+UINT8_T ISP_WriteChipEepromPage(ISP_HandleType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
 {
 	UINT8_T _return = OK_0;
 	UINT32_T pageAddr = 0;
@@ -1548,7 +1548,7 @@ UINT8_T ISP_WriteChipEepromPage(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T hi
 //////输出参数:
 //////说		明：如果写入的数据是空数据，那么就跳过写入
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
+UINT8_T ISP_WriteChipEepromAddrWithJumpEmpty(ISP_HandleType *ISPx, UINT8_T *pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T i = 0;
@@ -1592,7 +1592,7 @@ UINT8_T ISP_WriteChipEepromAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVa
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipEepromLongAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length)
+UINT8_T ISP_WriteChipEepromLongAddrWithJumpEmpty(ISP_HandleType *ISPx, UINT8_T *pVal, UINT16_T addr, UINT16_T length)
 {
 	return ISP_WriteChipEepromAddrWithJumpEmpty(ISPx, pVal, (UINT8_T)(addr >> 8), (UINT8_T)(addr & 0xFF), length);
 }
@@ -1605,7 +1605,7 @@ UINT8_T ISP_WriteChipEepromLongAddrWithJumpEmpty(ISP_HandlerType *ISPx, UINT8_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipEeprom(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
+UINT8_T ISP_WriteChipEeprom(ISP_HandleType* ISPx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
 {
 	//---校验编程模式
 	if (ISPx->msgEepromPageMode != 0)
@@ -1627,7 +1627,7 @@ UINT8_T ISP_WriteChipEeprom(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T highAd
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_UpdateExternAddr(ISP_HandlerType *ISPx, UINT8_T addr)
+UINT8_T ISP_UpdateExternAddr(ISP_HandleType *ISPx, UINT8_T addr)
 {
 	UINT8_T _return = OK_0;
 	if (ISPx->msgHideAddr != addr)
@@ -1645,7 +1645,7 @@ UINT8_T ISP_UpdateExternAddr(ISP_HandlerType *ISPx, UINT8_T addr)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_UpdateExternLongAddr(ISP_HandlerType *ISPx, UINT32_T addr)
+UINT8_T ISP_UpdateExternLongAddr(ISP_HandleType *ISPx, UINT32_T addr)
 {
 	return ISP_UpdateExternAddr(ISPx, (UINT8_T)(addr >> 16));
 }
@@ -1657,7 +1657,7 @@ UINT8_T ISP_UpdateExternLongAddr(ISP_HandlerType *ISPx, UINT32_T addr)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
+UINT8_T ISP_ReadChipFlashAddr(ISP_HandleType *ISPx, UINT8_T *pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T i = 0;
@@ -1726,7 +1726,7 @@ UINT8_T ISP_ReadChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T exte
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_ReadChipFlashLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT32_T addr, UINT16_T length)
+UINT8_T ISP_ReadChipFlashLongAddr(ISP_HandleType *ISPx, UINT8_T *pVal, UINT32_T addr, UINT16_T length)
 {
 	return  ISP_ReadChipFlashAddr(ISPx, pVal, (UINT8_T)(addr >> 16), (UINT8_T)(addr >> 8), (UINT8_T)(addr), length);
 }
@@ -1738,7 +1738,7 @@ UINT8_T ISP_ReadChipFlashLongAddr(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT32_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_UpdateChipFlashPage(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T index, UINT16_T length)
+UINT8_T ISP_UpdateChipFlashPage(ISP_HandleType *ISPx, UINT8_T *pVal, UINT8_T index, UINT16_T length)
 {
 	UINT8_T _return = 0;
 	UINT8_T i = 0;
@@ -1777,7 +1777,7 @@ UINT8_T ISP_UpdateChipFlashPage(ISP_HandlerType *ISPx, UINT8_T *pVal, UINT8_T in
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr)
+UINT8_T ISP_UpdateChipFlashAddr(ISP_HandleType *ISPx, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr)
 {
 	UINT8_T _return = OK_0;
 	if (externAddr!=0)
@@ -1812,7 +1812,7 @@ UINT8_T ISP_UpdateChipFlashAddr(ISP_HandlerType *ISPx, UINT8_T externAddr, UINT8
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_UpdateChipFlashLongAddr(ISP_HandlerType *ISPx, UINT32_T addr)
+UINT8_T ISP_UpdateChipFlashLongAddr(ISP_HandleType *ISPx, UINT32_T addr)
 {
 	return ISP_UpdateChipFlashAddr(ISPx, (UINT8_T)(addr >> 16), (UINT8_T)(addr >> 8), (UINT8_T)(addr));
 }
@@ -1824,7 +1824,7 @@ UINT8_T ISP_UpdateChipFlashLongAddr(ISP_HandlerType *ISPx, UINT32_T addr)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_WriteChipFlashPage(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
+UINT8_T ISP_WriteChipFlashPage(ISP_HandleType* ISPx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT32_T pageAddr = 0;
@@ -1873,7 +1873,7 @@ UINT8_T ISP_WriteChipFlashPage(ISP_HandlerType* ISPx, UINT8_T* pVal, UINT8_T ext
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_CheckChipFlashEmpty(ISP_HandlerType* ISPx,UINT8_T pageByteSizeH,UINT8_T pageByteSizeL,UINT8_T pageNumH,UINT8_T pageNumL)
+UINT8_T ISP_CheckChipFlashEmpty(ISP_HandleType* ISPx,UINT8_T pageByteSizeH,UINT8_T pageByteSizeL,UINT8_T pageNumH,UINT8_T pageNumL)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T length=0;
@@ -1926,7 +1926,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_CheckChipFlashEmptyLong(ISP_HandlerType* ISPx, UINT16_T pageByteSize, UINT16_T pageNum)
+UINT8_T ISP_CheckChipFlashEmptyLong(ISP_HandleType* ISPx, UINT16_T pageByteSize, UINT16_T pageNum)
 {
 	return ISP_CheckChipFlashEmpty(ISPx,(UINT8_T)(pageByteSize>>8),(UINT8_T)(pageByteSize),(UINT8_T)(pageNum>>8),(UINT8_T)(pageNum));
 }
@@ -1938,7 +1938,7 @@ UINT8_T ISP_CheckChipFlashEmptyLong(ISP_HandlerType* ISPx, UINT16_T pageByteSize
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_CheckChipEepromEmpty(ISP_HandlerType* ISPx, UINT8_T byteSize, UINT8_T num)
+UINT8_T ISP_CheckChipEepromEmpty(ISP_HandleType* ISPx, UINT8_T byteSize, UINT8_T num)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -1983,7 +1983,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ISP_SetConfigInfo(ISP_HandlerType* ISPx,UINT8_T *pVal)
+UINT8_T ISP_SetConfigInfo(ISP_HandleType* ISPx,UINT8_T *pVal)
 {
 	//---Flash每页字数
 	ISPx->msgFlashPerPageWordSize= *(pVal++);

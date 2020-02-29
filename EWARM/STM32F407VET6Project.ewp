@@ -443,6 +443,7 @@
                     <state>$PROJ_DIR$\..\Application\EXTI</state>
                     <state>$PROJ_DIR$\..\DriversEx\Complier</state>
                     <state>$PROJ_DIR$\..\DriversEx\STM32F4xx</state>
+                    <state>$PROJ_DIR$\..\Application\ESP8266</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
