@@ -67,7 +67,8 @@ extern "C" {
 	{
 		#ifdef USE_UART_PRINTF
 			UINT16_T							msgPCount;																//---打印发送总数
-			UINT16_T							msgPIndex;																//---打印发送序号
+			UINT16_T							msgPWIndex;																//---打印发送序号
+			UINT16_T							msgPRIndex;																//---打印读取序号
 		#endif
 		UINT8_T									msgIndex;																//---UART端口的索引号
 		UINT8_T									msgRxdID;																//---接收报头
@@ -78,6 +79,9 @@ extern "C" {
 		UINT8_T									msgDataOneIndex;														//---数据1在数组中的位置
 		UINT8_T									msgDataTwoIndex;														//---数据2在数组中的位置
 		UINT8_T									msgIndexOffset;															//---索引的偏移量
+		#ifdef UART_INIT_GPIO
+			UINT8_T									msgWriteFinalData;													//---DMA模式下，发送的最后1字节数据
+		#endif
 		GPIO_HandleType							msgTxPort;																//---UART的GPIO端口号
 		#ifdef USE_UART_485
 			GPIO_HandleType						msg485Port;																//---485的使能GPIO端口
@@ -105,7 +109,7 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===重映射printf之后的数据缓存区
 	#ifdef USE_UART_PRINTF
-		#define UART_PRINTF_SIZE					512																	//---使用printf的时候的缓存区的大小
+		#define UART_PRINTF_SIZE					1024																//---使用printf的时候的缓存区的大小
 		#define UART_PRINTF_IDLE_SIZE				64																	//---printf的最小保留缓存区的大小
 	#endif	
 	//===使用的校验方式
@@ -136,8 +140,8 @@ extern "C" {
 		#define UART_CRC_CRC32						UART_CRC_NONE
 	#endif	
 	//===发送端口的配置
-	#define UART_TXGPIO_SET_INPUT					0																	//---轮训地址时候，发送端口需要切换为输入
-	#define UART_TXGPIO_SET_OUTPUT					1																	//---轮训地址时候，发送端口需要切换为输出
+	#define UART_GPIOTX_SET_INPUT					0																	//---轮训地址时候，发送端口需要切换为输入
+	#define UART_GPIOTX_SET_OUTPUT					1																	//---轮训地址时候，发送端口需要切换为输出
 	//===485数据端口的控制使能
 	#define UART_485_RX_ENABLE						0																	//---485模式下处于数据接收
 	#define UART_485_TX_ENABLE						1																	//---485模式下处于数据发送
@@ -257,8 +261,8 @@ extern "C" {
 	UINT8_T  UART_StructInit(UART_HandleType*  UARTx);
 	UINT8_T  UART_ConfigInit(UART_HandleType* UARTx, UART_HandleType* UARTInitx);
 	UINT8_T  UART_Init(UART_HandleType*  UARTx, UINT16_T rxSize, UINT8_T* pRxVal, UINT8_T rxCRCFlag, UINT16_T txSize, UINT8_T* pTxVal, UINT8_T txCRCFlag, UINT32_T(*pTimerTick)(void));
-	UINT8_T  UART_TXGPIOInit(UART_HandleType*  UARTx, UINT8_T isInput);
-	UINT8_T  UART_485GPIOInit(UART_HandleType*  UARTx, UINT8_T isEnable);
+	UINT8_T  UART_GPIO_TxInit(UART_HandleType*  UARTx, UINT8_T isInput);
+	UINT8_T  UART_GPIO_485_Init(UART_HandleType*  UARTx, UINT8_T isEnable);
 	UINT8_T  UART_SetCRC(UART_HandleDef* UARTDefx, UINT8_T crcFlag);
 	UINT8_T  UART_GetCRC(UART_HandleDef* UARTDefx);
 	UINT8_T  UART_TimeTick_Init(UART_HandleDef* UARTDefx);
@@ -317,14 +321,14 @@ extern "C" {
 	//===函数定义
 	UINT8_T	 UART1_DMA_Read_Init(UART_HandleType* UARTx);
 	UINT8_T  UART1_DMA_Write_Init(UART_HandleType* UARTx);
-	UINT16_T UART_Read_DMA_STOP(UART_HandleType* UARTx);
-	UINT8_T  UART_Write_DMA_SetMemoryAddress(UART_HandleType* UARTx, UINT8_T* pVal);
-	UINT8_T  UART_Read_DMA_RESTART(UART_HandleType* UARTx);
-	UINT16_T UART_Write_DMA_STOP(UART_HandleType* UARTx);
-	UINT8_T  UART_Write_DMA_RESTART(UART_HandleType* UARTx);
-	UINT8_T  UART_Read_DMA_IDLETask(UART_HandleType* UARTx);
-	void	 UART_Read_DMA_IRQTask(UART_HandleType* UARTx);
-	void	 UART_Write_DMA_IRQTask(UART_HandleType* UARTx);
+	UINT16_T UART_DMA_Read_STOP(UART_HandleType* UARTx);
+	UINT8_T  UART_DMA_Write_SetMemoryAddress(UART_HandleType* UARTx, UINT8_T* pVal);
+	UINT8_T  UART_DMA_Read_RESTART(UART_HandleType* UARTx);
+	UINT16_T UART_DMA_Write_STOP(UART_HandleType* UARTx);
+	UINT8_T  UART_DMA_Write_RESTART(UART_HandleType* UARTx);
+	UINT8_T  UART_DMA_Read_IDLETask(UART_HandleType* UARTx);
+	void	 UART_DMA_Read_IRQTask(UART_HandleType* UARTx);
+	void	 UART_DMA_Write_IRQTask(UART_HandleType* UARTx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

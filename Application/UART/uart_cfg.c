@@ -68,7 +68,7 @@ UINT8_T UART_StructInit(UART_HandleType*  UARTx)
 	UARTx->msgRxdHandle.msgTimeTick = NULL;
 
 	//---发送缓存区
-	UARTx->msgTxdHandle.msgDMAMode = 0;
+	UARTx->msgTxdHandle.msgDMAMode = 1;
 	UARTx->msgTxdHandle.msgCheckSum = 0;
 	UARTx->msgTxdHandle.msgCRCFlag = 0;
 	UARTx->msgTxdHandle.msgStep = 0;
@@ -306,9 +306,9 @@ UINT8_T UART1_ConfigInit(UART_HandleType* UARTx)
 	//---命令和地址配置
 	UART_ParamInit(UARTx, UART1_DEVICE_ID, UART1_ID_INDEX, UART1_CMD_INDEX, UART1_DATA1_INDEX, UART1_DATA2_INDEX);
 	//---定义485为接收模式--推完输出模式，配置为接收模式
-	UART_485GPIOInit(UARTx, UART_485_RX_ENABLE);
+	UART_GPIO_485_Init(UARTx, UART_485_RX_ENABLE);
 	//---设置TX端口为输入模式
-	UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_INPUT);
+	UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_INPUT);
 	return OK_0;
 }
 
@@ -529,7 +529,7 @@ UINT8_T UART1_Init(UART_HandleType* UARTx)
 	//---使能中断
 	NVIC_EnableIRQ(USART1_IRQn);
 	//---使能串口
-	LL_USART_Enable(USART1);
+	LL_USART_Enable(UARTx->msgUART);
 	//---打印初始化信息
 	//UART_Printf(UARTx, "=>>串口1的初始化<<=\r\n");
 	UART_Printf(UARTx, "=>>Init SP1<<=\r\n");
@@ -597,9 +597,9 @@ UINT8_T UART3_ConfigInit(UART_HandleType* UARTx)
 	//---PB10  ------> UART3_TX---端口复用为7
 	//---PB11  ------> UART3_RX---端口复用为7
 	//---使能端口时钟
-	#ifndef  USE_FULL_GPIO
+#ifndef  USE_FULL_GPIO
 	GPIOTask_Clock(GPIOB, PERIPHERAL_CLOCK_ENABLE);
-	#endif
+#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---模式配置
@@ -670,9 +670,9 @@ UINT8_T UART3_ConfigInit(UART_HandleType* UARTx)
 	//---命令和地址配置
 	//UART_ParamInit(UARTx, UART1_DEVICE_ID, UART1_ID_INDEX, UART1_CMD_INDEX, UART1_DATA1_INDEX, UART1_DATA2_INDEX);
 	//---定义485为接收模式--推完输出模式，配置为接收模式
-	UART_485GPIOInit(UARTx, UART_485_RX_ENABLE);
+	UART_GPIO_485_Init(UARTx, UART_485_RX_ENABLE);
 	//---设置TX端口为输入模式
-	UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_INPUT);
+	UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_INPUT);
 	return OK_0;
 }
 
@@ -903,8 +903,7 @@ UINT8_T UART3_Init(UART_HandleType* UARTx)
 	//---使能串口
 	LL_USART_Enable(UARTx->msgUART);
 	//---打印初始化信息
-	//UART_Printf(UARTx, "=>>串口1的初始化<<=\r\n");
-	//UART_Printf(UARTx, "=>>Init SP3<<=\r\n");
+	UART_Printf(UARTx, "=>>Init SP3<<=\r\n");
 	return OK_0;
 }
 
@@ -1348,12 +1347,12 @@ UINT8_T UART_Init(UART_HandleType*  UARTx, UINT16_T rxSize, UINT8_T* pRxVal, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  UART_TXGPIOInit(UART_HandleType*  UARTx, UINT8_T isInput)
+UINT8_T  UART_GPIO_TxInit(UART_HandleType*  UARTx, UINT8_T isInput)
 {
 #ifdef UART_INIT_GPIO
 	if (UARTx->msgTxPort.msgPort != NULL)
 	{
-		(isInput == UART_TXGPIO_SET_OUTPUT) ? (LL_GPIO_SetPinMode(UARTx->msgTxPort.msgPort, UARTx->msgTxPort.msgBit, LL_GPIO_MODE_ALTERNATE)) : (LL_GPIO_SetPinMode(UARTx->msgTxPort.msgPort, UARTx->msgTxPort.msgBit, LL_GPIO_MODE_INPUT));
+		(isInput == UART_GPIOTX_SET_OUTPUT) ? (LL_GPIO_SetPinMode(UARTx->msgTxPort.msgPort, UARTx->msgTxPort.msgBit, LL_GPIO_MODE_ALTERNATE)) : (LL_GPIO_SetPinMode(UARTx->msgTxPort.msgPort, UARTx->msgTxPort.msgBit, LL_GPIO_MODE_INPUT));
 	}
 #endif
 	return OK_0;
@@ -1366,7 +1365,7 @@ UINT8_T  UART_TXGPIOInit(UART_HandleType*  UARTx, UINT8_T isInput)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  UART_485GPIOInit(UART_HandleType*  UARTx, UINT8_T isEnable)
+UINT8_T  UART_GPIO_485_Init(UART_HandleType*  UARTx, UINT8_T isEnable)
 {
 #ifdef USE_UART_485
 	if (UARTx->msg485Port.msgPort != NULL)
@@ -1759,9 +1758,9 @@ UINT8_T UART_PollMode_WriteByte(UART_HandleType*UARTx, UINT8_T  val)
 UINT8_T UART_PollMode_WriteData(UART_HandleType*UARTx, char *pVal)
 {
 	//---设置485为发送模式
-	UART_485GPIOInit(UARTx, UART_485_TX_ENABLE);
+	UART_GPIO_485_Init(UARTx, UART_485_TX_ENABLE);
 	//---切换发送端口为输出模式
-	UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_OUTPUT);
+	UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_OUTPUT);
 	//---关闭中断
 	//CLI();
 	while (*pVal != '\0')
@@ -1772,9 +1771,9 @@ UINT8_T UART_PollMode_WriteData(UART_HandleType*UARTx, char *pVal)
 	//---使能中断
 	//SEI();
 	//---设置485为接收模式
-	UART_485GPIOInit(UARTx, UART_485_RX_ENABLE);
+	UART_GPIO_485_Init(UARTx, UART_485_RX_ENABLE);
 	//---切换发送端口为输入模式
-	UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_INPUT);
+	UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_INPUT);
 	return OK_0;
 }
 
@@ -1893,7 +1892,7 @@ UINT8_T  UART_ITWrite_TCTask(UART_HandleType*UARTx)
 #endif
 	{
 		//---清零发送步序
-		UARTx->msgTxdHandle.msgStep = 0;
+		//UARTx->msgTxdHandle.msgStep = 0;
 		//---发送完成,发送数据发送完成中断不使能
 		LL_USART_DisableIT_TC(UARTx->msgUART);
 		//---清空数据发送缓存区
@@ -1925,9 +1924,9 @@ UINT8_T UART_RealTime_AddByte(UART_HandleType*UARTx, UINT8_T val)
 		if (LL_USART_IsEnabledIT_TXE(UARTx->msgUART) == 0)
 		{
 			//---设置485为发送模式
-			UART_485GPIOInit(UARTx, UART_485_TX_ENABLE);
+			UART_GPIO_485_Init(UARTx, UART_485_TX_ENABLE);
 			//---切换发送端口为输出模式
-			UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_OUTPUT);
+			UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_OUTPUT);
 			//---使能发送空中断
 			LL_USART_EnableIT_TXE(UARTx->msgUART);
 		}
@@ -2436,9 +2435,13 @@ UINT8_T  UART_FillMode_WriteByteSTART(UART_HandleType*UARTx, UINT8_T isNeedID)
 		}
 		UARTx->msgTxdHandle.msgCount=UARTx->msgTxdHandle.msgWIndex;
 		//---设置485为发送模式
-		UART_485GPIOInit(UARTx, UART_485_TX_ENABLE);
+		UART_GPIO_485_Init(UARTx, UART_485_TX_ENABLE);
 		//---切换发送端口为输出模式
-		UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_OUTPUT);
+		UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_OUTPUT);
+		#ifdef UART_INIT_GPIO
+		//---获取最后1字节的数据
+		UARTx->msgWriteFinalData= UARTx->msgTxdHandle.pMsgVal[UARTx->msgTxdHandle.msgCount-1];
+		#endif
 		//---校验是不是DMA模式
 		if (UARTx->msgTxdHandle.msgDMAMode==0)
 		{
@@ -2448,9 +2451,9 @@ UINT8_T  UART_FillMode_WriteByteSTART(UART_HandleType*UARTx, UINT8_T isNeedID)
 		else
 		{
 			//---设置数据地址
-			UART_Write_DMA_SetMemoryAddress(UARTx, (UARTx->msgTxdHandle.pMsgVal));
+			UART_DMA_Write_SetMemoryAddress(UARTx, (UARTx->msgTxdHandle.pMsgVal));
 			//---启动DMA发送
-			UART_Write_DMA_RESTART(UARTx);
+			UART_DMA_Write_RESTART(UARTx);
 		}
 		//---复位超时计数器
 		UART_TimeTick_Init(&(UARTx->msgTxdHandle));
@@ -2486,9 +2489,13 @@ UINT8_T  UART_FillMode_WriteArraySTART(UART_HandleType* UARTx, UINT8_T *pArrayVa
 		}
 		UARTx->msgTxdHandle.msgCount = UARTx->msgTxdHandle.msgWIndex;
 		//---设置485为发送模式
-		UART_485GPIOInit(UARTx, UART_485_TX_ENABLE);
+		UART_GPIO_485_Init(UARTx, UART_485_TX_ENABLE);
+		#ifdef UART_INIT_GPIO
 		//---切换发送端口为输出模式
-		UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_OUTPUT);
+		UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_OUTPUT);
+		//---获取最后1字节的数据
+		UARTx->msgWriteFinalData = UARTx->msgTxdHandle.pMsgVal[UARTx->msgTxdHandle.msgCount - 1];
+		#endif
 		//---校验是不是DMA模式
 		if (UARTx->msgTxdHandle.msgDMAMode == 0)
 		{
@@ -2498,9 +2505,9 @@ UINT8_T  UART_FillMode_WriteArraySTART(UART_HandleType* UARTx, UINT8_T *pArrayVa
 		else
 		{
 			//---设置数据地址
-			UART_Write_DMA_SetMemoryAddress(UARTx, (UARTx->msgTxdHandle.pMsgVal));
+			UART_DMA_Write_SetMemoryAddress(UARTx, (UARTx->msgTxdHandle.pMsgVal));
 			//---启动DMA发送
-			UART_Write_DMA_RESTART(UARTx);
+			UART_DMA_Write_RESTART(UARTx);
 		}
 		//---复位超时计数器
 		UART_TimeTick_Init(&(UARTx->msgTxdHandle));
@@ -2534,9 +2541,13 @@ UINT8_T  UART_FillMode_WriteSTART(UART_HandleType* UARTx,UINT16_T length)
 		}
 		UARTx->msgTxdHandle.msgCount = UARTx->msgTxdHandle.msgWIndex;
 		//---设置485为发送模式
-		UART_485GPIOInit(UARTx, UART_485_TX_ENABLE);
+		UART_GPIO_485_Init(UARTx, UART_485_TX_ENABLE);
 		//---切换发送端口为输出模式
-		UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_OUTPUT);
+		UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_OUTPUT);
+		#ifdef UART_INIT_GPIO
+		//---获取最后1字节的数据
+		UARTx->msgWriteFinalData = UARTx->msgTxdHandle.pMsgVal[UARTx->msgTxdHandle.msgCount - 1];
+		#endif
 		//---校验是不是DMA模式
 		if (UARTx->msgTxdHandle.msgDMAMode == 0)
 		{
@@ -2546,9 +2557,9 @@ UINT8_T  UART_FillMode_WriteSTART(UART_HandleType* UARTx,UINT16_T length)
 		else
 		{
 			//---设置数据地址
-			UART_Write_DMA_SetMemoryAddress(UARTx, (UARTx->msgTxdHandle.pMsgVal));
+			UART_DMA_Write_SetMemoryAddress(UARTx, (UARTx->msgTxdHandle.pMsgVal));
 			//---启动DMA发送
-			UART_Write_DMA_RESTART(UARTx);
+			UART_DMA_Write_RESTART(UARTx);
 		}
 		//---复位超时计数器
 		UART_TimeTick_Init(&(UARTx->msgTxdHandle));
@@ -2617,7 +2628,7 @@ UINT8_T UART_ClearState(UART_HandleDef* UARTDefx)
 UINT8_T  UART_Read_Init(UART_HandleType*  UARTx)
 {
 	//---设置485位接收模式
-	UART_485GPIOInit(UARTx, UART_485_RX_ENABLE);
+	UART_GPIO_485_Init(UARTx, UART_485_RX_ENABLE);
 	//---清零步序
 	UARTx->msgRxdHandle.msgStep = 0;
 	//---清除写数组索引
@@ -2637,7 +2648,7 @@ UINT8_T  UART_Read_Init(UART_HandleType*  UARTx)
 	//---校验是不是DMA模式
 	if(UARTx->msgRxdHandle.msgDMAMode!=0)
 	{
-		UART_Read_DMA_RESTART(UARTx);
+		UART_DMA_Read_RESTART(UARTx);
 	}
 	return OK_0;
 }
@@ -2666,9 +2677,9 @@ UINT8_T UART_Write_Init(UART_HandleType*  UARTx)
 	//---操作步序归零
 	UARTx->msgTxdHandle.msgStep = 0;
 	//---设置485为接收模式
-	UART_485GPIOInit(UARTx, UART_485_RX_ENABLE);
+	UART_GPIO_485_Init(UARTx, UART_485_RX_ENABLE);
 	//---数据发送完成，切换端口为输入模式
-	UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_INPUT);
+	UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_INPUT);
 	//---记录发送完成的时间
 	UARTx->msgTxdHandle.msgRecordTime = ((UARTx->msgTxdHandle.msgTimeTick != NULL) ? (UARTx->msgTxdHandle.msgTimeTick()) : 0);
 	//---恢复缓存区的首地址数据
@@ -2754,9 +2765,9 @@ void UART_PrintfSuspend(UART_HandleType* UARTx)
 		WDT_RESET();
 	}
 	//---定义485为发送模式
-	UART_485GPIOInit(UARTx, UART_485_TX_ENABLE);
+	UART_GPIO_485_Init(UARTx, UART_485_TX_ENABLE);
 	//---切换发送端口为输出模式
-	UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_OUTPUT);
+	UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_OUTPUT);
 #endif
 }
 
@@ -2771,9 +2782,9 @@ void UART_PrintfResume(UART_HandleType* UARTx)
 {
 #ifdef USE_UART_PRINTF
 	//---定义485为接收模式
-	UART_485GPIOInit(UARTx, UART_485_RX_ENABLE);
+	UART_GPIO_485_Init(UARTx, UART_485_RX_ENABLE);
 	//---数据发送完成，切换端口为输入模式
-	UART_TXGPIOInit(UARTx, UART_TXGPIO_SET_INPUT);
+	UART_GPIO_TxInit(UARTx, UART_GPIOTX_SET_INPUT);
 	//---记录发送完成的时间
 	UARTx->msgTxdHandle.msgRecordTime = ((UARTx->msgTxdHandle.msgTimeTick != NULL) ? (UARTx->msgTxdHandle.msgTimeTick()) : 0);
 #endif
@@ -2822,15 +2833,21 @@ void UART_Printf(UART_HandleType*UARTx, char*fmt, ...)
 		}
 		//---用va_end宏结束可变参数的获取
 		va_end(arg);
+		#ifdef UART_INIT_GPIO
+		//---获取最后1字节的数据
+		UARTx->msgWriteFinalData = pPrintf->pMsgVal[pPrintf->msgWIndex - 1];
+		#endif
+		//---保存发送的索引位置
+		UARTx->msgPRIndex= pPrintf->msgRIndex;
 		//---校验是不是DMA模式
 		if (UARTx->msgTxdHandle.msgDMAMode!=0)
 		{
 			//--->>>DMA发送模式
 			UARTx->msgTxdHandle.msgCount = length;
 			//---设置数据地址
-			UART_Write_DMA_SetMemoryAddress(UARTx, (UINT8_T*)(pPrintf->pMsgVal+pPrintf->msgRIndex));
+			UART_DMA_Write_SetMemoryAddress(UARTx, (UINT8_T*)(pPrintf->pMsgVal+ UARTx->msgPRIndex));
 			//---启动DMA发送
-			UART_Write_DMA_RESTART(UARTx);
+			UART_DMA_Write_RESTART(UARTx);
 		}
 		else
 		{
@@ -2838,13 +2855,13 @@ void UART_Printf(UART_HandleType*UARTx, char*fmt, ...)
 			//---要发送数据的个数
 			UARTx->msgPCount = length;
 			//---使用的发送完成中断，这里需要首先发送一次数据
-			UARTx->msgPIndex = 1;
+			UARTx->msgPWIndex = 1;
 			//---工作在使用PRINTF模式
 			UARTx->msgTxdHandle.msgState = UART_PRINTF;
 			//---发送完成,发送数据发送完成中断不使能
 			LL_USART_EnableIT_TC(UARTx->msgUART);
 			//---发送8Bit的数据
-			LL_USART_TransmitData8(UARTx->msgUART, pPrintf->pMsgVal[pPrintf->msgRIndex]);
+			LL_USART_TransmitData8(UARTx->msgUART, pPrintf->pMsgVal[UARTx->msgPRIndex]);
 		}
 		//---复位超时计数器
 		UART_TimeTick_Init(&(UARTx->msgTxdHandle));
@@ -2889,15 +2906,21 @@ void UART_PrintfLog(UART_HandleType* UARTx, char* fmt, va_list args)
 			//---缓存区满，字符归零处理
 			pPrintf->msgWIndex = 0;
 		}
+		#ifdef UART_INIT_GPIO
+		//---获取最后1字节的数据
+		UARTx->msgWriteFinalData = pPrintf->pMsgVal[pPrintf->msgWIndex - 1];
+		#endif
+		//---保存发送的索引位置
+		UARTx->msgPRIndex = pPrintf->msgRIndex;
 		//---校验是不是DMA模式
 		if (UARTx->msgTxdHandle.msgDMAMode != 0)
 		{
 			//--->>>DMA发送模式
 			UARTx->msgTxdHandle.msgCount = length;
 			//---设置数据地址
-			UART_Write_DMA_SetMemoryAddress(UARTx, (UINT8_T*)(pPrintf->pMsgVal + (pPrintf->msgRIndex)));
+			UART_DMA_Write_SetMemoryAddress(UARTx, (UINT8_T*)(pPrintf->pMsgVal + (UARTx->msgPRIndex)));
 			//---启动DMA发送
-			UART_Write_DMA_RESTART(UARTx);
+			UART_DMA_Write_RESTART(UARTx);
 		}
 		else
 		{
@@ -2905,13 +2928,13 @@ void UART_PrintfLog(UART_HandleType* UARTx, char* fmt, va_list args)
 			//---要发送数据的个数
 			UARTx->msgPCount = length;
 			//---使用的发送完成中断，这里需要首先发送一次数据
-			UARTx->msgPIndex = 1;
+			UARTx->msgPWIndex = 1;
 			//---工作在使用PRINTF模式
 			UARTx->msgTxdHandle.msgState = UART_PRINTF;
 			//---发送完成,发送数据发送完成中断不使能
 			LL_USART_EnableIT_TC(UARTx->msgUART);
 			//---发送8Bit的数据
-			LL_USART_TransmitData8(UARTx->msgUART, pPrintf->pMsgVal[pPrintf->msgRIndex]);
+			LL_USART_TransmitData8(UARTx->msgUART, pPrintf->pMsgVal[UARTx->msgPRIndex]);
 		}
 		//---复位超时计数器
 		UART_TimeTick_Init(&(UARTx->msgTxdHandle));
@@ -2929,7 +2952,7 @@ void UART_PrintfLog(UART_HandleType* UARTx, char* fmt, va_list args)
 UINT8_T  UART_ITPrintf_TCTask(UART_HandleType* UARTx)
 {
 #ifdef USE_UART_PRINTF
-	if (UARTx->msgPIndex>=UARTx->msgPCount)
+	if (UARTx->msgPWIndex>=UARTx->msgPCount)
 	{
 		//---发送完成,发送数据发送完成中断不使能
 		LL_USART_DisableIT_TC(UARTx->msgUART);
@@ -2942,8 +2965,8 @@ UINT8_T  UART_ITPrintf_TCTask(UART_HandleType* UARTx)
 	{
 		//---发送8Bit的数据
 		//LL_USART_TransmitData8(UARTx->msgUART, g_PrintfBuffer[UARTx->msgPIndex]);
-		LL_USART_TransmitData8(UARTx->msgUART, pPrintf->pMsgVal[pPrintf->msgRIndex+UARTx->msgPIndex]);
-		UARTx->msgPIndex++;
+		LL_USART_TransmitData8(UARTx->msgUART, pPrintf->pMsgVal[UARTx->msgPRIndex+UARTx->msgPWIndex]);
+		UARTx->msgPWIndex++;
 	}
 #endif
 	return OK_0;
@@ -2958,12 +2981,23 @@ UINT8_T  UART_ITPrintf_TCTask(UART_HandleType* UARTx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T  UART_ITDMA_TCTask(UART_HandleType* UARTx)
 {
-	//---标识发送完成
-	UARTx->msgTxdHandle.msgState = UART_OK;
-	//---发送完成,发送数据发送完成中断不使能
-	LL_USART_DisableIT_TC(UARTx->msgUART);
-	//---清空数据发送缓存区
-	UART_Write_Init(UARTx);
+	#ifdef UART_INIT_GPIO
+	//---这里最后多发送一次最后一位的数据，是因为DMA发送最后自己的时候，如果此时切换了端口则会导致最后一组数据丢失
+	//---最后1字节多发一次，用于补偿因为端口切换，被吃掉的问题
+	if (UARTx->msgTxdHandle.msgStep == 0)
+	{
+		//---发送8Bit的数据
+		LL_USART_TransmitData8(UARTx->msgUART, UARTx->msgWriteFinalData);
+		UARTx->msgTxdHandle.msgStep = 1;
+	}
+	else
+	#endif
+	{
+		//---发送完成,发送数据发送完成中断不使能
+		LL_USART_DisableIT_TC(UARTx->msgUART);
+		//---清空数据发送缓存区
+		UART_Write_Init(UARTx);
+	}
 	return OK_0;
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -3396,7 +3430,7 @@ void UART_IRQTask(UART_HandleType* UARTx)
 	if (LL_USART_IsActiveFlag_IDLE(UARTx->msgUART) && LL_USART_IsEnabledIT_IDLE(UARTx->msgUART))
 	{
 		//---中断处理函数,DMA数据接收
-		UART_Read_DMA_IDLETask(UARTx);
+		UART_DMA_Read_IDLETask(UARTx);
 		//---清楚空闲中断标志位
 		LL_USART_ClearFlag_IDLE(UARTx->msgUART);
 		//---清楚DMA中断标识
@@ -3447,17 +3481,22 @@ void UART_IRQTask(UART_HandleType* UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T UART_Read_DMA_STOP(UART_HandleType* UARTx)
+UINT16_T UART_DMA_Read_STOP(UART_HandleType* UARTx)
 {
 #ifdef USE_MCU_STM32F1
 	//---使能DMA
 	LL_DMA_DisableChannel(UARTx->msgRxHandler.msgDMA, UARTx->msgRxHandler.msgDMAChannelOrStream);
 	LL_DMA_ClearFlag_GI1(UARTx->msgRxHandler.msgDMA);
 #else
+	//---使能DMA传输结束中断
+	LL_DMA_DisableIT_TC(UARTx->msgRxdHandle.msgDMA, UARTx->msgRxdHandle.msgDMAChannelOrStream);
 	//---不使能DMA
 	LL_DMA_DisableStream(UARTx->msgRxdHandle.msgDMA, UARTx->msgRxdHandle.msgDMAChannelOrStream);
 #endif
+	//---清楚中断标志
 	LL_DMA_ClearFlag(UARTx->msgRxdHandle.msgDMA, UARTx->msgRxdHandle.msgDMAChannelOrStream);
+	//---使能DMA传输结束中断
+	LL_DMA_EnableIT_TC(UARTx->msgRxdHandle.msgDMA, UARTx->msgRxdHandle.msgDMAChannelOrStream);
 	//---计算接收数据的长度
 	UINT16_T length = UARTx->msgRxdHandle.msgMaxSize - LL_DMA_GetDataLength(UARTx->msgRxdHandle.msgDMA, UARTx->msgRxdHandle.msgDMAChannelOrStream);
 	return length;
@@ -3470,7 +3509,7 @@ UINT16_T UART_Read_DMA_STOP(UART_HandleType* UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T UART_Read_DMA_RESTART(UART_HandleType* UARTx)
+UINT8_T UART_DMA_Read_RESTART(UART_HandleType* UARTx)
 {
 	//---设置DMA读取数据的大小
 	LL_DMA_SetDataLength(UARTx->msgRxdHandle.msgDMA, UARTx->msgRxdHandle.msgDMAChannelOrStream, UARTx->msgRxdHandle.msgMaxSize);
@@ -3492,7 +3531,7 @@ UINT8_T UART_Read_DMA_RESTART(UART_HandleType* UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T UART_Write_DMA_SetMemoryAddress(UART_HandleType* UARTx,UINT8_T *pVal)
+UINT8_T UART_DMA_Write_SetMemoryAddress(UART_HandleType* UARTx,UINT8_T *pVal)
 {
 	#ifdef USE_MCU_STM32F1
 		
@@ -3510,7 +3549,7 @@ UINT8_T UART_Write_DMA_SetMemoryAddress(UART_HandleType* UARTx,UINT8_T *pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T UART_Write_DMA_STOP(UART_HandleType* UARTx)
+UINT16_T UART_DMA_Write_STOP(UART_HandleType* UARTx)
 {
 #ifdef USE_MCU_STM32F1
 	//---使能DMA
@@ -3533,7 +3572,7 @@ UINT16_T UART_Write_DMA_STOP(UART_HandleType* UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T UART_Write_DMA_RESTART(UART_HandleType* UARTx)
+UINT8_T UART_DMA_Write_RESTART(UART_HandleType* UARTx)
 {
 	//---设置DMA发送数据的大小
 	LL_DMA_SetDataLength(UARTx->msgTxdHandle.msgDMA, UARTx->msgTxdHandle.msgDMAChannelOrStream, UARTx->msgTxdHandle.msgCount);
@@ -3556,11 +3595,11 @@ UINT8_T UART_Write_DMA_RESTART(UART_HandleType* UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T UART_Read_DMA_IDLETask(UART_HandleType* UARTx)
+UINT8_T UART_DMA_Read_IDLETask(UART_HandleType* UARTx)
 {
 	UINT8_T _return = OK_0;
 	//---停止接收DMA模式,并获取接收数据的长度
-	UINT16_T dataLength= UART_Read_DMA_STOP(UARTx);
+	UINT16_T dataLength= UART_DMA_Read_STOP(UARTx);
 	//---校验报头是否正确
 	if (UARTx->msgRxdHandle.pMsgVal[0] == UARTx->msgRxdID)
 	{
@@ -3592,6 +3631,8 @@ UINT8_T UART_Read_DMA_IDLETask(UART_HandleType* UARTx)
 	}
 	else
 	{
+		UARTx->msgRxdHandle.msgCount = dataLength;
+		//---有数据进来，但是不是自定义协议的数据
 		_return = ERROR_1;
 	}
 	return _return;
@@ -3604,10 +3645,10 @@ UINT8_T UART_Read_DMA_IDLETask(UART_HandleType* UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void UART_Read_DMA_IRQTask(UART_HandleType* UARTx)
+void UART_DMA_Read_IRQTask(UART_HandleType* UARTx)
 {
 	//---DMA处理模式
-	UART_Read_DMA_IDLETask(UARTx);
+	UART_DMA_Read_IDLETask(UARTx);
 	//---清楚空闲中断标志位
 	LL_USART_ClearFlag_IDLE(UARTx->msgUART);
 }
@@ -3619,18 +3660,22 @@ void UART_Read_DMA_IRQTask(UART_HandleType* UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void UART_Write_DMA_IRQTask(UART_HandleType* UARTx)
+void UART_DMA_Write_IRQTask(UART_HandleType* UARTx)
 {
 #ifdef USE_MCU_STM32F1
 	//---不使能DMA
 	LL_DMA_DisableChannel(UARTx->msgTxHandler.msgDMA, UARTx->msgTxHandler.msgDMAChannelOrStream;
 	LL_DMA_ClearFlag_GI1(UARTx->msgTxHandler.msgDMA);
 #else
+	//---不使能DMA传输结束中断
+	LL_DMA_DisableIT_TC(UARTx->msgTxdHandle.msgDMA, UARTx->msgTxdHandle.msgDMAChannelOrStream);
 	//---不使能DMA
 	LL_DMA_DisableStream(UARTx->msgTxdHandle.msgDMA, UARTx->msgTxdHandle.msgDMAChannelOrStream);
 #endif
 	//---清除标识
 	LL_DMA_ClearFlag(UARTx->msgTxdHandle.msgDMA, UARTx->msgTxdHandle.msgDMAChannelOrStream);
+	//---使能DMA传输结束中断
+	LL_DMA_EnableIT_TC(UARTx->msgTxdHandle.msgDMA, UARTx->msgTxdHandle.msgDMAChannelOrStream);
 	//---清零发送
 	//UART_Write_Init(UARTx);
 	//---使能发送完成中断，用于切换TXD端口为输入状态

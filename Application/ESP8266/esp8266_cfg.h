@@ -90,7 +90,7 @@ extern "C" {
 		UINT8_T					msgTaskStep;																			//---任务步序号，0---空闲，非0---其他任务									
 		ESP8266_WORK_MODE		msgWorkMode;																			//---工作状态，1---STA，2---AP，3---STA+AP
 		UINT16_T				msgIntervalTime;																		//---轮询时间间隔,单位是ms
-		UART_HandleType		*msgUART;																				//---使用的串口
+		UART_HandleType			*msgUART;																				//---使用的串口
 		UINT32_T				(*msgTimeTick)(void);																	//---时间节拍
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
@@ -103,7 +103,8 @@ extern "C" {
 	//===宏定义
 	#define ESP8266_BUFFER_BASE_SIZE				1024																//---定义缓存区的初始大小
 	#define ESP8266_BUFFER_MAX_SIZE					ESP8266_BUFFER_BASE_SIZE+1											//---缓存区大小多1字节，为了避免溢出问题
-	#define ESP8266_UART							pUart3																//---ESP8266使用的
+	#define ESP8266_COMM_UART						pUart3																//---ESP8266通信使用的UART
+	#define ESP8266_LOG_UART						pUart1																//---ESP8266打印LOG使用的UART
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////配置定义---结束///////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +126,7 @@ extern "C" {
 
 	//===函数定义
 	UINT8_T ESP8266_UART_Init(ESP8266_HandleType* ESP8266x, UINT32_T(*pFuncTimerTick)(void));
-	void	ESP8266_UART_LOG(ESP8266_HandleType* ESP8266x, char* fmt, ...);
+	void	ESP8266_UART_LOG(UART_HandleType* UARTx, char* fmt, ...);
 	UINT8_T ESP8266_UART_Write_WaitIdle(ESP8266_HandleType* ESP8266x);
 	UINT8_T ESP8266_UART_RST(ESP8266_HandleType* ESP8266x);
 	//////////////////////////////////////////////////////////////////////////////////////

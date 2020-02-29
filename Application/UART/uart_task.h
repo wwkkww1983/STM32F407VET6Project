@@ -57,8 +57,8 @@ extern "C" {
 	void	 UARTTask_PrintfLog(UART_HandleType* UARTx, char* fmt, va_list args);
 	void	 UARTTask_Printf(UART_HandleType* UARTx, char* fmt, ...);
 	void	 UARTTask_IRQTask(UART_HandleType* UARTx);
-	void	 UARTTask_Read_DMA_IRQTask(UART_HandleType* UARTx);
-	void	 UARTTask_Write_DMA_IRQTask(UART_HandleType* UARTx);
+	void	 UARTTask_DMA_Read_IRQTask(UART_HandleType* UARTx);
+	void	 UARTTask_DMA_Write_IRQTask(UART_HandleType* UARTx);
 	UINT8_T  UARTTask_FuncTask(UART_HandleType*UARTx, UINT8_T(*pFuncTask)(UINT8_T *, UINT8_T *));
 	UINT8_T  UARTTask_DebugPollFuncTask(UART_HandleType* UARTx, UINT8_T(*pFuncTask)(UINT8_T*, UINT8_T*));
 	UINT8_T  UARTTask_DebugFreqTask(UART_HandleType* UARTx, UINT8_T(*pFuncTask)(UINT8_T*, UINT8_T*));

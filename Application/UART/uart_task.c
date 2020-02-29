@@ -451,9 +451,9 @@ void UARTTask_IRQTask(UART_HandleType* UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void UARTTask_Read_DMA_IRQTask(UART_HandleType* UARTx)
+void UARTTask_DMA_Read_IRQTask(UART_HandleType* UARTx)
 {
-	UARTLib_Read_DMA_IRQTask(UARTx);
+	UARTLib_DMA_Read_IRQTask(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -463,9 +463,9 @@ void UARTTask_Read_DMA_IRQTask(UART_HandleType* UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void UARTTask_Write_DMA_IRQTask(UART_HandleType* UARTx)
+void UARTTask_DMA_Write_IRQTask(UART_HandleType* UARTx)
 {
-	UARTLib_Write_DMA_IRQTask(UARTx);
+	UARTLib_DMA_Write_IRQTask(UARTx);
 }
 
 UINT16_T UARTDebugCount=0;

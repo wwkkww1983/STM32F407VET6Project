@@ -321,7 +321,7 @@ void DMA2_Stream2_IRQHandler(void)
 	//if (LL_DMA_IsActiveFlag_TC2(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_2)))
 	if (LL_DMA_IsActiveIT_TC(DMA2, LL_DMA_STREAM_2))
 	{
-		UARTTask_Read_DMA_IRQTask(pUart1);
+		UARTTask_DMA_Read_IRQTask(pUart1);
 	}
 }
 
@@ -337,7 +337,7 @@ void DMA2_Stream7_IRQHandler(void)
 	//if (LL_DMA_IsActiveFlag_TC7(DMA2) && (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_STREAM_7)))
 	if (LL_DMA_IsActiveIT_TC(DMA2, LL_DMA_STREAM_7))
 	{
-		UARTTask_Write_DMA_IRQTask(pUart1);
+		UARTTask_DMA_Write_IRQTask(pUart1);
 	}
 }
 
@@ -353,7 +353,7 @@ void DMA1_Stream1_IRQHandler(void)
 	//if (LL_DMA_IsActiveFlag_TC1(DMA1) && (LL_DMA_IsEnabledIT_TC(DMA1, LL_DMA_STREAM_1)))
 	if (LL_DMA_IsActiveIT_TC(DMA1, LL_DMA_STREAM_1))
 	{
-		UARTTask_Read_DMA_IRQTask(pUart3);
+		UARTTask_DMA_Read_IRQTask(pUart3);
 	}
 }
 
@@ -369,7 +369,7 @@ void DMA1_Stream3_IRQHandler(void)
 	//if (LL_DMA_IsActiveFlag_TC3(DMA1) && (LL_DMA_IsEnabledIT_TC(DMA1, LL_DMA_STREAM_3)))
 	if (LL_DMA_IsActiveIT_TC(DMA1, LL_DMA_STREAM_3))
 	{
-		UARTTask_Write_DMA_IRQTask(pUart3);
+		UARTTask_DMA_Write_IRQTask(pUart3);
 	}
 }
 

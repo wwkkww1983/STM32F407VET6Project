@@ -120,7 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>d</Name>
+          <Name></Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -140,7 +140,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>JL2CM3</Key>
-          <Name>-U59404317 -O78 -S8 -ZTIFSpeedSel50000 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(4) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F4xx_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32F407VETx$CMSIS\Flash\STM32F4xx_512.FLM)</Name>
+          <Name>-U17935099 -O14 -S8 -ZTIFSpeedSel50000 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight JTAG-DP") -D00(4BA00477) -L00(4) -N01("Unknown JTAG device") -D01(06413041) -L01(5) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F4xx_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32F407VETx$CMSIS\Flash\STM32F4xx_512.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -152,9 +152,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>372</LineNumber>
+          <LineNumber>324</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134221618</Address>
+          <Address>134221734</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -163,23 +163,39 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\DriversEx\STM32F4xx\stm32f4xx_it.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\STM32F407VET6Project\../DriversEx/STM32F4xx/stm32f4xx_it.c\372</Expression>
+          <Expression>\\STM32F407VET6Project\../DriversEx/STM32F4xx/stm32f4xx_it.c\324</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>151</LineNumber>
+          <LineNumber>322</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134246252</Address>
+          <Address>134221724</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Application\APP\main.c</Filename>
+          <Filename>..\DriversEx\STM32F4xx\stm32f4xx_it.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\STM32F407VET6Project\../Application/APP/main.c\151</Expression>
+          <Expression>\\STM32F407VET6Project\../DriversEx/STM32F4xx/stm32f4xx_it.c\322</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>371</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\Application\ESP8266\esp8266_cfg.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -322,6 +338,18 @@
         <Entry>
           <Name>System Viewer\DMA1</Name>
           <WinId>35904</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\DMA2</Name>
+          <WinId>35903</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\GPIOA</Name>
+          <WinId>35901</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\GPIOB</Name>
+          <WinId>35902</WinId>
         </Entry>
         <Entry>
           <Name>System Viewer\USART1</Name>

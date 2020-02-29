@@ -113,16 +113,16 @@ UINT8_T ESP8266_UART_Device0_Init(ESP8266_HandleType* ESP8266x, UINT32_T(*pFuncT
 	//---调度时间是100ms
 	ESP8266x->msgIntervalTime=100;
 	//---使用的串口
-	ESP8266x->msgUART= ESP8266_UART;
+	ESP8266x->msgUART= ESP8266_COMM_UART;
 	//---初始化参数
 	UARTTask_Init(ESP8266x->msgUART, ESP8266_BUFFER_BASE_SIZE, g_ESP8266_RX_BUFFER, 0, ESP8266_BUFFER_BASE_SIZE, g_ESP8266_TX_BUFFER, 0, pFuncTimerTick);
-	UART_HandleType* UARTx=NULL;
-	UARTx =ESP8266x->msgUART;
-	//---配置收发为DMA模式
-	UARTx->msgTxdHandle.msgDMAMode =1;
-	UARTx->msgRxdHandle.msgDMAMode = 1;
-	//---初始化参数
-	UART_ConfigInit(ESP8266x->msgUART,UARTx);
+	//UART_HandleType* UARTx=NULL;
+	//UARTx =ESP8266x->msgUART;
+	////---配置收发为DMA模式
+	//UARTx->msgTxdHandle.msgDMAMode =1;
+	//UARTx->msgRxdHandle.msgDMAMode = 1;
+	////---初始化参数
+	//UART_ConfigInit(ESP8266x->msgUART,UARTx);
 	return OK_0;
 }
 
@@ -187,11 +187,11 @@ UINT8_T ESP8266_UART_Init(ESP8266_HandleType *ESP8266x,UINT32_T(*pFuncTimerTick)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void ESP8266_UART_LOG(ESP8266_HandleType* ESP8266x, char* fmt, ...)
+void ESP8266_UART_LOG(UART_HandleType* UARTx, char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	UARTTask_PrintfLog(ESP8266x->msgUART, fmt, args);
+	UARTTask_PrintfLog(UARTx, fmt, args);
 	va_end(args);
 }
 
@@ -368,7 +368,7 @@ UINT8_T ESP8266_UART_RESTORE(ESP8266_HandleType* ESP8266x)
 		//---清空缓存区
 		memset(ESP8266x->msgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
 		//---将指定的字符串追加在结尾
-		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal, ESP8266_AT_CMD_RESTORE);
+		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal,ESP8266_AT_CMD_RESTORE);
 		//---追加换行符
 		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal, "\r\n");
 		//---发送数据

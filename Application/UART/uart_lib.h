@@ -43,8 +43,8 @@ extern "C" {
 	void	 UARTLib_PrintfLog(UART_HandleType* UARTx, char* fmt, va_list args);
 	UINT8_T  UARTLib_IT_TCTask(UART_HandleType* UARTx);
 	void	 UARTLib_IRQTask(UART_HandleType* UARTx);
-	void	 UARTLib_Read_DMA_IRQTask(UART_HandleType* UARTx);
-	void	 UARTLib_Write_DMA_IRQTask(UART_HandleType* UARTx);
+	void	 UARTLib_DMA_Read_IRQTask(UART_HandleType* UARTx);
+	void	 UARTLib_DMA_Write_IRQTask(UART_HandleType* UARTx);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }
