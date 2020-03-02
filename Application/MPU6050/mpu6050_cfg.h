@@ -687,7 +687,7 @@ extern "C" {
 		Gyro_HandleType		msgGyro;																					//---陀螺仪
 		GPIO_HandleType		msgINT;																						//---中断引脚
 		I2C_HandleType		msgI2C;																						//---使用的I2C
-		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 

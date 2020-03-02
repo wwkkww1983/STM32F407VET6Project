@@ -69,10 +69,10 @@ extern "C" {
 #ifdef ISP_USE_lEVEL_SHIFT
 		GPIO_HandleType msgOE;																							//---电平转换使能控制端，0---使能；1---不使能
 #endif
-		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 		SPI_HandleType msgSPI;																							//---使用的SPI模式
 #ifdef ISP_USE_HV_RESET
-		void (*msgPortRst)(UINT8_T rstState);																			//---高压模式操作RST端口的函数
+		void (*pMsgPortRst)(UINT8_T rstState);																			//---高压模式操作RST端口的函数
 #endif
 	};
 

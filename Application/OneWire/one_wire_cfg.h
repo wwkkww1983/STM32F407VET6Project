@@ -19,7 +19,7 @@ extern "C" {
 	struct _OneWire_HandleType
 	{
 		GPIO_HandleType	msgDAT;																							//---端口号
-		void(*msgDelayus)(UINT32_T delay);																				//---延时函数
+		void(*pMsgDelayus)(UINT32_T delay);																				//---延时函数
 	};
 
 	//===函数定义

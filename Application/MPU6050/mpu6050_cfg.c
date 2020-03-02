@@ -13,20 +13,20 @@ pMPU6050_HandleType		pMpu6050Device0=&g_Mpu6050Device0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T MPU6050_I2C_Device0_Init(MPU6050_HandleType* MPU6050x)
 {
-	MPU6050x->msgI2C.msgI2Cx = NULL;
+	MPU6050x->msgI2C.pMsgI2Cx = NULL;
 	MPU6050x->msgI2C.msgSCL.msgPort = GPIOB;
 	MPU6050x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	MPU6050x->msgI2C.msgSDA.msgPort = GPIOB;
 	MPU6050x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	MPU6050x->msgI2C.msgHwMode = 0;
 	MPU6050x->msgI2C.msgPluseWidth = 0;
-	MPU6050x->msgI2C.msgDelayus = NULL;
+	MPU6050x->msgI2C.pMsgDelayus = NULL;
 	MPU6050x->msgI2C.msgAddr = MPU6050_WADDR;
 	MPU6050x->msgI2C.msgClockSpeed = 200000;
 	//---GPIO复用模式
 	MPU6050x->msgI2C.msgGPIOAlternate = LL_GPIO_AF_4;
 	//---硬件I2C是I2C1
-	MPU6050x->msgI2C.msgI2Cx = I2C1;
+	MPU6050x->msgI2C.pMsgI2Cx = I2C1;
 	return OK_0;
 }
 
@@ -84,7 +84,7 @@ UINT8_T MPU6050_I2C_Init(MPU6050_HandleType* MPU6050x, void(*pFuncDelayus)(UINT3
 	//---判断是硬件I2C还是软件I2C
 	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(MPU6050x->msgI2C), pFuncDelayus,pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(MPU6050x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---ms延时函数
-	MPU6050x->msgDelayms = ((pFuncDelayms!=NULL)? pFuncDelayms: DelayTask_ms);
+	MPU6050x->pMsgDelayms = ((pFuncDelayms!=NULL)? pFuncDelayms: DelayTask_ms);
 	//---基本配置
 	_return= MPU6050_I2C_ConfigInit(MPU6050x);
 	return _return;

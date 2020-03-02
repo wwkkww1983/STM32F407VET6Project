@@ -267,9 +267,9 @@ UINT8_T  UARTLib_RealTime_AddByte(UART_HandleType*UARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  UARTLib_RealTime_AddSize(UART_HandleType*UARTx, UINT16_T val)
+UINT8_T  UARTLib_RealTime_AddDataSize(UART_HandleType*UARTx, UINT16_T val)
 {
-	return UART_RealTime_AddSize(UARTx, val);
+	return UART_RealTime_AddDataSize(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -351,9 +351,9 @@ UINT8_T  UARTLib_FillMode_AddIndexW(UART_HandleType* UARTx, UINT16_T val)
 //////输出参数:
 //////说		明： 接收的数据进行处理，主要是校验信息
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T UARTLib_CRCTask_Read(UART_HandleType*UARTx)
+UINT8_T UARTLib_Read_CRCTask(UART_HandleType*UARTx)
 {
-	return UART_CRCTask_Read(UARTx);
+	return UART_Read_CRCTask(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -363,9 +363,9 @@ UINT8_T UARTLib_CRCTask_Read(UART_HandleType*UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T UARTLib_CRCTask_Write(UART_HandleType*UARTx)
+UINT8_T UARTLib_FillMode_WriteCRCTask(UART_HandleType*UARTx)
 {
-	return UART_CRCTask_Write(UARTx);
+	return UART_FillMode_WriteCRCTask(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

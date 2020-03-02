@@ -14,14 +14,14 @@ pBMP180_HandleType		pBmp180Device0 = &g_Bmp180Device0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T BMP180_I2C_Device0_Init(BMP180_HandleType* BMP180x)
 {
-	BMP180x->msgI2C.msgI2Cx = NULL;
+	BMP180x->msgI2C.pMsgI2Cx = NULL;
 	BMP180x->msgI2C.msgSCL.msgPort = GPIOB;
 	BMP180x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	BMP180x->msgI2C.msgSDA.msgPort = GPIOB;
 	BMP180x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	BMP180x->msgI2C.msgHwMode = 0;
 	BMP180x->msgI2C.msgPluseWidth = 0;
-	BMP180x->msgI2C.msgDelayus = NULL;
+	BMP180x->msgI2C.pMsgDelayus = NULL;
 	BMP180x->msgI2C.msgAddr = BMP180_WADDR;
 	BMP180x->msgI2C.msgClockSpeed = 100000;
 	return OK_0;
@@ -81,7 +81,7 @@ UINT8_T BMP180_I2C_Init(BMP180_HandleType* BMP180x, void(*pFuncDelayus)(UINT32_T
 	//---判断是硬件I2C还是软件I2C
 	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(BMP180x->msgI2C),pFuncDelayus, pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(BMP180x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---ms延时函数
-	BMP180x->msgDelayms = ((pFuncDelayms != NULL) ? pFuncDelayms : DelayTask_ms);
+	BMP180x->pMsgDelayms = ((pFuncDelayms != NULL) ? pFuncDelayms : DelayTask_ms);
 	//---配置初始化
 	return _return;
 }
@@ -475,7 +475,7 @@ UINT8_T BMP180_I2C_ReadDefaultTemp(BMP180_HandleType* BMP180x)
 	UINT8_T _return = OK_0;
 	UINT16_T tempID = 0;
 	_return = BMP180_I2C_WriteSingle(BMP180x, BMP180_REG_ADDR_CTRL_MEAS, 0x2E);
-	BMP180x->msgDelayms(5);
+	BMP180x->pMsgDelayms(5);
 	_return = BMP180_I2C_ReadSingle(BMP180x, BMP180_REG_ADDR_OUT_MSB,&tempID);
 	BMP180x->msgDefaultTemp=tempID;
 	return _return;
@@ -500,7 +500,7 @@ UINT8_T BMP180_I2C_ReadDefaultGasPress(BMP180_HandleType* BMP180x)
 	#elif  (BMP180_OSS==3)
 		BMP180x->msgDelayms(26);
 	#else
-		BMP180x->msgDelayms(5);
+		BMP180x->pMsgDelayms(5);
 	#endif
 	_return = BMP180_I2C_ReadSingle(BMP180x, BMP180_REG_ADDR_OUT_MSB,&tempID);
 	BMP180x->msgDefaultGasPress=tempID;

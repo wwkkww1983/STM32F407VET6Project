@@ -75,11 +75,11 @@ UINT8_T DS18B20_OneWire_Init(DS18B20_HandleType *DS18B20x, void(*pFuncDelayus)(U
 	}
 
 	//---注册延时函数
-	(pFuncDelayms!=NULL)?(DS18B20x->msgDelayms = pFuncDelayms):(DS18B20x->msgDelayms = DelayTask_ms);
+	(pFuncDelayms!=NULL)?(DS18B20x->pMsgDelayms = pFuncDelayms):(DS18B20x->pMsgDelayms = DelayTask_ms);
 	//---注册滴答函数
-	(pFuncTimerTick != NULL)?(DS18B20x->msgTimeTick = pFuncTimerTick):(DS18B20x->msgTimeTick = SysTickTask_GetTick);
+	(pFuncTimerTick != NULL)?(DS18B20x->pMsgTimeTick = pFuncTimerTick):(DS18B20x->pMsgTimeTick = SysTickTask_GetTick);
 	//---当前时间
-	DS18B20x->msgRecordTick = DS18B20x->msgTimeTick();
+	DS18B20x->msgRecordTick = DS18B20x->pMsgTimeTick();
 	//---配置基本参数
 	return DS18B20_OneWire_Config(DS18B20x,pFuncDelayus);
 	//return OneWireTask_Init(&(DS18B20x->msgOneWire), pFuncDelayus);
@@ -282,7 +282,7 @@ UINT16_T DS18B20_OneWire_StartConvert(DS18B20_HandleType* DS18B20x)
 //////////////////////////////////////////////////////////////////////////////
 UINT16_T DS18B20_OneWire_STATE(DS18B20_HandleType* DS18B20x)
 {
-	UINT32_T nowTime = DS18B20x->msgTimeTick();
+	UINT32_T nowTime = DS18B20x->pMsgTimeTick();
 	UINT32_T cnt = 0;
 	//---判断滴答定时是否发生溢出操作
 	if (DS18B20x->msgRecordTick > nowTime)
@@ -324,7 +324,7 @@ UINT16_T DS18B20_OneWire_ReadTemp(DS18B20_HandleType *DS18B20x)
 	//---读取数据之前首先设置为数据无效，避免其他设备使用
 	DS18B20x->msgPositive = 0;
 	//---延时等待
-	DS18B20x->msgDelayms(1);
+	DS18B20x->pMsgDelayms(1);
 	//---初始化温度传感器---总线复位
 	DS18B20_OneWire_START(DS18B20x);
 	//---跳过地址
@@ -395,7 +395,7 @@ UINT16_T DS18B20_OneWire_ReadTempByID(DS18B20_HandleType *DS18B20x, UINT8_T *pId
 	//---启动转换
 	DS18B20_OneWire_WriteByte(DS18B20x, 0x44);
 	//---延时等待
-	DS18B20x->msgDelayms(1);
+	DS18B20x->pMsgDelayms(1);
 	//---初始化温度传感器---总线复位
 	DS18B20_OneWire_START(DS18B20x);
 	//---忽略地址

@@ -10,17 +10,17 @@
 UINT8_T SPI_MHW_PollMode_Init(SPI_HandleType *SPIx, LL_SPI_InitTypeDef SPI_InitStruct)
 {
 	//---恢复当前配置为初始值
-	LL_SPI_DeInit(SPIx->msgSPIx);
+	LL_SPI_DeInit(SPIx->pMsgSPIx);
 	//---使能SPI的时钟线
 	SPI_Clock(SPIx, 1);
 	//---SPI初始化
-	LL_SPI_Init(SPIx->msgSPIx, &(SPI_InitStruct));
+	LL_SPI_Init(SPIx->pMsgSPIx, &(SPI_InitStruct));
 	#ifndef USE_MCU_STM32F1
 		//---SPI1的标准协议的支持
-		LL_SPI_SetStandard(SPIx->msgSPIx, SPIx->msgStandard);
+		LL_SPI_SetStandard(SPIx->pMsgSPIx, SPIx->msgStandard);
 	#endif
 	//---使能SPI
-	LL_SPI_Enable(SPIx->msgSPIx);
+	LL_SPI_Enable(SPIx->pMsgSPIx);
 	return OK_0;
 }
 
@@ -33,7 +33,7 @@ UINT8_T SPI_MHW_PollMode_Init(SPI_HandleType *SPIx, LL_SPI_InitTypeDef SPI_InitS
 //////////////////////////////////////////////////////////////////////////////
 void SPI_MHW_SetTransferBitOrder(SPI_HandleType *SPIx, UINT32_T BitOrder)
 {
-	LL_SPI_SetTransferBitOrder(SPIx->msgSPIx, BitOrder);
+	LL_SPI_SetTransferBitOrder(SPIx->pMsgSPIx, BitOrder);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -199,10 +199,10 @@ UINT8_T SPI_GPIO_DeInit(SPI_HandleType *SPIx,UINT8_T isInitSS)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SPI_DeInit(SPI_HandleType *SPIx, UINT8_T isInitSS)
 {
-	if (SPIx->msgSPIx != NULL)
+	if (SPIx->pMsgSPIx != NULL)
 	{
 		//---恢复当前配置为初始值
-		LL_SPI_DeInit(SPIx->msgSPIx);
+		LL_SPI_DeInit(SPIx->pMsgSPIx);
 		//---不使能SPI的时钟线
 		SPI_Clock(SPIx, 0);
 	}
@@ -220,7 +220,7 @@ UINT8_T SPI_Clock(SPI_HandleType *SPIx, UINT8_T isEnable)
 {
 	#ifdef SPI1
 	//---选择SPI接口
-	if (SPIx->msgSPIx == SPI1)
+	if (SPIx->pMsgSPIx == SPI1)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -248,7 +248,7 @@ UINT8_T SPI_Clock(SPI_HandleType *SPIx, UINT8_T isEnable)
 	}
 	#endif
 	#ifdef SPI2
-	if (SPIx->msgSPIx == SPI2)
+	if (SPIx->pMsgSPIx == SPI2)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -276,7 +276,7 @@ UINT8_T SPI_Clock(SPI_HandleType *SPIx, UINT8_T isEnable)
 	}
 	#endif
 	#ifdef SPI3
-	if (SPIx->msgSPIx == SPI3)
+	if (SPIx->pMsgSPIx == SPI3)
 	{
 		if (isEnable == PERIPHERAL_CLOCK_DISABLE)
 		{
@@ -406,25 +406,25 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandleType *SPIx, UINT8_T wVal, UI
 	//---收发完成标志位
 	UINT8_T _return = 2;
 	//---获取当前时间节拍
-	oldTime = ((SPIx->msgTimeTick != NULL)?SPIx->msgTimeTick():0);
+	oldTime = ((SPIx->pMsgTimeTick != NULL)?SPIx->pMsgTimeTick():0);
 	//---切换工作状态为工作模式
 	SPIx->msgState = 1;
 	//---数据收发
 	while (1)
 	{
 		//---等待发送缓冲区为空，TXE 事件---TXE=1，开始发送下一个数据
-		if ((_return==2)&&(LL_SPI_IsActiveFlag_TXE(SPIx->msgSPIx)))
+		if ((_return==2)&&(LL_SPI_IsActiveFlag_TXE(SPIx->pMsgSPIx)))
 		{
 			//---写入数据寄存器，把要写入的数据写入发送缓冲区
-			LL_SPI_TransmitData8(SPIx->msgSPIx, wVal);
+			LL_SPI_TransmitData8(SPIx->pMsgSPIx, wVal);
 			//---1
 			_return = 1;
 		}
 		//---等待接收缓冲区非空，RXNE 事件---等待RXNE=1，读取收到的数据
-		if (LL_SPI_IsActiveFlag_RXNE(SPIx->msgSPIx))
+		if (LL_SPI_IsActiveFlag_RXNE(SPIx->pMsgSPIx))
 		{
 			//---读取数据寄存器，获取接收缓冲区数据
-			_return = LL_SPI_ReceiveData8(SPIx->msgSPIx);
+			_return = LL_SPI_ReceiveData8(SPIx->pMsgSPIx);
 			//---判断数据缓存区是否为空
 			if (pRVal!=NULL)
 			{
@@ -434,10 +434,10 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadByte(SPI_HandleType *SPIx, UINT8_T wVal, UI
 			_return =0;
 		}
 		//---超时判断
-		if (SPIx->msgTimeTick != NULL)
+		if (SPIx->pMsgTimeTick != NULL)
 		{
 			//---当前时间
-			nowTime = SPIx->msgTimeTick();
+			nowTime = SPIx->pMsgTimeTick();
 			//---判断滴答定时是否发生溢出操作
 			if (nowTime < oldTime)
 			{
@@ -492,7 +492,7 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandleType *SPIx, UINT8_T *pWVal, 
 	//---收发完成标志位
 	UINT8_T txAllowed = 1;
 	//---获取当前时间节拍
-	oldTime = ((SPIx->msgTimeTick != NULL) ? SPIx->msgTimeTick() : 0);
+	oldTime = ((SPIx->pMsgTimeTick != NULL) ? SPIx->pMsgTimeTick() : 0);
 	nowTime = 0;
 	//---切换工作状态为工作模式
 	SPIx->msgState=1;
@@ -500,18 +500,18 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandleType *SPIx, UINT8_T *pWVal, 
 	while (1)
 	{
 		//---等待发送缓冲区为空，TXE 事件---TXE=1，开始发送下一个数据
-		if ((txAllowed == 1) && (LL_SPI_IsActiveFlag_TXE(SPIx->msgSPIx)))
+		if ((txAllowed == 1) && (LL_SPI_IsActiveFlag_TXE(SPIx->pMsgSPIx)))
 		{
 			//---写入数据寄存器，把要写入的数据写入发送缓冲区
-			LL_SPI_TransmitData8(SPIx->msgSPIx, pWVal[i]);
+			LL_SPI_TransmitData8(SPIx->pMsgSPIx, pWVal[i]);
 			//---接收
 			txAllowed = 0;
 		}
 		//---等待接收缓冲区非空，RXNE 事件---等待RXNE=1，读取收到的数据
-		if ((txAllowed==0)&&(LL_SPI_IsActiveFlag_RXNE(SPIx->msgSPIx)))
+		if ((txAllowed==0)&&(LL_SPI_IsActiveFlag_RXNE(SPIx->pMsgSPIx)))
 		{
 			//---读取数据寄存器，获取接收缓冲区数据
-			_return = LL_SPI_ReceiveData8(SPIx->msgSPIx);
+			_return = LL_SPI_ReceiveData8(SPIx->pMsgSPIx);
 			//---判断数据缓存区是否为空
 			if (pRVal != NULL)
 			{
@@ -524,10 +524,10 @@ UINT8_T SPI_MHW_PollMode_WriteAndReadData(SPI_HandleType *SPIx, UINT8_T *pWVal, 
 			i++;
 		}
 		//---超时判断
-		if (SPIx->msgTimeTick != NULL)
+		if (SPIx->pMsgTimeTick != NULL)
 		{
 			//---当前时间
-			nowTime = SPIx->msgTimeTick();
+			nowTime = SPIx->pMsgTimeTick();
 			//---判断滴答定时是否发生溢出操作
 			if (nowTime < oldTime)
 			{
@@ -626,22 +626,22 @@ UINT8_T SPI_MSW_WriteAndReadBitMSB(SPI_HandleType *SPIx, UINT8_T wVal, UINT8_T *
 	if (((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 0)) || ((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 1)))
 	{
 		GPIO_OUT_0(SPIx->msgSCK.msgPort, SPIx->msgSCK.msgBit);
-		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		SPIx->pMsgDelayus(SPIx->msgPluseWidth);
 		DELAY_NOP_COUNT(4);
 		SPI_MSW_BitMSB(SPIx, wVal, pRVal);
 		GPIO_OUT_1(SPIx->msgSCK.msgPort, SPIx->msgSCK.msgBit);
-		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		SPIx->pMsgDelayus(SPIx->msgPluseWidth);
 	}
 	//---10---01
 	//if (((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 0))|| ((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 1)))
 	else
 	{
 		GPIO_OUT_1(SPIx->msgSCK.msgPort, SPIx->msgSCK.msgBit);
-		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		SPIx->pMsgDelayus(SPIx->msgPluseWidth);
 		DELAY_NOP_COUNT(4);
 		SPI_MSW_BitMSB(SPIx, wVal, pRVal);
 		GPIO_OUT_0(SPIx->msgSCK.msgPort, SPIx->msgSCK.msgBit);
-		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		SPIx->pMsgDelayus(SPIx->msgPluseWidth);
 	}
 	return OK_0;
 }
@@ -709,22 +709,22 @@ UINT8_T SPI_MSW_WriteAndReadBitLSB(SPI_HandleType *SPIx, UINT8_T wVal, UINT8_T *
 	if (((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 0)) || ((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 1)))
 	{
 		GPIO_OUT_0(SPIx->msgSCK.msgPort, SPIx->msgSCK.msgBit);
-		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		SPIx->pMsgDelayus(SPIx->msgPluseWidth);
 		DELAY_NOP_COUNT(4);
 		SPI_MSW_BitLSB(SPIx, wVal, pRVal);
 		GPIO_OUT_1(SPIx->msgSCK.msgPort, SPIx->msgSCK.msgBit);
-		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		SPIx->pMsgDelayus(SPIx->msgPluseWidth);
 	}
 	//---10---01
 	//if (((SPIx->msgCPOL == 1) && (SPIx->msgCPOH == 0))|| ((SPIx->msgCPOL == 0) && (SPIx->msgCPOH == 1)))
 	else
 	{
 		GPIO_OUT_1(SPIx->msgSCK.msgPort, SPIx->msgSCK.msgBit);
-		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		SPIx->pMsgDelayus(SPIx->msgPluseWidth);
 		DELAY_NOP_COUNT(4);
 		SPI_MSW_BitLSB(SPIx, wVal, pRVal);
 		GPIO_OUT_0(SPIx->msgSCK.msgPort, SPIx->msgSCK.msgBit);
-		SPIx->msgDelayus(SPIx->msgPluseWidth);
+		SPIx->pMsgDelayus(SPIx->msgPluseWidth);
 	}
 	return OK_0;
 }
@@ -751,7 +751,7 @@ UINT8_T SPI_MSW_SetClock(SPI_HandleType *SPIx, UINT32_T clock)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SPI_MHW_SetClock(SPI_HandleType *SPIx, UINT32_T clock)
 {
-	LL_SPI_SetBaudRatePrescaler(SPIx->msgSPIx, clock);
+	LL_SPI_SetBaudRatePrescaler(SPIx->pMsgSPIx, clock);
 	return OK_0;
 }
 
@@ -886,18 +886,18 @@ void  SPI_IRQ8BitTask(SPI_HandleType* SPIx)
 	//---切换工作状态为工作模式
 	SPIx->msgState = 1;
 	//---等待发送缓冲区为空，TXE 事件---TXE=1，开始发送下一个数据
-	if ((txAllowed == 1) && (LL_SPI_IsActiveFlag_TXE(SPIx->msgSPIx))&&(LL_SPI_IsEnabledIT_TXE(SPIx->msgSPIx)))
+	if ((txAllowed == 1) && (LL_SPI_IsActiveFlag_TXE(SPIx->pMsgSPIx))&&(LL_SPI_IsEnabledIT_TXE(SPIx->pMsgSPIx)))
 	{
 		//---写入数据寄存器，把要写入的数据写入发送缓冲区
-		LL_SPI_TransmitData8(SPIx->msgSPIx, SPIx->msg8BitTxPtr[i]);
+		LL_SPI_TransmitData8(SPIx->pMsgSPIx, SPIx->pMsg8BitTxVal[i]);
 		//---切换为接收
 		txAllowed = 0;
 	}
 	//---等待接收缓冲区非空，RXNE 事件---等待RXNE=1，读取收到的数据
-	if ((txAllowed == 0) && (LL_SPI_IsActiveFlag_RXNE(SPIx->msgSPIx)) && (LL_SPI_IsEnabledIT_RXNE(SPIx->msgSPIx)))
+	if ((txAllowed == 0) && (LL_SPI_IsActiveFlag_RXNE(SPIx->pMsgSPIx)) && (LL_SPI_IsEnabledIT_RXNE(SPIx->pMsgSPIx)))
 	{
 		//---读取数据寄存器，获取接收缓冲区数据
-		SPIx->msg8BitRxPtr[i] = LL_SPI_ReceiveData8(SPIx->msgSPIx);
+		SPIx->pMsg8BitRxVal[i] = LL_SPI_ReceiveData8(SPIx->pMsgSPIx);
 		//---切换为发送
 		txAllowed = 1;
 		//---下一个数据
@@ -928,18 +928,18 @@ void  SPI_IRQ16BitTask(SPI_HandleType* SPIx)
 	//---切换工作状态为工作模式
 	SPIx->msgState = 1;
 	//---等待发送缓冲区为空，TXE 事件---TXE=1，开始发送下一个数据
-	if ((txAllowed == 1) && (LL_SPI_IsActiveFlag_TXE(SPIx->msgSPIx)) && (LL_SPI_IsEnabledIT_TXE(SPIx->msgSPIx)))
+	if ((txAllowed == 1) && (LL_SPI_IsActiveFlag_TXE(SPIx->pMsgSPIx)) && (LL_SPI_IsEnabledIT_TXE(SPIx->pMsgSPIx)))
 	{
 		//---写入数据寄存器，把要写入的数据写入发送缓冲区
-		LL_SPI_TransmitData16(SPIx->msgSPIx, SPIx->msg16BitTxPtr[i]);
+		LL_SPI_TransmitData16(SPIx->pMsgSPIx, SPIx->pMsg16BitTxVal[i]);
 		//---切换为接收
 		txAllowed = 0;
 	}
 	//---等待接收缓冲区非空，RXNE 事件---等待RXNE=1，读取收到的数据
-	if ((txAllowed == 0) && (LL_SPI_IsActiveFlag_RXNE(SPIx->msgSPIx)) && (LL_SPI_IsEnabledIT_RXNE(SPIx->msgSPIx)))
+	if ((txAllowed == 0) && (LL_SPI_IsActiveFlag_RXNE(SPIx->pMsgSPIx)) && (LL_SPI_IsEnabledIT_RXNE(SPIx->pMsgSPIx)))
 	{
 		//---读取数据寄存器，获取接收缓冲区数据
-		SPIx->msg16BitRxPtr[i] = LL_SPI_ReceiveData16(SPIx->msgSPIx);
+		SPIx->pMsg16BitRxVal[i] = LL_SPI_ReceiveData16(SPIx->pMsgSPIx);
 		//---切换为发送
 		txAllowed = 1;
 		//---下一个数据

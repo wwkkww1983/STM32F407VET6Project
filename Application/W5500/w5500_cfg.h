@@ -19,7 +19,7 @@ extern "C" {
 		SPI_HandleType		msgSPI;																						//---使用的SPI模式
 		GPIO_HandleType		msgHWRST;																					//---硬件复位信号
 		GPIO_HandleType		msgHWINT;																					//---硬件中断信号
-		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

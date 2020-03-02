@@ -46,9 +46,9 @@ extern "C" {
 		UINT32_T			msgHumiX1000;																				//---湿度
 		UINT32_T			msgRecordTick;																				//---记录的时间参数
 		GPIO_HandleType		msgDAT;																						//---端口
-		void(*msgDelayus)(UINT32_T delay);																				//---us延时函数
-		void(*msgDelayms)(UINT32_T delay);																				//---ms延时函数
-		UINT32_T(*msgTimeTick)(void);																					//---用于超时计数
+		void(*pMsgDelayus)(UINT32_T delay);																				//---us延时函数
+		void(*pMsgDelayms)(UINT32_T delay);																				//---ms延时函数
+		UINT32_T(*pMsgTimeTick)(void);																					//---用于超时计数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 

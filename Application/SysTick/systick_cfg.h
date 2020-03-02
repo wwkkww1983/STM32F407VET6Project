@@ -23,7 +23,7 @@ extern "C" {
 		VLTUINT32_T				msgIncTick;																				//---递加计数器
 		VLTUINT32_T				msgDecTick;																				//---递减计数器
 		VLTUINT32_T				msgIncTickOVF;																			//---递加计数器溢出
-		void(*msgTickTask[SYSTICK_FUNC_TASK_MAX_NUM])(void);															//---函数指针数组
+		void(*pMsgTickTask[SYSTICK_FUNC_TASK_MAX_NUM])(void);															//---函数指针数组
 	};
 
 	//===外部调用接口

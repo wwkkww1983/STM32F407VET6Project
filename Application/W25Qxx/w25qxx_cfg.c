@@ -57,7 +57,7 @@ UINT8_T W25QXX_SPI_Device0_Init(W25QXX_HandleType *W25Qx)
 	W25Qx->msgSPI.msgGPIOAlternate = LL_GPIO_AF_5;
 #endif
 	//---SPI序号
-	W25Qx->msgSPI.msgSPIx = SPI1;
+	W25Qx->msgSPI.pMsgSPIx = SPI1;
 #ifndef USE_MCU_STM32F1
 	//---SPI的协议
 	W25Qx->msgSPI.msgStandard = LL_SPI_PROTOCOL_MOTOROLA;
@@ -230,11 +230,11 @@ UINT8_T W25QXX_SPI_Init(W25QXX_HandleType *W25Qx, void(*pFuncDelayus)(UINT32_T d
 		W25QXX_SEND_CMD = W25QXX_SPI_SW_SendCmd;
 	}
 	//---注册ms延时时间
-	(pFuncDelayms != NULL)?(W25Qx->msgDelayms = pFuncDelayms):(W25Qx->msgDelayms = DelayTask_ms);
+	(pFuncDelayms != NULL)?(W25Qx->pMsgDelayms = pFuncDelayms):(W25Qx->pMsgDelayms = DelayTask_ms);
 	//---注册us延时函数
-	(pFuncDelayus != NULL)?(W25Qx->msgSPI.msgDelayus = pFuncDelayus):(W25Qx->msgSPI.msgDelayus = DelayTask_us);
+	(pFuncDelayus != NULL)?(W25Qx->msgSPI.pMsgDelayus = pFuncDelayus):(W25Qx->msgSPI.pMsgDelayus = DelayTask_us);
 	//---注册滴答函数
-	(pFuncTimerTick != NULL)?(W25Qx->msgSPI.msgTimeTick = pFuncTimerTick):(W25Qx->msgSPI.msgTimeTick = SysTickTask_GetTick);
+	(pFuncTimerTick != NULL)?(W25Qx->msgSPI.pMsgTimeTick = pFuncTimerTick):(W25Qx->msgSPI.pMsgTimeTick = SysTickTask_GetTick);
 #ifdef WM25QXX_SPI_USE_HWWP
 	if (W25Qx->msgWP.msgPort != NULL)
 	{
@@ -581,15 +581,15 @@ UINT8_T W25QXX_SPI_WaitBusy(W25QXX_HandleType *W25Qx,UINT32_T timeOut, UINT8_T i
 	UINT32_T oldTime = 0;
 	UINT64_T cnt = 0;
 	//---获取当前时间节拍
-	oldTime =((W25Qx->msgSPI.msgTimeTick != NULL)? W25Qx->msgSPI.msgTimeTick():0);
+	oldTime =((W25Qx->msgSPI.pMsgTimeTick != NULL)? W25Qx->msgSPI.pMsgTimeTick():0);
 	//---等待BUSY位清空
 	while ((_return & 0x01) == 0x01)
 	{
 		_return = W25QXX_SPI_ReadRegSR1(W25Qx,0);
-		if (W25Qx->msgSPI.msgTimeTick != NULL)
+		if (W25Qx->msgSPI.pMsgTimeTick != NULL)
 		{
 			//---当前时间
-			nowTime = W25Qx->msgSPI.msgTimeTick();
+			nowTime = W25Qx->msgSPI.pMsgTimeTick();
 			//---判断滴答定时是否发生溢出操作
 			if (nowTime < oldTime)
 			{
@@ -1030,7 +1030,7 @@ void W25QXX_SPI_PowerDown(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 	W25QXX_SEND_CMD(W25Qx, W25QXX_CMD_POWER_DOWN, NULL);
 	GPIO_OUT_1(W25Qx->msgSPI.msgCS.msgPort, W25Qx->msgSPI.msgCS.msgBit);
 	//---TDP
-	W25Qx->msgSPI.msgDelayus(3);
+	W25Qx->msgSPI.pMsgDelayus(3);
 	//---自适应软件和硬件时序结束
 	if (isAutoInit)
 	{
@@ -1057,7 +1057,7 @@ void W25QXX_SPI_WakeUp(W25QXX_HandleType *W25Qx, UINT8_T isAutoInit)
 	W25QXX_SEND_CMD(W25Qx, W25QXX_CMD_RELEASE_POWER_DOWN, NULL);
 	GPIO_OUT_1(W25Qx->msgSPI.msgCS.msgPort, W25Qx->msgSPI.msgCS.msgBit);
 	//---TRES1
-	W25Qx->msgSPI.msgDelayus(3);
+	W25Qx->msgSPI.pMsgDelayus(3);
 	//---自适应软件和硬件时序结束
 	if (isAutoInit)
 	{

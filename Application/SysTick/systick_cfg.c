@@ -50,11 +50,12 @@ UINT8_T SysTick_StructInit(SysTick_HandleType *sysTickx)
 	sysTickx->msgIncTick = 0;
 	sysTickx->msgDecTick = 0;
 	sysTickx->msgIncTickOVF = 0;
+	//---归零所有任务
 	for (i=0;i< SYSTICK_FUNC_TASK_MAX_NUM;i++)
 	{
 		sysTickx->msgTickTaskFlag[i] = 0;
 		sysTickx->msgTickTaskValid[i] = 0;
-		sysTickx->msgTickTask[i] = NULL;
+		sysTickx->pMsgTickTask[i] = NULL;
 	}
 	return OK_0;
 }
@@ -119,7 +120,7 @@ UINT8_T SysTick_CreateTickTask(void(*pFuncTick)(void))
 		for (_return = 0; _return < SYSTICK_FUNC_TASK_MAX_NUM; _return++)
 		{
 			//---检查事件是否已经注册过了,避免重复注册
-			if ((pSysTick->msgTickTask[_return]!=NULL)&&(pSysTick->msgTickTask[_return] == pFuncTick))
+			if ((pSysTick->pMsgTickTask[_return]!=NULL)&&(pSysTick->pMsgTickTask[_return] == pFuncTick))
 			{
 				pSysTick->msgTickTaskFlag[_return] = 1;
 				//---事件已经注册过，退出循环
@@ -131,7 +132,7 @@ UINT8_T SysTick_CreateTickTask(void(*pFuncTick)(void))
 				//---等待抵达滴答定时器归零,这里是做的冗余，避免数据数据不归零
 				((SysTick->VAL)>100)?(pSysTick->msgTickTaskValid[_return]=1): (pSysTick->msgTickTaskValid[_return] = 0);
 				//---注册滴答任务函数
-				pSysTick->msgTickTask[_return] = pFuncTick;
+				pSysTick->pMsgTickTask[_return] = pFuncTick;
 				pSysTick->msgTickTaskFlag[_return] = 1;
 				//---滴答任务的增加
 				if (pSysTick->msgTickTaskCount<0xFF)
@@ -163,9 +164,9 @@ UINT8_T SysTick_DeleteTickTask(void(*pFuncTick)(void))
 		for (_return =0; _return < SYSTICK_FUNC_TASK_MAX_NUM; _return++)
 		{
 			//---检查要注销的事件是否存在
-			if ((pSysTick->msgTickTask[_return] != NULL)&&(pSysTick->msgTickTask[_return] == pFuncTick))
+			if ((pSysTick->pMsgTickTask[_return] != NULL)&&(pSysTick->pMsgTickTask[_return] == pFuncTick))
 			{
-				pSysTick->msgTickTask[_return] = NULL;
+				pSysTick->pMsgTickTask[_return] = NULL;
 				pSysTick->msgTickTaskFlag[_return] = 0;
 				//---滴答任务的减少
 				if (pSysTick->msgTickTaskCount>0)
@@ -196,7 +197,7 @@ void SysTick_PollTickTask(void)
 	{
 		if (pSysTick->msgTickTaskFlag[index] !=0)
 		{
-			if (pSysTick->msgTickTask[index] != NULL)
+			if (pSysTick->pMsgTickTask[index] != NULL)
 			{
 				//---第一次不归零，任务有效标识递增
 				if (pSysTick->msgTickTaskValid[index]==1)
@@ -210,12 +211,12 @@ void SysTick_PollTickTask(void)
 					//---清零任务标识有效
 					pSysTick->msgTickTaskValid[index]=0;
 					//---任务执行
-					pSysTick->msgTickTask[index]();
+					pSysTick->pMsgTickTask[index]();
 				}
 				//---任务标识有效，开始任务执行
 				else
 				{
-					pSysTick->msgTickTask[index]();
+					pSysTick->pMsgTickTask[index]();
 				}
 			}
 		}
@@ -234,7 +235,7 @@ void *SysTick_GetTickTask(UINT8_T index)
 	{
 		return NULL;
 	}
-	return (void *)pSysTick->msgTickTask[index];
+	return (void *)pSysTick->pMsgTickTask[index];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -325,6 +326,7 @@ UINT32_T SysTick_GetTick(void)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SysTick_IRQTask(void)
 {
+	//--->>>递加计数器，主要用于节拍---开始
 	//---递加计数
 	pSysTick->msgIncTick++;
 	//---判断是否溢出
@@ -332,26 +334,18 @@ UINT8_T SysTick_IRQTask(void)
 	{
 		pSysTick->msgIncTickOVF++;
 	}
-	/*
-	//---任务函数
-	if (pSysTick->msgFuncTick != NULL)
-	{
-		pSysTick->msgFuncTick();
-	}
-
-	//---hal延时函数
-	if (pSysTick->msgHalIncTick != NULL)
-	{
-		pSysTick->msgHalIncTick();
-	}
-	*/
-	//---轮询执行任务函数
-	SysTick_PollTickTask();
+	//---<<<递加计数器，主要用于节拍---结束
+	//--->>>递减计数器，主要用于ms延时---开始
 	//---递减计数
 	if (pSysTick->msgDecTick != 0)
 	{
 		pSysTick->msgDecTick--;
 	}
+	//---<<<递减计数器，主要用于ms延时---结束
+	//--->>>滴答任务调度，主要用于简单的任务切换---开始
+	//---轮询执行任务函数
+	SysTick_PollTickTask();
+	//---<<<滴答任务调度，主要用于简单的任务切换---结束
 	return OK_0;
 }
 

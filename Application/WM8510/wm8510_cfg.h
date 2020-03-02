@@ -464,7 +464,7 @@ extern "C" {
 		UINT32_T			msgFreqKHz;																					//---输出的频率KHz
 		float				msgPllRate;																					//---pll的比值
 	#ifdef WM8510_USE_lEVEL_SHIFT
-		GPIO_HandleType	msgOE;																						//---OE使用的端口，用于控制电平装换的开关
+		GPIO_HandleType		msgOE;																						//---OE使用的端口，用于控制电平装换的开关
 	#endif
 		I2C_HandleType msgI2C;																							//---使用的I2C设备
 	};

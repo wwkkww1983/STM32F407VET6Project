@@ -92,7 +92,7 @@ UINT8_T Task_Manage(void)
 	if (UARTTask_GetState(&(pUart1->msgRxdHandle)) == 1)
 	{
 		//---CRC的校验和设备ID校验
-		if ((UARTTask_CRCTask_Read(pUart1) == OK_0) && (UARTTask_DeviceID(pUart1) == OK_0))
+		if ((UARTTask_Read_CRCTask(pUart1) == OK_0) && (UARTTask_DeviceID(pUart1) == OK_0))
 		{
 			if ((pUart1->msgRxdHandle.pMsgVal[pUart1->msgCmdIndex + pUart1->msgIndexOffset]>= CMD_ISP_BASE_CMD)&&
 				(pUart1->msgRxdHandle.pMsgVal[pUart1->msgCmdIndex + pUart1->msgIndexOffset] <=CMD_ISP_END_CMD))
@@ -118,5 +118,5 @@ UINT8_T Task_Manage(void)
 		}
 		return UARTTask_Read_Init(pUart1);
 	}
-	return UARTTask_TimeTask_OverFlow(pUart1);
+	return UARTTask_TimeTask_OverFlow(pUart1,1);
 }

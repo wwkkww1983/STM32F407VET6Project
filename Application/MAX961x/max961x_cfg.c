@@ -13,14 +13,14 @@ pMAX961X_HandleType	pMax961xDevice0 = &g_Max961xDevice0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T MAX961X_I2C_Device0_Init(MAX961X_HandleType* MAX961x)
 {
-	MAX961x->msgI2C.msgI2Cx = NULL;
+	MAX961x->msgI2C.pMsgI2Cx = NULL;
 	MAX961x->msgI2C.msgSCL.msgPort = GPIOB;
 	MAX961x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	MAX961x->msgI2C.msgSDA.msgPort = GPIOB;
 	MAX961x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	MAX961x->msgI2C.msgHwMode = 0;
 	MAX961x->msgI2C.msgPluseWidth = 2;
-	MAX961x->msgI2C.msgDelayus = NULL;
+	MAX961x->msgI2C.pMsgDelayus = NULL;
 	MAX961x->msgI2C.msgAddr = MAX961X_WADDR;
 	MAX961x->msgI2C.msgClockSpeed = 200000;
 	return OK_0;

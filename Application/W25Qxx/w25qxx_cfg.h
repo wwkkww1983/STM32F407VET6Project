@@ -113,7 +113,7 @@ extern "C" {
 #ifdef WM25QXX_SPI_USE_HWWP
 		GPIO_HandleType msgWP;																							//---写保护控制端口，0---写保护使能；1---写保护不使能
 #endif
-		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 		SPI_HandleType msgSPI;																							//---使用的SPI模式
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 

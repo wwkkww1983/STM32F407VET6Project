@@ -13,14 +13,14 @@ pAHT10_HandleType		pAht10Device0=&g_Aht10Device0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T AHT10_I2C_Device0_Init(AHT10_HandleType* AHT10x)
 {
-	AHT10x->msgI2C.msgI2Cx = NULL;
+	AHT10x->msgI2C.pMsgI2Cx = NULL;
 	AHT10x->msgI2C.msgSCL.msgPort = GPIOB;
 	AHT10x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	AHT10x->msgI2C.msgSDA.msgPort = GPIOB;
 	AHT10x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	AHT10x->msgI2C.msgHwMode = 0;
 	AHT10x->msgI2C.msgPluseWidth = 0;
-	AHT10x->msgI2C.msgDelayus = NULL;
+	AHT10x->msgI2C.pMsgDelayus = NULL;
 	AHT10x->msgI2C.msgAddr = AHT10_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
 	AHT10x->msgI2C.msgClockSpeed = 200000;
 	//---每次读取的间隔时间,76ms，建议采集周期是760ms
@@ -102,7 +102,7 @@ UINT8_T AHT10_I2C_Init(AHT10_HandleType* AHT10x, void(*pFuncDelayus)(UINT32_T de
 	//---配置设备
 	_return = AHT10_I2C_Config(AHT10x);
 	//---当前时间
-	AHT10x->msgRecordTick = AHT10x->msgI2C.msgTimeTick();
+	AHT10x->msgRecordTick = AHT10x->msgI2C.pMsgTimeTick();
 	return _return;
 }
 
@@ -330,7 +330,7 @@ UINT8_T AHT10_I2C_StartMeasure(AHT10_HandleType* AHT10x)
 	//---发送测量命令
 	UINT8_T _return=AHT10_I2C_WriteBulk(AHT10x, tempCMD, 3);
 	//---获取时间街拍
-	AHT10x->msgRecordTick= AHT10x->msgI2C.msgTimeTick();
+	AHT10x->msgRecordTick= AHT10x->msgI2C.pMsgTimeTick();
 	return _return;
 }
 
@@ -344,7 +344,7 @@ UINT8_T AHT10_I2C_StartMeasure(AHT10_HandleType* AHT10x)
 UINT8_T AHT10_I2C_STATE(AHT10_HandleType* AHT10x)
 {	
 	//---当前时间节点
-	UINT32_T nowTime = AHT10x->msgI2C.msgTimeTick();
+	UINT32_T nowTime = AHT10x->msgI2C.pMsgTimeTick();
 	UINT32_T cnt = 0;
 	//---判断滴答定时是否发生溢出操作
 	if (AHT10x->msgRecordTick > nowTime)

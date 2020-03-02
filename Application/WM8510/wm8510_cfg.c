@@ -72,7 +72,7 @@ void WM8510_I2C_ParamsInit(WM8510_HandleType *WM8510x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T WM8510_I2C_Device0_Init(WM8510_HandleType *WM8510x)
 {
-	WM8510x->msgI2C.msgI2Cx = NULL;
+	WM8510x->msgI2C.pMsgI2Cx = NULL;
 	#ifdef WM8510_USE_HV_RESET
 		WM8510x->msgI2C.msgSCL.msgPort = GPIOB;
 		WM8510x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
@@ -86,7 +86,7 @@ UINT8_T WM8510_I2C_Device0_Init(WM8510_HandleType *WM8510x)
 	#endif
 	WM8510x->msgI2C.msgHwMode = 0;
 	WM8510x->msgI2C.msgPluseWidth = 2;
-	WM8510x->msgI2C.msgDelayus = NULL;
+	WM8510x->msgI2C.pMsgDelayus = NULL;
 	WM8510x->msgI2C.msgAddr = WM8510_WADDR;
 	WM8510x->msgI2C.msgClockSpeed = 0;
 	#ifdef WM8510_USE_lEVEL_SHIFT

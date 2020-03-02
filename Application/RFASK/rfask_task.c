@@ -119,7 +119,7 @@ UINT8_T  RFASKTask_WM8510Task(UART_HandleType*UARTx, WM8510_HandleType *WM8510x,
 	{
 		//---设置WM8510的输出频率
 		case CMD_RFASK_CMD2_SET_WM8510:
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//---计算WM8510的输出频率
 			freqTemp = UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex];
@@ -140,7 +140,7 @@ UINT8_T  RFASKTask_WM8510Task(UART_HandleType*UARTx, WM8510_HandleType *WM8510x,
 			freqTemp = (UINT32_T)TimerTask_GetFreqKHz(); // (UINT32_T)(TimerTask_GetFreqKHz()/10);
 			//---获取当前输出的频率Hz
 			freqTemp *= 1000;
-			UARTTask_RealTime_AddSize(UARTx, 7);
+			UARTTask_RealTime_AddDataSize(UARTx, 7);
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
 			UARTTask_RealTime_AddByte(UARTx, _return);
@@ -154,7 +154,7 @@ UINT8_T  RFASKTask_WM8510Task(UART_HandleType*UARTx, WM8510_HandleType *WM8510x,
 			//---复位WM8510的输出
 		case CMD_RFASK_CMD2_RESET_WM8510:
 			WM8510Task_I2C_Reset(pWm8510Device0);
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
 			UARTTask_RealTime_AddByte(UARTx, _return);
@@ -171,7 +171,7 @@ UINT8_T  RFASKTask_WM8510Task(UART_HandleType*UARTx, WM8510_HandleType *WM8510x,
 			{
 				CLKA_FREQ_OFF;
 			}
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
 			UARTTask_RealTime_AddByte(UARTx, _return);
@@ -188,7 +188,7 @@ UINT8_T  RFASKTask_WM8510Task(UART_HandleType*UARTx, WM8510_HandleType *WM8510x,
 			{
 				CLKB_FREQ_OFF;
 			}
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
 			UARTTask_RealTime_AddByte(UARTx, _return);
@@ -205,7 +205,7 @@ UINT8_T  RFASKTask_WM8510Task(UART_HandleType*UARTx, WM8510_HandleType *WM8510x,
 			{
 				CLKC_FREQ_OFF;
 			}
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
 			UARTTask_RealTime_AddByte(UARTx, _return);
@@ -222,7 +222,7 @@ UINT8_T  RFASKTask_WM8510Task(UART_HandleType*UARTx, WM8510_HandleType *WM8510x,
 			{
 				CLKD_FREQ_OFF;
 			}
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
 			UARTTask_RealTime_AddByte(UARTx, _return);
@@ -245,7 +245,7 @@ UINT8_T  RFASKTask_WM8510Task(UART_HandleType*UARTx, WM8510_HandleType *WM8510x,
 				CLKC_FREQ_OFF;
 				CLKD_FREQ_OFF;
 			}
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
 			UARTTask_RealTime_AddByte(UARTx, _return);
@@ -282,7 +282,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 			freqTemp = (freqTemp << 8) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 2];
 			freqTemp = (freqTemp << 8) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 3];
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -301,7 +301,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 			freqTemp = (freqTemp << 8) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 2];
 			freqTemp = (freqTemp << 8) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 3];
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -320,7 +320,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 			freqTemp = (freqTemp << 8) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 2];
 			freqTemp = (freqTemp << 8) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 3];
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -339,7 +339,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 			freqTemp = (freqTemp << 8) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 2];
 			freqTemp = (freqTemp << 8) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 3];
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -355,7 +355,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 		case CMD_RFASK_CMD2_YSEL1_FREQ_GET:
 			freqTemp = rfask->msgFreqX100MHzYSel1;
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, (3 + 4));
+			UARTTask_RealTime_AddDataSize(UARTx, (3 + 4));
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -372,7 +372,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 		case CMD_RFASK_CMD2_YSEL2_FREQ_GET:
 			freqTemp = rfask->msgFreqX100MHzYSel2;
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, (3 + 4));
+			UARTTask_RealTime_AddDataSize(UARTx, (3 + 4));
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -389,7 +389,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 		case CMD_RFASK_CMD2_YSEL3_FREQ_GET:
 			freqTemp = rfask->msgFreqX100MHzYSel3;
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, (3 + 4));
+			UARTTask_RealTime_AddDataSize(UARTx, (3 + 4));
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -406,7 +406,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 		case CMD_RFASK_CMD2_YSEL4_FREQ_GET:
 			freqTemp = rfask->msgFreqX100MHzYSel4;
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, (3 + 4));
+			UARTTask_RealTime_AddDataSize(UARTx, (3 + 4));
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -422,7 +422,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 			//---设置全部频率点
 		case CMD_RFASK_CMD2_YSEL_FREQ_SET:
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -475,7 +475,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 		case CMD_RFASK_CMD2_YSEL_FREQ_GET:
 			freqTemp = rfask->msgFreqX100MHzYSel1;
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, (3 + 16));
+			UARTTask_RealTime_AddDataSize(UARTx, (3 + 16));
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -511,7 +511,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 			//---设置输出频率
 			_return = WM8510Task_I2C_SetFreqHzWithAllFreqReg(WM8510x, RFASKTask_CalcXTAL(rfask, rfask->msgFreqX100MHzYSel1));
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -524,7 +524,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 			//---设置输出频率
 			_return = WM8510Task_I2C_SetFreqHzWithAllFreqReg(WM8510x, RFASKTask_CalcXTAL(rfask, rfask->msgFreqX100MHzYSel2));
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -537,7 +537,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 			//---设置输出频率
 			_return = WM8510Task_I2C_SetFreqHzWithAllFreqReg(WM8510x, RFASKTask_CalcXTAL(rfask, rfask->msgFreqX100MHzYSel3));
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -550,7 +550,7 @@ UINT8_T RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM851
 			//---设置输出频率
 			_return = WM8510Task_I2C_SetFreqHzWithAllFreqReg(WM8510x, RFASKTask_CalcXTAL(rfask, rfask->msgFreqX100MHzYSel4));
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -656,7 +656,7 @@ UINT8_T  RFASKTask_FreqCurrentPointOneTask(UART_HandleType*UARTx, RFASK_HandleTy
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 11);
+			UARTTask_RealTime_AddDataSize(UARTx, 11);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -685,7 +685,7 @@ UINT8_T  RFASKTask_FreqCurrentPointOneTask(UART_HandleType*UARTx, RFASK_HandleTy
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -731,7 +731,7 @@ UINT8_T  RFASKTask_FreqCurrentPointOneTask(UART_HandleType*UARTx, RFASK_HandleTy
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, (3 + 2 + 2 + 2 + 2 + 2 + 2 + 2));
+			UARTTask_RealTime_AddDataSize(UARTx, (3 + 2 + 2 + 2 + 2 + 2 + 2 + 2));
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -772,7 +772,7 @@ UINT8_T  RFASKTask_FreqCurrentPointOneTask(UART_HandleType*UARTx, RFASK_HandleTy
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -866,7 +866,7 @@ UINT8_T  RFASKTask_FreqCurrentPointTwoTask(UART_HandleType* UARTx, RFASK_HandleT
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 11);
+			UARTTask_RealTime_AddDataSize(UARTx, 11);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -895,7 +895,7 @@ UINT8_T  RFASKTask_FreqCurrentPointTwoTask(UART_HandleType* UARTx, RFASK_HandleT
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -941,7 +941,7 @@ UINT8_T  RFASKTask_FreqCurrentPointTwoTask(UART_HandleType* UARTx, RFASK_HandleT
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, (3 + 2 + 2 + 2 + 2 + 2 + 2 + 2));
+			UARTTask_RealTime_AddDataSize(UARTx, (3 + 2 + 2 + 2 + 2 + 2 + 2 + 2));
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -982,7 +982,7 @@ UINT8_T  RFASKTask_FreqCurrentPointTwoTask(UART_HandleType* UARTx, RFASK_HandleT
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -1100,7 +1100,7 @@ UINT8_T RFASKTask_FreqCurrentScan(UART_HandleType*UARTx, RFASK_HandleType *rfask
 	//---发送数据的报头
 	UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 	//---设置数据大小
-	UARTTask_RealTime_AddSize(UARTx, 4 + ((rfaskFreqCurrent->msgFreqPointNum + 1) * 2)*FREQ_CURRENT_MAX_SITE);
+	UARTTask_RealTime_AddDataSize(UARTx, 4 + ((rfaskFreqCurrent->msgFreqPointNum + 1) * 2)*FREQ_CURRENT_MAX_SITE);
 	//---返回的一级命令
 	UARTTask_RealTime_AddByte(UARTx, rfaskFreqCurrent->msgCMD);
 	//--得到返回结果
@@ -1340,7 +1340,7 @@ UINT8_T RFASKTask_FreqCurrentHandlerTask(UART_HandleType*UARTx, RFASK_HandleType
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 4);
+			UARTTask_RealTime_AddDataSize(UARTx, 4);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -1355,7 +1355,7 @@ UINT8_T RFASKTask_FreqCurrentHandlerTask(UART_HandleType*UARTx, RFASK_HandleType
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 5);
+			UARTTask_RealTime_AddDataSize(UARTx, 5);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -1372,7 +1372,7 @@ UINT8_T RFASKTask_FreqCurrentHandlerTask(UART_HandleType*UARTx, RFASK_HandleType
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 5);
+			UARTTask_RealTime_AddDataSize(UARTx, 5);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -1389,7 +1389,7 @@ UINT8_T RFASKTask_FreqCurrentHandlerTask(UART_HandleType*UARTx, RFASK_HandleType
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -1407,7 +1407,7 @@ UINT8_T RFASKTask_FreqCurrentHandlerTask(UART_HandleType*UARTx, RFASK_HandleType
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -1426,7 +1426,7 @@ UINT8_T RFASKTask_FreqCurrentHandlerTask(UART_HandleType*UARTx, RFASK_HandleType
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -1445,7 +1445,7 @@ UINT8_T RFASKTask_FreqCurrentHandlerTask(UART_HandleType*UARTx, RFASK_HandleType
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 8);
+			UARTTask_RealTime_AddDataSize(UARTx, 8);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -1468,7 +1468,7 @@ UINT8_T RFASKTask_FreqCurrentHandlerTask(UART_HandleType*UARTx, RFASK_HandleType
 			//---数据发送报头
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 			//---设置数据大小
-			UARTTask_RealTime_AddSize(UARTx, 3);
+			UARTTask_RealTime_AddDataSize(UARTx, 3);
 			//---返回的一级命令
 			UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 			//--得到返回结果
@@ -1513,7 +1513,7 @@ UINT8_T RFASKTask_VersionTask(UART_HandleType*UARTx)
 	//---数据发送报头
 	UARTTask_RealTime_AddByte(UARTx, UARTx->msgTxdID);
 	//---设置数据大小
-	UARTTask_RealTime_AddSize(UARTx, (3 + VERSION_DATE_SIZE + VERSION_TIME_SIZE));
+	UARTTask_RealTime_AddDataSize(UARTx, (3 + VERSION_DATE_SIZE + VERSION_TIME_SIZE));
 	//---返回的一级命令
 	UARTTask_RealTime_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]);
 	//--得到返回结果
@@ -1592,7 +1592,7 @@ UINT8_T RFASKTask_Task(UART_HandleType* UARTx, RFASK_HandleType* rfask, WM8510_H
 	if (UARTTask_GetState(&(UARTx->msgRxdHandle)) == 1)
 	{
 		//---CRC的校验和设备ID校验
-		if ((UARTTask_CRCTask_Read(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
+		if ((UARTTask_Read_CRCTask(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
 		{
 			//---任务命令处理函数
 			if (RFASKTask_HandlerTask(UARTx, rfask, WM8510x,AT24CXXx) == OK_0)
@@ -1608,7 +1608,7 @@ UINT8_T RFASKTask_Task(UART_HandleType* UARTx, RFASK_HandleType* rfask, WM8510_H
 		}
 		return UARTTask_Read_Init(UARTx);
 	}
-	return UARTTask_TimeTask_OverFlow(UARTx);
+	return UARTTask_TimeTask_OverFlow(UARTx,1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

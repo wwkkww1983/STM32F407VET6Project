@@ -29,10 +29,11 @@ extern "C" {
 	//===工作模式
 	typedef enum
 	{
+		ESP8266_QUERY=0,																								//---查询模式
 		ESP8266_STA = 1,																								//---Station模式
 		ESP8266_AP = 2,																									//---AP模式
 		ESP8266_STA_AP = 3																								//---AP+Station模式
-	}ESP8266_WORK_MODE;
+	}ESP8266_WIFI_MODE;
 	
 	//===命令模式
 	typedef enum
@@ -87,11 +88,16 @@ extern "C" {
 	//===数据结构体
 	struct _ESP8266_HandleType
 	{
-		UINT8_T					msgTaskStep;																			//---任务步序号，0---空闲，非0---其他任务									
-		ESP8266_WORK_MODE		msgWorkMode;																			//---工作状态，1---STA，2---AP，3---STA+AP
+		UINT8_T					msgTask;																				//---任务步序号，0---空闲，1---查询响应	
+		UINT8_T					msgAckState;																			//---应答状态
+		char					*pMsgAckResult;																			//---应答数结果
+		ESP8266_WIFI_MODE		msgWifiMode;																			//---工作状态，1---STA，2---AP，3---STA+AP
 		UINT16_T				msgIntervalTime;																		//---轮询时间间隔,单位是ms
-		UART_HandleType			*msgUART;																				//---使用的串口
-		UINT32_T				(*msgTimeTick)(void);																	//---时间节拍
+		UINT8_T					*pMsgAck;																				//---应答数据
+		UINT32_T				msgRecordTick;																			//---当前记录的时间
+		UART_HandleType			*pMsgUART;																				//---使用的串口
+		UINT32_T				(*pMsgTimeTick)(void);																	//---时间节拍
+		UINT8_T					(*pMsgCallBack)(ESP8266_HandleType*);													//---回调函数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
@@ -101,10 +107,23 @@ extern "C" {
 	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===宏定义
+	//#define ESP8266_ACK_BUFFER_BASE_SIZE			32																	//---ACK应答缓存区的大小
+	#define	ESP8266_ACK_BUFFER_MAX_SIZE				32																	//---ACK应答缓存区的最大值
 	#define ESP8266_BUFFER_BASE_SIZE				1024																//---定义缓存区的初始大小
 	#define ESP8266_BUFFER_MAX_SIZE					ESP8266_BUFFER_BASE_SIZE+1											//---缓存区大小多1字节，为了避免溢出问题
 	#define ESP8266_COMM_UART						pUart3																//---ESP8266通信使用的UART
 	#define ESP8266_LOG_UART						pUart1																//---ESP8266打印LOG使用的UART
+
+
+	#define ESP8266_TASK_IDLE						0																	//---空闲任务
+	#define ESP8266_TASK_QUERY_ACK					1																	//---查询应答
+
+	#define ESP8266_ACK_IDLE						0																	//---应答空闲
+	#define ESP8266_ACK_WAIT						1																	//---等待应答
+	#define ESP8266_ACK_OK							2																	//---应答成功
+	#define ESP8266_ACK_ERR							3																	//---应答失败
+	#define ESP8266_ACK_ERR_INFO					4																	//---解析应答数据错误
+	#define ESP8266_ACK_TIMEOUT						5																	//---应答超时
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////配置定义---结束///////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +134,17 @@ extern "C" {
 	//===定义的任务函数
 	#define ESP8266_TASK_ONE						pEsp8266Device0
 	#define ESP8266_TASK_TWO						0
-	#define ESP8266_TASK_THREE						0
+	#define ESP8266_TASK_THREE						0 
+
+	#define USE_ESP8266_LOG
+	//===校验打印LOG的串口是否可用
+	#if (ESP8266_LOG_UART==NULL)
+		#ifdef USE_ESP8266_LOG
+			#undef  USE_ESP8266_LOG
+		#endif
+	#endif
+	//===打印LOG信息(##__VA_ARGS__，' ## '的意思是，如果可变参数被忽略或为空，将使预处理器（ preprocessor ）去除掉它前面的那个逗号)
+	#define ESP8266_LOG(fmt, ...)					ESP8266_UART_LOG(ESP8266_LOG_UART,fmt,##__VA_ARGS__)
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////	
@@ -127,8 +156,17 @@ extern "C" {
 	//===函数定义
 	UINT8_T ESP8266_UART_Init(ESP8266_HandleType* ESP8266x, UINT32_T(*pFuncTimerTick)(void));
 	void	ESP8266_UART_LOG(UART_HandleType* UARTx, char* fmt, ...);
+	UINT8_T ESP8266_UART_ACK(ESP8266_HandleType* ESP8266x, char* ack, UINT16_T intervalTime);
+	UINT8_T ESP8266_UART_QueryAck(ESP8266_HandleType* ESP8266x);
 	UINT8_T ESP8266_UART_Write_WaitIdle(ESP8266_HandleType* ESP8266x);
+	UINT8_T ESP8266_UART_Write(ESP8266_HandleType* ESP8266x, UINT8_T* pVal);
+	UINT8_T ESP8266_UART_TestAT(ESP8266_HandleType* ESP8266x);
 	UINT8_T ESP8266_UART_RST(ESP8266_HandleType* ESP8266x);
+	UINT8_T ESP8266_UART_GetVersionInfo(ESP8266_HandleType* ESP8266x);
+	UINT8_T ESP8266_UART_DisplayFunction(ESP8266_HandleType* ESP8266x, UINT8_T isClosed);
+	UINT8_T ESP8266_UART_RESTORE(ESP8266_HandleType* ESP8266x);
+	UINT8_T ESP8266_UART_WifiMode(ESP8266_HandleType* ESP8266x, UINT8_T mode);
+
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

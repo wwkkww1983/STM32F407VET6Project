@@ -25,7 +25,7 @@ extern "C" {
 	UINT8_T  UARTLib_ITWrite_TXETask(UART_HandleType*UARTx);
 	UINT8_T  UARTLib_ITWrite_TCTask(UART_HandleType*UARTx);
 	UINT8_T  UARTLib_RealTime_AddByte(UART_HandleType*UARTx, UINT8_T val);
-	UINT8_T  UARTLib_RealTime_AddSize(UART_HandleType*UARTx, UINT16_T val);
+	UINT8_T  UARTLib_RealTime_AddDataSize(UART_HandleType*UARTx, UINT16_T val);
 	UINT8_T  UARTLib_RealTime_AddCRC(UART_HandleType*UARTx);
 	UINT8_T	 UARTLib_FillMode_Init( UART_HandleType*UARTx, UINT8_T isChildCmd);
 	UINT8_T  UARTLib_FillMode_AddByte(UART_HandleType*UARTx, UINT8_T val);
@@ -35,8 +35,8 @@ extern "C" {
 	UINT8_T  UARTLib_FillMode_WriteByteSTART(UART_HandleType* UARTx, UINT8_T isNeedID);
 	UINT8_T  UARTLib_FillMode_WriteArraySTART(UART_HandleType* UARTx, UINT8_T* pArrayVal, UINT16_T length);
 	UINT8_T  UARTLib_FillMode_WriteSTART(UART_HandleType* UARTx, UINT16_T length);
-	UINT8_T  UARTLib_CRCTask_Read(UART_HandleType*UARTx);
-	UINT8_T  UARTLib_CRCTask_Write(UART_HandleType*UARTx);
+	UINT8_T  UARTLib_Read_CRCTask(UART_HandleType*UARTx);
+	UINT8_T  UARTLib_FillMode_WriteCRCTask(UART_HandleType*UARTx);
 	UINT8_T  UARTLib_PollMode_WriteByte(UART_HandleType*UARTx, UINT8_T  val);
 	UINT8_T  UARTLib_PollMode_WriteData(UART_HandleType*UARTx, char *pVal);
 	void	 UARTLib_PrintfClockFreq(UART_HandleType*UARTx);

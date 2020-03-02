@@ -14,14 +14,14 @@ pPCF8563_HandleType pPcf8563Device0 = &g_Pcf8563Device0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T PCF8563_I2C_Device0_Init(PCF8563_HandleType* PCF8563x)
 {
-	PCF8563x->msgI2C.msgI2Cx = NULL;
+	PCF8563x->msgI2C.pMsgI2Cx = NULL;
 	PCF8563x->msgI2C.msgSCL.msgPort = GPIOB;
 	PCF8563x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	PCF8563x->msgI2C.msgSDA.msgPort = GPIOB;
 	PCF8563x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	PCF8563x->msgI2C.msgHwMode = 0;
 	PCF8563x->msgI2C.msgPluseWidth = 0;
-	PCF8563x->msgI2C.msgDelayus = NULL;
+	PCF8563x->msgI2C.pMsgDelayus = NULL;
 	PCF8563x->msgI2C.msgAddr = 0xA2;//PCF8563_WRITE_ADDR;
 	PCF8563x->msgI2C.msgClockSpeed = 200000;
 	return OK_0;

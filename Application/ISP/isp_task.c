@@ -1002,7 +1002,7 @@ UINT8_T ISPTask_UARTCmd_ParentTask(ISP_HandleType* ISPx, UART_HandleType* UARTx,
 		if (UARTTask_GetState(&(UARTx->msgRxdHandle)) == 1)
 		{
 			//---CRC的校验和设备ID校验
-			if ((UARTTask_CRCTask_Read(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
+			if ((UARTTask_Read_CRCTask(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
 			{
 				//---任务命令处理函数，数据报头，长度，地址ID,命令的处理
 				UARTTask_FillMode_Init(UARTx,isChildCmd);
@@ -1018,7 +1018,7 @@ UINT8_T ISPTask_UARTCmd_ParentTask(ISP_HandleType* ISPx, UART_HandleType* UARTx,
 			}
 			return UARTTask_Read_Init(UARTx);
 		}
-		return UARTTask_TimeTask_OverFlow(UARTx);
+		return UARTTask_TimeTask_OverFlow(UARTx,1);
 	}
 	return ERROR_2;
 }

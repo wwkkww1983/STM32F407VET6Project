@@ -283,9 +283,9 @@ void HVPP_XTAL_CLK(HVPP_HandleType* HVPPx,UINT8_T clkNum)
 	//---执行端口的翻转
 	for (i=0;i<clkNum;i++)
 	{
-		HVPPx->msgDelayus(HVPPx->msgXtalPulseWidth);
+		HVPPx->pMsgDelayus(HVPPx->msgXtalPulseWidth);
 		HVPP_XTAL_OUT_1;
-		HVPPx->msgDelayus(HVPPx->msgXtalPulseWidth);
+		HVPPx->pMsgDelayus(HVPPx->msgXtalPulseWidth);
 		HVPP_XTAL_OUT_0;
 	}
 }
@@ -299,9 +299,9 @@ void HVPP_XTAL_CLK(HVPP_HandleType* HVPPx,UINT8_T clkNum)
 //////////////////////////////////////////////////////////////////////////////
 void HVPP_XTAL_PULSE(HVPP_HandleType* HVPPx)
 {
-	HVPPx->msgDelayus(HVPPx->msgXtalPulseWidth);
+	HVPPx->pMsgDelayus(HVPPx->msgXtalPulseWidth);
 	HVPP_XTAL_OUT_1;
-	HVPPx->msgDelayus(HVPPx->msgXtalPulseWidth);
+	HVPPx->pMsgDelayus(HVPPx->msgXtalPulseWidth);
 	HVPP_XTAL_OUT_0;
 }
 
@@ -327,29 +327,29 @@ UINT8_T HVPP_Init(HVPP_HandleType* HVPPx,void(*pFuncDelayus)(UINT32_T delay), vo
 	//---添加微妙延时
 	if (pFuncDelayus!=NULL)
 	{
-		HVPPx->msgDelayus=pFuncDelayus;
+		HVPPx->pMsgDelayus=pFuncDelayus;
 	}
 	else
 	{
-		HVPPx->msgDelayus =DelayTask_us;
+		HVPPx->pMsgDelayus =DelayTask_us;
 	}
 	//---添加毫秒延时
 	if (pFuncDelayms != NULL)
 	{
-		HVPPx->msgDelayms = pFuncDelayms;
+		HVPPx->pMsgDelayms = pFuncDelayms;
 	}
 	else
 	{
-		HVPPx->msgDelayms = DelayTask_ms;
+		HVPPx->pMsgDelayms = DelayTask_ms;
 	}
 	//---添加定时节拍
 	if (pFuncTimerTick!=NULL)
 	{
-		HVPPx->msgTimeTick=pFuncTimerTick;
+		HVPPx->pMsgTimeTick=pFuncTimerTick;
 	}
 	else
 	{
-		HVPPx->msgTimeTick=SysTickTask_GetTick;
+		HVPPx->pMsgTimeTick=SysTickTask_GetTick;
 	}
 	HVPP_GPIO_Init(HVPPx);
 	return OK_0;
@@ -396,7 +396,7 @@ void HVPP_WatchTask(HVPP_HandleType* HVPPx)
 	if (HVPPx->msgState != 0)
 	{
 		//---获取当前时间节拍
-		nowTime = HVPPx->msgTimeTick();
+		nowTime = HVPPx->pMsgTimeTick();
 		//---计算时间间隔
 		if (HVPPx->msgRecordTick > nowTime)
 		{
@@ -456,7 +456,7 @@ UINT8_T HVPP_RefreshWatch(HVPP_HandleType* HVPPx)
 	//---配置轮训间隔为最大值，单位是ms
 	HVPPx->msgIntervalTime = HVPP_STATE_TIME_OUT_MS;
 	//---刷新纪录时间
-	HVPPx->msgRecordTick = HVPPx->msgTimeTick();
+	HVPPx->msgRecordTick = HVPPx->pMsgTimeTick();
 	return OK_0;
 }
 
@@ -472,7 +472,7 @@ UINT8_T HVPP_SetIntervalTime(HVPP_HandleType* HVPPx, UINT16_T intervalTime)
 	//---配置轮训间隔时间，单位是ms
 	HVPPx->msgIntervalTime = intervalTime;
 	//---刷新纪录时间
-	HVPPx->msgRecordTick = HVPPx->msgTimeTick();
+	HVPPx->msgRecordTick = HVPPx->pMsgTimeTick();
 	return OK_0;
 }
 
@@ -501,7 +501,7 @@ UINT8_T HVPP_ProgModeEnter(HVPP_HandleType* HVPPx,UINT8_T pagel,UINT8_T xa1,UINT
 	HVPP_DUT_RST_TO_GND;
 	//---掉电，自供电的时候进行电源断电，否则为释放电源控制状态
 	((HVPPx->msgSelfPower == 0) ? HVPP_DUT_POWER_OFF : HVPP_DUT_POWER_HZ);
-	HVPPx->msgDelayms(1);
+	HVPPx->pMsgDelayms(1);
 	//---切换数据总线方向
 	HVPP_DATA_BUS_DIR_TO_DEVICE;
 	//---数据总线设置为写模式
@@ -512,7 +512,7 @@ UINT8_T HVPP_ProgModeEnter(HVPP_HandleType* HVPPx,UINT8_T pagel,UINT8_T xa1,UINT
 	HVPP_WAIT_STATE_STABLE;
 	//---上电，自供电的时候进行电源断电，否则为释放电源控制状态
 	((HVPPx->msgSelfPower == 0) ? HVPP_DUT_POWER_ON : HVPP_DUT_POWER_HZ);
-	HVPPx->msgDelayms(5);
+	HVPPx->pMsgDelayms(5);
 	HVPP_XTAL_CLK(HVPPx,8);
 	//---PAGEL
 	((pagel != 0) ? HVPP_PAGEL_OUT_1 : HVPP_PAGEL_OUT_0);
@@ -523,11 +523,11 @@ UINT8_T HVPP_ProgModeEnter(HVPP_HandleType* HVPPx,UINT8_T pagel,UINT8_T xa1,UINT
 	//---BS1
 	((bs1 != 0) ? HVPP_BS1_OUT_1 : HVPP_BS1_OUT_0);
 	//---保持一段时间不小于100ns
-	HVPPx->msgDelayus(5);
+	HVPPx->pMsgDelayus(5);
 	//---HV
 	//HVPP_DUT_RST_TO_12V;
 	//---保持一段时间不小于100ns
-	HVPPx->msgDelayus(5);
+	HVPPx->pMsgDelayus(5);
 	//---数据总线
 	HVPPx->msgDataBusState = HVPP_DATA_BUS_MODE_WRITE;
 	return OK_0;
@@ -555,7 +555,7 @@ UINT8_T HVPP_ProgModeExit(HVPP_HandleType* HVPPx)
 	HVPP_CTRL_DIR_TO_HZ;
 	//---关闭电源,自供电的时候进行电源断电，否则为释放电源控制状态
 	((HVPPx->msgSelfPower == 0) ? HVPP_DUT_POWER_OFF : HVPP_DUT_POWER_HZ);
-	HVPPx->msgDelayms(1);
+	HVPPx->pMsgDelayms(1);
 	//---释放RST的控制
 	HVPP_DUT_RST_TO_HZ;
 	//---设置控制线为高阻态
@@ -617,9 +617,9 @@ UINT8_T HVPP_ReadReady(HVPP_HandleType* HVPPx)
 	UINT32_T oldTime = 0;
 	UINT64_T cnt = 0;
 	//---获取当前时间标签
-	if (HVPPx->msgTimeTick != NULL)
+	if (HVPPx->pMsgTimeTick != NULL)
 	{
-		oldTime = HVPPx->msgTimeTick();
+		oldTime = HVPPx->pMsgTimeTick();
 	}
 	//---查询忙标志位
 	while (1)
@@ -634,10 +634,10 @@ UINT8_T HVPP_ReadReady(HVPP_HandleType* HVPPx)
 		}
 		else
 		{
-			if (HVPPx->msgTimeTick != NULL)
+			if (HVPPx->pMsgTimeTick != NULL)
 			{
 				//---当前时间
-				nowTime = HVPPx->msgTimeTick();
+				nowTime = HVPPx->pMsgTimeTick();
 				//---判断滴答定时是否发生溢出操作
 				if (nowTime < oldTime)
 				{
@@ -700,11 +700,11 @@ UINT8_T HVPP_EraseChip(HVPP_HandleType* HVPPx)
 		//---使能操作
 		HVPP_WR_OUT_0;
 		//---等待延时
-		HVPPx->msgDelayus(HVPPx->msgProgWRLus);
+		HVPPx->pMsgDelayus(HVPPx->msgProgWRLus);
 		//---不使能操作
 		HVPP_WR_OUT_1;
 		//---等待延时
-		HVPPx->msgDelayus(HVPPx->msgProgWRHus);
+		HVPPx->pMsgDelayus(HVPPx->msgProgWRHus);
 	}	
 	//---释放状态,为空闲模式
 	//HVPP_XA_LOAD_IDLE;

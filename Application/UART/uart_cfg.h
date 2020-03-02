@@ -58,9 +58,9 @@ extern "C" {
 		VLTUINT32_T								msgMaxTime;																//---超时时间
 		VLTUINT32_T								msgMsgValBaseAddr;														//---数据缓存区的基地址，用于指针偏移的时候进行恢复
 		UINT8_T									*pMsgVal;																//---缓存区(需要提前定义好数据的缓存区)
-		DMA_TypeDef								*msgDMA;																//---DMA号
+		DMA_TypeDef								*pMsgDMA;																//---DMA号
 		UINT32_T								msgDMAChannelOrStream;													//---DMA通道号或者流信息
-		UINT32_T(*msgTimeTick)(void);																					//---用于超时计数
+		UINT32_T(*pMsgTimeTick)(void);																					//---用于超时计数
 	};	
 	//===串口数据定义
 	struct _UART_HandleType
@@ -80,13 +80,13 @@ extern "C" {
 		UINT8_T									msgDataTwoIndex;														//---数据2在数组中的位置
 		UINT8_T									msgIndexOffset;															//---索引的偏移量
 		#ifdef UART_INIT_GPIO
-			UINT8_T									msgWriteFinalData;													//---DMA模式下，发送的最后1字节数据
+			UINT8_T								msgWriteFinalData;													//---DMA模式下，发送的最后1字节数据
 		#endif
 		GPIO_HandleType							msgTxPort;																//---UART的GPIO端口号
 		#ifdef USE_UART_485
 			GPIO_HandleType						msg485Port;																//---485的使能GPIO端口
 		#endif
-		USART_TypeDef							*msgUART;																//---UART端口
+		USART_TypeDef							*pMsgUART;																//---UART端口
 		UART_TXDHandleType						msgTxdHandle;															//---发送函数
 		UART_RXDHandleType						msgRxdHandle;															//---接收函数
 	};
@@ -281,15 +281,16 @@ extern "C" {
 	UINT8_T  UART_ITWrite_TXETask(UART_HandleType*UARTx);
 	UINT8_T  UART_ITWrite_TCTask(UART_HandleType*UARTx);
 	UINT8_T  UART_RealTime_AddByte(UART_HandleType*UARTx, UINT8_T val);
-	UINT8_T  UART_RealTime_AddSize(UART_HandleType*UARTx, UINT16_T val);
+	UINT8_T  UART_RealTime_AddDataSize(UART_HandleType*UARTx, UINT16_T val);
 	UINT8_T  UART_RealTime_AddCRC(UART_HandleType*UARTx);
 	UINT8_T  UART_FillMode_Init( UART_HandleType*UARTx, UINT8_T isChildCmd);
 	UINT8_T  UART_FillMode_AddByte(UART_HandleType*UARTx, UINT8_T val);
 	UINT8_T  UART_FillMode_AddData(UART_HandleType*UARTx, UINT8_T *pVal, UINT16_T length);
 	UINT8_T	 UART_FillMode_SetResultFlag(UART_HandleType* UARTx, UINT8_T val);
 	UINT8_T  UART_FillMode_AddIndexW(UART_HandleType* UARTx, UINT16_T val);
-	UINT8_T  UART_CRCTask_Read(UART_HandleType*UARTx);
-	UINT8_T  UART_CRCTask_Write(UART_HandleType*UARTx);
+	UINT8_T  UART_Read_CRCTask(UART_HandleType*UARTx);
+	UINT8_T  UART_FillMode_WriteCRCTask(UART_HandleType*UARTx);
+	UINT8_T  UART_Write_WaitIdle(UART_HandleType* UARTx);
 	UINT8_T  UART_FillMode_WriteByteSTART(UART_HandleType*UARTx, UINT8_T isNeedID);
 	UINT8_T  UART_FillMode_WriteArraySTART(UART_HandleType* UARTx, UINT8_T* pArrayVal, UINT16_T length);
 	UINT8_T  UART_FillMode_WriteSTART(UART_HandleType* UARTx, UINT16_T length);
@@ -326,7 +327,7 @@ extern "C" {
 	UINT8_T  UART_DMA_Read_RESTART(UART_HandleType* UARTx);
 	UINT16_T UART_DMA_Write_STOP(UART_HandleType* UARTx);
 	UINT8_T  UART_DMA_Write_RESTART(UART_HandleType* UARTx);
-	UINT8_T  UART_DMA_Read_IDLETask(UART_HandleType* UARTx);
+	UINT8_T  UART_DMA_Read_IdleTask(UART_HandleType* UARTx);
 	void	 UART_DMA_Read_IRQTask(UART_HandleType* UARTx);
 	void	 UART_DMA_Write_IRQTask(UART_HandleType* UARTx);
 	//////////////////////////////////////////////////////////////////////////////////////

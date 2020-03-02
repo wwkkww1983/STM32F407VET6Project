@@ -785,7 +785,7 @@ UINT8_T HMC472Task_UART_RFGenTask(UART_HandleType*UARTx)
 		if (UARTTask_GetState(&(UARTx->msgRxdHandle)) == 1)
 		{
 			//---CRC的校验
-			if (( UARTTask_CRCTask_Read( UARTx ) == OK_0 ) && ( UARTTask_DeviceID( UARTx ) == OK_0 ))
+			if (( UARTTask_Read_CRCTask( UARTx ) == OK_0 ) && ( UARTTask_DeviceID( UARTx ) == OK_0 ))
 			{
 				//---HMC472的任务处理函数
 				_return=HMC472Task_UART_MenuTask(UARTx);
@@ -799,7 +799,7 @@ UINT8_T HMC472Task_UART_RFGenTask(UART_HandleType*UARTx)
 			_return= UARTTask_Read_Init(UARTx);
 			goto GotoExit;
 		}
-		_return=UARTTask_TimeTask_OverFlow(UARTx);
+		_return=UARTTask_TimeTask_OverFlow(UARTx,1);
 	}
 	else
 	{

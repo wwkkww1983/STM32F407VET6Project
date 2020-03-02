@@ -113,14 +113,14 @@ UINT8_T AT24CXX_I2C_Device0_Init(AT24CXX_HandleType* AT24CXXx)
 		GPIO_OUT_1(AT24CXXx->msgWP.msgPort, AT24CXXx->msgWP.msgBit);
 	}
 	#endif
-	AT24CXXx->msgI2C.msgI2Cx = NULL;
+	AT24CXXx->msgI2C.pMsgI2Cx = NULL;
 	AT24CXXx->msgI2C.msgSCL.msgPort = GPIOB;
 	AT24CXXx->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	AT24CXXx->msgI2C.msgSDA.msgPort = GPIOB;
 	AT24CXXx->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	AT24CXXx->msgI2C.msgHwMode = 0;
 	AT24CXXx->msgI2C.msgPluseWidth = 0;
-	AT24CXXx->msgI2C.msgDelayus = NULL;
+	AT24CXXx->msgI2C.pMsgDelayus = NULL;
 	AT24CXXx->msgI2C.msgAddr = 0xA0;  // PCF8563_WRITE_ADDR;
 	AT24CXXx->msgI2C.msgClockSpeed = 200000;
 	//---解析页数和字节数据
@@ -182,7 +182,7 @@ UINT8_T AT24CXX_I2C_Init(AT24CXX_HandleType *AT24CXXx, void(*pFuncDelayus)(UINT3
 	//---判断是硬件I2C还是软件I2C
 	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(AT24CXXx->msgI2C),pFuncDelayus, pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(AT24CXXx->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---毫秒延时函数的注册
-	(pFuncDelayms != NULL) ? (AT24CXXx->msgDelayms = pFuncDelayms) : (AT24CXXx->msgDelayms = DelayTask_ms);
+	(pFuncDelayms != NULL) ? (AT24CXXx->pMsgDelayms = pFuncDelayms) : (AT24CXXx->pMsgDelayms = DelayTask_ms);
 	return _return;
 }
 
@@ -288,9 +288,9 @@ GoToExit:
 	if (_return==OK_0)
 	{
 		//---自编程时间是5ms
-		if (AT24CXXx->msgDelayms != NULL)
+		if (AT24CXXx->pMsgDelayms != NULL)
 		{
-			AT24CXXx->msgDelayms(5);
+			AT24CXXx->pMsgDelayms(5);
 		}
 	}
 	return _return;
@@ -389,9 +389,9 @@ GoToExit:
 	if (_return == OK_0)
 	{
 		//---自编程时间是5ms
-		if (AT24CXXx->msgDelayms != NULL)
+		if (AT24CXXx->pMsgDelayms != NULL)
 		{
-			AT24CXXx->msgDelayms(5);
+			AT24CXXx->pMsgDelayms(5);
 		}
 	}
 	#ifdef AT24CXX_I2C_USE_HWWP
@@ -689,9 +689,9 @@ GoToExit:
 	if (_return == OK_0)
 	{
 		//---自编程时间是5ms
-		if (AT24CXXx->msgDelayms != NULL)
+		if (AT24CXXx->pMsgDelayms != NULL)
 		{
-			AT24CXXx->msgDelayms(5);
+			AT24CXXx->pMsgDelayms(5);
 		}
 	}
 	return _return;
@@ -784,9 +784,9 @@ GoToExit:
 	if (_return == OK_0)
 	{
 		//---自编程时间是5ms
-		if (AT24CXXx->msgDelayms != NULL)
+		if (AT24CXXx->pMsgDelayms != NULL)
 		{
-			AT24CXXx->msgDelayms(5);
+			AT24CXXx->pMsgDelayms(5);
 		}
 	}
 	#ifdef AT24CXX_I2C_USE_HWWP

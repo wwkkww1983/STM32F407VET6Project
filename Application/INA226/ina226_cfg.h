@@ -162,7 +162,7 @@ extern "C" {
 		float				msgShuntuV;					//---采样电阻电压,单位微伏
 		float				msgShuntuA;					//---采样电阻电流，单位微安
 		float				msgPowermW;					//---负载的功耗，单位微瓦
-		GPIO_HandleType	msgAlert;					//---报警端口的配置，INA226是开漏模式，需要外接上拉电阻
+		GPIO_HandleType		msgAlert;					//---报警端口的配置，INA226是开漏模式，需要外接上拉电阻
 		I2C_HandleType		msgI2C;						//---使用的I2C
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 

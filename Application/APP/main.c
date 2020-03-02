@@ -149,7 +149,8 @@ void Sys_Init(void)
 	UARTTask_Init(pUart1, UART1_RX_MAX_SIZE, UART1_RX_BUFFER, UART_CRC_NONE, UART1_TX_MAX_SIZE, UART1_TX_BUFFER, UART_CRC_NONE, SysTickTask_GetTick);
 	//---ESP8266的初始化
 	ESP8266_UART_Init(pEsp8266Device0, SysTickTask_GetTick);
-	ESP8266_UART_RST(pEsp8266Device0);
+	//ESP8266_UART_RST(pEsp8266Device0);
+	ESP8266_UART_WifiMode(pEsp8266Device0,0);
 	//---硬件初始化
 	//HardWare_Init();
 	//---初始化MCO的输出时钟
@@ -244,6 +245,7 @@ int main(void)
 		////USART_Printf(pUsart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
 		//UARTTask_Printf(pUart1,"temp is %d \r\n", pMpu6050Device0->msgTemp);
 		//DelayTask_ms(500);
+		ESP8266_UART_QueryAck(pEsp8266Device0);
 		//---模拟RTC处理
 		SysRTCTask_RTCTask(pSysSoftRTC, SysTickTask_GetTick());
 		//---任务管理函数

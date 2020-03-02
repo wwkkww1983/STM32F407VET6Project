@@ -105,13 +105,13 @@ UINT8_T DHT11_Init(DHT11_HandleType *DHTxx, void(*pFuncDelayus)(UINT32_T delay),
 	//---GPIO的初始化
 	DHT11_GPIO_Init(DHTxx);
 	//---us延时
-	(pFuncDelayus != NULL)?(DHTxx->msgDelayus = pFuncDelayus):(DHTxx->msgDelayus = DelayTask_us);
+	(pFuncDelayus != NULL)?(DHTxx->pMsgDelayus = pFuncDelayus):(DHTxx->pMsgDelayus = DelayTask_us);
 	//---ms延时
-	(pFuncDelayms != NULL)?(DHTxx->msgDelayms = pFuncDelayms):(DHTxx->msgDelayms = DelayTask_ms);
+	(pFuncDelayms != NULL)?(DHTxx->pMsgDelayms = pFuncDelayms):(DHTxx->pMsgDelayms = DelayTask_ms);
 	//---注册滴答函数
-	(pFuncTimerTick != NULL)?(DHTxx->msgTimeTick = pFuncTimerTick):(DHTxx->msgTimeTick = SysTickTask_GetTick);
+	(pFuncTimerTick != NULL)?(DHTxx->pMsgTimeTick = pFuncTimerTick):(DHTxx->pMsgTimeTick = SysTickTask_GetTick);
 	//---当前时间
-	DHTxx->msgRecordTick= DHTxx->msgTimeTick();
+	DHTxx->msgRecordTick= DHTxx->pMsgTimeTick();
 	return OK_0;
 }
 
@@ -142,14 +142,14 @@ UINT8_T DHT11_RESET(DHT11_HandleType *DHTxx)
 	//---释放总线
 	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
 	//---主机拉高2us
-	DHTxx->msgDelayus(2);
+	DHTxx->pMsgDelayus(2);
 	GPIO_OUT_0(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
 	//---触发开始,总线拉低要大于18ms
-	DHTxx->msgDelayms(20);
+	DHTxx->pMsgDelayms(20);
 	//---释放总线
 	GPIO_OUT_1(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit);
 	//主机拉高20~40us;等待DHT11的低电平响应信号
-	DHTxx->msgDelayus(30);
+	DHTxx->pMsgDelayus(30);
 	return OK_0;
 }
 
@@ -166,7 +166,7 @@ UINT8_T DHT11_Check(DHT11_HandleType *DHTxx)
 	//---DHT11如果响应的话会拉低总线40~80us
 	while (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) != 0)
 	{
-		DHTxx->msgDelayus(1);
+		DHTxx->pMsgDelayus(1);
 		count++;
 		if (count > 200)
 		{
@@ -181,7 +181,7 @@ UINT8_T DHT11_Check(DHT11_HandleType *DHTxx)
 	//---DHT11高电平数据准备信号再次拉高40~80us
 	while (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) == 0)
 	{
-		DHTxx->msgDelayus(1);
+		DHTxx->pMsgDelayus(1);
 		count++;
 		if (count > 200)
 		{
@@ -228,7 +228,7 @@ UINT8_T DHT11_ReadBit(DHT11_HandleType *DHTxx)
 	//---等待变为低电平---高电平保持的时间约为50us
 	while (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) != 0)
 	{
-		DHTxx->msgDelayus(1);
+		DHTxx->pMsgDelayus(1);
 		count++;
 		if (count > 150)
 		{
@@ -237,11 +237,11 @@ UINT8_T DHT11_ReadBit(DHT11_HandleType *DHTxx)
 		}
 	}
 	//---读取高电平等待一下
-	DHTxx->msgDelayus(10);
+	DHTxx->pMsgDelayus(10);
 	//---等待变高电平---低电平保持的时间约为20us
 	while (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) == 0)
 	{
-		DHTxx->msgDelayus(1);
+		DHTxx->pMsgDelayus(1);
 
 		count++;
 		if (count > 150)
@@ -251,7 +251,7 @@ UINT8_T DHT11_ReadBit(DHT11_HandleType *DHTxx)
 		}
 	}
 	//---等待40us;数据为0的信号时间为26-28us，1则为70us
-	DHTxx->msgDelayus(50);
+	DHTxx->pMsgDelayus(50);
 	//---读取状态
 	if (GPIO_GET_STATE(DHTxx->msgDAT.msgPort, DHTxx->msgDAT.msgBit) != 0)
 	{
@@ -288,7 +288,7 @@ UINT8_T DHT11_ReadByte(DHT11_HandleType *DHTxx)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T DHT11_ReadSTATE(DHT11_HandleType* DHTxx)
 {
-	UINT32_T nowTime = DHTxx->msgTimeTick();
+	UINT32_T nowTime = DHTxx->pMsgTimeTick();
 	UINT32_T cnt = 0;
 	if (DHTxx->msgSTATE == DHT11_READ_ERROR)
 	{
@@ -370,7 +370,7 @@ UINT8_T DHT11_ReadTempHumi(DHT11_HandleType *DHT11x)
 	//---设置当前状态为忙碌模式
 	DHT11x->msgSTATE= DHT11_READ_BUSY;
 	//---重置时间标签
-	DHT11x->msgRecordTick = DHT11x->msgTimeTick();
+	DHT11x->msgRecordTick = DHT11x->pMsgTimeTick();
 	return OK_0;
 }
 

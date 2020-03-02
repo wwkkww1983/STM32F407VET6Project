@@ -92,10 +92,12 @@ const char ESP8266_GPIO_PINREAD[] = "AT+PINREAD";																		//---读取�
 //===缓存区定义
 UINT8_T g_ESP8266_RX_BUFFER[ESP8266_BUFFER_MAX_SIZE] = { 0 };															//---接收缓存区
 UINT8_T g_ESP8266_TX_BUFFER[ESP8266_BUFFER_MAX_SIZE] = { 0 };															//---接收缓存区
+//===应答缓存区
+UINT8_T	g_ESP8266_ACK_BUFFER[ESP8266_ACK_BUFFER_MAX_SIZE]={0};
 
 //===ESP8266的定义
 ESP8266_HandleType			g_Esp8266Device0={0};
-pESP8266_HandleType		pEsp8266Device0=&g_Esp8266Device0;
+pESP8266_HandleType			pEsp8266Device0=&g_Esp8266Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -107,22 +109,17 @@ pESP8266_HandleType		pEsp8266Device0=&g_Esp8266Device0;
 UINT8_T ESP8266_UART_Device0_Init(ESP8266_HandleType* ESP8266x, UINT32_T(*pFuncTimerTick)(void))
 {
 	//---空闲状态
-	ESP8266x->msgTaskStep=0;
+	ESP8266x->msgTask=0;
 	//---默认工作模式AP模式
-	ESP8266x->msgWorkMode=ESP8266_AP;
+	ESP8266x->msgWifiMode=ESP8266_AP;
 	//---调度时间是100ms
 	ESP8266x->msgIntervalTime=100;
+	//---ESP8266的应答数据
+	ESP8266x->pMsgAck= g_ESP8266_ACK_BUFFER;
 	//---使用的串口
-	ESP8266x->msgUART= ESP8266_COMM_UART;
+	ESP8266x->pMsgUART= ESP8266_COMM_UART;
 	//---初始化参数
-	UARTTask_Init(ESP8266x->msgUART, ESP8266_BUFFER_BASE_SIZE, g_ESP8266_RX_BUFFER, 0, ESP8266_BUFFER_BASE_SIZE, g_ESP8266_TX_BUFFER, 0, pFuncTimerTick);
-	//UART_HandleType* UARTx=NULL;
-	//UARTx =ESP8266x->msgUART;
-	////---配置收发为DMA模式
-	//UARTx->msgTxdHandle.msgDMAMode =1;
-	//UARTx->msgRxdHandle.msgDMAMode = 1;
-	////---初始化参数
-	//UART_ConfigInit(ESP8266x->msgUART,UARTx);
+	UARTTask_Init(ESP8266x->pMsgUART, ESP8266_BUFFER_BASE_SIZE, g_ESP8266_RX_BUFFER, 0, ESP8266_BUFFER_BASE_SIZE, g_ESP8266_TX_BUFFER, 0, pFuncTimerTick);
 	return OK_0;
 }
 
@@ -176,7 +173,7 @@ UINT8_T ESP8266_UART_Init(ESP8266_HandleType *ESP8266x,UINT32_T(*pFuncTimerTick)
 		return  ERROR_1;
 	}
 	//---注册滴答函数
-	(pFuncTimerTick != NULL) ? (ESP8266x->msgTimeTick = pFuncTimerTick) : (ESP8266x->msgTimeTick = SysTickTask_GetTick);
+	(pFuncTimerTick != NULL) ? (ESP8266x->pMsgTimeTick = pFuncTimerTick) : (ESP8266x->pMsgTimeTick = SysTickTask_GetTick);
 	return OK_0;
 }
 
@@ -197,6 +194,98 @@ void ESP8266_UART_LOG(UART_HandleType* UARTx, char* fmt, ...)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ESP8266_UART_ACK(ESP8266_HandleType* ESP8266x, char* ack, UINT16_T intervalTime)
+{
+	ESP8266x->msgIntervalTime=intervalTime;
+	ESP8266x->msgTask= ESP8266_TASK_QUERY_ACK;
+	//---清空缓存区
+	memset(ESP8266x->pMsgAck, 0, ESP8266_ACK_BUFFER_MAX_SIZE);
+	//---追加换行符
+	strcat((char*)ESP8266x->pMsgAck, ack);
+	//---开始等待ACK
+	ESP8266x->msgAckState= ESP8266_ACK_WAIT;
+	//---指向应答结果的指正为空
+	ESP8266x->pMsgAckResult=NULL;
+	//---记录当前的时间
+	ESP8266x->msgRecordTick=ESP8266x->pMsgTimeTick();
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：查询应答
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ESP8266_UART_QueryAck(ESP8266_HandleType* ESP8266x)
+{
+	//---获取当前时间
+	UINT32_T nowTime=ESP8266x->pMsgTimeTick();
+	UINT32_T cnt=0;
+	//---判断是不是需要应答数据
+	if (ESP8266x->msgTask== ESP8266_TASK_QUERY_ACK)
+	{
+		if (nowTime<ESP8266x->msgRecordTick)
+		{
+			cnt = (0xFFFFFFFF - ESP8266x->msgRecordTick + nowTime);
+		}
+		else
+		{
+			cnt= nowTime- ESP8266x->msgRecordTick;
+		}
+		//---判断映应答是否超时
+		if (cnt>ESP8266x->msgIntervalTime)
+		{
+			//---应答超时
+			ESP8266x->msgAckState= ESP8266_ACK_TIMEOUT;
+			//---任务空闲
+			ESP8266x->msgTask = ESP8266_TASK_IDLE;
+		}
+		else
+		{
+			//---判断是否有数据
+			if (UARTTask_GetState(&(ESP8266x->pMsgUART->msgRxdHandle)) == UART_OK)
+			{
+				#ifdef USE_ESP8266_LOG
+				ESP8266_LOG("%s\r\n%s","ACK:", ESP8266x->pMsgUART->msgRxdHandle.pMsgVal);
+				#endif
+				//---有数据到达,判断是否和应答数据一致
+				ESP8266x->pMsgAckResult =strstr((char *)ESP8266x->pMsgUART->msgRxdHandle.pMsgVal,(char *)ESP8266x->pMsgAck);
+				//---校验是否正确
+				if (ESP8266x->pMsgAckResult==NULL)
+				{
+					//---有应答数据，但是应答结果异常
+					ESP8266x->msgAckState = ESP8266_ACK_ERR;
+				}
+				else
+				{
+					//---合格
+					ESP8266x->msgAckState = ESP8266_ACK_OK;
+					//---校验回调函数的执行
+					if (ESP8266x->pMsgCallBack!=NULL)
+					{
+						//---执行回调函数
+						ESP8266x->pMsgCallBack(ESP8266x);
+						//---回到函数执行完成之后，进行释放
+						ESP8266x->pMsgCallBack=NULL;
+					}
+				}
+				//---任务空闲
+				ESP8266x->msgTask = ESP8266_TASK_IDLE;
+			}
+		}
+	}
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
 //////功		能：ESP8266的等待发送空闲
 //////输入参数:
 //////输出参数:
@@ -209,12 +298,13 @@ UINT8_T ESP8266_UART_Write_WaitIdle(ESP8266_HandleType* ESP8266x)
 	UINT32_T oldTime = 0;
 	UINT32_T cnt = 0;
 	//---获取当前时间节拍
-	oldTime = ESP8266x->msgTimeTick();
+	oldTime = ESP8266x->pMsgTimeTick();
 	//---检查发送状态，等待之前的数据发送完成;必须是空闲状态，总线上没有其他数据放
-	while (UARTTask_Write_CheckIdle(ESP8266x->msgUART) != OK_0)
+	while (UARTTask_Write_CheckIdle(ESP8266x->pMsgUART) != OK_0)
 	{
+		//--->>>加入超时机制---开始
 		//---当前时间
-		nowTime = ESP8266x->msgTimeTick();
+		nowTime = ESP8266x->pMsgTimeTick();
 		//---判断滴答定时是否发生溢出操作
 		if (nowTime < oldTime)
 		{
@@ -230,6 +320,8 @@ UINT8_T ESP8266_UART_Write_WaitIdle(ESP8266_HandleType* ESP8266x)
 			//---发送发生超时错误
 			return ERROR_1;
 		}
+		//--->>>加入超时机制---开始
+		//---喂狗
 		WDT_RESET();
 	}
 	return OK_0;
@@ -244,7 +336,7 @@ UINT8_T ESP8266_UART_Write_WaitIdle(ESP8266_HandleType* ESP8266x)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T ESP8266_UART_Write(ESP8266_HandleType* ESP8266x,UINT8_T *pVal)
 {
-	return UARTTask_FillMode_WriteSTART(ESP8266x->msgUART, strlen((char*)pVal));
+	return UARTTask_FillMode_WriteSTART(ESP8266x->pMsgUART, strlen((char*)pVal));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -260,15 +352,21 @@ UINT8_T ESP8266_UART_TestAT(ESP8266_HandleType* ESP8266x)
 	if (ESP8266_UART_Write_WaitIdle(ESP8266x) == OK_0)
 	{
 		//---恢复缓存区的首地址
-		*(ESP8266x->msgUART->msgTxdHandle.pMsgVal) = ESP8266x->msgUART->msgTxdHandle.msgMsgValBaseAddr;
+		*(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal) = ESP8266x->pMsgUART->msgTxdHandle.msgMsgValBaseAddr;
 		//---清空缓存区
-		memset(ESP8266x->msgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
+		memset(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
 		//---将指定的字符串追加在结尾
-		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal, ESP8266_AT_CMD_TEST);
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, ESP8266_AT_CMD_TEST);
 		//---追加换行符
-		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal, "\r\n");
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, "\r\n");
+		//---打印LOG信息
+		#ifdef USE_ESP8266_LOG
+		ESP8266_LOG("%s:\r\n%s", "CMD:", ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
+		#endif
+		//---设置应答数据和应答时间应答的时间
+		ESP8266_UART_ACK(ESP8266x,"OK",100);
 		//---发送数据
-		return ESP8266_UART_Write(ESP8266x, ESP8266x->msgUART->msgTxdHandle.pMsgVal);
+		return ESP8266_UART_Write(ESP8266x, ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
 	}
 	return ERROR_1;
 }
@@ -286,15 +384,21 @@ UINT8_T ESP8266_UART_RST(ESP8266_HandleType* ESP8266x)
 	if (ESP8266_UART_Write_WaitIdle(ESP8266x)==OK_0)
 	{
 		//---恢复缓存区的首地址
-		*(ESP8266x->msgUART->msgTxdHandle.pMsgVal) = ESP8266x->msgUART->msgTxdHandle.msgMsgValBaseAddr;
+		*(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal) = ESP8266x->pMsgUART->msgTxdHandle.msgMsgValBaseAddr;
 		//---清空缓存区
-		memset(ESP8266x->msgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
+		memset(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
 		//---将指定的字符串追加在结尾
-		strcat((char *)ESP8266x->msgUART->msgTxdHandle.pMsgVal, ESP8266_AT_CMD_RESET);
+		strcat((char *)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, ESP8266_AT_CMD_RESET);
 		//---追加换行符
-		strcat((char *)ESP8266x->msgUART->msgTxdHandle.pMsgVal, "\r\n");
+		strcat((char *)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, "\r\n");
+		//---打印LOG信息
+		#ifdef USE_ESP8266_LOG
+		ESP8266_LOG("%s:\r\n%s", "CMD:", ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
+		#endif
+		//---设置应答数据和应答时间应答的时间
+		ESP8266_UART_ACK(ESP8266x, "OK", 100);
 		//---发送数据
-		return ESP8266_UART_Write(ESP8266x, ESP8266x->msgUART->msgTxdHandle.pMsgVal);
+		return ESP8266_UART_Write(ESP8266x, ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
 	}
 	return ERROR_1;
 }
@@ -312,15 +416,21 @@ UINT8_T ESP8266_UART_GetVersionInfo(ESP8266_HandleType* ESP8266x)
 	if (ESP8266_UART_Write_WaitIdle(ESP8266x) == OK_0)
 	{
 		//---恢复缓存区的首地址
-		*(ESP8266x->msgUART->msgTxdHandle.pMsgVal) = ESP8266x->msgUART->msgTxdHandle.msgMsgValBaseAddr;
+		*(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal) = ESP8266x->pMsgUART->msgTxdHandle.msgMsgValBaseAddr;
 		//---清空缓存区
-		memset(ESP8266x->msgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
+		memset(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
 		//---将指定的字符串追加在结尾
-		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal, ESP8266_AT_CMD_VERSION);
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, ESP8266_AT_CMD_VERSION);
 		//---追加换行符
-		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal, "\r\n");
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, "\r\n");
+		//---打印LOG信息
+		#ifdef USE_ESP8266_LOG
+		ESP8266_LOG("%s:\r\n%s", "CMD:", ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
+		#endif
+		//---设置应答数据和应答时间应答的时间
+		ESP8266_UART_ACK(ESP8266x, "OK", 100);
 		//---发送数据
-		return ESP8266_UART_Write(ESP8266x, ESP8266x->msgUART->msgTxdHandle.pMsgVal);
+		return ESP8266_UART_Write(ESP8266x, ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
 	}
 	return ERROR_1;
 }
@@ -338,15 +448,21 @@ UINT8_T ESP8266_UART_DisplayFunction(ESP8266_HandleType* ESP8266x,UINT8_T isClos
 	if (ESP8266_UART_Write_WaitIdle(ESP8266x) == OK_0)
 	{
 		//---恢复缓存区的首地址
-		*(ESP8266x->msgUART->msgTxdHandle.pMsgVal) = ESP8266x->msgUART->msgTxdHandle.msgMsgValBaseAddr;
+		*(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal) = ESP8266x->pMsgUART->msgTxdHandle.msgMsgValBaseAddr;
 		//---清空缓存区
-		memset(ESP8266x->msgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
+		memset(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
 		//---将指定的字符串追加在结尾
-		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal, (isClosed == 0) ? (ESP8266_AT_CMD_ECHO_OPEN) : (ESP8266_AT_CMD_ECHO_CLOSE));
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, (isClosed == 0) ? (ESP8266_AT_CMD_ECHO_OPEN) : (ESP8266_AT_CMD_ECHO_CLOSE));
 		//---追加换行符
-		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal, "\r\n");
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, "\r\n");
+		//---打印LOG信息
+		#ifdef USE_ESP8266_LOG
+		ESP8266_LOG("%s:\r\n%s", "CMD:", ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
+		#endif
+		//---设置应答数据和应答时间应答的时间
+		ESP8266_UART_ACK(ESP8266x, "OK", 100);
 		//---发送数据
-		return ESP8266_UART_Write(ESP8266x, ESP8266x->msgUART->msgTxdHandle.pMsgVal);
+		return ESP8266_UART_Write(ESP8266x, ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
 	}
 	return ERROR_1;
 }
@@ -364,15 +480,120 @@ UINT8_T ESP8266_UART_RESTORE(ESP8266_HandleType* ESP8266x)
 	if (ESP8266_UART_Write_WaitIdle(ESP8266x) == OK_0)
 	{
 		//---恢复缓存区的首地址
-		*(ESP8266x->msgUART->msgTxdHandle.pMsgVal) = ESP8266x->msgUART->msgTxdHandle.msgMsgValBaseAddr;
+		*(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal) = ESP8266x->pMsgUART->msgTxdHandle.msgMsgValBaseAddr;
 		//---清空缓存区
-		memset(ESP8266x->msgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
+		memset(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
 		//---将指定的字符串追加在结尾
-		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal,ESP8266_AT_CMD_RESTORE);
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal,ESP8266_AT_CMD_RESTORE);
 		//---追加换行符
-		strcat((char*)ESP8266x->msgUART->msgTxdHandle.pMsgVal, "\r\n");
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, "\r\n");
+		//---打印LOG信息
+		#ifdef USE_ESP8266_LOG
+		ESP8266_LOG("%s:\r\n%s", "CMD:", ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
+		#endif
+		//---设置应答数据和应答时间应答的时间
+		ESP8266_UART_ACK(ESP8266x, "OK", 100);
 		//---发送数据
-		return ESP8266_UART_Write(ESP8266x, ESP8266x->msgUART->msgTxdHandle.pMsgVal);
+		return ESP8266_UART_Write(ESP8266x, ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
+	}
+	return ERROR_1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：查询应答中包含WIFI模式信息
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ESP8266_UART_QueryAck_WifiMode(ESP8266_HandleType* ESP8266x)
+{	
+	//---有数据到达,判断是否和应答数据一致
+	char *pAck = strstr((char*)ESP8266x->pMsgUART->msgRxdHandle.pMsgVal, "+CWMODE");
+	//---校验是否正确
+	if (ESP8266x->pMsgAckResult == NULL)
+	{
+		//---有应答数据，但是应答结果异常
+		ESP8266x->msgAckState = ESP8266_ACK_ERR;
+	}
+	else
+	{
+		pAck=strstr(pAck, ":");
+		//---校验结果
+		if (pAck==NULL)
+		{
+			//---应答结果正确，但是应答数内容错误
+			ESP8266x->msgAckState = ESP8266_ACK_ERR_INFO;
+		}
+		else
+		{
+			pAck++;
+			//---获取Wifi模式的结果
+			ESP8266x->msgWifiMode=*pAck-0x30;
+			//---合格
+			ESP8266x->msgAckState = ESP8266_ACK_OK;
+		}
+		
+	}
+	//---任务空闲
+	ESP8266x->msgTask = ESP8266_TASK_IDLE;
+	return OK_0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：设置Wifi工作模式，
+//////输入参数:  mode---0，查询；1，sta模式；2，ap模式；3，ap+sta模式
+//////输出参数:
+//////说		明：查询方式返回+CWMODE：<模式> OK；其他返回OK
+//////////////////////////////////////////////////////////////////////////////
+UINT8_T ESP8266_UART_WifiMode(ESP8266_HandleType* ESP8266x,UINT8_T mode)
+{
+	//---校验发送空闲
+	if (ESP8266_UART_Write_WaitIdle(ESP8266x) == OK_0)
+	{
+		char *wifiMode="?\r\n";
+		//---恢复缓存区的首地址
+		*(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal) = ESP8266x->pMsgUART->msgTxdHandle.msgMsgValBaseAddr;
+		//---清空缓存区
+		memset(ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, 0, ESP8266_BUFFER_MAX_SIZE);
+		//---将指定的字符串追加在结尾
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, ESP8266_AT_WIFI_MODE);
+		//---STA模式
+		if (mode== ESP8266_STA)
+		{
+			*wifiMode='1';
+			ESP8266x->msgWifiMode=ESP8266_STA;
+		}
+		//---AP模式
+		else if (mode == ESP8266_AP)
+		{
+			*wifiMode = '2';
+			ESP8266x->msgWifiMode = ESP8266_AP;
+		}
+		//---AP+STA模式
+		else if (mode == ESP8266_STA_AP)
+		{
+			*wifiMode = '3';
+			ESP8266x->msgWifiMode = ESP8266_STA_AP;
+		}
+		//---查询模式
+		else 
+		{
+			*wifiMode = '?';
+		}
+		//---追加换行符
+		strcat((char*)ESP8266x->pMsgUART->msgTxdHandle.pMsgVal, wifiMode);
+		//---打印LOG信息
+		#ifdef USE_ESP8266_LOG
+		ESP8266_LOG("%s\r\n%s","CMD:", ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
+		#endif
+		//---设置应答数据和应答时间应答的时间
+		ESP8266_UART_ACK(ESP8266x, "OK", 100);
+		//---注册回调函数
+		ESP8266x->pMsgCallBack= ESP8266_UART_QueryAck_WifiMode;
+		//---发送数据
+		return ESP8266_UART_Write(ESP8266x, ESP8266x->pMsgUART->msgTxdHandle.pMsgVal);
 	}
 	return ERROR_1;
 }

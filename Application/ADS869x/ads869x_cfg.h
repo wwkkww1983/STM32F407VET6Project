@@ -201,7 +201,7 @@ extern "C" {
 		VLTUINT32_T msgChannelPowerResult[ADS869X_CHANNEL_MAX];															//---AD通道的采样的电压结果
 		SPI_HandleType		msgSPI;																						//---使用的SPI模式
 		GPIO_HandleType	msgHWRST;																						//---硬件复位信号
-		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 

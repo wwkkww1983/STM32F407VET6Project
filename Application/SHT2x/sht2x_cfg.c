@@ -14,14 +14,14 @@ pSHT2X_HandleType pSht2xDevice0 = &g_Sht2xDevice0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandleType* SHT2x)
 {
-	SHT2x->msgI2C.msgI2Cx = NULL;
+	SHT2x->msgI2C.pMsgI2Cx = NULL;
 	SHT2x->msgI2C.msgSCL.msgPort = GPIOB;
 	SHT2x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	SHT2x->msgI2C.msgSDA.msgPort = GPIOB;
 	SHT2x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	SHT2x->msgI2C.msgHwMode = 0;
 	SHT2x->msgI2C.msgPluseWidth = 0;
-	SHT2x->msgI2C.msgDelayus = NULL;
+	SHT2x->msgI2C.pMsgDelayus = NULL;
 	SHT2x->msgI2C.msgAddr = SHT2X_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
 	SHT2x->msgI2C.msgClockSpeed = 200000;
 	return OK_0;

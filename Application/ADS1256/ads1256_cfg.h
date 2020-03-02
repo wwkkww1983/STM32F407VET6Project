@@ -217,7 +217,7 @@ extern "C" {
 		GPIO_HandleType	msgDRDY;																						//---准备好信号
 		GPIO_HandleType	msgHWRST;																						//---硬件复位信号
 		SPI_HandleType		msgSPI;																						//---使用的SPI模式
-		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 

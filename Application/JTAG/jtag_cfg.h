@@ -23,23 +23,23 @@ extern "C" {
 	//===TCK的脉冲宽度
 	#define JTAG_TCK_PULSE(tck)					(	JTAG_GPIO_OUT_1(tck->msgTCK),\
 													DELAY_NOP_COUNT(4),\
-													tck->msgDelayus(tck->msgPluseWidth),\
+													tck->pMsgDelayus(tck->msgPluseWidth),\
 													JTAG_GPIO_OUT_0(tck->msgTCK),\
-													tck->msgDelayus(tck->msgPluseWidth)\
+													tck->pMsgDelayus(tck->msgPluseWidth)\
 												)
 	//===TMS输出1变化一次
 	#define JTAG_TMS_OUT_1(tck)					(	JTAG_GPIO_OUT_1(tck->msgTMS),\
 													JTAG_GPIO_OUT_1(tck->msgTCK),\
-													tck->msgDelayus(tck->msgPluseWidth),\
+													tck->pMsgDelayus(tck->msgPluseWidth),\
 													JTAG_GPIO_OUT_0(tck->msgTCK),\
-													tck->msgDelayus(tck->msgPluseWidth)\
+													tck->pMsgDelayus(tck->msgPluseWidth)\
 												)
 	//===TMS输出0变化一次
 	#define JTAG_TMS_OUT_0(tck)					(	JTAG_GPIO_OUT_0(tck->msgTMS),\
 													JTAG_GPIO_OUT_1(tck->msgTCK),\
-													tck->msgDelayus(tck->msgPluseWidth),\
+													tck->pMsgDelayus(tck->msgPluseWidth),\
 													JTAG_GPIO_OUT_0(tck->msgTCK),\
-													tck->msgDelayus(tck->msgPluseWidth)\
+													tck->pMsgDelayus(tck->msgPluseWidth)\
 												)
 	//===TAP的运行状态
 	typedef enum
@@ -113,9 +113,9 @@ extern "C" {
 		UINT16_T			msgPluseWidth;																				//---非编程状态下TCK的脉冲宽度
 		UINT16_T			msgIntervalTime;																			//---轮询时间间隔,单位是ms
 		UINT32_T			msgRecordTick;																				//---记录的时间参数
-		void(*msgDelayus)(UINT32_T delay);																				//---us延时参数
-		void(*msgDelayms)(UINT32_T delay);																				//---ms延时参数
-		UINT32_T(*msgTimeTick)(void);																					//---用于超时计数
+		void(*pMsgDelayus)(UINT32_T delay);																				//---us延时参数
+		void(*pMsgDelayms)(UINT32_T delay);																				//---ms延时参数
+		UINT32_T(*pMsgTimeTick)(void);																					//---用于超时计数
 		//SPI_HandlerType msgSPI;																						//---使用的SPI模式
 	};
 

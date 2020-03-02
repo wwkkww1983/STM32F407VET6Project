@@ -43,8 +43,8 @@ extern "C" {
 		UINT16_T				msgBitTempX10000;																		//---温度分辨率每Bit代表的温度的值
 		UINT32_T				msgRecordTick;																			//---记录的时间参数
 		OneWire_HandleType		msgOneWire;																				//---一线通信
-		void(*msgDelayms)(UINT32_T delay);																				//---ms延时函数
-		UINT32_T(*msgTimeTick)(void);																					//---时间节拍
+		void(*pMsgDelayms)(UINT32_T delay);																				//---ms延时函数
+		UINT32_T(*pMsgTimeTick)(void);																					//---时间节拍
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 

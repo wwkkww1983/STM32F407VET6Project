@@ -29,7 +29,7 @@ extern "C" {
 	UINT8_T  UARTTask_Read_Init(UART_HandleType*  UARTx);
 	UINT8_T  UARTTask_ClearState(UART_HandleDef* UARTDefx);
 	UINT8_T  UARTTask_GetState(UART_HandleDef* UARTDefx);
-	UINT8_T  UARTTask_TimeTask_OverFlow(UART_HandleType*UARTx);
+	UINT8_T  UARTTask_TimeTask_OverFlow(UART_HandleType* UARTx, UINT8_T isRx);
 	UINT8_T  UARTTask_ITRead_8BitsTask(UART_HandleType*UARTx, UINT8_T val);
 	UINT8_T  UARTTask_ITRead_16BitsTask(UART_HandleType*UARTx, UINT8_T val);
 	UINT8_T  UARTTask_ITRead_Task(UART_HandleType*UARTx, UINT8_T val);
@@ -37,7 +37,7 @@ extern "C" {
 	UINT8_T  UARTTask_ITWrite_TXETask(UART_HandleType*UARTx);
 	UINT8_T  UARTTask_ITWrite_TCTask(UART_HandleType*UARTx);
 	UINT8_T  UARTTask_RealTime_AddByte(UART_HandleType*UARTx, UINT8_T val);
-	UINT8_T  UARTTask_RealTime_AddSize(UART_HandleType*UARTx, UINT16_T val);
+	UINT8_T  UARTTask_RealTime_AddDataSize(UART_HandleType*UARTx, UINT16_T val);
 	UINT8_T  UARTTask_RealTime_AddCRC(UART_HandleType*UARTx);
 	UINT8_T	 UARTTask_FillMode_Init( UART_HandleType*UARTx, UINT8_T isChildCmd);
 	UINT8_T  UARTTask_FillMode_AddByte(UART_HandleType*UARTx, UINT8_T val);
@@ -47,8 +47,8 @@ extern "C" {
 	UINT8_T  UARTTask_FillMode_WriteByteSTART(UART_HandleType* UARTx, UINT8_T isNeedID);
 	UINT8_T  UARTTask_FillMode_WriteArraySTART(UART_HandleType* UARTx, UINT8_T* pArrayVal, UINT16_T length);
 	UINT8_T  UARTTask_FillMode_WriteSTART(UART_HandleType* UARTx, UINT16_T length);
-	UINT8_T  UARTTask_CRCTask_Read(UART_HandleType*UARTx);
-	UINT8_T  UARTTask_CRCTask_Write(UART_HandleType*UARTx);
+	UINT8_T  UARTTask_Read_CRCTask(UART_HandleType*UARTx);
+	UINT8_T  UARTTask_FillMode_WriteCRCTask(UART_HandleType*UARTx);
 	UINT8_T  UARTTask_PollMode_WriteByte(UART_HandleType*UARTx, UINT8_T  val);
 	UINT8_T  UARTTask_PollMode_WriteData(UART_HandleType*UARTx, char *pVal);
 	UINT8_T  UARTTask_IT_TCTask(UART_HandleType* UARTx);

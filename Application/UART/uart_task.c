@@ -98,12 +98,9 @@ UINT8_T  UARTTask_ClearState(UART_HandleDef* UARTDefx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  UARTTask_TimeTask_OverFlow(UART_HandleType*UARTx)
+UINT8_T  UARTTask_TimeTask_OverFlow(UART_HandleType*UARTx,UINT8_T isRx)
 {
-	//---发送
-	//UARTLib_TimeTask_OverFlow(UARTx, 0);
-	//---接收
-	return  UARTLib_TimeTask_OverFlow(UARTx, 1);
+	return  UARTLib_TimeTask_OverFlow(UARTx, isRx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -196,9 +193,9 @@ UINT8_T  UARTTask_RealTime_AddByte(UART_HandleType*UARTx, UINT8_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  UARTTask_RealTime_AddSize(UART_HandleType*UARTx, UINT16_T val)
+UINT8_T  UARTTask_RealTime_AddDataSize(UART_HandleType*UARTx, UINT16_T val)
 {
-	return UARTLib_RealTime_AddSize(UARTx, val);
+	return UARTLib_RealTime_AddDataSize(UARTx, val);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -280,9 +277,9 @@ UINT8_T  UARTTask_FillMode_AddIndexW(UART_HandleType* UARTx, UINT16_T val)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  UARTTask_CRCTask_Read(UART_HandleType*UARTx)
+UINT8_T  UARTTask_Read_CRCTask(UART_HandleType*UARTx)
 {
-	return UARTLib_CRCTask_Read(UARTx);
+	return UARTLib_Read_CRCTask(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -292,9 +289,9 @@ UINT8_T  UARTTask_CRCTask_Read(UART_HandleType*UARTx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T UARTTask_CRCTask_Write(UART_HandleType*UARTx)
+UINT8_T UARTTask_FillMode_WriteCRCTask(UART_HandleType*UARTx)
 {
-	return UARTLib_CRCTask_Write(UARTx);
+	return UARTLib_FillMode_WriteCRCTask(UARTx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -486,7 +483,7 @@ UINT8_T UARTTask_FuncTask(UART_HandleType*UARTx, UINT8_T(*pFuncTask)(UINT8_T *, 
 		if (UARTTask_GetState(&(UARTx->msgRxdHandle)) == 1)
 		{
 			//---CRC的校验
-			if ((UARTTask_CRCTask_Read(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
+			if ((UARTTask_Read_CRCTask(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
 			{
 				//---数据接收完成
 				if (pFuncTask != NULL)
@@ -509,7 +506,7 @@ UINT8_T UARTTask_FuncTask(UART_HandleType*UARTx, UINT8_T(*pFuncTask)(UINT8_T *, 
 			}
 			return UARTTask_Read_Init(UARTx);
 		}
-		return UARTTask_TimeTask_OverFlow(UARTx);
+		return UARTTask_TimeTask_OverFlow(UARTx,1);
 	}
 	return ERROR_2;
 }
@@ -528,10 +525,10 @@ UINT8_T UARTTask_DebugPollFuncTask(UART_HandleType*UARTx, UINT8_T(*pFuncTask)(UI
 	if (UARTx != NULL)
 	{
 		//---判断接收是否完成
-		if (UARTTask_GetState(&(UARTx->msgRxdHandle)) == 1)
+		if (UARTTask_GetState(&(UARTx->msgRxdHandle)) == UART_OK)
 		{
 			//---CRC的校验
-			if ((UARTTask_CRCTask_Read(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
+			if ((UARTTask_Read_CRCTask(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
 			{
 				if (UARTx->msgRxdHandle.pMsgVal[UART1_CMD_INDEX]==0xA4)
 				{
@@ -558,7 +555,7 @@ UINT8_T UARTTask_DebugPollFuncTask(UART_HandleType*UARTx, UINT8_T(*pFuncTask)(UI
 			}
 			return UARTTask_Read_Init(UARTx);
 		}
-		return UARTTask_TimeTask_OverFlow(UARTx);
+		return UARTTask_TimeTask_OverFlow(UARTx,1);
 	}
 	return ERROR_2;
 }
@@ -581,7 +578,7 @@ UINT8_T UARTTask_DebugFreqTask(UART_HandleType* UARTx, UINT8_T(*pFuncTask)(UINT8
 		if (UARTTask_GetState(&(UARTx->msgRxdHandle)) == 1)
 		{
 			//---CRC的校验
-			if ((UARTTask_CRCTask_Read(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
+			if ((UARTTask_Read_CRCTask(UARTx) == OK_0) && (UARTTask_DeviceID(UARTx) == OK_0))
 			{
 				if (UARTx->msgRxdHandle.pMsgVal[UART1_CMD_INDEX] == 0xA4)
 				{
@@ -630,7 +627,7 @@ UINT8_T UARTTask_DebugFreqTask(UART_HandleType* UARTx, UINT8_T(*pFuncTask)(UINT8
 			}
 			return UARTTask_Read_Init(UARTx);
 		}
-		return UARTTask_TimeTask_OverFlow(UARTx);
+		return UARTTask_TimeTask_OverFlow(UARTx,1);
 	}
 	return ERROR_2;
 }

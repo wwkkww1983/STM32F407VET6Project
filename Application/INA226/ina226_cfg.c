@@ -14,14 +14,14 @@ pINA226_HandleType		pIna226Device0 = &g_Ina226Device0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T INA226_I2C_Device0_Init(INA226_HandleType* INA226x)
 {
-	INA226x->msgI2C.msgI2Cx = NULL;
+	INA226x->msgI2C.pMsgI2Cx = NULL;
 	INA226x->msgI2C.msgSCL.msgPort = GPIOB;
 	INA226x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	INA226x->msgI2C.msgSDA.msgPort = GPIOB;
 	INA226x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	INA226x->msgI2C.msgHwMode = 0;
 	INA226x->msgI2C.msgPluseWidth = 2;
-	INA226x->msgI2C.msgDelayus = NULL;
+	INA226x->msgI2C.pMsgDelayus = NULL;
 	INA226x->msgI2C.msgAddr = 0x80;
 	INA226x->msgI2C.msgClockSpeed = 0;
 	return OK_0;

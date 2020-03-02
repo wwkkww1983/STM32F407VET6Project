@@ -22,19 +22,19 @@ extern "C" {
 	//===结构定义
 	struct _I2C_HandlerType
 	{
-		GPIO_HandleType	msgSCL;																						//---SCL
-		GPIO_HandleType	msgSDA;																						//---SDA
+		GPIO_HandleType		msgSCL;																						//---SCL
+		GPIO_HandleType		msgSDA;																						//---SDA
 		UINT8_T				msgHwMode;																					//---工作模式，默认是软件模拟---0，硬件模式---1
 		UINT16_T			msgPluseWidth;																				//---脉冲宽度，软件模拟使用
 		UINT16_T			msgAddr;																					//---设备的地址
 		UINT32_T			msgClockSpeed;																				//---硬件I2C的时钟速度
 		UINT32_T			msgRegCCR;																					//---硬件I2C时钟的参数配置
-		void(*msgDelayus)(UINT32_T delay);																				//---延时参数
+		void(*pMsgDelayus)(UINT32_T delay);																				//---延时参数
 	#ifndef USE_MCU_STM32F1
 		UINT32_T			msgGPIOAlternate;																			//---端口复用模式
 	#endif
-		UINT32_T(*msgTimeTick)(void);																					//---用于超时计数
-		I2C_TypeDef		* msgI2Cx;																						//---使用的I2C接口
+		UINT32_T(*pMsgTimeTick)(void);																					//---用于超时计数
+		I2C_TypeDef		* pMsgI2Cx;																						//---使用的I2C接口
 	#ifdef  USE_RESET_I2C
 		I2C_TypeDef		msgI2CxReg;																						//---I2C寄存器的值，用于I2C锁定的时候，进行配置
 	#endif 

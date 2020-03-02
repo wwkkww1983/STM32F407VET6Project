@@ -299,29 +299,29 @@ UINT8_T JTAG_Init(JTAG_HandleType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), v
 	//---注册ms的延时函数
 	if (pFuncDelayms != NULL)
 	{
-		JTAGx->msgDelayms = pFuncDelayms;
+		JTAGx->pMsgDelayms = pFuncDelayms;
 	}
 	else
 	{
-		JTAGx->msgDelayms = DelayTask_us;
+		JTAGx->pMsgDelayms = DelayTask_us;
 	}
 	//---注册us延时函数
 	if (pFuncDelayus != NULL)
 	{
-		JTAGx->msgDelayus = pFuncDelayus;
+		JTAGx->pMsgDelayus = pFuncDelayus;
 	}
 	else
 	{
-		JTAGx->msgDelayus = DelayTask_us;
+		JTAGx->pMsgDelayus = DelayTask_us;
 	}
 	//---注册滴答函数
 	if (pFuncTimerTick != NULL)
 	{
-		JTAGx->msgTimeTick = pFuncTimerTick;
+		JTAGx->pMsgTimeTick = pFuncTimerTick;
 	}
 	else
 	{
-		JTAGx->msgTimeTick = SysTickTask_GetTick;;
+		JTAGx->pMsgTimeTick = SysTickTask_GetTick;;
 	}
 	return OK_0;
 }
@@ -2718,7 +2718,7 @@ void JTAG_WatchTask(JTAG_HandleType* JTAGx)
 	if (JTAGx->msgState != JTAG_PROG_NONE)
 	{
 		//---获取当前时间节拍
-		nowTime = JTAGx->msgTimeTick();
+		nowTime = JTAGx->pMsgTimeTick();
 		//---计算时间间隔
 		if (JTAGx->msgRecordTick > nowTime)
 		{
@@ -2813,7 +2813,7 @@ UINT8_T JTAG_RefreshWatch(JTAG_HandleType* JTAGx)
 	//---配置轮训间隔为最大值，单位是ms
 	JTAGx->msgIntervalTime = JTAG_STATE_TIME_OUT_MS;
 	//---刷新纪录时间
-	JTAGx->msgRecordTick = JTAGx->msgTimeTick();
+	JTAGx->msgRecordTick = JTAGx->pMsgTimeTick();
 	return OK_0;
 }
 
@@ -2864,7 +2864,7 @@ UINT8_T JTAG_SetIntervalTime(JTAG_HandleType* JTAGx, UINT16_T intervalTime)
 	//---配置轮训间隔时间，单位是ms
 	JTAGx->msgIntervalTime = intervalTime;
 	//---刷新纪录时间
-	JTAGx->msgRecordTick = JTAGx->msgTimeTick();
+	JTAGx->msgRecordTick = JTAGx->pMsgTimeTick();
 	return OK_0;
 }
 
@@ -2894,7 +2894,7 @@ UINT8_T JTAG_WaitPollChipComplete(JTAG_HandleType* JTAGx, UINT16_T cmd)
 	UINT32_T nowTime = 0;
 	UINT32_T oldTime = 0;
 	UINT64_T cnt = 0;
-	oldTime=((JTAGx->msgTimeTick != NULL)? JTAGx->msgTimeTick():0);
+	oldTime=((JTAGx->pMsgTimeTick != NULL)? JTAGx->pMsgTimeTick():0);
 	while (1)
 	{
 		tempID = JTAG_ShiftDR_BIT(JTAGx, cmd, 15, 0);
@@ -2906,10 +2906,10 @@ UINT8_T JTAG_WaitPollChipComplete(JTAG_HandleType* JTAGx, UINT16_T cmd)
 		}
 		else
 		{
-			if (JTAGx->msgTimeTick != NULL)
+			if (JTAGx->pMsgTimeTick != NULL)
 			{
 				//---当前时间
-				nowTime = JTAGx->msgTimeTick();
+				nowTime = JTAGx->pMsgTimeTick();
 				//---判断滴答定时是否发生溢出操作
 				if (nowTime < oldTime)
 				{

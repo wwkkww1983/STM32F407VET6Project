@@ -14,14 +14,14 @@ pHMC5883_HandleType	pHmc5883Device0=&g_Hmc5883Device0;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T HMC5883_I2C_Device0_Init(HMC5883_HandleType* HMC5883x)
 {
-	HMC5883x->msgI2C.msgI2Cx = NULL;
+	HMC5883x->msgI2C.pMsgI2Cx = NULL;
 	HMC5883x->msgI2C.msgSCL.msgPort = GPIOB;
 	HMC5883x->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_6;
 	HMC5883x->msgI2C.msgSDA.msgPort = GPIOB;
 	HMC5883x->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_7;
 	HMC5883x->msgI2C.msgHwMode = 0;
 	HMC5883x->msgI2C.msgPluseWidth = 0;
-	HMC5883x->msgI2C.msgDelayus = NULL;
+	HMC5883x->msgI2C.pMsgDelayus = NULL;
 	HMC5883x->msgI2C.msgAddr = HMC5883_WADDR;
 	HMC5883x->msgI2C.msgClockSpeed = 0;
 	return OK_0;
@@ -81,7 +81,7 @@ UINT8_T HMC5883_I2C_Init(HMC5883_HandleType* HMC5883x, void(*pFuncDelayus)(UINT3
 	//---判断是硬件I2C还是软件I2C
 	(isHWI2C != 0) ? (_return = I2CTask_MHW_Init(&(HMC5883x->msgI2C),pFuncDelayus, pFuncTimerTick)) : (_return = I2CTask_MSW_Init(&(HMC5883x->msgI2C), pFuncDelayus, pFuncTimerTick));
 	//---ms延时函数
-	HMC5883x->msgDelayms = ((pFuncDelayms != NULL) ? pFuncDelayms : DelayTask_ms);
+	HMC5883x->pMsgDelayms = ((pFuncDelayms != NULL) ? pFuncDelayms : DelayTask_ms);
 	//---配置初始化
 	_return = HMC5883_I2C_ConfigInit(HMC5883x);
 	//---配置初始化
@@ -543,7 +543,7 @@ void HMC5883_I2C_CalibrateMag(HMC5883_HandleType* HMC5883x)
 		{
 			zMin = z;
 		}
-		HMC5883x->msgDelayms(100);
+		HMC5883x->pMsgDelayms(100);
 	}
 	//---计算X轴偏差
 	if (ABS(xMax - xMin) > CALIB_THRESHOLD)

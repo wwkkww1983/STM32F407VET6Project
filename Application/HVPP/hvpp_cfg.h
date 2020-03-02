@@ -345,9 +345,9 @@ extern "C" {
 		UINT16_T	msgProgWRLus;																																					//---写低脉冲宽度
 		UINT16_T	msgProgWRHus;																																					//---写高脉冲宽度
 		UINT32_T	msgRecordTick;																																					//---记录的时间参数
-		UINT32_T	(*msgTimeTick)(void);																																			//---用于超时计数
-		void(*msgDelayus)(UINT32_T delay);																																			//---us延时参数
-		void(*msgDelayms)(UINT32_T delay);																																			//---ms延时参数
+		UINT32_T	(*pMsgTimeTick)(void);																																			//---用于超时计数
+		void(*pMsgDelayus)(UINT32_T delay);																																			//---us延时参数
+		void(*pMsgDelayms)(UINT32_T delay);																																			//---ms延时参数
 	};
 	
 	//===任务函数

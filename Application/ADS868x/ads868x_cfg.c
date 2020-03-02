@@ -73,7 +73,7 @@ void ADS868X_SPI_Device0_Init(ADS868X_HandleType *ADS868x)
 		ADS868x->msgSPI.msgGPIOAlternate = LL_GPIO_AF_5;
 	#endif
 	//---SPI序号
-	ADS868x->msgSPI.msgSPIx = SPI1;
+	ADS868x->msgSPI.pMsgSPIx = SPI1;
 	#ifndef USE_MCU_STM32F1
 		//---SPI的协议
 		ADS868x->msgSPI.msgStandard = LL_SPI_PROTOCOL_MOTOROLA;
@@ -285,11 +285,11 @@ UINT8_T ADS868X_SPI_Init(ADS868X_HandleType *ADS868x, void(*pFuncDelayus)(UINT32
 	//---判断硬件函数软件方式
 	(isHW != 0) ? (ADS868X_SPI_HW_Init(ADS868x)) : (ADS868X_SPI_SW_Init(ADS868x));
 	//---注册ms延时时间
-	(pFuncDelayms != NULL) ? (ADS868x->msgDelayms = pFuncDelayms) : (ADS868x->msgDelayms = DelayTask_ms);
+	(pFuncDelayms != NULL) ? (ADS868x->pMsgDelayms = pFuncDelayms) : (ADS868x->pMsgDelayms = DelayTask_ms);
 	//---注册us延时函数
-	(pFuncDelayus != NULL) ? (ADS868x->msgSPI.msgDelayus = pFuncDelayus) : (ADS868x->msgSPI.msgDelayus = DelayTask_us);
+	(pFuncDelayus != NULL) ? (ADS868x->msgSPI.pMsgDelayus = pFuncDelayus) : (ADS868x->msgSPI.pMsgDelayus = DelayTask_us);
 	//---注册滴答函数
-	(pFuncTimerTick != NULL) ? (ADS868x->msgSPI.msgTimeTick = pFuncTimerTick) : (ADS868x->msgSPI.msgTimeTick = SysTickTask_GetTick);
+	(pFuncTimerTick != NULL) ? (ADS868x->msgSPI.pMsgTimeTick = pFuncTimerTick) : (ADS868x->msgSPI.pMsgTimeTick = SysTickTask_GetTick);
 	//---配置ADS868X
 	return ADS868X_SPI_ConfigInit(ADS868x,0);
 }
@@ -510,9 +510,9 @@ UINT8_T  ADS868X_SPI_HardReset(ADS868X_HandleType *ADS868x)
 	if (ADS868x->msgHWRST.msgPort!=NULL)
 	{
 		GPIO_OUT_0(ADS868x->msgHWRST.msgPort, ADS868x->msgHWRST.msgBit);
-		ADS868x->msgDelayms(1);
+		ADS868x->pMsgDelayms(1);
 		GPIO_OUT_1(ADS868x->msgHWRST.msgPort, ADS868x->msgHWRST.msgBit);
-		ADS868x->msgDelayms(1);
+		ADS868x->pMsgDelayms(1);
 	}
 	return OK_0;
 }

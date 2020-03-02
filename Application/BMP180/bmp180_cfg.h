@@ -56,26 +56,26 @@ extern "C" {
 	//===BMP180校正参数				 					
 	typedef struct
 	{
-		INT16_T		msgAC1;
-		INT16_T		msgAC2;
-		INT16_T		msgAC3;
-		UINT16_T	msgAC4;
-		UINT16_T	msgAC5;
-		UINT16_T	msgAC6;
-		INT16_T		msgB1;
-		INT16_T		msgB2;
-		INT16_T		msgMB;
-		INT16_T		msgMC;
-		INT16_T		msgMD;
+		INT16_T				msgAC1;
+		INT16_T				msgAC2;
+		INT16_T				msgAC3;
+		UINT16_T			msgAC4;
+		UINT16_T			msgAC5;
+		UINT16_T			msgAC6;
+		INT16_T				msgB1;
+		INT16_T				msgB2;
+		INT16_T				msgMB;
+		INT16_T				msgMC;
+		INT16_T				msgMD;
 
-		long		msgX1;
-		long		msgX2;
-		long		msgX3;
-		long		msgB3;
+		long				msgX1;
+		long				msgX2;
+		long				msgX3;
+		long				msgB3;
 		unsigned long		msgB4;
-		long		msgB5;
-		long		msgB6;
-		long		msgB7;
+		long				msgB5;
+		long				msgB6;
+		long				msgB7;
 	}BMP180_ParamType;
 	//===结构体定义
 	typedef struct _BMP180_HandleType					BMP180_HandleType;
@@ -91,7 +91,7 @@ extern "C" {
 		INT32_T				msgGasPress;																				//---校正后的气压值
 		float				msgAltitude;																				//---海拔高度
 		I2C_HandleType		msgI2C;																						//---使用的I2C
-		void(*msgDelayms)(UINT32_T delay);																				//---延时参数
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	////////////////////////////////////////////////////////////////////////////////////// 
 	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
